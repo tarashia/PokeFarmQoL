@@ -45,14 +45,14 @@
         /* public stuff */
         const API = {
             onPage(pg) { return window.location.href.indexOf(pg) != -1; },
-            onMultiuserPage() { return onPage("users/"); },
-            onShelterPage() { return onPage("/shelter"); },
-            onPublicFieldsPage() { return onPage("fields/"); },
-            onPrivateFieldsPage() { return onPage("fields") && !onPublicFieldsPage(); },
-            onFarmPage(tab) { return onPage("farm#" + ((tab===undefined) ? "" : tab)); },
-            onFishingPage() { return onPage("fishing"); },
-            onLabPage() { return onPage("/lab"); },
-            onDexPage() { return onPage("dex"); },
+            onMultiuserPage() { return API.onPage("users/"); },
+            onShelterPage() { return API.onPage("/shelter"); },
+            onPublicFieldsPage() { return API.onPage("fields/"); },
+            onPrivateFieldsPage() { return API.onPage("fields") && !onPublicFieldsPage(); },
+            onFarmPage(tab) { return API.onPage("farm#" + ((tab===undefined) ? "" : tab)); },
+            onFishingPage() { return API.onPage("fishing"); },
+            onLabPage() { return API.onPage("/lab"); },
+            onDexPage() { return API.onPage("dex"); },
 
             shelterKeyIsTopCheckbox(k) {
                 return k != 'findCustom' && k != 'findMale' && k != 'findFemale' && k != 'findNoGender' && k != 'customEgg' && k != 'customPokemon' && k != 'customPng';
