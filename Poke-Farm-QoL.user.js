@@ -1,22 +1,23 @@
 // ==UserScript==
 // @name         Poké Farm QoL
-// @namespace    https://github.com/KaizokuBento/
+// @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
-// @homepage	 https://github.com/KaizokuBento/PokeFarmShelter
-// @downloadURL  https://github.com/KaizokuBento/PokeFarmShelter/raw/master/Poke-Farm-QoL.user.js
+// @homepage	 https://github.com/jpgualdarrama/PokeFarmShelter
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmShelter/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.3.52
 // @match        https://pokefarm.com/*
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
 // @require      https://cdn.rawgit.com/omichelsen/compare-versions/v3.1.0/index.js
-// @resource     QolHubHTML	        https://raw.githubusercontent.com/KaizokuBento/PokeFarmQoL/master/resources/templates/qolHubHTML.html
-// @resource     shelterSettingsHTML    https://raw.githubusercontent.com/KaizokuBento/PokeFarmQoL/master/resources/templates/shelterOptionsHTML.html
-// @resource     evolveFastHTML         https://raw.githubusercontent.com/KaizokuBento/PokeFarmQoL/master/resources/templates/evolveFastHTML.html
-// @resource     labOptionsHTML         https://raw.githubusercontent.com/KaizokuBento/PokeFarmQoL/master/resources/templates/labOptionsHTML.html
-// @resource     fieldSearchHTML        https://raw.githubusercontent.com/KaizokuBento/PokeFarmQoL/master/resources/templates/fieldSearchHTML.html
-// @resource     QoLCSS                 https://raw.githubusercontent.com/KaizokuBento/PokeFarmQoL/master/resources/css/pfqol.css
-// @updateURL    https://github.com/KaizokuBento/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
+// @resource     QolHubHTML	        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/qolHubHTML.html
+// @resource     shelterSettingsHTML    https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/shelterOptionsHTML.html
+// @resource     evolveFastHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/evolveFastHTML.html
+// @resource     labOptionsHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/labOptionsHTML.html
+// @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/fieldSearchHTML.html
+// @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/privateFieldSearchHTML.html
+// @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/css/pfqol.css
+// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -53,7 +54,7 @@
             releaseSelectAll: true,
             fieldSort: true,
             fieldSearch: true,
-            myFieldSearch: true,
+            privateFieldSearch: true,
             partyMod: true,
             easyEvolve: true,
             labNotifier: true,
@@ -109,7 +110,7 @@
                 fieldItem: true,
                 customItem: true,
             },
-            myFieldSearchSettings : {
+            privateFieldSearchSettings : {
                 fieldCustom: "",
                 fieldType: "",
                 fieldNature: "",
@@ -203,20 +204,20 @@
             fieldTypeArray : [],
             fieldNatureArray : [],
 
-            myFieldCustomArray : [],
-            myFieldTypeArray : [],
-            myFieldNatureArray : [],
+            privateFieldCustomArray : [],
+            privateFieldTypeArray : [],
+            privateFieldNatureArray : [],
         }
 
         const TEMPLATES = { // all the new/changed HTML for the userscript
             qolHubLinkHTML            : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
-            qolHubUpdateLinkHTML    : `<li data-name="QoLupdate"><a href=\"https://github.com/KaizokuBento/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
+            qolHubUpdateLinkHTML    : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
             qolSettingsMenuHTML        : GM_getResourceText('QoLSettingsMenuHTML'),
             shelterSettingsHTML        : GM_getResourceText('shelterSettingsHTML'),
             massReleaseSelectHTML    : `<label id="selectallfish"><input id="selectallfishcheckbox" type="checkbox">Select all</label><label id="movefishselectany"><input id="movefishdselectanycheckbox" type="checkbox">Select Any  </label><label id="movefishselectsour"><input id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefishselectspicy"><input id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefishselectdry"><input id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefishselectsweet"><input id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefishselectbitter"><input id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
             fieldSortHTML            : `<div id="fieldorder"><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"/>Sort by berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByMiddle"/>Sort in the middle</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByGrid"/>Align to grid</label><label><input type="checkbox" class="qolsetting" data-key="fieldClickCount"/>Click counter</label></div>`,
             fieldSearchHTML            : GM_getResourceText('fieldSearchHTML'),
-            myFieldSearchHTML          : GM_getResourceText('fieldSearchHTML'),
+            privateFieldSearchHTML          : GM_getResourceText('privateFieldSearchHTML'),
             qolHubHTML                : GM_getResourceText('QolHubHTML'),
             partyModHTML            : `<div id='qolpartymod'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>`,
             evolveFastHTML            : GM_getResourceText('evolveFastHTML'),
@@ -254,9 +255,9 @@
                 });
             }),
 
-            myFieldsObserver: new MutationObserver((mutations) => {
+            privateFieldsObserver: new MutationObserver((mutations) => {
                 mutations.forEach((mutation) => {
-                    fn.API.myFieldSearcher();
+                    fn.API.privateFieldSearcher();
                 });
             }),
                 
@@ -286,7 +287,7 @@
                     let version ="";
                     GM_xmlhttpRequest({
                         method: 'GET',
-                        url: 'https://api.github.com/repos/KaizokuBento/PokeFarmQoL/contents/Poke-Farm-QoL.user.js',
+                        url: 'https://api.github.com/repos/jpgualdarrama/PokeFarmQoL/contents/Poke-Farm-QoL.user.js',
                         responseType: 'json',
                         onload: function(data) {
                             let match = atob(data.response.content).match(/\/\/\s+@version\s+([^\n]+)/);
@@ -383,11 +384,11 @@
                             continue;
                         }
                     }
-                    for (let key in VARIABLES.userSettings.myFieldSearchSettings) {
-                        if (!VARIABLES.userSettings.myFieldSearchSettings.hasOwnProperty(key)) {
+                    for (let key in VARIABLES.userSettings.privateFieldSearchSettings) {
+                        if (!VARIABLES.userSettings.privateFieldSearchSettings.hasOwnProperty(key)) {
                             continue;
                         }
-                        let value = VARIABLES.userSettings.myFieldSearchSettings[key];
+                        let value = VARIABLES.userSettings.privateFieldSearchSettings[key];
                         if (typeof value === 'boolean') {
                             fn.helpers.toggleSetting(key, value, false);
                             continue;
@@ -810,38 +811,38 @@ happycssing {
                         }
                     }
                     
-                    if (JSON.stringify(VARIABLES.userSettings.myFieldSearchSettings).indexOf(element) >= 0) { // field search settings
-                        if (VARIABLES.userSettings.myFieldSearchSettings[element] === false ) {
-                            VARIABLES.userSettings.myFieldSearchSettings[element] = true;
-                        } else if (VARIABLES.userSettings.myFieldSearchSettings[element] === true ) {
-                            VARIABLES.userSettings.myFieldSearchSettings[element] = false;
-                        } else if (typeof VARIABLES.userSettings.myFieldSearchSettings[element] === 'string') {
+                    if (JSON.stringify(VARIABLES.userSettings.privateFieldSearchSettings).indexOf(element) >= 0) { // field search settings
+                        if (VARIABLES.userSettings.privateFieldSearchSettings[element] === false ) {
+                            VARIABLES.userSettings.privateFieldSearchSettings[element] = true;
+                        } else if (VARIABLES.userSettings.privateFieldSearchSettings[element] === true ) {
+                            VARIABLES.userSettings.privateFieldSearchSettings[element] = false;
+                        } else if (typeof VARIABLES.userSettings.privateFieldSearchSettings[element] === 'string') {
                             if (element === 'fieldType') {
                                 if (textElement === 'none') {
                                     let tempIndex = typeClass - 1;
                                     VARIABLES.fieldTypeArray.splice(tempIndex, tempIndex);
-                                    VARIABLES.userSettings.myFieldSearchSettings.fieldType = VARIABLES.fieldTypeArray.toString();
+                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.fieldTypeArray.toString();
                                 } else {
                                     let tempIndex = typeClass - 1;
                                     VARIABLES.fieldTypeArray[tempIndex] = textElement;
-                                    VARIABLES.userSettings.myFieldSearchSettings.fieldType = VARIABLES.fieldTypeArray.toString();
+                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.fieldTypeArray.toString();
                                 }
                             }
                             if (element === 'fieldNature') {
                                 if (textElement === 'none') {
                                     let tempIndex = typeClass - 1;
                                     VARIABLES.fieldNatureArray.splice(tempIndex, tempIndex);
-                                    VARIABLES.userSettings.myFieldSearchSettings.fieldNature = VARIABLES.fieldNatureArray.toString();
+                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldNature = VARIABLES.fieldNatureArray.toString();
                                 } else {
                                     let tempIndex = typeClass - 1;
                                     VARIABLES.fieldNatureArray[tempIndex] = textElement;
-                                    VARIABLES.userSettings.myFieldSearchSettings.fieldNature = VARIABLES.fieldNatureArray.toString();
+                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldNature = VARIABLES.fieldNatureArray.toString();
                                 }
                             }
                             if (element === 'fieldCustom') {
                                 let tempIndex = customClass - 1;
                                 VARIABLES.fieldCustomArray[tempIndex] = textElement;
-                                VARIABLES.userSettings.myFieldSearchSettings.fieldCustom = VARIABLES.fieldCustomArray.toString();
+                                VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom = VARIABLES.fieldCustomArray.toString();
                             }
                         }
                     }
@@ -1532,40 +1533,40 @@ happycssing {
                     }
                 },
 
-                myFieldSearcher() {
+                privateFieldSearcher() {
                     console.log("Searching my fields")
 
-                    if (VARIABLES.userSettings.myFieldSearch === true && window.location.href.indexOf("fields") != -1 && window.location.href.indexOf("fields/") == -1) {
-                        document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.myFieldSearchHTML);
+                    if (VARIABLES.userSettings.privateFieldSearch === true && window.location.href.indexOf("fields") != -1 && window.location.href.indexOf("fields/") == -1) {
+                        document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
 
                         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
                         let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`;
                         let theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> <option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option> </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
                         
-                        VARIABLES.myFieldCustomArray = VARIABLES.userSettings.myFieldSearchSettings.fieldCustom.split(',');
-                        VARIABLES.myFieldTypeArray = VARIABLES.userSettings.myFieldSearchSettings.fieldType.split(',');
-                        VARIABLES.myFieldNatureArray = VARIABLES.userSettings.myFieldSearchSettings.fieldNature.split(',');
-                        let numberOfValue = VARIABLES.myFieldCustomArray.length;
-                        let numberOfType = VARIABLES.myFieldTypeArray.length;
-                        let numberOfNature = VARIABLES.myFieldNatureArray.length;
+                        VARIABLES.privateFieldCustomArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom.split(',');
+                        VARIABLES.privateFieldTypeArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldType.split(',');
+                        VARIABLES.privateFieldNatureArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldNature.split(',');
+                        let numberOfValue = VARIABLES.privateFieldCustomArray.length;
+                        let numberOfType = VARIABLES.privateFieldTypeArray.length;
+                        let numberOfNature = VARIABLES.privateFieldNatureArray.length;
 
                         for(let i = 0; i < numberOfValue; i++) {
                             let rightDiv = i + 1;
-                            let rightValue = VARIABLES.myFieldCustomArray[i];
+                            let rightValue = VARIABLES.privateFieldCustomArray[i];
                             $('#searchkeys').append(theField);
                             $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
                         }
 
                         for (let o = 0; o < numberOfType; o++) {
                             let rightDiv = o + 1;
-                            let rightValue = VARIABLES.myFieldTypeArray[o];
+                            let rightValue = VARIABLES.privateFieldTypeArray[o];
                             $('#fieldTypes').append(theType);
                             $('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
                         }
 
                         for (let n = 0; n < numberOfNature; n++) {
                             let rightDiv = n + 1;
-                            let rightValue = VARIABLES.myFieldNatureArray[n];
+                            let rightValue = VARIABLES.privateFieldNatureArray[n];
                             $('#natureTypes').append(theNature);
                             $('.natureNumber').removeClass('natureNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
                         }
@@ -1573,49 +1574,7 @@ happycssing {
                         fn.backwork.populateSettingsPage();
                         VARIABLES.dexDataVar = VARIABLES.userSettings.variData.dexData.split(',');
                     }
-                        
-                    /* if (VARIABLES.userSettings.fieldSearch === true && window.location.href.indexOf("fields/") != -1) {
-                        document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
-                        
-                        let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
-                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`; 
-                        let theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> <option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option> </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
-
-                        VARIABLES.fieldCustomArray = VARIABLES.userSettings.fieldSearchSettings.fieldCustom.split(',');
-                        VARIABLES.fieldTypeArray = VARIABLES.userSettings.fieldSearchSettings.fieldType.split(',');
-                        VARIABLES.fieldNatureArray = VARIABLES.userSettings.fieldSearchSettings.fieldNature.split(',');
-                        let numberOfValue = VARIABLES.fieldCustomArray.length;
-                        let numberOfType = VARIABLES.fieldTypeArray.length;
-                        let numberOfNature = VARIABLES.fieldNatureArray.length;
-                        
-                        let i;
-                        for (i = 0; i < numberOfValue; i++) {
-                            let rightDiv = i + 1;
-                            let rightValue = VARIABLES.fieldCustomArray[i];
-                            $('#searchkeys').append(theField);
-                            $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-                        }
-                        
-                        let o;
-                        for (o = 0; o < numberOfType; o++) {
-                            let rightDiv = o + 1;
-                            let rightValue = VARIABLES.fieldTypeArray[o];
-                            $('#fieldTypes').append(theType);
-                            $('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-                        }
-                        
-                        let n;
-                        for (n = 0; n < numberOfNature; n++) {
-                            let rightDiv = n + 1;
-                            let rightValue = VARIABLES.fieldNatureArray[n];
-                            $('#natureTypes').append(theNature);
-                            $('.natureNumber').removeClass('natureNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-                        }
-                        
-                        fn.backwork.populateSettingsPage();
-                        VARIABLES.dexDataVar = VARIABLES.userSettings.variData.dexData.split(',');
-                    } */
-                }
+                },
                 
                 partyModification() {
                     if (VARIABLES.userSettings.partyMod === true) {
@@ -2982,10 +2941,10 @@ happycssing {
     }
 
     // my fields
-    if(window.location.href.indexOf("fields") != -1 && window.location.href.indexof("fields/") == -1) {
-        $(window.on('load', (() => {
-            PFQoL.myFieldSearcher();
-        })));
+    if(window.location.href.indexOf("fields") != -1 && window.location.href.indexOf("fields/") == -1) {
+        $(window).on('load', (() => {
+            PFQoL.privateFieldSearcher();
+        }));
     }
     
     if(window.location.href.indexOf("users/") != -1) {
@@ -3082,26 +3041,26 @@ happycssing {
     
     // *my* field searcher
     $(document).on('click', '#addMyFieldSearch', (function() { //add field text field
-        PFQoL.fieldAddTextField();
+        PFQoL.privateFieldAddTextField();
     }));
 
     $(document).on('click', '#removeMyFieldSearch', (function() { //remove field text field
-        PFQoL.myFieldRemoveTextField(this, $(this).parent().find('input').val());
+        PFQoL.privateFieldRemoveTextField(this, $(this).parent().find('input').val());
     }));
     
     $(document).on('click', '#addMyFieldNatureSearch', (function() { //add field nature search
-        PFQoL.myFieldAddNatureSearch();
+        PFQoL.privateFieldAddNatureSearch();
     }));
 
     $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
-        PFQoL.myFieldRemoveNatureSearch(this, $(this).parent().find('select').val());
+        PFQoL.privateFieldRemoveNatureSearch(this, $(this).parent().find('select').val());
     }));
     
     $(document).on('click', '#addMyFieldTypeList', (function() { //add field type list
-        PFQoL.myFieldAddTypeList();
+        PFQoL.privateFieldAddTypeList();
     }));
 
     $(document).on('click', '#removeFieldTypeList', (function() { //remove field type list
-        PFQoL.myFieldRemoveTypeList(this, $(this).parent().find('select').val());
+        PFQoL.privateFieldRemoveTypeList(this, $(this).parent().find('select').val());
     }));
 })(jQuery); //end of userscript
