@@ -194,8 +194,8 @@
                 "findNoGender", "[N]", "No Gender", '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
             ],
 
-            typeOptions : '<option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option>'
-            natureOptions : '<option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option>'
+            typeOptions : '<option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option>',
+            natureOptions : '<option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option>',
             
             labSearchArray : [],
             labListArray : [],
@@ -417,13 +417,31 @@
                     }
                 },
 
+                // ##########################################################
+                // helper functions for determining which webpage we're on
+                // ##########################################################
+
+                onPage(pg) { return window.location.href.indexOf(pg) != -1; }
+                onMultiuserPage() { return fn.onPage("users/") }
+                onShelterPage() { return fn.onPage("/shelter"); }
+                onPublicFieldsPage() { return fn.onPage("fields/"); }
+                onPrivateFieldsPage() { return fn.onPage("fields") && !fn.onPublicFieldsPage(); }
+                onFarmPage(tab) { return fn.onPage("farm#" + (tab===undefined) ? "" : tab); }
+                onFishingPage() { return fn.onPage("fishing"); }
+                onLabPage() { return fn.onPage("/lab"); }
+                onDexPage() { return fn.onPage("dex"); }
+                
+                // ##########################################################
+                // end helper functions
+                // ##########################################################
+
                 setupHTML() { // injects the HTML changes from TEMPLATES into the site
 
                     // Header link to Userscript settings
                     document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', TEMPLATES.qolHubLinkHTML);
 
                     // shelter Settings Menu
-                    if (VARIABLES.userSettings.shelterEnable === true && window.location.href.indexOf("shelter") != -1) {
+                    if (VARIABLES.userSettings.shelterEnable === true && fn.onShelterPage()) {
                         $('.tabbed_interface.horizontal>div').removeClass('tab-active');
                         $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
                         document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
@@ -466,12 +484,12 @@
                     }
 
                     // fishing select all button on caught fishing
-                    if (VARIABLES.userSettings.releaseSelectAll === true && window.location.href.indexOf("fishing") != -1 && $('#caughtfishcontainer').length > 0) {
+                    if (VARIABLES.userSettings.releaseSelectAll === true && fn.onFishingPage() && $('#caughtfishcontainer').length > 0) {
                         document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('beforeend', TEMPLATES.massReleaseSelectHTML);
                     }
 
                     // private fields search
-                    if (VARIABLES.userSettings.privateFieldSearch === true && window.location.href.indexOf("fields") != -1 && window.location.href.indexOf("fields/") == -1) {
+                    if (VARIABLES.userSettings.privateFieldSearch === true && fn.onPrivateFieldsSPage()) {
                         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
 
                         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removePrivateFieldSearch'></div>`;
@@ -511,7 +529,7 @@
                     }
                     
                     //fields search
-                    /* if (VARIABLES.userSettings.fieldSearch === true && window.location.href.indexOf("fields/") != -1) {
+                    /* if (VARIABLES.userSettings.fieldSearch === true && fn.onPublicFieldsPage()) {
                         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
                         
                         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
@@ -555,21 +573,21 @@
                     } */
                         
                     // fields sorter
-                    if (VARIABLES.userSettings.fieldSort === true && window.location.href.indexOf("fields/") != -1) {
+                    if (VARIABLES.userSettings.fieldSort === true && fn.onPublicFieldsPage()) {
                         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSortHTML);
 
                         fn.backwork.populateSettingsPage();
                     }
                     
                     // party click mods
-                    if (VARIABLES.userSettings.partyMod === true && window.location.href.indexOf("users/") != -1) {
+                    if (VARIABLES.userSettings.partyMod === true && fn.onMultiuserPage()) {
                             document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', TEMPLATES.partyModHTML);
                     
                             fn.backwork.populateSettingsPage();
                     }
                     
                     // fast evolve list
-                    if (VARIABLES.userSettings.easyEvolve === true && window.location.href.indexOf("farm#") != -1) {
+                    if (VARIABLES.userSettings.easyEvolve === true && fn.onFarmPage()) {
                         $(document).ready(function() {
                             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
                             document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend', '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
@@ -577,7 +595,7 @@
                     }
                     
                     //lab notifier
-                    if (VARIABLES.userSettings.labNotifier === true && window.location.href.indexOf("/lab") != -1) {
+                    if (VARIABLES.userSettings.labNotifier === true && fn.onLabPage()) {
                         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', TEMPLATES.labOptionsHTML);
                         
                         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
@@ -648,32 +666,32 @@
                 },
 
                 setupObservers() { // all the Observers that needs to run
-                    if (VARIABLES.userSettings.shelterEnable === true && window.location.href.indexOf("/shelter") != -1) { //observe changes on the shelter page
+                    if (VARIABLES.userSettings.shelterEnable === true && fn.onShelterPage()) { //observe changes on the shelter page
                         OBSERVERS.shelterObserver.observe(document.querySelector('#shelterarea'), {
                             childList: true,
                         });
                     }
 
-                    if (VARIABLES.userSettings.fieldSort === true && window.location.href.indexOf("fields/") != -1) { //observe pokemon changes on the fields page
+                    if (VARIABLES.userSettings.fieldSort === true && fn.onPublicFieldsPage()) { //observe pokemon changes on the fields page
                         OBSERVERS.fieldsObserver.observe(document.querySelector('#field_field'), {
                             childList: true,
                             attributeFilter: ['class'],
                         });
                     }
 
-                    if (VARIABLES.userSettings.fieldSort === true && window.location.href.indexOf("fields/") != -1) { //observe settings changes on the fields page
+                    if (VARIABLES.userSettings.fieldSort === true && fn.onPublicFieldsPage()) { //observe settings changes on the fields page
                         OBSERVERS.fieldsObserver.observe(document.querySelector('#fieldorder'), {
                             childList: true,
                         });
                     }
                     
-                    if (VARIABLES.userSettings.partyMod === true && window.location.href.indexOf("users/") != -1) { //observe party click changes on the users page
+                    if (VARIABLES.userSettings.partyMod === true && fn.onMultiuserPage()) { //observe party click changes on the users page
                         OBSERVERS.partyClickObserver.observe(document.querySelector('#multiuser'), {
                             childList: true,
                         });
                     }
                     
-                    if (VARIABLES.userSettings.labNotifier === true && window.location.href.indexOf("/lab") != -1) { //observe lab changes on the lab page
+                    if (VARIABLES.userSettings.labNotifier === true && fn.onLabPage()) { //observe lab changes on the lab page
                         OBSERVERS.labObserver.observe(document.querySelector('#labpage>div>div>div'), {
                             childList: true,
                             characterdata: true,
@@ -682,7 +700,7 @@
                         });
                     }
                     
-                    if (VARIABLES.userSettings.easyEvolve === true && window.location.href.indexOf("farm#tab=1") != -1) {
+                    if (VARIABLES.userSettings.easyEvolve === true && fn.onFarmPage("tab=1")) {
                         OBSERVERS.evolveObserver.observe(document.querySelector('#farmnews-evolutions'), {
                             childList: true,
                             characterdata: true,
@@ -1577,10 +1595,12 @@ happycssing {
                     }
                 },
 
-                privateFieldSearcher() {
-                    console.log("Searching my fields")
+                privateFieldCustomSearch() {
+                    if (VARIABLES.userSettings.privateFieldSearch === true) {
+                        console.log('search activated');
+                    }
                 },
-                
+
                 partyModification() {
                     if (VARIABLES.userSettings.partyMod === true) {
                         $('input.qolalone').on('change', function() { //only 1 textbox may be true
@@ -2859,11 +2879,6 @@ happycssing {
                     }
                 },
                 
-                privateFieldCustomSearch() {
-                    if (VARIABLES.userSettings.privateFieldSearch === true) {
-                        console.log('search activated');
-                    }
-                },
                 /* fieldAddTypeList() {
                     let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`; 
                     let numberTypes = $('#fieldTypes>div').length;
@@ -2963,10 +2978,6 @@ happycssing {
         PFQoL.shelterCustomSearch();
     }));
 
-    // $(document).on('click', '#shelterpage', (function() { //shelter search
-    //     PFQoL.shelterCustomSearch();
-    // }));
-
     $('.customSearchOnClick').on('click', (function() {
         PFQoL.shelterCustomSearch();
     }));
@@ -2995,7 +3006,7 @@ happycssing {
         PFQoL.shelterRemoveTypeList(this, $(this).parent().find('select').val());
     }));
 
-    if(window.location.href.indexOf("fields") != -1) {
+    if(fn.onPublicFieldsPage()) {
         $(document).on('click', '*[data-menu="release"]', (function() { //select all feature
             PFQoL.releaseFieldSelectAll();
         }));
@@ -3009,14 +3020,14 @@ happycssing {
         PFQoL.releaseFishSelectAll();
     }));
 
-    if(window.location.href.indexOf("fields/") != -1) {
+    if(fn.onPublicFieldsPage()) {
         $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
             PFQoL.fieldSorter();
             //PFQoL.fieldCustomSearch();
         }));
     }
 
-    if(window.location.href.indexOf("fields/") != -1) { //field sort
+    if(fn.onPublicFieldsPage()) {
         $(window).on('load', (function() {
             PFQoL.fieldSorter();
             //PFQoL.fieldCustomSearch();
@@ -3028,13 +3039,13 @@ happycssing {
     }
 
     // my fields
-    if(window.location.href.indexOf("fields") != -1 && window.location.href.indexOf("fields/") == -1) {
+    if(fn.onPrivateFieldsPage()) {
         $(window).on('load', (() => {
-            PFQoL.privateFieldSearcher();
+            PFQoL.privateFieldCustomSearch();
         }));
     }
     
-    if(window.location.href.indexOf("users/") != -1) {
+    if(fn.onMultiuserPage()) {
         $(window).on('load', (function() {
             PFQoL.partyModification();
         }));
@@ -3049,7 +3060,7 @@ happycssing {
     }
     
     
-    if(window.location.href.indexOf("dex") != -1) {
+    if(fn.onDexPage()) {
         $(window).on('load', (function() {
             PFQoL.savingDexData();
         }));
@@ -3095,7 +3106,7 @@ happycssing {
         PFQoL.labCustomSearch();
     }));
     
-    if(window.location.href.indexOf("lab") != -1) {
+    if(fn.onLabPage()) {
         $(window).on('load', (function() {
             PFQoL.labCustomSearch();
         }));
