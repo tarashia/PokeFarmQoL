@@ -48,7 +48,7 @@
             onMultiuserPage() { return API.onPage("users/"); },
             onShelterPage() { return API.onPage("/shelter"); },
             onPublicFieldsPage() { return API.onPage("fields/"); },
-            onPrivateFieldsPage() { return API.onPage("fields") && !onPublicFieldsPage(); },
+            onPrivateFieldsPage() { return API.onPage("fields") && !API.onPublicFieldsPage(); },
             onFarmPage(tab) { return API.onPage("farm#" + ((tab===undefined) ? "" : tab)); },
             onFishingPage() { return API.onPage("fishing"); },
             onLabPage() { return API.onPage("/lab"); },
