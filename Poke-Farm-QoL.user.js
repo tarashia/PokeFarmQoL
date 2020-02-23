@@ -304,9 +304,15 @@
                         fn.backwork.saveSettings();
                     } else {
                         try {
-                            let countScriptSettings = Object.keys(VARIABLES.userSettings).length + Object.keys(VARIABLES.userSettings.shelterSettings).length + Object.keys(VARIABLES.userSettings.fieldSortSettings).length;
+                            let countScriptSettings = Object.keys(VARIABLES.userSettings).length +
+                                Object.keys(VARIABLES.userSettings.shelterSettings).length +
+                                Object.keys(VARIABLES.userSettings.fieldSortSettings).length +
+                                Object.keys(VARIABLES.userSettings.privateFieldSearchSettings).length;
                             let localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                            let countLocalStorageSettings = Object.keys(localStorageString).length + Object.keys(localStorageString.shelterSettings).length + Object.keys(localStorageString.fieldSortSettings).length;
+                            let countLocalStorageSettings = Object.keys(localStorageString).length +
+                                Object.keys(localStorageString.shelterSettings).length +
+                                Object.keys(localStorageString.fieldSortSettings).length +
+                                Object.keys(localStorageString.privateFieldSearchSettings).length;
                             if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
                                 let defaultsSetting = VARIABLES.userSettings;
                                 let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
