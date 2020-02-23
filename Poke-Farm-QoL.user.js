@@ -466,6 +466,46 @@
                         document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('beforeend', TEMPLATES.massReleaseSelectHTML);
                     }
 
+                    // private fields search
+                    if (VARIABLES.userSettings.privateFieldSearch === true && window.location.href.indexOf("fields") != -1 && window.location.href.indexOf("fields/") == -1) {
+                        document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
+
+                        let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
+                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`;
+                        let theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> <option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option> </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
+                        
+                        VARIABLES.privateFieldCustomArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom.split(',');
+                        VARIABLES.privateFieldTypeArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldType.split(',');
+                        VARIABLES.privateFieldNatureArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldNature.split(',');
+                        let numberOfValue = VARIABLES.privateFieldCustomArray.length;
+                        let numberOfType = VARIABLES.privateFieldTypeArray.length;
+                        let numberOfNature = VARIABLES.privateFieldNatureArray.length;
+
+                        for(let i = 0; i < numberOfValue; i++) {
+                            let rightDiv = i + 1;
+                            let rightValue = VARIABLES.privateFieldCustomArray[i];
+                            $('#searchkeys').append(theField);
+                            $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
+                        }
+
+                        for (let o = 0; o < numberOfType; o++) {
+                            let rightDiv = o + 1;
+                            let rightValue = VARIABLES.privateFieldTypeArray[o];
+                            $('#fieldTypes').append(theType);
+                            $('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
+                        }
+
+                        for (let n = 0; n < numberOfNature; n++) {
+                            let rightDiv = n + 1;
+                            let rightValue = VARIABLES.privateFieldNatureArray[n];
+                            $('#natureTypes').append(theNature);
+                            $('.natureNumber').removeClass('natureNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
+                        }
+
+                        fn.backwork.populateSettingsPage();
+                        VARIABLES.dexDataVar = VARIABLES.userSettings.variData.dexData.split(',');
+                    }
+                    
                     //fields search
                     /* if (VARIABLES.userSettings.fieldSearch === true && window.location.href.indexOf("fields/") != -1) {
                         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
@@ -1535,45 +1575,6 @@ happycssing {
 
                 privateFieldSearcher() {
                     console.log("Searching my fields")
-
-                    if (VARIABLES.userSettings.privateFieldSearch === true && window.location.href.indexOf("fields") != -1 && window.location.href.indexOf("fields/") == -1) {
-                        document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
-
-                        let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
-                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`;
-                        let theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> <option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option> </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
-                        
-                        VARIABLES.privateFieldCustomArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom.split(',');
-                        VARIABLES.privateFieldTypeArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldType.split(',');
-                        VARIABLES.privateFieldNatureArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldNature.split(',');
-                        let numberOfValue = VARIABLES.privateFieldCustomArray.length;
-                        let numberOfType = VARIABLES.privateFieldTypeArray.length;
-                        let numberOfNature = VARIABLES.privateFieldNatureArray.length;
-
-                        for(let i = 0; i < numberOfValue; i++) {
-                            let rightDiv = i + 1;
-                            let rightValue = VARIABLES.privateFieldCustomArray[i];
-                            $('#searchkeys').append(theField);
-                            $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-                        }
-
-                        for (let o = 0; o < numberOfType; o++) {
-                            let rightDiv = o + 1;
-                            let rightValue = VARIABLES.privateFieldTypeArray[o];
-                            $('#fieldTypes').append(theType);
-                            $('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-                        }
-
-                        for (let n = 0; n < numberOfNature; n++) {
-                            let rightDiv = n + 1;
-                            let rightValue = VARIABLES.privateFieldNatureArray[n];
-                            $('#natureTypes').append(theNature);
-                            $('.natureNumber').removeClass('natureNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-                        }
-
-                        fn.backwork.populateSettingsPage();
-                        VARIABLES.dexDataVar = VARIABLES.userSettings.variData.dexData.split(',');
-                    }
                 },
                 
                 partyModification() {
