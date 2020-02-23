@@ -1100,6 +1100,11 @@ happycssing {
                                         document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' egg found '+imgFitResult+'</div>');
                                     }
                                 }
+
+                                // TESTTESTTEST
+                                document.querySelector('#sheltercommands').
+                                    insertAdjacentHTML('afterbegin', '<div id="sheltertest">JP Test</div>');
+                                // TESTTESTTEST
                             }
 
                             //imgSearch with Pokémon
