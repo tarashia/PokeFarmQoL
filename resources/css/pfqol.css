@@ -1,75 +1,74 @@
-	/* Pokéfarm QoL style sheet */
+/* Pokéfarm QoL style sheet */
 
-	/* Shelter Page */
+/* Shelter Page */
 
 /* tooltip */
 
 .tooltip {
-	position: relative;
-	display: inline-block;
-	border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
 }
 
 .tooltip .tooltiptext {
-	visibility: hidden;
-	width: 500px;
-	background-color: #555;
-	color: #fff;
-	text-align: center;
-	padding: 5px 0;
-	border-radius: 6px;
+    visibility: hidden;
+    width: 500px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
 
-	position: absolute;
-	z-index: 1;
-	bottom: 125%;
-	left: 50%;
-	margin-left: 0px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: 0px;
 
-	opacity: 0;
-	transition: opacity 0.3s;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .tooltip .tooltiptext::after {
-	content: "";
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	margin-left: -5px;
-	border-width: 5px;
-	border-style: solid;
-	border-color: #555 transparent transparent transparent;
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
-	visibility: visible;
-	opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
 
 /* shelter notification wrap */
 #sheltersuccess {
-	text-align: center;
+    text-align: center;
 }
 
 /* shelter notification */
 #shelterfound {
-	padding-top: 20px;
+    padding-top: 20px;
 }
 
 /* shelter Pokémon/egg found background */
-.shelterfoundme {
-	box-shadow: 0px 0px 25px 15px #d5e265;
+.privatefoundme, .shelterfoundme {
+    box-shadow: 0px 0px 25px 15px #d5e265;
     background-color: #d5e265;
     border-radius: 100%;
 }
 
-
-	/*shelterSort */
-	
+/*shelterSort */
+    
 /* shelter grid sort */
 .qolshelterareagrid {
     min-height: 350px;
     display: flex!important;
-	flex-direction:row;
+    flex-direction:row;
     flex-flow: row wrap;
     display: grid!important;
     grid-template-columns: repeat(6, 1fr);
@@ -93,7 +92,7 @@
     align-items: center;
 }
 
-	/* fields */
+    /* fields */
 /* Field settings div */
 #fieldorder {
     margin: 16px auto;
@@ -115,84 +114,84 @@
 
 /* sort by berry */
 .qolAnyBerry {
-	left: 0%!important;
-	top: 45%!important;
-	margin: -10px!important;
-	transition: none!important;
+    left: 0%!important;
+    top: 45%!important;
+    margin: -10px!important;
+    transition: none!important;
 }
 .qolAnyBerry>img.big {
-	animation: none!important;
-	padding: 25px!important;
+    animation: none!important;
+    padding: 25px!important;
 }
 .qolSourBerry {
-	left: 0%!important;
-	top: 45%!important;
-	margin: -10px!important;
-	transition: none!important;
+    left: 0%!important;
+    top: 45%!important;
+    margin: -10px!important;
+    transition: none!important;
 }
 .qolSourBerry>img.big {
-	animation: none!important;
-	padding: 25px!important;
+    animation: none!important;
+    padding: 25px!important;
 }
 
 .qolSpicyBerry {
-	left: 20%!important;
-	top: 45%!important;
-	margin: -10px!important;
-	transition: none!important;
+    left: 20%!important;
+    top: 45%!important;
+    margin: -10px!important;
+    transition: none!important;
 }
 
 .qolSpicyBerry>img.big {
-	animation: none!important;
-	padding: 25px!important;
+    animation: none!important;
+    padding: 25px!important;
 }
 
 .qolDryBerry {
-	left: 40%!important;
-	top: 45%!important;
-	margin: -10px!important;
-	transition: none!important;
+    left: 40%!important;
+    top: 45%!important;
+    margin: -10px!important;
+    transition: none!important;
 }
 
 .qolDryBerry>img.big {
-	animation: none!important;
-	padding: 25px!important;
+    animation: none!important;
+    padding: 25px!important;
 }
 
 .qolSweetBerry {
-	left: 60%!important;
-	top: 45%!important;
-	margin: -10px!important;
-	transition: none!important;
+    left: 60%!important;
+    top: 45%!important;
+    margin: -10px!important;
+    transition: none!important;
 }
 
 .qolSweetBerry>img.big {
-	animation: none!important;
-	padding: 25px!important;
+    animation: none!important;
+    padding: 25px!important;
 }
 
 .qolBitterBerry {
-	left: 80%!important;
-	top: 45%!important;
-	margin: -10px!important;
-	transition: none!important;
+    left: 80%!important;
+    top: 45%!important;
+    margin: -10px!important;
+    transition: none!important;
 }
 .qolBitterBerry>img.big {
-	animation: none!important;
-	padding: 25px!important;
+    animation: none!important;
+    padding: 25px!important;
 }
 
 /* sort in middle */
 .qolSortMiddle {
-	left: 40%!important;
-	top: 35%!important;
-	margin: -10px!important;
-	transition: none!important;
+    left: 40%!important;
+    top: 35%!important;
+    margin: -10px!important;
+    transition: none!important;
 }
 
 .qolSortMiddle>img.big {
-	animation: none!important;
-	padding: 40px!important;
+    animation: none!important;
+    padding: 40px!important;
 }
 
 
@@ -204,12 +203,12 @@
     display: grid;
     grid-template-columns: repeat(8,12.5%);
     grid-template-rows: repeat(5,69px);
-	padding-top: 0%!important;
+    padding-top: 0%!important;
 }
 
 .mq25 .qolGridField {
-	min-height: 180px;
-	grid-template-rows: repeat(5, 36px);
+    min-height: 180px;
+    grid-template-rows: repeat(5, 36px);
 }
 
 .qolGridPokeSize {
@@ -224,7 +223,7 @@
 .qolGridPokeImg {
     max-width: 75px;
     max-height: 70px;
-	animation: none!important;
+    animation: none!important;
 }
 
 /* QoL Settings Hub */
@@ -238,33 +237,33 @@
     text-align: center;
     padding: 4px;
     margin: 0;
-	text-align: center;
+    text-align: center;
 }
 
 .qolAllSettings {
-	width: 315px;
-	height: 100%;
-	border: 1px solid #9ec690;
-	border-top: none;
-	vertical-align: top;
+    width: 315px;
+    height: 100%;
+    border: 1px solid #9ec690;
+    border-top: none;
+    vertical-align: top;
 }
 
 .qolChangeLog {
-	width: 315px;
-	height: 100%;
-	border: 1px solid #9ec690;
-	border-top: none;
+    width: 315px;
+    height: 100%;
+    border: 1px solid #9ec690;
+    border-top: none;
 }
 
 .qolAllSettings>ul {
-	list-style-type: none;
-	padding: 0px;
-	vertical-align: top;
+    list-style-type: none;
+    padding: 0px;
+    vertical-align: top;
 }
 
 .qolHubTable {
-	border-spacing: 0px 0px;
-	border-collapse: collapse;
+    border-spacing: 0px 0px;
+    border-collapse: collapse;
 }
 
 .qolChangeLogList {
@@ -272,91 +271,91 @@
     text-align: left;
     padding: 4px;
     margin: 0;
-	text-align: center;
+    text-align: center;
 }
 
 .qolChangeLogContent {
-	list-style-type: disc;
-	display: none;
+    list-style-type: disc;
+    display: none;
 }
 
 .expandlist {
-	font-size: 16px;
-	text-align: center;
-	list-style-type: none;
+    font-size: 16px;
+    text-align: center;
+    list-style-type: none;
 }
 
 .slidermenu {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .qolChangeLogHead {
-	border: 1px solid #9ec690;
-	margin: 0px;
+    border: 1px solid #9ec690;
+    margin: 0px;
 }
 
 .closeHub {
-	text-align: right;
-	margin: 0px 10px 0px 0px;
-	font-size: 20px;
-	cursor: pointer;
+    text-align: right;
+    margin: 0px 10px 0px 0px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
-	/* qol party clicking mod */
+    /* qol party clicking mod */
 /* settings menu */
 #qolpartymod {
     text-align: center;
 }
 
 .qolpartyclickhide {
-	display: none!important;
+    display: none!important;
 }
 
 .qolpartyclickwidth {
-	width: 100%!important;
+    width: 100%!important;
 }
 
 .qolpartyclickblock {
-	display: inline-block!important;
+    display: inline-block!important;
 }
 
 .qolpartyclickalot {
-	position: absolute!important;
-	background-color: transparent!important;
-	border: none!important;
-	left: 300px!important;
-	top: 500px!important;
+    position: absolute!important;
+    background-color: transparent!important;
+    border: none!important;
+    left: 300px!important;
+    top: 500px!important;
 }
 
 .qolpartyclickz {
-	z-index: 100!important;
+    z-index: 100!important;
 }
 
 .qolpartyclicknav {
-	position: absolute!important;
-	left: 300px!important;
-	top: 500px!important;
+    position: absolute!important;
+    left: 300px!important;
+    top: 500px!important;
 }
 
 .qolpartyclickpartywidth {
-	width: 300px!important;
+    width: 300px!important;
 }
 
 .qolpartyclickpartydivwidth {
-	width: 211px!important;
+    width: 211px!important;
 }
 
 .qolpartyclickborderone {
-	border-top-right-radius: 6px!important;
+    border-top-right-radius: 6px!important;
 }
 
 .qolpartyclickbordertwo {
-	border-top-right-radius: 0px!important;
-	border-top-width: 0px!important;
+    border-top-right-radius: 0px!important;
+    border-top-width: 0px!important;
 }
 
 .qolpartyclickborderthree {
-	border-bottom-left-radius: 0px!important;
+    border-bottom-left-radius: 0px!important;
 }
 
 .qolpartyclickborderfour {
@@ -364,38 +363,38 @@
 }
 
 .qolpartyclickborderfive {
-	border-right-width: 1px!important;
+    border-right-width: 1px!important;
 }
 
 .qolpartyclickul {
-	height: 35px!important;
-	overflow: hidden!important;
+    height: 35px!important;
+    overflow: hidden!important;
 }
 
 .qolpartyclicklilabel {
-	width: 5px!important;
-	padding: 2px!important;
+    width: 5px!important;
+    padding: 2px!important;
 }
 
 /* hide dislike */
 .qolpartyclicktextalign {
-	text-align: center!important;
+    text-align: center!important;
 }
 
-	/* lab */
+    /* lab */
 /* lab notification wrap */
 #labsuccess {
-	text-align: center;
+    text-align: center;
 }
 
 /* lab notification div */
 #labfound {
-	padding-top: 20px;
+    padding-top: 20px;
 }
 
 /* lab <p> bold */
 .boldp {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 

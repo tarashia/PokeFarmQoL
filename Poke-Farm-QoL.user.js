@@ -1029,7 +1029,7 @@ happycssing {
                     //loop to find all search values for the top checkboxes
                     for (let key in VARIABLES.userSettings.shelterSettings) {
                         let value = VARIABLES.userSettings.shelterSettings[key];
-                        if (value === true && && Helpers.shelterKeyIsTopCheckbox(key))) {
+                        if (value === true && Helpers.shelterKeyIsTopCheckbox(key)) {
                             let searchKey = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(key) + 1];
                             shelterValueArray.push(searchKey);
                         }
@@ -1608,61 +1608,38 @@ happycssing {
                     } else {
                         let typesArrayNoEmptySpace = typeArray.filter(v=>v!='');
                         let typeSearchAmount = typesArrayNoEmptySpace.length;
-                        let i;
-                        for (i = 0; i < typeSearchAmount; i++) {
+
+                        for (let i = 0; i < typeSearchAmount; i++) {
                             let value = typesArrayNoEmptySpace[i];
+
                             let amountOfTypesFound = [];
                             let typePokemonNames = [];
                             
-                            if (settings.findType === true) {
-                                let amountOfTypesFound = [];
-                                let typePokemonNames = [];
-                                
-                                $('.fieldmon').each(function() {
-                                    // herehereherehere
-                                    console.log($(this));
-                                    let searchPokemon = ($(this).text().split(' ')[0]);
-                                    let searchPokemonIndex = VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"');
-                                    let searchTypeOne = VARIABLES.dexDataVar[searchPokemonIndex + 1];
-                                    let searchTypeTwo = VARIABLES.dexDataVar[searchPokemonIndex + 2];
-                                    if (searchTypeOne === value) {
-                                        amountOfTypesFound.push('found');
-                                        typePokemonNames.push(searchPokemon);
-                                    }
-                                        
-                                    if (searchTypeTwo === value) {
-                                        amountOfTypesFound.push('found');
-                                        typePokemonNames.push(searchPokemon);
-                                    }
-                                })
-
+                            $('.fieldmon').each(function() {
                                 // herehereherehere
-                                let foundType = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
+                                let searchPokemonBigImg = $(this)[0].childNodes[0];
+                                let searchPokemon = searchPokemonBigImg.alt;
+                                let searchPokemonIndex = VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"');
+                                let searchTypeOne = VARIABLES.dexDataVar[searchPokemonIndex + 1];
+                                let searchTypeTwo = VARIABLES.dexDataVar[searchPokemonIndex + 2];
+                                let typeFound = false;
 
-                                console.log(foundType)
-                                
-                                // let typeImgStandOutLength = typePokemonNames.length;
-                                // for (let o = 0; o < typeImgStandOutLength; o++) {
-                                //     let value = typePokemonNames[o];
-                                //     let shelterImgSearch = $(".field .tooltip_content:containsIN('"+value+" (')")
-                                //     let shelterBigImg = shelterImgSearch.prev().children('img.big');
-                                //     $(shelterBigImg).addClass('shelterfoundme');
-                                // }
+                                if (searchTypeOne === value) {
+                                    typePokemonNames.push(searchPokemon);
+                                    typeFound = true;
+                                }
 
-                                // word = (amountOfTypesFound.length == 1) ? "type" : "types";
-                                // if (amountOfTypesFound.length > 0) {
-                                //     document.querySelector('#sheltersuccess').
-                                //         insertAdjacentHTML('beforeend',
-                                //                            '<div id="shelterfound">'+amountOfTypesFound.length+' '+foundType+
-                                //                            ' Pokémon ' + word + ' found! ('+typePokemonNames.toString()+')</div>');
-                                // }
-                            }
+                                if (searchTypeTwo === value) {
+                                    typePokemonNames.push(searchPokemon);
+                                    typeFound = true;
+                                }
+
+                                if(typeFound === true) {
+                                    $(searchPokemonBigImg).addClass('privatefoundme');
+                                }
+                            }) // each
                         }
-
-
-
-
-
+                    }
                     // end
                 },
 
@@ -1670,7 +1647,7 @@ happycssing {
                     if (VARIABLES.userSettings.partyMod === true) {
                         $('input.qolalone').on('change', function() { //only 1 textbox may be true
                             $('input.qolalone').not(this).prop('checked', false);
-                        });    
+                        });
                         
                         if (VARIABLES.userSettings.partyModSettings.hideDislike === false && VARIABLES.userSettings.partyModSettings.hideAll === false && VARIABLES.userSettings.partyModSettings.niceTable === false) {
                             $('#trainerimage').removeClass('qolpartyclickhide');
@@ -3220,9 +3197,11 @@ happycssing {
     
     $(document).on('click', '#addPrivateFieldTypeList', (function() { //add field type list
         PFQoL.privateFieldAddTypeList();
+        PFQoL.privateFieldCustomSearch();
     }));
 
     $(document).on('click', '#removePrivateFieldTypeList', (function() { //remove field type list
         PFQoL.privateFieldRemoveTypeList(this, $(this).parent().find('select').val());
+        PFQoL.privateFieldCustomSearch();
     }));
 })(jQuery); //end of userscript
