@@ -41,6 +41,24 @@
         }
     });
 
+    let Helpers = (function Helpers() {
+        /* public stuff */
+        const API = {
+            onPage(pg) { return window.location.href.indexOf(pg) != -1; },
+            onMultiuserPage() { return onPage("users/"); },
+            onShelterPage() { return onPage("/shelter"); },
+            onPublicFieldsPage() { return onPage("fields/"); },
+            onPrivateFieldsPage() { return onPage("fields") && !onPublicFieldsPage(); },
+            onFarmPage(tab) { return onPage("farm#" + ((tab===undefined) ? "" : tab)); },
+            onFishingPage() { return onPage("fishing"); },
+            onLabPage() { return onPage("/lab"); },
+            onDexPage() { return onPage("dex"); }
+        };
+
+        return API;
+        
+    })();
+
     let PFQoL = (function PFQoL() {
 
         const DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
@@ -417,31 +435,13 @@
                     }
                 },
 
-                // ##########################################################
-                // helper functions for determining which webpage we're on
-                // ##########################################################
-
-                onPage(pg) { return window.location.href.indexOf(pg) != -1; }
-                onMultiuserPage() { return fn.onPage("users/") }
-                onShelterPage() { return fn.onPage("/shelter"); }
-                onPublicFieldsPage() { return fn.onPage("fields/"); }
-                onPrivateFieldsPage() { return fn.onPage("fields") && !fn.onPublicFieldsPage(); }
-                onFarmPage(tab) { return fn.onPage("farm#" + (tab===undefined) ? "" : tab); }
-                onFishingPage() { return fn.onPage("fishing"); }
-                onLabPage() { return fn.onPage("/lab"); }
-                onDexPage() { return fn.onPage("dex"); }
-                
-                // ##########################################################
-                // end helper functions
-                // ##########################################################
-
                 setupHTML() { // injects the HTML changes from TEMPLATES into the site
 
                     // Header link to Userscript settings
                     document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', TEMPLATES.qolHubLinkHTML);
 
                     // shelter Settings Menu
-                    if (VARIABLES.userSettings.shelterEnable === true && fn.onShelterPage()) {
+                    if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
                         $('.tabbed_interface.horizontal>div').removeClass('tab-active');
                         $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
                         document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
@@ -484,12 +484,12 @@
                     }
 
                     // fishing select all button on caught fishing
-                    if (VARIABLES.userSettings.releaseSelectAll === true && fn.onFishingPage() && $('#caughtfishcontainer').length > 0) {
+                    if (VARIABLES.userSettings.releaseSelectAll === true && Helpers.onFishingPage() && $('#caughtfishcontainer').length > 0) {
                         document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('beforeend', TEMPLATES.massReleaseSelectHTML);
                     }
 
                     // private fields search
-                    if (VARIABLES.userSettings.privateFieldSearch === true && fn.onPrivateFieldsSPage()) {
+                    if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
                         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
 
                         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removePrivateFieldSearch'></div>`;
@@ -529,7 +529,7 @@
                     }
                     
                     //fields search
-                    /* if (VARIABLES.userSettings.fieldSearch === true && fn.onPublicFieldsPage()) {
+                    /* if (VARIABLES.userSettings.fieldSearch === true && Helpers.onPublicFieldsPage()) {
                         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
                         
                         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
@@ -573,21 +573,21 @@
                     } */
                         
                     // fields sorter
-                    if (VARIABLES.userSettings.fieldSort === true && fn.onPublicFieldsPage()) {
+                    if (VARIABLES.userSettings.fieldSort === true && Helpers.onPublicFieldsPage()) {
                         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSortHTML);
 
                         fn.backwork.populateSettingsPage();
                     }
                     
                     // party click mods
-                    if (VARIABLES.userSettings.partyMod === true && fn.onMultiuserPage()) {
+                    if (VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) {
                             document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', TEMPLATES.partyModHTML);
                     
                             fn.backwork.populateSettingsPage();
                     }
                     
                     // fast evolve list
-                    if (VARIABLES.userSettings.easyEvolve === true && fn.onFarmPage()) {
+                    if (VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage()) {
                         $(document).ready(function() {
                             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
                             document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend', '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
@@ -595,7 +595,7 @@
                     }
                     
                     //lab notifier
-                    if (VARIABLES.userSettings.labNotifier === true && fn.onLabPage()) {
+                    if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
                         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', TEMPLATES.labOptionsHTML);
                         
                         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
@@ -666,32 +666,32 @@
                 },
 
                 setupObservers() { // all the Observers that needs to run
-                    if (VARIABLES.userSettings.shelterEnable === true && fn.onShelterPage()) { //observe changes on the shelter page
+                    if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) { //observe changes on the shelter page
                         OBSERVERS.shelterObserver.observe(document.querySelector('#shelterarea'), {
                             childList: true,
                         });
                     }
 
-                    if (VARIABLES.userSettings.fieldSort === true && fn.onPublicFieldsPage()) { //observe pokemon changes on the fields page
+                    if (VARIABLES.userSettings.fieldSort === true && Helpers.onPublicFieldsPage()) { //observe pokemon changes on the fields page
                         OBSERVERS.fieldsObserver.observe(document.querySelector('#field_field'), {
                             childList: true,
                             attributeFilter: ['class'],
                         });
                     }
 
-                    if (VARIABLES.userSettings.fieldSort === true && fn.onPublicFieldsPage()) { //observe settings changes on the fields page
+                    if (VARIABLES.userSettings.fieldSort === true && Helpers.onPublicFieldsPage()) { //observe settings changes on the fields page
                         OBSERVERS.fieldsObserver.observe(document.querySelector('#fieldorder'), {
                             childList: true,
                         });
                     }
                     
-                    if (VARIABLES.userSettings.partyMod === true && fn.onMultiuserPage()) { //observe party click changes on the users page
+                    if (VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) { //observe party click changes on the users page
                         OBSERVERS.partyClickObserver.observe(document.querySelector('#multiuser'), {
                             childList: true,
                         });
                     }
                     
-                    if (VARIABLES.userSettings.labNotifier === true && fn.onLabPage()) { //observe lab changes on the lab page
+                    if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) { //observe lab changes on the lab page
                         OBSERVERS.labObserver.observe(document.querySelector('#labpage>div>div>div'), {
                             childList: true,
                             characterdata: true,
@@ -700,7 +700,7 @@
                         });
                     }
                     
-                    if (VARIABLES.userSettings.easyEvolve === true && fn.onFarmPage("tab=1")) {
+                    if (VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
                         OBSERVERS.evolveObserver.observe(document.querySelector('#farmnews-evolutions'), {
                             childList: true,
                             characterdata: true,
@@ -1020,10 +1020,6 @@ happycssing {
                     const shelterValueArray = [];
                     //emptying the sheltersuccess div to avoid duplicates
                     document.querySelector('#sheltersuccess').innerHTML="";
-                    // TESTTESTTEST
-                    document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend', '<input type="button" value="Send" id="adoptAndSendToEmptyField">');
-                    // TESTTESTTEST
-
                     $('#shelterarea>div>img').removeClass('shelterfoundme');
 
                     //loop to find all search values for the top checkboxes
@@ -3006,7 +3002,7 @@ happycssing {
         PFQoL.shelterRemoveTypeList(this, $(this).parent().find('select').val());
     }));
 
-    if(fn.onPublicFieldsPage()) {
+    if(Helpers.onPublicFieldsPage()) {
         $(document).on('click', '*[data-menu="release"]', (function() { //select all feature
             PFQoL.releaseFieldSelectAll();
         }));
@@ -3020,14 +3016,14 @@ happycssing {
         PFQoL.releaseFishSelectAll();
     }));
 
-    if(fn.onPublicFieldsPage()) {
+    if(Helpers.onPublicFieldsPage()) {
         $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
             PFQoL.fieldSorter();
             //PFQoL.fieldCustomSearch();
         }));
     }
 
-    if(fn.onPublicFieldsPage()) {
+    if(Helpers.onPublicFieldsPage()) {
         $(window).on('load', (function() {
             PFQoL.fieldSorter();
             //PFQoL.fieldCustomSearch();
@@ -3039,13 +3035,13 @@ happycssing {
     }
 
     // my fields
-    if(fn.onPrivateFieldsPage()) {
+    if(Helpers.onPrivateFieldsPage()) {
         $(window).on('load', (() => {
             PFQoL.privateFieldCustomSearch();
         }));
     }
     
-    if(fn.onMultiuserPage()) {
+    if(Helpers.onMultiuserPage()) {
         $(window).on('load', (function() {
             PFQoL.partyModification();
         }));
@@ -3060,7 +3056,7 @@ happycssing {
     }
     
     
-    if(fn.onDexPage()) {
+    if(Helpers.onDexPage()) {
         $(window).on('load', (function() {
             PFQoL.savingDexData();
         }));
@@ -3106,7 +3102,7 @@ happycssing {
         PFQoL.labCustomSearch();
     }));
     
-    if(fn.onLabPage()) {
+    if(Helpers.onLabPage()) {
         $(window).on('load', (function() {
             PFQoL.labCustomSearch();
         }));
