@@ -52,7 +52,11 @@
             onFarmPage(tab) { return onPage("farm#" + ((tab===undefined) ? "" : tab)); },
             onFishingPage() { return onPage("fishing"); },
             onLabPage() { return onPage("/lab"); },
-            onDexPage() { return onPage("dex"); }
+            onDexPage() { return onPage("dex"); },
+
+            shelterKeyIsTopCheckbox(k) {
+                return k != 'findCustom' && k != 'findMale' && k != 'findFemale' && k != 'findNoGender' && k != 'customEgg' && k != 'customPokemon' && k != 'customPng';
+            }
         };
 
         return API;
@@ -956,8 +960,8 @@ happycssing {
                     let numberDiv = $('#searchkeys>div').length;
                     $('#searchkeys').append(theField);
                     $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
-                    
                 },
+
                 shelterRemoveTextfield(byebye, key) { //add a loop to change all the classes of divs (amount of divs) so it fits with the save keys
                     VARIABLES.shelterCustomArray = $.grep(VARIABLES.shelterCustomArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
                         return value != key;
@@ -972,15 +976,15 @@ happycssing {
                         let rightDiv = i + 1;
                         $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
                     }
-
                 },
                 
                 shelterAddTypeList() {
-                    let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`; 
+                    let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + VARIABLES.typeOptions + `</select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`; 
                     let numberTypes = $('#shelterTypes>div').length;
                     $('#shelterTypes').append(theList);
                     $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
                 },
+                
                 shelterRemoveTypeList(byebye, key) {
                     VARIABLES.shelterTypeArray = $.grep(VARIABLES.shelterTypeArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
                         return value != key;
@@ -1025,7 +1029,7 @@ happycssing {
                     //loop to find all search values for the top checkboxes
                     for (let key in VARIABLES.userSettings.shelterSettings) {
                         let value = VARIABLES.userSettings.shelterSettings[key];
-                        if (value === true && key != 'findCustom' && key != 'findMale' && key != 'findFemale' && key != 'findNoGender' && key != 'customEgg' && key != 'customPokemon' && key != 'customPng') {
+                        if (value === true && && Helpers.shelterKeyIsTopCheckbox(key))) {
                             let searchKey = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(key) + 1];
                             shelterValueArray.push(searchKey);
                         }
@@ -1287,7 +1291,6 @@ happycssing {
                                     if (searchTypeOne === value) {
                                         amountOfTypesFound.push('found');
                                         typePokemonNames.push(searchPokemon);
-
                                     }
                                         
                                     if (searchTypeTwo === value) {
@@ -1297,7 +1300,6 @@ happycssing {
                                 })
                                 
                                 let foundType = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
-                                let foundimg = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
                                 
                                 let typeImgStandOutLength = typePokemonNames.length;
                                 let o;
@@ -1337,7 +1339,6 @@ happycssing {
                                 })
                                 
                                 let foundType = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
-                                let foundimg = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
                                 
                                 let typeImgStandOutLength = typePokemonNames.length;
                                 let o;
@@ -1592,9 +1593,77 @@ happycssing {
                 },
 
                 privateFieldCustomSearch() {
-                    if (VARIABLES.userSettings.privateFieldSearch === true) {
-                        console.log('search activated');
+                    if (VARIABLES.userSettings.privateFieldSearch === false) {
+                        return;
                     }
+
+                    const typeArray = VARIABLES.privateFieldTypeArray;
+                    const settings = VARIABLES.userSettings.privateFieldSearchSettings;
+
+                    console.log('search activated');
+
+                    //loop to find all the types
+                    if (typeArray.length == 1 && typeArray[0] == "") {
+                        let iDontWork = true;
+                    } else {
+                        let typesArrayNoEmptySpace = typeArray.filter(v=>v!='');
+                        let typeSearchAmount = typesArrayNoEmptySpace.length;
+                        let i;
+                        for (i = 0; i < typeSearchAmount; i++) {
+                            let value = typesArrayNoEmptySpace[i];
+                            let amountOfTypesFound = [];
+                            let typePokemonNames = [];
+                            
+                            if (settings.findType === true) {
+                                let amountOfTypesFound = [];
+                                let typePokemonNames = [];
+                                
+                                $('.fieldmon').each(function() {
+                                    // herehereherehere
+                                    console.log($(this));
+                                    let searchPokemon = ($(this).text().split(' ')[0]);
+                                    let searchPokemonIndex = VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"');
+                                    let searchTypeOne = VARIABLES.dexDataVar[searchPokemonIndex + 1];
+                                    let searchTypeTwo = VARIABLES.dexDataVar[searchPokemonIndex + 2];
+                                    if (searchTypeOne === value) {
+                                        amountOfTypesFound.push('found');
+                                        typePokemonNames.push(searchPokemon);
+                                    }
+                                        
+                                    if (searchTypeTwo === value) {
+                                        amountOfTypesFound.push('found');
+                                        typePokemonNames.push(searchPokemon);
+                                    }
+                                })
+
+                                // herehereherehere
+                                let foundType = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
+
+                                console.log(foundType)
+                                
+                                // let typeImgStandOutLength = typePokemonNames.length;
+                                // for (let o = 0; o < typeImgStandOutLength; o++) {
+                                //     let value = typePokemonNames[o];
+                                //     let shelterImgSearch = $(".field .tooltip_content:containsIN('"+value+" (')")
+                                //     let shelterBigImg = shelterImgSearch.prev().children('img.big');
+                                //     $(shelterBigImg).addClass('shelterfoundme');
+                                // }
+
+                                // word = (amountOfTypesFound.length == 1) ? "type" : "types";
+                                // if (amountOfTypesFound.length > 0) {
+                                //     document.querySelector('#sheltersuccess').
+                                //         insertAdjacentHTML('beforeend',
+                                //                            '<div id="shelterfound">'+amountOfTypesFound.length+' '+foundType+
+                                //                            ' Pokémon ' + word + ' found! ('+typePokemonNames.toString()+')</div>');
+                                // }
+                            }
+                        }
+
+
+
+
+
+                    // end
                 },
 
                 partyModification() {
@@ -2739,7 +2808,6 @@ happycssing {
                             })
                                 
                             let foundType = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
-                            let foundimg = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
                             
                             let typeImgStandOutLength = typePokemonNames.length;
                             let o;
