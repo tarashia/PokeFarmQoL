@@ -3047,27 +3047,27 @@ happycssing {
     }));
     
     // *my* field searcher
-    $(document).on('click', '#addMyFieldSearch', (function() { //add field text field
+    $(document).on('click', '#addPrivateFieldSearch', (function() { //add field text field
         PFQoL.privateFieldAddTextField();
     }));
 
-    $(document).on('click', '#removeMyFieldSearch', (function() { //remove field text field
+    $(document).on('click', '#removePrivateFieldSearch', (function() { //remove field text field
         PFQoL.privateFieldRemoveTextField(this, $(this).parent().find('input').val());
     }));
     
-    $(document).on('click', '#addMyFieldNatureSearch', (function() { //add field nature search
+    $(document).on('click', '#addPrivateFieldNatureSearch', (function() { //add field nature search
         PFQoL.privateFieldAddNatureSearch();
     }));
 
-    $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
+    $(document).on('click', '#removePrivateFieldNature', (function() { //remove field nature search
         PFQoL.privateFieldRemoveNatureSearch(this, $(this).parent().find('select').val());
     }));
     
-    $(document).on('click', '#addMyFieldTypeList', (function() { //add field type list
+    $(document).on('click', '#addPrivateFieldTypeList', (function() { //add field type list
         PFQoL.privateFieldAddTypeList();
     }));
 
-    $(document).on('click', '#removeFieldTypeList', (function() { //remove field type list
+    $(document).on('click', '#removePrivateFieldTypeList', (function() { //remove field type list
         PFQoL.privateFieldRemoveTypeList(this, $(this).parent().find('select').val());
     }));
 })(jQuery); //end of userscript
