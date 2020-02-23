@@ -126,9 +126,6 @@
                 fieldMale: true,
                 fieldFemale: true,
                 fieldNoGender: true,
-                fieldCustomPokemon: true,
-                fieldCustomPng: false,
-                fieldItem: true,
                 customItem: true,
             },
             partyModSettings : {
@@ -196,6 +193,9 @@
                 "findFemale", "[F]", "Female", '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
                 "findNoGender", "[N]", "No Gender", '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
             ],
+
+            typeOptions : '<option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option>'
+            natureOptions : '<option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option>'
             
             labSearchArray : [],
             labListArray : [],
@@ -439,20 +439,18 @@
                         VARIABLES.shelterCustomArray = VARIABLES.userSettings.shelterSettings.findCustom.split(',');
                         let numberOfValue = VARIABLES.shelterCustomArray.length;
 
-                        let i;
-                        for (i = 0; i < numberOfValue; i++) {
+                        for (let i = 0; i < numberOfValue; i++) {
                             let rightDiv = i + 1;
                             let rightValue = VARIABLES.shelterCustomArray[i];
                             $('#searchkeys').append(theField);
                             $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
                         }
                         
-                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`; 
+                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + VARIABLES.typeOptions + ` </select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`; 
                         VARIABLES.shelterTypeArray = VARIABLES.userSettings.shelterSettings.findType.split(',');
                         let numberOfType = VARIABLES.shelterTypeArray.length;
                         
-                        let o;
-                        for (o = 0; o < numberOfType; o++) {
+                        for (let o = 0; o < numberOfType; o++) {
                             let rightDiv = o + 1;
                             let rightValue = VARIABLES.shelterTypeArray[o];
                             $('#shelterTypes').append(theType);
@@ -477,8 +475,8 @@
                         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
 
                         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removePrivateFieldSearch'></div>`;
-                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removePrivateFieldTypeList'> </div>`;
-                        let theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> <option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option> </select> <input type='button' value='Remove' id='removePrivateFieldNature'> </div>`;
+                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + VARIABLES.typeOptions + ` </select> <input type='button' value='Remove' id='removePrivateFieldTypeList'> </div>`;
+                        let theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + VARIABLES.natureOptions + ` </select> <input type='button' value='Remove' id='removePrivateFieldNature'> </div>`;
                         
                         VARIABLES.privateFieldCustomArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom.split(',');
                         VARIABLES.privateFieldTypeArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldType.split(',');
@@ -528,7 +526,7 @@
                             $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
                         }
                         
-                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`; 
+                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + VARIABLES.typeOptions + ` </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`;
                         VARIABLES.fieldTypeArray = VARIABLES.userSettings.fieldSearchSettings.fieldType.split(',');
                         let numberOfType = VARIABLES.fieldTypeArray.length;
                         
@@ -540,7 +538,7 @@
                             $('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
                         }
                         
-                        let theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> <option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option> </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
+                        let theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + VARIABLES.natureOptions + ` </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
                         VARIABLES.fieldNatureArray = VARIABLES.userSettings.fieldSearchSettings.fieldNature.split(',');
                         let numberOfNature = VARIABLES.fieldNatureArray.length;
 
@@ -597,7 +595,7 @@
                             $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
                         }
                         
-                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findLabType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeLabTypeList'> </div>`; 
+                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findLabType"> ` + VARIABLES.typeOptions + ` </select> <input type='button' value='Remove' id='removeLabTypeList'> </div>`;
                         VARIABLES.labListArray = VARIABLES.userSettings.labNotiferSettings.findLabType.split(',');
                         let numberOfType = VARIABLES.labListArray.length;
                         
