@@ -414,6 +414,10 @@
 
                         fn.backwork.populateSettingsPage();
                         VARIABLES.dexDataVar = VARIABLES.userSettings.variData.dexData.split(',');
+
+                        $('[data-shelter=reload]').addClass('customSearchOnClick');
+                        $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
+                        $('[data-shelter=blackflute]').addClass('customSearchOnClick');
                     }
 
                     // fishing select all button on caught fishing
@@ -870,13 +874,14 @@ happycssing {
                         $('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
                     }
 
-                    var style = $('<style>.class { background-color: blue; }</style>');
-                        $('html > head').append(style);
-
                     //search values depending on settings
                     const shelterValueArray = [];
                     //emptying the sheltersuccess div to avoid duplicates
                     document.querySelector('#sheltersuccess').innerHTML="";
+                    // TESTTESTTEST
+                    document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend', '<input type="button" value="Send" id="adoptAndSendToEmptyField">');
+                    // TESTTESTTEST
+
                     $('#shelterarea>div>img').removeClass('shelterfoundme');
 
                     //loop to find all search values for the top checkboxes
@@ -932,16 +937,16 @@ happycssing {
                                 fn.backwork.loadSettings();
                                 VARIABLES.eggNoDuplicateArray = VARIABLES.userSettings.shelterSettings.NewEggDuplicate.split(',');
                                 VARIABLES.eggNoDuplicateArray = VARIABLES.eggNoDuplicateArray.filter(v=>v!='');
-                                
+
                                 let eggList = VARIABLES.eggNoDuplicateArray.length;
                                 let i;
                                 for (i = 0; i < eggList; i++) {
-                                    let value = VARIABLES.eggNoDuplicateArray[i];                
+                                    let value = VARIABLES.eggNoDuplicateArray[i];
                                     if ($('img[src*="//'+value+'"]').length) {
-                                        VARIABLES.lengthEggs = $('img[src*="//'+value+'"]').length + VARIABLES.lengthEggs; 
+                                        VARIABLES.lengthEggs = $('img[src*="//'+value+'"]').length + VARIABLES.lengthEggs;
                                     }
                                 }
-                                
+
                                 let allEggFinds = $("#shelterarea .tooltip_content:contains("+value+")").length;
                                 let allKnownEggFinds = $("#shelterarea .tooltip_content:contains( "+value+")").length;
                                 let newEggDup = VARIABLES.lengthEggs / 2;
@@ -951,7 +956,7 @@ happycssing {
                                 let searchResult = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(value) + 1];
                                 let newEggResult = newEggFinds+" "+searchResult;
                                 let imgFitResult = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(value) + 2];
-                                
+
                                 if (newEggFinds <1) {
                                     let thisDoesNothing = 0;
                                 } else {
@@ -962,7 +967,7 @@ happycssing {
                                     let shelterImgRemove = $("#shelterarea .tooltip_content:contains( "+value+")");
                                     let shelterBigImgRemove = shelterImgRemove.prev().children('img.big');
                                     $(shelterBigImgRemove).removeClass('shelterfoundme');
-                                    
+
                                     if (newEggFinds > 1) {
                                         document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+newEggResult+'s found '+imgFitResult+'</div>');
                                     } else if (newEggFinds === 1) {
@@ -1086,23 +1091,22 @@ happycssing {
 
                             //custom egg
                             if (VARIABLES.userSettings.shelterSettings.customEgg === true) {
-                                if ($('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")').length) {
+                                let name_matches = $('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")');
+                                let num_matches = name_matches.length;
+
+                                if (num_matches) {
                                     let searchResult = value;
-                                    let tooltipResult = $('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")').length+" "+searchResult;
+                                    let tooltipResult = num_matches+" "+searchResult;
                                     let imgFitResult = `<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">`;
-                                    let shelterImgSearch = $('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")')
+                                    let shelterImgSearch = name_matches;
                                     let shelterBigImg = shelterImgSearch.prev().children('img.big');
                                     $(shelterBigImg).addClass('shelterfoundme');
 
-                                    if ($('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")').length > 1) {
+                                    if (num_matches > 1) {
                                         document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' Eggs found '+imgFitResult+'</div>');
                                     } else {
                                         document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' egg found '+imgFitResult+'</div>');
                                     }
-                                    // TESTTESTTEST
-                                    document.querySelector('#sheltersuccess').
-                                        insertAdjacentHTML('beginend', '<div id="sheltertest">JP Test</div>');
-                                    // TESTTESTTEST
                                 }
                             }
 
@@ -1124,7 +1128,7 @@ happycssing {
                             }
                         }
                     }
-                    
+
                     //loop to find all the types
                     if (VARIABLES.shelterTypeArray.length == 1 && VARIABLES.shelterTypeArray[0] == "") {
                         let iDontWork = true;
@@ -2749,7 +2753,11 @@ happycssing {
         PFQoL.shelterCustomSearch();
     }));
 
-    $(document).on('click', '#shelterpage', (function() { //shelter search
+    // $(document).on('click', '#shelterpage', (function() { //shelter search
+    //     PFQoL.shelterCustomSearch();
+    // }));
+
+    $('.customSearchOnClick').on('click', (function() {
         PFQoL.shelterCustomSearch();
     }));
 
@@ -2764,7 +2772,11 @@ happycssing {
     $(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
         PFQoL.shelterRemoveTextfield(this, $(this).parent().find('input').val());
     }));
-    
+
+    $(document).on('click', '#adoptAndSendToEmptyField', (function() {
+        console.log('Test test');
+    }));
+
     $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
         PFQoL.shelterAddTypeList();
     }));
