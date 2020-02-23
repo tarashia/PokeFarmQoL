@@ -2783,7 +2783,89 @@ happycssing {
                         }
                     }
                 },
+
+                privateFieldAddTypeList() {
+                    let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`; 
+                    let numberTypes = $('#fieldTypes>div').length;
+                    $('#fieldTypes').append(theList);
+                    $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
+                },
             
+                privateFieldRemoveTypeList(byebye, key) {
+                    VARIABLES.privateFieldTypeArray =
+                        $.grep(VARIABLES.privateFieldTypeArray,
+                               //when textfield is removed, the value will be deleted from the localstorage
+                               function(value) { 
+                                   return value != key;
+                               });
+                    VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.privateFieldTypeArray.toString()
+
+                    fn.backwork.saveSettings();
+                    $(byebye).parent().remove();
+
+                    let i;
+                    for(i = 0; i < $('#fieldTypes>div').length; i++) {
+                        let rightDiv = i + 1;
+                        $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+                    }
+                },
+
+                privateFieldAddTextField() {
+                    let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
+                    let numberDiv = $('#searchkeys>div').length;
+                    $('#searchkeys').append(theField);
+                    $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
+                },
+                privateFieldRemoveTextField(byebye, key) {
+                    VARIABLES.privateFieldCustomArray =
+                        $.grep(VARIABLES.privateFieldCustomArray,
+                               //when textfield is removed, the value will be deleted from the localstorage
+                               function(value) { 
+                                   return value != key;
+                               });
+                    VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom = VARIABLES.privateFieldCustomArray.toString()
+
+                    fn.backwork.saveSettings();
+                    $(byebye).parent().remove();
+
+                    let i;
+                    for(i = 0; i < $('#searchkeys>div').length; i++) {
+                        let rightDiv = i + 1;
+                        $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+                    }
+                },
+                
+                privateFieldAddNatureSearch() {
+                    let theList = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> <option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option> </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
+                    let numberTypes = $('#natureTypes>div').length;
+                    $('#natureTypes').append(theList);
+                    $('.natureNumber').removeClass('natureNumber').addClass(""+numberTypes+"");
+                },
+                
+                privateFieldRemoveNatureSearch(byebye, key) {
+                    VARIABLES.privateFieldNatureArray =
+                        $.grep(VARIABLES.privateFieldNatureArray,
+                               //when textfield is removed, the value will be deleted from the localstorage
+                               function(value) {
+                                   return value != key;
+                               });
+                    VARIABLES.userSettings.privateFieldSearchSettings.fieldNature = VARIABLES.privateFieldNatureArray.toString()
+
+                    fn.backwork.saveSettings();
+                    $(byebye).parent().remove();
+
+                    let i;
+                    for(i = 0; i < $('#natureTypes>div').length; i++) {
+                        let rightDiv = i + 1;
+                        $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+                    }
+                },
+                
+                privateFieldCustomSearch() {
+                    if (VARIABLES.userSettings.privateFieldSearch === true) {
+                        console.log('search activated');
+                    }
+                },
                 /* fieldAddTypeList() {
                     let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`; 
                     let numberTypes = $('#fieldTypes>div').length;
