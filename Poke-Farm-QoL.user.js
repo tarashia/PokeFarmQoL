@@ -1612,9 +1612,9 @@ happycssing {
                     }
 
                     const typeArray = VARIABLES.privateFieldTypeArray;
+                    const natureArray = VARIABLES.privateFieldNatureArray;
+                    console.log(typeArray, natureArray)
                     const settings = VARIABLES.userSettings.privateFieldSearchSettings;
-
-                    console.log('search activated');
 
                     //loop to find all the types
                     if (typeArray.length == 1 && typeArray[0] == "") {
@@ -1623,34 +1623,29 @@ happycssing {
                         let typesArrayNoEmptySpace = typeArray.filter(v=>v!='');
                         let typeSearchAmount = typesArrayNoEmptySpace.length;
 
-                        for (let i = 0; i < typeSearchAmount; i++) {
-                            let value = typesArrayNoEmptySpace[i];
-                            let amountOfTypesFound = [];
-                            let typePokemonNames = [];
+                        $('.fieldmon').each(function() {
+                            let searchPokemonBigImg = $(this)[0].childNodes[0];
+                            let searchPokemon = searchPokemonBigImg.alt;
+                            let searchPokemonIndex = VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"');
+                            let searchTypeOne = VARIABLES.dexDataVar[searchPokemonIndex + 1];
+                            let searchTypeTwo = VARIABLES.dexDataVar[searchPokemonIndex + 2];
+                            let searchNature = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Nature)')[0].innerText.split(" ")[1].slice(0, -1);
 
-                            $('.fieldmon').each(function() {
-                                let searchPokemonBigImg = $(this)[0].childNodes[0];
-                                let searchPokemon = searchPokemonBigImg.alt;
-                                let searchPokemonIndex = VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"');
-                                let searchTypeOne = VARIABLES.dexDataVar[searchPokemonIndex + 1];
-                                let searchTypeTwo = VARIABLES.dexDataVar[searchPokemonIndex + 2];
+                            for (let i = 0; i < typeSearchAmount; i++) {
+                                let value = typesArrayNoEmptySpace[i];
                                 let typeFound = false;
 
-                                if (searchTypeOne === value) {
-                                    typePokemonNames.push(searchPokemon);
-                                    typeFound = true;
-                                }
-
-                                if (searchTypeTwo === value) {
-                                    typePokemonNames.push(searchPokemon);
-                                    typeFound = true;
-                                }
-
-                                if(typeFound === true) {
+                                if ((searchTypeOne === value) || (searchTypeTwo === value)) {
                                     $(searchPokemonBigImg).addClass('privatefoundme');
                                 }
-                            }) // each
-                        }
+                            }
+
+                            for (let i = 0; i < natureArray.length; i++) {
+                                if(searchNature === natureArray[i]) {
+                                    $(searchPokemonBigImg).addClass('privatefoundme');
+                                }
+                            }
+                        }) // each
                     }
                     // end
                 },
@@ -3024,7 +3019,6 @@ happycssing {
     }));
 
     $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
-        console.log("test")
         PFQoL.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
     }));
 
