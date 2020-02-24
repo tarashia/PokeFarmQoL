@@ -1434,32 +1434,32 @@ happycssing {
                         $('#movefieldselectallcheckbox').click(function() {
                             $('#massmovelist>ul>li>label>input').not(this).prop('checked', this.checked);
                         });
-                        
+
                         $('#movefieldselectanycheckbox').click(function() {
                             let selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
                             $(selectAny).not(this).prop('checked', this.checked);
                         });
-                        
+
                         $('#movefieldselectsourcheckbox').click(function() {
                             let selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
                             $(selectSour).not(this).prop('checked', this.checked);
                         });
-                        
+
                         $('#movefieldselectspicycheckbox').click(function() {
                             let selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
                             $(selectSpicy).not(this).prop('checked', this.checked);
                         });
-                        
+
                         $('#movefieldselectdrycheckbox').click(function() {
                             let selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
                             $(selectDry).not(this).prop('checked', this.checked);
                         });
-                        
+
                         $('#movefieldselectsweetcheckbox').click(function() {
                             let selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
                             $(selectSweet).not(this).prop('checked', this.checked);
                         });
-                        
+
                         $('#movefieldselectbittercheckbox').click(function() {
                             let selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
                             $(selectBitter).not(this).prop('checked', this.checked);
@@ -3027,146 +3027,130 @@ happycssing {
         PFQoL.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
     }));
 
-    $(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
-        PFQoL.shelterCustomSearch();
-    }));
+    if (Helpers.onShelterPage()) {
+        $(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
+            PFQoL.shelterCustomSearch();
+        }));
 
-    $('.customSearchOnClick').on('click', (function() {
-        PFQoL.shelterCustomSearch();
-    }));
+        $('.customSearchOnClick').on('click', (function() {
+            PFQoL.shelterCustomSearch();
+        }));
 
-    $('*[data-hatch]').on('click', (function() {
-        PFQoL.shelterRemoveEgg($(this).parent().prev().prev().prev().children().css('background-image'));
-    }));
+        $('*[data-hatch]').on('click', (function() {
+            PFQoL.shelterRemoveEgg($(this).parent().prev().prev().prev().children().css('background-image'));
+        }));
 
-    $(document).on('click', '#addShelterTextfield', (function() { //add shelter text field
-        PFQoL.shelterAddTextField();
-    }));
+        $(document).on('click', '#addShelterTextfield', (function() { //add shelter text field
+            PFQoL.shelterAddTextField();
+        }));
 
-    $(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
-        PFQoL.shelterRemoveTextfield(this, $(this).parent().find('input').val());
-    }));
+        $(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
+            PFQoL.shelterRemoveTextfield(this, $(this).parent().find('input').val());
+        }));
 
-    $(document).on('click', '#adoptAndSendToEmptyField', (function() {
-        console.log('Test test');
-    }));
+        $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
+            PFQoL.shelterAddTypeList();
+        }));
 
-    $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
-        PFQoL.shelterAddTypeList();
-    }));
-
-    $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
-        PFQoL.shelterRemoveTypeList(this, $(this).parent().find('select').val());
-    }));
-
-    if(Helpers.onPublicFieldsPage()) {
-        $(document).on('click', '*[data-menu="release"]', (function() { //select all feature
-            PFQoL.releaseFieldSelectAll();
+        $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
+            PFQoL.shelterRemoveTypeList(this, $(this).parent().find('select').val());
         }));
     }
 
-    $(document).on('click', '*[data-menu="bulkmove"]', (function() { // select all feature
-        PFQoL.moveFieldSelectAll();
-    }));
-
-    $(document).on('mouseover', '#caughtfishcontainer', (function() { //select all feature
-        PFQoL.releaseFishSelectAll();
-    }));
-
-    if(Helpers.onPublicFieldsPage()) {
-        $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
-            PFQoL.fieldSorter();
-            //PFQoL.fieldCustomSearch();
+    if(Helpers.onFishingPage()) {
+        $(document).on('mouseover', '#caughtfishcontainer', (function() { //select all feature
+            PFQoL.releaseFishSelectAll();
         }));
     }
 
-    if(Helpers.onPublicFieldsPage()) {
-        $(window).on('load', (function() {
-            PFQoL.fieldSorter();
-            //PFQoL.fieldCustomSearch();
-        }));
-        document.addEventListener("keydown", function(event) {
-            PFQoL.fieldSorter();
-            //PFQoL.fieldCustomSearch();
-        });
-    }
-
-    // my fields
-    if(Helpers.onPrivateFieldsPage()) {
-        $(window).on('load', (() => {
-            PFQoL.privateFieldCustomSearch();
-        }));
-    }
-    
     if(Helpers.onMultiuserPage()) {
         $(window).on('load', (function() {
             PFQoL.partyModification();
         }));
-        
+
         $(document).on('click input', '#qolpartymod', (function() { // partymods
             PFQoL.partyModification();
         }));
-        
+
         $(document).on('click', '.tabbed_interface', (function() {
             PFQoL.partyModification();
         }));
     }
-    
-    
+
     if(Helpers.onDexPage()) {
         $(window).on('load', (function() {
             PFQoL.savingDexData();
         }));
     }
-    
-    $(document).on('click', '#qolevolvenormal', (function() {
-        PFQoL.easyEvolveNormalList();
-    }));
-    
-    $(document).on('click', '#qolchangesletype', (function() {
-        PFQoL.easyEvolveTypeList();
-    }));
-    
-    $(document).on('click', '#qolsortevolvename', (function() {
-        PFQoL.easyEvolveNameList();
-    }));
-    
-    $(document).on('click', '#qolevolvenew', (function() {
-        PFQoL.easyEvolveNewList();
-    }));
-    
-    $(document).on('click', '#addLabSearch', (function() { //add lab text field
-        PFQoL.labAddTextField();
-    }));
 
-    $(document).on('click', '#removeLabSearch', (function() { //remove lab text field
-        PFQoL.labRemoveTextfield(this, $(this).parent().find('input').val());
-    }));
-    
-    $(document).on('click', '#addLabTypeList', (function() { //add lab type list
-        PFQoL.labAddTypeList();
-    }));
+    if(Helpers.onFarmPage("tab=1")) {
+        $(document).on('click', '#qolevolvenormal', (function() {
+            PFQoL.easyEvolveNormalList();
+        }));
 
-    $(document).on('click', '#removeLabTypeList', (function() { //remove lab type list
-        PFQoL.labRemoveTypeList(this, $(this).parent().find('select').val());
-    }));
-    
-    $(document).on('change', '#labCustomSearch input', (function() { //lab search
-        PFQoL.labCustomSearch();
-    }));
-    
-    $(document).on('click', '#labpage', (function() { //shelter search
-        PFQoL.labCustomSearch();
-    }));
-    
+        $(document).on('click', '#qolchangesletype', (function() {
+            PFQoL.easyEvolveTypeList();
+        }));
+
+        $(document).on('click', '#qolsortevolvename', (function() {
+            PFQoL.easyEvolveNameList();
+        }));
+
+        $(document).on('click', '#qolevolvenew', (function() {
+            PFQoL.easyEvolveNewList();
+        }));
+    }
+
     if(Helpers.onLabPage()) {
+        $(document).on('click', '#addLabSearch', (function() { //add lab text field
+            PFQoL.labAddTextField();
+        }));
+
+        $(document).on('click', '#removeLabSearch', (function() { //remove lab text field
+            PFQoL.labRemoveTextfield(this, $(this).parent().find('input').val());
+        }));
+
+        $(document).on('click', '#addLabTypeList', (function() { //add lab type list
+            PFQoL.labAddTypeList();
+        }));
+
+        $(document).on('click', '#removeLabTypeList', (function() { //remove lab type list
+            PFQoL.labRemoveTypeList(this, $(this).parent().find('select').val());
+        }));
+
+        $(document).on('change', '#labCustomSearch input', (function() { //lab search
+            PFQoL.labCustomSearch();
+        }));
+
+        $(document).on('click', '#labpage', (function() { //shelter search
+            PFQoL.labCustomSearch();
+        }));
+
         $(window).on('load', (function() {
             PFQoL.labCustomSearch();
         }));
     }
 
     if(Helpers.onPublicFieldsPage()) {
-        // field searcher
+        $(document).on('click', '*[data-menu="release"]', (function() { //select all feature
+            PFQoL.releaseFieldSelectAll();
+        }));
+
+         $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
+            PFQoL.fieldSorter();
+            //PFQoL.fieldCustomSearch();
+        }));
+
+        $(window).on('load', (function() {
+            PFQoL.fieldSorter();
+            //PFQoL.fieldCustomSearch();
+        }));
+
+        document.addEventListener("keydown", function(event) {
+            PFQoL.fieldSorter();
+            //PFQoL.fieldCustomSearch();
+        });
+
         $(document).on('click', '#addFieldSearch', (function() { //add field text field
             PFQoL.fieldAddTextField();
         }));
@@ -3194,6 +3178,10 @@ happycssing {
 
     // private field searcher
     if(Helpers.onPrivateFieldsPage()) {
+        $(window).on('load', (() => {
+            PFQoL.privateFieldCustomSearch();
+        }));
+
         $(document).on('load', '.field', (function() {
             PFQoL.privateFieldCustomSearch();
         }));
@@ -3230,6 +3218,10 @@ happycssing {
 
         $(document).on('change', '.qolsetting', (function() {
             PFQoL.privateFieldCustomSearch();
+        }));
+
+        $(document).on('click', '*[data-menu="bulkmove"]', (function() { // select all feature
+            PFQoL.moveFieldSelectAll();
         }));
     }
 })(jQuery); //end of userscript
