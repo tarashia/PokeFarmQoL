@@ -849,7 +849,7 @@ happycssing {
                             VARIABLES.userSettings.fieldSortSettings[element] = textElement;
                         }
                     }
-                    
+
                     if (JSON.stringify(VARIABLES.userSettings.fieldSearchSettings).indexOf(element) >= 0) { // field search settings
                         if (VARIABLES.userSettings.fieldSearchSettings[element] === false ) {
                             VARIABLES.userSettings.fieldSearchSettings[element] = true;
@@ -885,7 +885,7 @@ happycssing {
                             }
                         }
                     }
-                    
+
                     if (JSON.stringify(VARIABLES.userSettings.privateFieldSearchSettings).indexOf(element) >= 0) { // field search settings
                         if (VARIABLES.userSettings.privateFieldSearchSettings[element] === false ) {
                             VARIABLES.userSettings.privateFieldSearchSettings[element] = true;
@@ -895,29 +895,29 @@ happycssing {
                             if (element === 'fieldType') {
                                 if (textElement === 'none') {
                                     let tempIndex = typeClass - 1;
-                                    VARIABLES.fieldTypeArray.splice(tempIndex, tempIndex);
-                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.fieldTypeArray.toString();
+                                    VARIABLES.privateFieldTypeArray.splice(tempIndex, tempIndex);
+                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.privateFieldTypeArray.toString();
                                 } else {
                                     let tempIndex = typeClass - 1;
-                                    VARIABLES.fieldTypeArray[tempIndex] = textElement;
-                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.fieldTypeArray.toString();
+                                    VARIABLES.privateFieldTypeArray[tempIndex] = textElement;
+                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.privateFieldTypeArray.toString();
                                 }
                             }
                             if (element === 'fieldNature') {
                                 if (textElement === 'none') {
                                     let tempIndex = typeClass - 1;
-                                    VARIABLES.fieldNatureArray.splice(tempIndex, tempIndex);
-                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldNature = VARIABLES.fieldNatureArray.toString();
+                                    VARIABLES.privateFieldNatureArray.splice(tempIndex, tempIndex);
+                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldNature = VARIABLES.privateFieldNatureArray.toString();
                                 } else {
                                     let tempIndex = typeClass - 1;
-                                    VARIABLES.fieldNatureArray[tempIndex] = textElement;
-                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldNature = VARIABLES.fieldNatureArray.toString();
+                                    VARIABLES.privateFieldNatureArray[tempIndex] = textElement;
+                                    VARIABLES.userSettings.privateFieldSearchSettings.fieldNature = VARIABLES.privateFieldNatureArray.toString();
                                 }
                             }
                             if (element === 'fieldCustom') {
                                 let tempIndex = customClass - 1;
-                                VARIABLES.fieldCustomArray[tempIndex] = textElement;
-                                VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom = VARIABLES.fieldCustomArray.toString();
+                                VARIABLES.privateFieldCustomArray[tempIndex] = textElement;
+                                VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom = VARIABLES.privateFieldCustomArray.toString();
                             }
                         }
                     }
@@ -1627,7 +1627,7 @@ happycssing {
                             let value = typesArrayNoEmptySpace[i];
                             let amountOfTypesFound = [];
                             let typePokemonNames = [];
-                            
+
                             $('.fieldmon').each(function() {
                                 let searchPokemonBigImg = $(this)[0].childNodes[0];
                                 let searchPokemon = searchPokemonBigImg.alt;
@@ -2861,12 +2861,12 @@ happycssing {
                     $('#fieldTypes').append(theList);
                     $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
                 },
-            
+
                 privateFieldRemoveTypeList(byebye, key) {
                     VARIABLES.privateFieldTypeArray =
                         $.grep(VARIABLES.privateFieldTypeArray,
                                //when textfield is removed, the value will be deleted from the localstorage
-                               function(value) { 
+                               function(value) {
                                    return value != key;
                                });
                     VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.privateFieldTypeArray.toString()
@@ -2891,7 +2891,7 @@ happycssing {
                     VARIABLES.privateFieldCustomArray =
                         $.grep(VARIABLES.privateFieldCustomArray,
                                //when textfield is removed, the value will be deleted from the localstorage
-                               function(value) { 
+                               function(value) {
                                    return value != key;
                                });
                     VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom = VARIABLES.privateFieldCustomArray.toString()
@@ -3024,6 +3024,7 @@ happycssing {
     }));
 
     $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+        console.log("test")
         PFQoL.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
     }));
 
