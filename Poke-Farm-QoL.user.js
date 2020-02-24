@@ -3187,16 +3187,6 @@ happycssing {
             PFQoL.privateFieldCustomSearch();
         }));
 
-        $(document).on('click', '#addPrivateFieldSearch', (function() { //add field text field
-            PFQoL.privateFieldAddTextField();
-            PFQoL.privateFieldCustomSearch();
-        }));
-
-        $(document).on('click', '#removePrivateFieldSearch', (function() { //remove field text field
-            PFQoL.privateFieldRemoveTextField(this, $(this).parent().find('input').val());
-            PFQoL.privateFieldCustomSearch();
-        }));
-
         $(document).on('click', '#addPrivateFieldNatureSearch', (function() { //add field nature search
             PFQoL.privateFieldAddNatureSearch();
             PFQoL.privateFieldCustomSearch();
