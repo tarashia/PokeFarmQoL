@@ -3027,6 +3027,10 @@ happycssing {
             PFQoL.shelterCustomSearch();
         }));
 
+        $(document).on('change', '.qolsetting', (function() {
+            PFQoL.shelterCustomSearch();
+        }));
+
         $('.customSearchOnClick').on('click', (function() {
             PFQoL.shelterCustomSearch();
         }));
@@ -3041,6 +3045,7 @@ happycssing {
 
         $(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
             PFQoL.shelterRemoveTextfield(this, $(this).parent().find('input').val());
+            PFQoL.shelterCustomSearch();
         }));
 
         $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
@@ -3049,6 +3054,7 @@ happycssing {
 
         $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
             PFQoL.shelterRemoveTypeList(this, $(this).parent().find('select').val());
+            PFQoL.shelterCustomSearch();
         }));
     }
 
