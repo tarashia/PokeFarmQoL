@@ -60,7 +60,6 @@
         };
 
         return API;
-        
     })();
 
     let PFQoL = (function PFQoL() {
@@ -164,42 +163,26 @@
 
         const VARIABLES = { // all the variables that are going to be used in fn
             userSettings : DEFAULT_USER_SETTINGS,
-            
-            dexDataVar : "",
-
-            shelterCustomArray : [],
-            
-            shelterTypeArray : [],
-
-            newEggAdopt : "",
-            
-            eggNoDuplicateArray : [],
-            
-            lengthEggs : 0,
-            
-            evolveListCache : "",
-
             shelterTypeSearch : [
-                "0", "Normal", '<img src="//pfq-static.com/img/types/normal.png/t=1262702646">', 
-                "1", "Fire", '<img src="//pfq-static.com/img/types/fire.png/t=1262702645">', 
-                "2", "Water", '<img src="//pfq-static.com/img/types/water.png/t=1262702646">', 
-                "3", "Electric", '<img src="//pfq-static.com/img/types/electric.png/t=1262702645">', 
+                "0", "Normal", '<img src="//pfq-static.com/img/types/normal.png/t=1262702646">',
+                "1", "Fire", '<img src="//pfq-static.com/img/types/fire.png/t=1262702645">',
+                "2", "Water", '<img src="//pfq-static.com/img/types/water.png/t=1262702646">',
+                "3", "Electric", '<img src="//pfq-static.com/img/types/electric.png/t=1262702645">',
                 "4", "Grass", '<img src="//pfq-static.com/img/types/grass.png/t=1262702645">',
-                "5", "Ice", '<img src="//pfq-static.com/img/types/ice.png/t=1262702646">', 
-                "6", "fighting", '<img src="//pfq-static.com/img/types/fighting.png/t=1262702645">', 
-                "7", "Poison", '<img src="//pfq-static.com/img/types/poison.png/t=1262702646">', 
-                "8", "Ground", '<img src="//pfq-static.com/img/types/ground.png/t=1262702646">', 
-                "9", "Flying", '<img src="//pfq-static.com/img/types/flying.png/t=1262702645">', 
-                "10", "Psychic", '<img src="//pfq-static.com/img/types/psychic.png/t=1262702646">', 
-                "11", "Bug", '<img src="//pfq-static.com/img/types/bug.png/t=1262702645">', 
-                "12", "Rock", '<img src="//pfq-static.com/img/types/rock.png/t=1262702646">', 
+                "5", "Ice", '<img src="//pfq-static.com/img/types/ice.png/t=1262702646">',
+                "6", "fighting", '<img src="//pfq-static.com/img/types/fighting.png/t=1262702645">',
+                "7", "Poison", '<img src="//pfq-static.com/img/types/poison.png/t=1262702646">',
+                "8", "Ground", '<img src="//pfq-static.com/img/types/ground.png/t=1262702646">',
+                "9", "Flying", '<img src="//pfq-static.com/img/types/flying.png/t=1262702645">',
+                "10", "Psychic", '<img src="//pfq-static.com/img/types/psychic.png/t=1262702646">',
+                "11", "Bug", '<img src="//pfq-static.com/img/types/bug.png/t=1262702645">',
+                "12", "Rock", '<img src="//pfq-static.com/img/types/rock.png/t=1262702646">',
                 "13", "Ghost", '<img src="//pfq-static.com/img/types/ghost.png/t=1262702645">',
                 "14", "Dragon", '<img src="//pfq-static.com/img/types/dragon.png/t=1263605747">',
                 "15", "Dark", '<img src="//pfq-static.com/img/types/dark.png/t=1262702645">',
                 "16", "Steel", '<img src="//pfq-static.com/img/types/steel.png/t=1262702646">',
                 "17", "Fairy", '<img src="//pfq-static.com/img/types/fairy.png/t=1374419124">',
             ],
-
             shelterSearch : [
                 "findNewEgg", "Egg", "new egg", '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
                 "findNewPokemon", "Pokémon", "new Pokémon", '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
@@ -215,35 +198,38 @@
                 "findFemale", "[F]", "Female", '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
                 "findNoGender", "[N]", "No Gender", '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
             ],
-
             typeOptions : '<option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option>',
             natureOptions : '<option value="none">None</option> <option value="Lonely">Lonely</option> <option value="Mild">Mild</option> <option value="Hasty">Hasty</option> <option value="Gentle">Gentle</option> <option value="Bold">Bold</option> <option value="Modest">Modest</option> <option value="Timid">Timid</option> <option value="Calm">Calm</option> <option value="Impish">Impish</option> <option value="Adamant">Adamant</option> <option value="Jolly">Jolly</option> <option value="Careful">Careful</option> <option value="Relaxed">Relaxed</option> <option value="Brave">Brave</option> <option value="Quiet">Quiet</option> <option value="Sassy">Sassy</option> <option value="Lax">Lax</option> <option value="Naughty">Naughty</option> <option value="Rash">Rash</option> <option value="Näive">Näive</option> <option value="Hardy">Hardy</option> <option value="Docile">Docile</option> <option value="Serious">Serious</option> <option value="Bashful">Bashful</option> <option value="Quirky ">Quirky </option>',
-            
+            dexDataVar : "",
+            shelterCustomArray : [],
+            shelterTypeArray : [],
+            newEggAdopt : "",
+            eggNoDuplicateArray : [],
+            lengthEggs : 0,
+            evolveListCache : "",
             labSearchArray : [],
             labListArray : [],
-
             fieldCustomArray : [],
             fieldTypeArray : [],
             fieldNatureArray : [],
-
             privateFieldCustomArray : [],
             privateFieldTypeArray : [],
             privateFieldNatureArray : [],
         }
 
         const TEMPLATES = { // all the new/changed HTML for the userscript
-            qolHubLinkHTML            : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
-            qolHubUpdateLinkHTML    : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
-            qolSettingsMenuHTML        : GM_getResourceText('QoLSettingsMenuHTML'),
-            shelterSettingsHTML        : GM_getResourceText('shelterSettingsHTML'),
-            massReleaseSelectHTML    : `<label id="selectallfish"><input id="selectallfishcheckbox" type="checkbox">Select all</label><label id="movefishselectany"><input id="movefishdselectanycheckbox" type="checkbox">Select Any  </label><label id="movefishselectsour"><input id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefishselectspicy"><input id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefishselectdry"><input id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefishselectsweet"><input id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefishselectbitter"><input id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
-            fieldSortHTML            : `<div id="fieldorder"><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"/>Sort by berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByMiddle"/>Sort in the middle</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByGrid"/>Align to grid</label><label><input type="checkbox" class="qolsetting" data-key="fieldClickCount"/>Click counter</label></div>`,
-            fieldSearchHTML            : GM_getResourceText('fieldSearchHTML'),
-            privateFieldSearchHTML          : GM_getResourceText('privateFieldSearchHTML'),
-            qolHubHTML                : GM_getResourceText('QolHubHTML'),
-            partyModHTML            : `<div id='qolpartymod'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>`,
-            evolveFastHTML            : GM_getResourceText('evolveFastHTML'),
-            labOptionsHTML          : GM_getResourceText('labOptionsHTML'),
+            qolHubLinkHTML        : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
+            qolHubUpdateLinkHTML  : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
+            qolSettingsMenuHTML   : GM_getResourceText('QoLSettingsMenuHTML'),
+            shelterSettingsHTML   : GM_getResourceText('shelterSettingsHTML'),
+            massReleaseSelectHTML : `<label id="selectallfish"><input id="selectallfishcheckbox" type="checkbox">Select all</label><label id="movefishselectany"><input id="movefishdselectanycheckbox" type="checkbox">Select Any  </label><label id="movefishselectsour"><input id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefishselectspicy"><input id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefishselectdry"><input id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefishselectsweet"><input id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefishselectbitter"><input id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
+            fieldSortHTML         : `<div id="fieldorder"><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"/>Sort by berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByMiddle"/>Sort in the middle</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByGrid"/>Align to grid</label><label><input type="checkbox" class="qolsetting" data-key="fieldClickCount"/>Click counter</label></div>`,
+            fieldSearchHTML       : GM_getResourceText('fieldSearchHTML'),
+            privateFieldSearchHTML: GM_getResourceText('privateFieldSearchHTML'),
+            qolHubHTML            : GM_getResourceText('QolHubHTML'),
+            partyModHTML          : `<div id='qolpartymod'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>`,
+            evolveFastHTML        : GM_getResourceText('evolveFastHTML'),
+            labOptionsHTML        : GM_getResourceText('labOptionsHTML'),
         }
 
         const OBSERVERS = {
@@ -252,37 +238,31 @@
                     fn.API.shelterCustomSearch();
                 });
             }),
-
             fieldsObserver: new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     fn.API.fieldSorter();
                 });
             }),
-            
             partyClickObserver: new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     fn.API.partyModification();
                 });
             }),
-            
             labObserver: new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     fn.API.labCustomSearch();
                 });
             }),
-            
             evolveObserver: new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     fn.API.easyQuickEvolve();
                 });
             }),
-
             privateFieldsObserver: new MutationObserver((mutations) => {
                 mutations.forEach((mutation) => {
                     fn.API.privateFieldCustomSearch();
                 });
             }),
-                
         }
 
         const fn = { // all the functions for the script
@@ -497,7 +477,7 @@
                         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
 
                         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removePrivateFieldSearch'></div>`;
-                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + VARIABLES.typeOptions + ` </select> <input type='button' value='Remove' id='removePrivateFieldTypeList'> </div>`;
+                        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + VARIABLES.typeOptions + ` </select> <input type='button' value='Remove' id='removePrivateFieldTypeSearch'> </div>`;
                         let theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + VARIABLES.natureOptions + ` </select> <input type='button' value='Remove' id='removePrivateFieldNature'> </div>`;
                         
                         VARIABLES.privateFieldCustomArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom.split(',');
@@ -1613,7 +1593,6 @@ happycssing {
 
                     const typeArray = VARIABLES.privateFieldTypeArray;
                     const natureArray = VARIABLES.privateFieldNatureArray;
-                    console.log(typeArray, natureArray)
                     const settings = VARIABLES.userSettings.privateFieldSearchSettings;
 
                     //loop to find all the types
@@ -2850,14 +2829,14 @@ happycssing {
                     }
                 },
 
-                privateFieldAddTypeList() {
-                    let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removePrivateFieldTypeList'> </div>`; 
+                privateFieldAddTypeSearch() {
+                    let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> <option value="none">None</option> <option value="0">Normal</option> <option value="1">Fire</option> <option value="2">Water</option> <option value="3">Electric</option> <option value="4">Grass</option> <option value="5">Ice</option> <option value="6">Fighting</option> <option value="7">Poison</option> <option value="8">Ground</option> <option value="9">Flying</option> <option value="10">Psychic</option> <option value="11">Bug</option> <option value="12">Rock</option> <option value="13">Ghost</option> <option value="14">Dragon</option> <option value="15">Dark</option> <option value="16">Steel</option> <option value="17">Fairy</option> </select> <input type='button' value='Remove' id='removePrivateFieldTypeSearch'> </div>`;
                     let numberTypes = $('#fieldTypes>div').length;
                     $('#fieldTypes').append(theList);
                     $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
                 },
 
-                privateFieldRemoveTypeList(byebye, key) {
+                privateFieldRemoveTypeSearch(byebye, key) {
                     VARIABLES.privateFieldTypeArray =
                         $.grep(VARIABLES.privateFieldTypeArray,
                                //when textfield is removed, the value will be deleted from the localstorage
@@ -3197,13 +3176,23 @@ happycssing {
             PFQoL.privateFieldCustomSearch();
         }));
 
-        $(document).on('click', '#addPrivateFieldTypeList', (function() { //add field type list
-            PFQoL.privateFieldAddTypeList();
+        $(document).on('click', '#addPrivateFieldTypeSearch', (function() { //add field type list
+            PFQoL.privateFieldAddTypeSearch();
             PFQoL.privateFieldCustomSearch();
         }));
 
-        $(document).on('click', '#removePrivateFieldTypeList', (function() { //remove field type list
-            PFQoL.privateFieldRemoveTypeList(this, $(this).parent().find('select').val());
+        $(document).on('click', '#removePrivateFieldTypeSearch', (function() { //remove field type list
+            PFQoL.privateFieldRemoveTypeSearch(this, $(this).parent().find('select').val());
+            PFQoL.privateFieldCustomSearch();
+        }));
+
+        $(document).on('click', '#addPrivateFieldEggGroupSearch', (function() { //add egg group nature search
+            PFQoL.privateFieldAddEggGroupSearch();
+            PFQoL.privateFieldCustomSearch();
+        }));
+
+        $(document).on('click', '#removePrivateFieldEggGroup', (function() { //remove egg group nature search
+            PFQoL.privateFieldRemoveEggGroupSearch(this, $(this).parent().find('select').val());
             PFQoL.privateFieldCustomSearch();
         }));
 
