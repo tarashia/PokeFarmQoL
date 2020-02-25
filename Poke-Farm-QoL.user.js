@@ -169,6 +169,11 @@
         };
 
         const SETTINGS_SAVE_KEY = 'QoLSettings';
+        const TYPE_LIST = ["Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"];
+        const NATURE_LIST = ["Lonely", "Mild", "Hasty", "Gentle", "Bold", "Modest", "Timid", "Calm",
+            "Impish", "Adamant", "Jolly", "Careful", "Relaxed", "Brave", "Quiet", "Sassy",
+            "Lax", "Naughty", "Rash", "Näive", "Hardy", "Docile", "Serious", "Bashful", "Quirky"];
+        const EGG_GROUP_LIST = ["Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Undiscovered", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon"];
 
         const VARIABLES = { // all the variables that are going to be used in fn
             userSettings : DEFAULT_USER_SETTINGS,
@@ -192,6 +197,7 @@
                 "16", "Steel", '<img src="//pfq-static.com/img/types/steel.png/t=1262702646">',
                 "17", "Fairy", '<img src="//pfq-static.com/img/types/fairy.png/t=1374419124">',
             ],
+            natureList : NATURE_LIST,
             shelterSearch : [
                 "findNewEgg", "Egg", "new egg", '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
                 "findNewPokemon", "Pokémon", "new Pokémon", '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
@@ -207,10 +213,9 @@
                 "findFemale", "[F]", "Female", '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
                 "findNoGender", "[N]", "No Gender", '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
             ],
-            typeOptions : Helpers.buildOptionsString(["Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"]),
-            natureOptions : Helpers.buildOptionsString(["Lonely", "Mild", "Hasty", "Gentle", "Bold", "Modest", "Timid", "Calm", "Impish", "Adamant", "Jolly", "Careful", "Relaxed", "Brave", "Quiet", "Sassy", "Lax",
-                                                        "Naughty", "Rash", "Näive", "Hardy", "Docile", "Serious", "Bashful", "Quirky"]),
-            eggGroupOptions : Helpers.buildOptionsString(["Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Undiscovered", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon"]),
+            typeOptions : Helpers.buildOptionsString(TYPE_LIST),
+            natureOptions : Helpers.buildOptionsString(NATURE_LIST),
+            eggGroupOptions : Helpers.buildOptionsString(EGG_GROUP_LIST),
             dexDataVar : "",
             shelterCustomArray : [],
             shelterTypeArray : [],
@@ -857,11 +862,11 @@
                             else if (element === 'fieldEggGroup') {
                                 if (textElement === 'none') {
                                     let tempIndex = typeClass - 1;
-                                    VARIABLES.privateFieldNatureArray.splice(tempIndex, tempIndex);
+                                    VARIABLES.privateFieldEggGroupArray.splice(tempIndex, tempIndex);
                                     VARIABLES.userSettings.privateFieldSearchSettings.fieldEggGroup = VARIABLES.privateFieldEggGroupArray.toString();
                                 } else {
                                     let tempIndex = typeClass - 1;
-                                    VARIABLES.privateFieldNatureArray[tempIndex] = textElement;
+                                    VARIABLES.privateFieldEggGroupArray[tempIndex] = textElement;
                                     VARIABLES.userSettings.privateFieldSearchSettings.fieldEggGroup = VARIABLES.privateFieldEggGroupArray.toString();
                                 }
                             }
@@ -1557,41 +1562,47 @@
                         return;
                     }
 
-                    let bigImgs = document.querySelectorAll('.fieldmon>img.big')
+                    let bigImgs = document.querySelectorAll('.privatefoundme')
                     if(bigImgs !== null) {
                         bigImgs.forEach((b) => {$(b).removeClass('privatefoundme')})
                     }
 
-                    const typeArray = VARIABLES.privateFieldTypeArray;
-                    const natureArray = VARIABLES.privateFieldNatureArray;
+                    const typeArray = VARIABLES.privateFieldTypeArray.filter(v=>v!='');
+                    const natureArray = VARIABLES.privateFieldNatureArray.filter(v=>v!='');
+                    const eggGroupArray = VARIABLES.privateFieldEggGroupArray.filter(v=>v!='');
                     const settings = VARIABLES.userSettings.privateFieldSearchSettings;
 
                     //loop to find all the types
-                    if (typeArray.length == 1 && typeArray[0] == "") {
-                        let iDontWork = true;
-                    } else {
-                        let typesArrayNoEmptySpace = typeArray.filter(v=>v!='');
-                        let typeSearchAmount = typesArrayNoEmptySpace.length;
-
+                    if (typeArray.length > 0 || natureArray.length > 0 || eggGroupArray.length > 0) {
                         $('.fieldmon').each(function() {
                             let searchPokemonBigImg = $(this)[0].childNodes[0];
                             let searchPokemon = searchPokemonBigImg.alt;
                             let searchPokemonIndex = VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"');
                             let searchTypeOne = VARIABLES.dexDataVar[searchPokemonIndex + 1];
                             let searchTypeTwo = VARIABLES.dexDataVar[searchPokemonIndex + 2];
-                            let searchNature = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Nature)')[0].innerText.split(" ")[1].slice(0, -1);
 
-                            for (let i = 0; i < typeSearchAmount; i++) {
-                                let value = typesArrayNoEmptySpace[i];
-                                let typeFound = false;
+                            let searchNature = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Nature)')[0].innerText.split(" ")[1];
+                            if (searchNature.indexOf("(") > -1) { searchNature = searchNature.slice(0, -1); }
 
-                                if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                            let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
+
+                            for (let i = 0; i < typeArray.length; i++) {
+                                if ((searchTypeOne === typeArray[i]) || (searchTypeTwo === typeArray[i])) {
                                     $(searchPokemonBigImg).addClass('privatefoundme');
                                 }
                             }
 
                             for (let i = 0; i < natureArray.length; i++) {
-                                if(searchNature === natureArray[i]) {
+                                if(searchNature === NATURE_LIST[natureArray[i]]) {
+                                    $(searchPokemonBigImg).addClass('privatefoundme');
+                                }
+                            }
+
+                            for (let i = 0; i < eggGroupArray.length; i++) {
+                                let value = EGG_GROUP_LIST[eggGroupArray[i]];
+                                if(searchEggGroup === value ||
+                                   searchEggGroup.indexOf(value + "/") > -1 ||
+                                   searchEggGroup.indexOf("/" + value) > -1) {
                                     $(searchPokemonBigImg).addClass('privatefoundme');
                                 }
                             }
