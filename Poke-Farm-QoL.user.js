@@ -40,50 +40,21 @@
         return (elem.textContent || elem.innerText || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
         }
     });
-	
-	const GLOBALS = {
-		const SETTINGS_SAVE_KEY = 'QoLSettings';
-        const TYPE_LIST = ["Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"];
-        const NATURE_LIST = ["Lonely", "Mild", "Hasty", "Gentle", "Bold", "Modest", "Timid", "Calm",
-            "Impish", "Adamant", "Jolly", "Careful", "Relaxed", "Brave", "Quiet", "Sassy",
-            "Lax", "Naughty", "Rash", "Näive", "Hardy", "Docile", "Serious", "Bashful", "Quirky"];
-        const EGG_GROUP_LIST = ["Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Undiscovered", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon"];
-		const SHELTER_TYPE_TABLE = [
-                "0", "Normal", '<img src="//pfq-static.com/img/types/normal.png/t=1262702646">',
-                "1", "Fire", '<img src="//pfq-static.com/img/types/fire.png/t=1262702645">',
-                "2", "Water", '<img src="//pfq-static.com/img/types/water.png/t=1262702646">',
-                "3", "Electric", '<img src="//pfq-static.com/img/types/electric.png/t=1262702645">',
-                "4", "Grass", '<img src="//pfq-static.com/img/types/grass.png/t=1262702645">',
-                "5", "Ice", '<img src="//pfq-static.com/img/types/ice.png/t=1262702646">',
-                "6", "fighting", '<img src="//pfq-static.com/img/types/fighting.png/t=1262702645">',
-                "7", "Poison", '<img src="//pfq-static.com/img/types/poison.png/t=1262702646">',
-                "8", "Ground", '<img src="//pfq-static.com/img/types/ground.png/t=1262702646">',
-                "9", "Flying", '<img src="//pfq-static.com/img/types/flying.png/t=1262702645">',
-                "10", "Psychic", '<img src="//pfq-static.com/img/types/psychic.png/t=1262702646">',
-                "11", "Bug", '<img src="//pfq-static.com/img/types/bug.png/t=1262702645">',
-                "12", "Rock", '<img src="//pfq-static.com/img/types/rock.png/t=1262702646">',
-                "13", "Ghost", '<img src="//pfq-static.com/img/types/ghost.png/t=1262702645">',
-                "14", "Dragon", '<img src="//pfq-static.com/img/types/dragon.png/t=1263605747">',
-                "15", "Dark", '<img src="//pfq-static.com/img/types/dark.png/t=1262702645">',
-                "16", "Steel", '<img src="//pfq-static.com/img/types/steel.png/t=1262702646">',
-                "17", "Fairy", '<img src="//pfq-static.com/img/types/fairy.png/t=1374419124">',
-            ];
-		const SHELTER_SEARCH_DATA = [
-			"findNewEgg", "Egg", "new egg", '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
-			"findNewPokemon", "Pokémon", "new Pokémon", '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
-			"findShiny", "[SHINY]", "Shiny", '<img src="//pfq-static.com/img/pkmn/shiny.png/t=1400179603">',
-			"findAlbino","[ALBINO]", "Albino", '<img src="//pfq-static.com/img/pkmn/albino.png/t=1414662094">',
-			"findMelanistic", "[MELANISTIC]", "Melanistic", '<img src="//pfq-static.com/img/pkmn/melanistic.png/t=1435353274">',
-			"findPrehistoric", "[PREHISTORIC]", "Prehistoric", '<img src="//pfq-static.com/img/pkmn/prehistoric.png/t=1465558964">',
-			"findDelta", "[DELTA]	", "Delta", "Delta", '<img src="//pfq-static.com/img/pkmn/_delta/dark.png/t=1501325214">',
-			"findMega", "[MEGA]", "Mega", '<img src="//pfq-static.com/img/pkmn/mega.png/t=1400179603">',
-			"findStarter", "[STARTER]", "Starter", '<img src="//pfq-static.com/img/pkmn/starter.png/t=1484919510">',
-			"findCustomSprite", "[CUSTOM SPRITE]", "Custom Sprite", '<img src="//pfq-static.com/img/pkmn/cs.png/t=1405806997">',
-			"findMale", "[M]", "Male", '<img src="//pfq-static.com/img/pkmn/gender_m.png/t=1401213006">',
-			"findFemale", "[F]", "Female", '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
-			"findNoGender", "[N]", "No Gender", '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
-		],
-	}
+
+    const TEMPLATES = { // all the new/changed HTML for the userscript
+        qolHubLinkHTML        : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
+        qolHubUpdateLinkHTML  : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
+        qolSettingsMenuHTML   : GM_getResourceText('QoLSettingsMenuHTML'),
+        shelterSettingsHTML   : GM_getResourceText('shelterSettingsHTML'),
+        massReleaseSelectHTML : `<label id="selectallfish"><input id="selectallfishcheckbox" type="checkbox">Select all</label><label id="movefishselectany"><input id="movefishdselectanycheckbox" type="checkbox">Select Any  </label><label id="movefishselectsour"><input id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefishselectspicy"><input id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefishselectdry"><input id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefishselectsweet"><input id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefishselectbitter"><input id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
+        fieldSortHTML         : `<div id="fieldorder"><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"/>Sort by berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByMiddle"/>Sort in the middle</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByGrid"/>Align to grid</label><label><input type="checkbox" class="qolsetting" data-key="fieldClickCount"/>Click counter</label></div>`,
+        fieldSearchHTML       : GM_getResourceText('fieldSearchHTML'),
+        privateFieldSearchHTML: GM_getResourceText('privateFieldSearchHTML'),
+        qolHubHTML            : GM_getResourceText('QolHubHTML'),
+        partyModHTML          : `<div id='qolpartymod'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>`,
+        evolveFastHTML        : GM_getResourceText('evolveFastHTML'),
+        labOptionsHTML        : GM_getResourceText('labOptionsHTML'),
+    }
 
     let Helpers = (function Helpers() {
         /* public stuff */
@@ -109,7 +80,7 @@
                 }
                 return str;
             },
-			
+
 			toggleSetting(key, set = false) {
 				if (typeof set === 'boolean') {
 					let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
@@ -124,7 +95,7 @@
 					}
 				}
 			}, // toggleSetting
-			
+
 			setupFieldArrayHTML(arr, id, div, cls) {
 				let n = arr.length;
 				for(let i = 0; i < n; i++) {
@@ -134,589 +105,677 @@
 					$(`.${cls}`).removeClass(cls).addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
 				}
 			},
+
+            loadSettings(KEY, DEFAULT, obj) {
+                console.log('Helpers.loadSettings')
+
+                if (localStorage.getItem(KEY) === null) {
+                    API.saveSettings(KEY);
+                } else {
+                    // console.log(localStorage.getItem(KEY))
+                    try {
+                        let countScriptSettings = Object.keys(obj).length
+                        let localStorageString = JSON.parse(localStorage.getItem(KEY));
+                        let countLocalStorageSettings = Object.keys(localStorageString).length
+                        if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
+                            let defaultsSetting = DEFAULT;
+                            let userSetting = JSON.parse(localStorage.getItem(KEY));
+                            let newSetting = $.extend(true,{}, defaultsSetting, userSetting);
+
+                            obj = newSetting;
+                            API.saveSettings(KEY, obj);
+                        }
+                        if (countLocalStorageSettings > countScriptSettings) {
+                            API.saveSettings(KEY, obj);
+                        }
+                    }
+                    catch(err) {
+                        API.saveSettings(KEY, obj);
+                    }
+                    if (localStorage.getItem(KEY) != obj) {
+                        obj = JSON.parse(localStorage.getItem(KEY));
+                    }
+                }
+
+                return obj;
+            },
+            saveSettings(KEY, obj) {
+                console.log('Helpers.saveSettings')
+                console.log(KEY)
+                console.log(obj)
+                localStorage.setItem(KEY, JSON.stringify(obj));
+            },
         };
 
         return API;
     })();
 
-    let ShelterPage = (function Page() {
-		settings : {
-			findCustom: "",
-			findType: "",
-			findTypeEgg: true,
-			findTypePokemon: false,
-			findNewEgg: true,
-			NewEggDuplicate: "",
-			findNewPokemon: true,
-			findShiny: true,
-			findAlbino: true,
-			findMelanistic: true,
-			findPrehistoric: true,
-			findDelta: true,
-			findMega: true,
-			findStarter: true,
-			findCustomSprite: true,
-			findMale: true,
-			findFemale: true,
-			findNoGender: true,
-			customEgg: true,
-			customPokemon: true,
-			customPng: false,
-			shelterGrid: true,
-		},
-		shelterCustomArray : [],
-        shelterTypeArray : [],
-		const shelterObserver : new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-				PFQoL.fn.API.shelterCustomSearch();
-			});
-		}),
-		const API = {
-			setupHTML() {
-				$('.tabbed_interface.horizontal>div').removeClass('tab-active');
-				$('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
-				document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
-				document.querySelector('.tabbed_interface.horizontal>ul>li').insertAdjacentHTML('afterend', '<li class=""><label>Sort</label></li>');
-				document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', TEMPLATES.shelterSettingsHTML);
-				document.querySelector('#shelteroptionsqol').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
-				$('#shelteroptionsqol').addClass('tab-active');
-
-				document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
-
-				let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findCustom"/></label><input type='button' value='Remove' id='removeShelterTextfield'></div>`;
-				shelterCustomArray = VARIABLES.userSettings.shelterSettings.findCustom.split(',');
-				let numberOfValue = shelterCustomArray.length;
-
-				for (let i = 0; i < numberOfValue; i++) {
-					let rightDiv = i + 1;
-					let rightValue = shelterCustomArray[i];
-					$('#searchkeys').append(theField);
-					$('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-				}
-
-				let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + VARIABLES.typeOptions + ` </select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`;
-				VARIABLES.shelterTypeArray = VARIABLES.userSettings.shelterSettings.findType.split(',');
-				let numberOfType = VARIABLES.shelterTypeArray.length;
-
-				for (let o = 0; o < numberOfType; o++) {
-					let rightDiv = o + 1;
-					let rightValue = VARIABLES.shelterTypeArray[o];
-					$('#shelterTypes').append(theType);
-					$('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-				}
-
-				fn.backwork.populateSettingsPage();
-				VARIABLES.dexDataVar = VARIABLES.userSettings.variData.dexData.split(',');
-
-				$('[data-shelter=reload]').addClass('customSearchOnClick');
-				$('[data-shelter=whiteflute]').addClass('customSearchOnClick');
-				$('[data-shelter=blackflute]').addClass('customSearchOnClick');
-			},
-			
-			setupCSS() {
-				let shelterSuccessCss = $('#sheltercommands').css('background-color');
-				$('#sheltersuccess').css('background-color', shelterSuccessCss);
-			},
-			
-			setupObserver() {
-				shelterObserver.observe(document.querySelector('#shelterarea'), {
-					childList: true,
-				});
-			},
-		
-			setupHandlers() {
-				$(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
-					PFQoL.shelterCustomSearch();
-				}));
-
-				$(document).on('change', '.qolsetting', (function() {
-					PFQoL.shelterCustomSearch();
-				}));
-
-				$('.customSearchOnClick').on('click', (function() {
-					PFQoL.shelterCustomSearch();
-				}));
-
-				$('*[data-hatch]').on('click', (function() {
-					PFQoL.shelterRemoveEgg($(this).parent().prev().prev().prev().children().css('background-image'));
-				}));
-
-				$(document).on('click', '#addShelterTextfield', (function() { //add shelter text field
-					PFQoL.shelterAddTextField();
-				}));
-
-				$(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
-					PFQoL.shelterRemoveTextfield(this, $(this).parent().find('input').val());
-					PFQoL.shelterCustomSearch();
-				}));
-
-				$(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
-					PFQoL.shelterAddTypeList();
-				}));
-
-				$(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
-					PFQoL.shelterRemoveTypeList(this, $(this).parent().find('select').val());
-					PFQoL.shelterCustomSearch();
-				}));
-			},
-			
-			settingsChange(element, textElement, customClass, typeClass) {
-				if(JSON.stringify(VARIABLES.userSettings.shelterSettings).indexOf(element) >= 0) { // shelter settings
-					if (VARIABLES.userSettings.shelterSettings[element] === false ) {
-						VARIABLES.userSettings.shelterSettings[element] = true;
-					} else if (VARIABLES.userSettings.shelterSettings[element] === true ) {
-						VARIABLES.userSettings.shelterSettings[element] = false;
-					} else if (typeof VARIABLES.userSettings.shelterSettings[element] === 'string') {
-						if (element === 'findType') {
-							if (textElement === 'none') {
-								let tempIndex = typeClass - 1;
-								VARIABLES.shelterTypeArray.splice(tempIndex, tempIndex);
-								VARIABLES.userSettings.shelterSettings.findType = VARIABLES.shelterTypeArray.toString();
-							} else {
-								let tempIndex = typeClass - 1;
-								VARIABLES.shelterTypeArray[tempIndex] = textElement;
-								VARIABLES.userSettings.shelterSettings.findType = VARIABLES.shelterTypeArray.toString();
-							}
-						}
-						if (element === 'findCustom') {
-							let tempIndex = customClass - 1;
-							shelterCustomArray[tempIndex] = textElement;
-							VARIABLES.userSettings.shelterSettings.findCustom = shelterCustomArray.toString();
-						}
-					}
-					return true;
-				} else { return false; }
-			},
-			
-			addTextField() {
-				let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findCustom"/></label><input type='button' value='Remove' id='removeShelterTextfield'></div>`;
-				let numberDiv = $('#searchkeys>div').length;
-				$('#searchkeys').append(theField);
-				$('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
-			},
-			
-			removeTextField(byebye, key) {
-				shelterCustomArray = $.grep(shelterCustomArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
-					return value != key;
-				});
-				settings.findCustom = shelterCustomArray.toString()
-
-				fn.backwork.saveSettings();
-				$(byebye).parent().remove();
-
-				let i;
-				for(i = 0; i < $('#searchkeys>div').length; i++) {
-					let rightDiv = i + 1;
-					$('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-				}
-			},
-			
-			addTypeList() {
-				let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + VARIABLES.typeOptions + `</select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`;
-				let numberTypes = $('#shelterTypes>div').length;
-				$('#shelterTypes').append(theList);
-				$('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
-			},
-			
-			removeTypeList(byebye, key) {
-				VARIABLES.shelterTypeArray = $.grep(VARIABLES.shelterTypeArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
-					return value != key;
-				});
-				VARIABLES.userSettings.shelterSettings.findType = VARIABLES.shelterTypeArray.toString()
-
-				fn.backwork.saveSettings();
-				$(byebye).parent().remove();
-
-				let i;
-				for(i = 0; i < $('#shelterTypes>div').length; i++) {
-					let rightDiv = i + 1;
-					$('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-				}
-			},
-			
-			customSearch() {
-				 // search whatever you want to find in the shelter & grid
-				VARIABLES.lengthEggs = 0;
-				//sort in grid
-				$('#shelterarea').removeClass('qolshelterareagrid');
-				$('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
-				$('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
-				$('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
-				$('#sheltergridthingy').remove();
-
-				if (VARIABLES.userSettings.shelterSettings.shelterGrid === true) { //shelter grid
-					$('#shelterarea').addClass('qolshelterareagrid');
-					$('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
-					$('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
-					$('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
-					$('#shelterpage #shelter #shelterarea:before').css({'display' : 'none!important'});
-					$('<pseudo:before>').attr('style', 'display: none!important');
-					$('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
-				}
-
-				//search values depending on settings
-				const shelterValueArray = [];
-				//emptying the sheltersuccess div to avoid duplicates
-				document.querySelector('#sheltersuccess').innerHTML="";
-				$('#shelterarea>div>img').removeClass('shelterfoundme');
-
-				//loop to find all search values for the top checkboxes
-				for (let key in VARIABLES.userSettings.shelterSettings) {
-					let value = VARIABLES.userSettings.shelterSettings[key];
-					if (value === true && Helpers.shelterKeyIsTopCheckbox(key)) {
-						let searchKey = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(key) + 1];
-						shelterValueArray.push(searchKey);
-					}
-				}
-
-				//loop to find the top checkboxes in the shelter
-				for (let key in shelterValueArray) {
-					let value = shelterValueArray[key];
-
-					//img[TITLE] search. everything aside from new pokémon & new eggs || Image for Delta fails
-					if (value.startsWith('[')) {
-						if ($('img[title*="'+value+'"]').length) {
-							let searchResult = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(value) + 1];  //type of Pokémon found
-							let imgResult = $("img[title*='"+value+"']").length+" "+searchResult; //amount + type found
-							let imgFitResult = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(value) + 2]; //image for type of Pokémon
-							let shelterImgSearch = $('img[title*="'+value+'"]');
-							let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
-							$(shelterBigImg).addClass('shelterfoundme');
-
-							if ($("img[title*='"+value+"']").length > 1) {
-								document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+imgResult+'s found '+imgFitResult+'</div>');
-							} else {
-								document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+imgResult+' found '+imgFitResult+'</div>');
-							}
-						}
-					}
-					//new Pokémon search.
-					if (value === 'Pokémon') {
-						if ($("#shelterarea .tooltip_content:contains("+value+")").length) {
-							let searchResult = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(value) + 1];
-							let tooltipResult = $("#shelterarea .tooltip_content:contains("+value+")").length+" "+searchResult;
-							let imgFitResult = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(value) + 2];
-							let shelterImgSearch = $("#shelterarea .tooltip_content:contains("+value+")")
-							let shelterBigImg = shelterImgSearch.prev().children('img.big');
-							$(shelterBigImg).addClass('shelterfoundme');
-
-							if ($("#shelterarea .tooltip_content:contains("+value+")").length > 1) {
-								document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-							} else {
-								document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-							}
-						}
-					}
-					//new egg search.
-					if (value === "Egg") { //tooltip_content search. new egg.
-						if ($("#shelterarea .tooltip_content:contains("+value+")").length) {
-							fn.backwork.loadSettings();
-							VARIABLES.eggNoDuplicateArray = VARIABLES.userSettings.shelterSettings.NewEggDuplicate.split(',');
-							VARIABLES.eggNoDuplicateArray = VARIABLES.eggNoDuplicateArray.filter(v=>v!='');
-
-							let eggList = VARIABLES.eggNoDuplicateArray.length;
-							let i;
-							for (i = 0; i < eggList; i++) {
-								let value = VARIABLES.eggNoDuplicateArray[i];
-								if ($('img[src*="//'+value+'"]').length) {
-									VARIABLES.lengthEggs = $('img[src*="//'+value+'"]').length + VARIABLES.lengthEggs;
-								}
-							}
-
-							let allEggFinds = $("#shelterarea .tooltip_content:contains("+value+")").length;
-							let allKnownEggFinds = $("#shelterarea .tooltip_content:contains( "+value+")").length;
-							let newEggDup = VARIABLES.lengthEggs / 2;
-							let newEggFinds = allEggFinds - allKnownEggFinds - newEggDup;
-
-
-							let searchResult = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(value) + 1];
-							let newEggResult = newEggFinds+" "+searchResult;
-							let imgFitResult = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(value) + 2];
-
-							if (newEggFinds <1) {
-								let thisDoesNothing = 0;
-							} else {
-
-								let shelterImgSearch = $("#shelterarea .tooltip_content:contains("+value+")");
-								let shelterBigImg = shelterImgSearch.prev().children('img.big');
-								$(shelterBigImg).addClass('shelterfoundme');
-								let shelterImgRemove = $("#shelterarea .tooltip_content:contains( "+value+")");
-								let shelterBigImgRemove = shelterImgRemove.prev().children('img.big');
-								$(shelterBigImgRemove).removeClass('shelterfoundme');
-
-								if (newEggFinds > 1) {
-									document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+newEggResult+'s found '+imgFitResult+'</div>');
-								} else if (newEggFinds === 1) {
-									document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+newEggResult+' found '+imgFitResult+'</div>');
-								}
-							}
-						}
-					}
-
-					//New egg no duplicates
-					if ($('#shelterarea .lock').next('.tooltip_content:contains("Egg")').length && $('#shelterarea .lock').next('.tooltip_content:not(:contains(" Egg")').length < 1) {
-						VARIABLES.newEggAdopt = $('#shelterarea .lock').children('img').attr('src').substring(2);
-					}
-
-					if ($('div.panel:contains("Adoption successful!")').length) {
-						if ($('.egg').css('background-image') === 'url("https://'+VARIABLES.newEggAdopt+'")') {
-
-							fn.backwork.loadSettings();
-							VARIABLES.eggNoDuplicateArray = VARIABLES.userSettings.shelterSettings.NewEggDuplicate.split(',');
-							VARIABLES.eggNoDuplicateArray.push(VARIABLES.newEggAdopt);
-							VARIABLES.userSettings.shelterSettings.NewEggDuplicate = VARIABLES.eggNoDuplicateArray.toString();
-
-							fn.backwork.saveSettings();
-							VARIABLES.newEggAdopt = "";
-						}
-					}
-				}
-
-				//loop to find all search genders for the custom
-				const shelterValueArrayCustom = [];
-				for (let key in VARIABLES.userSettings.shelterSettings) {
-					let value = VARIABLES.userSettings.shelterSettings[key];
-					if (value === true) {
-						if(key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
-							let searchKey = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf(key) + 1];
-							shelterValueArrayCustom.push(searchKey);
-						}
-					}
-				}
-
-				//loop to find all the custom search parameters
-				let customSearchAmount = VARIABLES.shelterCustomArray.length;
-				let i;
-				for (i = 0; i < customSearchAmount; i++) {
-					let value = VARIABLES.shelterCustomArray[i];
-					if (value != "") {
-						//custom pokemon search
-						if (VARIABLES.userSettings.shelterSettings.customPokemon === true) {
-								//Males
-							if (shelterValueArrayCustom.indexOf("[M]") > -1) {
-								if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']").length) {
-									let searchResult = value;
-									let imgGender = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf("[M]") +2];
-									let tooltipResult = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']").length+" Male "+imgGender+" "+searchResult;
-									let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-									let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']")
-									let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
-									$(shelterBigImg).addClass('shelterfoundme');
-
-									if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']").length > 1) {
-										document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-									} else {
-										document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-									}
-								}
-							}
-								//Females
-							if (shelterValueArrayCustom.indexOf("[F]") > -1) {
-								if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']").length) {
-									let searchResult = value;
-									let imgGender = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf("[F]") +2];
-									let tooltipResult = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']").length+" Female "+imgGender+" "+searchResult;
-									let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-									let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']")
-									let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
-									$(shelterBigImg).addClass('shelterfoundme');
-
-									if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']").length > 1) {
-										document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-									} else {
-										document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-									}
-								}
-							}
-								//Genderless
-							if (shelterValueArrayCustom.indexOf("[N]") > -1) {
-								if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length) {
-									let searchResult = value;
-									let imgGender = VARIABLES.shelterSearch[VARIABLES.shelterSearch.indexOf("[N]") +2];
-									let tooltipResult = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length+" Genderless "+imgGender+" "+searchResult;
-									let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-									let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']")
-									let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
-									$(shelterBigImg).addClass('shelterfoundme');
-
-									if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length > 1) {
-										document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-									} else {
-										document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-									}
-								}
-							}
-								//No genders
-							if (shelterValueArrayCustom.length === 0) {
-								if ($('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))').length) {
-									let searchResult = value;
-									let tooltipResult = $('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))').length+" "+searchResult;
-									let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-									let shelterImgSearch = $('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
-									let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
-									$(shelterBigImg).addClass('shelterfoundme');
-
-									if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length > 1) {
-										document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-									} else {
-										document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-									}
-								}
-							}
-						}
-
-						//custom egg
-						if (VARIABLES.userSettings.shelterSettings.customEgg === true) {
-							let name_matches = $('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")');
-							let num_matches = name_matches.length;
-
-							if (num_matches) {
-								let searchResult = value;
-								let tooltipResult = num_matches+" "+searchResult;
-								let imgFitResult = `<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">`;
-								let shelterImgSearch = name_matches;
-								let shelterBigImg = shelterImgSearch.prev().children('img.big');
-								$(shelterBigImg).addClass('shelterfoundme');
-
-								if (num_matches > 1) {
-									document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' Eggs found '+imgFitResult+'</div>');
-								} else {
-									document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' egg found '+imgFitResult+'</div>');
-								}
-							}
-						}
-
-						//imgSearch with Pokémon
-						if (VARIABLES.userSettings.shelterSettings.customPng === true) {
-							if ($('#shelterarea img[src*="'+value+'"]').length) {
-								let searchResult = $('#shelterarea img[src*="'+value+'"]').parent().next().text().split('(')[0]
-								let tooltipResult = $('#shelterarea img[src*="'+value+'"]').length+" "+searchResult+' (Custom img search)';
-								let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-								let shelterImgSearch = $('#shelterarea img[src*="'+value+'"]');
-								$(shelterImgSearch).addClass('shelterfoundme');
-
-								if ($('#shelterarea img[src*="'+value+'"]').length > 1) {
-									document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-								} else {
-									document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-								}
-							}
-						}
-					}
-				}
-
-				//loop to find all the types
-				if (VARIABLES.shelterTypeArray.length == 1 && VARIABLES.shelterTypeArray[0] == "") {
-					let iDontWork = true;
-				} else {
-					let typesArrayNoEmptySpace = VARIABLES.shelterTypeArray.filter(v=>v!='');
-					let typeSearchAmount = typesArrayNoEmptySpace.length;
-					let i;
-					for (i = 0; i < typeSearchAmount; i++) {
-						let value = typesArrayNoEmptySpace[i];
-						let amountOfTypesFound = [];
-						let typePokemonNames = [];
-
-						if (VARIABLES.userSettings.shelterSettings.findTypeEgg === true) {
-							$('#shelterarea>.tooltip_content:contains("Egg")').each(function() {
-								let searchPokemon = ($(this).text().split(' ')[0]);
-								let searchTypeOne = VARIABLES.dexDataVar[VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"') + 1];
-								let searchTypeTwo = VARIABLES.dexDataVar[VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"') + 2];
-								if (searchTypeOne === value) {
-									amountOfTypesFound.push('found');
-									typePokemonNames.push(searchPokemon);
-								}
-
-								if (searchTypeTwo === value) {
-									amountOfTypesFound.push('found');
-									typePokemonNames.push(searchPokemon);
-								}
-							})
-
-							let foundType = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
-
-							let typeImgStandOutLength = typePokemonNames.length;
-							let o;
-							for (o = 0; o < typeImgStandOutLength; o++) {
-								let value = typePokemonNames[o];
-								let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN('"+value+" Egg')");
-								let shelterBigImg = shelterImgSearch.prev().children('img.big');
-								$(shelterBigImg).addClass('shelterfoundme');
-							}
-
-							if (amountOfTypesFound.length < 1) {
-								let iDontDoAnything = true;
-							} else if (amountOfTypesFound.length > 1) {
-								document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+amountOfTypesFound.length+' '+foundType+' egg types found! ('+typePokemonNames.toString()+')</div>');
-							} else {
-								document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+amountOfTypesFound.length+' '+foundType+' egg type found! ('+typePokemonNames.toString()+')</div>');
-							}
-						}
-
-						if (VARIABLES.userSettings.shelterSettings.findTypePokemon === true) {
-							let amountOfTypesFound = [];
-							let typePokemonNames = [];
-
-							$('#shelterarea>.tooltip_content').not(':contains("Egg")').each(function() {
-								let searchPokemon = ($(this).text().split(' ')[0]);
-								let searchTypeOne = VARIABLES.dexDataVar[VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"') + 1];
-								let searchTypeTwo = VARIABLES.dexDataVar[VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"') + 2];
-								if (searchTypeOne === value) {
-									amountOfTypesFound.push('found');
-									typePokemonNames.push(searchPokemon);
-								}
-
-								if (searchTypeTwo === value) {
-									amountOfTypesFound.push('found');
-									typePokemonNames.push(searchPokemon);
-								}
-							})
-
-							let foundType = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
-
-							let typeImgStandOutLength = typePokemonNames.length;
-							let o;
-							for (o = 0; o < typeImgStandOutLength; o++) {
-								let value = typePokemonNames[o];
-								let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN('"+value+" (')")
-								let shelterBigImg = shelterImgSearch.prev().children('img.big');
-								$(shelterBigImg).addClass('shelterfoundme');
-							}
-
-							if (amountOfTypesFound.length < 1) {
-								let iDontDoAnything = true;
-							} else if (amountOfTypesFound.length > 1) {
-								document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+amountOfTypesFound.length+' '+foundType+' Pokémon types found! ('+typePokemonNames.toString()+')</div>');
-							} else {
-								document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+amountOfTypesFound.length+' '+foundType+' Pokémon type found! ('+typePokemonNames.toString()+')</div>');
-							}
-						}
-					}
-				}
-			},
-		
-			removeEgg(element) {
-				fn.backwork.loadSettings();
-				VARIABLES.eggNoDuplicateArray = VARIABLES.userSettings.shelterSettings.NewEggDuplicate.split(',');
-				let eggList = VARIABLES.eggNoDuplicateArray.length;
-				let i;
-				for (i = 0; i < eggList; i++) {
-					let value = VARIABLES.eggNoDuplicateArray[i];
-					if (element === 'url("https://'+value+'")') {
-						let index = VARIABLES.eggNoDuplicateArray.indexOf(value);
-						if (index > -1) {
-							VARIABLES.eggNoDuplicateArray.splice(index, 1);
-							VARIABLES.userSettings.shelterSettings.NewEggDuplicate = VARIABLES.eggNoDuplicateArray.toString();
-
-							fn.backwork.saveSettings();
-						}
-					}
-				}
-			},
-		};
-		
-		return API;
+	let GLOBALS = {
+		SETTINGS_SAVE_KEY : 'QoLSettings',
+        DEX_DATA: '{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,0,0,0],["002","Ivysaur",4,7,0,0,1,1,0,0,0],["003","Venusaur",4,7,0,0,2,1,0,0,0],["004","Charmander",1,-1,1,1,1,1,0,0,0],["005","Charmeleon",1,-1,0,0,1,1,0,0,0],["006","Charizard",1,9,0,0,3,1,0,0,0],["007","Squirtle",2,-1,1,1,1,1,0,0,0],["008","Wartortle",2,-1,0,0,1,1,0,0,0],["009","Blastoise",2,-1,0,0,2,1,0,0,0],["010","Caterpie",11,-1,1,1,1,1,0,0,0],["011","Metapod",11,-1,0,0,1,1,0,0,0],["012","Butterfree",11,9,0,0,1,1,0,0,0],["013","Weedle",11,7,1,1,1,1,0,0,0],["014","Kakuna",11,7,0,0,1,1,0,0,0],["015","Beedrill",11,7,0,0,2,1,0,0,0],["016","Pidgey",0,9,1,1,1,1,0,0,0],["017","Pidgeotto",0,9,0,0,1,1,0,0,0],["018","Pidgeot",0,9,0,0,2,1,0,0,0],["019","Rattata",0,-1,2,2,2,2,0,0,0],["020","Raticate",0,-1,0,0,3,2,0,0,0],["021","Spearow",0,9,1,1,1,1,0,0,0],["022","Fearow",0,9,0,0,1,1,0,0,0],["023","Ekans",7,-1,1,1,1,1,0,0,0],["024","Arbok",7,-1,0,0,1,1,0,0,0],["025","Pichu",3,-1,1,1,1,1,0,0,0],["026","Pikachu",3,-1,0,0,1,1,0,0,0],["027","Raichu",3,-1,0,0,2,0,0,0,0],["028","Sandshrew",8,-1,2,2,2,2,0,0,0],["029","Sandslash",8,-1,0,0,2,1,0,0,0],["030","Nidoran",7,-1,1,1,1,1,0,0,0],["031","Nidorina",7,-1,0,0,1,1,0,0,0],["032","Nidoqueen",7,8,0,0,1,0,0,0,0],["033","Nidorino",7,-1,0,0,1,1,0,0,0],["034","Nidoking",7,8,0,0,1,1,0,0,0],["035","Cleffa",17,-1,1,1,1,1,0,0,0],["036","Clefairy",17,-1,0,0,1,1,0,0,0],["037","Clefable",17,-1,0,0,1,0,0,0,0],["038","Vulpix",1,-1,2,2,2,2,0,0,0],["039","Ninetales",1,-1,0,0,2,1,0,0,0],["040","Igglybuff",0,17,1,1,1,1,0,0,0],["041","Jigglypuff",0,17,0,0,1,1,0,0,0],["042","Wigglytuff",0,17,0,0,1,1,0,0,0],["043","Zubat",7,9,1,1,1,1,0,0,0],["044","Golbat",7,9,0,0,1,1,0,0,0],["045","Crobat",7,9,0,0,1,0,0,0,0],["046","Oddish",4,7,1,1,1,1,0,0,0],["047","Gloom",4,7,0,0,1,1,0,0,0],["048","Vileplume",4,7,0,0,1,1,0,0,0],["049","Bellossom",4,-1,0,0,1,0,0,0,0],["050","Paras",11,4,1,1,1,1,0,0,0],["051","Parasect",11,4,0,0,1,1,0,0,0],["052","Venonat",11,7,1,1,1,1,0,0,0],["053","Venomoth",11,7,0,0,1,1,0,0,0],["054","Diglett",8,-1,2,2,2,2,0,0,0],["055","Dugtrio",8,-1,0,0,2,1,0,0,0],["056","Meowth",0,-1,2,2,2,2,0,0,0],["057","Persian",0,-1,0,0,2,1,0,0,0],["058","Psyduck",2,-1,1,1,1,1,0,0,0],["059","Golduck",2,-1,0,0,1,1,0,0,0],["060","Mankey",6,-1,1,1,1,1,0,0,0],["061","Primeape",6,-1,0,0,1,1,0,0,0],["062","Growlithe",1,-1,1,1,1,1,1,0,0],["063","Arcanine",1,-1,0,0,1,1,0,0,0],["064","Poliwag",2,-1,1,1,1,1,0,0,0],["065","Poliwhirl",2,-1,0,0,1,1,0,0,0],["066","Poliwrath",2,6,0,0,1,0,0,0,0],["067","Politoed",2,-1,0,0,1,1,0,0,0],["068","Abra",10,-1,1,1,1,1,0,0,0],["069","Kadabra",10,-1,0,0,1,1,0,0,0],["070","Alakazam",10,-1,0,0,2,1,0,0,0],["071","Machop",6,-1,1,1,1,1,0,0,0],["072","Machoke",6,-1,0,0,1,1,0,0,0],["073","Machamp",6,-1,0,0,1,1,0,0,0],["074","Bellsprout",4,7,1,1,1,1,0,0,0],["075","Weepinbell",4,7,0,0,1,1,0,0,0],["076","Victreebell",4,7,0,0,1,0,0,0,0],["077","Tentacool",2,7,1,1,1,1,0,0,0],["078","Tentacruel",2,7,0,0,1,1,0,0,0],["079","Geodude",12,8,2,2,2,2,0,0,0],["080","Graveler",12,8,0,0,2,1,0,0,0],["081","Golem",12,8,0,0,2,1,0,0,0],["082","Ponyta",1,-1,1,1,1,1,0,0,0],["083","Rapidash",1,-1,0,0,1,1,0,0,0],["084","Slowpoke",2,10,1,1,1,1,0,0,0],["085","Slowbro",2,10,0,0,2,1,0,0,0],["086","Slowking",2,10,0,0,1,0,0,0,0],["087","Magnemite",3,16,1,1,1,1,0,0,0],["088","Magneton",3,16,0,0,1,1,0,0,0],["089","Magnezone",3,16,0,0,1,1,0,0,0],["090","Farfetch"d",0,9,1,1,1,1,0,0,0],["091","Doduo",0,9,1,1,1,1,0,0,0],["092","Dodrio",0,9,0,0,1,1,0,0,0],["093","Seel",2,-1,1,1,1,1,0,0,0],["094","Dewgong",2,5,0,0,1,0,0,0,0],["095","Grimer",7,-1,2,2,2,2,0,0,0],["096","Muk",7,-1,0,0,2,0,0,0,0],["097","Shellder",2,-1,1,1,1,1,0,0,0],["098","Cloyster",2,5,0,0,1,0,0,0,0],["099","Gastly",13,7,1,1,1,1,0,0,0],["100","Haunter",13,7,0,0,1,1,0,0,0],["101","Gengar",13,7,0,0,2,2,0,0,0],["102","Onix",12,8,1,1,1,1,0,0,0],["103","Steelix",16,8,0,0,2,0,0,0,0],["104","Drowzee",10,-1,1,1,1,1,0,0,0],["105","Hypno",10,-1,0,0,1,1,0,0,0],["106","Krabby",2,-1,1,1,1,1,0,0,0],["107","Kingler",2,-1,0,0,1,0,0,0,0],["108","Voltorb",3,-1,1,1,1,1,0,0,0],["109","Electrode",3,-1,0,0,1,0,0,0,0],["110","Exeggcute",4,10,1,1,1,1,0,0,0],["111","Exeggutor",4,10,0,0,2,1,0,0,0],["112","Cubone",8,-1,1,1,1,1,0,0,0],["113","Marowak",8,-1,0,0,3,1,0,0,0],["114","Lickitung",0,-1,1,1,1,1,0,0,0],["115","Lickilicky",0,-1,0,0,1,0,0,0,0],["116","Koffing",7,-1,1,1,1,1,0,0,0],["117","Weezing",7,-1,0,0,1,1,0,0,0],["118","Rhyhorn",8,12,1,1,1,1,0,0,0],["119","Rhydon",8,12,0,0,1,0,0,0,0],["120","Rhyperior",8,12,0,0,1,0,0,0,0],["121","Tangela",4,-1,1,1,1,1,0,0,0],["122","Tangrowth",4,-1,0,0,1,0,0,0,0],["123","Kangaskhan",0,-1,1,1,2,1,0,0,0],["124","Horsea",2,-1,1,1,1,1,0,0,0],["125","Seadra",2,-1,0,0,1,1,0,0,0],["126","Kingdra",2,14,0,0,1,0,0,0,0],["127","Goldeen",2,-1,1,1,1,1,0,0,0],["128","Seaking",2,-1,0,0,1,1,0,0,0],["129","Staryu",2,-1,1,0,1,0,0,0,0],["130","Starmie",2,10,0,0,1,0,0,0,0],["131","Mime Jr.",10,17,1,1,1,1,0,0,0],["132","Mr. Mime",10,17,1,1,1,1,0,0,0],["133","Scyther",11,9,1,1,1,1,0,0,0],["134","Scizor",11,16,0,0,2,1,0,0,0],["135","Smoochum",5,10,1,1,1,1,0,0,0],["136","Jynx",5,10,0,0,1,1,0,0,0],["137","Pinsir",11,-1,1,1,2,1,0,0,0],["138","Tauros",0,-1,1,1,1,1,0,0,0],["139","Magikarp",2,-1,1,1,1,1,0,0,0],["140","Gyarados",2,9,0,0,2,1,0,0,0],["141","Lapras",2,5,1,1,1,1,0,0,0],["142","Ditto",0,-1,1,0,1,0,0,0,0],["143","Eevee",0,-1,1,1,1,1,0,0,0],["144","Vaporeon",2,-1,0,0,1,0,0,0,0],["145","Jolteon",3,-1,0,0,1,0,0,0,0],["146","Flareon",1,-1,0,0,1,1,0,0,0],["147","Espeon",10,-1,0,0,1,1,0,0,0],["148","Umbreon",15,-1,0,0,1,1,0,0,0],["149","Leafeon",4,-1,0,0,1,1,0,0,0],["150","Glaceon",5,-1,0,0,1,1,0,0,0],["151","Sylveon",17,-1,0,0,1,0,0,0,0],["152","Omanyte",12,2,1,1,1,1,0,0,0],["153","Omastar",12,2,0,0,1,0,0,0,0],["154","Kabuto",12,2,1,1,1,1,0,0,0],["155","Kabutops",12,2,0,0,1,0,0,0,0],["156","Aerodactyl",12,9,1,1,2,1,0,0,0],["157","Munchlax",0,-1,1,1,1,1,0,0,0],["158","Snorlax",0,-1,1,1,1,1,0,0,0],["159","Articuno",5,9,1,0,1,0,0,0,0],["160","Zapdos",3,9,1,0,1,0,0,0,0],["161","Moltres",1,9,1,0,1,0,0,0,0],["162","Dratini",14,-1,1,1,1,1,0,0,0],["163","Dragonair",14,-1,0,0,1,1,0,0,0],["164","Dragonite",14,9,0,0,1,0,0,0,0],["165","Mewtwo",10,-1,1,0,3,0,0,0,0],["166","Mew",10,-1,1,1,1,1,0,0,0]],"2":[["167","Chikorita",4,-1,1,1,1,1,0,0,0],["168","Bayleef",4,-1,0,0,1,1,0,0,0],["169","Meganium",4,-1,0,0,1,1,0,0,0],["170","Cyndaquil",1,-1,1,1,1,1,0,0,0],["171","Quilava",1,-1,0,0,1,1,0,0,0],["172","Typhlosion",1,-1,0,0,1,1,0,0,0],["173","Totodile",2,-1,1,1,1,1,0,0,0],["174","Croconaw",2,-1,0,0,1,1,0,0,0],["175","Feraligator",2,-1,0,0,1,1,0,0,0],["176","Sentret",0,-1,1,1,1,1,0,0,0],["177","Furret",0,-1,0,0,1,1,0,0,0],["178","Hoothoot",0,9,1,1,1,1,0,0,0],["179","Noctowl",0,9,0,0,1,1,0,0,0],["180","Ledyba",11,9,1,1,1,1,0,0,0],["181","Ledian",11,9,0,0,1,1,0,0,0],["182","Spinarak",11,7,1,1,1,1,0,0,0],["183","Ariados",11,7,0,0,1,1,0,0,0],["184","Chinchou",2,3,1,1,1,1,0,0,0],["185","Lanturn",2,3,0,0,1,0,0,0,0],["186","Togepi",17,-1,1,1,1,1,0,0,0],["187","Togetic",17,9,0,0,1,1,0,0,0],["188","Togekiss",17,9,0,0,1,0,0,0,0],["189","Natu",10,9,1,1,1,1,0,0,0],["190","Xatu",10,9,0,0,1,1,0,0,0],["191","Mareep",3,-1,1,1,1,1,0,0,0],["192","Flaaffy",3,-1,0,0,1,1,0,0,0],["193","Ampharos",3,-1,0,0,2,1,0,0,0],["194","Azurill",0,17,1,1,1,1,0,0,0],["195","Marill",2,17,1,1,1,1,0,0,0],["196","Azumarill",2,17,0,0,1,1,0,0,0],["197","Bonsly",12,-1,1,1,1,1,0,0,0],["198","Sudowoodo",12,-1,1,1,1,1,0,0,0],["199","Hoppip",4,9,1,1,1,1,1,0,0],["200","Skiploom",4,9,0,0,1,1,1,0,0],["201","Jumpluff",4,9,0,0,1,1,0,0,0],["202","Aipom",0,-1,1,1,1,1,0,0,0],["203","Ambipom",0,-1,0,0,1,1,0,0,0],["204","Sunkern",4,-1,1,1,1,1,0,0,0],["205","Sunflora",4,-1,0,0,1,0,0,0,0],["206","Yanma",11,9,1,1,1,1,0,0,0],["207","Yanmega",11,9,0,0,1,0,0,0,0],["208","Wooper",2,8,1,1,1,1,0,0,0],["209","Quagsire",2,8,0,0,1,1,0,0,0],["210","Murkrow",15,9,1,1,1,1,0,0,0],["211","Honchkrow",15,9,0,0,1,0,0,0,0],["212","Misdreavus",13,-1,1,1,1,1,0,0,0],["213","Mismagius",13,-1,0,0,1,1,0,0,0],["214|","Unown",10,-1,28,22,28,23,0,0,0],["215","Girafarig",0,10,1,1,1,1,0,0,0],["216","Pineco",11,-1,1,1,1,1,0,0,0],["217","Forretress",11,16,0,0,1,1,0,0,0],["218","Dunsparce",0,-1,1,1,1,1,0,0,0],["219","Gligar",8,9,1,1,1,1,0,0,0],["220","Gliscor",8,9,0,0,1,1,0,0,0],["221","Snubbull",17,-1,1,1,1,1,0,0,0],["222","Granbull",17,-1,0,0,1,1,0,0,0],["223","Qwilfish",2,7,1,1,1,1,0,0,0],["224","Shuckle",11,12,1,1,1,1,0,0,0],["225","Heracross",11,6,1,1,2,1,0,0,0],["226","Sneasel",15,5,1,1,1,1,0,0,0],["227","Weavile",15,5,0,0,1,1,0,0,0],["228","Teddiursa",0,-1,1,1,1,1,0,0,0],["229","Ursaring",0,-1,0,0,1,1,0,0,0],["230","Slugma",1,-1,1,1,1,1,0,0,0],["231","Magcargo",1,12,0,0,1,1,0,0,0],["232","Swinub",5,8,1,1,1,1,0,0,0],["233","Piloswine",5,8,0,0,1,0,0,0,0],["234","Mamoswine",5,8,0,0,1,0,0,0,0],["235","Corsola",2,12,1,1,1,1,0,0,0],["236","Remoraid",2,-1,1,1,1,1,0,0,0],["237","Octillery",2,-1,0,0,1,0,0,0,0],["238","Delibird",5,9,1,1,1,1,0,0,0],["239","Skarmory",16,9,1,1,1,1,0,0,0],["240","Houndour",15,1,1,1,1,1,0,0,0],["241","Houndoom",15,1,0,0,2,1,0,0,0],["242","Phanpy",8,-1,1,1,1,1,0,0,0],["243","Donphan",8,-1,0,0,1,1,0,0,0],["244","Stantler",0,-1,1,1,1,1,0,0,0],["245","Smeargle",0,-1,1,1,1,1,0,0,0],["246","Tyrogue",6,-1,1,1,1,1,0,0,0],["247","Hitmonlee",6,-1,0,0,1,1,0,0,0],["248","Hitmonchan",6,-1,0,0,1,0,0,0,0],["249","Hitmontop",6,-1,0,0,1,0,0,0,0],["250","Elekid",3,-1,1,1,1,1,0,0,0],["251","Electabuzz",3,-1,0,0,1,1,0,0,0],["252","Electivire",3,-1,0,0,1,0,0,0,0],["253","Magby",1,-1,1,1,1,1,0,0,0],["254","Magmar",1,-1,0,0,1,0,0,0,0],["255","Magmortar",1,-1,0,0,1,0,0,0,0],["256","Miltank",0,-1,1,1,1,1,0,0,0],["257","Raikou",3,-1,1,0,1,0,0,0,0],["258","Entei",1,-1,1,0,1,0,0,0,0],["259","Suicune",2,-1,1,0,1,0,0,0,0],["260","Larvitar",12,8,1,1,1,1,0,0,0],["261","Pupitar",12,8,0,0,1,1,0,0,0],["262","Tyranitar",12,15,0,0,2,0,0,0,0],["263","Lugia",10,9,1,0,1,0,0,0,0],["264","Ho-oh",1,9,1,0,1,0,0,0,0],["265","Celebi",10,4,1,0,1,0,0,0,0]],"3":[["266","Treecko",4,-1,1,1,1,1,0,0,0],["267","Grovyle",4,-1,0,0,1,1,0,0,0],["268","Sceptile",4,-1,0,0,2,1,0,0,0],["269","Torchic",1,-1,1,1,1,1,1,0,0],["270","Combusken",1,6,0,0,1,1,0,0,0],["271","Blaziken",1,6,0,0,2,1,0,0,0],["272","Mudkip",2,-1,1,1,1,1,0,0,0],["273","Marshtomp",2,8,0,0,1,1,0,0,0],["274","Swampert",2,8,0,0,2,0,0,0,0],["275","Poochyena",15,-1,1,1,1,1,0,0,0],["276","Mightyena",15,-1,0,0,1,1,0,0,0],["277","Zigzagoon",0,-1,1,1,1,1,0,0,0],["278","Linoone",0,-1,0,0,1,1,0,0,0],["279","Wurmple",11,-1,1,1,1,1,0,0,0],["280","Silcoon",11,-1,0,0,1,0,0,0,0],["281","Beautifly",11,9,0,0,1,1,0,0,0],["282","Cascoon",11,-1,0,0,1,1,0,0,0],["283","Dustox",11,7,0,0,1,1,0,0,0],["284","Lotad",2,4,1,1,1,1,0,0,0],["285","Lombre",2,4,0,0,1,1,0,0,0],["286","Ludicolo",2,4,0,0,1,0,0,0,0],["287","Seedot",4,-1,1,1,1,1,0,0,0],["288","Nuzleaf",4,15,0,0,1,1,0,0,0],["289","Shiftry",4,15,0,0,1,1,0,0,0],["290","Taillow",0,9,1,1,1,1,0,0,0],["291","Swellow",0,9,0,0,1,1,1,0,0],["292","Wingull",2,9,1,1,1,1,0,0,0],["293","Pelipper",2,9,0,0,1,1,0,0,0],["294","Ralts",10,17,1,1,1,1,1,0,0],["295","Kirlia",10,17,0,0,1,1,0,0,0],["296","Gardevoir",10,17,0,0,2,1,0,0,0],["297","Gallade",10,6,0,0,2,0,0,0,0],["298","Surskit",11,2,1,1,1,1,0,0,0],["299","Masquerain",11,9,0,0,1,1,0,0,0],["300","Shroomish",4,-1,1,1,1,1,0,0,0],["301","Breloom",4,6,0,0,1,1,0,0,0],["302","Slakoth",0,-1,1,1,1,1,0,0,0],["303","Vigoroth",0,-1,0,0,1,1,0,0,0],["304","Slaking",0,-1,0,0,1,1,0,0,0],["305","Nincada",11,8,1,1,1,1,0,0,0],["306","Ninjask",11,9,0,0,1,1,0,0,0],["307","Shedinja",11,13,0,0,1,0,0,0,0],["308","Whismur",0,-1,1,1,1,1,0,0,0],["309","Loudred",0,-1,0,0,1,1,0,0,0],["310","Exploud",0,-1,0,0,1,1,0,0,0],["311","Makuhita",6,-1,1,1,1,1,0,0,0],["312","Hariyama",6,-1,0,0,1,1,0,0,0],["313","Nosepass",12,-1,1,1,1,1,0,0,0],["314","Probopass",12,16,0,0,1,1,0,0,0],["315","Skitty",0,-1,1,1,1,1,0,0,0],["316","Delcatty",0,-1,0,0,1,1,0,0,0],["317","Sableye",15,13,1,1,2,1,0,0,0],["318","Mawile",16,17,1,1,2,1,0,0,0],["319","Aron",16,12,1,1,1,1,0,0,0],["320","Lairon",16,12,0,0,1,0,0,0,0],["321","Aggron",16,12,0,0,2,1,0,0,0],["322","Meditite",6,10,1,1,1,1,0,0,0],["323","Medicham",6,10,0,0,2,1,0,0,0],["324","Electrike",3,-1,1,1,1,1,0,0,0],["325","Manectric",3,-1,0,0,2,1,0,0,0],["326","Plusle",3,-1,1,1,1,1,0,0,0],["327","Minun",3,-1,1,1,1,1,0,0,0],["328","Volbeat",11,-1,1,1,1,1,0,0,0],["329","Illumise",11,-1,1,1,1,1,0,0,0],["330","Gulpin",7,-1,1,1,1,1,0,0,0],["331","Swalot",7,-1,0,0,1,1,0,0,0],["332","Carvanha",2,15,1,1,1,1,0,0,0],["333","Sharpedo",2,15,0,0,2,1,0,0,0],["334","Wailmer",2,-1,1,1,1,1,0,0,0],["335","Wailord",2,-1,0,0,1,0,0,0,0],["336","Numel",1,8,1,1,1,1,0,0,0],["337","Camerupt",1,8,0,0,2,1,0,0,0],["338","Torkoal",1,-1,1,1,1,1,0,0,0],["339","Spoink",10,-1,1,1,1,1,0,0,0],["340","Grumpig",10,-1,0,0,1,1,0,0,0],["341","Spinda",0,-1,1,1,1,1,0,0,0],["342","Trapinch",8,-1,1,1,1,1,0,0,0],["343","Vibrava",8,14,0,0,1,1,0,0,0],["344","Flygon",8,14,0,0,1,1,0,0,0],["345","Cacnea",4,-1,1,1,1,1,0,0,0],["346","Cacturne",4,15,0,0,1,1,0,0,0],["347","Swablu",0,9,1,1,1,1,0,0,0],["348","Altaria",14,9,0,0,2,1,0,0,0],["349","Zangoose",0,-1,1,1,1,1,0,0,0],["350","Seviper",7,-1,1,1,1,1,0,0,0],["351","Lunatone",12,10,1,1,1,1,0,0,0],["352","Solrock",12,10,1,1,1,1,0,0,0],["353","Barboach",2,8,1,1,1,1,0,0,0],["354","Whiscash",2,8,0,0,1,0,0,0,0],["355","Corphish",2,-1,1,1,1,1,0,0,0],["356","Crawdaunt",2,15,0,0,1,0,0,0,0],["357","Baltoy",8,10,1,1,1,1,0,0,0],["358","Claydol",8,10,0,0,1,1,0,0,0],["359","Lileep",12,4,1,1,1,1,0,0,0],["360","Cradily",12,4,0,0,1,1,0,0,0],["361","Anorith",12,11,1,1,1,1,0,0,0],["362","Armaldo",12,11,0,0,1,0,0,0,0],["363","Feebas",2,-1,1,1,1,1,0,0,0],["364","Milotic",2,-1,0,0,1,0,0,0,0],["365","Castform",0,-1,1,1,4,1,0,0,0],["366","Kecleon",0,-1,1,1,1,1,0,0,0],["367","Shuppet",13,-1,1,1,1,1,0,0,0],["368","Banette",13,-1,0,0,2,1,0,0,0],["369","Duskull",13,-1,1,1,1,1,0,0,0],["370","Dusclops",13,-1,0,0,1,0,0,0,0],["371","Dusknoir",13,-1,0,0,1,0,0,0,0],["372","Tropius",4,9,1,1,1,1,0,0,0],["373","Chingling",10,-1,1,1,1,1,0,0,0],["374","Chimecho",10,-1,1,1,1,1,0,0,0],["375","Absol",15,-1,1,1,2,1,0,0,0],["376","Wynaut",10,-1,1,1,1,1,0,0,0],["377","Wobbuffet",10,-1,1,1,1,1,0,0,0],["378","Snorunt",5,-1,1,1,1,1,0,0,0],["379","Glalie",5,-1,0,0,2,1,0,0,0],["380","Froslass",5,13,0,0,1,0,0,0,0],["381","Spheal",5,2,1,1,1,1,0,0,0],["382","Sealeo",5,2,0,0,1,1,0,0,0],["383","Walrein",5,2,0,0,1,0,0,0,0],["384","Clamperl",2,-1,1,1,1,1,0,0,0],["385","Huntail",2,-1,0,0,1,0,0,0,0],["386","Gorebyss",2,-1,0,0,1,1,0,0,0],["387","Relicanth",2,12,1,1,1,1,0,0,0],["388","Luvdisc",2,-1,1,1,1,1,0,0,0],["389","Bagon",14,-1,1,1,1,1,0,0,0],["390","Shelgon",14,-1,0,0,1,1,0,0,0],["391","Salamence",14,9,0,0,2,0,0,0,0],["392","Beldum",16,10,1,1,1,1,0,0,0],["393","Metang",16,10,0,0,1,1,0,0,0],["394","Metagross",16,10,0,0,2,0,0,0,0],["395","Regirock",12,-1,1,0,1,0,0,0,0],["396","Regice",5,-1,1,0,1,0,0,0,0],["397","Registeel",16,-1,1,0,1,0,0,0,0],["398","Latias",14,10,1,0,2,0,0,0,0],["399","Latios",14,10,1,0,2,0,0,0,0],["400","Kyogre",2,-1,1,0,2,0,0,0,0],["401","Groudon",8,-1,1,0,2,0,0,0,0],["402","Rayquaza",14,9,1,0,2,1,0,0,0],["403","Jirachi",16,10,1,0,1,1,0,0,0],["404","Deoxys",10,-1,1,0,4,0,0,0,0]],"4":[["405","Turtwig",4,-1,1,1,1,1,0,0,0],["406","Grotle",4,-1,0,0,1,1,0,0,0],["407","Torterra",4,8,0,0,1,0,0,0,0],["408","Chimchar",1,-1,1,1,1,1,0,0,0],["409","Monferno",1,6,0,0,1,1,0,0,0],["410","Infernape",1,6,0,0,1,1,0,0,0],["411","Piplup",2,-1,1,1,1,1,0,0,0],["412","Prinplup",2,-1,0,0,1,0,0,0,0],["413","Empoleon",2,16,0,0,1,0,0,0,0],["414","Starly",0,9,1,1,1,1,0,0,0],["415","Staravia",0,9,0,0,1,1,0,0,0],["416","Staraptor",0,9,0,0,1,1,0,0,0],["417","Bidoof",0,-1,1,1,1,1,0,0,0],["418","Bibarel",0,2,0,0,1,1,0,0,0],["419","Kricketot",11,-1,1,1,1,1,0,0,0],["420","Kricketune",11,-1,0,0,1,1,0,0,0],["421","Shinx",3,-1,1,1,1,1,0,0,0],["422","Luxio",3,-1,0,0,1,1,0,0,0],["423","Luxray",3,-1,0,0,1,1,0,0,0],["424","Budew",4,7,1,1,1,1,0,0,0],["425","Roselia",4,7,1,1,1,1,0,0,0],["426","Roserade",4,7,0,0,1,0,0,0,0],["427","Cranidos",12,-1,1,1,1,1,0,0,0],["428","Rampardos",12,-1,0,0,1,1,0,0,0],["429","Shieldon",12,16,1,1,1,1,0,0,0],["430","Bastiodon",12,16,0,0,1,0,0,0,0],["431","Burmy",11,-1,1,1,3,1,0,0,0],["432","Wormadam",11,4,0,0,3,0,0,0,0],["433","Mothim",11,9,0,0,1,1,0,0,0],["434","Combee",11,9,1,1,1,1,0,0,0],["435","Vespiquen",11,9,0,0,1,0,0,0,0],["436","Pachirisu",3,-1,1,1,1,1,0,0,0],["437","Buizel",2,-1,1,1,1,1,0,0,0],["438","Floatzel",2,-1,0,0,1,1,0,0,0],["439","Cherubi",4,-1,1,1,1,1,0,0,0],["440","Cherrim",4,-1,0,0,2,1,0,0,0],["441","Shellos",2,-1,1,1,2,2,0,0,0],["442","Gastrodon",2,8,0,0,2,1,0,0,0],["443","Drifloon",13,9,1,1,1,1,0,0,0],["444","Drifblim",13,9,0,0,1,1,0,0,0],["445","Buneary",0,-1,1,1,1,1,0,0,0],["446","Lopunny",0,-1,0,0,2,1,0,0,0],["447","Glameow",0,-1,1,1,1,1,0,0,0],["448","Purugly",0,-1,0,0,1,0,0,0,0],["449","Stunky",7,15,1,1,1,1,0,0,0],["450","Skuntank",7,15,0,0,1,1,0,0,0],["451","Bronzor",16,10,1,1,1,1,0,0,0],["452","Bronzong",16,10,0,0,1,1,0,0,0],["453","Happiny",0,-1,1,1,1,1,0,0,0],["454","Chansey",0,-1,1,1,1,1,0,0,0],["455","Blissey",0,-1,0,0,1,0,0,0,0],["456","Chatot",0,9,1,1,1,1,0,0,0],["457","Spiritomb",13,15,1,1,1,1,0,0,0],["458","Gible",14,8,1,1,1,1,0,0,0],["459","Gabite",14,8,0,0,1,1,0,0,0],["460","Garchomp",14,8,0,0,2,1,0,0,0],["461","Riolu",6,-1,1,1,1,1,0,0,0],["462","Lucario",6,16,0,0,2,1,0,0,0],["463","Hippopotas",8,-1,1,1,1,1,0,0,0],["464","Hippowdon",8,-1,0,0,1,1,0,0,0],["465","Skorupi",7,11,1,1,1,1,0,0,0],["466","Drapion",7,15,0,0,1,0,0,0,0],["467","Croagunk",7,6,1,1,1,1,0,0,0],["468","Toxicroak",7,6,0,0,1,1,0,0,0],["469","Carnivine",4,-1,1,1,1,1,0,0,0],["470","Finneon",2,-1,1,1,1,1,0,0,0],["471","Lumineon",2,-1,0,0,1,0,0,0,0],["472","Mantyke",2,9,1,1,1,1,0,0,0],["473","Mantine",2,9,1,1,1,1,0,0,0],["474","Snover",5,4,1,1,1,1,0,0,0],["475","Abomasnow",5,4,0,0,2,0,0,0,0],["476","Porygon",0,-1,1,1,1,1,0,0,0],["477","Porygon2",0,-1,0,0,1,1,0,0,0],["478","Porygon-Z",0,-1,0,0,1,0,0,0,0],["479","Rotom",3,13,1,1,6,1,0,0,0],["480","Uxie",10,-1,1,0,1,0,0,0,0],["481","Mesprit",10,-1,1,0,1,0,0,0,0],["482","Azelf",10,-1,1,0,1,0,0,0,0],["483","Dialga",16,14,1,0,1,0,0,0,0],["484","Palkia",2,14,1,0,1,0,0,0,0],["485","Heatran",1,16,1,0,1,0,0,0,0],["486","Regigigas",0,-1,1,0,1,0,0,0,0],["487","Giratina",13,14,1,0,2,0,0,0,0],["488","Cresselia",10,-1,1,0,1,0,0,0,0],["489","Phione",2,-1,1,1,1,1,0,0,0],["490","Manaphy",2,-1,1,0,1,0,0,0,0],["491","Darkrai",15,-1,1,0,1,0,0,0,0],["492","Shaymin",4,-1,1,0,2,0,0,0,0],["493","Arceus",0,-1,1,0,18,0,0,0,0]],"5":[["494","Victini",10,1,1,0,1,0,0,0,0],["495","Snivy",4,-1,1,1,1,1,0,0,0],["496","Servine",4,-1,0,0,1,0,0,0,0],["497","Serperior",4,-1,0,0,1,1,0,0,0],["498","Tepig",1,-1,1,1,1,1,0,0,0],["499","Pignite",1,6,0,0,1,1,0,0,0],["500","Emboar",1,6,0,0,1,1,0,0,0],["501","Oshawott",2,-1,1,1,1,1,0,0,0],["502","Dewott",2,-1,0,0,1,1,0,0,0],["503","Samurott",2,-1,0,0,1,1,0,0,0],["504","Patrat",0,-1,1,1,1,1,0,0,0],["505","Watchog",0,-1,0,0,1,1,0,0,0],["506","Lillipup",0,-1,1,1,1,1,0,0,0],["507","Herdier",0,-1,0,0,1,1,0,0,0],["508","Stoutland",0,-1,0,0,1,1,0,0,0],["509","Purrloin",15,-1,1,1,1,1,0,0,0],["510","Liepard",15,-1,0,0,1,1,0,0,0],["511","Pansage",4,-1,1,1,1,1,0,0,0],["512","Simisage",4,-1,0,0,1,0,0,0,0],["513","Pansear",1,-1,1,1,1,1,0,0,0],["514","Simisear",1,-1,0,0,1,0,0,0,0],["515","Panpour",2,-1,1,1,1,1,0,0,0],["516","Simipour",2,-1,0,0,1,0,0,0,0],["517","Munna",10,-1,1,1,1,1,0,0,0],["518","Musharna",10,-1,0,0,1,1,0,0,0],["519","Pidove",0,9,1,1,1,1,0,0,0],["520","Tranquill",0,9,0,0,1,1,0,0,0],["521","Unfezant",0,9,0,0,1,0,0,0,0],["522","Blitzle",3,-1,1,1,1,1,0,0,0],["523","Zebstrika",3,-1,0,0,1,1,0,0,0],["524","Roggenrola",12,-1,1,1,1,1,0,0,0],["525","Boldore",12,-1,0,0,1,1,0,0,0],["526","Gigalith",12,-1,0,0,1,1,0,0,0],["527","Woobat",10,9,1,1,1,1,0,0,0],["528","Swoobat",10,9,0,0,1,1,0,0,0],["529","Drilbur",8,-1,1,1,1,1,0,0,0],["530","Excadrill",8,16,0,0,1,1,0,0,0],["531","Audino",0,-1,1,1,2,1,0,0,0],["532","Timburr",6,-1,1,1,1,1,0,0,0],["533","Gurdurr",6,-1,0,0,1,0,0,0,0],["534","Conkeldurr",6,-1,0,0,1,0,0,0,0],["535","Tympole",2,-1,1,1,1,1,0,0,0],["536","Palpitoad",2,8,0,0,1,0,0,0,0],["537","Seismitoad",2,8,0,0,1,0,0,0,0],["538","Throh",6,-1,1,1,1,1,0,0,0],["539","Sawk",6,-1,1,1,1,1,0,0,0],["540","Sewaddle",11,4,1,1,1,1,0,0,0],["541","Swadloon",11,4,0,0,1,1,0,0,0],["542","Leavanny",11,4,0,0,1,0,0,0,0],["543","Venipede",11,7,1,1,1,1,0,0,0],["544","Whirlipede",11,7,0,0,1,1,0,0,0],["545","Scolipede",11,7,0,0,1,1,0,0,0],["546","Cottonee",4,17,1,1,1,1,0,0,0],["547","Whimsicott",4,17,0,0,1,0,0,0,0],["548","Petilil",4,-1,1,1,1,1,0,0,0],["549","Lilligant",4,-1,0,0,1,1,0,0,0],["550","Basculin",2,-1,1,1,2,1,0,0,0],["551","Sandile",8,15,1,1,1,1,0,0,0],["552","Krokorok",8,15,0,0,1,1,0,0,0],["553","Krookodile",8,15,0,0,1,0,0,0,0],["554","Darumaka",1,-1,1,1,1,1,0,0,0],["555","Darmanitan",1,-1,0,0,2,1,0,0,0],["556","Maractus",4,-1,1,1,1,1,0,0,0],["557","Dwebble",11,12,1,1,1,1,0,0,0],["558","Crustle",11,12,0,0,1,0,0,0,0],["559","Scraggy",15,6,1,1,1,1,0,0,0],["560","Scrafty",15,6,0,0,1,0,0,0,0],["561","Sigilyph",10,9,1,1,1,1,0,0,0],["562","Yamask",13,-1,1,1,1,1,0,0,0],["563","Cofagrigus",13,-1,0,0,1,0,0,0,0],["564","Tirtouga",2,12,1,1,1,1,0,0,0],["565","Carracosta",2,12,0,0,1,0,0,0,0],["566","Archen",12,9,1,1,1,1,0,0,0],["567","Archeops",12,9,0,0,1,0,0,0,0],["568","Trubbish",7,-1,1,1,1,1,0,0,0],["569","Garbodor",7,-1,0,0,1,1,0,0,0],["570","Zorua",15,-1,1,1,1,1,0,0,0],["571","Zoroark",15,-1,0,0,1,1,0,0,0],["572","Minccino",0,-1,1,1,1,1,0,0,0],["573","Cinccino",0,-1,0,0,1,1,0,0,0],["574","Gothita",10,-1,1,1,1,1,0,0,0],["575","Gothorita",10,-1,0,0,1,1,0,0,0],["576","Gothitelle",10,-1,0,0,1,0,0,0,0],["577","Solosis",10,-1,1,1,1,1,0,0,0],["578","Duosion",10,-1,0,0,1,1,0,0,0],["579","Reuniclus",10,-1,0,0,1,1,0,0,0],["580","Ducklett",2,9,1,1,1,1,0,0,0],["581","Swanna",2,9,0,0,1,0,0,0,0],["582","Vanillite",5,-1,1,1,1,1,0,0,0],["583","Vanillish",5,-1,0,0,1,0,0,0,0],["584","Vanilluxe",5,-1,0,0,1,0,0,0,0],["585","Deerling",0,4,1,1,1,1,0,0,0],["586","Sawsbuck",0,4,0,0,1,1,0,0,0],["587","Emolga",3,9,1,1,1,1,0,0,0],["588","Karrablast",11,-1,1,1,1,1,0,0,0],["589","Escavalier",11,16,0,0,1,0,0,0,0],["590","Foongus",4,7,1,1,1,1,0,0,0],["591","Amoonguss",4,7,0,0,1,1,0,0,0],["592","Frillish",2,13,1,1,1,1,0,0,0],["593","Jellicent",2,13,0,0,1,0,0,0,0],["594","Alomomola",2,-1,1,1,1,1,0,0,0],["595","Joltik",11,3,1,1,1,1,0,0,0],["596","Galvantula",11,3,0,0,1,1,0,0,0],["597","Ferroseed",4,16,1,1,1,1,0,0,0],["598","Ferrothorn",4,16,0,0,1,0,0,0,0],["599","Klink",16,-1,1,1,1,1,0,0,0],["600","Klang",16,-1,0,0,1,0,0,0,0],["601","Klinklang",16,-1,0,0,1,0,0,0,0],["602","Tynamo",3,-1,1,1,1,1,0,0,0],["603","Eelektrik",3,-1,0,0,1,1,0,0,0],["604","Eelektross",3,-1,0,0,1,1,0,0,0],["605","Elgyem",10,-1,1,1,1,1,0,0,0],["606","Beheeyem",10,-1,0,0,1,0,0,0,0],["607","Litwick",13,1,1,1,1,1,0,0,0],["608","Lampent",13,1,0,0,1,0,0,0,0],["609","Chandelure",13,1,0,0,1,0,0,0,0],["610","Axew",14,-1,1,1,1,1,0,0,0],["611","Fraxure",14,-1,0,0,1,0,0,0,0],["612","Haxorus",14,-1,0,0,1,0,0,0,0],["613","Cubchoo",5,-1,1,1,1,1,0,0,0],["614","Beartic",5,-1,0,0,1,0,0,0,0],["615","Cryogonal",5,-1,1,1,1,1,0,0,0],["616","Shelmet",11,-1,1,1,1,1,0,0,0],["617","Accelgor",11,-1,0,0,1,0,0,0,0],["618","Stunfisk",8,3,1,1,1,1,0,0,0],["619","Mienfoo",6,-1,1,1,1,1,0,0,0],["620","Mienshao",6,-1,0,0,1,0,0,0,0],["621","Druddigon",14,-1,1,1,1,1,0,0,0],["622","Golett",8,13,1,1,1,1,0,0,0],["623","Golurk",8,13,0,0,1,0,0,0,0],["624","Pawniard",15,16,1,1,1,1,0,0,0],["625","Bisharp",15,16,0,0,1,0,0,0,0],["626","Bouffalant",0,-1,1,1,1,1,0,0,0],["627","Rufflet",0,9,1,1,1,1,0,0,0],["628","Braviary",0,9,0,0,1,1,0,0,0],["629","Vullaby",15,9,1,1,1,1,0,0,0],["630","Mandibuzz",15,9,0,0,1,0,0,0,0],["631","Heatmor",1,-1,1,1,1,1,0,0,0],["632","Durant",11,16,1,1,1,1,0,0,0],["633","Deino",15,14,1,1,1,1,0,0,0],["634","Zweilous",15,14,0,0,1,0,0,0,0],["635","Hydreigon",15,14,0,0,1,0,0,0,0],["636","Larvesta",11,1,1,1,1,1,0,0,0],["637","Volcarona",11,1,0,0,1,0,0,0,0],["638","Cobalion",16,6,1,0,1,0,0,0,0],["639","Terrakion",12,6,1,0,1,0,0,0,0],["640","Virizion",4,6,1,0,1,0,0,0,0],["641","Tornadus",9,-1,1,0,2,0,0,0,0],["642","Thundurus",3,9,1,0,2,0,0,0,0],["643","Reshiram",14,1,1,0,1,0,0,0,0],["644","Zekrom",14,3,1,0,1,0,0,0,0],["645","Landorus",8,9,1,0,2,0,0,0,0],["646","Kyurem",14,5,1,0,3,0,0,0,0],["647","Keldeo",2,6,1,0,2,0,0,0,0],["648","Meloetta",0,10,1,0,2,0,0,0,0],["649","Genesect",11,16,1,0,5,0,0,0,0]],"6":[["650","Chespin",4,-1,1,1,1,1,0,0,0],["651","Quilladin",4,-1,0,0,1,0,0,0,0],["652","Chesnaught",4,6,0,0,1,0,0,0,0],["653","Fennekin",1,-1,1,1,1,1,0,0,0],["654","Braixen",1,-1,0,0,1,1,0,0,0],["655","Delphox",1,10,0,0,1,0,0,0,0],["656","Froakie",2,-1,1,1,1,1,0,0,0],["657","Frogadier",2,-1,0,0,1,1,0,0,0],["658","Greninja",2,15,0,0,1,0,0,0,0],["659","Bunnelby",0,-1,1,1,1,1,0,0,0],["660","Diggersby",0,8,0,0,1,1,0,0,0],["661","Fletchling",0,9,1,1,1,1,0,0,0],["662","Fletchinder",1,9,0,0,1,1,0,0,0],["663","Talonflame",1,9,0,0,1,1,0,0,0],["664","Scatterbug",11,-1,1,1,1,1,1,0,0],["665","Spewpa",11,-1,0,0,1,1,1,0,0],["666","Vivillon",11,9,0,0,1,1,0,0,0],["667","Litleo",1,0,1,1,1,1,0,0,0],["668","Pyroar",1,0,0,0,1,1,0,0,0],["669","Flab\u00e9b\u00e9",17,-1,1,1,1,1,0,0,0],["670","Floette",17,-1,0,0,1,1,0,0,0],["671","Florges",17,-1,0,0,1,1,0,0,0],["672","Skiddo",4,-1,1,1,1,1,0,0,0],["673","Gogoat",4,-1,0,0,1,1,0,0,0],["674","Pancham",6,-1,1,1,1,1,0,0,0],["675","Pangoro",6,15,0,0,1,0,0,0,0],["676","Furfrou",0,-1,1,1,1,1,0,0,0],["677","Espurr",10,-1,1,1,1,1,0,0,0],["678","Meowstic",10,-1,0,0,1,1,0,0,0],["679","Honedge",16,13,1,1,1,1,0,0,0],["680","Doublade",16,13,0,0,1,1,0,0,0],["681","Aegislash",16,13,0,0,2,1,0,0,0],["682","Spritzee",17,-1,1,1,1,1,0,0,0],["683","Aromatisse",17,-1,0,0,1,0,0,0,0],["684","Swirlix",17,-1,1,1,1,1,0,0,0],["685","Slurpuff",17,-1,0,0,1,1,0,0,0],["686","Inkay",15,10,1,1,1,1,0,0,0],["687","Malamar",15,10,0,0,1,0,0,0,0],["688","Binacle",12,2,1,1,1,1,0,0,0],["689","Barbaracle",12,2,0,0,1,0,0,0,0],["690","Skrelp",7,2,1,1,1,1,0,0,0],["691","Dragalge",7,14,0,0,1,0,0,0,0],["692","Clauncher",2,-1,1,1,1,1,0,0,0],["693","Clawitzer",2,-1,0,0,1,0,0,0,0],["694","Helioptile",3,0,1,1,1,1,0,0,0],["695","Heliolisk",3,0,0,0,1,0,0,0,0],["696","Tyrunt",12,14,1,1,1,1,0,0,0],["697","Tyrantrum",12,14,0,0,1,0,0,0,0],["698","Amaura",12,5,1,1,1,1,0,0,0],["699","Aurorus",12,5,0,0,1,1,0,0,0],["700","Hawlucha",6,9,1,1,1,1,0,0,0],["701","Dedenne",3,17,1,1,1,1,0,0,0],["702","Carbink",12,17,1,1,1,1,0,0,0],["703","Goomy",14,-1,1,1,1,1,0,0,0],["704","Sliggoo",14,-1,0,0,1,0,0,0,0],["705","Goodra",14,-1,0,0,1,0,0,0,0],["706","Klefki",16,17,1,1,1,1,0,0,0],["707","Phantump",13,4,1,1,1,1,0,0,0],["708","Trevenant",13,4,0,0,1,1,0,0,0],["709","Pumpkaboo",13,4,1,1,4,3,0,0,0],["710","Gourgeist",13,4,0,0,4,3,0,0,0],["711","Bergmite",5,-1,1,1,1,1,0,0,0],["712","Avalugg",5,-1,0,0,1,1,0,0,0],["713","Noibat",9,14,1,1,1,1,0,0,0],["714","Noivern",9,14,0,0,1,1,0,0,0],["715","Xerneas",17,-1,1,0,1,0,0,0,0],["716","Yveltal",15,9,1,0,1,0,0,0,0],["717","Zygarde",14,8,1,0,4,0,0,0,0],["718","Diancie",12,17,1,1,2,1,0,0,0],["719","Hoopa",10,13,1,0,2,0,0,0,0],["720","Volcanion",1,2,1,0,1,0,0,0,0]],"7":[["721","Rowlet",4,9,1,1,1,1,0,0,0],["722","Dartrix",4,9,0,0,1,1,0,0,0],["723","Decidueye",4,13,0,0,1,1,0,0,0],["724","Litten",1,-1,1,1,1,1,0,0,0],["725","Torracat",1,-1,0,0,1,1,0,0,0],["726","Incineroar",1,15,0,0,1,1,0,0,0],["727","Popplio",2,-1,1,1,1,1,0,0,0],["728","Brionne",2,-1,0,0,1,1,0,0,0],["729","Primarina",2,17,0,0,1,1,0,0,0],["730","Pikipek",0,9,1,1,1,1,0,0,0],["731","Trumbeak",0,9,0,0,1,1,0,0,0],["732","Toucannon",0,9,0,0,1,1,0,0,0],["733","Yungoos",0,-1,1,1,1,1,0,0,0],["734","Gumshoos",0,-1,0,0,2,0,0,0,0],["735","Grubbin",11,-1,1,1,1,1,0,0,0],["736","Charjabug",11,3,0,0,1,1,0,0,0],["737","Vikavolt",11,3,0,0,2,1,0,0,0],["738","Crabrawler",6,-1,1,1,1,1,0,0,0],["739","Crabominable",6,5,0,0,1,1,0,0,0],["740","Oricorio",1,9,1,1,4,3,0,0,0],["741","Cutiefly",11,17,1,1,1,1,0,0,0],["742","Ribombee",11,17,0,0,2,1,0,0,0],["743","Rockruff",12,-1,1,1,1,1,0,0,0],["744","Lycanroc",12,-1,0,0,3,1,0,0,0],["745","Wishiwashi",2,-1,1,1,3,1,0,0,0],["746","Mareanie",7,2,1,1,1,1,0,0,0],["747","Toxapex",7,2,0,0,1,1,0,0,0],["748","Mudbray",8,-1,1,1,1,1,0,0,0],["749","Mudsdale",8,-1,0,0,1,1,0,0,0],["750","Dewpider",2,11,1,1,1,1,0,0,0],["751","Araquanid",2,11,0,0,2,1,0,0,0],["752","Fomantis",4,-1,1,1,1,1,0,0,0],["753","Lurantis",4,-1,0,0,2,0,0,0,0],["754","Morelull",4,17,1,1,1,1,0,0,0],["755","Shiinotic",4,17,0,0,1,1,0,0,0],["756","Salandit",7,1,1,1,1,1,0,0,0],["757","Salazzle",7,1,0,0,2,0,0,0,0],["758","Stufful",0,6,1,1,1,1,0,0,0],["759","Bewear",0,6,0,0,1,1,0,0,0],["760","Bounsweet",4,-1,1,1,1,1,1,0,0],["761","Steenee",4,-1,0,0,1,1,0,0,0],["762","Tsareena",4,-1,0,0,1,0,0,0,0],["763","Comfey",17,-1,1,1,1,1,0,0,0],["764","Oranguru",0,10,1,1,1,1,0,0,0],["765","Passimian",6,-1,1,1,1,1,0,0,0],["766","Wimpod",11,2,1,1,1,1,0,0,0],["767","Golisopod",11,2,0,0,1,1,0,0,0],["768","Sandygast",13,8,1,1,1,1,0,0,0],["769","Palossand",13,8,0,0,1,0,0,0,0],["770","Pyukumuku",2,-1,1,1,1,1,0,0,0],["771","Type: Null",0,-1,1,0,1,0,0,0,0],["772","Silvally",0,-1,0,0,18,0,0,0,0],["773","Minior",12,9,1,1,2,1,0,0,0],["774","Komala",0,-1,1,1,1,1,0,0,0],["775","Turtonator",1,14,1,1,1,1,0,0,0],["776","Togedemaru",3,16,1,1,2,1,0,0,0],["777","Mimikyu",13,17,1,1,2,1,0,0,0],["778","Bruxish",2,10,1,1,1,1,0,0,0],["779","Drampa",0,14,1,1,1,1,0,0,0],["780","Dhelmise",13,4,1,1,1,1,0,0,0],["781","Jangmo-o",14,-1,1,1,1,1,0,0,0],["782","Hakamo-o",14,6,0,0,1,0,0,0,0],["783","Kommo-o",14,6,0,0,2,0,0,0,0],["784","Tapu Koko",3,17,1,0,1,0,0,0,0],["785","Tapu Lele",10,17,1,0,1,0,0,0,0],["786","Tapu Bulu",4,17,1,0,1,0,0,0,0],["787","Tapu Fini",2,17,1,0,1,0,0,0,0],["788","Cosmog",10,-1,1,0,1,0,0,0,0],["789","Cosmoem",10,-1,0,0,1,0,0,0,0],["790","Solgaleo",10,16,0,0,1,0,0,0,0],["791","Lunala",10,13,0,0,1,0,0,0,0],["792","Nihilego",12,7,1,0,1,0,0,0,0],["793","Buzzwole",11,6,1,0,1,0,0,0,0],["794","Pheromosa",11,6,1,0,1,0,0,0,0],["795","Xurkitree",3,-1,1,0,1,0,0,0,0],["796","Celesteela",16,9,1,0,1,0,0,0,0],["797","Kartana",4,16,1,0,1,0,0,0,0],["798","Guzzlord",15,14,1,0,1,0,0,0,0],["799","Poipole",7,-1,1,0,1,0,0,0,0],["800","Naganadel",7,14,0,0,1,0,0,0,0],["801","Stakataka",12,16,1,0,1,0,0,0,0],["802","Blacephalon",1,13,1,0,1,0,0,0,0],["803","Necrozma",10,-1,1,0,4,0,0,0,0],["804","Magearna",16,17,1,0,1,0,0,0,0],["805","Marshadow",6,13,1,0,1,0,0,0,0],["806","Zeraora",3,-1,1,0,1,0,0,0,0]],"97":[["000a1","Lunupine",15,-1,1,1,1,1,0,0,0],["000","????????",15,17,0,0,1,0,0,0,0],["000","???????",2,-1,1,0,1,0,0,0,0],["000","???????",2,-1,0,0,1,0,0,0,0],["000a4","Orkit",2,-1,1,0,1,1,0,0,0],["000a6","Orcalot",2,16,0,0,1,1,0,0,0],["000","????????",17,9,1,0,1,0,0,0,0],["000","??????????",17,9,0,0,1,0,0,0,0],["000","?????????",17,9,0,0,1,0,0,0,0],["000","??????",7,17,1,0,1,0,0,0,0],["000","???????????",7,17,0,0,1,0,0,0,0],["000","??????",0,9,1,0,1,0,0,0,0],["000","????????",10,9,0,0,1,0,0,0,0],["000ae","Impyre",15,-1,1,0,1,1,0,0,0],["000","?????????",15,1,0,0,1,0,0,0,0],["000","???????",14,2,1,0,1,0,0,0,0],["000ah","Solynx",1,-1,1,1,1,1,0,0,0],["000","??????",1,3,0,0,1,0,0,0,0],["000","?????",5,-1,1,0,1,0,0,0,0],["000","?????",5,-1,0,0,1,0,0,0,0],["000ak","Boxaby",12,6,1,0,1,1,0,0,0],["000","????????",12,6,0,0,1,0,0,0,0],["000","???????",5,17,1,0,1,0,0,0,0],["000","???????",5,17,0,0,1,0,0,0,0],["000","????????",4,-1,1,0,1,0,0,0,0],["000","????????",4,-1,0,0,1,0,0,0,0],["000","?????????",4,6,0,0,1,0,0,0,0],["000","???????",1,9,1,0,1,0,0,0,0],["000","????????",1,17,0,0,1,0,0,0,0],["000","??????????",1,17,0,0,1,0,0,0,0],["000","???????",2,-1,1,0,1,0,0,0,0],["000","????????",2,-1,0,0,1,0,0,0,0],["000","??????????",2,16,0,0,1,0,0,0,0],["000","??????",13,14,1,0,1,0,0,0,0],["000","???????",13,14,0,0,1,0,0,0,0],["000","????????",13,14,0,0,1,0,0,0,0],["000","????????",15,1,1,0,1,0,0,0,0],["000","??????",4,9,1,0,1,0,0,0,0],["000","??????",4,9,0,0,1,0,0,0,0],["000","??????",4,10,0,0,1,0,0,0,0],["000","????????",8,-1,1,0,1,0,0,0,0],["000","????????",8,11,0,0,1,0,0,0,0],["000","??????????",3,9,1,0,1,0,0,0,0],["000","??????????",3,9,0,0,1,0,0,0,0],["000","???????",12,17,1,0,1,0,0,0,0],["000","?????????",10,-1,1,0,1,0,0,0,0],["000","?????????",10,13,0,0,1,0,0,0,0],["000","???????",12,13,1,0,1,0,0,0,0],["000","?????????",0,15,1,0,1,0,0,0,0],["000","???????",11,-1,1,0,1,0,0,0,0],["000","??????????",11,-1,0,0,1,0,0,0,0],["000","??????????",11,-1,0,0,1,0,0,0,0],["000","???????",0,-1,1,0,1,0,0,0,0],["000bh","Glaquine",5,-1,1,0,1,1,0,0,0],["000","?????????",5,-1,0,0,1,0,0,0,0],["000","????????",16,-1,1,0,1,0,0,0,0],["000","????????",16,-1,0,0,1,0,0,0,0],["000","????????",16,-1,0,0,1,0,0,0,0],["000","???????",8,-1,1,0,1,0,0,0,0],["000","???????",8,-1,0,0,1,0,0,0,0],["000","????????",2,15,1,0,1,0,0,0,0],["000","?????????",2,15,0,0,1,0,0,0,0],["000","?????????",2,15,0,0,1,0,0,0,0],["000","??????",0,10,1,0,1,0,0,0,0],["000","?????????",0,13,0,0,1,0,0,0,0],["000","???????",2,13,1,0,1,0,0,0,0],["000","??????????",2,13,0,0,1,0,0,0,0],["000","????????????",11,-1,1,0,1,0,0,0,0],["000","??????????",11,-1,0,0,1,0,0,0,0],["000","???????????",11,10,0,0,1,0,0,0,0],["000","???????",11,7,1,0,1,0,0,0,0],["000","???????",10,17,1,0,1,0,0,0,0],["000","???????",10,17,0,0,1,0,0,0,0],["000","??????",8,-1,1,0,1,0,0,0,0],["000","???????",8,6,0,0,1,0,0,0,0],["000","?????????",8,6,0,0,1,0,0,0,0],["000","?????????",12,-1,1,0,1,0,0,0,0],["000","???????",12,14,0,0,1,0,0,0,0],["000","?????????",12,14,0,0,1,0,0,0,0],["000","?????????",12,7,0,0,1,0,0,0,0],["000","????????",12,7,0,0,1,0,0,0,0],["000","???????",4,17,1,0,1,0,0,0,0],["000","???????",4,17,0,0,1,0,0,0,0],["000","??????",7,0,1,0,1,0,0,0,0],["000","???????",7,0,0,0,1,0,0,0,0],["000","??????",4,-1,1,0,1,0,0,0,0],["000","????????",4,15,0,0,1,0,0,0,0],["000","???????",5,12,1,0,1,0,0,0,0],["000","????????",5,12,0,0,1,0,0,0,0]],"98":[["012-Q","Butterfree/Mega Forme Q",11,10,0,0,1,0,0,0,0],["024-Q","Arbok/Mega Forme Q",7,15,0,0,1,0,0,0,0],["027-Q","Raichu/Mega Forme Q",3,6,0,0,1,0,0,0,0],["039-Q","Ninetales/Mega Forme Q",1,10,0,0,1,0,0,0,0],["057-Q","Persian/Mega Forme Q",0,13,0,0,1,0,0,0,0],["063-Q","Arcanine/Mega Forme Q",1,14,0,0,1,0,0,0,0],["083-Q","Rapidash/Mega Forme Q",1,9,0,0,1,0,0,0,0],["090-Q","Farfetch"d/Mega Forme Q",0,9,0,0,1,0,0,0,0],["094-Q","Dewgong/Mega Forme Q",2,5,0,0,1,0,0,0,0],["113-Q","Marowak/Alolan Mega Forme Q",1,13,0,0,1,0,0,0,0],["136-Q","Jynx/Mega Forme Q",5,10,0,0,1,0,0,0,0],["141-Q","Lapras/Mega Forme Q",2,5,0,0,1,0,0,0,0],["144-Q","Vaporeon/Mega Forme Q",2,-1,0,0,1,0,0,0,0],["145-Q","Jolteon/Mega Forme Q",3,-1,0,0,1,0,0,0,0],["146-Q","Flareon/Mega Forme Q",1,-1,0,0,1,0,0,0,0],["147-Q","Espeon/Mega Forme Q",10,-1,0,0,1,0,0,0,0],["148-Q","Umbreon/Mega Forme Q",15,-1,0,0,1,0,0,0,0],["149-Q","Leafeon/Mega Forme Q",4,-1,0,0,1,0,0,0,0],["150-Q","Glaceon/Mega Forme Q",5,-1,0,0,1,0,0,0,0],["151-Q","Sylveon/Mega Forme Q",17,-1,0,0,1,0,0,0,0],["164-Q","Dragonite/Mega Forme Q",14,9,0,0,1,0,0,0,0],["166-Q","Mew/Mega Forme Q",10,-1,0,0,1,0,0,0,0],["177-Q","Furret/Mega Forme Q",0,14,0,0,1,0,0,0,0],["201-Q","Jumpluff/Mega Forme Q",4,17,0,0,1,0,0,0,0],["215-Q","Girafarig/Mega Forme Q",0,10,0,0,1,1,0,0,0],["218-Q","Dunsparce/Mega Forme Q",0,14,0,0,1,0,0,0,0],["227-Q","Weavile/Mega Forme Q",15,5,0,0,1,0,0,0,0],["239-Q","Skarmory/Mega Forme Q",16,14,0,0,1,0,0,0,0],["263-Q","Lugia/Mega Forme Q",10,9,0,0,1,0,0,0,0],["264-Q","Ho-oh/Mega Forme Q",1,9,0,0,1,0,0,0,0],["276-Q","Mightyena/Mega Forme Q",15,-1,0,0,1,0,0,0,0],["301-Q","Breloom/Mega Forme Q",4,6,0,0,1,0,0,0,0],["325-Q","Manectric/Mega Forme Q",3,1,0,0,1,0,0,0,0],["335-Q","Wailord/Mega Forme Q",2,9,0,0,1,0,0,0,0],["344-Q","Flygon/Mega Forme Q",8,14,0,0,1,0,0,0,0],["349-Q","Zangoose/Mega Forme Q",0,15,0,0,1,0,0,0,0],["350-Q","Seviper/Mega Forme Q",7,2,0,0,1,0,0,0,0],["364-Q","Milotic/Mega Forme Q",2,17,0,0,1,0,0,0,0],["380-Q","Froslass/Mega Forme Q",5,13,0,0,1,0,0,0,0],["403-Q","Jirachi/Mega Forme Q",16,10,0,0,1,0,0,0,0],["423-Q","Luxray/Mega Forme Q",3,15,0,0,1,0,0,0,0],["438-Q","Floatzel/Mega Forme Q",2,-1,0,0,1,0,0,0,0],["487-Q","Giratina/Mega Forme Q",13,14,0,0,1,0,0,0,0],["510-Q","Liepard/Mega Forme Q",15,-1,0,0,1,0,0,0,0],["571-Q","Zoroark/Mega Forme Q",15,-1,0,0,1,0,0,0,0],["612-Q","Haxorus/Mega Forme Q",14,16,0,0,1,0,0,0,0],["621-Q","Druddigon/Mega Forme Q",14,12,0,0,1,0,0,0,0],["668-Q","Pyroar/Mega Forme Q",1,0,0,0,1,1,0,0,0],["673-Q","Gogoat/Mega Forme Q",4,-1,0,0,1,0,0,0,0],["695-Q","Heliolisk/Mega Forme Q",3,1,0,0,1,0,0,0,0],["700-Q","Hawlucha/Mega Forme Q",6,9,0,0,1,0,0,0,0],["714-Q","Noivern/Mega Forme Q",9,14,0,0,1,0,0,0,0]],"99":[["019s1","Saiyan Rattata",0,6,1,0,1,0,0,0,0],["019s2","Super-Saiyan Rattata",0,6,0,0,1,0,0,0,0],["020s1","Super-Saiyan Raticate",0,6,0,0,1,0,0,0,0],["020s2","Super-Saiyan 2 Raticate",0,6,0,0,1,0,0,0,0],["020-S","Super-Saiyan 3 Raticate",0,6,0,0,1,0,0,0,0],["020-T","Super-Saiyan 4 Raticate",0,6,0,0,1,0,0,0,0],["025f","Flying Pichu",3,-1,1,0,1,0,0,0,0],["025s","Surfing Pichu",3,-1,1,0,1,0,0,0,0],["026f","Flying Pikachu",3,-1,0,0,1,0,0,0,0],["026s","Surfing Pikachu",3,-1,0,0,1,0,0,0,0],["026w","Snowboarding Pikachu",3,-1,0,0,1,0,0,0,0],["027f","Flying Raichu",3,9,0,0,1,0,0,0,0],["027s","Surfing Raichu",3,2,0,0,1,0,0,0,0],["027w","Snowboarding Raichu",3,5,0,0,1,0,0,0,0],["035s","Shooting Star Cleffa",17,-1,1,0,1,1,0,0,0],["036s","Shooting Star Clefairy",17,-1,0,0,1,0,0,0,0],["037s","Shooting Star Clefable",17,-1,0,0,1,0,0,0,0],["038a","Koroku",1,5,1,0,1,0,0,0,0],["039-A","Kyukori",1,5,0,0,1,0,0,0,0],["040g","Guild Igglybuff",0,17,1,0,1,0,0,0,0],["041g","Guild Jigglypuff",0,17,0,0,1,0,0,0,0],["042g","Guild Wigglytuff",0,17,0,0,1,0,0,0,0],["062x","Apocalyptic Growlithe",1,-1,1,0,1,1,0,0,0],["063x","Apocalyptic Arcanine",1,1,0,0,1,0,0,0,0],["084s","Snowpoke",5,10,1,0,1,0,0,0,0],["085s","Snowbro",5,10,0,0,1,0,0,0,0],["086s","Snowking",5,10,0,0,1,0,0,0,0],["108ds","Death Star Voltorb",3,-1,1,0,1,0,0,0,0],["109ds","Death Star Electrode",3,-1,0,0,1,0,0,0,0],["189e","Early Bird Natu",10,9,1,0,1,0,0,0,0],["190e","Early Bird Xatu",10,9,0,0,1,0,0,0,0],["219v","Gligar/Vampire",8,9,1,0,1,0,0,0,0],["220v","Gliscor/Vampire",8,9,0,0,1,0,0,0,0],["230bm","Blue Moon Slugma",2,-1,1,0,1,0,0,0,0],["231bm","Blue Moon Magcargo",2,12,0,0,1,0,0,0,0],["240i","Frosdour",15,5,1,0,1,0,0,0,0],["241i","Chilldoom",15,5,0,0,1,0,0,0,0],["263xd","XD001",10,9,1,0,1,0,0,0,0],["275x","Apocalyptic Poochyena",15,13,1,0,1,1,0,0,0],["276x","Apocalyptic Mightyena",15,13,0,0,1,0,0,0,0],["300x","Apocalyptic Shroomish",4,7,1,0,1,0,0,0,0],["301x","Apocalyptic Breloom",4,7,0,0,1,0,0,0,0],["402m","Magquaza",14,13,1,0,1,0,0,0,0],["405s","Seasonal Turtwig",4,-1,1,0,1,0,0,0,0],["406s","Seasonal Grotle",4,-1,0,0,1,0,0,0,0],["407s","Seasonal Torterra",4,-1,0,0,1,0,0,0,0],["421f","Shinxel",3,2,1,0,1,0,0,0,0],["422f","Fluxio",3,2,0,0,1,0,0,0,0],["423f","Fluxray",3,2,0,0,1,0,0,0,0],["423-F","Fluxray/Mega Forme Q",3,2,0,0,1,0,0,0,0],["434s","Snow Combee",11,5,1,0,1,0,0,0,0],["435s","Snow Vespiquen",11,5,0,0,1,0,0,0,0],["483p","Dialga/Primal Forme Q",16,14,0,0,1,0,0,0,0],["484p","Palkia/Primal Forme Q",2,14,0,0,1,0,0,0,0],["509h","Purrloin/Hallowe"en Witch",15,-1,1,0,1,1,0,0,0],["510h","Liepard/Hallowe"en Witch",15,-1,0,0,1,1,0,0,0],["622x","Apocalyptic Golett",12,16,1,0,1,0,0,0,0],["623x","Apocalyptic Golurk",12,16,0,0,1,0,0,0,0],["740q","Oricorio/Pointe Style",4,9,0,0,1,0,0,0,0]]}}',
+        TYPE_LIST : ["Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"],
+        NATURE_LIST : ["Lonely", "Mild", "Hasty", "Gentle", "Bold", "Modest", "Timid", "Calm",
+            "Impish", "Adamant", "Jolly", "Careful", "Relaxed", "Brave", "Quiet", "Sassy",
+            "Lax", "Naughty", "Rash", "Näive", "Hardy", "Docile", "Serious", "Bashful", "Quirky"],
+        EGG_GROUP_LIST : ["Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Undiscovered", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon"],
+        SHELTER_TYPE_TABLE : [
+                "0", "Normal", '<img src="//pfq-static.com/img/types/normal.png/t=1262702646">',
+                "1", "Fire", '<img src="//pfq-static.com/img/types/fire.png/t=1262702645">',
+                "2", "Water", '<img src="//pfq-static.com/img/types/water.png/t=1262702646">',
+                "3", "Electric", '<img src="//pfq-static.com/img/types/electric.png/t=1262702645">',
+                "4", "Grass", '<img src="//pfq-static.com/img/types/grass.png/t=1262702645">',
+                "5", "Ice", '<img src="//pfq-static.com/img/types/ice.png/t=1262702646">',
+                "6", "fighting", '<img src="//pfq-static.com/img/types/fighting.png/t=1262702645">',
+                "7", "Poison", '<img src="//pfq-static.com/img/types/poison.png/t=1262702646">',
+                "8", "Ground", '<img src="//pfq-static.com/img/types/ground.png/t=1262702646">',
+                "9", "Flying", '<img src="//pfq-static.com/img/types/flying.png/t=1262702645">',
+                "10", "Psychic", '<img src="//pfq-static.com/img/types/psychic.png/t=1262702646">',
+                "11", "Bug", '<img src="//pfq-static.com/img/types/bug.png/t=1262702645">',
+                "12", "Rock", '<img src="//pfq-static.com/img/types/rock.png/t=1262702646">',
+                "13", "Ghost", '<img src="//pfq-static.com/img/types/ghost.png/t=1262702645">',
+                "14", "Dragon", '<img src="//pfq-static.com/img/types/dragon.png/t=1263605747">',
+                "15", "Dark", '<img src="//pfq-static.com/img/types/dark.png/t=1262702645">',
+                "16", "Steel", '<img src="//pfq-static.com/img/types/steel.png/t=1262702646">',
+                "17", "Fairy", '<img src="//pfq-static.com/img/types/fairy.png/t=1374419124">',
+            ],
+		SHELTER_SEARCH_DATA : [
+			"findNewEgg", "Egg", "new egg", '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
+			"findNewPokemon", "Pokémon", "new Pokémon", '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
+			"findShiny", "[SHINY]", "Shiny", '<img src="//pfq-static.com/img/pkmn/shiny.png/t=1400179603">',
+			"findAlbino","[ALBINO]", "Albino", '<img src="//pfq-static.com/img/pkmn/albino.png/t=1414662094">',
+			"findMelanistic", "[MELANISTIC]", "Melanistic", '<img src="//pfq-static.com/img/pkmn/melanistic.png/t=1435353274">',
+			"findPrehistoric", "[PREHISTORIC]", "Prehistoric", '<img src="//pfq-static.com/img/pkmn/prehistoric.png/t=1465558964">',
+			"findDelta", "[DELTA]", "Delta", "Delta", '<img src="//pfq-static.com/img/pkmn/_delta/dark.png/t=1501325214">',
+			"findMega", "[MEGA]", "Mega", '<img src="//pfq-static.com/img/pkmn/mega.png/t=1400179603">',
+			"findStarter", "[STARTER]", "Starter", '<img src="//pfq-static.com/img/pkmn/starter.png/t=1484919510">',
+			"findCustomSprite", "[CUSTOM SPRITE]", "Custom Sprite", '<img src="//pfq-static.com/img/pkmn/cs.png/t=1405806997">',
+			"findMale", "[M]", "Male", '<img src="//pfq-static.com/img/pkmn/gender_m.png/t=1401213006">',
+			"findFemale", "[F]", "Female", '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
+			"findNoGender", "[N]", "No Gender", '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
+		],
 	}
+    GLOBALS.TYPE_OPTIONS = Helpers.buildOptionsString(GLOBALS.TYPE_LIST);
+
+    let ShelterPage = (function ShelterPage() {
+        const SETTINGS_SAVE_KEY = 'QoLShelter';
+        const DEFAULT_SETTINGS = {
+            findCustom: "",
+            findType: "",
+            findTypeEgg: true,
+            findTypePokemon: false,
+            findNewEgg: true,
+            NewEggDuplicate: "",
+            findNewPokemon: true,
+            findShiny: true,
+            findAlbino: true,
+            findMelanistic: true,
+            findPrehistoric: true,
+            findDelta: true,
+            findMega: true,
+            findStarter: true,
+            findCustomSprite: true,
+            findMale: true,
+            findFemale: true,
+            findNoGender: true,
+            customEgg: true,
+            customPokemon: true,
+            customPng: false,
+            shelterGrid: true,
+        };
+        let settings = DEFAULT_SETTINGS;
+        let shelterCustomArray = [];
+        let shelterTypeArray = [];
+        let eggNoDuplicateArray = [];
+        let dexData;
+        const shelterObserver = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                API.customSearch();
+            });
+        });
+        const API = {
+            loadSettings() { // initial settings on first run and setting the variable settings key
+                settings = Helpers.loadSettings(SETTINGS_SAVE_KEY, DEFAULT_SETTINGS, settings);
+            },
+            saveSettings() { // Save changed settings
+                Helpers.saveSettings(SETTINGS_SAVE_KEY, settings)
+            },
+            getSettings() {
+                return settings;
+            },
+            populateSettings() {
+                for(let key in settings) {
+                    if (!settings.hasOwnProperty(key)) {
+                        continue;
+                    }
+                    let value = settings[key];
+                    if (typeof value === 'boolean') {
+                        Helpers.toggleSetting(key, value, false);
+                        continue;
+                    }
+                }
+            },
+            setupHTML() {
+                $('.tabbed_interface.horizontal>div').removeClass('tab-active');
+                $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
+                document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
+                document.querySelector('.tabbed_interface.horizontal>ul>li').insertAdjacentHTML('afterend', '<li class=""><label>Sort</label></li>');
+                document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', TEMPLATES.shelterSettingsHTML);
+                document.querySelector('#shelteroptionsqol').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
+                $('#shelteroptionsqol').addClass('tab-active');
+
+                document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
+
+                let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findCustom"/></label><input type='button' value='Remove' id='removeShelterTextfield'></div>`;
+                shelterCustomArray = settings.findCustom.split(',');
+                let numberOfValue = shelterCustomArray.length;
+
+                for (let i = 0; i < numberOfValue; i++) {
+                    let rightDiv = i + 1;
+                    let rightValue = shelterCustomArray[i];
+                    $('#searchkeys').append(theField);
+                    $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
+                }
+
+                let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`;
+                shelterTypeArray = settings.findType.split(',');
+                let numberOfType = shelterTypeArray.length;
+
+                for (let o = 0; o < numberOfType; o++) {
+                    let rightDiv = o + 1;
+                    let rightValue = shelterTypeArray[o];
+                    $('#shelterTypes').append(theType);
+                    $('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
+                }
+
+                $('[data-shelter=reload]').addClass('customSearchOnClick');
+                $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
+                $('[data-shelter=blackflute]').addClass('customSearchOnClick');
+
+                dexData = GLOBALS.DEX_DATA.split(',');
+            },
+
+            setupCSS() {
+                let shelterSuccessCss = $('#sheltercommands').css('background-color');
+                $('#sheltersuccess').css('background-color', shelterSuccessCss);
+            },
+
+            setupObserver() {
+                shelterObserver.observe(document.querySelector('#shelterarea'), {
+                    childList: true,
+                });
+            },
+
+            setupHandlers() {
+                $(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
+                    console.log('pizza - begin')
+                    console.log(settings)
+                    PFQoL.shelterCustomSearch();
+                    console.log('pizza - end')
+                }));
+
+                $(document).on('change', '.qolsetting', (function() {
+                    console.log('calzone')
+                    console.log(settings)
+                    PFQoL.shelterCustomSearch();
+                }));
+
+                $('.customSearchOnClick').on('click', (function() {
+                    PFQoL.shelterCustomSearch();
+                }));
+
+                $('*[data-hatch]').on('click', (function() {
+                    PFQoL.shelterRemoveEgg($(this).parent().prev().prev().prev().children().css('background-image'));
+                }));
+
+                $(document).on('click', '#addShelterTextfield', (function() { //add shelter text field
+                    PFQoL.shelterAddTextField();
+                }));
+
+                $(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
+                    PFQoL.shelterRemoveTextfield(this, $(this).parent().find('input').val());
+                    PFQoL.shelterCustomSearch();
+                }));
+
+                $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
+                    PFQoL.shelterAddTypeList();
+                }));
+
+                $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
+                    PFQoL.shelterRemoveTypeList(this, $(this).parent().find('select').val());
+                    PFQoL.shelterCustomSearch();
+                }));
+            },
+
+            settingsChange(element, textElement, customClass, typeClass) {
+                console.log('brioche')
+                console.log('Before')
+                console.log(settings)
+                if(JSON.stringify(settings).indexOf(element) >= 0) { // shelter settings
+                    console.log(settings[element])
+                    if (settings[element] === false ) {
+                        settings[element] = true;
+                    } else if (settings[element] === true ) {
+                        settings[element] = false;
+                    } else if (typeof settings[element] === 'string') {
+                        if (element === 'findType') {
+                            if (textElement === 'none') {
+                                let tempIndex = typeClass - 1;
+                                shelterTypeArray.splice(tempIndex, tempIndex);
+                                settings.findType = shelterTypeArray.toString();
+                            } else {
+                                let tempIndex = typeClass - 1;
+                                shelterTypeArray[tempIndex] = textElement;
+                                settings.findType = shelterTypeArray.toString();
+                            }
+                        }
+                        if (element === 'findCustom') {
+                            let tempIndex = customClass - 1;
+                            shelterCustomArray[tempIndex] = textElement;
+                            settings.findCustom = shelterCustomArray.toString();
+                        }
+                    }
+                    console.log('After')
+                    console.log(settings)
+                    return true;
+                } else { return false; }
+            },
+
+            addTextField() {
+                let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findCustom"/></label><input type='button' value='Remove' id='removeShelterTextfield'></div>`;
+                let numberDiv = $('#searchkeys>div').length;
+                $('#searchkeys').append(theField);
+                $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
+            },
+
+            removeTextField(byebye, key) {
+                shelterCustomArray = $.grep(shelterCustomArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+                    return value != key;
+                });
+                settings.findCustom = shelterCustomArray.toString()
+
+                $(byebye).parent().remove();
+
+                let i;
+                for(i = 0; i < $('#searchkeys>div').length; i++) {
+                    let rightDiv = i + 1;
+                    $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+                }
+            },
+
+            addTypeList() {
+                let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + GLOBALS.TYPE_OPTIONS + `</select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`;
+                let numberTypes = $('#shelterTypes>div').length;
+                $('#shelterTypes').append(theList);
+                $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
+            },
+
+            removeTypeList(byebye, key) {
+                shelterTypeArray = $.grep(shelterTypeArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+                    return value != key;
+                });
+                settings.findType = shelterTypeArray.toString()
+
+                $(byebye).parent().remove();
+
+                let i;
+                for(i = 0; i < $('#shelterTypes>div').length; i++) {
+                    let rightDiv = i + 1;
+                    $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+                }
+            },
+
+            // Shelter
+            customSearch() {
+                // search whatever you want to find in the shelter & grid
+                let lengthEggs = 0;
+
+                //sort in grid
+                $('#shelterarea').removeClass('qolshelterareagrid');
+                $('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
+                $('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
+                $('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
+                $('#sheltergridthingy').remove();
+
+                if (settings.shelterGrid === true) { //shelter grid
+                    $('#shelterarea').addClass('qolshelterareagrid');
+                    $('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
+                    $('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
+                    $('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
+                    $('#shelterpage #shelter #shelterarea:before').css({'display' : 'none!important'});
+                    $('<pseudo:before>').attr('style', 'display: none!important');
+                    $('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
+                }
+
+                //search values depending on settings
+                const shelterValueArray = [];
+                //emptying the sheltersuccess div to avoid duplicates
+                document.querySelector('#sheltersuccess').innerHTML="";
+                $('#shelterarea>div>img').removeClass('shelterfoundme');
+
+                //loop to find all search values for the top checkboxes
+                for (let key in settings) {
+                    let value = settings[key];
+                    if (value === true && Helpers.shelterKeyIsTopCheckbox(key)) {
+                        let searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
+                        shelterValueArray.push(searchKey);
+                    }
+                }
+
+                //loop to find the top checkboxes in the shelter
+                for (let key in shelterValueArray) {
+                    let value = shelterValueArray[key];
+
+                    //img[TITLE] search. everything aside from new pokémon & new eggs || Image for Delta fails
+                    if (value.startsWith('[')) {
+                        if ($('img[title*="'+value+'"]').length) {
+                            let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1]; //type of Pokémon found
+                            let imgResult = $("img[title*='"+value+"']").length+" "+searchResult; //amount + type found
+                            let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2]; //image for type of Pokémon
+                            let shelterImgSearch = $('img[title*="'+value+'"]');
+                            let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
+                            $(shelterBigImg).addClass('shelterfoundme');
+
+                            if ($("img[title*='"+value+"']").length > 1) {
+                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+imgResult+'s found '+imgFitResult+'</div>');
+                            } else {
+                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+imgResult+' found '+imgFitResult+'</div>');
+                            }
+                        }
+                    }
+                    //new Pokémon search.
+                    if (value === 'Pokémon') {
+                        if ($("#shelterarea .tooltip_content:contains("+value+")").length) {
+                            let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1];
+                            let tooltipResult = $("#shelterarea .tooltip_content:contains("+value+")").length+" "+searchResult;
+                            let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+                            let shelterImgSearch = $("#shelterarea .tooltip_content:contains("+value+")")
+                            let shelterBigImg = shelterImgSearch.prev().children('img.big');
+                            $(shelterBigImg).addClass('shelterfoundme');
+
+                            if ($("#shelterarea .tooltip_content:contains("+value+")").length > 1) {
+                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
+                            } else {
+                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
+                            }
+                        }
+                    }
+                    //new egg search.
+                    if (value === "Egg") { //tooltip_content search. new egg.
+                        if ($("#shelterarea .tooltip_content:contains("+value+")").length) {
+                            eggNoDuplicateArray = settings.NewEggDuplicate.split(',');
+                            eggNoDuplicateArray = eggNoDuplicateArray.filter(v=>v!='');
+
+                            let eggList = eggNoDuplicateArray.length;
+                            let i;
+                            for (i = 0; i < eggList; i++) {
+                                let value = eggNoDuplicateArray[i];
+                                if ($('img[src*="//'+value+'"]').length) {
+                                    lengthEggs = $('img[src*="//'+value+'"]').length + lengthEggs;
+                                }
+                            }
+
+                            let allEggFinds = $("#shelterarea .tooltip_content:contains("+value+")").length;
+                            let allKnownEggFinds = $("#shelterarea .tooltip_content:contains( "+value+")").length;
+                            let newEggDup = lengthEggs / 2;
+                            let newEggFinds = allEggFinds - allKnownEggFinds - newEggDup;
+
+                            let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1];
+                            let newEggResult = newEggFinds+" "+searchResult;
+                            let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+
+                            if (newEggFinds <1) {
+                                let thisDoesNothing = 0;
+                            } else {
+                                let shelterImgSearch = $("#shelterarea .tooltip_content:contains("+value+")");
+                                let shelterBigImg = shelterImgSearch.prev().children('img.big');
+                                $(shelterBigImg).addClass('shelterfoundme');
+                                let shelterImgRemove = $("#shelterarea .tooltip_content:contains( "+value+")");
+                                let shelterBigImgRemove = shelterImgRemove.prev().children('img.big');
+                                $(shelterBigImgRemove).removeClass('shelterfoundme');
+
+                                if (newEggFinds > 1) {
+                                    document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+newEggResult+'s found '+imgFitResult+'</div>');
+                                } else if (newEggFinds === 1) {
+                                    document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+newEggResult+' found '+imgFitResult+'</div>');
+                                }
+                            }
+                        }
+                    }
+
+                    //New egg no duplicates
+                    let newEggAdopt = '';
+                    if ($('#shelterarea .lock').next('.tooltip_content:contains("Egg")').length && $('#shelterarea .lock').next('.tooltip_content:not(:contains(" Egg")').length < 1) {
+                        newEggAdopt = $('#shelterarea .lock').children('img').attr('src').substring(2);
+                    }
+
+                    if ($('div.panel:contains("Adoption successful!")').length) {
+                        if ($('.egg').css('background-image') === 'url("https://'+newEggAdopt+'")') {
+                            eggNoDuplicateArray = settings.NewEggDuplicate.split(',');
+                            eggNoDuplicateArray.push(newEggAdopt);
+                            settings.NewEggDuplicate = eggNoDuplicateArray.toString();
+                            newEggAdopt = "";
+                        }
+                    }
+                }
+
+                //loop to find all search genders for the custom
+                const shelterValueArrayCustom = [];
+                for (let key in settings) {
+                    let value = settings[key];
+                    if (value === true) {
+                        if(key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
+                            let searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
+                            shelterValueArrayCustom.push(searchKey);
+                        }
+                    }
+                }
+
+                //loop to find all the custom search parameters
+                let customSearchAmount = shelterCustomArray.length;
+                for (let i = 0; i < customSearchAmount; i++) {
+                    let value = shelterCustomArray[i];
+                    if (value != "") {
+                        //custom pokemon search
+                        if (settings.customPokemon === true) {
+                            //Males
+                            if (shelterValueArrayCustom.indexOf("[M]") > -1) {
+                                if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']").length) {
+                                    let searchResult = value;
+                                    let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[M]") +2];
+                                    let tooltipResult = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']").length+" Male "+imgGender+" "+searchResult;
+                                    let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                                    let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']")
+                                    let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
+                                    $(shelterBigImg).addClass('shelterfoundme');
+
+                                    if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']").length > 1) {
+                                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
+                                    } else {
+                                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
+                                    }
+                                }
+                            }
+                            //Females
+                            if (shelterValueArrayCustom.indexOf("[F]") > -1) {
+                                if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']").length) {
+                                    let searchResult = value;
+                                    let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[F]") +2];
+                                    let tooltipResult = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']").length+" Female "+imgGender+" "+searchResult;
+                                    let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                                    let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']")
+                                    let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
+                                    $(shelterBigImg).addClass('shelterfoundme');
+
+                                    if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']").length > 1) {
+                                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
+                                    } else {
+                                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
+                                    }
+                                }
+                            }
+                            //Genderless
+                            if (shelterValueArrayCustom.indexOf("[N]") > -1) {
+                                if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length) {
+                                    let searchResult = value;
+                                    let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[N]") +2];
+                                    let tooltipResult = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length+" Genderless "+imgGender+" "+searchResult;
+                                    let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                                    let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']")
+                                    let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
+                                    $(shelterBigImg).addClass('shelterfoundme');
+
+                                    if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length > 1) {
+                                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
+                                    } else {
+                                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
+                                    }
+                                }
+                            }
+                            //No genders
+                            if (shelterValueArrayCustom.length === 0) {
+                                if ($('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))').length) {
+                                    let searchResult = value;
+                                    let tooltipResult = $('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))').length+" "+searchResult;
+                                    let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                                    let shelterImgSearch = $('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
+                                    let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
+                                    $(shelterBigImg).addClass('shelterfoundme');
+
+                                    if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length > 1) {
+                                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
+                                    } else {
+                                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
+                                    }
+                                }
+                            }
+                        }
+
+                        //custom egg
+                        if (settings.customEgg === true) {
+                            let name_matches = $('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")');
+                            let num_matches = name_matches.length;
+
+                            if (num_matches) {
+                                let searchResult = value;
+                                let tooltipResult = num_matches+" "+searchResult;
+                                let imgFitResult = `<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">`;
+                                let shelterImgSearch = name_matches;
+                                let shelterBigImg = shelterImgSearch.prev().children('img.big');
+                                $(shelterBigImg).addClass('shelterfoundme');
+
+                                if (num_matches > 1) {
+                                    document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' Eggs found '+imgFitResult+'</div>');
+                                } else {
+                                    document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' egg found '+imgFitResult+'</div>');
+                                }
+                            }
+                        }
+
+                        //imgSearch with Pokémon
+                        if (settings.customPng === true) {
+                            if ($('#shelterarea img[src*="'+value+'"]').length) {
+                                let searchResult = $('#shelterarea img[src*="'+value+'"]').parent().next().text().split('(')[0]
+                                let tooltipResult = $('#shelterarea img[src*="'+value+'"]').length+" "+searchResult+' (Custom img search)';
+                                let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                                let shelterImgSearch = $('#shelterarea img[src*="'+value+'"]');
+                                $(shelterImgSearch).addClass('shelterfoundme');
+
+                                if ($('#shelterarea img[src*="'+value+'"]').length > 1) {
+                                    document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
+                                } else {
+                                    document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //loop to find all the types
+
+                const typeArray = shelterTypeArray.filter(v=>v!='');
+
+                if (typeArray.length > 0) {
+                    for (let i = 0; i < typeArray.length; i++) {
+                        let value = typeArray[i];
+                        let foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
+
+                        if (settings.findTypeEgg === true) {
+                            let typePokemonNames = [];
+                            $('#shelterarea>.tooltip_content:contains("Egg")').each(function() {
+                                let searchPokemon = ($(this).text().split(' ')[0]);
+                                let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
+                                let searchTypeOne = dexData[searchPokemonIndex + 1];
+                                let searchTypeTwo = dexData[searchPokemonIndex + 2];
+
+                                if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                                    typePokemonNames.push(searchPokemon);
+                                }
+                            })
+
+                            for (let o = 0; o < typePokemonNames.length; o++) {
+                                let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN('"+typePokemonNames[o]+" Egg')");
+                                let shelterBigImg = shelterImgSearch.prev().children('img.big');
+                                $(shelterBigImg).addClass('shelterfoundme');
+                            }
+
+                            if (typePokemonNames.length == 1) {
+                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+typePokemonNames.length+' '+foundType+' egg type found! ('+typePokemonNames.toString()+')</div>');
+                            } else if (typePokemonNames.length > 1) {
+                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+typePokemonNames.length+' '+foundType+' egg types found! ('+typePokemonNames.toString()+')</div>');
+                            }
+                        }
+
+                        if (settings.findTypePokemon === true) {
+                            let typePokemonNames = [];
+
+                            $('#shelterarea>.tooltip_content').not(':contains("Egg")').each(function() {
+                                let searchPokemon = ($(this).text().split(' ')[0]);
+                                let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
+                                let searchTypeOne = dexData[searchPokemonIndex + 1];
+                                let searchTypeTwo = dexData[searchPokemonIndex + 2];
+                                if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                                    typePokemonNames.push(searchPokemon);
+                                }
+                            })
+
+                            let typeImgStandOutLength = typePokemonNames.length;
+                            let o;
+                            for (o = 0; o < typeImgStandOutLength; o++) {
+                                let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN('"+typePokemonNames[o]+" (')")
+                                let shelterBigImg = shelterImgSearch.prev().children('img.big');
+                                $(shelterBigImg).addClass('shelterfoundme');
+                            }
+
+                            if (typePokemonNames.length == 1) {
+                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+typePokemonNames.length+' '+foundType+' Pokémon type found! ('+typePokemonNames.toString()+')</div>');
+                            } else if (typePokemonNames.length > 1) {
+                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+typePokemonNames.length+' '+foundType+' Pokémon types found! ('+typePokemonNames.toString()+')</div>');
+                            }
+                        }
+                    }
+                }
+            },
+
+
+            removeEgg(element) {
+                eggNoDuplicateArray = settings.NewEggDuplicate.split(',');
+                let eggList = eggNoDuplicateArray.length;
+                let i;
+                for (i = 0; i < eggList; i++) {
+                    let value = eggNoDuplicateArray[i];
+                    if (element === 'url("https://'+value+'")') {
+                        let index = eggNoDuplicateArray.indexOf(value);
+                        if (index > -1) {
+                            eggNoDuplicateArray.splice(index, 1);
+                            settings.NewEggDuplicate = eggNoDuplicateArray.toString();
+                        }
+                    }
+                }
+            },
+        };
+
+        return API;
+    })(); // ShelterPage
 
     let PFQoL = (function PFQoL() {
 
@@ -736,30 +795,6 @@
             easyEvolve: true,
             labNotifier: true,
             //shelter settings
-            shelterSettings : {
-                findCustom: "",
-                findType: "",
-                findTypeEgg: true,
-                findTypePokemon: false,
-                findNewEgg: true,
-                NewEggDuplicate: "",
-                findNewPokemon: true,
-                findShiny: true,
-                findAlbino: true,
-                findMelanistic: true,
-                findPrehistoric: true,
-                findDelta: true,
-                findMega: true,
-                findStarter: true,
-                findCustomSprite: true,
-                findMale: true,
-                findFemale: true,
-                findNoGender: true,
-                customEgg: true,
-                customPokemon: true,
-                customPng: false,
-                shelterGrid: true,
-            },
             fieldSortSettings : {
                 fieldByBerry: false,
                 fieldByMiddle: false,
@@ -821,17 +856,9 @@
         const VARIABLES = { // all the variables that are going to be used in fn
             userSettings : DEFAULT_USER_SETTINGS,
             shelterTypeSearch : GLOBALS.SHELTER_TYPE_TABLE,
-            natureList : GLOBALS.NATURE_LIST;,
+            natureList : GLOBALS.NATURE_LIST,
             shelterSearch : GLOBALS.SHELTER_SEARCH_DATA,
-            typeOptions : Helpers.buildOptionsString(GLOBALS.TYPE_LIST),
-            natureOptions : Helpers.buildOptionsString(NATURE_LIST),
-            eggGroupOptions : Helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST),
             dexDataVar : "",
-            shelterCustomArray : [],
-            shelterTypeArray : [],
-            newEggAdopt : "",
-            eggNoDuplicateArray : [],
-            lengthEggs : 0,
             evolveListCache : "",
             labSearchArray : [],
             labListArray : [],
@@ -842,29 +869,12 @@
             privateFieldTypeArray : [],
             privateFieldNatureArray : [],
             privateFieldEggGroupArray : [],
-        }
-
-        const TEMPLATES = { // all the new/changed HTML for the userscript
-            qolHubLinkHTML        : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
-            qolHubUpdateLinkHTML  : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
-            qolSettingsMenuHTML   : GM_getResourceText('QoLSettingsMenuHTML'),
-            shelterSettingsHTML   : GM_getResourceText('shelterSettingsHTML'),
-            massReleaseSelectHTML : `<label id="selectallfish"><input id="selectallfishcheckbox" type="checkbox">Select all</label><label id="movefishselectany"><input id="movefishdselectanycheckbox" type="checkbox">Select Any  </label><label id="movefishselectsour"><input id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefishselectspicy"><input id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefishselectdry"><input id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefishselectsweet"><input id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefishselectbitter"><input id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
-            fieldSortHTML         : `<div id="fieldorder"><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"/>Sort by berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByMiddle"/>Sort in the middle</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByGrid"/>Align to grid</label><label><input type="checkbox" class="qolsetting" data-key="fieldClickCount"/>Click counter</label></div>`,
-            fieldSearchHTML       : GM_getResourceText('fieldSearchHTML'),
-            privateFieldSearchHTML: GM_getResourceText('privateFieldSearchHTML'),
-            qolHubHTML            : GM_getResourceText('QolHubHTML'),
-            partyModHTML          : `<div id='qolpartymod'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>`,
-            evolveFastHTML        : GM_getResourceText('evolveFastHTML'),
-            labOptionsHTML        : GM_getResourceText('labOptionsHTML'),
+            typeOptions : Helpers.buildOptionsString(GLOBALS.TYPE_LIST),
+            natureOptions : Helpers.buildOptionsString(GLOBALS.NATURE_LIST),
+            eggGroupOptions : Helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST),
         }
 
         const OBSERVERS = {
-            shelterObserver: new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    fn.API.shelterCustomSearch();
-                });
-            }),
             fieldsObserver: new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     fn.API.fieldSorter();
@@ -911,6 +921,7 @@
                     });
                 },
                 loadSettings() { // initial settings on first run and setting the variable settings key
+                    ShelterPage.loadSettings();
                     if (localStorage.getItem(SETTINGS_SAVE_KEY) === null) {
                         fn.backwork.saveSettings();
                     } else {
@@ -947,6 +958,8 @@
                     }
                 },
                 saveSettings() { // Save changed settings
+                    console.log('TODO - update PFQoL.saveSettings()')
+                    ShelterPage.saveSettings();
                     localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(VARIABLES.userSettings));
                 },
                 populateSettingsPage() { // checks all settings checkboxes that are true in the settings
@@ -965,16 +978,8 @@
                             continue;
                        }
                     }
-                    for (let key in VARIABLES.userSettings.shelterSettings) {
-                        if (!VARIABLES.userSettings.shelterSettings.hasOwnProperty(key)) {
-                            continue;
-                        }
-                        let value = VARIABLES.userSettings.shelterSettings[key];
-                        if (typeof value === 'boolean') {
-                            Helpers.toggleSetting(key, value, false);
-                            continue;
-                        }
-                    }
+                    ShelterPage.populateSettings();
+
                     for (let key in VARIABLES.userSettings.fieldSortSettings) {
                         if (!VARIABLES.userSettings.fieldSortSettings.hasOwnProperty(key)) {
                             continue;
@@ -1032,7 +1037,8 @@
 
                     // shelter Settings Menu
                     if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
-						ShelterPage.setupHTML();
+                        ShelterPage.setupHTML();
+                        fn.backwork.populateSettingsPage(ShelterPage.getSettings());
                     }
 
                     // fishing select all button on caught fishing
@@ -1286,6 +1292,7 @@
                 },
 
                 settingsChange(element, textElement, customClass, typeClass) {
+                    console.log('baguette')
                     if (JSON.stringify(VARIABLES.userSettings).indexOf(element) >= 0) { // userscript settings
                         if (VARIABLES.userSettings[element] === false ) {
                             VARIABLES.userSettings[element] = true;
@@ -1295,9 +1302,15 @@
                             VARIABLES.userSettings[element] = textElement;
                         }
                     }
-                    else if (ShelterPage.settingsChange(element, textElement, customClass, typeClass) {}
+                    else if (ShelterPage.settingsChange(element, textElement, customClass, typeClass)) {
+                        console.log('baguette - after')
+                        console.log(ShelterPage.getSettings());
+                        ShelterPage.saveSettings();
+                        console.log('baguette - after 2')
+                        console.log(ShelterPage.getSettings());
+                    }
 
-                    if (JSON.stringify(VARIABLES.userSettings.fieldSortSettings).indexOf(element) >= 0) { // field sort settings
+                    else if (JSON.stringify(VARIABLES.userSettings.fieldSortSettings).indexOf(element) >= 0) { // field sort settings
                         if (VARIABLES.userSettings.fieldSortSettings[element] === false ) {
                             VARIABLES.userSettings.fieldSortSettings[element] = true;
                             if (element === "fieldByBerry") {
@@ -1317,7 +1330,7 @@
                         }
                     }
 
-                    if (JSON.stringify(VARIABLES.userSettings.fieldSearchSettings).indexOf(element) >= 0) { // field search settings
+                    else if (JSON.stringify(VARIABLES.userSettings.fieldSearchSettings).indexOf(element) >= 0) { // field search settings
                         if (VARIABLES.userSettings.fieldSearchSettings[element] === false ) {
                             VARIABLES.userSettings.fieldSearchSettings[element] = true;
                         } else if (VARIABLES.userSettings.fieldSearchSettings[element] === true ) {
@@ -1353,7 +1366,7 @@
                         }
                     }
 
-                    if (JSON.stringify(VARIABLES.userSettings.privateFieldSearchSettings).indexOf(element) >= 0) { // field search settings
+                    else if (JSON.stringify(VARIABLES.userSettings.privateFieldSearchSettings).indexOf(element) >= 0) { // field search settings
                         if (VARIABLES.userSettings.privateFieldSearchSettings[element] === false ) {
                             VARIABLES.userSettings.privateFieldSearchSettings[element] = true;
                         } else if (VARIABLES.userSettings.privateFieldSearchSettings[element] === true ) {
@@ -1400,7 +1413,7 @@
                         }
                     }
 
-                    if (JSON.stringify(VARIABLES.userSettings.partyModSettings).indexOf(element) >= 0) { // partymod settings
+                    else if (JSON.stringify(VARIABLES.userSettings.partyModSettings).indexOf(element) >= 0) { // partymod settings
                         if (VARIABLES.userSettings.partyModSettings[element] === false ) {
                             VARIABLES.userSettings.partyModSettings[element] = true;
                             if (element === "hideAll") {
@@ -1439,15 +1452,35 @@
                         }
                     }
 
+                    console.log('baguette - double after')
+                    console.log(ShelterPage.getSettings());
                     fn.backwork.saveSettings();
+                    console.log('baguette - triple after')
+                    console.log(ShelterPage.getSettings());
                 },
 
                 shelterAddTextField() { ShelterPage.addTextField(); },
-                shelterRemoveTextfield(byebye, key) { ShelterPage.removeTextField(byebye, key); },
+                shelterRemoveTextfield(byebye, key) {
+                    ShelterPage.removeTextField(byebye, key);
+                    fn.backwork.saveSettings(ShelterPage.settings);
+                },
                 shelterAddTypeList() { ShelterPage.addTypeList(); },
-                shelterRemoveTypeList(byebye, key) { ShelterPage.removeTypeList(byebye, key); },
-                shelterCustomSearch() { ShelterPage.customSearch() },
-                shelterRemoveEgg(element) { ShelterPage.removeEgg(element) };
+                shelterRemoveTypeList(byebye, key) {
+                    ShelterPage.removeTypeList(byebye, key);
+                    fn.backwork.saveSettings(ShelterPage.settings);
+                },
+                shelterCustomSearch() {
+                    console.log('crumb')
+                    ShelterPage.loadSettings();
+                    ShelterPage.customSearch();
+                    console.log('bmurc')
+                    ShelterPage.saveSettings();
+                },
+                shelterRemoveEgg(element) {
+                    ShelterPage.loadSettings();
+                    ShelterPage.removeEgg(element)
+                    ShelterPage.saveSettings();
+                },
 
                 releaseFieldSelectAll() {
                     if (VARIABLES.userSettings.releaseSelectAll === true) {
@@ -3063,7 +3096,9 @@
     }));
 
     $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+        console.log('naan - begin')
         PFQoL.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+        console.log('naan - end')
     }));
 
     if(Helpers.onFishingPage()) {
