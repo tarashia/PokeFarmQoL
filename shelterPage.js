@@ -57,11 +57,7 @@ let ShelterPage = (function ShelterPage() {
             }
         },
         settingsChange(element, textElement, customClass, typeClass) {
-            console.log('brioche')
-            console.log('Before')
-            console.log(settings)
             if(JSON.stringify(settings).indexOf(element) >= 0) { // shelter settings
-                console.log(settings[element])
                 if (settings[element] === false ) {
                     settings[element] = true;
                 } else if (settings[element] === true ) {
@@ -84,8 +80,6 @@ let ShelterPage = (function ShelterPage() {
                         settings.findCustom = customArray.toString();
                     }
                 }
-                console.log('After')
-                console.log(settings)
                 return true;
             } else { return false; }
         },
@@ -139,42 +133,47 @@ let ShelterPage = (function ShelterPage() {
         },
         setupHandlers() {
             $(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
-                console.log('pizza - begin')
-                console.log(settings)
-                PFQoL.shelterCustomSearch();
-                console.log('pizza - end')
+                API.loadSettings();
+                API.customSearch();
+                API.saveSettings();
             }));
 
             $(document).on('change', '.qolsetting', (function() {
-                console.log('calzone')
-                console.log(settings)
-                PFQoL.shelterCustomSearch();
+                API.loadSettings();
+                API.customSearch();
+                API.saveSettings();
             }));
 
             $('.customSearchOnClick').on('click', (function() {
-                PFQoL.shelterCustomSearch();
+                API.loadSettings();
+                API.customSearch();
+                API.saveSettings();
             }));
 
             $('*[data-hatch]').on('click', (function() {
-                PFQoL.shelterRemoveEgg($(this).parent().prev().prev().prev().children().css('background-image'));
+                API.loadSettings();
+                API.removeEgg($(this).parent().prev().prev().prev().children().css('background-image'));
+                API.saveSettings();
             }));
 
             $(document).on('click', '#addShelterTextfield', (function() { //add shelter text field
-                PFQoL.shelterAddTextField();
+                API.addTextField();
             }));
 
             $(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
-                PFQoL.shelterRemoveTextfield(this, $(this).parent().find('input').val());
-                PFQoL.shelterCustomSearch();
+                API.removeTextField(this, $(this).parent().find('input').val());
+                API.saveSettings();
+                API.customSearch();
             }));
 
             $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
-                PFQoL.shelterAddTypeList();
+                API.addTypeList();
             }));
 
             $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
-                PFQoL.shelterRemoveTypeList(this, $(this).parent().find('select').val());
-                PFQoL.shelterCustomSearch();
+                API.removeTypeList(this, $(this).parent().find('input').val());
+                API.saveSettings();
+                API.customSearch();
             }));
         },
         addTextField() {
@@ -565,4 +564,3 @@ let ShelterPage = (function ShelterPage() {
 
     return API;
 })(); // ShelterPage
-
