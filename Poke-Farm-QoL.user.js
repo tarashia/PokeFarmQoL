@@ -144,9 +144,9 @@
                 return obj;
             },
             saveSettings(KEY, obj) {
-                console.log('Helpers.saveSettings')
-                console.log(KEY)
-                console.log(obj)
+//                 console.log('Helpers.saveSettings')
+//                 console.log(KEY)
+//                 console.log(obj)
                 localStorage.setItem(KEY, JSON.stringify(obj));
             },
         };
@@ -688,11 +688,11 @@
 
                 //loop to find all the types
 
-                const typeArray = typeArray.filter(v=>v!='');
+                const filteredTypeArray = typeArray.filter(v=>v!='');
 
-                if (typeArray.length > 0) {
-                    for (let i = 0; i < typeArray.length; i++) {
-                        let value = typeArray[i];
+                if (filteredTypeArray.length > 0) {
+                    for (let i = 0; i < filteredTypeArray.length; i++) {
+                        let value = filteredTypeArray[i];
                         let foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
 
                         if (settings.findTypeEgg === true) {
@@ -735,8 +735,7 @@
                             })
 
                             let typeImgStandOutLength = typePokemonNames.length;
-                            let o;
-                            for (o = 0; o < typeImgStandOutLength; o++) {
+                            for (let o = 0; o < typeImgStandOutLength; o++) {
                                 let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN('"+typePokemonNames[o]+" (')")
                                 let shelterBigImg = shelterImgSearch.prev().children('img.big');
                                 $(shelterBigImg).addClass('shelterfoundme');
@@ -791,14 +790,14 @@
 			fieldFemale: true,
 			fieldNoGender: true,
 			customItem: true,
-		},
+		};
 		let settings = DEFAULT_SETTINGS;
-		let privateFieldCustomArray = [];
-		let privateFieldTypeArray = [];
-		let privateFieldNatureArray = [];
-		let privateFieldEggGroupArray = [];
+		let customArray = [];
+		let typeArray = [];
+		let natureArray = [];
+		let eggGroupArray = [];
 		let dexData = "";
-		const observer: new MutationObserver((mutations) => {
+		const observer = new MutationObserver((mutations) => {
 			mutations.forEach((mutation) => {
 				API.customSearch();
 			});
@@ -826,51 +825,48 @@
 					}
 				}
 			},
-			settingsChange() {
-				if (VARIABLES.userSettings.privateFieldSearchSettings[element] === false ) {
-					VARIABLES.userSettings.privateFieldSearchSettings[element] = true;
+			settingsChange(element, textElement, customClass, typeClass) {
+				if (typeof (settings[element]) === 'boolean') {
+                    settings[element] = !settings[element];
 					return true;
-				} else if (VARIABLES.userSettings.privateFieldSearchSettings[element] === true ) {
-					VARIABLES.userSettings.privateFieldSearchSettings[element] = false;
-					return true;
-				} else if (typeof VARIABLES.userSettings.privateFieldSearchSettings[element] === 'string') {
+				} else if (settings[element] === 'string') {
 					if (element === 'fieldType') {
 						if (textElement === 'none') {
 							let tempIndex = typeClass - 1;
-							VARIABLES.privateFieldTypeArray.splice(tempIndex, tempIndex);
-							VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.privateFieldTypeArray.toString();
+							typeArray.splice(tempIndex, tempIndex);
+							settings.fieldType = typeArray.toString();
 						} else {
 							let tempIndex = typeClass - 1;
-							VARIABLES.privateFieldTypeArray[tempIndex] = textElement;
-							VARIABLES.userSettings.privateFieldSearchSettings.fieldType = VARIABLES.privateFieldTypeArray.toString();
+							typeArray[tempIndex] = textElement;
+							settings.fieldType = typeArray.toString();
 						}
 					}
 					else if (element === 'fieldNature') {
 						if (textElement === 'none') {
 							let tempIndex = typeClass - 1;
-							VARIABLES.privateFieldNatureArray.splice(tempIndex, tempIndex);
-							VARIABLES.userSettings.privateFieldSearchSettings.fieldNature = VARIABLES.privateFieldNatureArray.toString();
+							natureArray.splice(tempIndex, tempIndex);
+							settings.fieldNature = natureArray.toString();
 						} else {
 							let tempIndex = typeClass - 1;
-							VARIABLES.privateFieldNatureArray[tempIndex] = textElement;
-							VARIABLES.userSettings.privateFieldSearchSettings.fieldNature = VARIABLES.privateFieldNatureArray.toString();
+							natureArray[tempIndex] = textElement;
+							settings.fieldNature = natureArray.toString();
 						}
 					}
 					else if (element === 'fieldEggGroup') {
 						if (textElement === 'none') {
 							let tempIndex = typeClass - 1;
-							VARIABLES.privateFieldEggGroupArray.splice(tempIndex, tempIndex);
-							VARIABLES.userSettings.privateFieldSearchSettings.fieldEggGroup = VARIABLES.privateFieldEggGroupArray.toString();
+							eggGroupArray.splice(tempIndex, tempIndex);
+							settings.fieldEggGroup = eggGroupArray.toString();
 						} else {
 							let tempIndex = typeClass - 1;
-							VARIABLES.privateFieldEggGroupArray[tempIndex] = textElement;
-							VARIABLES.userSettings.privateFieldSearchSettings.fieldEggGroup = VARIABLES.privateFieldEggGroupArray.toString();
+							eggGroupArray[tempIndex] = textElement;
+							settings.fieldEggGroup = eggGroupArray.toString();
 						}
 					}
 					else if (element === 'fieldCustom') {
 						let tempIndex = customClass - 1;
-						VARIABLES.privateFieldCustomArray[tempIndex] = textElement;
-						VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom = VARIABLES.privateFieldCustomArray.toString();
+						customArray[tempIndex] = textElement;
+						settings.fieldCustom = customArray.toString();
 					}
 					return true;
 				}
@@ -882,17 +878,16 @@
 				const theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removePrivateFieldTypeSearch'> </div>`;
 				const theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + GLOBALS.NATURE_OPTIONS + ` </select> <input type='button' value='Remove' id='removePrivateFieldNature'> </div>`;
 				const theEggGroup = `<div class='eggGroupNumber'> <select name="eggGroups" class="qolsetting" data-key="fieldEggGroup"> ` + GLOBALS.EGG_GROUP_OPTIONS + ` </select> <input type='button' value='Remove' id='removePrivateFieldEggGroup'> </div>`;
-				VARIABLES.privateFieldCustomArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom.split(',');
-				VARIABLES.privateFieldTypeArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldType.split(',');
-				VARIABLES.privateFieldNatureArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldNature.split(',');
-				VARIABLES.privateFieldEggGroupArray = VARIABLES.userSettings.privateFieldSearchSettings.fieldEggGroup.split(',');
-				Helpers.setupFieldArrayHTML(VARIABLES.privateFieldCustomArray, 'searchkeys', theField, 'numberDiv');
-				Helpers.setupFieldArrayHTML(VARIABLES.privateFieldTypeArray, 'fieldTypes', theType, 'typeNumber');
-				Helpers.setupFieldArrayHTML(VARIABLES.privateFieldNatureArray, 'natureTypes', theNature, 'natureNumber');
-				Helpers.setupFieldArrayHTML(VARIABLES.privateFieldEggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+				customArray = settings.fieldCustom.split(',');
+				typeArray = settings.fieldType.split(',');
+				natureArray = settings.fieldNature.split(',');
+				eggGroupArray = settings.fieldEggGroup.split(',');
+				Helpers.setupFieldArrayHTML(customArray, 'searchkeys', theField, 'numberDiv');
+				Helpers.setupFieldArrayHTML(typeArray, 'fieldTypes', theType, 'typeNumber');
+				Helpers.setupFieldArrayHTML(natureArray, 'natureTypes', theNature, 'natureNumber');
+				Helpers.setupFieldArrayHTML(eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
 
-				fn.backwork.populateSettingsPage();
-				VARIABLES.dexDataVar = VARIABLES.userSettings.variData.dexData.split(',');
+                dexData = GLOBALS.DEX_DATA.split(',');
 			},
 			setupCSS() {
 				// same as public fields
@@ -952,21 +947,77 @@
 				}));
 
 				$(document).on('change', '.qolsetting', (function() {
+                    console.log('private calzones')
 					PFQoL.privateFieldCustomSearch();
 				}));
 
 				$(document).on('click', '*[data-menu="bulkmove"]', (function() { // select all feature
 					PFQoL.moveFieldSelectAll();
 				}));
-				
+
 			},
 			// specific
-			
-			
-		};
-		
+			customSearch() {
+                let bigImgs = document.querySelectorAll('.privatefoundme')
+                if(bigImgs !== null) {
+                    bigImgs.forEach((b) => {$(b).removeClass('privatefoundme')})
+                }
+
+                console.log('pie')
+                console.log(typeArray, natureArray, eggGroupArray)
+                const filteredTypeArray = typeArray.filter(v=>v!='');
+                const filteredNatureArray = natureArray.filter(v=>v!='');
+                const filteredEggGroupArray = eggGroupArray.filter(v=>v!='');
+
+                //loop to find all the types
+                if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
+                    $('.fieldmon').each(function() {
+                        let searchPokemonBigImg = $(this)[0].childNodes[0];
+                        let searchPokemon = searchPokemonBigImg.alt;
+                        let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
+                        let searchTypeOne = dexData[searchPokemonIndex + 1];
+                        let searchTypeTwo = dexData[searchPokemonIndex + 2];
+
+                        let searchNature = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Nature)')[0].innerText.split(" ")[1];
+                        if (searchNature.indexOf("(") > -1) { searchNature = searchNature.slice(0, -1); }
+
+                        let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
+
+                        for (let i = 0; i < filteredTypeArray.length; i++) {
+                            if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
+                                $(searchPokemonBigImg).addClass('privatefoundme');
+                            }
+                        }
+
+                        for (let i = 0; i < filteredNatureArray.length; i++) {
+                            if(searchNature === GLOBALS.NATURE_LIST[filteredNatureArray[i]]) {
+                                $(searchPokemonBigImg).addClass('privatefoundme');
+                            }
+                        }
+
+                        for (let i = 0; i < filteredEggGroupArray.length; i++) {
+                            let value = GLOBALS.EGG_GROUP_LIST[filteredEggGroupArray[i]];
+                            if(searchEggGroup === value ||
+                               searchEggGroup.indexOf(value + "/") > -1 ||
+                               searchEggGroup.indexOf("/" + value) > -1) {
+                                $(searchPokemonBigImg).addClass('privatefoundme');
+                            }
+                        }
+                    }) // each
+                } // end
+            },
+            addSelectSearch(cls, name, data_key, options, id, divParent) {
+                console.log('panko')
+                let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+                let number = (`#${divParent}>div`).length;
+                $(`#${divParent}`).append(theList);
+                $(`.${cls}`).removeClass(cls).addClass(""+number+"");
+            },
+        };
+
+        return API;
 	})(); // PrivateFieldsPage
-	
+
 	let PFQoL = (function PFQoL() {
 
         const DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
@@ -1079,44 +1130,53 @@
                     });
                 },
                 loadSettings() { // initial settings on first run and setting the variable settings key
-                    ShelterPage.loadSettings();
-					PrivateFieldsPage.loadSettings();
-                    if (localStorage.getItem(SETTINGS_SAVE_KEY) === null) {
-                        fn.backwork.saveSettings();
+                    if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
+                        ShelterPage.loadSettings();
+                    } else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
+                        PrivateFieldsPage.loadSettings();
                     } else {
-                        try {
-                            let countScriptSettings = Object.keys(VARIABLES.userSettings).length +
-                                Object.keys(VARIABLES.userSettings.shelterSettings).length +
-                                Object.keys(VARIABLES.userSettings.fieldSortSettings).length;
-                            let localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                            let countLocalStorageSettings = Object.keys(localStorageString).length +
-                                Object.keys(localStorageString.shelterSettings).length +
-                                Object.keys(localStorageString.fieldSortSettings).length;
-                            if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
-                                let defaultsSetting = VARIABLES.userSettings;
-                                let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                let newSetting = $.extend(true,{}, defaultsSetting, userSetting);
 
-                                VARIABLES.userSettings = newSetting;
-                                fn.backwork.saveSettings();
-                            }
-                            if (countLocalStorageSettings > countScriptSettings) { // removes objects from the local storage if they don't exist anymore. Not yet possible..
-                                //let defaultsSetting = VARIABLES.userSettings;
-                                //let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                fn.backwork.saveSettings();
-                            }
-                        }
-                        catch(err) {
+                        if (localStorage.getItem(SETTINGS_SAVE_KEY) === null) {
                             fn.backwork.saveSettings();
-                        }
-                        if (localStorage.getItem(SETTINGS_SAVE_KEY) != VARIABLES.userSettings) {
-                            VARIABLES.userSettings = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                        } else {
+                            try {
+                                let countScriptSettings = Object.keys(VARIABLES.userSettings).length +
+                                    Object.keys(VARIABLES.userSettings.shelterSettings).length +
+                                    Object.keys(VARIABLES.userSettings.fieldSortSettings).length;
+                                let localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                                let countLocalStorageSettings = Object.keys(localStorageString).length +
+                                    Object.keys(localStorageString.shelterSettings).length +
+                                    Object.keys(localStorageString.fieldSortSettings).length;
+                                if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
+                                    let defaultsSetting = VARIABLES.userSettings;
+                                    let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                                    let newSetting = $.extend(true,{}, defaultsSetting, userSetting);
+
+                                    VARIABLES.userSettings = newSetting;
+                                    fn.backwork.saveSettings();
+                                }
+                                if (countLocalStorageSettings > countScriptSettings) { // removes objects from the local storage if they don't exist anymore. Not yet possible..
+                                    //let defaultsSetting = VARIABLES.userSettings;
+                                    //let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                                    fn.backwork.saveSettings();
+                                }
+                            }
+                            catch(err) {
+                                fn.backwork.saveSettings();
+                            }
+                            if (localStorage.getItem(SETTINGS_SAVE_KEY) != VARIABLES.userSettings) {
+                                VARIABLES.userSettings = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                            }
                         }
                     }
                 },
                 saveSettings() { // Save changed settings
                     console.log('TODO - update PFQoL.saveSettings()')
-                    ShelterPage.saveSettings();
+                    if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
+                        ShelterPage.saveSettings();
+                    } else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
+                        PrivateFieldsPage.saveSettings();
+                    }
                     localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(VARIABLES.userSettings));
                 },
                 populateSettingsPage() { // checks all settings checkboxes that are true in the settings
@@ -1135,7 +1195,9 @@
                             continue;
                        }
                     }
-                    ShelterPage.populateSettings();
+                    if(VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
+                        ShelterPage.populateSettings();
+                    }
 
                     for (let key in VARIABLES.userSettings.fieldSortSettings) {
                         if (!VARIABLES.userSettings.fieldSortSettings.hasOwnProperty(key)) {
@@ -1162,7 +1224,9 @@
                             continue;
                         }
                     }
-                    PrivateFieldsPage.populateSettings();
+                    if(VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
+                       PrivateFieldsPage.populateSettings();
+                    }
                     for (let key in VARIABLES.userSettings.partyModSettings) {
                         if (!VARIABLES.userSettings.partyModSettings.hasOwnProperty(key)) {
                             continue;
@@ -1197,6 +1261,7 @@
                     // private fields search
                     if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
 						PrivateFieldsPage.setupHTML();
+                        fn.backwork.populateSettingsPage(PrivateFieldsPage.getSettings());
                     }
 
                     //fields search
@@ -1273,8 +1338,9 @@
                 setupCSS() { // All the CSS changes are added here
                     GM_addStyle(GM_getResourceText('QoLCSS'));
 
-                    //shelter css
-					ShelterPage.setupCSS();
+                    if(VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
+                        ShelterPage.setupCSS();
+                    }
 
                     //lab css
                     let labSuccessCss = $('#labpage>div').css('background-color');
@@ -1288,7 +1354,10 @@
 					
                     $("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
                     $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
-					PrivateFieldsPage.setupCSS();
+
+                    if(VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
+                        PrivateFieldsPage.setupCSS();
+                    }
 
                     //mass party click css
                     let menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
@@ -1302,7 +1371,6 @@
                     //document.querySelector('head').append();
                     $('head').append('<style type="text/css">'+customUserCss+'</style>');
                 },
-
                 setupObservers() { // all the Observers that needs to run
                     if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) { //observe changes on the shelter page
 						ShelterPage.setupObserver();
@@ -1343,7 +1411,6 @@
                         PrivateFieldsPage.setupObserver();
                     }
                 },
-
                 setupHandlers() { // all the event handlers
 					if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) { //observe changes on the shelter page
 						ShelterPage.setupHandlers();
@@ -1352,7 +1419,6 @@
 						PrivateFieldsPage.setupHandlers();
 					}
 				},
-				
 				startup() { // All the functions that are run to start the script on Pokéfarm
                     return {
                         'loading Settings'        : fn.backwork.loadSettings,
@@ -1491,7 +1557,7 @@
                         }
                     }
 
-                    else if (PrivateFieldsPage.settingsChange(element, textElement, customClass, typeClass) {
+                    else if (PrivateFieldsPage.settingsChange(element, textElement, customClass, typeClass)) {
 						PrivateFieldsPage.saveSettings();
                     }
 
@@ -1534,11 +1600,11 @@
                         }
                     }
 
-                    console.log('baguette - double after')
-                    console.log(ShelterPage.getSettings());
+//                     console.log('baguette - double after')
+//                     console.log(ShelterPage.getSettings());
                     fn.backwork.saveSettings();
-                    console.log('baguette - triple after')
-                    console.log(ShelterPage.getSettings());
+//                     console.log('baguette - triple after')
+//                     console.log(ShelterPage.getSettings());
                 },
 
                 shelterAddTextField() { ShelterPage.addTextField(); },
@@ -1777,57 +1843,7 @@
                 },
 
                 privateFieldCustomSearch() {
-                    if (VARIABLES.userSettings.privateFieldSearch === false) {
-                        return;
-                    }
-
-                    let bigImgs = document.querySelectorAll('.privatefoundme')
-                    if(bigImgs !== null) {
-                        bigImgs.forEach((b) => {$(b).removeClass('privatefoundme')})
-                    }
-
-                    const typeArray = VARIABLES.privateFieldTypeArray.filter(v=>v!='');
-                    const natureArray = VARIABLES.privateFieldNatureArray.filter(v=>v!='');
-                    const eggGroupArray = VARIABLES.privateFieldEggGroupArray.filter(v=>v!='');
-                    const settings = VARIABLES.userSettings.privateFieldSearchSettings;
-
-                    //loop to find all the types
-                    if (typeArray.length > 0 || natureArray.length > 0 || eggGroupArray.length > 0) {
-                        $('.fieldmon').each(function() {
-                            let searchPokemonBigImg = $(this)[0].childNodes[0];
-                            let searchPokemon = searchPokemonBigImg.alt;
-                            let searchPokemonIndex = VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"');
-                            let searchTypeOne = VARIABLES.dexDataVar[searchPokemonIndex + 1];
-                            let searchTypeTwo = VARIABLES.dexDataVar[searchPokemonIndex + 2];
-
-                            let searchNature = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Nature)')[0].innerText.split(" ")[1];
-                            if (searchNature.indexOf("(") > -1) { searchNature = searchNature.slice(0, -1); }
-
-                            let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
-
-                            for (let i = 0; i < typeArray.length; i++) {
-                                if ((searchTypeOne === typeArray[i]) || (searchTypeTwo === typeArray[i])) {
-                                    $(searchPokemonBigImg).addClass('privatefoundme');
-                                }
-                            }
-
-                            for (let i = 0; i < natureArray.length; i++) {
-                                if(searchNature === NATURE_LIST[natureArray[i]]) {
-                                    $(searchPokemonBigImg).addClass('privatefoundme');
-                                }
-                            }
-
-                            for (let i = 0; i < eggGroupArray.length; i++) {
-                                let value = EGG_GROUP_LIST[eggGroupArray[i]];
-                                if(searchEggGroup === value ||
-                                   searchEggGroup.indexOf(value + "/") > -1 ||
-                                   searchEggGroup.indexOf("/" + value) > -1) {
-                                    $(searchPokemonBigImg).addClass('privatefoundme');
-                                }
-                            }
-                        }) // each
-                    }
-                    // end
+                    PrivateFieldsPage.customSearch();
                 },
 
                 partyModification() {
@@ -3051,22 +3067,23 @@
                     return arr;
                 },
                 privateFieldAddTypeSearch() {
-                    fn.API.privateFieldAddSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes');
+                    console.log('garlic bread')
+                    PrivateFieldsPage.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes');
                 },
                 privateFieldAddNatureSearch() {
-                    fn.API.privateFieldAddSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes')
+                    PrivateFieldsPage.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes')
                 },
                 privateFieldAddEggGroupSearch() {
-                    fn.API.privateFieldAddSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroupSearch', 'eggGroupTypes')
+                    PrivateFieldsPage.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroupSearch', 'eggGroupTypes')
                 },
                 privateFieldRemoveTypeSearch(byebye, key) {
-                    VARIABLES.privateFieldTypeArray = fn.API.privateFieldRemoveSelectSearch(VARIABLES.privateFieldTypeArray, byebye, key, 'fieldType', 'fieldTypes')
+                    VARIABLES.typeArray = fn.API.privateFieldRemoveSelectSearch(VARIABLES.typeArray, byebye, key, 'fieldType', 'fieldTypes')
                 },
                 privateFieldRemoveNatureSearch(byebye, key) {
-                    VARIABLES.privateFieldNatureArray = fn.API.privateFieldRemoveSelectSearch(VARIABLES.privateFieldNatureArray, byebye, key, 'fieldNature', 'natureTypes')
+                    VARIABLES.natureArray = fn.API.privateFieldRemoveSelectSearch(VARIABLES.natureArray, byebye, key, 'fieldNature', 'natureTypes')
                 },
                 privateFieldRemoveEggGroupSearch(byebye, key) {
-                    VARIABLES.privateFieldEggGroupArray = fn.API.privateFieldRemoveSelectSearch(VARIABLES.privateFieldEggGroupArray, byebye, key, 'fieldEggGroup', 'eggGroupTypes')
+                    VARIABLES.eggGroupArray = fn.API.privateFieldRemoveSelectSearch(VARIABLES.eggGroupArray, byebye, key, 'fieldEggGroup', 'eggGroupTypes')
                 },
 
                 privateFieldAddTextField() {
@@ -3076,13 +3093,13 @@
                     $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
                 },
                 privateFieldRemoveTextField(byebye, key) {
-                    VARIABLES.privateFieldCustomArray =
-                        $.grep(VARIABLES.privateFieldCustomArray,
+                    VARIABLES.customArray =
+                        $.grep(VARIABLES.customArray,
                                //when textfield is removed, the value will be deleted from the localstorage
                                function(value) {
                                    return value != key;
                                });
-                    VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom = VARIABLES.privateFieldCustomArray.toString()
+                    VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom = VARIABLES.customArray.toString()
 
                     fn.backwork.saveSettings();
                     $(byebye).parent().remove();
