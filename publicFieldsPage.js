@@ -33,9 +33,9 @@ let PublicFieldsPage = (function PublicFieldsPage() {
         releaseSelectAll : true,
     };
     let settings = DEFAULT_SETTINGS;
-    let customArray : [];
-    let typeArray : [];
-    let natureArray : [];
+    let customArray = [];
+    let typeArray = [];
+    let natureArray = [];
     let dexData = "";
     const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
