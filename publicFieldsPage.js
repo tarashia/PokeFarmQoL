@@ -85,7 +85,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
         },
         setupHTML() {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSortHTML);
-            fn.backwork.populateSettingsPage();
             document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
 
             const theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
