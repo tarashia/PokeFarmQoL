@@ -81,7 +81,61 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             }
         },
 	settingsChange(element, textElement, customClass, typeClass) {
+            if (JSON.stringify(settings.sortSettings).indexOf(element) >= 0) { // field sort settings
+                if (settings.sortSettings[element] === false ) {
+                    settings.sortSettings[element] = true;
+                    if (element === "fieldByBerry") {
+                        settings.sortSettings.fieldByMiddle = false;
+                        settings.sortSettings.fieldByGrid = false;
+                    } else if (element === "fieldByMiddle") {
+                        settings.sortSettings.fieldByBerry = false;
+                        settings.sortSettings.fieldByGrid = false;
+                    } else if (element === "fieldByGrid") {
+                        settings.sortSettings.fieldByBerry = false;
+                        settings.sortSettings.fieldByMiddle = false;
+                    }
+                } else if (settings.sortSettings[element] === true ) {
+                    settings.sortSettings[element] = false;
+                } else if (typeof settings.sortSettings[element] === 'string') {
+                    settings.sortSettings[element] = textElement;
+                }
+            }
 
+            else if (JSON.stringify(settings.searchSettings).indexOf(element) >= 0) { // field search settings
+                if (settings.searchSettings[element] === false ) {
+                    settings.searchSettings[element] = true;
+                } else if (settings.searchSettings[element] === true ) {
+                    settings.searchSettings[element] = false;
+                } else if (typeof settings.searchSettings[element] === 'string') {
+                    if (element === 'fieldType') {
+                        if (textElement === 'none') {
+                            let tempIndex = typeClass - 1;
+                            typeArray.splice(tempIndex, tempIndex);
+                            settings.searchSettings.fieldType = typeArray.toString();
+                        } else {
+                            let tempIndex = typeClass - 1;
+                            typeArray[tempIndex] = textElement;
+                            settings.searchSettings.fieldType = typeArray.toString();
+                        }
+                    }
+                    if (element === 'fieldNature') {
+                        if (textElement === 'none') {
+                            let tempIndex = typeClass - 1;
+                            natureArray.splice(tempIndex, tempIndex);
+                            settings.searchSettings.fieldNature = natureArray.toString();
+                        } else {
+                            let tempIndex = typeClass - 1;
+                            natureArray[tempIndex] = textElement;
+                            settings.searchSettings.fieldNature = natureArray.toString();
+                        }
+                    }
+                    if (element === 'fieldCustom') {
+                        let tempIndex = customClass - 1;
+                        customArray[tempIndex] = textElement;
+                        settings.searchSettings.fieldCustom = customArray.toString();
+                    }
+                }
+            }
         },
         setupHTML() {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSortHTML);
@@ -147,7 +201,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             }));
 
             $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
-                PFQoL.fieldRemoveNatureSearch(this, $(this).parent().find('select').val());
+                API.removeNatureSearch(this, $(this).parent().find('select').val());
             }));
 
             $(document).on('click', '#addFieldTypeList', (function() { //add field type list
@@ -155,7 +209,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             }));
 
             $(document).on('click', '#removeFieldTypeList', (function() { //remove field type list
-                PFQoL.fieldRemoveTypeList(this, $(this).parent().find('select').val());
+                API.removeTypeList(this, $(this).parent().find('select').val());
             }));
         },
         // specific
@@ -250,6 +304,9 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                     $('#pokemonclickcount').css({"color" : "#a30323"});
                 }
             }
+
+            console.log('search activated');
+            
         }, // customSearch
         moveEnableReleaseAll() {
             if(settings.releaseSelectAll === true) {
@@ -327,8 +384,66 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 });
             } // if
         }, // releaseAll
-    };
-    
+        fieldAddTypeList() {
+            API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeList', 'fieldTypes');
+        },
+        fieldAddNatureSearch() {
+            API.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes');
+        },
+        removeTypeList(byebye, key) {
+             //when textfield is removed, the value will be deleted from the localstorage
+            fieldTypeArray = $.grep(fieldTypeArray, function(value) {
+                return value != key;
+            });
+            settings.searchSettings.fieldType = typeArray.toString()
+
+            API.saveSettings();
+            $(byebye).parent().remove();
+
+            let i;
+            for(i = 0; i < $('#fieldTypes>div').length; i++) {
+                let rightDiv = i + 1;
+                $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            }
+        },
+        removeNatureSearch(byebye, key) {
+            natureArray = $.grep(natureArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+                return value != key;
+            });
+            settings.searchSettings.fieldNature = natureArray.toString()
+
+            API.saveSettings();
+            $(byebye).parent().remove();
+
+            let i;
+            for(i = 0; i < $('#natureTypes>div').length; i++) {
+                let rightDiv = i + 1;
+                $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            }
+        },
+
+        fieldAddTextField() {
+            let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
+            let numberDiv = $('#searchkeys>div').length;
+            $('#searchkeys').append(theField);
+            $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
+        },
+        fieldRemoveTextField(byebye, key) {
+            customArray = $.grep(customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+                return value != key;
+            });
+            settings.searchSettings.fieldCustom = customArray.toString()
+
+            API.saveSettings();
+            $(byebye).parent().remove();
+
+            let i;
+            for(i = 0; i < $('#searchkeys>div').length; i++) {
+                let rightDiv = i + 1;
+                $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            }
+        },
+    }; // API
 
     return API;
 })();

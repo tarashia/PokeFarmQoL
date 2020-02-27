@@ -442,71 +442,15 @@
                         }
                     }
                     else if (ShelterPage.settingsChange(element, textElement, customClass, typeClass)) {
-                        console.log('baguette - after')
-                        console.log(ShelterPage.getSettings());
                         ShelterPage.saveSettings();
-                        console.log('baguette - after 2')
-                        console.log(ShelterPage.getSettings());
-                    }
-
-                    else if (JSON.stringify(VARIABLES.userSettings.fieldSortSettings).indexOf(element) >= 0) { // field sort settings
-                        if (VARIABLES.userSettings.fieldSortSettings[element] === false ) {
-                            VARIABLES.userSettings.fieldSortSettings[element] = true;
-                            if (element === "fieldByBerry") {
-                                VARIABLES.userSettings.fieldSortSettings.fieldByMiddle = false;
-                                VARIABLES.userSettings.fieldSortSettings.fieldByGrid = false;
-                            } else if (element === "fieldByMiddle") {
-                                VARIABLES.userSettings.fieldSortSettings.fieldByBerry = false;
-                                VARIABLES.userSettings.fieldSortSettings.fieldByGrid = false;
-                            } else if (element === "fieldByGrid") {
-                                VARIABLES.userSettings.fieldSortSettings.fieldByBerry = false;
-                                VARIABLES.userSettings.fieldSortSettings.fieldByMiddle = false;
-                            }
-                        } else if (VARIABLES.userSettings.fieldSortSettings[element] === true ) {
-                            VARIABLES.userSettings.fieldSortSettings[element] = false;
-                        } else if (typeof VARIABLES.userSettings.fieldSortSettings[element] === 'string') {
-                            VARIABLES.userSettings.fieldSortSettings[element] = textElement;
-                        }
-                    }
-
-                    else if (JSON.stringify(VARIABLES.userSettings.fieldSearchSettings).indexOf(element) >= 0) { // field search settings
-                        if (VARIABLES.userSettings.fieldSearchSettings[element] === false ) {
-                            VARIABLES.userSettings.fieldSearchSettings[element] = true;
-                        } else if (VARIABLES.userSettings.fieldSearchSettings[element] === true ) {
-                            VARIABLES.userSettings.fieldSearchSettings[element] = false;
-                        } else if (typeof VARIABLES.userSettings.fieldSearchSettings[element] === 'string') {
-                            if (element === 'fieldType') {
-                                if (textElement === 'none') {
-                                    let tempIndex = typeClass - 1;
-                                    VARIABLES.fieldTypeArray.splice(tempIndex, tempIndex);
-                                    VARIABLES.userSettings.fieldSearchSettings.fieldType = VARIABLES.fieldTypeArray.toString();
-                                } else {
-                                    let tempIndex = typeClass - 1;
-                                    VARIABLES.fieldTypeArray[tempIndex] = textElement;
-                                    VARIABLES.userSettings.fieldSearchSettings.fieldType = VARIABLES.fieldTypeArray.toString();
-                                }
-                            }
-                            if (element === 'fieldNature') {
-                                if (textElement === 'none') {
-                                    let tempIndex = typeClass - 1;
-                                    VARIABLES.fieldNatureArray.splice(tempIndex, tempIndex);
-                                    VARIABLES.userSettings.fieldSearchSettings.fieldNature = VARIABLES.fieldNatureArray.toString();
-                                } else {
-                                    let tempIndex = typeClass - 1;
-                                    VARIABLES.fieldNatureArray[tempIndex] = textElement;
-                                    VARIABLES.userSettings.fieldSearchSettings.fieldNature = VARIABLES.fieldNatureArray.toString();
-                                }
-                            }
-                            if (element === 'fieldCustom') {
-                                let tempIndex = customClass - 1;
-                                VARIABLES.fieldCustomArray[tempIndex] = textElement;
-                                VARIABLES.userSettings.fieldSearchSettings.fieldCustom = VARIABLES.fieldCustomArray.toString();
-                            }
-                        }
                     }
 
                     else if (PrivateFieldsPage.settingsChange(element, textElement, customClass, typeClass)) {
-						PrivateFieldsPage.saveSettings();
+			PrivateFieldsPage.saveSettings();
+                    }
+
+                    else if (PublicFieldsPage.settingsChange(element, textElement, customClass, typeClass)) {
+                        PublicFieldsPage.saveSettings();
                     }
 
                     else if (JSON.stringify(VARIABLES.userSettings.partyModSettings).indexOf(element) >= 0) { // partymod settings
@@ -1783,69 +1727,6 @@
                                 }
                             }
                         }
-                    }
-                },
-                fieldAddTypeList() {
-                    fn.API.privateFieldAddSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeList', 'fieldTypes');
-                },
-                fieldAddNatureSearch() {
-                    fn.API.privateFieldAddSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes');
-                },
-                fieldRemoveTypeList(byebye, key) {
-                    VARIABLES.fieldTypeArray = $.grep(VARIABLES.fieldTypeArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
-                        return value != key;
-                    });
-                    VARIABLES.userSettings.fieldSearchSettings.fieldType = VARIABLES.fieldTypeArray.toString()
-
-                    fn.backwork.saveSettings();
-                    $(byebye).parent().remove();
-
-                    let i;
-                    for(i = 0; i < $('#fieldTypes>div').length; i++) {
-                        let rightDiv = i + 1;
-                        $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-                    }
-                },
-                fieldRemoveNatureSearch(byebye, key) {
-                    VARIABLES.fieldNatureArray = $.grep(VARIABLES.fieldNatureArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
-                        return value != key;
-                    });
-                    VARIABLES.userSettings.fieldSearchSettings.fieldNature = VARIABLES.fieldNatureArray.toString()
-
-                    fn.backwork.saveSettings();
-                    $(byebye).parent().remove();
-
-                    let i;
-                    for(i = 0; i < $('#natureTypes>div').length; i++) {
-                        let rightDiv = i + 1;
-                        $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-                    }
-                },
-
-                fieldAddTextField() {
-                    let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
-                    let numberDiv = $('#searchkeys>div').length;
-                    $('#searchkeys').append(theField);
-                    $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
-                },
-                fieldRemoveTextField(byebye, key) {
-                    VARIABLES.fieldCustomArray = $.grep(VARIABLES.fieldCustomArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
-                        return value != key;
-                    });
-                    VARIABLES.userSettings.fieldSearchSettings.fieldCustom = VARIABLES.fieldCustomArray.toString()
-
-                    fn.backwork.saveSettings();
-                    $(byebye).parent().remove();
-
-                    let i;
-                    for(i = 0; i < $('#searchkeys>div').length; i++) {
-                        let rightDiv = i + 1;
-                        $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-                    }
-                },
-                fieldCustomSearch() {
-                    if (VARIABLES.userSettings.fieldSearch === true) {
-                        console.log('search activated');
                     }
                 },
             }, // end of API
