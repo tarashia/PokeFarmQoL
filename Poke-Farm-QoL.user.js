@@ -21,6 +21,7 @@
 // @require      globals.js
 // @require      shelterPage.js
 // @require      privateFieldsPage.js
+// @require      publicFieldsPage.js
 // @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
@@ -60,33 +61,6 @@
             partyMod: true,
             easyEvolve: true,
             labNotifier: true,
-            fieldSortSettings : {
-                fieldByBerry: false,
-                fieldByMiddle: false,
-                fieldByGrid: false,
-                fieldClickCount: true,
-            },
-            fieldSearchSettings : {
-                fieldCustom: "",
-                fieldType: "",
-                fieldNature: "",
-                fieldNewPokemon: true,
-                fieldShiny: true,
-                fieldAlbino: true,
-                fieldMelanistic: true,
-                fieldPrehistoric: true,
-                fieldDelta: true,
-                fieldMega: true,
-                fieldStarter: true,
-                fieldCustomSprite: true,
-                fieldMale: true,
-                fieldFemale: true,
-                fieldNoGender: true,
-                fieldCustomPokemon: true,
-                fieldCustomPng: false,
-                fieldItem: true,
-                customItem: true,
-            },
             partyModSettings : {
                 hideDislike: false,
                 hideAll: false,
@@ -108,17 +82,9 @@
             evolveListCache : "",
             labSearchArray : [],
             labListArray : [],
-            fieldCustomArray : [],
-            fieldTypeArray : [],
-            fieldNatureArray : [],
         }
 
         const OBSERVERS = {
-            fieldsObserver: new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    fn.API.fieldSorter();
-                });
-            }),
             partyClickObserver: new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     fn.API.partyModification();
@@ -159,20 +125,21 @@
                         ShelterPage.loadSettings();
                     } else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
                         PrivateFieldsPage.loadSettings();
+                    } else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
+                        PrivateFieldsPage.loadSettings();
+                    } else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                        (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPrivateFieldsPage()) {
+                        PublicFieldsPage.loadSettings();
                     } else {
-
                         if (localStorage.getItem(SETTINGS_SAVE_KEY) === null) {
                             fn.backwork.saveSettings();
                         } else {
                             try {
-                                let countScriptSettings = Object.keys(VARIABLES.userSettings).length +
-                                    Object.keys(VARIABLES.userSettings.shelterSettings).length +
-                                    Object.keys(VARIABLES.userSettings.fieldSortSettings).length;
+                                let countScriptSettings = Object.keys(VARIABLES.userSettings).length;
                                 let localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                let countLocalStorageSettings = Object.keys(localStorageString).length +
-                                    Object.keys(localStorageString.shelterSettings).length +
-                                    Object.keys(localStorageString.fieldSortSettings).length;
-                                if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
+                                let countLocalStorageSettings = Object.keys(localStorageString).length;
+                                // adds new objects (settings) to the local storage
+                                if (countLocalStorageSettings < countScriptSettings) {
                                     let defaultsSetting = VARIABLES.userSettings;
                                     let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
                                     let newSetting = $.extend(true,{}, defaultsSetting, userSetting);
@@ -180,7 +147,8 @@
                                     VARIABLES.userSettings = newSetting;
                                     fn.backwork.saveSettings();
                                 }
-                                if (countLocalStorageSettings > countScriptSettings) { // removes objects from the local storage if they don't exist anymore. Not yet possible..
+                                // removes objects from the local storage if they don't exist anymore. Not yet possible..
+                                if (countLocalStorageSettings > countScriptSettings) {
                                     //let defaultsSetting = VARIABLES.userSettings;
                                     //let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
                                     fn.backwork.saveSettings();
@@ -194,16 +162,19 @@
                             }
                         }
                     }
-                },
+                }, // loadSettings
                 saveSettings() { // Save changed settings
                     console.log('TODO - update PFQoL.saveSettings()')
                     if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
                         ShelterPage.saveSettings();
                     } else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
                         PrivateFieldsPage.saveSettings();
+                    } else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                        (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPrivateFieldsPage()) {
+                        PublicFieldsPage.saveSettings();
                     }
                     localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(VARIABLES.userSettings));
-                },
+                }, // saveSettings
                 populateSettingsPage() { // checks all settings checkboxes that are true in the settings
                     for (let key in VARIABLES.userSettings) {
                         if (!VARIABLES.userSettings.hasOwnProperty(key)) {
@@ -223,33 +194,11 @@
                     if(VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
                         ShelterPage.populateSettings();
                     }
-
-                    for (let key in VARIABLES.userSettings.fieldSortSettings) {
-                        if (!VARIABLES.userSettings.fieldSortSettings.hasOwnProperty(key)) {
-                            continue;
-                        }
-                        let value = VARIABLES.userSettings.fieldSortSettings[key];
-                        if (typeof value === 'boolean') {
-                            Helpers.toggleSetting(key, value, false);
-                            continue;
-                        }
-
-                       if (typeof value === 'string') {
-                            Helpers.toggleSetting(key, value, false);
-                            continue;
-                       }
+                    else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                        (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPrivateFieldsPage()) {
+                        PublicFieldsPage.populateSettings();
                     }
-                    for (let key in VARIABLES.userSettings.fieldSearchSettings) {
-                        if (!VARIABLES.userSettings.fieldSearchSettings.hasOwnProperty(key)) {
-                            continue;
-                        }
-                        let value = VARIABLES.userSettings.fieldSearchSettings[key];
-                        if (typeof value === 'boolean') {
-                            Helpers.toggleSetting(key, value, false);
-                            continue;
-                        }
-                    }
-                    if(VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
+                    else if(VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
                        PrivateFieldsPage.populateSettings();
                     }
                     for (let key in VARIABLES.userSettings.partyModSettings) {
@@ -278,40 +227,24 @@
                         fn.backwork.populateSettingsPage(ShelterPage.getSettings());
                     }
 
+                    // public fields search or sort
+                    else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                        (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPrivateFieldsPage()) {
+                        PublicFieldsPage.setupHTML();
+                        fn.backwork.populateSettingsPage(PublicFieldsPage.getSettings());
+                    }
+                    
                     // fishing select all button on caught fishing
                     else if (VARIABLES.userSettings.releaseSelectAll === true && Helpers.onFishingPage() && $('#caughtfishcontainer').length > 0) {
                         document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('beforeend', TEMPLATES.massReleaseSelectHTML);
                     }
 
                     // private fields search
-                    if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
+                    else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
 						PrivateFieldsPage.setupHTML();
                         fn.backwork.populateSettingsPage(PrivateFieldsPage.getSettings());
                     }
 
-                    //fields search
-                    if (VARIABLES.userSettings.fieldSearch === true && Helpers.onPublicFieldsPage()) {
-                        document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
-
-                        const theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
-                        const theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`;
-                        const theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + GLOBALS.NATURE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
-                        VARIABLES.fieldCustomArray = VARIABLES.userSettings.fieldSearchSettings.fieldCustom.split(',');
-                        VARIABLES.fieldTypeArray = VARIABLES.userSettings.fieldSearchSettings.fieldType.split(',');
-                        VARIABLES.fieldNatureArray = VARIABLES.userSettings.fieldSearchSettings.fieldNature.split(',');
-                        Helpers.setupFieldArrayHTML(VARIABLES.fieldCustomArray, 'searchkeys', theField, 'numberDiv');
-                        Helpers.setupFieldArrayHTML(VARIABLES.fieldTypeArray, 'fieldTypes', theType, 'typeNumber');
-                        Helpers.setupFieldArrayHTML(VARIABLES.fieldNatureArray, 'natureTypes', theNature, 'natureNumber');
-
-                        fn.backwork.populateSettingsPage();
-                        VARIABLES.dexDataVar = VARIABLES.userSettings.variData.dexData.split(',');
-                    }
-
-                    // fields sorter
-                    if (VARIABLES.userSettings.fieldSort === true && Helpers.onPublicFieldsPage()) {
-                        document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSortHTML);
-                        fn.backwork.populateSettingsPage();
-                    }
 
                     // party click mods
                     if (VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) {
