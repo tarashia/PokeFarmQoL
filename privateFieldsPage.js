@@ -137,46 +137,46 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
 	},
 	setupHandlers() {
 	    $(window).on('load', (() => {
-		PFQoL.privateFieldCustomSearch();
+		API.customSearch();
 	    }));
 
 	    $(document).on('load', '.field', (function() {
-		PFQoL.privateFieldCustomSearch();
+                API.customSearch();
 	    }));
 
 	    $(document).on('click', '#addPrivateFieldNatureSearch', (function() { //add field nature search
-		PFQoL.privateFieldAddNatureSearch();
-		PFQoL.privateFieldCustomSearch();
+		API.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes')
+                API.customSearch();
 	    }));
 
 	    $(document).on('click', '#removePrivateFieldNature', (function() { //remove field nature search
-		PFQoL.privateFieldRemoveNatureSearch(this, $(this).parent().find('select').val());
-		PFQoL.privateFieldCustomSearch();
+                natureArray = API.removeSelectSearch(natureArray, byebye, key, 'fieldNature', 'natureTypes')
+                API.customSearch();
 	    }));
 
 	    $(document).on('click', '#addPrivateFieldTypeSearch', (function() { //add field type list
-		PFQoL.privateFieldAddTypeSearch();
-		PFQoL.privateFieldCustomSearch();
+		API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes');
+                API.customSearch();
 	    }));
 
 	    $(document).on('click', '#removePrivateFieldTypeSearch', (function() { //remove field type list
-		PFQoL.privateFieldRemoveTypeSearch(this, $(this).parent().find('select').val());
-		PFQoL.privateFieldCustomSearch();
+                typeArray = API.removeSelectSearch(typeArray, byebye, key, 'fieldType', 'fieldTypes')
+                API.customSearch();
 	    }));
 
 	    $(document).on('click', '#addPrivateFieldEggGroupSearch', (function() { //add egg group nature search
-		PFQoL.privateFieldAddEggGroupSearch();
-		PFQoL.privateFieldCustomSearch();
+                API.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroupSearch', 'eggGroupTypes')
+                API.customSearch();
 	    }));
 
 	    $(document).on('click', '#removePrivateFieldEggGroup', (function() { //remove egg group nature search
-		PFQoL.privateFieldRemoveEggGroupSearch(this, $(this).parent().find('select').val());
-		PFQoL.privateFieldCustomSearch();
+                eggGroupArray = API.removeSelectSearch(eggGroupArray, byebye, key, 'fieldEggGroup', 'eggGroupTypes')
+                API.customSearch();
 	    }));
 
 	    $(document).on('change', '.qolsetting', (function() {
                 console.log('private calzones')
-		PFQoL.privateFieldCustomSearch();
+                API.customSearch();
 	    }));
 
 	    $(document).on('click', '*[data-menu="bulkmove"]', (function() { // select all feature
@@ -240,6 +240,20 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
             let number = (`#${divParent}>div`).length;
             $(`#${divParent}`).append(theList);
             $(`.${cls}`).removeClass(cls).addClass(""+number+"");
+        },
+        removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
+            arr = $.grep(arr, function(value) { return value != key; });
+            settings[settingsKey] = arr.toString();
+            
+            fn.backwork.saveSettings();
+            $(byebye).parent().remove();
+            
+            for(let i = 0; i < $(`#${divParent}>div`).length; i++) {
+                let rightDiv = i + 1;
+                $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            }
+            
+            return arr;
         },
     };
 

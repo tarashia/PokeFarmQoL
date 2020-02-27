@@ -848,10 +848,6 @@
                     }
                 },
 
-                privateFieldCustomSearch() {
-                    PrivateFieldsPage.customSearch();
-                },
-
                 partyModification() {
                     if (VARIABLES.userSettings.partyMod === true) {
                         $('input.qolalone').on('change', function() { //only 1 textbox may be true
@@ -2051,72 +2047,6 @@
                         }
                     }
                 },
-
-                privateFieldAddSelectSearch(cls, name, data_key, options, id, divParent) {
-                    let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
-                    let number = (`#${divParent}>div`).length;
-                    $(`#${divParent}`).append(theList);
-                    $(`.${cls}`).removeClass(cls).addClass(""+number+"");
-                },
-                privateFieldRemoveSelectSearch(arr, byebye, key, settingsKey, divParent) {
-                    arr = $.grep(arr, function(value) { return value != key; });
-                    VARIABLES.userSettings.privateFieldSearchSettings[settingsKey] = arr.toString();
-
-                    fn.backwork.saveSettings();
-                    $(byebye).parent().remove();
-
-                    for(let i = 0; i < $(`#${divParent}>div`).length; i++) {
-                        let rightDiv = i + 1;
-                        $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-                    }
-
-                    return arr;
-                },
-                privateFieldAddTypeSearch() {
-                    console.log('garlic bread')
-                    PrivateFieldsPage.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes');
-                },
-                privateFieldAddNatureSearch() {
-                    PrivateFieldsPage.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes')
-                },
-                privateFieldAddEggGroupSearch() {
-                    PrivateFieldsPage.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroupSearch', 'eggGroupTypes')
-                },
-                privateFieldRemoveTypeSearch(byebye, key) {
-                    VARIABLES.typeArray = fn.API.privateFieldRemoveSelectSearch(VARIABLES.typeArray, byebye, key, 'fieldType', 'fieldTypes')
-                },
-                privateFieldRemoveNatureSearch(byebye, key) {
-                    VARIABLES.natureArray = fn.API.privateFieldRemoveSelectSearch(VARIABLES.natureArray, byebye, key, 'fieldNature', 'natureTypes')
-                },
-                privateFieldRemoveEggGroupSearch(byebye, key) {
-                    VARIABLES.eggGroupArray = fn.API.privateFieldRemoveSelectSearch(VARIABLES.eggGroupArray, byebye, key, 'fieldEggGroup', 'eggGroupTypes')
-                },
-
-                privateFieldAddTextField() {
-                    let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removePrivateFieldSearch'></div>`;
-                    let numberDiv = $('#searchkeys>div').length;
-                    $('#searchkeys').append(theField);
-                    $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
-                },
-                privateFieldRemoveTextField(byebye, key) {
-                    VARIABLES.customArray =
-                        $.grep(VARIABLES.customArray,
-                               //when textfield is removed, the value will be deleted from the localstorage
-                               function(value) {
-                                   return value != key;
-                               });
-                    VARIABLES.userSettings.privateFieldSearchSettings.fieldCustom = VARIABLES.customArray.toString()
-
-                    fn.backwork.saveSettings();
-                    $(byebye).parent().remove();
-
-                    let i;
-                    for(i = 0; i < $('#searchkeys>div').length; i++) {
-                        let rightDiv = i + 1;
-                        $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-                    }
-                },
-
                 fieldAddTypeList() {
                     fn.API.privateFieldAddSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeList', 'fieldTypes');
                 },
