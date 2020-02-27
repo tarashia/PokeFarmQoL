@@ -54,11 +54,11 @@ let PublicFieldsPage = (function PublicFieldsPage() {
 	    return settings;
 	},
         populateSettings() {
-            for (let key in sortSettings) {
-                if (!sortSettings.hasOwnProperty(key)) {
+            for (let key in settings.sortSettings) {
+                if (!settings.sortSettings.hasOwnProperty(key)) {
                     continue;
                 }
-                let value = sortSettings[key];
+                let value = settings.sortSettings[key];
                 if (typeof value === 'boolean') {
                     Helpers.toggleSetting(key, value, false);
                     continue;
@@ -69,11 +69,11 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                     continue;
                 }
             }
-            for (let key in searchSettings) {
-                if (!searchSettings.hasOwnProperty(key)) {
+            for (let key in settings.searchSettings) {
+                if (!settings.searchSettings.hasOwnProperty(key)) {
                     continue;
                 }
-                let value = searchSettings[key];
+                let value = settings.searchSettings[key];
                 if (typeof value === 'boolean') {
                     Helpers.toggleSetting(key, value, false);
                     continue;
@@ -90,9 +90,9 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             const theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
             const theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`;
             const theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + GLOBALS.NATURE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
-            customArray = searchSettings.fieldCustom.split(',');
-            typeArray = searchSettings.fieldType.split(',');
-            natureArray = searchSettings.fieldNature.split(',');
+            customArray = settings.searchSettings.fieldCustom.split(',');
+            typeArray = settings.searchSettings.fieldType.split(',');
+            natureArray = settings.searchSettings.fieldNature.split(',');
             Helpers.setupFieldArrayHTML(customArray, 'searchkeys', theField, 'numberDiv');
             Helpers.setupFieldArrayHTML(typeArray, 'fieldTypes', theType, 'typeNumber');
             Helpers.setupFieldArrayHTML(natureArray, 'natureTypes', theNature, 'natureNumber');
