@@ -30,7 +30,7 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
 	    API.customSearch();
 	});
     });
-    
+
     const API = {
 	loadSettings() {
 	    settings = Helpers.loadSettings(SETTINGS_SAVE_KEY, DEFAULT_SETTINGS, settings);
@@ -244,15 +244,15 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
         removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
             arr = $.grep(arr, function(value) { return value != key; });
             settings[settingsKey] = arr.toString();
-            
+
             fn.backwork.saveSettings();
             $(byebye).parent().remove();
-            
+
             for(let i = 0; i < $(`#${divParent}>div`).length; i++) {
                 let rightDiv = i + 1;
                 $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
             }
-            
+
             return arr;
         },
     };

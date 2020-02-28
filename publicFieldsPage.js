@@ -158,7 +158,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             let fieldOrderCssBorder = $('#field_field').css('border');
             $("#fieldorder").css("background-color", ""+fieldOrderCssColor+"");
             $("#fieldorder").css("border", ""+fieldOrderCssBorder+"");
-	    
             $("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
             $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
         },
@@ -392,7 +391,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
         },
         removeTypeList(byebye, key) {
              //when textfield is removed, the value will be deleted from the localstorage
-            fieldTypeArray = $.grep(fieldTypeArray, function(value) {
+            typeArray = $.grep(typeArray, function(value) {
                 return value != key;
             });
             settings.searchSettings.fieldType = typeArray.toString()
@@ -447,5 +446,3 @@ let PublicFieldsPage = (function PublicFieldsPage() {
 
     return API;
 })();
-
-        

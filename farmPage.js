@@ -8,7 +8,7 @@ let FarmPage = (function FarmPage() {
 		mutations.forEach(function(mutation) {
 			API.easyQuickEvolve();
 		});
-	}),
+	});
     const API = {
         loadSettings() { // initial settings on first run and setting the variable settings key
             settings = Helpers.loadSettings(SETTINGS_SAVE_KEY, DEFAULT_SETTINGS, settings);

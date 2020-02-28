@@ -263,7 +263,6 @@
 					else if (VARIABLES.userSetings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
 						FarmPage.setupCSS();
 					}
-					
                     //custom user css
                     let customUserCss = VARIABLES.userSettings.customCss;
                     let customUserCssInject = '<style type="text/css">'+customUserCss+'</style>'

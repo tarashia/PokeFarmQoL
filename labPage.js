@@ -135,10 +135,10 @@ let LabPage = (function LabPage() {
             $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
         },
         removeTextField(byebye, key) {
-            customArray = $.grep(customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+            searchArray = $.grep(searchArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
                 return value != key;
             });
-            settings.findCustom = customArray.toString()
+            settings.findCustom = searchArray.toString()
 
             $(byebye).parent().remove();
 
@@ -155,10 +155,10 @@ let LabPage = (function LabPage() {
 			$('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
         },
         removeTypeList(byebye, key) {
-            typeArray = $.grep(typeArray, function(value) {
+            listArray = $.grep(listArray, function(value) {
                 return value != key;
             });
-            settings.findType = typeArray.toString()
+            settings.findType = listArray.toString()
 
             $(byebye).parent().remove();
 
@@ -255,20 +255,20 @@ let LabPage = (function LabPage() {
 				}
 			}
         },
-            eggNoDuplicateArray = settings.NewEggDuplicate.split(',');
-            let eggList = eggNoDuplicateArray.length;
-            let i;
-            for (i = 0; i < eggList; i++) {
-                let value = eggNoDuplicateArray[i];
-                if (element === 'url("https://'+value+'")') {
-                    let index = eggNoDuplicateArray.indexOf(value);
-                    if (index > -1) {
-                        eggNoDuplicateArray.splice(index, 1);
-                        settings.NewEggDuplicate = eggNoDuplicateArray.toString();
-                    }
-                }
-            }
-        },
+//             eggNoDuplicateArray = settings.NewEggDuplicate.split(',');
+//             let eggList = eggNoDuplicateArray.length;
+//             let i;
+//             for (i = 0; i < eggList; i++) {
+//                 let value = eggNoDuplicateArray[i];
+//                 if (element === 'url("https://'+value+'")') {
+//                     let index = eggNoDuplicateArray.indexOf(value);
+//                     if (index > -1) {
+//                         eggNoDuplicateArray.splice(index, 1);
+//                         settings.NewEggDuplicate = eggNoDuplicateArray.toString();
+//                     }
+//                 }
+//             }
+//         },
     };
 
     return API;
