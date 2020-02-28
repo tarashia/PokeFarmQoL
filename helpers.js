@@ -49,8 +49,6 @@ let Helpers = (function Helpers() {
 	},
 
         loadSettings(KEY, DEFAULT, obj) {
-            console.log('Helpers.loadSettings')
-
             if (localStorage.getItem(KEY) === null) {
                 API.saveSettings(KEY);
             } else {

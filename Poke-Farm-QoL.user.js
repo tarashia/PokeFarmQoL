@@ -97,7 +97,7 @@
                         ShelterPage.loadSettings();
                     } else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
                         PrivateFieldsPage.loadSettings();
-                    } else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                    } else if (((VARIABLES.userSettings.fieldSearch === true) ||
                         (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
                         PublicFieldsPage.loadSettings();
                     } else if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
@@ -147,7 +147,7 @@
                         ShelterPage.saveSettings();
                     } else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
                         PrivateFieldsPage.saveSettings();
-                    } else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                    } else if (((VARIABLES.userSettings.fieldSearch === true) ||
                         (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
                         PublicFieldsPage.saveSettings();
                     } else if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
@@ -180,7 +180,7 @@
                     if(VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
                         ShelterPage.populateSettings();
                     }
-                    else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                    else if (((VARIABLES.userSettings.fieldSearch === true) ||
                         (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
                         PublicFieldsPage.populateSettings();
                     }
@@ -209,7 +209,7 @@
                         fn.backwork.populateSettingsPage(ShelterPage.getSettings());
                     }
                     // public fields search or sort
-                    else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                    else if (((VARIABLES.userSettings.fieldSearch === true) ||
                         (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
                         PublicFieldsPage.setupHTML();
                         fn.backwork.populateSettingsPage(PublicFieldsPage.getSettings());
@@ -247,8 +247,8 @@
                     else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
 						PrivateFieldsPage.setupCSS();
                     }
-					else if ((VARIABLES.userSettings.fieldSearch === true) || (
-						(VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
+					else if (((VARIABLES.userSettings.fieldSearch === true) ||
+                        (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
 						PrivateFieldsPage.setupCSS();
                     }
 					else if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
@@ -260,7 +260,7 @@
 					else if (VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) {
 						MultiuserPage.setupCSS();
 					}
-					else if (VARIABLES.userSetings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
+					else if (VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
 						FarmPage.setupCSS();
 					}
                     //custom user css
@@ -276,7 +276,7 @@
                     else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
                         PrivateFieldsPage.setupObserver();
                     }
-                    else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                    else if (((VARIABLES.userSettings.fieldSearch === true) ||
                         (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
                         PublicFieldsPage.setupObserver();
                     }
@@ -300,7 +300,7 @@
 					else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
 						PrivateFieldsPage.setupHandlers();
 					}
-                    else if ((VARIABLES.userSettings.fieldSearch === true) || (
+                    else if (((VARIABLES.userSettings.fieldSearch === true) ||
                         (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
                         PublicFieldsPage.setupHandlers();
                     }
@@ -432,12 +432,6 @@
 
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
         $(this).next().slideToggle();
-    }));
-
-    $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
-        console.log('naan - begin')
-        PFQoL.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
-        console.log('naan - end')
     }));
 
 })(jQuery); //end of userscript

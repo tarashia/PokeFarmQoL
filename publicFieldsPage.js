@@ -30,7 +30,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
     const DEFAULT_SETTINGS = {
         sortSettings : DEFAULT_SORT_SETTINGS,
         searchSettings : DEFAULT_SEARCH_SETTINGS,
-        releaseSelectAll : true,
     };
     let settings = DEFAULT_SETTINGS;
     let customArray = [];
@@ -171,10 +170,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             });
         },
         setupHandlers() {
-            $(document).on('click', '*[data-menu="release"]', (function() { //select all feature
-                API.releaseEnableReleaseAll();
-            }));
-
             $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
                 API.customSearch();
             }));
@@ -307,82 +302,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             console.log('search activated');
             
         }, // customSearch
-        moveEnableReleaseAll() {
-            if(settings.releaseSelectAll === true) {
-                document.querySelector('.dialog>div>div>div>div>button').insertAdjacentHTML('afterend', '<label id="movefieldselectall"><input id="movefieldselectallcheckbox" type="checkbox">Select all  </label><label id="movefieldselectany"><input id="movefieldselectanycheckbox" type="checkbox">Select Any  </label><label id="movefieldselectsour"><input id="movefieldselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefieldselectspicy"><input id="movefieldselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefieldselectdry"><input id="movefieldselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefieldselectsweet"><input id="movefieldselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefieldselectbitter"><input id="movefieldselectbittercheckbox" type="checkbox">Select Bitter  </label>');
-                $('#movefieldselectallcheckbox').click(function() {
-                    $('#massmovelist>ul>li>label>input').not(this).prop('checked', this.checked);
-                });
-
-                $('#movefieldselectanycheckbox').click(function() {
-                    let selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
-                    $(selectAny).not(this).prop('checked', this.checked);
-                });
-
-                $('#movefieldselectsourcheckbox').click(function() {
-                    let selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
-                    $(selectSour).not(this).prop('checked', this.checked);
-                });
-
-                $('#movefieldselectspicycheckbox').click(function() {
-                    let selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
-                    $(selectSpicy).not(this).prop('checked', this.checked);
-                });
-
-                $('#movefieldselectdrycheckbox').click(function() {
-                    let selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
-                    $(selectDry).not(this).prop('checked', this.checked);
-                });
-
-                $('#movefieldselectsweetcheckbox').click(function() {
-                    let selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
-                    $(selectSweet).not(this).prop('checked', this.checked);
-                });
-
-                $('#movefieldselectbittercheckbox').click(function() {
-                    let selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
-                    $(selectBitter).not(this).prop('checked', this.checked);
-                });
-            } // if
-        }, // moveEnableReleaseAll
-        releaseEnableReleaseAll() {
-            if(settings.releaseSelectAll === true) {
-                document.querySelector('.dialog>div>div>div>div>button').insertAdjacentHTML('afterend', '<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all  </label><label id="selectallfieldany"><input id="selectallfieldanycheckbox" type="checkbox">Select Any  </label><label id="selectallfieldsour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour  </label><label id="selectallfieldspicy"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label><label id="selectallfielddry"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry  </label><label id="selectallfieldsweet"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet  </label><label id="selectallfieldbitter"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter  </label>');
-                $('#selectallfieldcheckbox').click(function() {
-                    $('#massreleaselist>ul>li>label>input').not(this).prop('checked', this.checked);
-                });
-
-                $('#selectallfieldanycheckbox').click(function() {
-                    let selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
-                    $(selectAny).not(this).prop('checked', this.checked);
-                });
-
-                $('#selectallfieldsourcheckbox').click(function() {
-                    let selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
-                    $(selectSour).not(this).prop('checked', this.checked);
-                });
-
-                $('#selectallfieldspicycheckbox').click(function() {
-                    let selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
-                    $(selectSpicy).not(this).prop('checked', this.checked);
-                });
-
-                $('#selectallfielddrycheckbox').click(function() {
-                    let selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
-                    $(selectDry).not(this).prop('checked', this.checked);
-                });
-
-                $('#selectallfieldsweetcheckbox').click(function() {
-                    let selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
-                    $(selectSweet).not(this).prop('checked', this.checked);
-                });
-
-                $('#selectallfieldbittercheckbox').click(function() {
-                    let selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
-                    $(selectBitter).not(this).prop('checked', this.checked);
-                });
-            } // if
-        }, // releaseAll
         fieldAddTypeList() {
             API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeList', 'fieldTypes');
         },
