@@ -3,7 +3,6 @@ let FarmPage = (function FarmPage() {
     const DEFAULT_SETTINGS = { /* empty */ };
     let settings = DEFAULT_SETTINGS;
     let evolveListCache = "";
-    let dexData = "";
     // more data
     const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
@@ -27,8 +26,6 @@ let FarmPage = (function FarmPage() {
                 $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
                 document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend', '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
             });
-
-            dexData = GLOBALS.DEX_DATA.split(',');
         },
         setupCSS() { /* empty */ },
         setupObserver() {
@@ -79,6 +76,7 @@ let FarmPage = (function FarmPage() {
             }
         },
         easyEvolveTypeList() {
+            let dexData = GLOBALS.DEX_DATA;
             // first remove the sorted pokemon type list to avoid duplicates
             $('.evolvepkmnlist').show();
             try {
@@ -113,8 +111,6 @@ let FarmPage = (function FarmPage() {
             let typeListColor = $('.tabbed_interface>div').css('color');
             $(".qolChangeLogContent").css("background-color", ""+typeListBackground+"");
             $(".qolChangeLogContent").css("color", ""+typeListColor+"");
-
-
 
             $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index, value) {
                 // getting the <li> element from the pokemon & the pokemon evolved name
@@ -424,6 +420,8 @@ let FarmPage = (function FarmPage() {
             $(".qolChangeLogContent").css("color", ""+typeListColor+"");
         },
         easyEvolveNewList() {
+            let dexData = GLOBALS.DEX_DATA;
+
             // first remove the sorted pokemon type list to avoid duplicates
             $('.evolvepkmnlist').show();
 

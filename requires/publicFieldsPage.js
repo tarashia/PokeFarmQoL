@@ -35,7 +35,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
     let customArray = [];
     let typeArray = [];
     let natureArray = [];
-    let dexData = "";
     const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             API.customSearch();
@@ -149,8 +148,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             Helpers.setupFieldArrayHTML(customArray, 'searchkeys', theField, 'numberDiv');
             Helpers.setupFieldArrayHTML(typeArray, 'fieldTypes', theType, 'typeNumber');
             Helpers.setupFieldArrayHTML(natureArray, 'natureTypes', theNature, 'natureNumber');
-
-            dexData = GLOBALS.DEX_DATA.split(',');
         },
         setupCSS() {
             let fieldOrderCssColor = $('#field_field').css('background-color');

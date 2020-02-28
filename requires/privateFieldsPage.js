@@ -25,7 +25,6 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
     let typeArray = [];
     let natureArray = [];
     let eggGroupArray = [];
-    let dexData = "";
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             API.customSearch();
@@ -115,8 +114,6 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
             Helpers.setupFieldArrayHTML(typeArray, 'fieldTypes', theType, 'typeNumber');
             Helpers.setupFieldArrayHTML(natureArray, 'natureTypes', theNature, 'natureNumber');
             Helpers.setupFieldArrayHTML(eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
-
-            dexData = GLOBALS.DEX_DATA.split(',');
         },
         setupCSS() {
             // same as public fields
@@ -201,6 +198,7 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
         },
         // specific
         customSearch() {
+            let dexData = GLOBALS.DEX_DATA;
             let bigImgs = document.querySelectorAll('.privatefoundme')
             if(bigImgs !== null) {
                 bigImgs.forEach((b) => {$(b).removeClass('privatefoundme')})

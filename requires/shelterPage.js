@@ -28,7 +28,6 @@ let ShelterPage = (function ShelterPage() {
     let customArray = [];
     let typeArray = [];
     let eggNoDuplicateArray = [];
-    let dexData = "";
     const shelterObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             API.customSearch();
@@ -119,8 +118,6 @@ let ShelterPage = (function ShelterPage() {
             $('[data-shelter=reload]').addClass('customSearchOnClick');
             $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
             $('[data-shelter=blackflute]').addClass('customSearchOnClick');
-
-            dexData = GLOBALS.DEX_DATA.split(',');
         },
         setupCSS() {
             let shelterSuccessCss = $('#sheltercommands').css('background-color');
@@ -223,6 +220,7 @@ let ShelterPage = (function ShelterPage() {
             }
         },
         customSearch() {
+            let dexData = GLOBALS.DEX_DATA;
             // search whatever you want to find in the shelter & grid
             let lengthEggs = 0;
 
