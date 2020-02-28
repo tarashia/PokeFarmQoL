@@ -106,6 +106,7 @@ let LabPage = (function LabPage() {
 
 			$(document).on('click', '#removeLabSearch', (function() { //remove lab text field
 				API.removeTextField(this, $(this).parent().find('input').val());
+                API.saveSettings();
 			}));
 
 			$(document).on('click', '#addLabTypeList', (function() { //add lab type list
@@ -114,6 +115,7 @@ let LabPage = (function LabPage() {
 
 			$(document).on('click', '#removeLabTypeList', (function() { //remove lab type list
 				API.removeTypeList(this, $(this).parent().find('select').val());
+                API.saveSettings();
 			}));
 
 			$(document).on('change', '#labCustomSearch input', (function() { //lab search
@@ -123,6 +125,12 @@ let LabPage = (function LabPage() {
 			$(document).on('click', '#labpage', (function() { //shelter search
 				API.customSearch();
 			}));
+
+            $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+                API.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+                API.customSearch();
+                API.saveSettings();
+            }));
 
 			$(window).on('load', (function() {
 				API.customSearch();
@@ -171,10 +179,10 @@ let LabPage = (function LabPage() {
             document.querySelector('#labsuccess').innerHTML="";
 			$('#egglist>div>img').removeClass('shelterfoundme');
 
-			if (VARIABLES.labListArray.length == 1 && VARIABLES.labListArray[0] == "") {
+			if (listArray.length == 1 && listArray[0] == "") {
 				let iDontWork = true;
 			} else {
-				let typesArrayNoEmptySpace = VARIABLES.labListArray.filter(v=>v!='');
+				let typesArrayNoEmptySpace = listArray.filter(v=>v!='');
 				let typeSearchAmount = typesArrayNoEmptySpace.length;
 				let i;
 				for (i = 0; i < typeSearchAmount; i++) {
@@ -184,8 +192,8 @@ let LabPage = (function LabPage() {
 
 					$('#egglist>div>h3').each(function() {
 						let searchPokemon = ($(this).text().split(' ')[0]);
-						let searchTypeOne = VARIABLES.dexDataVar[VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"') + 1];
-						let searchTypeTwo = VARIABLES.dexDataVar[VARIABLES.dexDataVar.indexOf('"'+searchPokemon+'"') + 2];
+						let searchTypeOne = dexData[dexData.indexOf('"'+searchPokemon+'"') + 1];
+						let searchTypeTwo = dexData[dexData.indexOf('"'+searchPokemon+'"') + 2];
 						if (searchTypeOne === value) {
 							amountOfTypesFound.push('found');
 							typePokemonNames.push(searchPokemon);
@@ -197,7 +205,7 @@ let LabPage = (function LabPage() {
 						}
 					})
 
-					let foundType = VARIABLES.shelterTypeSearch[VARIABLES.shelterTypeSearch.indexOf(value) + 2];
+					let foundType = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
 
 					let typeImgStandOutLength = typePokemonNames.length;
 					let o;
@@ -207,7 +215,6 @@ let LabPage = (function LabPage() {
 						let shelterBigImg = shelterImgSearch.next();
 						$(shelterBigImg).addClass('shelterfoundme');
 					}
-
 
 					if (amountOfTypesFound.length < 1) {
 						let iDontDoAnything = true;
@@ -219,13 +226,13 @@ let LabPage = (function LabPage() {
 				}
 			}
 
-			if (VARIABLES.labSearchArray.length == 1 && VARIABLES.labSearchArray[0] == "") {
+			if (searchArray.length == 1 && searchArray[0] == "") {
 				let iDontDoAnything = true;
 			} else {
-				let customSearchAmount = VARIABLES.labSearchArray.length;
+				let customSearchAmount = searchArray.length;
 				let i;
 				for (i = 0; i < customSearchAmount; i++) {
-				let value = VARIABLES.labSearchArray[i];
+				let value = searchArray[i];
 					if ($("#egglist>div>h3:containsIN("+value+")").length) {
 						let searchResult = value;
 

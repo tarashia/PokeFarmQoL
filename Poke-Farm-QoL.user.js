@@ -237,6 +237,10 @@
                         FarmPage.setupHTML();
 						fn.backwork.populateSettingsPage(FarmPage.getSettings());
                     }
+                    else if (Helpers.onDexPage()) {
+                        PokedexPage.setupHTML();
+                        fn.backwork.populateSettingsPage(PokedexPage.getSettings());
+                    }
                 },
                 setupCSS() { // All the CSS changes are added here
                     GM_addStyle(GM_getResourceText('QoLCSS'));
