@@ -26,7 +26,6 @@
 // @require      requires/fishingPage.js
 // @require      requires/multiuserPage.js
 // @require      requires/farmPage.js
-// @require      requires/dexPage.js
 // @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
@@ -237,10 +236,6 @@
                         FarmPage.setupHTML();
 						fn.backwork.populateSettingsPage(FarmPage.getSettings());
                     }
-                    else if (Helpers.onDexPage()) {
-                        PokedexPage.setupHTML();
-                        fn.backwork.populateSettingsPage(PokedexPage.getSettings());
-                    }
                 },
                 setupCSS() { // All the CSS changes are added here
                     GM_addStyle(GM_getResourceText('QoLCSS'));
@@ -319,9 +314,6 @@
 					}
 					else if (VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
 						FarmPage.setupHandlers();
-					}
-					else if (Helpers.onDexPage()) {
-						PokedexPage.setupHandlers();
 					}
 				},
 				startup() { // All the functions that are run to start the script on Pokéfarm
