@@ -144,6 +144,12 @@ let ShelterPage = (function ShelterPage() {
                 API.saveSettings();
             }));
 
+            $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+                API.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+                API.customSearch();
+                API.saveSettings();
+            }));
+
             $('.customSearchOnClick').on('click', (function() {
                 API.loadSettings();
                 API.customSearch();
