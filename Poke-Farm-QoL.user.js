@@ -17,16 +17,16 @@
 // @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/fieldSearchHTML.html
 // @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/privateFieldSearchHTML.html
 // @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/css/pfqol.css
-// @require      helpers.js
-// @require      globals.js
-// @require      shelterPage.js
-// @require      privateFieldsPage.js
-// @require      publicFieldsPage.js
-// @require      labPage.js
-// @require      fishingPage.js
-// @require      multiuserPage.js
-// @require      farmPage.js
-// @require      dexPage.js
+// @require      requires/helpers.js
+// @require      requires/globals.js
+// @require      requires/shelterPage.js
+// @require      requires/privateFieldsPage.js
+// @require      requires/publicFieldsPage.js
+// @require      requires/labPage.js
+// @require      requires/fishingPage.js
+// @require      requires/multiuserPage.js
+// @require      requires/farmPage.js
+// @require      requires/dexPage.js
 // @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
