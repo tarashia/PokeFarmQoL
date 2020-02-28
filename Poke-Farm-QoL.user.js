@@ -426,16 +426,6 @@
         PFQoL.qolHubClose();
     }));
 
-    $(document).on('click', '#updateDex', (function() {
-//         $(document).load('https://pokefarm.com/dex');
-        document.querySelectorAll('.qolDexUpdate')[1].insertAdjacentHTML('beforeend', '<textarea id="dexTextArea" rows="15" cols="60" class="test" data-key="dexText"></textarea>')
-        $('#dexTextArea').load('https://pokefarm.com/dex #dexdata', function( response, status, xhr ) {
-            $('#dexTextArea').val($('#dexTextArea').text());
-            console.log('TODO - store updated dex data into local storage')
-        });
-        console.log('Clicked!')
-    }));
-
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
         $(this).next().slideToggle();
     }));
