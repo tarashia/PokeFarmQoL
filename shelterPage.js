@@ -171,7 +171,7 @@ let ShelterPage = (function ShelterPage() {
             }));
 
             $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
-                API.removeTypeList(this, $(this).parent().find('input').val());
+                API.removeTypeList(this, $(this).parent().find('select').val());
                 API.saveSettings();
                 API.customSearch();
             }));
@@ -203,7 +203,7 @@ let ShelterPage = (function ShelterPage() {
             $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
         },
         removeTypeList(byebye, key) {
-            typeArray = $.grep(typeArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+            typeArray = $.grep(typeArray, function(value) {
                 return value != key;
             });
             settings.findType = typeArray.toString()
