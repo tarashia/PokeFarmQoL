@@ -62,20 +62,17 @@ GLOBALS.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST);
 
 let dexDataPromise = new Promise((resolve, reject) => {
     if(localStorage.getItem('QoLPokedex') === null) {
-        console.log('new')
         $.get('https://pokefarm.com/dex').then(data => {
-            GLOBALS.DEX_DATA = data.split(',');
-            console.log(GLOBALS.DEX_DATA)
-            //         localStorage.setItem('QoLPokedex', JSON.stringify(GLOBALS.DEX_DATA)
+            let html = jQuery.parseHTML(data)
+            let dex = $(html[10].querySelector('#dexdata')).html()
+            GLOBALS.DEX_DATA = dex.split(',');
+            localStorage.setItem('QoLPokedex', JSON.stringify(GLOBALS.DEX_DATA))
             resolve('Success')
         });
-        console.log('new end')
     } else {
-        console.log('existing')
         GLOBALS.DEX_DATA = JSON.parse(localStorage.getItem('QoLPokedex'));
-        console.log(GLOBALS.DEX_DATA)
         resolve('Success')
     }
 });
 
-dexDataPromise.then(m => console.log(m));
+dexDataPromise.then((m) => { /* empty */ });
