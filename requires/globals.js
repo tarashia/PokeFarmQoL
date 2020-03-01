@@ -41,19 +41,19 @@ let GLOBALS = {
         "17", "Fairy", '<img src="//pfq-static.com/img/types/fairy.png/t=1374419124">',
     ],
     SHELTER_SEARCH_DATA : [
-	"findNewEgg", "Egg", "new egg", '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
-	"findNewPokemon", "Pokémon", "new Pokémon", '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
-	"findShiny", "[SHINY]", "Shiny", '<img src="//pfq-static.com/img/pkmn/shiny.png/t=1400179603">',
-	"findAlbino","[ALBINO]", "Albino", '<img src="//pfq-static.com/img/pkmn/albino.png/t=1414662094">',
-	"findMelanistic", "[MELANISTIC]", "Melanistic", '<img src="//pfq-static.com/img/pkmn/melanistic.png/t=1435353274">',
-	"findPrehistoric", "[PREHISTORIC]", "Prehistoric", '<img src="//pfq-static.com/img/pkmn/prehistoric.png/t=1465558964">',
-	"findDelta", "[DELTA]", "Delta", "Delta", '<img src="//pfq-static.com/img/pkmn/_delta/dark.png/t=1501325214">',
-	"findMega", "[MEGA]", "Mega", '<img src="//pfq-static.com/img/pkmn/mega.png/t=1400179603">',
-	"findStarter", "[STARTER]", "Starter", '<img src="//pfq-static.com/img/pkmn/starter.png/t=1484919510">',
-	"findCustomSprite", "[CUSTOM SPRITE]", "Custom Sprite", '<img src="//pfq-static.com/img/pkmn/cs.png/t=1405806997">',
-	"findMale", "[M]", "Male", '<img src="//pfq-static.com/img/pkmn/gender_m.png/t=1401213006">',
-	"findFemale", "[F]", "Female", '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
-	"findNoGender", "[N]", "No Gender", '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
+        "findNewEgg", "Egg", "new egg", '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
+        "findNewPokemon", "Pokémon", "new Pokémon", '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
+        "findShiny", "[SHINY]", "Shiny", '<img src="//pfq-static.com/img/pkmn/shiny.png/t=1400179603">',
+        "findAlbino","[ALBINO]", "Albino", '<img src="//pfq-static.com/img/pkmn/albino.png/t=1414662094">',
+        "findMelanistic", "[MELANISTIC]", "Melanistic", '<img src="//pfq-static.com/img/pkmn/melanistic.png/t=1435353274">',
+        "findPrehistoric", "[PREHISTORIC]", "Prehistoric", '<img src="//pfq-static.com/img/pkmn/prehistoric.png/t=1465558964">',
+        "findDelta", "[DELTA]", "Delta", "Delta", '<img src="//pfq-static.com/img/pkmn/_delta/dark.png/t=1501325214">',
+        "findMega", "[MEGA]", "Mega", '<img src="//pfq-static.com/img/pkmn/mega.png/t=1400179603">',
+        "findStarter", "[STARTER]", "Starter", '<img src="//pfq-static.com/img/pkmn/starter.png/t=1484919510">',
+        "findCustomSprite", "[CUSTOM SPRITE]", "Custom Sprite", '<img src="//pfq-static.com/img/pkmn/cs.png/t=1405806997">',
+        "findMale", "[M]", "Male", '<img src="//pfq-static.com/img/pkmn/gender_m.png/t=1401213006">',
+        "findFemale", "[F]", "Female", '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
+        "findNoGender", "[N]", "No Gender", '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
     ],
 }
 GLOBALS.TYPE_OPTIONS = Helpers.buildOptionsString(GLOBALS.TYPE_LIST);
@@ -66,28 +66,36 @@ let dexDataPromise = new Promise((resolve, reject) => {
             let html = jQuery.parseHTML(data)
             let dex = $(html[10].querySelector('#dexdata')).html()
             GLOBALS.DEX_DATA = dex.split(',');
-	    updateLocalStorageDex();
+            let date = (new Date()).toUTCString();
+            GLOBAL.DEX_UPDATE_DATE = date;
+            updateLocalStorageDex();
             resolve('Success')
         });
     } else {
-	// If it's more than 30 days old, update the dex
-	const THIRTY_DAYS_IN_MS = 30*24*3600*1000
-	let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
-	let date = dateAndDex[0];
-	let dex = dateAndDex.slice(1);
-	if ((Date.now() - Date.parse(date).getTime()) > THIRTY_DAYS_IN_MS) {
-	    updateLocalStorageDex();
+        // If it's more than 30 days old, update the dex
+        const THIRTY_DAYS_IN_MS = 30*24*3600*1000
+        let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
+        let date = dateAndDex[0];
+        if ((Date.now() - Date.parse(date)) > THIRTY_DAYS_IN_MS) {
+            updateLocalStorageDex();
             dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
-	}
-	let dex = dateAndDex.slice(1);
+        }
+        GLOBALS.DEX_UPDATE_DATE = dateAndDex[0];
+        let dex = dateAndDex.slice(1);
+        GLOBALS.DEX_DATA = dex;
         resolve('Success')
     }
 });
 
 dexDataPromise.then((m) => { /* empty */ });
 
-updateLocalStorageDex() {
-    const dateString = (new Date()).toUTCString();
+function updateLocalStorageDex(updateDate) {
+    let dateString = "";
+    if(updateDate === undefined) {
+        dateString = (new Date()).toUTCString();
+    } else {
+        dateString = updateDate;
+    }
     const datePlusDex = [dateString].concat(GLOBALS.DEX_DATA)
     localStorage.setItem('QoLPokedex', JSON.stringify(datePlusDex))
     $('.qolDate').val(dateString)
