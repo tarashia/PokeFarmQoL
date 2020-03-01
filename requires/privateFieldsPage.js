@@ -192,7 +192,7 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
             }));
 
             $(document).on('click', '*[data-menu="bulkmove"]', (function() { // select all feature
-                PFQoL.moveFieldSelectAll();
+                API.moveEnableReleaseAll();
             }));
 
         },
