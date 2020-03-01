@@ -66,13 +66,29 @@ let dexDataPromise = new Promise((resolve, reject) => {
             let html = jQuery.parseHTML(data)
             let dex = $(html[10].querySelector('#dexdata')).html()
             GLOBALS.DEX_DATA = dex.split(',');
-            localStorage.setItem('QoLPokedex', JSON.stringify(GLOBALS.DEX_DATA))
+	    updateLocalStorageDex();
             resolve('Success')
         });
     } else {
-        GLOBALS.DEX_DATA = JSON.parse(localStorage.getItem('QoLPokedex'));
+	// If it's more than 30 days old, update the dex
+	const THIRTY_DAYS_IN_MS = 30*24*3600*1000
+	let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
+	let date = dateAndDex[0];
+	let dex = dateAndDex.slice(1);
+	if ((Date.now() - Date.parse(date).getTime()) > THIRTY_DAYS_IN_MS) {
+	    updateLocalStorageDex();
+            dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
+	}
+	let dex = dateAndDex.slice(1);
         resolve('Success')
     }
 });
 
 dexDataPromise.then((m) => { /* empty */ });
+
+updateLocalStorageDex() {
+    const dateString = (new Date()).toUTCString();
+    const datePlusDex = [dateString].concat(GLOBALS.DEX_DATA)
+    localStorage.setItem('QoLPokedex', JSON.stringify(datePlusDex))
+    $('.qolDate').val(dateString)
+}
