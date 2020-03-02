@@ -26,6 +26,7 @@
 // @require      requires/fishingPage.js
 // @require      requires/multiuserPage.js
 // @require      requires/farmPage.js
+// @require      requires/daycarePage.js
 // @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
@@ -52,7 +53,6 @@
 
         const DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
             //variables
-            //userscript settings
             customCss: "",
             shelterEnable: true,
             fishingEnable: true,
@@ -318,11 +318,11 @@
                 },
                 startup() { // All the functions that are run to start the script on Pokéfarm
                     return {
-                        'loading Settings'        : fn.backwork.loadSettings,
-                        'checking for update'    : fn.backwork.checkForUpdate,
-                        'setting up HTML'         : fn.backwork.setupHTML,
-                        'setting up CSS'        : fn.backwork.setupCSS,
-                        'setting up Observers'    : fn.backwork.setupObservers,
+                        'loading Settings'    : fn.backwork.loadSettings,
+                        'checking for update' : fn.backwork.checkForUpdate,
+                        'setting up HTML'     : fn.backwork.setupHTML,
+                        'setting up CSS'      : fn.backwork.setupCSS,
+                        'setting up Observers': fn.backwork.setupObservers,
                         'setting up Handlers' : fn.backwork.setupHandlers,
                     }
                 },
