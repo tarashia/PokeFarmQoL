@@ -3,7 +3,7 @@ let DaycarePage = (function DaycarePage() {
     const DEFAULT_SETTINGS = { /* empty */ };
     let settings = DEFAULT_SETTINGS;
     // more data
-    cosnt observer = new MutationObserver(function(mutations) {
+    const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             // TODO
         });
@@ -41,4 +41,3 @@ let DaycarePage = (function DaycarePage() {
 
     return API;
 })(); // DaycarePage
-        

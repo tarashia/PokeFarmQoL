@@ -7,6 +7,7 @@ let Helpers = (function Helpers() {
         onPublicFieldsPage() { return API.onPage("fields/"); },
         onPrivateFieldsPage() { return API.onPage("fields") && !API.onPublicFieldsPage(); },
         onFarmPage(tab) { return API.onPage("farm#" + ((tab===undefined) ? "" : tab)); },
+        onFarmTab1() { return API.onFarmPage('tab=1'); },
         onFishingPage() { return API.onPage("fishing"); },
         onLabPage() { return API.onPage("/lab"); },
         onDexPage() { return API.onPage("dex"); },

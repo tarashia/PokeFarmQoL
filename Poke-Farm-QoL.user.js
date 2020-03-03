@@ -56,9 +56,8 @@
             customCss: "",
             shelterEnable: true,
             fishingEnable: true,
-            fieldSort: true,
-            fieldSearch: true,
-            privateFieldSearch: true,
+            publicFieldEnable: true,
+            privateFieldEnable: true,
             partyMod: true,
             easyEvolve: true,
             labNotifier: true,
@@ -72,6 +71,20 @@
             natureList : GLOBALS.NATURE_LIST,
             shelterSearch : GLOBALS.SHELTER_SEARCH_DATA,
         }
+
+        const PAGES = {
+            'Daycare': [DaycarePage, 'enableDaycare', Helpers.onDaycarePage],
+            'Farm' : [FarmPage, 'easyEvolve', Helpers.onFarmTab1],
+            'Fishing' : [FishingPage, 'fishingEnable', Helpers.onFishingPage],
+            'Lab' : [LabPage, 'labNotifier', Helpers.onLabPage],
+            'Multiuser' : [MultiuserPage, 'partyMod', Helpers.onMultiuserPage],
+            'PrivateFields' : [PrivateFieldsPage, 'privateFieldEnable', Helpers.onPrivateFieldsPage],
+            'PublicFields' : [PublicFieldsPage, 'publicFieldEnable', Helpers.onPublicFieldsPage],
+            'Shelter' : [ShelterPage, 'shelterEnable', Helpers.onShelterPage],
+        }
+        const PAGE_OBJ_INDEX = 0;
+        const PAGE_VAR_INDEX = 1;
+        const PAGE_FUN_INDEX = 2;
 
         const fn = { // all the functions for the script
             /** background stuff */
@@ -92,71 +105,49 @@
                     });
                 },
                 loadSettings() { // initial settings on first run and setting the variable settings key
-                    if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
-                        ShelterPage.loadSettings();
-                    } else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
-                        PrivateFieldsPage.loadSettings();
-                    } else if (((VARIABLES.userSettings.fieldSearch === true) ||
-                                (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
-                        PublicFieldsPage.loadSettings();
-                    } else if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
-                        LabPage.loadSettings();
-                    } else if (VARIABLES.userSettings.fishingEnable === true && Helpers.onFishingPage()) {
-                        FishingPage.loadSettings();
-                    } else if (VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) {
-                        MultiuserPage.loadSettings();
-                    } else if(VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
-                        FarmPage.loadSettings();
-                    } else { // local user settings
-                        if (localStorage.getItem(SETTINGS_SAVE_KEY) === null) {
-                            fn.backwork.saveSettings();
-                        } else {
-                            try {
-                                let countScriptSettings = Object.keys(VARIABLES.userSettings).length;
-                                let localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                let countLocalStorageSettings = Object.keys(localStorageString).length;
-                                // adds new objects (settings) to the local storage
-                                if (countLocalStorageSettings < countScriptSettings) {
-                                    let defaultsSetting = VARIABLES.userSettings;
-                                    let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                    let newSetting = $.extend(true,{}, defaultsSetting, userSetting);
+                    for(const key of Object.keys(PAGES)) {
+                        let pg = PAGES[key]
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                            pg[PAGE_OBJ_INDEX].loadSettings();
+                        }
+                    }
+                    if (localStorage.getItem(SETTINGS_SAVE_KEY) === null) {
+                        fn.backwork.saveSettings();
+                    } else {
+                        try {
+                            let countScriptSettings = Object.keys(VARIABLES.userSettings).length;
+                            let localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                            let countLocalStorageSettings = Object.keys(localStorageString).length;
+                            // adds new objects (settings) to the local storage
+                            if (countLocalStorageSettings < countScriptSettings) {
+                                let defaultsSetting = VARIABLES.userSettings;
+                                let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                                let newSetting = $.extend(true,{}, defaultsSetting, userSetting);
 
-                                    VARIABLES.userSettings = newSetting;
-                                    fn.backwork.saveSettings();
-                                }
-                                // removes objects from the local storage if they don't exist anymore. Not yet possible..
-                                if (countLocalStorageSettings > countScriptSettings) {
-                                    //let defaultsSetting = VARIABLES.userSettings;
-                                    //let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                    fn.backwork.saveSettings();
-                                }
-                            }
-                            catch(err) {
+                                VARIABLES.userSettings = newSetting;
                                 fn.backwork.saveSettings();
                             }
-                            if (localStorage.getItem(SETTINGS_SAVE_KEY) != VARIABLES.userSettings) {
-                                VARIABLES.userSettings = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                            // removes objects from the local storage if they don't exist anymore. Not yet possible..
+                            if (countLocalStorageSettings > countScriptSettings) {
+                                //let defaultsSetting = VARIABLES.userSettings;
+                                //let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                                fn.backwork.saveSettings();
                             }
+                        }
+                        catch(err) {
+                            fn.backwork.saveSettings();
+                        }
+                        if (localStorage.getItem(SETTINGS_SAVE_KEY) != VARIABLES.userSettings) {
+                            VARIABLES.userSettings = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
                         }
                     }
                 }, // loadSettings
                 saveSettings() { // Save changed settings
-                    console.log('TODO - update PFQoL.saveSettings()')
-                    if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
-                        ShelterPage.saveSettings();
-                    } else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
-                        PrivateFieldsPage.saveSettings();
-                    } else if (((VARIABLES.userSettings.fieldSearch === true) ||
-                                (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
-                        PublicFieldsPage.saveSettings();
-                    } else if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
-                        LabPage.saveSettings();
-                    } else if (VARIABLES.userSettings.fishingEnable === true && Helpers.onFishingPage()) {
-                        FishingPage.saveSettings();
-                    } else if (VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) {
-                        MultiuserPage.saveSettings();
-                    } else if(VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
-                        FarmPage.saveSettings();
+                    for(const key of Object.keys(PAGES)) {
+                        let pg = PAGES[key]
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                            pg[PAGE_OBJ_INDEX].saveSettings();
+                        }
                     }
                     localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(VARIABLES.userSettings));
                 }, // saveSettings
@@ -176,92 +167,35 @@
                             continue;
                         }
                     }
-                    if(VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
-                        ShelterPage.populateSettings();
-                    }
-                    else if (((VARIABLES.userSettings.fieldSearch === true) ||
-                              (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
-                        PublicFieldsPage.populateSettings();
-                    }
-                    else if(VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
-                        PrivateFieldsPage.populateSettings();
-                    }
-                    else if(VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
-                        LabPage.populateSettings();
-                    }
-                    else if(VARIABLES.userSettings.fishingEnable === true && Helpers.onFishingPage()) {
-                        FishingPage.populateSettings();
-                    }
-                    else if(VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) {
-                        MultiuserPage.populateSettings();
-                    } else if(VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
-                        FarmPage.populateSettings();
+                    for(const key of Object.keys(PAGES)) {
+                        let pg = PAGES[key]
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                            pg[PAGE_OBJ_INDEX].saveSettings();
+                        }
                     }
                 },
                 setupHTML() { // injects the HTML changes from TEMPLATES into the site
                     // Header link to Userscript settings
                     document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', TEMPLATES.qolHubLinkHTML);
 
-                    // shelter Settings Menu
-                    if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
-                        ShelterPage.setupHTML();
-                        fn.backwork.populateSettingsPage(ShelterPage.getSettings());
-                    }
-                    // public fields search or sort
-                    else if (((VARIABLES.userSettings.fieldSearch === true) ||
-                              (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
-                        PublicFieldsPage.setupHTML();
-                        fn.backwork.populateSettingsPage(PublicFieldsPage.getSettings());
-                    }
-                    else if(VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
-                        LabPage.setupHTML();
-                        fn.backwork.populateSettingsPage(LabPage.getSettings());
-                    }
-                    else if (VARIABLES.userSettings.fishingEnable === true && Helpers.onFishingPage() && $('#caughtfishcontainer').length > 0) {
-                        FishingPage.setupHTML();
-                        fn.backwork.populateSettingsPage(FishingPage.getSettings());
-                    }
-                    // private fields search
-                    else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
-                        PrivateFieldsPage.setupHTML();
-                        fn.backwork.populateSettingsPage(PrivateFieldsPage.getSettings());
-                    }
-                    // party click mods
-                    else if (VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) {
-                        MultiuserPage.setupHTML();
-                        fn.backwork.populateSettingsPage(MultiuserPage.getSettings());
-                    }
-                    // fast evolve list
-                    else if (VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
-                        FarmPage.setupHTML();
-                        fn.backwork.populateSettingsPage(FarmPage.getSettings());
+                    for(const key of Object.keys(PAGES)) {
+                        let pg = PAGES[key]
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                            pg[PAGE_OBJ_INDEX].setupHTML();
+                            fn.backwork.populateSettingsPage(pg[PAGE_OBJ_INDEX].getSettings());
+                        }
                     }
                 },
                 setupCSS() { // All the CSS changes are added here
                     GM_addStyle(GM_getResourceText('QoLCSS'));
 
-                    if(VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) {
-                        ShelterPage.setupCSS();
+                    for(const key of Object.keys(PAGES)) {
+                        let pg = PAGES[key]
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                            pg[PAGE_OBJ_INDEX].setupCSS();
+                        }
                     }
-                    else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
-                        PrivateFieldsPage.setupCSS();
-                    }
-                    else if (((VARIABLES.userSettings.fieldSearch === true) ||
-                              (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
-                        PrivateFieldsPage.setupCSS();
-                    }
-                    else if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
-                        LabPage.setupCSS();
-                    }
-                    else if (VARIABLES.userSettings.fishingEnable === true && Helpers.onFishingPage() && $('#caughtfishcontainer').length > 0) {
-                        FishingPage.setupCSS();
-                    }
-                    else if (VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) {
-                        MultiuserPage.setupCSS();
-                    }
-                    else if (VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
-                        FarmPage.setupCSS();
-                    }
+
                     //custom user css
                     let customUserCss = VARIABLES.userSettings.customCss;
                     let customUserCssInject = '<style type="text/css">'+customUserCss+'</style>'
@@ -269,51 +203,19 @@
                     $('head').append('<style type="text/css">'+customUserCss+'</style>');
                 },
                 setupObservers() { // all the Observers that needs to run
-                    if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) { //observe changes on the shelter page
-                        ShelterPage.setupObserver();
-                    }
-                    else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
-                        PrivateFieldsPage.setupObserver();
-                    }
-                    else if (((VARIABLES.userSettings.fieldSearch === true) ||
-                              (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
-                        PublicFieldsPage.setupObserver();
-                    }
-                    else if (VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) { //observe party click changes on the users page
-                        MultiuserPage.setupObserver();
-                    }
-                    else if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
-                        LabPage.setupObserver();
-                    }
-                    else if (VARIABLES.userSettings.fishingEnable === true && Helpers.onFishingPage()) {
-                        FishingPage.setupObserver();
-                    }
-                    else if (VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
-                        FarmPage.setupObserver();
+                    for(const key of Object.keys(PAGES)) {
+                        let pg = PAGES[key]
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                            pg[PAGE_OBJ_INDEX].setupObserver();
+                        }
                     }
                 },
                 setupHandlers() { // all the event handlers
-                    if (VARIABLES.userSettings.shelterEnable === true && Helpers.onShelterPage()) { //observe changes on the shelter page
-                        ShelterPage.setupHandlers();
-                    }
-                    else if (VARIABLES.userSettings.privateFieldSearch === true && Helpers.onPrivateFieldsPage()) {
-                        PrivateFieldsPage.setupHandlers();
-                    }
-                    else if (((VARIABLES.userSettings.fieldSearch === true) ||
-                              (VARIABLES.userSettings.fieldSort === true)) && Helpers.onPublicFieldsPage()) {
-                        PublicFieldsPage.setupHandlers();
-                    }
-                    else if (VARIABLES.userSettings.labNotifier === true && Helpers.onLabPage()) {
-                        LabPage.setupHandlers();
-                    }
-                    else if (VARIABLES.userSettings.fishingEnable === true && Helpers.onFishingPage()) {
-                        FishingPage.setupHandlers();
-                    }
-                    else if(VARIABLES.userSettings.partyMod === true && Helpers.onMultiuserPage()) {
-                        MultiuserPage.setupHandlers();
-                    }
-                    else if (VARIABLES.userSettings.easyEvolve === true && Helpers.onFarmPage("tab=1")) {
-                        FarmPage.setupHandlers();
+                    for(const key of Object.keys(PAGES)) {
+                        let pg = PAGES[key]
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                            pg[PAGE_OBJ_INDEX].setupHandlers();
+                        }
                     }
                 },
                 startup() { // All the functions that are run to start the script on Pokéfarm
@@ -381,7 +283,6 @@
                 },
 
                 settingsChange(element, textElement, customClass, typeClass) {
-                    console.log('baguette')
                     if (JSON.stringify(VARIABLES.userSettings).indexOf(element) >= 0) { // userscript settings
                         if (VARIABLES.userSettings[element] === false ) {
                             VARIABLES.userSettings[element] = true;
@@ -390,26 +291,15 @@
                         } else if (typeof VARIABLES.userSettings[element] === 'string') {
                             VARIABLES.userSettings[element] = textElement;
                         }
+                        fn.backwork.saveSettings();
+                    } else {
+                        for(const key of Object.keys(PAGES)) {
+                            let pg = PAGES[key]
+                            if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                                pg[PAGE_OBJ_INDEX].settingsChange();
+                            }
+                        }
                     }
-                    else if (ShelterPage.settingsChange(element, textElement, customClass, typeClass)) {
-                        ShelterPage.saveSettings();
-                    }
-                    else if (PrivateFieldsPage.settingsChange(element, textElement, customClass, typeClass)) {
-                        PrivateFieldsPage.saveSettings();
-                    }
-                    else if (PublicFieldsPage.settingsChange(element, textElement, customClass, typeClass)) {
-                        PublicFieldsPage.saveSettings();
-                    }
-                    else if (LabPage.settingsChange(element, textElement, customClass, typeClass)) {
-                        LabPage.saveSettings();
-                    }
-                    else if (FishingPage.settingsChange(element, textElement, customClass, typeClass)) {
-                        FishingPage.saveSettings();
-                    }
-                    else if (MultiuserPage.settingsChange(element, textElement, customClass, typeClass)) {
-                        MultiuserPage.saveSettings();
-                    }
-                    fn.backwork.saveSettings();
                 }
             }, // end of API
         }; // end of fn
