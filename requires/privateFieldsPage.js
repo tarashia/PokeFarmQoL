@@ -220,7 +220,8 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
                     let searchNature = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Nature)')[0].innerText.split(" ")[1];
                     if (searchNature.indexOf("(") > -1) { searchNature = searchNature.slice(0, -1); }
 
-                    let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
+                    let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).
+                        children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
 
                     for (let i = 0; i < filteredTypeArray.length; i++) {
                         if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {

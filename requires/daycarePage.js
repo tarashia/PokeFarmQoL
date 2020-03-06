@@ -53,9 +53,10 @@ let DaycarePage = (function DaycarePage() {
         customSearch() {
             const button = document.querySelector('#pkmnadd')
 
+            let gender = null;
+            let eggGroup1 = null, eggGroup2 = null;
+
             if(button !== null) {
-                let gender = null;
-                let eggGroup1 = null, eggGroup2 = null;
                 if(button.attributes['data-gender'] !== undefined) {
                     gender = button.attributes['data-gender'].value
                 }
@@ -69,9 +70,68 @@ let DaycarePage = (function DaycarePage() {
                         eggGroup1 = eggGroup1 >> 4;
                     }
                 }
-                console.log(gender, eggGroup1, eggGroup2)
             }
-        },
+
+            const EGG_ID_TO_NAME = [
+                "Undiscovered", // 0
+                "Monster", // 1
+                "Dragon", , // 2
+                "Field", // 3
+                "Bug", // 4
+                "Grass", // 5
+                "Water 1", // 6
+                "Water 2", // 7
+                "Water 3", // 8
+                "Amorphous", // 9
+                "Fairy", // 10
+                "Human-Like", // 11
+                "Mineral", // 12
+                "Flying", // 13
+                "ERROR", // 14
+                "Ditto", // 15
+            ];
+
+            if(eggGroup1 !== null) { eggGroup1 = EGG_ID_TO_NAME[eggGroup1] }
+            if(eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2] }
+            console.log(gender, eggGroup1, eggGroup2)
+
+            // TODO - translate egg group to name. Reorder the egg group list
+            // in globals.js to match the order that PFQ has it in
+
+            // clear matches
+            let bigImgs = document.querySelectorAll('.privatefoundme')
+            if(bigImgs !== null) {
+                bigImgs.forEach((b) => {$(b).removeClass('privatefoundme')})
+            }
+
+            if(gender !== null && eggGroup1 !== null) {
+                $('.fieldmon').each(() => {
+                    let searchPokemonBigImg = $(this)[0].childNodes[0];
+                    let searchPokemon = searchPokemonBigImg.alt;
+                    let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
+
+                    let searchIcons = $($(document.querySelector('.fieldmon')).next()[0].querySelector('.fieldmontip')).
+                        children(':contains(Species)')[0].querySelector('span').querySelectorAll('img')
+                    // There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
+                    // The gender title can be "[M], [F], [N]"
+                    let searchGender = searchIcons[0].title.toLowerCase().substring(1,2)
+
+                    // Match ditto to anything that can breed
+                    if(searchPokemon === "Ditto" && eggGroup1 !== "Undiscovered") {
+                        $(searchPokemonBigImg).addClass('daycarefound')
+                    }
+                    // Match correct gender
+                    else if((gender === "f" && searchGender === "m") ||
+                       (gender === "m" && searchGender === "f")) {
+                        $(searchPokemonBigImg).addClass('daycarefound')
+                    }
+
+                    let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).
+                        children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
+
+                }); // each
+            } // if
+        }, // customSearch
         // TODO
     };
 
