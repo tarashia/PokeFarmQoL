@@ -3,23 +3,13 @@ let DaycarePage = (function DaycarePage() {
     const DEFAULT_SETTINGS = { /* empty */ };
     let settings = DEFAULT_SETTINGS;
     // more data
-    const observers = [
-        new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if(document.querySelector('#fs_pokemon') !== null) {
                 API.customSearch()
-            });
-        }),
-        /*
-        new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if(document.querySelector('.dialog:not(.top)') !== null) {
-                    console.log('field dialog exists')
-                    // API.customSearch()
-                }
-            });
+            }
         })
-        */
-    ];
+    });
     const API = {
         loadSettings() { // initial settings on first run and setting the variable settings key
             settings = Helpers.loadSettings(SETTINGS_SAVE_KEY, DEFAULT_SETTINGS, settings);
@@ -35,21 +25,12 @@ let DaycarePage = (function DaycarePage() {
         setupHTML() { /* empty */ },
         setupCSS() { /* empty */ },
         setupObserver() {
-            observers[0].observe(document.querySelector('#dcpokemon'), {
-                childList: true,
-                subtree: true,
-            });
-            /*
-            observers[1].observe(document.querySelector('body'), {
+            observer.observe(document.querySelector('body'), {
                 childList: true,
                 subtree: true
             });
-            */
         },
-        setupHandlers() {
-            $('#dcpokemon').on('click', () => API.customSearch());
-            $('body').on('click', '.dialog:not(.top)', () => API.customSearch());
-        },
+        setupHandlers() { /* empty */ },
         customSearch() {
             const button = document.querySelector('#pkmnadd')
 
