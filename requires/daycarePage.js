@@ -72,25 +72,7 @@ let DaycarePage = (function DaycarePage() {
                 }
             }
 
-            const EGG_ID_TO_NAME = [
-                "Undiscovered", // 0
-                "Monster", // 1
-                "Dragon", , // 2
-                "Field", // 3
-                "Bug", // 4
-                "Grass", // 5
-                "Water 1", // 6
-                "Water 2", // 7
-                "Water 3", // 8
-                "Amorphous", // 9
-                "Fairy", // 10
-                "Human-Like", // 11
-                "Mineral", // 12
-                "Flying", // 13
-                "ERROR", // 14
-                "Ditto", // 15
-            ];
-
+            const EGG_ID_TO_NAME = GLOBALS.EGG_GROUP_ID_TO_NAME;
             if(eggGroup1 !== null) { eggGroup1 = EGG_ID_TO_NAME[eggGroup1] }
             if(eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2] }
             console.log(gender, eggGroup1, eggGroup2)
