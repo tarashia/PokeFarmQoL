@@ -42,15 +42,15 @@ let PublicFieldsPage = (function PublicFieldsPage() {
     });
 
     const API = {
-	loadSettings() {
-	    settings = Helpers.loadSettings(SETTINGS_SAVE_KEY, DEFAULT_SETTINGS, settings);
-	},
-	saveSettings() {
-	    Helpers.saveSettings(SETTINGS_SAVE_KEY, settings)
-	},
-	getSettings() {
-	    return settings;
-	},
+        loadSettings() {
+            settings = Helpers.loadSettings(SETTINGS_SAVE_KEY, DEFAULT_SETTINGS, settings);
+        },
+        saveSettings() {
+            Helpers.saveSettings(SETTINGS_SAVE_KEY, settings)
+        },
+        getSettings() {
+            return settings;
+        },
         populateSettings() {
             for (let key in settings.sortSettings) {
                 if (!settings.sortSettings.hasOwnProperty(key)) {
@@ -78,7 +78,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 }
             }
         },
-	settingsChange(element, textElement, customClass, typeClass) {
+        settingsChange(element, textElement, customClass, typeClass) {
             if (JSON.stringify(settings.sortSettings).indexOf(element) >= 0) { // field sort settings
                 if (settings.sortSettings[element] === false ) {
                     settings.sortSettings[element] = true;
@@ -180,27 +180,43 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             });
 
             $(document).on('click', '#addFieldSearch', (function() { //add field text field
-                PFQoL.fieldAddTextField();
+                API.fieldAddTextField();
             }));
 
             $(document).on('click', '#removeFieldSearch', (function() { //remove field text field
-                PFQoL.fieldRemoveTextField(this, $(this).parent().find('input').val());
+                API.fieldRemoveTextField(this, $(this).parent().find('input').val());
             }));
 
             $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
-                PFQoL.fieldAddNatureSearch();
+                API.fieldAddNatureSearch();
             }));
 
             $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
-                API.removeNatureSearch(this, $(this).parent().find('select').val());
+                natureArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
+                API.saveSettings();
+                API.customSearch();
             }));
 
             $(document).on('click', '#addFieldTypeList', (function() { //add field type list
-                PFQoL.fieldAddTypeList();
+                API.fieldAddTypeList();
             }));
 
             $(document).on('click', '#removeFieldTypeList', (function() { //remove field type list
-                API.removeTypeList(this, $(this).parent().find('select').val());
+                typeArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
+                API.saveSettings();
+                API.customSearch();
+            }));
+
+            $(document).on('change', '.qolsetting', (function() {
+                API.loadSettings();
+                API.customSearch();
+                API.saveSettings();
+            }));
+
+            $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+                API.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+                API.customSearch();
+                API.saveSettings();
             }));
         },
         // specific
@@ -295,9 +311,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                     $('#pokemonclickcount').css({"color" : "#a30323"});
                 }
             }
-
-            console.log('search activated');
-            
         }, // customSearch
         fieldAddTypeList() {
             API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeList', 'fieldTypes');
@@ -305,38 +318,25 @@ let PublicFieldsPage = (function PublicFieldsPage() {
         fieldAddNatureSearch() {
             API.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes');
         },
-        removeTypeList(byebye, key) {
-             //when textfield is removed, the value will be deleted from the localstorage
-            typeArray = $.grep(typeArray, function(value) {
-                return value != key;
-            });
-            settings.searchSettings.fieldType = typeArray.toString()
+        addSelectSearch(cls, name, data_key, options, id, divParent) {
+            let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+            let number = (`#${divParent}>div`).length;
+            $(`#${divParent}`).append(theList);
+            $(`.${cls}`).removeClass(cls).addClass(""+number+"");
+        },
+        removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
+            arr = $.grep(arr, function(value) { return value != key; });
+            settings.searchSettings[settingsKey] = arr.toString();
 
-            API.saveSettings();
             $(byebye).parent().remove();
 
-            let i;
-            for(i = 0; i < $('#fieldTypes>div').length; i++) {
+            for(let i = 0; i < $(`#${divParent}>div`).length; i++) {
                 let rightDiv = i + 1;
                 $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
             }
+
+            return arr;
         },
-        removeNatureSearch(byebye, key) {
-            natureArray = $.grep(natureArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
-                return value != key;
-            });
-            settings.searchSettings.fieldNature = natureArray.toString()
-
-            API.saveSettings();
-            $(byebye).parent().remove();
-
-            let i;
-            for(i = 0; i < $('#natureTypes>div').length; i++) {
-                let rightDiv = i + 1;
-                $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-            }
-        },
-
         fieldAddTextField() {
             let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
             let numberDiv = $('#searchkeys>div').length;

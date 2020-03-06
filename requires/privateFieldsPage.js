@@ -247,7 +247,6 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
             } // end
         },
         addSelectSearch(cls, name, data_key, options, id, divParent) {
-            console.log('panko')
             let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
             let number = (`#${divParent}>div`).length;
             $(`#${divParent}`).append(theList);

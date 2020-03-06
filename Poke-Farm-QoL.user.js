@@ -162,8 +162,7 @@
                             Helpers.toggleSetting(key, value, false);
                             continue;
                         }
-
-                        if (typeof value === 'string') {
+                        else if (typeof value === 'string') {
                             Helpers.toggleSetting(key, value, false);
                             continue;
                         }
@@ -171,7 +170,7 @@
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
                         if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
-                            pg[PAGE_OBJ_INDEX].saveSettings();
+                            pg[PAGE_OBJ_INDEX].populateSettings();
                         }
                     }
                 },
@@ -218,6 +217,12 @@
                             pg[PAGE_OBJ_INDEX].setupHandlers();
                         }
                     }
+
+                    $(document).on('change', '.qolsetting', (function() {
+                        fn.backwork.loadSettings();
+                        fn.API.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+                        fn.backwork.saveSettings();
+                    }));
                 },
                 startup() { // All the functions that are run to start the script on Pokéfarm
                     return {
