@@ -11,6 +11,7 @@ let Helpers = (function Helpers() {
         onFishingPage() { return API.onPage("fishing"); },
         onLabPage() { return API.onPage("/lab"); },
         onDexPage() { return API.onPage("dex"); },
+        onDaycarePage() { return API.onPage("daycare"); },
 
         shelterKeyIsTopCheckbox(k) {
             return k != 'findCustom' && k != 'findMale' && k != 'findFemale' && k != 'findNoGender' && k != 'customEgg' && k != 'customPokemon' && k != 'customPng';

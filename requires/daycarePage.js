@@ -3,11 +3,23 @@ let DaycarePage = (function DaycarePage() {
     const DEFAULT_SETTINGS = { /* empty */ };
     let settings = DEFAULT_SETTINGS;
     // more data
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            // TODO
-        });
-    });
+    const observers = [
+        new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                API.customSearch()
+            });
+        }),
+        /*
+        new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if(document.querySelector('.dialog:not(.top)') !== null) {
+                    console.log('field dialog exists')
+                    // API.customSearch()
+                }
+            });
+        })
+        */
+    ];
     const API = {
         loadSettings() { // initial settings on first run and setting the variable settings key
             settings = Helpers.loadSettings(SETTINGS_SAVE_KEY, DEFAULT_SETTINGS, settings);
@@ -23,18 +35,42 @@ let DaycarePage = (function DaycarePage() {
         setupHTML() { /* empty */ },
         setupCSS() { /* empty */ },
         setupObserver() {
-            observer.observe(document.querySelector('.dialog'), {
+            observers[0].observe(document.querySelector('#dcpokemon'), {
                 childList: true,
-                characterdata: true,
                 subtree: true,
-                characterDataOldValue: true,
             });
+            /*
+            observers[1].observe(document.querySelector('body'), {
+                childList: true,
+                subtree: true
+            });
+            */
         },
         setupHandlers() {
-            $(document).on('click', '#pkmnadd', (function() {
-                console.log(this);
-                console.log($(this));
-            }));
+            $('#dcpokemon').on('click', () => API.customSearch());
+            $('body').on('click', '.dialog:not(.top)', () => API.customSearch());
+        },
+        customSearch() {
+            const button = document.querySelector('#pkmnadd')
+
+            if(button !== null) {
+                let gender = null;
+                let eggGroup1 = null, eggGroup2 = null;
+                if(button.attributes['data-gender'] !== undefined) {
+                    gender = button.attributes['data-gender'].value
+                }
+                // the egg group is binary coded decimal
+                // if a pokemon has two egg groups, the leftmost 4 bits of the number returned
+                // are the first egg group and the rightmost 4 bits are the second egg group
+                if(button.attributes['data-egggroup'] !== undefined) {
+                    eggGroup1 = 0 + button.attributes['data-egggroup'].value
+                    if(eggGroup1 > 15) { // two egg groups
+                        eggGroup2 = eggGroup1 & 15;
+                        eggGroup1 = eggGroup1 >> 4;
+                    }
+                }
+                console.log(gender, eggGroup1, eggGroup2)
+            }
         },
         // TODO
     };

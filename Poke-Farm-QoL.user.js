@@ -54,6 +54,7 @@
         const DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
             //variables
             customCss: "",
+            enableDaycare: true,
             shelterEnable: true,
             fishingEnable: true,
             publicFieldEnable: true,
