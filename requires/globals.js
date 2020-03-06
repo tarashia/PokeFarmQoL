@@ -19,11 +19,27 @@ let GLOBALS = {
     NATURE_LIST : ["Lonely", "Mild", "Hasty", "Gentle", "Bold", "Modest", "Timid", "Calm",
                    "Impish", "Adamant", "Jolly", "Careful", "Relaxed", "Brave", "Quiet", "Sassy",
                    "Lax", "Naughty", "Rash", "Näive", "Hardy", "Docile", "Serious", "Bashful", "Quirky"],
-    EGG_GROUP_LIST : ["Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Undiscovered", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon"],
+    EGG_GROUP_LIST : [
+        "Undiscovered", // 0
+        "Monster", // 1
+        "Dragon", // 2
+        "Field", // 3
+        "Bug", // 4
+        "Grass", // 5
+        "Water 1", // 6
+        "Water 2", // 7
+        "Water 3", // 8
+        "Amorphous", // 9
+        "Fairy", // 10
+        "Human-Like", // 11
+        "Mineral", // 12
+        "Flying", // 13
+        "Ditto", // 15
+    ],
     EGG_GROUP_ID_TO_NAME : [
         "Undiscovered", // 0
         "Monster", // 1
-        "Dragon", , // 2
+        "Dragon", // 2
         "Field", // 3
         "Bug", // 4
         "Grass", // 5

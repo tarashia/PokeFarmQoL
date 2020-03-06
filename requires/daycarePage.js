@@ -64,7 +64,7 @@ let DaycarePage = (function DaycarePage() {
                 // if a pokemon has two egg groups, the leftmost 4 bits of the number returned
                 // are the first egg group and the rightmost 4 bits are the second egg group
                 if(button.attributes['data-egggroup'] !== undefined) {
-                    eggGroup1 = 0 + button.attributes['data-egggroup'].value
+                    eggGroup1 = parseInt(button.attributes['data-egggroup'].value)
                     if(eggGroup1 > 15) { // two egg groups
                         eggGroup2 = eggGroup1 & 15;
                         eggGroup1 = eggGroup1 >> 4;
@@ -75,7 +75,6 @@ let DaycarePage = (function DaycarePage() {
             const EGG_ID_TO_NAME = GLOBALS.EGG_GROUP_ID_TO_NAME;
             if(eggGroup1 !== null) { eggGroup1 = EGG_ID_TO_NAME[eggGroup1] }
             if(eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2] }
-            console.log(gender, eggGroup1, eggGroup2)
 
             // TODO - translate egg group to name. Reorder the egg group list
             // in globals.js to match the order that PFQ has it in
@@ -87,31 +86,45 @@ let DaycarePage = (function DaycarePage() {
             }
 
             if(gender !== null && eggGroup1 !== null) {
-                $('.fieldmon').each(() => {
-                    let searchPokemonBigImg = $(this)[0].childNodes[0];
-                    let searchPokemon = searchPokemonBigImg.alt;
-                    let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
+                const fieldmons = document.querySelectorAll('.fieldmon')
+                if(fieldmons !== null) {
+                    for(let m = 0; m < fieldmons.length; m++) {
+                        let mon = fieldmons[m]
+                        let searchPokemonBigImg = $(mon)[0].childNodes[0];
+                        let searchPokemon = searchPokemonBigImg.alt;
 
-                    let searchIcons = $($(document.querySelector('.fieldmon')).next()[0].querySelector('.fieldmontip')).
-                        children(':contains(Species)')[0].querySelector('span').querySelectorAll('img')
-                    // There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
-                    // The gender title can be "[M], [F], [N]"
-                    let searchGender = searchIcons[0].title.toLowerCase().substring(1,2)
+                        let tooltip = $(mon).next()
+                        let fieldmontip = tooltip[0].querySelector('.fieldmontip')
+                        let speciesDiv = $(fieldmontip).children(':contains(Species)')[0];
+                        let eggGroupDiv = $(fieldmontip).children(':contains(Egg Group)')[0]
+                        let searchIcons = speciesDiv.querySelector('span').querySelectorAll('img')
 
-                    // Match ditto to anything that can breed
-                    if(searchPokemon === "Ditto" && eggGroup1 !== "Undiscovered") {
-                        $(searchPokemonBigImg).addClass('daycarefound')
-                    }
-                    // Match correct gender
-                    else if((gender === "f" && searchGender === "m") ||
-                       (gender === "m" && searchGender === "f")) {
-                        $(searchPokemonBigImg).addClass('daycarefound')
-                    }
+                        // There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
+                        // The gender title can be "[M], [F], [N]"
+                        let searchGender = searchIcons[0].title.toLowerCase().substring(1,2)
+                        let searchEggGroups = eggGroupDiv.innerText.slice("Egg Group: ".length).split('/')
 
-                    let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).
-                        children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
+                        // Match ditto to anything that can breed
+                        if(searchPokemon === "Ditto" && eggGroup1 !== "Undiscovered") {
+                            $(searchPokemonBigImg).addClass('daycarefoundme')
+                        }
+                        // Match correct gender
+                        else {
+                            let genderCorrect = (gender === "f" && searchGender === "m") ||
+                                (gender === "m" && searchGender === "f");
+                            let group1Correct = searchEggGroups.reduce((res, curr) => {res = res || (eggGroup1 === curr); return res}, false);
+                            let group2Correct = false;
+                            if(eggGroup2 !== null) {
+                                group2Correct = searchEggGroups.reduce((res, curr) => {res = res || (eggGroup2 === curr); return res}, false);
+                            }
 
-                }); // each
+                            if(genderCorrect && (group1Correct || group2Correct)) {
+                                $(searchPokemonBigImg).addClass('daycarefoundme')
+                            }
+                        }
+
+                    } // for
+                }
             } // if
         }, // customSearch
         // TODO
