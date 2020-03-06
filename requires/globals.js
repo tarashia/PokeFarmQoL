@@ -20,6 +20,24 @@ let GLOBALS = {
                    "Impish", "Adamant", "Jolly", "Careful", "Relaxed", "Brave", "Quiet", "Sassy",
                    "Lax", "Naughty", "Rash", "Näive", "Hardy", "Docile", "Serious", "Bashful", "Quirky"],
     EGG_GROUP_LIST : ["Monster", "Water 1", "Bug", "Flying", "Field", "Fairy", "Grass", "Undiscovered", "Human-Like", "Water 3", "Mineral", "Amorphous", "Water 2", "Ditto", "Dragon"],
+    EGG_GROUP_ID_TO_NAME : [
+        "Undiscovered", // 0
+        "Monster", // 1
+        "Dragon", , // 2
+        "Field", // 3
+        "Bug", // 4
+        "Grass", // 5
+        "Water 1", // 6
+        "Water 2", // 7
+        "Water 3", // 8
+        "Amorphous", // 9
+        "Fairy", // 10
+        "Human-Like", // 11
+        "Mineral", // 12
+        "Flying", // 13
+        "ERROR", // 14
+        "Ditto", // 15
+    ],
     SHELTER_TYPE_TABLE : [
         "0", "Normal", '<img src="//pfq-static.com/img/types/normal.png/t=1262702646">',
         "1", "Fire", '<img src="//pfq-static.com/img/types/fire.png/t=1262702645">',
