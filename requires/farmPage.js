@@ -93,169 +93,99 @@ let FarmPage = (function FarmPage() {
             $(".qolChangeLogContent").css("color", ""+typeListColor+"");
 
             const TYPE_APPEND = {
-                'NORMAL': '.0',
-                'FIRE': '.1',
-                'WATER': '.2',
-                'ELECTRIC': '.3',
-                'GRASS': '.4',
-                'ICE': '.5',
-                'FIGHTING': '.6',
-                'POISON': '.7',
-                'GROUND': '.8',
-                'FLYING': '.9',
-                'PSYCHIC': '.10',
-                'BUG': '.11',
-                'ROCK': '.12',
-                'GHOST': '.13',
-                'DRAGON': '.14',
-                'DARK': '.15',
-                'STEEL': '.16',
-                'FAIRY': '.17',
-                'NONE': '.18'
+	        'NORMAL': '.0',
+	        'FIRE': '.1',
+	        'WATER': '.2',
+	        'ELECTRIC': '.3',
+	        'GRASS': '.4',
+	        'ICE': '.5',
+	        'FIGHTING': '.6',
+	        'POISON': '.7',
+	        'GROUND': '.8',
+	        'FLYING': '.9',
+	        'PSYCHIC': '.10',
+	        'BUG': '.11',
+	        'ROCK': '.12',
+	        'GHOST': '.13',
+	        'DRAGON': '.14',
+	        'DARK': '.15',
+	        'STEEL': '.16',
+	        'FAIRY': '.17',
+	        'NONE': '.18'
             }
-
+            
+            console.log("KNOWN_EXCEPTIONS is definitely incomplete")
+            const KNOWN_EXCEPTIONS = {
+	        'Gastrodon [Orient]': [TYPE_APPEND['WATER'], TYPE_APPEND['GROUND']],
+	        'Gastrodon [Occident]': [TYPE_APPEND['WATER'], TYPE_APPEND['GROUND']],
+	        'Wormadam [Plant Cloak]': [TYPE_APPEND['BUG'], TYPE_APPEND['GRASS']],
+	        'Wormadam [Trash Cloak]': [TYPE_APPEND['BUG'], TYPE_APPEND['STEEL'], TYPE_APPEND['GRASS']],
+	        'Chilldoom': [TYPE_APPEND['DARK'], TYPE_APPEND['ICE']],
+	        'Raticate [Alolan Forme]': [TYPE_APPEND['DARK'], TYPE_APPEND['NORMAL']],
+	        'Ninetales [Alolan Forme]': [TYPE_APPEND['ICE'], TYPE_APPEND['FAIRY']],
+	        'Exeggutor [Alolan Forme]': [TYPE_APPEND['GRASS'], TYPE_APPEND['DRAGON']],
+	        'Marowak [Alolan Forme]': [TYPE_APPEND['FIRE'], TYPE_APPEND['GHOST']],
+	        'Dugtrio [Alolan Forme]': [TYPE_APPEND['GROUND'], TYPE_APPEND['STEEL']],
+	        'Graveler [Alolan Forme]': [TYPE_APPEND['ROCK'], TYPE_APPEND['ELECTRIC']],
+	        'Golem [Alolan Forme]': [TYPE_APPEND['ROCK'], TYPE_APPEND['ELECTRIC']],
+	        'Muk [Alolan Forme]': [TYPE_APPEND['POISON'], TYPE_APPEND['DARK']],
+	        'Raichu [Alolan Forme]': [TYPE_APPEND['ELECTRIC'], TYPE_APPEND['PSYCHIC']],
+            }
+            
             $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index, value) {
-                // getting the <li> element from the pokemon & the pokemon evolved name
-                let getEvolveString = $(this).html();
-                let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
+	        // getting the <li> element from the pokemon & the pokemon evolved name
+	        let getEvolveString = $(this).html();
+	        let previousPokemon = getEvolveString.substr(getEvolveString.indexOf('/summary/') + '/summary/'.length + 8, getEvolveString.indexOf('</a>'))
+	        let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
 
-                // first looks if you know the type out of your dexdata, if it's there then the <li> will be moved in it's corresponding type
-                if (dexData.indexOf('"'+evolvePokemon+'"') != -1 ||
-                    evolvePokemon === 'Gastrodon [Orient]' ||
-                    evolvePokemon === 'Gastrodon [Occident]' ||
-                    evolvePokemon === 'Wormadam [Plant Cloak]' ||
-                    evolvePokemon === 'Wormadam [Trash Cloak]' ||
-                    evolvePokemon.includes('[Alolan Forme]')) {
-                    let evolveTypeOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 1];
-                    let evolveTypeTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 2];
-                    let evolveTypePrevOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 10];
-                    let evolveTypePrevTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 9];
+	        // first looks if you know the type out of your dexdata, if it's there then the <li> will be moved to be under its corresponding type
+	        if (dexData.indexOf('"'+evolvePokemon+'"') != -1 ||
+	            evolvePokemon in KNOWN_EXCEPTIONS) {
+	            if (getEvolveString.includes('title="[DELTA')) {
+		        console.log(getEvolveString);
+		        let deltaType = getEvolveString.match('DELTA-(.*)]">');
+		        console.log(deltaType[1]);
 
-                    if (getEvolveString.includes('title="[DELTA') ||
-                        evolvePokemon === 'Vaporeon' ||
-                        evolvePokemon === 'Jolteon' ||
-                        evolvePokemon === 'Flareon' ||
-                        evolvePokemon === 'Espeon' ||
-                        evolvePokemon === 'Umbreon' ||
-                        evolvePokemon === 'Leafeon' ||
-                        evolvePokemon === 'Glaceon' ||
-                        evolvePokemon === 'Sylveon' ||
-                        evolvePokemon === 'Nidorino' ||
-                        evolvePokemon === 'Gastrodon [Orient]' ||
-                        evolvePokemon === 'Gastrodon [Occident]' ||
-                        evolvePokemon === 'Wormadam [Plant Cloak]' ||
-                        evolvePokemon === 'Wormadam [Trash Cloak]' ||
-                        evolvePokemon.includes('[Alolan Forme]') ||
-                        evolvePokemon.includes('Chilldoom')) {
-                        if (getEvolveString.includes('title="[DELTA')) {
-                            console.log(getEvolveString);
-                            let deltaType = getEvolveString.match('DELTA-(.*)]">');
-                            console.log(deltaType[1]);
+		        $(this).clone().appendTo(TYPE_APPEND[deltaType[1]]);
+	            }
 
-                            $(this).clone().appendTo(TYPE_APPEND[deltaType[1]]);
-                        }
+	            if (evolvePokemon in KNOWN_EXCEPTIONS) {
+		        for(let i = 0; i < KNOWN_EXCEPTIONS[evolvePokemon].length; i++) {
+		            $(this).clone().appendTo(KNOWN_EXCEPTIONS[evolvePokemon][i])
+		        }
+	            } else { //no exceptions
+		        let evolveTypeOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 1];
+		        let evolveTypeTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 2];
+		        // let evolveTypePrevOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 10];
+		        // let evolveTypePrevTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 9];
+		        let evolveTypePrevOne = dexData[dexData.indexof('"'+previousPokemon+'"') + 1];
+		        let evolveTypePrevTwo = dexData[dexData.indexof('"'+previousPokemon+'"') + 2];
+		        
+		        $(this).clone().appendTo('.'+evolveTypeOne+'');
+		        if (evolveTypeTwo >= 0) {
+		            $(this).clone().appendTo('.'+evolveTypeTwo+'');
+		        }
+		        // extra type from prev pokemon
+		        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevOne) == -1){
+		            $(this).clone().appendTo('.'+evolveTypePrevOne+'');
+		        }
 
-                        if (evolvePokemon === 'Vaporeon' ||
-                            evolvePokemon === 'Jolteon' ||
-                            evolvePokemon === 'Flareon' ||
-                            evolvePokemon === 'Espeon' ||
-                            evolvePokemon === 'Umbreon' ||
-                            evolvePokemon === 'Leafeon' ||
-                            evolvePokemon === 'Glaceon' ||
-                            evolvePokemon === 'Sylveon') {
-                            // normal type from eevee
-                            $(this).clone().appendTo(TYPE_APPEND['NORMAL'])
-                            // type one
-                            $(this).clone().appendTo('.'+evolveTypeOne+'');
-                            // type two
-                            if (evolveTypeTwo >= 0) {
-                                $(this).clone().appendTo('.'+evolveTypeTwo+'');
-                            }
-                        }
-                        else if (evolvePokemon === 'Nidorino') {
-                            $(this).clone().appendTo(TYPE_APPEND['POISON']); // from Nidoran
-                        }
-                        else if (evolvePokemon === 'Gastrodon [Orient]' || evolvePokemon === 'Gastrodon [Occident]') {
-                            $(this).clone().appendTo(TYPE_APPEND['WATER']);
-                            $(this).clone().appendTo(TYPE_APPEND['GROUND']);
-                        }
-                        else if (evolvePokemon === 'Wormadam [Plant Cloak]') {
-                            $(this).clone().appendTo(TYPE_APPEND['BUG'])
-                            $(this).clone().appendTo(TYPE_APPEND['GRASS'])
-                        }
-                        else if (evolvePokemon === 'Wormadam [Trash Cloak]') {
-                            $(this).clone().appendTo(TYPE_APPEND['BUG'])
-                            $(this).clone().appendTo(TYPE_APPEND['STEEL'])
-                            $(this).clone().appendTo(TYPE_APPEND['GRASS'])
-                        }
-                        else if (evolvePokemon === 'Chilldoom') {
-                            $(this).clone().appendTo(TYPE_APPEND['DARK'])
-                            $(this).clone().appendTo(TYPE_APPEND['ICE'])
-                        }
-                        else if (evolvePokemon.includes('[Alolan Forme]')) { //alolan formes
-                            if (evolvePokemon.includes('Raticate')) {
-                                $(this).clone().appendTo(TYPE_APPEND['DARK'])
-                                $(this).clone().appendTo(TYPE_APPEND['NORMAL'])
-                            }
-                            else if (evolvePokemon.includes('Ninetales')) {
-                                $(this).clone().appendTo(TYPE_APPEND['ICE'])
-                                $(this).clone().appendTo(TYPE_APPEND['FAIRY'])
-                            }
-                            else if (evolvePokemon.includes('Exeggutor')) {
-                                $(this).clone().appendTo(TYPE_APPEND['GRASS'])
-                                $(this).clone().appendTo(TYPE_APPEND['DRAGON'])
-                            }
-                            else if (evolvePokemon.includes('Marowak')) {
-                                $(this).clone().appendTo(TYPE_APPEND['FIRE'])
-                                $(this).clone().appendTo(TYPE_APPEND['GHOST'])
-                            }
-                            else if (evolvePokemon.includes('Dugtrio')) {
-                                $(this).clone().appendTo(TYPE_APPEND['GROUND'])
-                                $(this).clone().appendTo(TYPE_APPEND['STEEL'])
-                            }
-                            else if (evolvePokemon.includes('Graveler')) {
-                                $(this).clone().appendTo(TYPE_APPEND['ROCK'])
-                                $(this).clone().appendTo(TYPE_APPEND['ELECTRIC'])
-                            }
-                            else if (evolvePokemon.includes('Golem')) {
-                                $(this).clone().appendTo(TYPE_APPEND['ROCK'])
-                                $(this).clone().appendTo(TYPE_APPEND['ELECTRIC'])
-                            }
-                            else if (evolvePokemon.includes('Muk')) {
-                                $(this).clone().appendTo(TYPE_APPEND['POISON'])
-                                $(this).clone().appendTo(TYPE_APPEND['DARK'])
-                            }
-                            else if (evolvePokemon.includes('Raichu')) {
-                                $(this).clone().appendTo(TYPE_APPEND['ELECTRIC'])
-                                $(this).clone().appendTo(TYPE_APPEND['PSYCHIC'])
-                            }
-                        }
-                    } else { //no exceptions
-                        // type one
-                        $(this).clone().appendTo('.'+evolveTypeOne+'');
-                        // type two
-                        if (evolveTypeTwo >= 0) {
-                            $(this).clone().appendTo('.'+evolveTypeTwo+'');
-                        }
-                        // extra type from prev pokemon
-                        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevOne) == -1){
-                            $(this).clone().appendTo('.'+evolveTypePrevOne+'');
-                        }
-
-                        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevTwo) == -1){
-                            $(this).clone().appendTo('.'+evolveTypePrevTwo+'');
-                        }
-                    }
-                } else {
-                    $(this).clone().appendTo(TYPE_APPEND['NONE']);
-                }
+		        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevTwo) == -1){
+		            $(this).clone().appendTo('.'+evolveTypePrevTwo+'');
+		        }
+	            }
+	        } else { // pokemon is not in the dex (this should never happen)
+	            console.log("ERROR: Could not resolve " + evolvePokemon)
+                    
+	            $(this).clone().appendTo(TYPE_APPEND['NONE']);
+	        }
             }); // each
 
             $('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function (index, value) {
-                let amountOfEvolves = $(this).children().children().length;
-                let evolveTypeName = $(this).children('.slidermenu').html();
+	        let amountOfEvolves = $(this).children().children().length;
+	        let evolveTypeName = $(this).children('.slidermenu').html();
 
-                $(this).children('.slidermenu').html(evolveTypeName+' ('+amountOfEvolves+')')
+	        $(this).children('.slidermenu').html(evolveTypeName+' ('+amountOfEvolves+')')
             });
 
             $('.evolvepkmnlist').hide();
