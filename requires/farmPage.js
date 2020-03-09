@@ -69,8 +69,7 @@ let FarmPage = (function FarmPage() {
                 document.querySelector('.qolEvolveNewList').remove();
             }
             catch(err){ /* empty */ }
-        }
-
+        },
         easyEvolveNormalList() {
             clearSortedEvolveLists()
         },
@@ -80,7 +79,7 @@ let FarmPage = (function FarmPage() {
 
             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
             document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', TEMPLATES.evolveFastHTML);
-            
+
             let typeBackground = $('.panel>h3').css('background-color');
             let typeBorder = $('.panel>h3').css('border');
             let typeColor = $('.panel>h3').css('color');
@@ -334,7 +333,7 @@ let FarmPage = (function FarmPage() {
                     $(this).clone().appendTo('.' + cls);
                 }
             }
-            
+
             function extendedNameNew() {
                 for(let i = 1; i < evolveNewChecks.length; i++) {
                     if(evolveNewChecks[i] == 0) { return true; }
@@ -388,7 +387,7 @@ let FarmPage = (function FarmPage() {
                     //looks for Pokémon that you have 0 from. Those are always new.
                     if(extendedNameNew()) {
                         insertHTMLIfClassDoesNotExist(ulElem, newEntryClass, 'beforeend', evolutionListItem(pokemonNewText, newEntryClass))
-                        appendToIfContains(liElem, pokemonName, newEntryClass)            
+                        appendToIfContains(liElem, pokemonName, newEntryClass)
                     } else if (isAlolan(pokemonName) && newTotalsGreaterThanChecks()) {
                         insertHTMLIfClassDoesNotExist(ulElem, alolanClass, 'beforeend', evolutionListItem(alolanText, alolanClass))
                         appendToIfContains(liElem, pokemonName, alolanEntryClass)
@@ -441,7 +440,7 @@ let FarmPage = (function FarmPage() {
                     evolveNewAlbinoChecks.push(getNewAlbinoCheck(evolvePokemonNames[i]))
                     evolveNewMelanChecks.push(getNewMelanCheck(evolvePokemonNames[i]))
                 }
-                
+
                 const newListLi = $('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li')
                 const newListUl = newListLi.querySelector('Ul')
                 //prep done now the search
@@ -473,7 +472,7 @@ let FarmPage = (function FarmPage() {
                                                       "Possible new Shiny forme", "possibleshinydifferent")
                     insertEvolutionListItemForNewMons(newListUl, newListLi, evolvePokemonName, pokemonIsMelan,
                                                       "New Melanistic Pokédex entry", 'newmelanlisticpokedexentry',
-                                                      "Possible new Melanistic Alolan entry", 'possiblemelanisticalolan'
+                                                      "Possible new Melanistic Alolan entry", 'possiblemelanisticalolan',
                                                       "Possible new Melanistic forme/cloak entry", "possiblemelandifferent")
                 }
             });
