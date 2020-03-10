@@ -71,11 +71,11 @@ let FarmPage = (function FarmPage() {
             catch(err){ /* empty */ }
         },
         easyEvolveNormalList() {
-            clearSortedEvolveLists()
+            API.clearSortedEvolveLists()
         },
         easyEvolveTypeList() {
             let dexData = GLOBALS.DEX_DATA;
-            clearSortedEvolveLists()
+            API.clearSortedEvolveLists()
 
             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
             document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', TEMPLATES.evolveFastHTML);
@@ -93,105 +93,125 @@ let FarmPage = (function FarmPage() {
             $(".qolChangeLogContent").css("color", ""+typeListColor+"");
 
             const TYPE_APPEND = {
-	        'NORMAL': '.0',
-	        'FIRE': '.1',
-	        'WATER': '.2',
-	        'ELECTRIC': '.3',
-	        'GRASS': '.4',
-	        'ICE': '.5',
-	        'FIGHTING': '.6',
-	        'POISON': '.7',
-	        'GROUND': '.8',
-	        'FLYING': '.9',
-	        'PSYCHIC': '.10',
-	        'BUG': '.11',
-	        'ROCK': '.12',
-	        'GHOST': '.13',
-	        'DRAGON': '.14',
-	        'DARK': '.15',
-	        'STEEL': '.16',
-	        'FAIRY': '.17',
-	        'NONE': '.18'
+                'NORMAL': '.0',
+                'FIRE': '.1',
+                'WATER': '.2',
+                'ELECTRIC': '.3',
+                'GRASS': '.4',
+                'ICE': '.5',
+                'FIGHTING': '.6',
+                'POISON': '.7',
+                'GROUND': '.8',
+                'FLYING': '.9',
+                'PSYCHIC': '.10',
+                'BUG': '.11',
+                'ROCK': '.12',
+                'GHOST': '.13',
+                'DRAGON': '.14',
+                'DARK': '.15',
+                'STEEL': '.16',
+                'FAIRY': '.17',
+                'NONE': '.18'
             }
-            
+
             console.log("KNOWN_EXCEPTIONS is definitely incomplete")
             const KNOWN_EXCEPTIONS = {
-	        'Gastrodon [Orient]': [TYPE_APPEND['WATER'], TYPE_APPEND['GROUND']],
-	        'Gastrodon [Occident]': [TYPE_APPEND['WATER'], TYPE_APPEND['GROUND']],
-	        'Wormadam [Plant Cloak]': [TYPE_APPEND['BUG'], TYPE_APPEND['GRASS']],
-	        'Wormadam [Trash Cloak]': [TYPE_APPEND['BUG'], TYPE_APPEND['STEEL'], TYPE_APPEND['GRASS']],
-	        'Chilldoom': [TYPE_APPEND['DARK'], TYPE_APPEND['ICE']],
-	        'Raticate [Alolan Forme]': [TYPE_APPEND['DARK'], TYPE_APPEND['NORMAL']],
-	        'Ninetales [Alolan Forme]': [TYPE_APPEND['ICE'], TYPE_APPEND['FAIRY']],
-	        'Exeggutor [Alolan Forme]': [TYPE_APPEND['GRASS'], TYPE_APPEND['DRAGON']],
-	        'Marowak [Alolan Forme]': [TYPE_APPEND['FIRE'], TYPE_APPEND['GHOST']],
-	        'Dugtrio [Alolan Forme]': [TYPE_APPEND['GROUND'], TYPE_APPEND['STEEL']],
-	        'Graveler [Alolan Forme]': [TYPE_APPEND['ROCK'], TYPE_APPEND['ELECTRIC']],
-	        'Golem [Alolan Forme]': [TYPE_APPEND['ROCK'], TYPE_APPEND['ELECTRIC']],
-	        'Muk [Alolan Forme]': [TYPE_APPEND['POISON'], TYPE_APPEND['DARK']],
-	        'Raichu [Alolan Forme]': [TYPE_APPEND['ELECTRIC'], TYPE_APPEND['PSYCHIC']],
+                'Gastrodon [Orient]': [TYPE_APPEND['WATER'], TYPE_APPEND['GROUND']],
+                'Gastrodon [Occident]': [TYPE_APPEND['WATER'], TYPE_APPEND['GROUND']],
+                'Wormadam [Plant Cloak]': [TYPE_APPEND['BUG'], TYPE_APPEND['GRASS']],
+                'Wormadam [Trash Cloak]': [TYPE_APPEND['BUG'], TYPE_APPEND['STEEL'], TYPE_APPEND['GRASS']],
+                'Chilldoom': [TYPE_APPEND['DARK'], TYPE_APPEND['ICE']],
+                'Raticate [Alolan Forme]': [TYPE_APPEND['DARK'], TYPE_APPEND['NORMAL']],
+                'Ninetales [Alolan Forme]': [TYPE_APPEND['ICE'], TYPE_APPEND['FAIRY']],
+                'Exeggutor [Alolan Forme]': [TYPE_APPEND['GRASS'], TYPE_APPEND['DRAGON']],
+                'Marowak [Alolan Forme]': [TYPE_APPEND['FIRE'], TYPE_APPEND['GHOST']],
+                'Dugtrio [Alolan Forme]': [TYPE_APPEND['GROUND'], TYPE_APPEND['STEEL']],
+                'Graveler [Alolan Forme]': [TYPE_APPEND['ROCK'], TYPE_APPEND['ELECTRIC']],
+                'Golem [Alolan Forme]': [TYPE_APPEND['ROCK'], TYPE_APPEND['ELECTRIC']],
+                'Muk [Alolan Forme]': [TYPE_APPEND['POISON'], TYPE_APPEND['DARK']],
+                'Raichu [Alolan Forme]': [TYPE_APPEND['ELECTRIC'], TYPE_APPEND['PSYCHIC']],
             }
-            
+
             $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index, value) {
-	        // getting the <li> element from the pokemon & the pokemon evolved name
-	        let getEvolveString = $(this).html();
-	        let previousPokemon = getEvolveString.substr(getEvolveString.indexOf('/summary/') + '/summary/'.length + 8, getEvolveString.indexOf('</a>'))
-	        let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
+                // getting the <li> element from the pokemon & the pokemon evolved name
+                let getEvolveString = $(this).html();
+                let previousPokemon = getEvolveString.substring(getEvolveString.indexOf('/summary/') + '/summary/'.length + 7, getEvolveString.indexOf('</a>'))
+                let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
+                let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                let evolveInDex = dexData.indexOf('"'+evolvePokemon+'"') != -1;
 
-	        // first looks if you know the type out of your dexdata, if it's there then the <li> will be moved to be under its corresponding type
-	        if (dexData.indexOf('"'+evolvePokemon+'"') != -1 ||
-	            evolvePokemon in KNOWN_EXCEPTIONS) {
-	            if (getEvolveString.includes('title="[DELTA')) {
-		        console.log(getEvolveString);
-		        let deltaType = getEvolveString.match('DELTA-(.*)]">');
-		        console.log(deltaType[1]);
+                // if the pokemon's name doens't match the species name, previousInDex will be false
+                // load the pokemon's species and set the pokemon's name to the species name for the rest of this loop
+                if (!previousInDex) {
+                    let url = getEvolveString.substr(getEvolveString.indexOf('href="')+'href="'.length, '/summary/AAAAA'.length);
 
-		        $(this).clone().appendTo(TYPE_APPEND[deltaType[1]]);
-	            }
+                    $.ajax({
+                        type: "GET",
+                        url: 'https://pokefarm.com' + url,
+                        async: false,
+                        success: function(data) {
+                            let html = jQuery.parseHTML(data)
+                            previousPokemon = html[25].querySelector('#pkmnspecdata>p>a').text
+                        }
+                    });
 
-	            if (evolvePokemon in KNOWN_EXCEPTIONS) {
-		        for(let i = 0; i < KNOWN_EXCEPTIONS[evolvePokemon].length; i++) {
-		            $(this).clone().appendTo(KNOWN_EXCEPTIONS[evolvePokemon][i])
-		        }
-	            } else { //no exceptions
-		        let evolveTypeOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 1];
-		        let evolveTypeTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 2];
-		        // let evolveTypePrevOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 10];
-		        // let evolveTypePrevTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 9];
-		        let evolveTypePrevOne = dexData[dexData.indexof('"'+previousPokemon+'"') + 1];
-		        let evolveTypePrevTwo = dexData[dexData.indexof('"'+previousPokemon+'"') + 2];
-		        
-		        $(this).clone().appendTo('.'+evolveTypeOne+'');
-		        if (evolveTypeTwo >= 0) {
-		            $(this).clone().appendTo('.'+evolveTypeTwo+'');
-		        }
-		        // extra type from prev pokemon
-		        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevOne) == -1){
-		            $(this).clone().appendTo('.'+evolveTypePrevOne+'');
-		        }
+                    previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                }
 
-		        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevTwo) == -1){
-		            $(this).clone().appendTo('.'+evolveTypePrevTwo+'');
-		        }
-	            }
-	        } else { // pokemon is not in the dex (this should never happen)
-	            console.log("ERROR: Could not resolve " + evolvePokemon)
-                    
-	            $(this).clone().appendTo(TYPE_APPEND['NONE']);
-	        }
+                // first looks if you know the type out of your dexdata, if it's there then the <li> will be moved to be under its corresponding type
+                if ((previousInDex && evolveInDex) ||
+                    evolvePokemon in KNOWN_EXCEPTIONS) {
+                    if (getEvolveString.includes('title="[DELTA')) {
+                        let deltaType = getEvolveString.match('DELTA-(.*)]">');
+
+                        $(this).clone().appendTo(TYPE_APPEND[deltaType[1]]);
+                    }
+
+                    if (evolvePokemon in KNOWN_EXCEPTIONS) {
+                        for(let i = 0; i < KNOWN_EXCEPTIONS[evolvePokemon].length; i++) {
+                            $(this).clone().appendTo(KNOWN_EXCEPTIONS[evolvePokemon][i])
+                        }
+                    } else { //no exceptions
+                        let evolveTypeOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 1];
+                        let evolveTypeTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 2];
+                        // let evolveTypePrevOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 10];
+                        // let evolveTypePrevTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 9];
+                        let evolveTypePrevOne = dexData[dexData.indexOf('"'+previousPokemon+'"') + 1];
+                        let evolveTypePrevTwo = dexData[dexData.indexOf('"'+previousPokemon+'"') + 2];
+
+                        $(this).clone().appendTo('.'+evolveTypeOne+'');
+                        if (evolveTypeTwo >= 0) {
+                            $(this).clone().appendTo('.'+evolveTypeTwo+'');
+                        }
+                        // extra type from prev pokemon
+                        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevOne) == -1){
+                            $(this).clone().appendTo('.'+evolveTypePrevOne+'');
+                        }
+
+                        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevTwo) == -1){
+                            $(this).clone().appendTo('.'+evolveTypePrevTwo+'');
+                        }
+                    }
+                } else { // pokemon is not in the dex (this should never happen)
+                    console.log(index, previousPokemon, evolvePokemon)
+                    if (!previousInDex) { console.log("ERROR: Could not resolve " + previousPokemon) }
+                    if (!evolveInDex)   { console.log("ERROR: Could not resolve " + evolvePokemon) }
+
+                    $(this).clone().appendTo(TYPE_APPEND['NONE']);
+                }
             }); // each
 
             $('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function (index, value) {
-	        let amountOfEvolves = $(this).children().children().length;
-	        let evolveTypeName = $(this).children('.slidermenu').html();
+                let amountOfEvolves = $(this).children().children().length;
+                let evolveTypeName = $(this).children('.slidermenu').html();
 
-	        $(this).children('.slidermenu').html(evolveTypeName+' ('+amountOfEvolves+')')
+                $(this).children('.slidermenu').html(evolveTypeName+' ('+amountOfEvolves+')')
             });
 
             $('.evolvepkmnlist').hide();
         },
         easyEvolveNameList() {
-            clearSortedEvolveLists();
+            API.clearSortedEvolveLists();
 
             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
             document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNameList">');
@@ -236,7 +256,7 @@ let FarmPage = (function FarmPage() {
         easyEvolveNewList() {
             let dexData = GLOBALS.DEX_DATA;
 
-            clearSortedEvolveLists()
+            API.clearSortedEvolveLists()
 
             // add a class to the original pokemon evolve list to be able to manipulate the element more easily and add the ul for the new dex search
             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
