@@ -155,42 +155,65 @@ let FarmPage = (function FarmPage() {
                         }
                     });
 
-                    previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                    // previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                    
+                    // Get the types for the previous pokemon
                 }
+                
+                // whether or not the pokemon already existed in the dex or was loaded from the dex, we can now load its types
+                let evolveTypePrevOne = dexData[dexData.indexOf('"'+previousPokemon+'"') + 1];
+                let evolveTypePrevTwo = dexData[dexData.indexOf('"'+previousPokemon+'"') + 2];
+                
+                let evolveTypeOne = "";
+                let evolveTypeTwo = "";
 
-                // first looks if you know the type out of your dexdata, if it's there then the <li> will be moved to be under its corresponding type
-                if ((previousInDex && evolveInDex) ||
-                    evolvePokemon in KNOWN_EXCEPTIONS) {
-                    if (getEvolveString.includes('title="[DELTA')) {
-                        let deltaType = getEvolveString.match('DELTA-(.*)]">');
-
-                        $(this).clone().appendTo(TYPE_APPEND[deltaType[1]]);
-                    }
-
+                if (!evolveInDex) {
                     if (evolvePokemon in KNOWN_EXCEPTIONS) {
                         for(let i = 0; i < KNOWN_EXCEPTIONS[evolvePokemon].length; i++) {
                             $(this).clone().appendTo(KNOWN_EXCEPTIONS[evolvePokemon][i])
                         }
-                    } else { //no exceptions
-                        let evolveTypeOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 1];
-                        let evolveTypeTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 2];
-                        // let evolveTypePrevOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 10];
-                        // let evolveTypePrevTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') - 9];
-                        let evolveTypePrevOne = dexData[dexData.indexOf('"'+previousPokemon+'"') + 1];
-                        let evolveTypePrevTwo = dexData[dexData.indexOf('"'+previousPokemon+'"') + 2];
+                    } else {
+                        // Get the dex number for previousPokemon
+                        let dexNumber = dexData[dexData.indexOf('"'+previousPokemon+'"') + TBD];
+                        // Load the dex page for previousPokemon
+                        $.ajax({
+                            type: "GET",
+                            url: 'https://pokefarm.com/dex/' + url,
+                            async: false,
+                            success: function(data) {
+                                let html = jQuery.parseHTML(data)
+                                let evosSpans = html[25].querySelectorAll('.evolutiontree>ul>li>.name')
+                                console.log('more to do')
+                            }
+                        });
+                        // Get the evolutions from the dex page
+                        // If evolvePokemon matches one of the evolutions, load dex page for the match
+                        // Get the types for the match
+                    }
+                } else {
+                    evolveTypeOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 1];
+                    evolveTypeTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 2];
+                }
+                
+                if (getEvolveString.includes('title="[DELTA')) {
+                    let deltaType = getEvolveString.match('DELTA-(.*)]">');
 
-                        $(this).clone().appendTo('.'+evolveTypeOne+'');
-                        if (evolveTypeTwo >= 0) {
-                            $(this).clone().appendTo('.'+evolveTypeTwo+'');
-                        }
-                        // extra type from prev pokemon
-                        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevOne) == -1){
-                            $(this).clone().appendTo('.'+evolveTypePrevOne+'');
-                        }
+                    $(this).clone().appendTo(TYPE_APPEND[deltaType[1]]);
+                }
 
-                        if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevTwo) == -1){
-                            $(this).clone().appendTo('.'+evolveTypePrevTwo+'');
-                        }
+                // type one must exist for both the previous and evolve Pokemon
+                // type two is optional
+                If(evolveTypeOne !== "" evolveTypePrevOne !== "") {
+                    $(this).clone().appendTo('.'+evolveTypeOne+'');
+                    if (evolveTypeTwo >= 0) {
+                        $(this).clone().appendTo('.'+evolveTypeTwo+'');
+                    }
+                    // extra type from prev pokemon
+                    if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevOne) == -1){
+                        $(this).clone().appendTo('.'+evolveTypePrevOne+'');
+                    }
+                    if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevTwo) == -1){
+                        $(this).clone().appendTo('.'+evolveTypePrevTwo+'');
                     }
                 } else { // pokemon is not in the dex (this should never happen)
                     console.log(index, previousPokemon, evolvePokemon)
