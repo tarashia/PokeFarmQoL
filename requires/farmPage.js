@@ -1,6 +1,31 @@
 let FarmPage = (function FarmPage() {
     const SETTINGS_SAVE_KEY = 'QoLFarm';
-    const DEFAULT_SETTINGS = { /* empty */ };
+    const DEFAULT_SETTINGS = (() => {
+        let d = {TYPE_APPEND : {}};
+        // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
+        for(let i = 0; i < GLOBALS.TYPE_LIST.length; i++) {
+            let type = GLOBALS.TYPE_LIST[i];
+            d.TYPE_APPEND[type.toUpperCase()] = '.' + i
+        }
+        d.TYPE_APPEND['NONE'] = GLOBALS.TYPE_LIST.length;
+        d.KNOWN_EXCEPTIONS = {
+            'Gastrodon [Orient]': [d.TYPE_APPEND['WATER'], d.TYPE_APPEND['GROUND']],
+            'Gastrodon [Occident]': [d.TYPE_APPEND['WATER'], d.TYPE_APPEND['GROUND']],
+            'Wormadam [Plant Cloak]': [d.TYPE_APPEND['BUG'], d.TYPE_APPEND['GRASS']],
+            'Wormadam [Trash Cloak]': [d.TYPE_APPEND['BUG'], d.TYPE_APPEND['STEEL']],//, d.['GRASS']],
+            'Chilldoom': [d.TYPE_APPEND['DARK'], d.TYPE_APPEND['ICE']],
+            'Raticate [Alolan Forme]': [d.TYPE_APPEND['DARK'], d.TYPE_APPEND['NORMAL']],
+            'Ninetales [Alolan Forme]': [d.TYPE_APPEND['ICE'], d.TYPE_APPEND['FAIRY']],
+            'Exeggutor [Alolan Forme]': [d.TYPE_APPEND['GRASS'], d.TYPE_APPEND['DRAGON']],
+            'Marowak [Alolan Forme]': [d.TYPE_APPEND['FIRE'], d.TYPE_APPEND['GHOST']],
+            'Dugtrio [Alolan Forme]': [d.TYPE_APPEND['GROUND'], d.TYPE_APPEND['STEEL']],
+            'Graveler [Alolan Forme]': [d.TYPE_APPEND['ROCK'], d.TYPE_APPEND['ELECTRIC']],
+            'Golem [Alolan Forme]': [d.TYPE_APPEND['ROCK'], d.TYPE_APPEND['ELECTRIC']],
+            'Muk [Alolan Forme]': [d.TYPE_APPEND['POISON'], d.TYPE_APPEND['DARK']],
+            'Raichu [Alolan Forme]': [d.TYPE_APPEND['ELECTRIC'], d.TYPE_APPEND['PSYCHIC']],
+        }
+        return d;
+    })();
     let settings = DEFAULT_SETTINGS;
     let evolveListCache = "";
     // more data
@@ -92,46 +117,6 @@ let FarmPage = (function FarmPage() {
             $(".qolChangeLogContent").css("background-color", ""+typeListBackground+"");
             $(".qolChangeLogContent").css("color", ""+typeListColor+"");
 
-            const TYPE_APPEND = {
-                'NORMAL': '.0',
-                'FIRE': '.1',
-                'WATER': '.2',
-                'ELECTRIC': '.3',
-                'GRASS': '.4',
-                'ICE': '.5',
-                'FIGHTING': '.6',
-                'POISON': '.7',
-                'GROUND': '.8',
-                'FLYING': '.9',
-                'PSYCHIC': '.10',
-                'BUG': '.11',
-                'ROCK': '.12',
-                'GHOST': '.13',
-                'DRAGON': '.14',
-                'DARK': '.15',
-                'STEEL': '.16',
-                'FAIRY': '.17',
-                'NONE': '.18'
-            }
-
-            console.log("KNOWN_EXCEPTIONS is definitely incomplete")
-            const KNOWN_EXCEPTIONS = {
-                'Gastrodon [Orient]': [TYPE_APPEND['WATER'], TYPE_APPEND['GROUND']],
-                'Gastrodon [Occident]': [TYPE_APPEND['WATER'], TYPE_APPEND['GROUND']],
-                'Wormadam [Plant Cloak]': [TYPE_APPEND['BUG'], TYPE_APPEND['GRASS']],
-                'Wormadam [Trash Cloak]': [TYPE_APPEND['BUG'], TYPE_APPEND['STEEL']],//, TYPE_APPEND['GRASS']],
-                'Chilldoom': [TYPE_APPEND['DARK'], TYPE_APPEND['ICE']],
-                'Raticate [Alolan Forme]': [TYPE_APPEND['DARK'], TYPE_APPEND['NORMAL']],
-                'Ninetales [Alolan Forme]': [TYPE_APPEND['ICE'], TYPE_APPEND['FAIRY']],
-                'Exeggutor [Alolan Forme]': [TYPE_APPEND['GRASS'], TYPE_APPEND['DRAGON']],
-                'Marowak [Alolan Forme]': [TYPE_APPEND['FIRE'], TYPE_APPEND['GHOST']],
-                'Dugtrio [Alolan Forme]': [TYPE_APPEND['GROUND'], TYPE_APPEND['STEEL']],
-                'Graveler [Alolan Forme]': [TYPE_APPEND['ROCK'], TYPE_APPEND['ELECTRIC']],
-                'Golem [Alolan Forme]': [TYPE_APPEND['ROCK'], TYPE_APPEND['ELECTRIC']],
-                'Muk [Alolan Forme]': [TYPE_APPEND['POISON'], TYPE_APPEND['DARK']],
-                'Raichu [Alolan Forme]': [TYPE_APPEND['ELECTRIC'], TYPE_APPEND['PSYCHIC']],
-            }
-
             $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index, value) {
                 // getting the <li> element from the pokemon & the pokemon evolved name
                 let getEvolveString = $(this).html();
@@ -139,10 +124,6 @@ let FarmPage = (function FarmPage() {
                 let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
                 let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
                 let evolveInDex = dexData.indexOf('"'+evolvePokemon+'"') != -1;
-
-                if(evolvePokemon === 'Lycanroc [Midnight Forme]') {
-                    console.log("I'm breakpoint fodder")
-                }
 
                 // if the pokemon's name doens't match the species name, previousInDex will be false
                 // load the pokemon's species and set the pokemon's name to the species name for the rest of this loop
@@ -168,10 +149,10 @@ let FarmPage = (function FarmPage() {
                 let evolveTypeTwo = "";
 
                 if (!evolveInDex) {
-                    if (evolvePokemon in KNOWN_EXCEPTIONS) {
-                        evolveTypeOne = KNOWN_EXCEPTIONS[evolvePokemon][0]
-                        if(KNOWN_EXCEPTIONS[evolvePokemon].length > 1) {
-                            evolveTypeTwo = KNOWN_EXCEPTIONS[evolvePokemon][1]
+                    if (evolvePokemon in settings.KNOWN_EXCEPTIONS) {
+                        evolveTypeOne = settings.KNOWN_EXCEPTIONS[evolvePokemon][0]
+                        if(settings.KNOWN_EXCEPTIONS[evolvePokemon].length > 1) {
+                            evolveTypeTwo = settings.KNOWN_EXCEPTIONS[evolvePokemon][1]
                         }
                     } else {
                         // Get the dex number for previousPokemon
@@ -213,12 +194,18 @@ let FarmPage = (function FarmPage() {
                                         });
                                     }
                                 });
-                                evolveTypeOne = TYPE_APPEND[types[0].toUpperCase()]
+                                // add the exception to the known exceptions list
+                                evolveTypeOne = settings.TYPE_APPEND[types[0].toUpperCase()]
+                                settings.KNOWN_EXCEPTIONS[evolvePokemon] = [evolveTypeOne]
+
                                 if(types.length > 1) {
-                                    evolveTypeTwo = TYPE_APPEND[types[1].toUpperCase()]
+                                    evolveTypeTwo = settings.TYPE_APPEND[types[1].toUpperCase()]
+                                    settings.KNOWN_EXCEPTIONS[evolvePokemon].push(evolveTypeTwo)
                                 }
-                            }
-                            break;
+
+                                API.saveSettings();
+                                break;
+                            } // if
                         } // for
                     }
                 } else {
@@ -229,7 +216,7 @@ let FarmPage = (function FarmPage() {
                 if (getEvolveString.includes('title="[DELTA')) {
                     let deltaType = getEvolveString.match('DELTA-(.*)]">');
 
-                    $(this).clone().appendTo(TYPE_APPEND[deltaType[1]]);
+                    $(this).clone().appendTo(settings.TYPE_APPEND[deltaType[1]]);
                 }
 
                 // type one must exist for both the previous and evolve Pokemon
@@ -243,7 +230,7 @@ let FarmPage = (function FarmPage() {
                     evolveTypePrevTwo = evolveTypePrevTwo.replace('.','')
 
                     $(this).clone().appendTo('.'+evolveTypeOne+'');
-                    if (evolveTypeTwo >= 0) {
+                    if (parseInt(evolveTypeTwo) >= 0) {
                         $(this).clone().appendTo('.'+evolveTypeTwo+'');
                     }
                     // extra type from prev pokemon
@@ -258,7 +245,7 @@ let FarmPage = (function FarmPage() {
                     if (!previousInDex) { console.log("ERROR: Could not resolve " + previousPokemon) }
                     if (!evolveInDex)   { console.log("ERROR: Could not resolve " + evolvePokemon) }
 
-                    $(this).clone().appendTo(TYPE_APPEND['NONE']);
+                    $(this).clone().appendTo(settings.TYPE_APPEND['NONE']);
                 }
             }); // each
 
@@ -266,7 +253,13 @@ let FarmPage = (function FarmPage() {
                 let amountOfEvolves = $(this).children().children().length;
                 let evolveTypeName = $(this).children('.slidermenu').html();
 
-                $(this).children('.slidermenu').html(evolveTypeName+' ('+amountOfEvolves+')')
+                // hide the types with no evolutions
+                if(amountOfEvolves === 0) {
+                    this.nextSibling.hidden = true
+                    this.hidden = true;
+                } else {
+                    $(this).children('.slidermenu').html(evolveTypeName+' ('+amountOfEvolves+')')
+                }
             });
 
             $('.evolvepkmnlist').hide();

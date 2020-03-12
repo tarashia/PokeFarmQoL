@@ -15,6 +15,8 @@ const TEMPLATES = { // all the new/changed HTML for the userscript
 
 let GLOBALS = {
     SETTINGS_SAVE_KEY : 'QoLSettings',
+    // Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
+    // Don't change the order without looking for where this array is used
     TYPE_LIST : ["Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"],
     NATURE_LIST : ["Lonely", "Mild", "Hasty", "Gentle", "Bold", "Modest", "Timid", "Calm",
                    "Impish", "Adamant", "Jolly", "Careful", "Relaxed", "Brave", "Quiet", "Sassy",
@@ -33,7 +35,7 @@ let GLOBALS = {
         "Fairy", // 10
         "Human-Like", // 11
         "Mineral", // 12
-        "Flying", // 13
+        "Flying", // 13 <-- This skip is correct
         "Ditto", // 15
     ],
     EGG_GROUP_ID_TO_NAME : [
