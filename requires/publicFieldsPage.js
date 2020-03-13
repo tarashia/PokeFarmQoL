@@ -229,7 +229,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             }));
 
             $(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
-                API.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroupSearch', 'eggGroupTypes')
+                API.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes')
                 API.customSearch();
             }));
 
