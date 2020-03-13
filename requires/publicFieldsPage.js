@@ -332,8 +332,8 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             const checkboxValueArray = [];
 
             //loop to find all search values for the top checkboxes
-            for (let key in settings) {
-                let value = settings[key];
+            for (let key in settings.searchSettings) {
+                let value = settings.searchSettings[key];
                 if (value === true && Helpers.publicFieldsKeyIsTopCheckbox(key)) {
                     let searchKey = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(key) + 1];
                     checkboxValueArray.push(searchKey);
@@ -369,7 +369,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 //new egg search.
                 if (value === "Egg") { //tooltip_content search. new egg.
                     if ($("#field .tooltip_content:contains("+value+")").length) {
-                        eggNoDuplicateArray = settings.NewEggDuplicate.split(',');
+                        eggNoDuplicateArray = settings.searchSettings.NewEggDuplicate.split(',');
                         eggNoDuplicateArray = eggNoDuplicateArray.filter(v=>v!='');
 
                         let eggList = eggNoDuplicateArray.length;
@@ -411,9 +411,9 @@ let PublicFieldsPage = (function PublicFieldsPage() {
 
                 if ($('div.panel:contains("Adoption successful!")').length) {
                     if ($('.egg').css('background-image') === 'url("https://'+newEggAdopt+'")') {
-                        eggNoDuplicateArray = settings.NewEggDuplicate.split(',');
+                        eggNoDuplicateArray = settings.searchSettings.NewEggDuplicate.split(',');
                         eggNoDuplicateArray.push(newEggAdopt);
-                        settings.NewEggDuplicate = eggNoDuplicateArray.toString();
+                        settings.searchSettings.NewEggDuplicate = eggNoDuplicateArray.toString();
                         newEggAdopt = "";
                     }
                 }
@@ -421,8 +421,8 @@ let PublicFieldsPage = (function PublicFieldsPage() {
 
             //loop to find all search genders for the custom
             const checkboxValueArrayCustom = [];
-            for (let key in settings) {
-                let value = settings[key];
+            for (let key in settings.searchSettings) {
+                let value = settings.searchSettings[key];
                 if (value === true) {
                     if(key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
                         let searchKey = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(key) + 1];
@@ -437,7 +437,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 let value = customArray[i];
                 if (value != "") {
                     //custom pokemon search
-                    if (settings.customPokemon === true) {
+                    if (settings.searchSettings.customPokemon === true) {
                         //Males
                         if (checkboxValueArrayCustom.indexOf("[M]") > -1) {
                             if ($("#field .tooltip_content:containsIN("+value+") img[title*='[M]']").length) {
@@ -488,7 +488,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                     }
 
                     //custom egg
-                    if (settings.customEgg === true) {
+                    if (settings.searchSettings.customEgg === true) {
                         let name_matches = $('#field .tooltip_content:containsIN('+value+'):contains("Egg")');
                         let num_matches = name_matches.length;
 
@@ -503,7 +503,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                     }
 
                     //imgSearch with Pokémon
-                    if (settings.customPng === true) {
+                    if (settings.searchSettings.customPng === true) {
                         if ($('#field img[src*="'+value+'"]').length) {
                             let searchResult = $('#field img[src*="'+value+'"]').parent().next().text().split('(')[0]
                             let tooltipResult = $('#field img[src*="'+value+'"]').length+" "+searchResult+' (Custom img search)';
@@ -524,7 +524,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                     let value = filteredTypeArray[i];
                     let foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
 
-                    if (settings.findTypeEgg === true) {
+                    if (settings.searchSettings.findTypeEgg === true) {
                         let typePokemonNames = [];
                         $('#field>.tooltip_content:contains("Egg")').each(function() {
                             let searchPokemon = ($(this).text().split(' ')[0]);
@@ -544,7 +544,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                         }
                     }
 
-                    if (settings.findTypePokemon === true) {
+                    if (settings.searchSettings.findTypePokemon === true) {
                         let typePokemonNames = [];
 
                         $('#field>.tooltip_content').not(':contains("Egg")').each(function() {
