@@ -129,6 +129,17 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                             settings.searchSettings.fieldNature = natureArray.toString();
                         }
                     }
+                    if (element === 'fieldEggGroup') {
+                        if (textElement === 'none') {
+                            let tempIndex = typeClass - 1;
+                            eggGroupArray.splice(tempIndex, tempIndex);
+                            settings.fieldEggGroup = eggGroupArray.toString();
+                        } else {
+                            let tempIndex = typeClass - 1;
+                            eggGroupArray[tempIndex] = textElement;
+                            settings.fieldEggGroup = eggGroupArray.toString();
+                        }
+                    }
                     if (element === 'fieldCustom') {
                         let tempIndex = customClass - 1;
                         customArray[tempIndex] = textElement;
@@ -144,12 +155,15 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             const theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
             const theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldTypeSearch'> </div>`;
             const theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + GLOBALS.NATURE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
+            const theEggGroup = `<div class='eggGroupNumber'> <select name="eggGroups" class="qolsetting" data-key="fieldEggGroup"> ` + GLOBALS.EGG_GROUP_OPTIONS + ` </select> <input type='button' value='Remove' id='removePrivateFieldEggGroup'> </div>`;
             customArray = settings.searchSettings.fieldCustom.split(',');
             typeArray = settings.searchSettings.fieldType.split(',');
             natureArray = settings.searchSettings.fieldNature.split(',');
+            eggGroupArray = settings.searchSettings.fieldEggGroup.split(',');
             Helpers.setupFieldArrayHTML(customArray, 'searchkeys', theField, 'numberDiv');
             Helpers.setupFieldArrayHTML(typeArray, 'fieldTypes', theType, 'typeNumber');
             Helpers.setupFieldArrayHTML(natureArray, 'natureTypes', theNature, 'natureNumber');
+            Helpers.setupFieldArrayHTML(eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         },
         setupCSS() {
             let fieldOrderCssColor = $('#field_field').css('background-color');
@@ -189,22 +203,24 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 API.fieldRemoveTextField(this, $(this).parent().find('input').val());
             }));
 
-            $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
-                API.fieldAddNatureSearch();
-            }));
-
-            $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
-                natureArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
-                API.saveSettings();
-                API.customSearch();
-            }));
-
             $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
-                API.fieldAddTypeList();
+                API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes');
+                API.customSearch();
             }));
 
             $(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
                 typeArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
+                API.saveSettings();
+                API.customSearch();
+            }));
+
+            $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
+                API.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes')
+                API.customSearch();
+            }));
+
+            $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
+                natureArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
                 API.saveSettings();
                 API.customSearch();
             }));
@@ -380,12 +396,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 }) // each
             } // end            
         }, // customSearch
-        fieldAddTypeList() {
-            API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes');
-        },
-        fieldAddNatureSearch() {
-            API.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes');
-        },
         addSelectSearch(cls, name, data_key, options, id, divParent) {
             let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
             let number = (`#${divParent}>div`).length;
