@@ -335,7 +335,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             for (let key in settings) {
                 let value = settings[key];
                 if (value === true && Helpers.publicFieldsKeyIsTopCheckbox(key)) {
-                    let searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
+                    let searchKey = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(key) + 1];
                     checkboxValueArray.push(searchKey);
                 }
             }
@@ -347,9 +347,9 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 //img[TITLE] search. everything aside from new pokémon & new eggs || Image for Delta fails
                 if (value.startsWith('[')) {
                     if ($('img[title*="'+value+'"]').length) {
-                        let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1]; //type of Pokémon found
+                        let searchResult = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(value) + 1]; //type of Pokémon found
                         let imgResult = $("img[title*='"+value+"']").length+" "+searchResult; //amount + type found
-                        let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2]; //image for type of Pokémon
+                        let imgFitResult = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(value) + 2]; //image for type of Pokémon
                         let imgSearch = $('img[title*="'+value+'"]');
                         let bigImg = imgSearch.parent().prev().children('img.big');
                         $(bigImg).addClass('publicfoundme');
@@ -358,9 +358,9 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 //new Pokémon search.
                 if (value === 'Pokémon') {
                     if ($("#field .tooltip_content:contains("+value+")").length) {
-                        let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1];
+                        let searchResult = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(value) + 1];
                         let tooltipResult = $("#field .tooltip_content:contains("+value+")").length+" "+searchResult;
-                        let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+                        let imgFitResult = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(value) + 2];
                         let imgSearch = $("#field .tooltip_content:contains("+value+")")
                         let bigImg = imgSearch.prev().children('img.big');
                         $(bigImg).addClass('publicfoundme');
@@ -386,9 +386,9 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                         let newEggDup = lengthEggs / 2;
                         let newEggFinds = allEggFinds - allKnownEggFinds - newEggDup;
 
-                        let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1];
+                        let searchResult = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(value) + 1];
                         let newEggResult = newEggFinds+" "+searchResult;
-                        let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+                        let imgFitResult = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(value) + 2];
 
                         if (newEggFinds <1) {
                             let thisDoesNothing = 0;
@@ -425,7 +425,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 let value = settings[key];
                 if (value === true) {
                     if(key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
-                        let searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
+                        let searchKey = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf(key) + 1];
                         checkboxValueArrayCustom.push(searchKey);
                     }
                 }
@@ -442,7 +442,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                         if (checkboxValueArrayCustom.indexOf("[M]") > -1) {
                             if ($("#field .tooltip_content:containsIN("+value+") img[title*='[M]']").length) {
                                 let searchResult = value;
-                                let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[M]") +2];
+                                let imgGender = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf("[M]") +2];
                                 let tooltipResult = $("#field .tooltip_content:containsIN("+value+") img[title*='[M]']").length+" Male "+imgGender+" "+searchResult;
                                 let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
                                 let imgSearch = $("#field .tooltip_content:containsIN("+value+") img[title*='[M]']")
@@ -454,7 +454,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                         if (checkboxValueArrayCustom.indexOf("[F]") > -1) {
                             if ($("#field .tooltip_content:containsIN("+value+") img[title*='[F]']").length) {
                                 let searchResult = value;
-                                let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[F]") +2];
+                                let imgGender = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf("[F]") +2];
                                 let tooltipResult = $("#field .tooltip_content:containsIN("+value+") img[title*='[F]']").length+" Female "+imgGender+" "+searchResult;
                                 let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
                                 let imgSearch = $("#field .tooltip_content:containsIN("+value+") img[title*='[F]']")
@@ -466,7 +466,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                         if (checkboxValueArrayCustom.indexOf("[N]") > -1) {
                             if ($("#field .tooltip_content:containsIN("+value+") img[title*='[N]']").length) {
                                 let searchResult = value;
-                                let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[N]") +2];
+                                let imgGender = GLOBALS.PUBLIC_FIELDS_SEARCH_DATA[GLOBALS.PUBLIC_FIELDS_SEARCH_DATA.indexOf("[N]") +2];
                                 let tooltipResult = $("#field .tooltip_content:containsIN("+value+") img[title*='[N]']").length+" Genderless "+imgGender+" "+searchResult;
                                 let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
                                 let imgSearch = $("#field .tooltip_content:containsIN("+value+") img[title*='[N]']")
