@@ -17,6 +17,12 @@ let Helpers = (function Helpers() {
             return k != 'findCustom' && k != 'findMale' && k != 'findFemale' && k != 'findNoGender' && k != 'customEgg' && k != 'customPokemon' && k != 'customPng';
         },
 
+        publicFieldsKeyIsTopCheckbox(k) {
+            return k === 'fieldNewPokemon' || k === 'fieldShiny' || k === 'fieldAlbino' || k === 'fieldMelanistic' ||
+                k === 'fieldPrehistoric' || k === 'fieldDelta' || k === 'fieldMega' || k === 'fieldStarter' ||
+                k === 'fieldCustomSprite' || k === 'fieldItem'
+        },
+
         buildOptionsString(arr) {
             let str = '<option value="none">None</option> ';
             for(let i = 0; i < arr.length; i++) {

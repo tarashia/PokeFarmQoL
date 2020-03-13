@@ -221,6 +221,10 @@ let PublicFieldsPage = (function PublicFieldsPage() {
         },
         // specific
         customSearch() {
+
+            /////////////////////////////////////////////////
+            //////////////////// sorting ////////////////////
+            /////////////////////////////////////////////////
             $('input.qolalone').on('change', function() { //only 1 textbox may be true
                 $('input.qolalone').not(this).prop('checked', false);
             });
@@ -311,6 +315,258 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                     $('#pokemonclickcount').css({"color" : "#a30323"});
                 }
             }
+
+            /////////////////////////////////////////////////
+            /////////////////// searching ///////////////////
+            /////////////////////////////////////////////////
+            let dexData = GLOBALS.DEX_DATA;
+            let bigImgs = document.querySelectorAll('.publicfoundme')
+            if(bigImgs !== null) {
+                bigImgs.forEach((b) => {$(b).removeClass('publicfoundme')})
+            }
+
+            // search whatever you want to find in the fields
+            let lengthEggs = 0;
+
+            //search values depending on settings
+            const checkboxValueArray = [];
+
+            //loop to find all search values for the top checkboxes
+            for (let key in settings) {
+                let value = settings[key];
+                if (value === true && Helpers.publicFieldsKeyIsTopCheckbox(key)) {
+                    let searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
+                    checkboxValueArray.push(searchKey);
+                }
+            }
+
+            //loop to find the top checkboxes
+            for (let key in checkboxValueArray) {
+                let value = checkboxValueArray[key];
+
+                //img[TITLE] search. everything aside from new pokémon & new eggs || Image for Delta fails
+                if (value.startsWith('[')) {
+                    if ($('img[title*="'+value+'"]').length) {
+                        let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1]; //type of Pokémon found
+                        let imgResult = $("img[title*='"+value+"']").length+" "+searchResult; //amount + type found
+                        let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2]; //image for type of Pokémon
+                        let imgSearch = $('img[title*="'+value+'"]');
+                        let bigImg = imgSearch.parent().prev().children('img.big');
+                        $(bigImg).addClass('publicfoundme');
+                    }
+                }
+                //new Pokémon search.
+                if (value === 'Pokémon') {
+                    if ($("#field .tooltip_content:contains("+value+")").length) {
+                        let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1];
+                        let tooltipResult = $("#field .tooltip_content:contains("+value+")").length+" "+searchResult;
+                        let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+                        let imgSearch = $("#field .tooltip_content:contains("+value+")")
+                        let bigImg = imgSearch.prev().children('img.big');
+                        $(bigImg).addClass('publicfoundme');
+                    }
+                }
+                //new egg search.
+                if (value === "Egg") { //tooltip_content search. new egg.
+                    if ($("#field .tooltip_content:contains("+value+")").length) {
+                        eggNoDuplicateArray = settings.NewEggDuplicate.split(',');
+                        eggNoDuplicateArray = eggNoDuplicateArray.filter(v=>v!='');
+
+                        let eggList = eggNoDuplicateArray.length;
+                        let i;
+                        for (i = 0; i < eggList; i++) {
+                            let value = eggNoDuplicateArray[i];
+                            if ($('img[src*="//'+value+'"]').length) {
+                                lengthEggs = $('img[src*="//'+value+'"]').length + lengthEggs;
+                            }
+                        }
+
+                        let allEggFinds = $("#field .tooltip_content:contains("+value+")").length;
+                        let allKnownEggFinds = $("#field .tooltip_content:contains( "+value+")").length;
+                        let newEggDup = lengthEggs / 2;
+                        let newEggFinds = allEggFinds - allKnownEggFinds - newEggDup;
+
+                        let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1];
+                        let newEggResult = newEggFinds+" "+searchResult;
+                        let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+
+                        if (newEggFinds <1) {
+                            let thisDoesNothing = 0;
+                        } else {
+                            let imgSearch = $("#field .tooltip_content:contains("+value+")");
+                            let bigImg = imgSearch.prev().children('img.big');
+                            $(bigImg).addClass('publicfoundme');
+                            let shelterImgRemove = $("#field .tooltip_content:contains( "+value+")");
+                            let bigImgRemove = shelterImgRemove.prev().children('img.big');
+                            $(bigImgRemove).removeClass('publicfoundme');
+                        }
+                    }
+                }
+
+                //New egg no duplicates
+                let newEggAdopt = '';
+                if ($('#field .lock').next('.tooltip_content:contains("Egg")').length && $('#field .lock').next('.tooltip_content:not(:contains(" Egg")').length < 1) {
+                    newEggAdopt = $('#field .lock').children('img').attr('src').substring(2);
+                }
+
+                if ($('div.panel:contains("Adoption successful!")').length) {
+                    if ($('.egg').css('background-image') === 'url("https://'+newEggAdopt+'")') {
+                        eggNoDuplicateArray = settings.NewEggDuplicate.split(',');
+                        eggNoDuplicateArray.push(newEggAdopt);
+                        settings.NewEggDuplicate = eggNoDuplicateArray.toString();
+                        newEggAdopt = "";
+                    }
+                }
+            }
+
+            //loop to find all search genders for the custom
+            const checkboxValueArrayCustom = [];
+            for (let key in settings) {
+                let value = settings[key];
+                if (value === true) {
+                    if(key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
+                        let searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
+                        checkboxValueArrayCustom.push(searchKey);
+                    }
+                }
+            }
+
+            //loop to find all the custom search parameters
+            let customSearchAmount = customArray.length;
+            for (let i = 0; i < customSearchAmount; i++) {
+                let value = customArray[i];
+                if (value != "") {
+                    //custom pokemon search
+                    if (settings.customPokemon === true) {
+                        //Males
+                        if (checkboxValueArrayCustom.indexOf("[M]") > -1) {
+                            if ($("#field .tooltip_content:containsIN("+value+") img[title*='[M]']").length) {
+                                let searchResult = value;
+                                let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[M]") +2];
+                                let tooltipResult = $("#field .tooltip_content:containsIN("+value+") img[title*='[M]']").length+" Male "+imgGender+" "+searchResult;
+                                let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                                let imgSearch = $("#field .tooltip_content:containsIN("+value+") img[title*='[M]']")
+                                let bigImg = imgSearch.parent().prev().children('img.big');
+                                $(bigImg).addClass('publicfoundme');
+                            }
+                        }
+                        //Females
+                        if (checkboxValueArrayCustom.indexOf("[F]") > -1) {
+                            if ($("#field .tooltip_content:containsIN("+value+") img[title*='[F]']").length) {
+                                let searchResult = value;
+                                let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[F]") +2];
+                                let tooltipResult = $("#field .tooltip_content:containsIN("+value+") img[title*='[F]']").length+" Female "+imgGender+" "+searchResult;
+                                let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                                let imgSearch = $("#field .tooltip_content:containsIN("+value+") img[title*='[F]']")
+                                let bigImg = imgSearch.parent().prev().children('img.big');
+                                $(bigImg).addClass('publicfoundme');
+                            }
+                        }
+                        //Genderless
+                        if (checkboxValueArrayCustom.indexOf("[N]") > -1) {
+                            if ($("#field .tooltip_content:containsIN("+value+") img[title*='[N]']").length) {
+                                let searchResult = value;
+                                let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[N]") +2];
+                                let tooltipResult = $("#field .tooltip_content:containsIN("+value+") img[title*='[N]']").length+" Genderless "+imgGender+" "+searchResult;
+                                let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                                let imgSearch = $("#field .tooltip_content:containsIN("+value+") img[title*='[N]']")
+                                let bigImg = imgSearch.parent().prev().children('img.big');
+                                $(bigImg).addClass('publicfoundme');
+                            }
+                        }
+                        //No genders
+                        if (checkboxValueArrayCustom.length === 0) {
+                            if ($('#field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))').length) {
+                                let searchResult = value;
+                                let tooltipResult = $('#field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))').length+" "+searchResult;
+                                let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                                let imgSearch = $('#field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
+                                let bigImg = imgSearch.parent().prev().children('img.big');
+                                $(bigImg).addClass('publicfoundme');
+                            }
+                        }
+                    }
+
+                    //custom egg
+                    if (settings.customEgg === true) {
+                        let name_matches = $('#field .tooltip_content:containsIN('+value+'):contains("Egg")');
+                        let num_matches = name_matches.length;
+
+                        if (num_matches) {
+                            let searchResult = value;
+                            let tooltipResult = num_matches+" "+searchResult;
+                            let imgFitResult = `<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">`;
+                            let imgSearch = name_matches;
+                            let bigImg = imgSearch.prev().children('img.big');
+                            $(bigImg).addClass('publicfoundme');
+                        }
+                    }
+
+                    //imgSearch with Pokémon
+                    if (settings.customPng === true) {
+                        if ($('#field img[src*="'+value+'"]').length) {
+                            let searchResult = $('#field img[src*="'+value+'"]').parent().next().text().split('(')[0]
+                            let tooltipResult = $('#field img[src*="'+value+'"]').length+" "+searchResult+' (Custom img search)';
+                            let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+                            let imgSearch = $('#field img[src*="'+value+'"]');
+                            $(imgSearch).addClass('publicfoundme');
+                        }
+                    }
+                }
+            }
+
+            //loop to find all the types
+
+            const filteredTypeArray = typeArray.filter(v=>v!='');
+
+            if (filteredTypeArray.length > 0) {
+                for (let i = 0; i < filteredTypeArray.length; i++) {
+                    let value = filteredTypeArray[i];
+                    let foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
+
+                    if (settings.findTypeEgg === true) {
+                        let typePokemonNames = [];
+                        $('#field>.tooltip_content:contains("Egg")').each(function() {
+                            let searchPokemon = ($(this).text().split(' ')[0]);
+                            let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
+                            let searchTypeOne = dexData[searchPokemonIndex + 1];
+                            let searchTypeTwo = dexData[searchPokemonIndex + 2];
+
+                            if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                                typePokemonNames.push(searchPokemon);
+                            }
+                        })
+
+                        for (let o = 0; o < typePokemonNames.length; o++) {
+                            let imgSearch = $("#field .tooltip_content:containsIN('"+typePokemonNames[o]+" Egg')");
+                            let bigImg = imgSearch.prev().children('img.big');
+                            $(bigImg).addClass('publicfoundme');
+                        }
+                    }
+
+                    if (settings.findTypePokemon === true) {
+                        let typePokemonNames = [];
+
+                        $('#field>.tooltip_content').not(':contains("Egg")').each(function() {
+                            let searchPokemon = ($(this).text().split(' ')[0]);
+                            let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
+                            let searchTypeOne = dexData[searchPokemonIndex + 1];
+                            let searchTypeTwo = dexData[searchPokemonIndex + 2];
+                            if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                                typePokemonNames.push(searchPokemon);
+                            }
+                        })
+
+                        let typeImgStandOutLength = typePokemonNames.length;
+                        for (let o = 0; o < typeImgStandOutLength; o++) {
+                            let imgSearch = $("#field .tooltip_content:containsIN('"+typePokemonNames[o]+" (')")
+                            let bigImg = imgSearch.prev().children('img.big');
+                            $(bigImg).addClass('publicfoundme');
+                        }
+                    }
+                }
+            }
+            
         }, // customSearch
         fieldAddTypeList() {
             API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeList', 'fieldTypes');
