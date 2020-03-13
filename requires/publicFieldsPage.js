@@ -99,6 +99,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 } else if (typeof settings.sortSettings[element] === 'string') {
                     settings.sortSettings[element] = textElement;
                 }
+                return true;
             }
 
             else if (JSON.stringify(settings.searchSettings).indexOf(element) >= 0) { // field search settings
@@ -118,7 +119,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                             settings.searchSettings.fieldType = typeArray.toString();
                         }
                     }
-                    if (element === 'fieldNature') {
+                    else if (element === 'fieldNature') {
                         if (textElement === 'none') {
                             let tempIndex = typeClass - 1;
                             natureArray.splice(tempIndex, tempIndex);
@@ -129,7 +130,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                             settings.searchSettings.fieldNature = natureArray.toString();
                         }
                     }
-                    if (element === 'fieldEggGroup') {
+                    else if (element === 'fieldEggGroup') {
                         if (textElement === 'none') {
                             let tempIndex = typeClass - 1;
                             eggGroupArray.splice(tempIndex, tempIndex);
@@ -140,13 +141,15 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                             settings.fieldEggGroup = eggGroupArray.toString();
                         }
                     }
-                    if (element === 'fieldCustom') {
+                    else if (element === 'fieldCustom') {
                         let tempIndex = customClass - 1;
                         customArray[tempIndex] = textElement;
                         settings.searchSettings.fieldCustom = customArray.toString();
                     }
                 }
+                return true;
             }
+            else { return false }
         },
         setupHTML() {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSortHTML);
@@ -183,11 +186,11 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             });
         },
         setupHandlers() {
-            $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
+            $(window).on('load', (function() {
                 API.customSearch();
             }));
 
-            $(window).on('load', (function() {
+            $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
                 API.customSearch();
             }));
 
@@ -231,7 +234,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             }));
 
             $(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
-                eggGroupArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
+                eggGroupArray = API.removeSelectSearch(eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
                 API.saveSettings();
                 API.customSearch();
             }));
