@@ -35,6 +35,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
     let customArray = [];
     let typeArray = [];
     let natureArray = [];
+    let eggGroupArray = [];
     const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             API.customSearch();
@@ -221,6 +222,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
         },
         // specific
         customSearch() {
+            let dexData = GLOBALS.DEX_DATA;
 
             /////////////////////////////////////////////////
             //////////////////// sorting ////////////////////
@@ -319,7 +321,6 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             /////////////////////////////////////////////////
             /////////////////// searching ///////////////////
             /////////////////////////////////////////////////
-            let dexData = GLOBALS.DEX_DATA;
             let bigImgs = document.querySelectorAll('.publicfoundme')
             if(bigImgs !== null) {
                 bigImgs.forEach((b) => {$(b).removeClass('publicfoundme')})
