@@ -10,6 +10,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
         fieldCustom: "",
         fieldType: "",
         fieldNature: "",
+        fieldEggGroup: "",
         fieldNewPokemon: true,
         fieldShiny: true,
         fieldAlbino: true,
@@ -204,6 +205,17 @@ let PublicFieldsPage = (function PublicFieldsPage() {
 
             $(document).on('click', '#removeFieldTypeList', (function() { //remove field type list
                 typeArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
+                API.saveSettings();
+                API.customSearch();
+            }));
+
+            $(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
+                API.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroupSearch', 'eggGroupTypes')
+                API.customSearch();
+            }));
+
+            $(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
+                eggGroupArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
                 API.saveSettings();
                 API.customSearch();
             }));
