@@ -142,7 +142,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
 
             const theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
-            const theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldTypeList'> </div>`;
+            const theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldTypeSearch'> </div>`;
             const theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + GLOBALS.NATURE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
             customArray = settings.searchSettings.fieldCustom.split(',');
             typeArray = settings.searchSettings.fieldType.split(',');
@@ -199,11 +199,11 @@ let PublicFieldsPage = (function PublicFieldsPage() {
                 API.customSearch();
             }));
 
-            $(document).on('click', '#addFieldTypeList', (function() { //add field type list
+            $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
                 API.fieldAddTypeList();
             }));
 
-            $(document).on('click', '#removeFieldTypeList', (function() { //remove field type list
+            $(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
                 typeArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
                 API.saveSettings();
                 API.customSearch();
@@ -381,7 +381,7 @@ let PublicFieldsPage = (function PublicFieldsPage() {
             } // end            
         }, // customSearch
         fieldAddTypeList() {
-            API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeList', 'fieldTypes');
+            API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes');
         },
         fieldAddNatureSearch() {
             API.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes');
