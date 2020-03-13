@@ -20,7 +20,7 @@ let GLOBALS = {
     TYPE_LIST : ["Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"],
     NATURE_LIST : ["Lonely", "Mild", "Hasty", "Gentle", "Bold", "Modest", "Timid", "Calm",
                    "Impish", "Adamant", "Jolly", "Careful", "Relaxed", "Brave", "Quiet", "Sassy",
-                   "Lax", "Naughty", "Rash", "Näive", "Hardy", "Docile", "Serious", "Bashful", "Quirky"],
+                   "Lax", "Naughty", "Rash", "Naïve", "Hardy", "Docile", "Serious", "Bashful", "Quirky"],
     EGG_GROUP_LIST : [
         "Undiscovered", // 0
         "Monster", // 1
