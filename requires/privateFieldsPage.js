@@ -146,17 +146,6 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
                 API.releaseEnableReleaseAll();
             }));
 
-            $(document).on('click', '#addPrivateFieldNatureSearch', (function() { //add field nature search
-                API.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes')
-                API.customSearch();
-            }));
-
-            $(document).on('click', '#removePrivateFieldNature', (function() { //remove field nature search
-                natureArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
-                API.saveSettings();
-                API.customSearch();
-            }));
-
             $(document).on('click', '#addPrivateFieldTypeSearch', (function() { //add field type list
                 API.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes');
                 API.customSearch();
@@ -164,6 +153,17 @@ let PrivateFieldsPage = (function PrivateFieldsPage() {
 
             $(document).on('click', '#removePrivateFieldTypeSearch', (function() { //remove field type list
                 typeArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
+                API.saveSettings();
+                API.customSearch();
+            }));
+
+            $(document).on('click', '#addPrivateFieldNatureSearch', (function() { //add field nature search
+                API.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes')
+                API.customSearch();
+            }));
+
+            $(document).on('click', '#removePrivateFieldNature', (function() { //remove field nature search
+                natureArray = API.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
                 API.saveSettings();
                 API.customSearch();
             }));
