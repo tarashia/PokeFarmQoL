@@ -10,10 +10,10 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - Highlight eligible breeding partners for a pokemon while searching from the daycare
 
 # Open Issues
-- ~~**Multiuser Page**~~ - Party Mods don't work~~
+- ~~**Multiuser Page** - Party Mods don't work~~
 - **Farm Page** - Easy Evolution doesn't work when the list is sorted
-- ~~**Farm Page**~~ - Sorting by new dex entry doesn't work~~
-- ~~**Public Fields**~~ - Searching other player's fields doesn't work~~
+- ~~**Farm Page** - Sorting by new dex entry doesn't work~~
+- ~~**Public Fields** - Searching other player's fields doesn't work~~
 
 # Suggestions
 - **Public/Private Field** - Move "sort by" toggles above search fields
