@@ -31,6 +31,7 @@ let FarmPage = (function FarmPage() {
     // more data
     const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
+            console.log('test')
             API.easyQuickEvolve();
         });
     });
@@ -49,7 +50,10 @@ let FarmPage = (function FarmPage() {
         setupHTML() {
             $(document).ready(function() {
                 $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-                document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend', '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
+                document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend',
+									     '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
+                // use the evolve button
+                $('#farmnews-evolutions>p>label>input').addClass('qolquickevo')
             });
         },
         setupCSS() { /* empty */ },
@@ -77,6 +81,8 @@ let FarmPage = (function FarmPage() {
             $(document).on('click', '#qolevolvenew', (function() {
                 API.easyEvolveNewList();
             }));
+
+            $(document).on('click', '.qolquickevo', (function() { console.log('test2') }));
         },
 
         clearSortedEvolveLists() {
