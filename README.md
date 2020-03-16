@@ -15,7 +15,7 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~**Public Fields** - Searching other player's fields doesn't work~~
 
 # Open Suggestions
-- **Public/Private Field** - Move "sort by" toggles above search fields
+- ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
 - **Private Field** - Highlight pokemon that are ready to evolve (not by item)
 - **Private Field** - Highlight pokemon that are ready to evolve (by item)
 
