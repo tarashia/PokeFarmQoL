@@ -15,7 +15,8 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~**Farm Page** - Sorting by new dex entry doesn't work~~
 - ~~**Public Fields** - Searching other player's fields doesn't work~~
 
-# Suggestions
+# Open Suggestions
 - **Public/Private Field** - Move "sort by" toggles above search fields
 - **Private Field** - Highlight pokemon that are ready to evolve(not by item)
 - **Private Field** - Highlight pokemon that are ready to evolve (by item)
+- **Shelter** - Add nature/berry selector
