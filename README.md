@@ -17,6 +17,8 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 
 # Open Suggestions
 - **Public/Private Field** - Move "sort by" toggles above search fields
-- **Private Field** - Highlight pokemon that are ready to evolve(not by item)
+- **Private Field** - Highlight pokemon that are ready to evolve (not by item)
 - **Private Field** - Highlight pokemon that are ready to evolve (by item)
-- **Shelter** - Add nature/berry selector
+
+# Past Suggestions
+- **Shelter** - Add nature/berry selector - This feature was not implemented, because it would 1) cause the shelter page to be extremely slow, 2) requires additional information not readily available on the shelter page, and 3) (may) break the one-click rule.
