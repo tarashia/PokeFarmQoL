@@ -66,4 +66,4 @@ class FishingPage {
     }
 };
 
-let fishingPage = new FishingPage();
+const fishingPage = new FishingPage();
