@@ -1,6 +1,6 @@
-class DaycarePage() {
+class DaycarePage {
     SETTINGS_SAVE_KEY() { return 'QoLDaycare' }
-    DEFAULT_SETTINGS { return {} }
+    DEFAULT_SETTINGS() { return {} }
     
     constructor() {
         this.settings = DEFAULT_SETTINGS();    
