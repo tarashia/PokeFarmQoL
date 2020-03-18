@@ -1,39 +1,37 @@
-class PublicFieldsPage {
-    SETTINGS_SAVE_KEY() { return 'QoLPublicFields'; }
-    DEFAULT_SORT_SETTINGS() { return {
-        fieldByBerry: false,
-        fieldByMiddle: false,
-        fieldByGrid: false,
-        fieldClickCount: true,
-    }}
-    DEFAULT_SEARCH_SETTINGS() { return {
-        fieldCustom: "",
-        fieldType: "",
-        fieldNature: "",
-        fieldEggGroup: "",
-        fieldNewPokemon: true,
-        fieldShiny: true,
-        fieldAlbino: true,
-        fieldMelanistic: true,
-        fieldPrehistoric: true,
-        fieldDelta: true,
-        fieldMega: true,
-        fieldStarter: true,
-        fieldCustomSprite: true,
-        fieldMale: true,
-        fieldFemale: true,
-        fieldNoGender: true,
-        fieldCustomPokemon: true,
-        fieldCustomPng: false,
-        fieldItem: true,
-        customItem: true,
-    }}
+class PublicFieldsPage extends Page {
     DEFAULT_SETTINGS() { return {
-        sortSettings : this.DEFAULT_SORT_SETTINGS(),
-        searchSettings : this.DEFAULT_SEARCH_SETTINGS(),
     }}
     constructor() {
-	this.settings = this.DEFAULT_SETTINGS();
+	super('QoLPublicFields', {
+	      sortSettings : {
+		  fieldByBerry: false,
+		  fieldByMiddle: false,
+		  fieldByGrid: false,
+		  fieldClickCount: true,
+	      },
+	      searchSettings : {
+		  fieldCustom: "",
+		  fieldType: "",
+		  fieldNature: "",
+		  fieldEggGroup: "",
+		  fieldNewPokemon: true,
+		  fieldShiny: true,
+		  fieldAlbino: true,
+		  fieldMelanistic: true,
+		  fieldPrehistoric: true,
+		  fieldDelta: true,
+		  fieldMega: true,
+		  fieldStarter: true,
+		  fieldCustomSprite: true,
+		  fieldMale: true,
+		  fieldFemale: true,
+		  fieldNoGender: true,
+		  fieldCustomPokemon: true,
+		  fieldCustomPng: false,
+		  fieldItem: true,
+		  customItem: true,
+	      }
+	});
 	this.customArray = [];
 	this.typeArray = [];
 	this.natureArray = [];
@@ -46,15 +44,6 @@ class PublicFieldsPage {
 	});
     }
 
-    loadSettings() {
-        this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    }
-    saveSettings() {
-        Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    }
-    getSettings() {
-        return this.settings;
-    }
     populateSettings() {
         for (let key in this.settings.sortSettings) {
             if (!this.settings.sortSettings.hasOwnProperty(key)) {

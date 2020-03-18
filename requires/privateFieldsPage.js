@@ -1,28 +1,25 @@
-class PrivateFieldsPage {
-    SETTINGS_SAVE_KEY() { return 'QoLPrivateFields'; }
-    DEFAULT_SETTINGS() { return {
-        fieldCustom: "",
-        fieldType: "",
-        fieldNature: "",
-        fieldEggGroup: "",
-        fieldNewPokemon: true,
-        fieldShiny: true,
-        fieldAlbino: true,
-        fieldMelanistic: true,
-        fieldPrehistoric: true,
-        fieldDelta: true,
-        fieldMega: true,
-        fieldStarter: true,
-        fieldCustomSprite: true,
-        fieldMale: true,
-        fieldFemale: true,
-        fieldNoGender: true,
-        customItem: true,
-        releaseSelectAll : true,
-    }};
-    
+class PrivateFieldsPage extends Page {
     constructor() {
-	this.settings = this.DEFAULT_SETTINGS();
+	super('QoLPrivateFields', {
+            fieldCustom: "",
+            fieldType: "",
+            fieldNature: "",
+            fieldEggGroup: "",
+            fieldNewPokemon: true,
+            fieldShiny: true,
+            fieldAlbino: true,
+            fieldMelanistic: true,
+            fieldPrehistoric: true,
+            fieldDelta: true,
+            fieldMega: true,
+            fieldStarter: true,
+            fieldCustomSprite: true,
+            fieldMale: true,
+            fieldFemale: true,
+            fieldNoGender: true,
+            customItem: true,
+            releaseSelectAll : true,
+	});
 	this.customArray = [];
 	this.typeArray = [];
 	this.natureArray = [];
@@ -35,15 +32,6 @@ class PrivateFieldsPage {
 	});
     }
 
-    loadSettings() {
-        this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    }
-    saveSettings() {
-        Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    }
-    getSettings() {
-        return this.settings;
-    }
     populateSettings() {
         for (let key in this.settings) {
             if (!this.settings.hasOwnProperty(key)) {
