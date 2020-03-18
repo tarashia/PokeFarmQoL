@@ -179,11 +179,11 @@ class PublicFieldsPage {
         $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
     }
     setupObserver() {
-        observer.observe(document.querySelector('#field_field'), {
+        this.observer.observe(document.querySelector('#field_field'), {
             childList: true,
             attributeFilter: ['class'],
         });
-        observer.observe(document.querySelector('#fieldorder'), {
+        this.observer.observe(document.querySelector('#fieldorder'), {
             childList: true,
         });
     }
@@ -196,7 +196,7 @@ class PublicFieldsPage {
         $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
             obj.customSearch();
         }));
-n
+
         document.addEventListener("keydown", function() {
             obj.customSearch();
         });
