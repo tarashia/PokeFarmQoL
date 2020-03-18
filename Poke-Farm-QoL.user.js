@@ -19,6 +19,7 @@
 // @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/css/pfqol.css
 // @require      requires/helpers.js
 // @require      requires/globals.js
+// @require      requires/basePage.js
 // @require      requires/shelterPage.js
 // @require      requires/privateFieldsPage.js
 // @require      requires/publicFieldsPage.js
