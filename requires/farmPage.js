@@ -30,10 +30,10 @@ class FarmPage {
     constructor() {
 	this.settings = this.DEFAULT_SETTINGS();
 	this.evolveListCache = "";
+	const obj = this
 	this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-		console.log('test')
-		this.easyQuickEvolve();
+		obj.easyQuickEvolve();
             });
 	});
     }
@@ -49,7 +49,7 @@ class FarmPage {
     populateSettings() { /* empty */ }
     settingsChange(element, textElement, customClass, typeClass) { /* empty */ }
     setupHTML() {
-        $(document).ready(function(e) {
+        $(document).ready(function() {
             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
             document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend',
 									 '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
@@ -59,7 +59,7 @@ class FarmPage {
     }
     setupCSS() { /* empty */ }
     setupObserver() {
-        observer.observe(document.querySelector('#farmnews-evolutions'), {
+        this.observer.observe(document.querySelector('#farmnews-evolutions'), {
             childList: true,
             characterdata: true,
             subtree: true,
@@ -67,23 +67,22 @@ class FarmPage {
         });
     }
     setupHandlers() {
-        $(document).on('click', '#qolevolvenormal', (function(e) {
-            this.easyEvolveNormalList();
+	const obj = this;
+        $(document).on('click', '#qolevolvenormal', (function() {
+            obj.easyEvolveNormalList();
         }));
 
-        $(document).on('click', '#qolchangesletype', (function(e) {
-            this.easyEvolveTypeList();
+        $(document).on('click', '#qolchangesletype', (function() {
+            obj.easyEvolveTypeList();
         }));
 
-        $(document).on('click', '#qolsortevolvename', (function(e) {
-            this.easyEvolveNameList();
+        $(document).on('click', '#qolsortevolvename', (function() {
+            obj.easyEvolveNameList();
         }));
 
-        $(document).on('click', '#qolevolvenew', (function(e) {
-            this.easyEvolveNewList();
+        $(document).on('click', '#qolevolvenew', (function() {
+            obj.easyEvolveNewList();
         }));
-
-        $(document).on('click', '.qolquickevo', (function(e) { console.log('test2') }));
     }
 
     clearSortedEvolveLists() {
