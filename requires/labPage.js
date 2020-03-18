@@ -17,13 +17,13 @@ class LabPage {
     
     loadSettings() { // initial settings on first run and setting the variable settings key
         this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    },
+    }
     saveSettings() { // Save changed settings
         Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    },
+    }
     getSettings() {
         return this.settings;
-    },
+    }
     populateSettings() {
         for(let key in this.settings) {
             if (!this.settings.hasOwnProperty(key)) {
@@ -35,7 +35,7 @@ class LabPage {
                 continue;
             }
         }
-    },
+    }
     settingsChange(element, textElement, customClass, typeClass) {
         if (element === 'findLabEgg') {
             let tempIndex = customClass - 1;
@@ -56,7 +56,7 @@ class LabPage {
             return true;
         }
         else { return false; }
-    },
+    }
     setupHTML() {
         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', TEMPLATES.labOptionsHTML);
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');

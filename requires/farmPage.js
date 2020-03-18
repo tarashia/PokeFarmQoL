@@ -39,15 +39,15 @@ class FarmPage {
     }
     loadSettings() { // initial settings on first run and setting the variable settings key
         this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    },
+    }
     saveSettings() { // Save changed settings
         Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    },
+    }
     getSettings() {
         return this.settings;
-    },
-    populateSettings() { /* empty */ },
-    settingsChange(element, textElement, customClass, typeClass) { /* empty */ },
+    }
+    populateSettings() { /* empty */ }
+    settingsChange(element, textElement, customClass, typeClass) { /* empty */ }
     setupHTML() {
         $(document).ready(function(e) {
             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
@@ -56,8 +56,8 @@ class FarmPage {
             // use the evolve button
             $('#farmnews-evolutions>p>label>input').addClass('qolquickevo')
         });
-    },
-    setupCSS() { /* empty */ },
+    }
+    setupCSS() { /* empty */ }
     setupObserver() {
         observer.observe(document.querySelector('#farmnews-evolutions'), {
             childList: true,
@@ -65,7 +65,7 @@ class FarmPage {
             subtree: true,
             characterDataOldValue: true,
         });
-    },
+    }
     setupHandlers() {
         $(document).on('click', '#qolevolvenormal', (function(e) {
             this.easyEvolveNormalList();
@@ -84,7 +84,7 @@ class FarmPage {
         }));
 
         $(document).on('click', '.qolquickevo', (function(e) { console.log('test2') }));
-    },
+    }
 
     clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
@@ -101,10 +101,10 @@ class FarmPage {
             document.querySelector('.qolEvolveNewList').remove();
         }
         catch(err){ /* empty */ }
-    },
+    }
     easyEvolveNormalList() {
         this.clearSortedEvolveLists()
-    },
+    }
     easyEvolveTypeList() {
         let dexData = GLOBALS.DEX_DATA;
         this.clearSortedEvolveLists()
@@ -270,7 +270,7 @@ class FarmPage {
         });
 
         $('.evolvepkmnlist').hide();
-    },
+    }
     easyEvolveNameList() {
         this.clearSortedEvolveLists();
 
@@ -313,7 +313,7 @@ class FarmPage {
         let typeListColor = $('.tabbed_interface>div').css('color');
         $(".qolChangeLogContent").css("background-color", ""+typeListBackground+"");
         $(".qolChangeLogContent").css("color", ""+typeListColor+"");
-    },
+    }
     easyEvolveNewList() {
         let dexData = GLOBALS.DEX_DATA;
 
@@ -769,12 +769,12 @@ class FarmPage {
         let typeListColor = $('.tabbed_interface>div').css('color');
         $(".qolChangeLogContent").css("background-color", ""+typeListBackground+"");
         $(".qolChangeLogContent").css("color", ""+typeListColor+"");
-    },
+    }
     easyQuickEvolve() {
         if ($('.canevolve:contains("evolved into")').parent().length != 0) {
             $('.canevolve:contains("evolved into")').parent().remove();
         }
-    },
+    }
 }
 
 const farmPage = new FarmPage();

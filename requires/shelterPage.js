@@ -38,13 +38,13 @@ class ShelterPage {
     }
     loadSettings() { // initial settings on first run and setting the variable settings key
         this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    },
+    }
     saveSettings() { // Save changed settings
         Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    },
+    }
     getSettings() {
         return this.settings;
-    },
+    }
     populateSettings() {
         for(let key in this.settings) {
             if (!this.settings.hasOwnProperty(key)) {
@@ -56,7 +56,7 @@ class ShelterPage {
                 continue;
             }
         }
-    },
+    }
     settingsChange(element, textElement, customClass, typeClass) {
         if(JSON.stringify(this.settings).indexOf(element) >= 0) { // shelter settings
             if (this.settings[element] === false ) {
@@ -83,7 +83,7 @@ class ShelterPage {
             }
             return true;
         } else { return false; }
-    },
+    }
     setupHTML() {
         $('.tabbed_interface.horizontal>div').removeClass('tab-active');
         $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
@@ -120,16 +120,16 @@ class ShelterPage {
         $('[data-shelter=reload]').addClass('customSearchOnClick');
         $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
         $('[data-shelter=blackflute]').addClass('customSearchOnClick');
-    },
+    }
     setupCSS() {
         let shelterSuccessCss = $('#sheltercommands').css('background-color');
         $('#sheltersuccess').css('background-color', shelterSuccessCss);
-    },
+    }
     setupObserver() {
         shelterObserver.observe(document.querySelector('#shelterarea'), {
             childList: true,
         });
-    },
+    }
     setupHandlers() {
         $(document).on('change', '#shelteroptionsqol input', (function(e) { //shelter search
             this.loadSettings();
@@ -180,13 +180,13 @@ class ShelterPage {
             this.saveSettings();
             this.customSearch();
         }));
-    },
+    }
     addTextField() {
         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findCustom"/></label><input type='button' value='Remove' id='removeShelterTextfield'></div>`;
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
-    },
+    }
     removeTextField(byebye, key) {
         customArray = $.grep(customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
             return value != key;
@@ -200,13 +200,13 @@ class ShelterPage {
             let rightDiv = i + 1;
             $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
-    },
+    }
     addTypeList() {
         let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + GLOBALS.TYPE_OPTIONS + `</select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`;
         let numberTypes = $('#shelterTypes>div').length;
         $('#shelterTypes').append(theList);
         $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
-    },
+    }
     removeTypeList(byebye, key) {
         typeArray = $.grep(typeArray, function(value) {
             return value != key;
@@ -220,7 +220,7 @@ class ShelterPage {
             let rightDiv = i + 1;
             $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
-    },
+    }
     customSearch() {
         let dexData = GLOBALS.DEX_DATA;
         // search whatever you want to find in the shelter & grid
@@ -550,7 +550,7 @@ class ShelterPage {
                 }
             }
         }
-    },
+    }
     removeEgg(element) {
         eggNoDuplicateArray = this.settings.NewEggDuplicate.split(',');
         let eggList = eggNoDuplicateArray.length;

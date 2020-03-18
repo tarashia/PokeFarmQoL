@@ -47,13 +47,13 @@ class PublicFieldsPage {
 
     loadSettings() {
         this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    },
+    }
     saveSettings() {
         Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    },
+    }
     getSettings() {
         return this.settings;
-    },
+    }
     populateSettings() {
         for (let key in this.settings.sortSettings) {
             if (!this.settings.sortSettings.hasOwnProperty(key)) {
@@ -80,7 +80,7 @@ class PublicFieldsPage {
                 continue;
             }
         }
-    },
+    }
     settingsChange(element, textElement, customClass, typeClass) {
         if (JSON.stringify(this.settings.sortSettings).indexOf(element) >= 0) { // field sort settings
             if (this.settings.sortSettings[element] === false ) {
@@ -151,7 +151,7 @@ class PublicFieldsPage {
             return true;
         }
         else { return false }
-    },
+    }
     setupHTML() {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldSortHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
@@ -168,7 +168,7 @@ class PublicFieldsPage {
         Helpers.setupFieldArrayHTML(typeArray, 'fieldTypes', theType, 'typeNumber');
         Helpers.setupFieldArrayHTML(natureArray, 'natureTypes', theNature, 'natureNumber');
         Helpers.setupFieldArrayHTML(eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
-    },
+    }
     setupCSS() {
         let fieldOrderCssColor = $('#field_field').css('background-color');
         let fieldOrderCssBorder = $('#field_field').css('border');
@@ -176,7 +176,7 @@ class PublicFieldsPage {
         $("#fieldorder").css("border", ""+fieldOrderCssBorder+"");
         $("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
         $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
-    },
+    }
     setupObserver() {
         observer.observe(document.querySelector('#field_field'), {
             childList: true,
@@ -185,7 +185,7 @@ class PublicFieldsPage {
         observer.observe(document.querySelector('#fieldorder'), {
             childList: true,
         });
-    },
+    }
     setupHandlers() {
         $(window).on('load', (function(e) {
             this.customSearch();
@@ -251,7 +251,7 @@ class PublicFieldsPage {
             this.customSearch();
             this.saveSettings();
         }));
-    },
+    }
     // specific
     customSearch() {
         let dexData = GLOBALS.DEX_DATA;
@@ -399,13 +399,13 @@ class PublicFieldsPage {
                 }
             }) // each
         } // end            
-    }, // customSearch
+    } // customSearch
     addSelectSearch(cls, name, data_key, options, id, divParent) {
         let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
         let number = (`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(""+number+"");
-    },
+    }
     removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
         arr = $.grep(arr, function(value) { return value != key; });
         this.settings.searchSettings[settingsKey] = arr.toString();
@@ -418,13 +418,13 @@ class PublicFieldsPage {
         }
 
         return arr;
-    },
+    }
     fieldAddTextField() {
         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
-    },
+    }
     fieldRemoveTextField(byebye, key) {
         customArray = $.grep(customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
             return value != key;
@@ -439,7 +439,7 @@ class PublicFieldsPage {
             let rightDiv = i + 1;
             $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
-    },
+    }
 }
 
 const publicFieldsPage = new PublicFieldsPage();

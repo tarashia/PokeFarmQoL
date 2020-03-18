@@ -107,7 +107,7 @@ class DaycarePage {
                 } // for
             }
         } // if
-    }, // customSearch
+    } // customSearch
 };
 
 const daycarePage = new DaycarePage();

@@ -36,13 +36,13 @@ class PrivateFieldsPage {
 
     loadSettings() {
         this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    },
+    }
     saveSettings() {
         Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    },
+    }
     getSettings() {
         return this.settings;
-    },
+    }
     populateSettings() {
         for (let key in this.settings) {
             if (!this.settings.hasOwnProperty(key)) {
@@ -54,7 +54,7 @@ class PrivateFieldsPage {
                 continue;
             }
         }
-    },
+    }
     settingsChange(element, textElement, customClass, typeClass) {
         if (typeof (this.settings[element]) === 'boolean') {
             this.settings[element] = !this.settings[element];
@@ -101,7 +101,7 @@ class PrivateFieldsPage {
             return true;
         }
         else { return false; }
-    },
+    }
     setupHTML() {
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
         const theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removePrivateFieldSearch'></div>`;
@@ -116,7 +116,7 @@ class PrivateFieldsPage {
         Helpers.setupFieldArrayHTML(typeArray, 'fieldTypes', theType, 'typeNumber');
         Helpers.setupFieldArrayHTML(natureArray, 'natureTypes', theNature, 'natureNumber');
         Helpers.setupFieldArrayHTML(eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
-    },
+    }
     setupCSS() {
         // same as public fields
         let fieldOrderCssColor = $('#field_field').css('background-color');
@@ -126,7 +126,7 @@ class PrivateFieldsPage {
 
         $("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
         $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
-    },
+    }
     setupObserver() {
         observer.observe(document.querySelector('#field_field'), {
             childList: true,
@@ -134,7 +134,7 @@ class PrivateFieldsPage {
             subtree: true,
             characterDataOldValue: true,
         });
-    },
+    }
     setupHandlers() {
         $(window).on('load', (() => {
             this.customSearch();
@@ -197,7 +197,7 @@ class PrivateFieldsPage {
             this.moveEnableReleaseAll();
         }));
 
-    },
+    }
     // specific
     customSearch() {
         let dexData = GLOBALS.DEX_DATA;
@@ -247,13 +247,13 @@ class PrivateFieldsPage {
                 }
             }) // each
         } // end
-    },
+    }
     addSelectSearch(cls, name, data_key, options, id, divParent) {
         let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
         let number = (`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(""+number+"");
-    },
+    }
     removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
         arr = $.grep(arr, function(value) { return value != key; });
         this.settings[settingsKey] = arr.toString();
@@ -266,7 +266,7 @@ class PrivateFieldsPage {
         }
 
         return arr;
-    },
+    }
     releaseEnableReleaseAll() {
         if(this.settings.releaseSelectAll === true) {
             document.querySelector('.dialog>div>div>div>div>button').insertAdjacentHTML('afterend', '<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all  </label><label id="selectallfieldany"><input id="selectallfieldanycheckbox" type="checkbox">Select Any  </label><label id="selectallfieldsour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour  </label><label id="selectallfieldspicy"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label><label id="selectallfielddry"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry  </label><label id="selectallfieldsweet"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet  </label><label id="selectallfieldbitter"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter  </label>');
@@ -304,7 +304,7 @@ class PrivateFieldsPage {
                 $(selectBitter).not(e).prop('checked', e.checked);
             });
         } // if
-    }, // releaseAll
+    } // releaseAll
     moveEnableReleaseAll() {
         if(this.settings.releaseSelectAll === true) {
             document.querySelector('.dialog>div>div>div>div>button').insertAdjacentHTML('afterend', '<label id="movefieldselectall"><input id="movefieldselectallcheckbox" type="checkbox">Select all  </label><label id="movefieldselectany"><input id="movefieldselectanycheckbox" type="checkbox">Select Any  </label><label id="movefieldselectsour"><input id="movefieldselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefieldselectspicy"><input id="movefieldselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefieldselectdry"><input id="movefieldselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefieldselectsweet"><input id="movefieldselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefieldselectbitter"><input id="movefieldselectbittercheckbox" type="checkbox">Select Bitter  </label>');
@@ -342,7 +342,7 @@ class PrivateFieldsPage {
                 $(selectBitter).not(e).prop('checked', e.checked);
             });
         } // if
-    }, // moveEnableReleaseAll
+    } // moveEnableReleaseAll
 }
 
 const privateFieldsPage = new PrivateFieldsPage();
