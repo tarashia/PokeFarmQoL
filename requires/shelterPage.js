@@ -530,7 +530,7 @@ class ShelterPage {
                     let typePokemonNames = [];
 
                     $('#shelterarea>.tooltip_content').not(':contains("Egg")').each(function() {
-                        let searchPokemon = ($().text().split(' ')[0]);
+                        let searchPokemon = ($(this).text().split(' ')[0]);
                         let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                         let searchTypeOne = dexData[searchPokemonIndex + 1];
                         let searchTypeTwo = dexData[searchPokemonIndex + 2];
