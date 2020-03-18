@@ -7,7 +7,7 @@ class MultiuserPage {
     }};
     
     constructor() {
-        this.settings = DEFAULT_SETTINGS();
+        this.settings = this.DEFAULT_SETTINGS();
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 this.partyModification();

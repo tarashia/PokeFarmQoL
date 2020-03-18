@@ -3,7 +3,7 @@ class DaycarePage {
     DEFAULT_SETTINGS() { return {} }
     
     constructor() {
-        this.settings = DEFAULT_SETTINGS();    
+        this.settings = this.DEFAULT_SETTINGS();    
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if(document.querySelector('#fs_pokemon') !== null) {

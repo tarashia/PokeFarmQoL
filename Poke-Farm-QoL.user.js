@@ -74,14 +74,14 @@
         }
 
         const PAGES = {
-            'Daycare': [DaycarePage, 'enableDaycare', Helpers.onDaycarePage],
-            'Farm' : [FarmPage, 'easyEvolve', Helpers.onFarmTab1],
-            'Fishing' : [FishingPage, 'fishingEnable', Helpers.onFishingPage],
-            'Lab' : [LabPage, 'labNotifier', Helpers.onLabPage],
-            'Multiuser' : [MultiuserPage, 'partyMod', Helpers.onMultiuserPage],
-            'PrivateFields' : [PrivateFieldsPage, 'privateFieldEnable', Helpers.onPrivateFieldsPage],
-            'PublicFields' : [PublicFieldsPage, 'publicFieldEnable', Helpers.onPublicFieldsPage],
-            'Shelter' : [ShelterPage, 'shelterEnable', Helpers.onShelterPage],
+            'Daycare': [daycarePage, 'enableDaycare', Helpers.onDaycarePage],
+            'Farm' : [farmPage, 'easyEvolve', Helpers.onFarmTab1],
+            'Fishing' : [fishingPage, 'fishingEnable', Helpers.onFishingPage],
+            'Lab' : [labPage, 'labNotifier', Helpers.onLabPage],
+            'Multiuser' : [multiuserPage, 'partyMod', Helpers.onMultiuserPage],
+            'PrivateFields' : [privateFieldsPage, 'privateFieldEnable', Helpers.onPrivateFieldsPage],
+            'PublicFields' : [publicFieldsPage, 'publicFieldEnable', Helpers.onPublicFieldsPage],
+            'Shelter' : [shelterPage, 'shelterEnable', Helpers.onShelterPage],
         }
         const PAGE_OBJ_INDEX = 0;
         const PAGE_VAR_INDEX = 1;

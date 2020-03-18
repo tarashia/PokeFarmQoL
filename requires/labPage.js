@@ -8,9 +8,10 @@ class LabPage {
         this.settings = this.DEFAULT_SETTINGS();
         this.searchArray = [];
         this.listArray = [];
+	const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                this.customSearch();
+                obj.customSearch();
             });
         });
     }
@@ -97,40 +98,41 @@ class LabPage {
         });
     }
     setupHandlers() {
-        $(document).on('click', '#addLabSearch', (function(e) { //add lab text field
-            this.addTextField();
+	const obj = this;
+        $(document).on('click', '#addLabSearch', (function() { //add lab text field
+            obj.addTextField();
         }));
 
-        $(document).on('click', '#removeLabSearch', (function(e) { //remove lab text field
-            this.removeTextField(e, $(e).parent().find('input').val());
-            this.saveSettings();
+        $(document).on('click', '#removeLabSearch', (function() { //remove lab text field
+            obj.removeTextField(this, $(this).parent().find('input').val());
+            obj.saveSettings();
         }));
 
         $(document).on('click', '#addLabTypeList', (function() { //add lab type list
-            this.addTypeList();
+            obj.addTypeList();
         }));
 
-        $(document).on('click', '#removeLabTypeList', (function(e) { //remove lab type list
-            this.removeTypeList(e, $(e).parent().find('select').val());
-            this.saveSettings();
+        $(document).on('click', '#removeLabTypeList', (function() { //remove lab type list
+            obj.removeTypeList(this, $(this).parent().find('select').val());
+            obj.saveSettings();
         }));
 
-        $(document).on('change', '#labCustomSearch input', (function(e) { //lab search
-            this.customSearch();
+        $(document).on('change', '#labCustomSearch input', (function() { //lab search
+            obj.customSearch();
         }));
 
-        $(document).on('click', '#labpage', (function(e) { //shelter search
-            this.customSearch();
+        $(document).on('click', '#labpage', (function() { //shelter search
+            obj.customSearch();
         }));
 
-        $(document).on('input', '.qolsetting', (function(e) { //Changes QoL settings
-            this.settingsChange(e.getAttribute('data-key'), $(e).val(), $(e).parent().parent().attr('class'), $(e).parent().attr('class'));
-            this.customSearch();
-            this.saveSettings();
+        $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+            obj.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+            obj.customSearch();
+            obj.saveSettings();
         }));
 
         $(window).on('load', (function(e) {
-            this.customSearch();
+            obj.customSearch();
         }));
     }
     addTextField() {
@@ -141,7 +143,7 @@ class LabPage {
     }
     removeTextField(byebye, key) {
         // when textfield is removed, the value will be deleted from the localstorage
-        this.searchArray = $.grep(this.searchArray, function(value) {
+        thisx.searchArray = $.grep(this.searchArray, function(value) {
             return value != key;
         });
         this.settings.findCustom = this.searchArray.toString()
@@ -187,8 +189,8 @@ class LabPage {
                 let amountOfTypesFound = [];
                 let typePokemonNames = [];
 
-                $('#egglist>div>h3').each(function(h) {
-                    let searchPokemon = ($(h).text().split(' ')[0]);
+                $('#egglist>div>h3').each(function() {
+                    let searchPokemon = ($(this).text().split(' ')[0]);
                     let searchTypeOne = dexData[dexData.indexOf('"'+searchPokemon+'"') + 1];
                     let searchTypeTwo = dexData[dexData.indexOf('"'+searchPokemon+'"') + 2];
                     if (searchTypeOne === value) {
