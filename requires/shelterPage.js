@@ -68,18 +68,18 @@ class ShelterPage {
                 if (element === 'findType') {
                     if (textElement === 'none') {
                         let tempIndex = typeClass - 1;
-                        typeArray.splice(tempIndex, tempIndex);
-                        this.settings.findType = typeArray.toString();
+                        this.typeArray.splice(tempIndex, tempIndex);
+                        this.settings.findType = this.typeArray.toString();
                     } else {
                         let tempIndex = typeClass - 1;
-                        typeArray[tempIndex] = textElement;
-                        this.settings.findType = typeArray.toString();
+                        this.typeArray[tempIndex] = textElement;
+                        this.settings.findType = this.typeArray.toString();
                     }
                 }
                 if (element === 'findCustom') {
                     let tempIndex = customClass - 1;
-                    customArray[tempIndex] = textElement;
-                    this.settings.findCustom = customArray.toString();
+                    this.customArray[tempIndex] = textElement;
+                    this.settings.findCustom = this.customArray.toString();
                 }
             }
             return true;
@@ -97,23 +97,23 @@ class ShelterPage {
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
         let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findCustom"/></label><input type='button' value='Remove' id='removeShelterTextfield'></div>`;
-        customArray = this.settings.findCustom.split(',');
-        let numberOfValue = customArray.length;
+        this.customArray = this.settings.findCustom.split(',');
+        let numberOfValue = this.customArray.length;
 
         for (let i = 0; i < numberOfValue; i++) {
             let rightDiv = i + 1;
-            let rightValue = customArray[i];
+            let rightValue = this.customArray[i];
             $('#searchkeys').append(theField);
             $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
         }
 
         let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`;
-        typeArray = this.settings.findType.split(',');
-        let numberOfType = typeArray.length;
+        this.typeArray = this.settings.findType.split(',');
+        let numberOfType = this.typeArray.length;
 
         for (let o = 0; o < numberOfType; o++) {
             let rightDiv = o + 1;
-            let rightValue = typeArray[o];
+            let rightValue = this.typeArray[o];
             $('#shelterTypes').append(theType);
             $('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
         }
@@ -191,10 +191,10 @@ class ShelterPage {
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
     }
     removeTextField(byebye, key) {
-        customArray = $.grep(customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+        this.customArray = $.grep(this.customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
             return value != key;
         });
-        this.settings.findCustom = customArray.toString()
+        this.settings.findCustom = this.customArray.toString()
 
         $(byebye).parent().remove();
 
@@ -211,10 +211,10 @@ class ShelterPage {
         $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
     }
     removeTypeList(byebye, key) {
-        typeArray = $.grep(typeArray, function(value) {
+        this.typeArray = $.grep(this.typeArray, function(value) {
             return value != key;
         });
-        this.settings.findType = typeArray.toString()
+        this.settings.findType = this.typeArray.toString()
 
         $(byebye).parent().remove();
 
@@ -302,13 +302,13 @@ class ShelterPage {
             //new egg search.
             if (value === "Egg") { //tooltip_content search. new egg.
                 if ($("#shelterarea .tooltip_content:contains("+value+")").length) {
-                    eggNoDuplicateArray = this.settings.NewEggDuplicate.split(',');
-                    eggNoDuplicateArray = eggNoDuplicateArray.filter(v=>v!='');
+                    this.eggNoDuplicateArray = this.settings.NewEggDuplicate.split(',');
+                    this.eggNoDuplicateArray = this.eggNoDuplicateArray.filter(v=>v!='');
 
-                    let eggList = eggNoDuplicateArray.length;
+                    let eggList = this.eggNoDuplicateArray.length;
                     let i;
                     for (i = 0; i < eggList; i++) {
-                        let value = eggNoDuplicateArray[i];
+                        let value = this.eggNoDuplicateArray[i];
                         if ($('img[src*="//'+value+'"]').length) {
                             lengthEggs = $('img[src*="//'+value+'"]').length + lengthEggs;
                         }
@@ -350,9 +350,9 @@ class ShelterPage {
 
             if ($('div.panel:contains("Adoption successful!")').length) {
                 if ($('.egg').css('background-image') === 'url("https://'+newEggAdopt+'")') {
-                    eggNoDuplicateArray = this.settings.NewEggDuplicate.split(',');
-                    eggNoDuplicateArray.push(newEggAdopt);
-                    this.settings.NewEggDuplicate = eggNoDuplicateArray.toString();
+                    this.eggNoDuplicateArray = this.settings.NewEggDuplicate.split(',');
+                    this.eggNoDuplicateArray.push(newEggAdopt);
+                    this.settings.NewEggDuplicate = this.eggNoDuplicateArray.toString();
                     newEggAdopt = "";
                 }
             }
@@ -371,9 +371,9 @@ class ShelterPage {
         }
 
         //loop to find all the custom search parameters
-        let customSearchAmount = customArray.length;
+        let customSearchAmount = this.customArray.length;
         for (let i = 0; i < customSearchAmount; i++) {
-            let value = customArray[i];
+            let value = this.customArray[i];
             if (value != "") {
                 //custom pokemon search
                 if (this.settings.customPokemon === true) {
@@ -492,7 +492,7 @@ class ShelterPage {
 
         //loop to find all the types
 
-        const filteredTypeArray = typeArray.filter(v=>v!='');
+        const filteredTypeArray = this.typeArray.filter(v=>v!='');
 
         if (filteredTypeArray.length > 0) {
             for (let i = 0; i < filteredTypeArray.length; i++) {
@@ -555,16 +555,16 @@ class ShelterPage {
         }
     }
     removeEgg(element) {
-        eggNoDuplicateArray = this.settings.NewEggDuplicate.split(',');
-        let eggList = eggNoDuplicateArray.length;
+        this.eggNoDuplicateArray = this.settings.NewEggDuplicate.split(',');
+        let eggList = this.eggNoDuplicateArray.length;
         let i;
         for (i = 0; i < eggList; i++) {
-            let value = eggNoDuplicateArray[i];
+            let value = this.eggNoDuplicateArray[i];
             if (element === 'url("https://'+value+'")') {
-                let index = eggNoDuplicateArray.indexOf(value);
+                let index = this.eggNoDuplicateArray.indexOf(value);
                 if (index > -1) {
-                    eggNoDuplicateArray.splice(index, 1);
-                    this.settings.NewEggDuplicate = eggNoDuplicateArray.toString();
+                    this.eggNoDuplicateArray.splice(index, 1);
+                    this.settings.NewEggDuplicate = this.eggNoDuplicateArray.toString();
                 }
             }
         }
