@@ -174,12 +174,13 @@ class ShelterPage {
             obj.customSearch();
         }));
 
-        $(document).on('click', '#addShelterTypeList', (function(this) { //add shelter type list
+        $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
             obj.addTypeList();
+	    obj.customSearch();
         }));
 
-        $(document).on('click', '#removeShelterTypeList', (function(this) { //remove shelter type list
-            obj.removeTypeList(e, $(this).parent().find('select').val());
+        $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
+            obj.removeTypeList(this, $(this).parent().find('select').val());
             obj.saveSettings();
             obj.customSearch();
         }));
