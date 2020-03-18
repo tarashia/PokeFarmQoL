@@ -38,9 +38,10 @@ class PublicFieldsPage {
 	this.typeArray = [];
 	this.natureArray = [];
 	this.eggGroupArray = [];
+	const obj = this
 	this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-		this.customSearch();
+		obj.customSearch();
             });
 	});
     }
@@ -187,70 +188,76 @@ class PublicFieldsPage {
         });
     }
     setupHandlers() {
-        $(window).on('load', (function(e) {
-            this.customSearch();
+	const obj = this
+        $(window).on('load', (function() {
+            obj.customSearch();
         }));
 
-        $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function(e) { //field sort
-            this.customSearch();
+        $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
+            obj.customSearch();
         }));
-
-        document.addEventListener("keydown", function(event) {
-            this.customSearch();
+n
+        document.addEventListener("keydown", function() {
+            obj.customSearch();
         });
 
-        $(document).on('click', '#addFieldSearch', (function(e) { //add field text field
-            this.fieldAddTextField();
+        $(document).on('click', '#addFieldSearch', (function() { //add field text field
+            obj.fieldAddTextField();
         }));
 
-        $(document).on('click', '#removeFieldSearch', (function(e) { //remove field text field
-            this.fieldRemoveTextField(e, $(e).parent().find('input').val());
+        $(document).on('click', '#removeFieldSearch', (function() { //remove field text field
+            obj.fieldRemoveTextField(this, $(this).parent().find('input').val());
         }));
 
-        $(document).on('click', '#addFieldTypeSearch', (function(e) { //add field type list
-            this.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes');
-            this.customSearch();
+        $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
+            obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes');
+            obj.customSearch();
         }));
 
-        $(document).on('click', '#removeFieldTypeSearch', (function(e) { //remove field type list
-            typeArray = this.removeSelectSearch(typeArray, e, $(e).parent().find('select').val(), 'fieldType', 'fieldTypes')
-            this.saveSettings();
-            this.customSearch();
+        $(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
+            typeArray = obj.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
+            obj.saveSettings();
+            obj.customSearch();
         }));
 
-        $(document).on('click', '#addFieldNatureSearch', (function(e) { //add field nature search
-            this.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes')
-            this.customSearch();
+        $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
+            obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes')
+            obj.customSearch();
         }));
 
-        $(document).on('click', '#removeFieldNature', (function(e) { //remove field nature search
-            natureArray = this.removeSelectSearch(typeArray, e, $(e).parent().find('select').val(), 'fieldNature', 'natureTypes')
-            this.saveSettings();
-            this.customSearch();
+        $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
+            natureArray = obj.removeSelectSearch(typeArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
+            obj.saveSettings();
+            obj.customSearch();
         }));
 
-        $(document).on('click', '#addFieldEggGroupSearch', (function(e) { //add egg group nature search
-            this.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes')
-            this.customSearch();
+        $(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
+            obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes')
+            obj.customSearch();
         }));
 
-        $(document).on('click', '#removeFieldEggGroup', (function(e) { //remove egg group nature search
-            eggGroupArray = this.removeSelectSearch(eggGroupArray, e, $(e).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
-            this.saveSettings();
-            this.customSearch();
+        $(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
+            eggGroupArray = obj.removeSelectSearch(eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
+            obj.saveSettings();
+            obj.customSearch();
         }));
 
-        $(document).on('change', '.qolsetting', (function(e) {
-            this.loadSettings();
-            this.customSearch();
-            this.saveSettings();
+        $(document).on('change', '.qolsetting', (function() {
+            obj.loadSettings();
+            obj.customSearch();
+            obj.saveSettings();
         }));
 
-        $(document).on('input', '.qolsetting', (function(e) { //Changes QoL settings
-            this.settingsChange(this.getAttribute('data-key'), $(e).val(), $(e).parent().parent().attr('class'), $(this).parent().attr('class'));
-            this.customSearch();
-            this.saveSettings();
+        $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+            obj.settingsChange(this.getAttribute('data-key'), $(this).val(),
+			       $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+            obj.customSearch();
+            obj.saveSettings();
         }));
+
+        $('input.qolalone').on('change', function() { //only 1 textbox may be true
+            $('input.qolalone').not(this).prop('checked', false);
+        });
     }
     // specific
     customSearch() {
@@ -259,10 +266,6 @@ class PublicFieldsPage {
         /////////////////////////////////////////////////
         //////////////////// sorting ////////////////////
         /////////////////////////////////////////////////
-        $('input.qolalone').on('change', function(e) { //only 1 textbox may be true
-            $('input.qolalone').not(e).prop('checked', false);
-        });
-
         if (this.settings.sortSettings.fieldByBerry === true) { //sort field by berries
             $('.fieldmon').removeClass("qolSortMiddle");
             $('.field').removeClass("qolGridField");
@@ -331,7 +334,7 @@ class PublicFieldsPage {
         if (this.settings.sortSettings.fieldClickCount === false) {
             $('#pokemonclickcount').remove();
         } else if (this.settings.sortSettings.fieldClickCount === true) {
-            let pokemonFed = $(".fieldmon").map(function(e){return $(e).attr("data-fed");}).get();
+            let pokemonFed = $(".fieldmon").map(function() { return $(this).attr("data-fed"); }).get();
 
             let pokemonClicked = 0;
             for (var i = 0; i < pokemonFed.length; i++) {
@@ -364,17 +367,17 @@ class PublicFieldsPage {
 
         //loop to find all the types
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
-            $('.fieldmon').each(function(e) {
-                let searchPokemonBigImg = $(e)[0].childNodes[0];
+            $('.fieldmon').each(function() {
+                let searchPokemonBigImg = $(this)[0].childNodes[0];
                 let searchPokemon = searchPokemonBigImg.alt;
                 let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                 let searchTypeOne = dexData[searchPokemonIndex + 1];
                 let searchTypeTwo = dexData[searchPokemonIndex + 2];
 
-                let searchNature = $($(e).next()[0].querySelector('.fieldmontip')).children(':contains(Nature)')[0].innerText.split(" ")[1];
+                let searchNature = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Nature)')[0].innerText.split(" ")[1];
                 if (searchNature.indexOf("(") > -1) { searchNature = searchNature.slice(0, -1); }
 
-                let searchEggGroup = $($(e).next()[0].querySelector('.fieldmontip')).
+                let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).
                     children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
 
                 for (let i = 0; i < filteredTypeArray.length; i++) {
