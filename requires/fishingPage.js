@@ -4,7 +4,7 @@ class FishingPage {
 
     constructor() {
         this.settings = this.DEFAULT_SETTINGS();
-	    // no observer
+	// no observer
     }
     
     loadSettings() { // initial settings on first run and setting the variable settings key

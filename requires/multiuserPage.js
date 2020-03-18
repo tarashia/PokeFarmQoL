@@ -8,9 +8,10 @@ class MultiuserPage {
     
     constructor() {
         this.settings = this.DEFAULT_SETTINGS();
+	const obj = this
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                this.partyModification();
+                obj.partyModification();
             });
         });
     }
@@ -73,29 +74,30 @@ class MultiuserPage {
         });
     }
     setupHandlers() {
-        $(window).on('load', (function(e) {
-            this.loadSettings();
-            this.partyModification();
+	const obj = this
+        $(window).on('load', (function() {
+            obj.loadSettings();
+            obj.partyModification();
         }));
 
-        $(document).on('click input', '#qolpartymod', (function(e) { // partymods
-            this.partyModification();
+        $(document).on('click input', '#qolpartymod', (function() {
+            obj.partyModification();
         }));
 
-        $(document).on('click', '.tabbed_interface', (function(e) {
-            this.partyModification();
+        $(document).on('click', '.tabbed_interface', (function() {
+            obj.partyModification();
         }));
 
-        $(document).on('change', '.qolsetting', (function(e) {
-            this.loadSettings();
-            this.settingsChange(e.getAttribute('data-key'), $(e).val(),
-                               $(e).parent().parent().attr('class'), $(e).parent().attr('class'));
-            this.partyModification();
-            this.saveSettings();
+        $(document).on('change', '.qolsetting', (function() {
+            obj.loadSettings();
+            obj.settingsChange(this.getAttribute('data-key'), $(this).val(),
+                               $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+            obj.partyModification();
+            obj.saveSettings();
         }));
         
-        $('input.qolalone').on('change', function(e) { //only 1 textbox may be true
-            $('input.qolalone').not(e).prop('checked', false);
+        $('input.qolalone').on('change', function() { //only 1 textbox may be true
+            $('input.qolalone').not(this).prop('checked', false);
         });
     }
     partyModification() {
