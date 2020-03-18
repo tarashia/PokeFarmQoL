@@ -1,4 +1,4 @@
-class Page = {
+class Page {
     SETTINGS_SAVE_KEY() { return this.settingsSaveKey }
     DEFAULT_SETTINGS() { return this.defaultSettings }
 
@@ -9,9 +9,10 @@ class Page = {
     }
 
     loadSettings() {
-        this.settings = Helpers.loadSettings(this.settingsSaveKey,
-					     this.defaultSettings,
-					     this.settings);
+        this.settings =
+	    Helpers.loadSettings(this.settingsSaveKey,
+				 this.defaultSettings,
+				 this.settings);
     }
 
     saveSettings() {
@@ -22,7 +23,28 @@ class Page = {
         return this.settings;
     }
     
-    populateSettings() { /* empty */ }
+    populateSettings(obj) {
+	if(obj === undefined) {
+	    obj = this.settings
+	}
+        for (let key in obj) {
+            if (!obj.hasOwnProperty(key)) {
+                continue;
+            }
+            let value = obj[key];
+	    if (typeof value === 'object') {
+		this.populateSettings(obj[key])
+	    }
+            else if (typeof value === 'boolean') {
+                Helpers.toggleSetting(key, value, false);
+                continue;
+            }
+	    else if (typeof value === 'string') {
+		Helpers.toggleSetting(key, value, false);
+                continue;
+            }
+        }
+    }
 
     settingsChange(element, textElement, customClass, typeClass) {
 	/* empty */

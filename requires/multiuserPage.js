@@ -16,30 +16,6 @@ class MultiuserPage {
         });
     }
     
-    loadSettings() { // initial settings on first run and setting the variable settings key
-        this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    }
-    saveSettings() { // Save changed settings
-        Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    }
-    getSettings() { return this.settings; }
-    populateSettings() {
-        for (let key in this.settings) {
-            if (!this.settings.hasOwnProperty(key)) {
-                continue;
-            }
-            let value = this.settings[key];
-            if (typeof value === 'boolean') {
-                Helpers.toggleSetting(key, value, false);
-                continue;
-            }
-
-            if (typeof value === 'string') {
-                Helpers.toggleSetting(key, value, false);
-                continue;
-            }
-        }
-    }
     settingsChange(element, textElement, customClass, typeClass) {
         if (this.settings[element] === false ) {
             this.settings[element] = true;

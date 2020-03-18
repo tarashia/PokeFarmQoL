@@ -32,18 +32,6 @@ class PrivateFieldsPage extends Page {
 	});
     }
 
-    populateSettings() {
-        for (let key in this.settings) {
-            if (!this.settings.hasOwnProperty(key)) {
-                continue;
-            }
-            let value = this.settings[key];
-            if (typeof value === 'boolean') {
-                Helpers.toggleSetting(key, value, false);
-                continue;
-            }
-        }
-    }
     settingsChange(element, textElement, customClass, typeClass) {
         if (typeof (this.settings[element]) === 'boolean') {
             this.settings[element] = !this.settings[element];

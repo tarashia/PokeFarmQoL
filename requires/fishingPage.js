@@ -7,16 +7,6 @@ class FishingPage {
 	// no observer
     }
     
-    loadSettings() { // initial settings on first run and setting the variable settings key
-        this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    }
-    saveSettings() { // Save changed settings
-        Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    }
-    getSettings() {
-        return this.settings;
-    }
-    populateSettings() { /* empty */ }
     settingsChange(element, textElement, customClass, typeClass) { /* empty */ }
     setupHTML() {
         // fishing select all button on caught fishing

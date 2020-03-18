@@ -44,33 +44,6 @@ class PublicFieldsPage extends Page {
 	});
     }
 
-    populateSettings() {
-        for (let key in this.settings.sortSettings) {
-            if (!this.settings.sortSettings.hasOwnProperty(key)) {
-                continue;
-            }
-            let value = this.settings.sortSettings[key];
-            if (typeof value === 'boolean') {
-                Helpers.toggleSetting(key, value, false);
-                continue;
-            }
-
-            if (typeof value === 'string') {
-                Helpers.toggleSetting(key, value, false);
-                continue;
-            }
-        }
-        for (let key in this.settings.searchSettings) {
-            if (!this.settings.searchSettings.hasOwnProperty(key)) {
-                continue;
-            }
-            let value = this.settings.searchSettings[key];
-            if (typeof value === 'boolean') {
-                Helpers.toggleSetting(key, value, false);
-                continue;
-            }
-        }
-    }
     settingsChange(element, textElement, customClass, typeClass) {
         if (JSON.stringify(this.settings.sortSettings).indexOf(element) >= 0) { // field sort settings
             if (this.settings.sortSettings[element] === false ) {
