@@ -3,11 +3,12 @@ class DaycarePage {
     DEFAULT_SETTINGS() { return {} }
     
     constructor() {
-        this.settings = this.DEFAULT_SETTINGS();    
+        this.settings = this.DEFAULT_SETTINGS();
+	const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if(document.querySelector('#fs_pokemon') !== null) {
-                    this.customSearch()
+                    obj.customSearch()
                 }
             })
         });
@@ -19,7 +20,7 @@ class DaycarePage {
     saveSettings() { // Save changed settings
         Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
     }
-    // getSettings() { return this.settings; }
+    getSettings() { return this.settings; }
     populateSettings() { /* empty */ }
     settingsChange(element, textElement, customClass, typeClass) { /* empty */ }
     setupHTML() { /* empty */ }
