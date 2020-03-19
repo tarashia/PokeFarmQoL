@@ -1,18 +1,6 @@
 let Helpers = (function Helpers() {
     /* public stuff */
     const API = {
-        onPage(pg) { return window.location.href.indexOf(pg) != -1; },
-        onMultiuserPage() { return API.onPage("users/"); },
-        onShelterPage() { return API.onPage("/shelter"); },
-        onPublicFieldsPage() { return API.onPage("fields/"); },
-        onPrivateFieldsPage() { return API.onPage("fields") && !API.onPublicFieldsPage(); },
-        onFarmPage(tab) { return API.onPage("farm#" + ((tab===undefined) ? "" : tab)); },
-        onFarmTab1() { return API.onFarmPage('tab=1'); },
-        onFishingPage() { return API.onPage("fishing"); },
-        onLabPage() { return API.onPage("/lab"); },
-        onDexPage() { return API.onPage("dex"); },
-        onDaycarePage() { return API.onPage("daycare"); },
-
         shelterKeyIsTopCheckbox(k) {
             return k != 'findCustom' && k != 'findMale' && k != 'findFemale' && k != 'findNoGender' && k != 'customEgg' && k != 'customPokemon' && k != 'customPng';
         },

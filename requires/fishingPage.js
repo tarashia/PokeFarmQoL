@@ -1,6 +1,6 @@
 class FishingPage extends Page {
     constructor() {
-	super('QoLFishing', {})
+	super('QoLFishing', {}, 'fishing')
 	// no observer
     }
     

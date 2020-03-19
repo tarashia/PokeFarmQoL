@@ -19,7 +19,7 @@ class PrivateFieldsPage extends Page {
             fieldNoGender: true,
             customItem: true,
             releaseSelectAll : true,
-	});
+	}, 'fields');
 	this.customArray = [];
 	this.typeArray = [];
 	this.natureArray = [];
@@ -30,6 +30,11 @@ class PrivateFieldsPage extends Page {
 		obj.customSearch();
             });
 	});
+    }
+
+    onPage(w) {
+	return w.location.href.indexOf("fields") != -1 &&
+	    w.location.href.indexOf("fields/") == -1
     }
 
     settingsChange(element, textElement, customClass, typeClass) {

@@ -4,7 +4,7 @@ class MultiuserPage extends Page {
             hideDislike : false,
             hideAll : false,
             niceTable : false,
-	});
+	}, 'users/');
 	const obj = this
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {

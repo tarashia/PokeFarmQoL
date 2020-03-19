@@ -3,7 +3,7 @@ class LabPage extends Page {
 	super('QoLLab', {
             findLabEgg: "",
             findLabType: "",
-	})
+	}, '/lab')
         this.searchArray = [];
         this.listArray = [];
 	const obj = this;

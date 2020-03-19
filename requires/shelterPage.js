@@ -23,7 +23,7 @@ class ShelterPage extends Page {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
-	})
+	}, '/shelter')
 	this.customArray = [];
 	this.typeArray = [];
 	this.eggNoDuplicateArray = [];

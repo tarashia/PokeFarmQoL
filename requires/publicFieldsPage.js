@@ -25,7 +25,7 @@ class PublicFieldsPage extends Page {
 	    fieldCustomPng: false,
 	    fieldItem: true,
 	    customItem: true,
-	});
+	}, 'fields/');
 	this.customArray = [];
 	this.typeArray = [];
 	this.natureArray = [];

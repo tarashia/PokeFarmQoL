@@ -27,7 +27,7 @@ class FarmPage extends Page {
     }
 
     constructor() {
-	super('QoLFarm', {})
+	super('QoLFarm', {}, 'farm#tab=1')
 	this.defaultSettings = this.DEFAULT_SETTINGS();
 	this.settings = this.defaultSettings;
 	this.evolveListCache = "";

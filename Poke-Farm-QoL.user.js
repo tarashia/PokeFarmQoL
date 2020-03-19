@@ -75,18 +75,17 @@
         }
 
         const PAGES = {
-            'Daycare': [daycarePage, 'enableDaycare', Helpers.onDaycarePage],
-            'Farm' : [farmPage, 'easyEvolve', Helpers.onFarmTab1],
-            'Fishing' : [fishingPage, 'fishingEnable', Helpers.onFishingPage],
-            'Lab' : [labPage, 'labNotifier', Helpers.onLabPage],
-            'Multiuser' : [multiuserPage, 'partyMod', Helpers.onMultiuserPage],
-            'PrivateFields' : [privateFieldsPage, 'privateFieldEnable', Helpers.onPrivateFieldsPage],
-            'PublicFields' : [publicFieldsPage, 'publicFieldEnable', Helpers.onPublicFieldsPage],
-            'Shelter' : [shelterPage, 'shelterEnable', Helpers.onShelterPage],
+            'Daycare': [daycarePage, 'enableDaycare'],
+            'Farm' : [farmPage, 'easyEvolve'],
+            'Fishing' : [fishingPage, 'fishingEnable'],
+            'Lab' : [labPage, 'labNotifier'],
+            'Multiuser' : [multiuserPage, 'partyMod'],
+            'PrivateFields' : [privateFieldsPage, 'privateFieldEnable'],
+            'PublicFields' : [publicFieldsPage, 'publicFieldEnable'],
+            'Shelter' : [shelterPage, 'shelterEnable'],
         }
         const PAGE_OBJ_INDEX = 0;
         const PAGE_VAR_INDEX = 1;
-        const PAGE_FUN_INDEX = 2;
 
         const fn = { // all the functions for the script
             /** background stuff */
@@ -109,7 +108,7 @@
                 loadSettings() { // initial settings on first run and setting the variable settings key
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
                             pg[PAGE_OBJ_INDEX].loadSettings();
                         }
                     }
@@ -147,7 +146,7 @@
                 saveSettings() { // Save changed settings
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
                             pg[PAGE_OBJ_INDEX].saveSettings();
                         }
                     }
@@ -170,7 +169,7 @@
                     }
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
                             pg[PAGE_OBJ_INDEX].populateSettings();
                         }
                     }
@@ -181,7 +180,7 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
                             pg[PAGE_OBJ_INDEX].setupHTML();
                             fn.backwork.populateSettingsPage(pg[PAGE_OBJ_INDEX].getSettings());
                         }
@@ -192,7 +191,7 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
                             pg[PAGE_OBJ_INDEX].setupCSS();
                         }
                     }
@@ -206,7 +205,7 @@
                 setupObservers() { // all the Observers that needs to run
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
                             pg[PAGE_OBJ_INDEX].setupObserver();
                         }
                     }
@@ -214,7 +213,7 @@
                 setupHandlers() { // all the event handlers
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
                             pg[PAGE_OBJ_INDEX].setupHandlers();
                         }
                     }
@@ -302,7 +301,7 @@
                     } else {
                         for(const key of Object.keys(PAGES)) {
                             let pg = PAGES[key]
-                            if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                            if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
                                 pg[PAGE_OBJ_INDEX].settingsChange();
                             }
                         }

@@ -2,10 +2,15 @@ class Page {
     SETTINGS_SAVE_KEY() { return this.settingsSaveKey }
     DEFAULT_SETTINGS() { return this.defaultSettings }
 
-    constructor(ssk, ds) {
+    constructor(ssk, ds, url) {
 	this.settingsSaveKey = ssk;
 	this.defaultSettings = ds;
+	this.url = url
 	this.settings = this.defaultSettings;
+    }
+
+    onPage(w) {
+	return w.location.href.indexOf(this.url) != -1
     }
 
     loadSettings() {
