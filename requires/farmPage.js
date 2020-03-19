@@ -1,5 +1,4 @@
 class FarmPage extends Page {
-    SETTINGS_SAVE_KEY() { return 'QoLFarm' }
     DEFAULT_SETTINGS() { 
         let d = {TYPE_APPEND : {}};
         // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
