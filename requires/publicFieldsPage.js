@@ -38,69 +38,42 @@ class PublicFieldsPage extends Page {
 	});
     }
 
-    settingsChange(element, textElement, customClass, typeClass) {
-        if (JSON.stringify(this.settings).indexOf(element) >= 0) {
-            if (this.settings[element] === false ) {
-                this.settings[element] = true;
-                if (element === "fieldByBerry") {
-                    this.settings.fieldByMiddle = false;
-                    this.settings.fieldByGrid = false;
-                } else if (element === "fieldByMiddle") {
-                    this.settings.fieldByBerry = false;
-                    this.settings.fieldByGrid = false;
-                } else if (element === "fieldByGrid") {
-                    this.settings.fieldByBerry = false;
-                    this.settings.fieldByMiddle = false;
-                }
-            } else if (this.settings[element] === true ) {
-                this.settings[element] = false;
+    settingsChange(element, textElement, customClass, typeClass, arrayName) {
+	if (JSON.stringify(this.settings).indexOf(element) >= 0) {
+	    if (typeof this.settings[element] === 'boolean') {
+		this.settings[element] = !this.settings[element]
             } else if (typeof this.settings[element] === 'string') {
-                if (element === 'fieldType') {
+		if (arrayName !== undefined && arrayName !== '') {
                     if (textElement === 'none') {
-                        let tempIndex = typeClass - 1;
-                        this.typeArray.splice(tempIndex, tempIndex);
-                        this.settings.fieldType = this.typeArray.toString();
+			let tempIndex = typeClass - 1;
+			this[arrayName].splice(tempIndex, tempIndex);
+			this.settings[element] = this[arrayName].toString();
                     } else {
-                        let tempIndex = typeClass - 1;
-                        this.typeArray[tempIndex] = textElement;
-                        this.settings.fieldType = this.typeArray.toString();
+			let tempIndex = typeClass - 1;
+			this[arrayName][tempIndex] = textElement;
+			this.settings[element] = this[arrayName].toString();
                     }
-                }
-                else if (element === 'fieldNature') {
-                    if (textElement === 'none') {
-                        let tempIndex = typeClass - 1;
-                        this.natureArray.splice(tempIndex, tempIndex);
-                        this.settings.fieldNature = this.natureArray.toString();
-                    } else {
-                        let tempIndex = typeClass - 1;
-                        this.natureArray[tempIndex] = textElement;
-                        this.settings.fieldNature = this.natureArray.toString();
-                    }
-                }
-                else if (element === 'fieldEggGroup') {
-                    if (textElement === 'none') {
-                        let tempIndex = typeClass - 1;
-                        this.eggGroupArray.splice(tempIndex, tempIndex);
-                        this.settings.fieldEggGroup = this.eggGroupArray.toString();
-                    } else {
-                        let tempIndex = typeClass - 1;
-                        this.eggGroupArray[tempIndex] = textElement;
-                        this.settings.fieldEggGroup = this.eggGroupArray.toString();
-                    }
-                }
-                else if (element === 'fieldCustom') {
-                    let tempIndex = customClass - 1;
-                    this.customArray[tempIndex] = textElement;
-                    this.settings.fieldCustom = this.customArray.toString();
-                }
+		}
 		else {
                     this.settings[element] = textElement;
 		}
             }
-            return true;
-        }
-        else { return false }
+	}
+	else { return false }
+
+	if (element === "fieldByBerry" && this.settings[element] === true) {
+            this.settings.fieldByMiddle = false;
+            this.settings.fieldByGrid = false;
+	} else if (element === "fieldByMiddle" && this.settings[element] === true) {
+            this.settings.fieldByBerry = false;
+            this.settings.fieldByGrid = false;
+	} else if (element === "fieldByGrid" && this.settings[element] === true) {
+            this.settings.fieldByBerry = false;
+            this.settings.fieldByMiddle = false;
+	}
+	return true;
     }
+
     setupHTML() {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldSortHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
