@@ -4,7 +4,7 @@ const TEMPLATES = { // all the new/changed HTML for the userscript
     qolSettingsMenuHTML   : GM_getResourceText('QoLSettingsMenuHTML'),
     shelterSettingsHTML   : GM_getResourceText('shelterSettingsHTML'),
     massReleaseSelectHTML : `<label id="selectallfish"><input id="selectallfishcheckbox" type="checkbox">Select all</label><label id="movefishselectany"><input id="movefishdselectanycheckbox" type="checkbox">Select Any  </label><label id="movefishselectsour"><input id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefishselectspicy"><input id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefishselectdry"><input id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefishselectsweet"><input id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefishselectbitter"><input id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
-    fieldSortHTML         : `<div id="fieldorder"><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"/>Sort by berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByMiddle"/>Sort in the middle</label><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByGrid"/>Align to grid</label><label><input type="checkbox" class="qolsetting" data-key="fieldClickCount"/>Click counter</label></div>`,
+    fieldSortHTML         : GM_getResorceText('fieldSortHTML')
     fieldSearchHTML       : GM_getResourceText('fieldSearchHTML'),
     privateFieldSearchHTML: GM_getResourceText('privateFieldSearchHTML'),
     qolHubHTML            : GM_getResourceText('QolHubHTML'),
