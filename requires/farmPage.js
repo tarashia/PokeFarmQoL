@@ -1,4 +1,4 @@
-class FarmPage {
+class FarmPage extends Page {
     SETTINGS_SAVE_KEY() { return 'QoLFarm' }
     DEFAULT_SETTINGS() { 
         let d = {TYPE_APPEND : {}};

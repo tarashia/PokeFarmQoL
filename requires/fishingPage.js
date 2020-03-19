@@ -1,4 +1,4 @@
-class FishingPage {
+class FishingPage extends Page {
     SETTINGS_SAVE_KEY() { return 'QoLFishing' }
     DEFAULT_SETTINGS() { return {} }
 

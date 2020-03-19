@@ -1,4 +1,4 @@
-class DaycarePage {
+class DaycarePage extends Page {
     SETTINGS_SAVE_KEY() { return 'QoLDaycare' }
     DEFAULT_SETTINGS() { return {} }
     

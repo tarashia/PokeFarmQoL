@@ -1,4 +1,4 @@
-class ShelterPage {
+class ShelterPage extends Page {
     SETTINGS_SAVE_KEY() { return 'QoLShelter' }
     DEFAULT_SETTINGS() { return {
         findCustom: "",

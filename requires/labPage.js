@@ -1,4 +1,4 @@
-class LabPage {
+class LabPage extends Page {
     SETTINGS_SAVE_KEY() { return 'QoLLab'; }
      DEFAULT_SETTINGS() { return {
         findLabEgg: "",

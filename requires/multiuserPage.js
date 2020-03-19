@@ -1,4 +1,4 @@
-class MultiuserPage {
+class MultiuserPage extends Page {
     SETTINGS_SAVE_KEY() { return 'QoLMultiuser'; }
     DEFAULT_SETTINGS() { return {
         hideDislike : false,
