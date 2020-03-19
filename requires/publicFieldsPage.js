@@ -55,8 +55,6 @@ class PublicFieldsPage extends Page {
             } else if (this.settings[element] === true ) {
                 this.settings[element] = false;
             } else if (typeof this.settings[element] === 'string') {
-                this.settings[element] = textElement;
-            } else if (typeof this.settings[element] === 'string') {
                 if (element === 'fieldType') {
                     if (textElement === 'none') {
                         let tempIndex = typeClass - 1;
@@ -95,6 +93,9 @@ class PublicFieldsPage extends Page {
                     this.customArray[tempIndex] = textElement;
                     this.settings.fieldCustom = this.customArray.toString();
                 }
+		else {
+                    this.settings[element] = textElement;
+		}
             }
             return true;
         }
