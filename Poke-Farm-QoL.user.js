@@ -14,6 +14,7 @@
 // @resource     shelterSettingsHTML    https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/shelterOptionsHTML.html
 // @resource     evolveFastHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/evolveFastHTML.html
 // @resource     labOptionsHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/labOptionsHTML.html
+// @resource     fieldSortHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/fieldSortHTML.html
 // @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/fieldSearchHTML.html
 // @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/privateFieldSearchHTML.html
 // @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/css/pfqol.css
@@ -108,7 +109,7 @@
                 loadSettings() { // initial settings on first run and setting the variable settings key
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].loadSettings();
                         }
                     }
@@ -146,7 +147,7 @@
                 saveSettings() { // Save changed settings
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].saveSettings();
                         }
                     }
@@ -169,7 +170,7 @@
                     }
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].populateSettings();
                         }
                     }
@@ -180,7 +181,7 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].setupHTML();
                             fn.backwork.populateSettingsPage(pg[PAGE_OBJ_INDEX].getSettings());
                         }
@@ -191,7 +192,7 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].setupCSS();
                         }
                     }
@@ -205,7 +206,7 @@
                 setupObservers() { // all the Observers that needs to run
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].setupObserver();
                         }
                     }
@@ -213,7 +214,7 @@
                 setupHandlers() { // all the event handlers
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].setupHandlers();
                         }
                     }
@@ -301,7 +302,7 @@
                     } else {
                         for(const key of Object.keys(PAGES)) {
                             let pg = PAGES[key]
-                            if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg.onPage()) {
+                            if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                                 pg[PAGE_OBJ_INDEX].settingsChange();
                             }
                         }
