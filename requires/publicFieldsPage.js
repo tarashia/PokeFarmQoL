@@ -1,34 +1,30 @@
 class PublicFieldsPage extends Page {
     constructor() {
 	super('QoLPublicFields', {
-	      sortSettings : {
-		  fieldByBerry: false,
-		  fieldByMiddle: false,
-		  fieldByGrid: false,
-		  fieldClickCount: true,
-	      },
-	      searchSettings : {
-		  fieldCustom: "",
-		  fieldType: "",
-		  fieldNature: "",
-		  fieldEggGroup: "",
-		  fieldNewPokemon: true,
-		  fieldShiny: true,
-		  fieldAlbino: true,
-		  fieldMelanistic: true,
-		  fieldPrehistoric: true,
-		  fieldDelta: true,
-		  fieldMega: true,
-		  fieldStarter: true,
-		  fieldCustomSprite: true,
-		  fieldMale: true,
-		  fieldFemale: true,
-		  fieldNoGender: true,
-		  fieldCustomPokemon: true,
-		  fieldCustomPng: false,
-		  fieldItem: true,
-		  customItem: true,
-	      }
+	    fieldByBerry: false,
+	    fieldByMiddle: false,
+	    fieldByGrid: false,
+	    fieldClickCount: true,
+	    fieldCustom: "",
+	    fieldType: "",
+	    fieldNature: "",
+	    fieldEggGroup: "",
+	    fieldNewPokemon: true,
+	    fieldShiny: true,
+	    fieldAlbino: true,
+	    fieldMelanistic: true,
+	    fieldPrehistoric: true,
+	    fieldDelta: true,
+	    fieldMega: true,
+	    fieldStarter: true,
+	    fieldCustomSprite: true,
+	    fieldMale: true,
+	    fieldFemale: true,
+	    fieldNoGender: true,
+	    fieldCustomPokemon: true,
+	    fieldCustomPng: false,
+	    fieldItem: true,
+	    customItem: true,
 	});
 	this.customArray = [];
 	this.typeArray = [];
@@ -43,53 +39,44 @@ class PublicFieldsPage extends Page {
     }
 
     settingsChange(element, textElement, customClass, typeClass) {
-        if (JSON.stringify(this.settings.sortSettings).indexOf(element) >= 0) { // field sort settings
-            if (this.settings.sortSettings[element] === false ) {
-                this.settings.sortSettings[element] = true;
+        if (JSON.stringify(this.settings).indexOf(element) >= 0) {
+            if (this.settings[element] === false ) {
+                this.settings[element] = true;
                 if (element === "fieldByBerry") {
-                    this.settings.sortSettings.fieldByMiddle = false;
-                    this.settings.sortSettings.fieldByGrid = false;
+                    this.settings.fieldByMiddle = false;
+                    this.settings.fieldByGrid = false;
                 } else if (element === "fieldByMiddle") {
-                    this.settings.sortSettings.fieldByBerry = false;
-                    this.settings.sortSettings.fieldByGrid = false;
+                    this.settings.fieldByBerry = false;
+                    this.settings.fieldByGrid = false;
                 } else if (element === "fieldByGrid") {
-                    this.settings.sortSettings.fieldByBerry = false;
-                    this.settings.sortSettings.fieldByMiddle = false;
+                    this.settings.fieldByBerry = false;
+                    this.settings.fieldByMiddle = false;
                 }
-            } else if (this.settings.sortSettings[element] === true ) {
-                this.settings.sortSettings[element] = false;
-            } else if (typeof this.settings.sortSettings[element] === 'string') {
-                this.settings.sortSettings[element] = textElement;
-            }
-            return true;
-        }
-
-        else if (JSON.stringify(this.settings.searchSettings).indexOf(element) >= 0) { // field search settings
-            if (this.settings.searchSettings[element] === false ) {
-                this.settings.searchSettings[element] = true;
-            } else if (this.settings.searchSettings[element] === true ) {
-                this.settings.searchSettings[element] = false;
-            } else if (typeof this.settings.searchSettings[element] === 'string') {
+            } else if (this.settings[element] === true ) {
+                this.settings[element] = false;
+            } else if (typeof this.settings[element] === 'string') {
+                this.settings[element] = textElement;
+            } else if (typeof this.settings[element] === 'string') {
                 if (element === 'fieldType') {
                     if (textElement === 'none') {
                         let tempIndex = typeClass - 1;
                         this.typeArray.splice(tempIndex, tempIndex);
-                        this.settings.searchSettings.fieldType = this.typeArray.toString();
+                        this.settings.fieldType = this.typeArray.toString();
                     } else {
                         let tempIndex = typeClass - 1;
                         this.typeArray[tempIndex] = textElement;
-                        this.settings.searchSettings.fieldType = this.typeArray.toString();
+                        this.settings.fieldType = this.typeArray.toString();
                     }
                 }
                 else if (element === 'fieldNature') {
                     if (textElement === 'none') {
                         let tempIndex = typeClass - 1;
                         this.natureArray.splice(tempIndex, tempIndex);
-                        this.settings.searchSettings.fieldNature = this.natureArray.toString();
+                        this.settings.fieldNature = this.natureArray.toString();
                     } else {
                         let tempIndex = typeClass - 1;
                         this.natureArray[tempIndex] = textElement;
-                        this.settings.searchSettings.fieldNature = this.natureArray.toString();
+                        this.settings.fieldNature = this.natureArray.toString();
                     }
                 }
                 else if (element === 'fieldEggGroup') {
@@ -106,7 +93,7 @@ class PublicFieldsPage extends Page {
                 else if (element === 'fieldCustom') {
                     let tempIndex = customClass - 1;
                     this.customArray[tempIndex] = textElement;
-                    this.settings.searchSettings.fieldCustom = this.customArray.toString();
+                    this.settings.fieldCustom = this.customArray.toString();
                 }
             }
             return true;
@@ -121,10 +108,10 @@ class PublicFieldsPage extends Page {
         const theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldTypeSearch'> </div>`;
         const theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + GLOBALS.NATURE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
         const theEggGroup = `<div class='eggGroupNumber'> <select name="eggGroups" class="qolsetting" data-key="fieldEggGroup"> ` + GLOBALS.EGG_GROUP_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldEggGroup'> </div>`;
-        this.customArray = this.settings.searchSettings.fieldCustom.split(',');
-        this.typeArray = this.settings.searchSettings.fieldType.split(',');
-        this.natureArray = this.settings.searchSettings.fieldNature.split(',');
-        this.eggGroupArray = this.settings.searchSettings.fieldEggGroup.split(',');
+        this.customArray = this.settings.fieldCustom.split(',');
+        this.typeArray = this.settings.fieldType.split(',');
+        this.natureArray = this.settings.fieldNature.split(',');
+        this.eggGroupArray = this.settings.fieldEggGroup.split(',');
         Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
         Helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
         Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
@@ -226,7 +213,7 @@ class PublicFieldsPage extends Page {
         /////////////////////////////////////////////////
         //////////////////// sorting ////////////////////
         /////////////////////////////////////////////////
-        if (this.settings.sortSettings.fieldByBerry === true) { //sort field by berries
+        if (this.settings.fieldByBerry === true) { //sort field by berries
             $('.fieldmon').removeClass("qolSortMiddle");
             $('.field').removeClass("qolGridField");
             $('.fieldmon').removeClass("qolGridPokeSize");
@@ -251,7 +238,7 @@ class PublicFieldsPage extends Page {
                 $('#field_field [data-flavour*="bitter-"]').addClass("qolBitterBerry");
             }
         }
-        else if (this.settings.sortSettings.fieldByMiddle === true) { //sort field in the middle
+        else if (this.settings.fieldByMiddle === true) { //sort field in the middle
             $('#field_field [data-flavour*="any-"]').removeClass("qolAnyBerry");
             $('#field_field [data-flavour*="sour-"]').removeClass("qolSourBerry");
             $('#field_field [data-flavour*="spicy-"]').removeClass("qolSpicyBerry");
@@ -264,7 +251,7 @@ class PublicFieldsPage extends Page {
 
             $('.fieldmon').addClass("qolSortMiddle");
         }
-        else if (this.settings.sortSettings.fieldByGrid === true) { //sort field in a grid
+        else if (this.settings.fieldByGrid === true) { //sort field in a grid
             $('#field_field [data-flavour*="any-"]').removeClass("qolAnyBerry");
             $('#field_field [data-flavour*="sour-"]').removeClass("qolSourBerry");
             $('#field_field [data-flavour*="spicy-"]').removeClass("qolSpicyBerry");
@@ -291,9 +278,9 @@ class PublicFieldsPage extends Page {
         }
 
         //Pokémon click counter
-        if (this.settings.sortSettings.fieldClickCount === false) {
+        if (this.settings.fieldClickCount === false) {
             $('#pokemonclickcount').remove();
-        } else if (this.settings.sortSettings.fieldClickCount === true) {
+        } else if (this.settings.fieldClickCount === true) {
             let pokemonFed = $(".fieldmon").map(function() { return $(this).attr("data-fed"); }).get();
 
             let pokemonClicked = 0;
@@ -371,7 +358,7 @@ class PublicFieldsPage extends Page {
     }
     removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
         arr = $.grep(arr, function(value) { return value != key; });
-        this.settings.searchSettings[settingsKey] = arr.toString();
+        this.settings[settingsKey] = arr.toString();
 
         $(byebye).parent().remove();
 
@@ -392,7 +379,7 @@ class PublicFieldsPage extends Page {
         this.customArray = $.grep(this.customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
             return value != key;
         });
-        this.settings.searchSettings.fieldCustom = this.customArray.toString()
+        this.settings.fieldCustom = this.customArray.toString()
 
         this.saveSettings();
         $(byebye).parent().remove();
