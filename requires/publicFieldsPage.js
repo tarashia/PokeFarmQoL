@@ -1,6 +1,4 @@
 class PublicFieldsPage extends Page {
-    DEFAULT_SETTINGS() { return {
-    }}
     constructor() {
 	super('QoLPublicFields', {
 	      sortSettings : {

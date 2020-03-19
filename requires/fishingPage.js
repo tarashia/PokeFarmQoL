@@ -1,9 +1,6 @@
 class FishingPage extends Page {
-    SETTINGS_SAVE_KEY() { return 'QoLFishing' }
-    DEFAULT_SETTINGS() { return {} }
-
     constructor() {
-        this.settings = this.DEFAULT_SETTINGS();
+	super('QoLFishing', {})
 	// no observer
     }
     

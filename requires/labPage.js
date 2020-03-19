@@ -1,11 +1,9 @@
 class LabPage extends Page {
-    SETTINGS_SAVE_KEY() { return 'QoLLab'; }
-     DEFAULT_SETTINGS() { return {
-        findLabEgg: "",
-        findLabType: "",
-    }};
     constructor() {
-        this.settings = this.DEFAULT_SETTINGS();
+	super('QoLLab', {
+            findLabEgg: "",
+            findLabType: "",
+	})
         this.searchArray = [];
         this.listArray = [];
 	const obj = this;

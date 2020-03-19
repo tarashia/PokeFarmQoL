@@ -1,32 +1,29 @@
 class ShelterPage extends Page {
-    SETTINGS_SAVE_KEY() { return 'QoLShelter' }
-    DEFAULT_SETTINGS() { return {
-        findCustom: "",
-        findType: "",
-        findTypeEgg: true,
-        findTypePokemon: false,
-        findNewEgg: true,
-        NewEggDuplicate: "",
-        findNewPokemon: true,
-        findShiny: true,
-        findAlbino: true,
-        findMelanistic: true,
-        findPrehistoric: true,
-        findDelta: true,
-        findMega: true,
-        findStarter: true,
-        findCustomSprite: true,
-        findMale: true,
-        findFemale: true,
-        findNoGender: true,
-        customEgg: true,
-        customPokemon: true,
-        customPng: false,
-        shelterGrid: true,
-    }}
-
     constructor() {
-	this.settings = this.DEFAULT_SETTINGS();
+	super('QoLShelter', {
+            findCustom: "",
+            findType: "",
+            findTypeEgg: true,
+            findTypePokemon: false,
+            findNewEgg: true,
+            NewEggDuplicate: "",
+            findNewPokemon: true,
+            findShiny: true,
+            findAlbino: true,
+            findMelanistic: true,
+            findPrehistoric: true,
+            findDelta: true,
+            findMega: true,
+            findStarter: true,
+            findCustomSprite: true,
+            findMale: true,
+            findFemale: true,
+            findNoGender: true,
+            customEgg: true,
+            customPokemon: true,
+            customPng: false,
+            shelterGrid: true,
+	})
 	this.customArray = [];
 	this.typeArray = [];
 	this.eggNoDuplicateArray = [];

@@ -1,9 +1,6 @@
 class DaycarePage extends Page {
-    SETTINGS_SAVE_KEY() { return 'QoLDaycare' }
-    DEFAULT_SETTINGS() { return {} }
-    
     constructor() {
-        this.settings = this.DEFAULT_SETTINGS();
+	super('QoLDaycare', {})
 	const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {

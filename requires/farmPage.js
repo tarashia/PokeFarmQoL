@@ -28,7 +28,9 @@ class FarmPage extends Page {
     }
 
     constructor() {
-	this.settings = this.DEFAULT_SETTINGS();
+	super('QoLFarm', {})
+	this.defaultSettings = this.DEFAULT_SETTINGS();
+	this.settings = this.defaultSettings;
 	this.evolveListCache = "";
 	const obj = this
 	this.observer = new MutationObserver(function(mutations) {

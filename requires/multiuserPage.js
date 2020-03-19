@@ -1,13 +1,10 @@
 class MultiuserPage extends Page {
-    SETTINGS_SAVE_KEY() { return 'QoLMultiuser'; }
-    DEFAULT_SETTINGS() { return {
-        hideDislike : false,
-        hideAll : false,
-        niceTable : false,
-    }};
-    
     constructor() {
-        this.settings = this.DEFAULT_SETTINGS();
+	super('QoLMultiuser', {
+            hideDislike : false,
+            hideAll : false,
+            niceTable : false,
+	});
 	const obj = this
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
