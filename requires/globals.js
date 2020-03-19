@@ -4,7 +4,7 @@ const TEMPLATES = { // all the new/changed HTML for the userscript
     qolSettingsMenuHTML   : GM_getResourceText('QoLSettingsMenuHTML'),
     shelterSettingsHTML   : GM_getResourceText('shelterSettingsHTML'),
     massReleaseSelectHTML : `<label id="selectallfish"><input id="selectallfishcheckbox" type="checkbox">Select all</label><label id="movefishselectany"><input id="movefishdselectanycheckbox" type="checkbox">Select Any  </label><label id="movefishselectsour"><input id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefishselectspicy"><input id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefishselectdry"><input id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefishselectsweet"><input id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefishselectbitter"><input id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
-    fieldSortHTML         : GM_getResorceText('fieldSortHTML')
+    fieldSortHTML         : GM_getResourceText('fieldSortHTML'),
     fieldSearchHTML       : GM_getResourceText('fieldSearchHTML'),
     privateFieldSearchHTML: GM_getResourceText('privateFieldSearchHTML'),
     qolHubHTML            : GM_getResourceText('QolHubHTML'),
