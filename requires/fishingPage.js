@@ -4,13 +4,10 @@ class FishingPage extends Page {
 	// no observer
     }
     
-    settingsChange(element, textElement, customClass, typeClass) { /* empty */ }
     setupHTML() {
         // fishing select all button on caught fishing
         document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('beforeend', TEMPLATES.massReleaseSelectHTML);
     }
-    setupCSS() { /* empty */ }
-    setupObserver() { /* empty */ }
     setupHandlers() {
         $(document).on('mouseover', '#caughtfishcontainer', (function() { //select all feature
             this.releaseSelectAll();

@@ -11,18 +11,12 @@ class DaycarePage extends Page {
         });
     } // constructor
    
-    settingsChange(element, textElement, customClass, typeClass) {
-	/* empty */
-    }
-    setupHTML() { /* empty */ }
-    setupCSS() { /* empty */ }
     setupObserver() {
         this.observer.observe(document.querySelector('body'), {
             childList: true,
             subtree: true
         });
     }
-    setupHandlers() { /* empty */ }
     customSearch() {
         const button = document.querySelector('#pkmnadd')
 

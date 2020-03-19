@@ -39,7 +39,6 @@ class FarmPage extends Page {
             });
 	});
     }
-    settingsChange(element, textElement, customClass, typeClass) { /* empty */ }
     setupHTML() {
         $(document).ready(function() {
             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
@@ -49,7 +48,6 @@ class FarmPage extends Page {
             $('#farmnews-evolutions>p>label>input').addClass('qolquickevo')
         });
     }
-    setupCSS() { /* empty */ }
     setupObserver() {
         this.observer.observe(document.querySelector('#farmnews-evolutions'), {
             childList: true,
