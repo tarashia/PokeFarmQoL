@@ -1,87 +1,100 @@
 class PublicFieldsPage extends Page {
     constructor() {
-	super('QoLPublicFields', {
-	    fieldByBerry: false,
-	    fieldByMiddle: false,
-	    fieldByGrid: false,
-	    fieldClickCount: true,
-	    fieldCustom: "",
-	    fieldType: "",
-	    fieldNature: "",
-	    fieldEggGroup: "",
-	    fieldNewPokemon: true,
-	    fieldShiny: true,
-	    fieldAlbino: true,
-	    fieldMelanistic: true,
-	    fieldPrehistoric: true,
-	    fieldDelta: true,
-	    fieldMega: true,
-	    fieldStarter: true,
-	    fieldCustomSprite: true,
-	    fieldMale: true,
-	    fieldFemale: true,
-	    fieldNoGender: true,
-	    fieldCustomPokemon: true,
-	    fieldCustomPng: false,
-	    fieldItem: true,
-	    customItem: true,
-	}, 'fields/');
-	this.customArray = [];
-	this.typeArray = [];
-	this.natureArray = [];
-	this.eggGroupArray = [];
-	const obj = this
-	this.observer = new MutationObserver(function(mutations) {
+        super('QoLPublicFields', {
+            fieldByBerry: false,
+            fieldByMiddle: false,
+            fieldByGrid: false,
+            fieldClickCount: true,
+            fieldCustom: "",
+            fieldType: "",
+            fieldNature: "",
+            fieldEggGroup: "",
+            fieldNewPokemon: true,
+            fieldShiny: true,
+            fieldAlbino: true,
+            fieldMelanistic: true,
+            fieldPrehistoric: true,
+            fieldDelta: true,
+            fieldMega: true,
+            fieldStarter: true,
+            fieldCustomSprite: true,
+            fieldMale: true,
+            fieldFemale: true,
+            fieldNoGender: true,
+            fieldCustomPokemon: true,
+            fieldCustomPng: false,
+            fieldItem: true,
+            customItem: true,
+        }, 'fields/');
+        this.customArray = [];
+        this.typeArray = [];
+        this.natureArray = [];
+        this.eggGroupArray = [];
+        const obj = this
+        this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-		obj.customSearch();
+                obj.customSearch();
             });
-	});
+        });
     }
 
     settingsChange(element, textElement, customClass, typeClass, arrayName) {
-	if (JSON.stringify(this.settings).indexOf(element) >= 0) {
-	    if (typeof this.settings[element] === 'boolean') {
-		this.settings[element] = !this.settings[element]
+        if (JSON.stringify(this.settings).indexOf(element) >= 0) {
+            if (typeof this.settings[element] === 'boolean') {
+                this.settings[element] = !this.settings[element]
             } else if (typeof this.settings[element] === 'string') {
-		if (arrayName !== undefined && arrayName !== '') {
+                if (arrayName !== undefined && arrayName !== '') {
                     if (textElement === 'none') {
-			let tempIndex = typeClass - 1;
-			this[arrayName].splice(tempIndex, tempIndex);
-			this.settings[element] = this[arrayName].toString();
+                        let tempIndex = typeClass - 1;
+                        this[arrayName].splice(tempIndex, tempIndex);
+                        this.settings[element] = this[arrayName].toString();
                     } else {
-			let tempIndex = typeClass - 1;
-			this[arrayName][tempIndex] = textElement;
-			this.settings[element] = this[arrayName].toString();
+                        let tempIndex = typeClass - 1;
+                        this[arrayName][tempIndex] = textElement;
+                        this.settings[element] = this[arrayName].toString();
                     }
-		}
-		else {
+                }
+                else {
                     this.settings[element] = textElement;
-		}
+                }
             }
-	}
-	else { return false }
+        }
+        else { return false }
 
-	if (element === "fieldByBerry" && this.settings[element] === true) {
+        if (element === "fieldByBerry" && this.settings[element] === true) {
             this.settings.fieldByMiddle = false;
             this.settings.fieldByGrid = false;
-	} else if (element === "fieldByMiddle" && this.settings[element] === true) {
+        } else if (element === "fieldByMiddle" && this.settings[element] === true) {
             this.settings.fieldByBerry = false;
             this.settings.fieldByGrid = false;
-	} else if (element === "fieldByGrid" && this.settings[element] === true) {
+        } else if (element === "fieldByGrid" && this.settings[element] === true) {
             this.settings.fieldByBerry = false;
             this.settings.fieldByMiddle = false;
-	}
-	return true;
+        }
+        return true;
+    }
+
+    textSearchDiv(cls, data_key, id) {
+        return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${data_key}"/></label>` +
+            `<input type='button' value='Remove' id='${id}'></div>`;
+    }
+
+    selectSearchDiv(cls, name, data_key, options, id, divParent, array_name) {
+        return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}' ` +
+            `array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
     }
 
     setupHTML() {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldSortHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
 
-        const theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
-        const theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldTypeSearch'> </div>`;
-        const theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + GLOBALS.NATURE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldNature'> </div>`;
-        const theEggGroup = `<div class='eggGroupNumber'> <select name="eggGroups" class="qolsetting" data-key="fieldEggGroup"> ` + GLOBALS.EGG_GROUP_OPTIONS + ` </select> <input type='button' value='Remove' id='removeFieldEggGroup'> </div>`;
+        const theField = this.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
+        const theType = this.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+                                             'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
+        const theNature = this.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+                                               'removeFieldNature', 'natureTypes', 'natureArray')
+        const theEggGroup = this.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+                                                 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray')
         this.customArray = this.settings.fieldCustom.split(',');
         this.typeArray = this.settings.fieldType.split(',');
         this.natureArray = this.settings.fieldNature.split(',');
@@ -109,7 +122,7 @@ class PublicFieldsPage extends Page {
         });
     }
     setupHandlers() {
-	const obj = this
+        const obj = this
         $(window).on('load', (function() {
             obj.customSearch();
         }));
@@ -171,10 +184,10 @@ class PublicFieldsPage extends Page {
 
         $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-			       $(this).val(),
-			       $(this).parent().parent().attr('class'),
-			       $(this).parent().attr('class'),
-			       (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
+                               $(this).val(),
+                               $(this).parent().parent().attr('class'),
+                               $(this).parent().attr('class'),
+                               (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch();
             obj.saveSettings();
         }));
@@ -328,7 +341,7 @@ class PublicFieldsPage extends Page {
         } // end            
     } // customSearch
     addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
-        let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}' array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+        const theList = this.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
         let number = (`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(""+number+"");
@@ -347,7 +360,7 @@ class PublicFieldsPage extends Page {
         return arr;
     }
     fieldAddTextField() {
-        let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removeFieldSearch'></div>`;
+        const theField = this.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
