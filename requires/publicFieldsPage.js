@@ -131,7 +131,7 @@ class PublicFieldsPage extends Page {
         }));
 
         $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
-            obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes');
+            obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
             obj.customSearch();
         }));
 
@@ -142,7 +142,7 @@ class PublicFieldsPage extends Page {
         }));
 
         $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
-            obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes')
+            obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes', 'natureArray')
             obj.customSearch();
         }));
 
@@ -153,7 +153,7 @@ class PublicFieldsPage extends Page {
         }));
 
         $(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
-            obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes')
+            obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray')
             obj.customSearch();
         }));
 
@@ -170,8 +170,11 @@ class PublicFieldsPage extends Page {
         }));
 
         $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
-            obj.settingsChange(this.getAttribute('data-key'), $(this).val(),
-			       $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+            obj.settingsChange(this.getAttribute('data-key'),
+			       $(this).val(),
+			       $(this).parent().parent().attr('class'),
+			       $(this).parent().attr('class'),
+			       (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch();
             obj.saveSettings();
         }));
@@ -324,8 +327,8 @@ class PublicFieldsPage extends Page {
             }) // each
         } // end            
     } // customSearch
-    addSelectSearch(cls, name, data_key, options, id, divParent) {
-        let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+    addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
+        let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}' array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
         let number = (`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(""+number+"");
