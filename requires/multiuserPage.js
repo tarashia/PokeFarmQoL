@@ -13,24 +13,31 @@ class MultiuserPage extends Page {
         });
     }
     
-    settingsChange(element, textElement, customClass, typeClass) {
-        if (this.settings[element] === false ) {
-            this.settings[element] = true;
-            if (element === "hideAll") {
-                this.settings.hideDislike = false;
-                this.settings.niceTable = false;
-            } else if (element === "hideDislike") {
-                this.settings.hideAll = false;
-                this.settings.niceTable = false;
-            } else if (element === "niceTable") {
-                this.settings.hideDislike = false;
-                this.settings.hideAll = false;
-            }
-        } else if (this.settings[element] === true ) {
-            this.settings[element] = false;
-        } else if (typeof this.settings[element] === 'string') {
-            this.settings[element] = textElement;
-        }
+    settingsChange(element, textElement, customClass, typeClass, arrayName) {
+	if(super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
+	    return false;
+	}
+
+	const mutuallyExclusive = ["hideAll", "hideDislike", "hideTable"]
+	const idx = mutuallyExclsive.indexOf(element)
+	if(idx > -1) {
+	    // true -> false
+	    if(this.settings[element] === true) {
+		this.settings[element] = false;
+	    }
+	    // false -> true
+	    else {
+		for(let i = 0; i < mutuallyExclusive.length; i++) {
+		    if(i === idx) {
+			this.settings[mutuallyExclusive[i]] = true;
+		    } else {
+			this.settings[mutuallyExclusive[i]] = false;
+		    }
+		}
+	    }
+	    return true;
+	}
+	else { return false; }
     }
     setupHTML() {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', TEMPLATES.partyModHTML);
@@ -63,8 +70,10 @@ class MultiuserPage extends Page {
 
         $(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
-            obj.settingsChange(this.getAttribute('data-key'), $(this).val(),
-                               $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+            obj.settingsChange(this.getAttribute('data-key'),
+			       $(this).val(),
+                               $(this).parent().parent().attr('class'),
+			       $(this).parent().attr('class'));
             obj.partyModification();
             obj.saveSettings();
         }));

@@ -37,59 +37,16 @@ class PrivateFieldsPage extends Page {
 	    w.location.href.indexOf("fields/") == -1
     }
 
-    settingsChange(element, textElement, customClass, typeClass) {
-        if (typeof (this.settings[element]) === 'boolean') {
-            this.settings[element] = !this.settings[element];
-            return true;
-        } else if (typeof (this.settings[element]) === 'string') {
-            if (element === 'fieldType') {
-                if (textElement === 'none') {
-                    let tempIndex = typeClass - 1;
-                    this.typeArray.splice(tempIndex, tempIndex);
-                    this.settings.fieldType = this.typeArray.toString();
-                } else {
-                    let tempIndex = typeClass - 1;
-                    this.typeArray[tempIndex] = textElement;
-                    this.settings.fieldType = this.typeArray.toString();
-                }
-            }
-            else if (element === 'fieldNature') {
-                if (textElement === 'none') {
-                    let tempIndex = typeClass - 1;
-                    this.natureArray.splice(tempIndex, tempIndex);
-                    this.settings.fieldNature = this.natureArray.toString();
-                } else {
-                    let tempIndex = typeClass - 1;
-                    this.natureArray[tempIndex] = textElement;
-                    this.settings.fieldNature = this.natureArray.toString();
-                }
-            }
-            else if (element === 'fieldEggGroup') {
-                if (textElement === 'none') {
-                    let tempIndex = typeClass - 1;
-                    this.eggGroupArray.splice(tempIndex, tempIndex);
-                    this.settings.fieldEggGroup = this.eggGroupArray.toString();
-                } else {
-                    let tempIndex = typeClass - 1;
-                    this.eggGroupArray[tempIndex] = textElement;
-                    this.settings.fieldEggGroup = this.eggGroupArray.toString();
-                }
-            }
-            else if (element === 'fieldCustom') {
-                let tempIndex = customClass - 1;
-                this.customArray[tempIndex] = textElement;
-                this.settings.fieldCustom = this.customArray.toString();
-            }
-            return true;
-        }
-        else { return false; }
-    }
     setupHTML() {
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
-        const theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="fieldCustom"/></label><input type='button' value='Remove' id='removePrivateFieldSearch'></div>`;
-        const theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="fieldType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removePrivateFieldTypeSearch'> </div>`;
-        const theNature = `<div class='natureNumber'> <select name="natures" class="qolsetting" data-key="fieldNature"> ` + GLOBALS.NATURE_OPTIONS + ` </select> <input type='button' value='Remove' id='removePrivateFieldNature'> </div>`;
-        const theEggGroup = `<div class='eggGroupNumber'> <select name="eggGroups" class="qolsetting" data-key="fieldEggGroup"> ` + GLOBALS.EGG_GROUP_OPTIONS + ` </select> <input type='button' value='Remove' id='removePrivateFieldEggGroup'> </div>`;
+
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removePrivateFieldSearch')
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+                                             'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
+        const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+                                               'removePrivateFieldNature', 'natureTypes', 'natureArray')
+        const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+                                                 'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray')
         this.customArray = this.settings.fieldCustom.split(',');
         this.typeArray = this.settings.fieldType.split(',');
         this.natureArray = this.settings.fieldNature.split(',');
@@ -171,8 +128,11 @@ class PrivateFieldsPage extends Page {
         }));
 
         $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
-            obj.settingsChange(this.getAttribute('data-key'), $(this).val(),
-			       $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+            obj.settingsChange(this.getAttribute('data-key'),
+			       $(this).val(),
+			       $(this).parent().parent().attr('class'),
+			       $(this).parent().attr('class'),
+                               (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch();
             obj.saveSettings();
         }));

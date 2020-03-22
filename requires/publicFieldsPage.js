@@ -39,61 +39,42 @@ class PublicFieldsPage extends Page {
     }
 
     settingsChange(element, textElement, customClass, typeClass, arrayName) {
-        if (JSON.stringify(this.settings).indexOf(element) >= 0) {
-            if (typeof this.settings[element] === 'boolean') {
-                this.settings[element] = !this.settings[element]
-            } else if (typeof this.settings[element] === 'string') {
-                if (arrayName !== undefined && arrayName !== '') {
-                    if (textElement === 'none') {
-                        let tempIndex = typeClass - 1;
-                        this[arrayName].splice(tempIndex, tempIndex);
-                        this.settings[element] = this[arrayName].toString();
-                    } else {
-                        let tempIndex = typeClass - 1;
-                        this[arrayName][tempIndex] = textElement;
-                        this.settings[element] = this[arrayName].toString();
-                    }
-                }
-                else {
-                    this.settings[element] = textElement;
-                }
-            }
-        }
-        else { return false }
+	if(super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
+	    return false;
+	}
 
-        if (element === "fieldByBerry" && this.settings[element] === true) {
-            this.settings.fieldByMiddle = false;
-            this.settings.fieldByGrid = false;
-        } else if (element === "fieldByMiddle" && this.settings[element] === true) {
-            this.settings.fieldByBerry = false;
-            this.settings.fieldByGrid = false;
-        } else if (element === "fieldByGrid" && this.settings[element] === true) {
-            this.settings.fieldByBerry = false;
-            this.settings.fieldByMiddle = false;
-        }
-        return true;
-    }
-
-    textSearchDiv(cls, data_key, id) {
-        return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${data_key}"/></label>` +
-            `<input type='button' value='Remove' id='${id}'></div>`;
-    }
-
-    selectSearchDiv(cls, name, data_key, options, id, divParent, array_name) {
-        return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}' ` +
-            `array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+	const mutuallyExclusive = ["fieldByBerry", "fieldByMiddle", "fieldByGrid"]
+	const idx = mutuallyExclsive.indexOf(element)
+	if(idx > -1) {
+	    // true -> false
+	    if(this.settings[element] === true) {
+		this.settings[element] = false;
+	    }
+	    // false -> true
+	    else {
+		for(let i = 0; i < mutuallyExclusive.length; i++) {
+		    if(i === idx) {
+			this.settings[mutuallyExclusive[i]] = true;
+		    } else {
+			this.settings[mutuallyExclusive[i]] = false;
+		    }
+		}
+	    }
+	    return true;
+	}
+	else { return false; }
     }
 
     setupHTML() {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldSortHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
 
-        const theField = this.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
-        const theType = this.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
                                              'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-        const theNature = this.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+        const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
                                                'removeFieldNature', 'natureTypes', 'natureArray')
-        const theEggGroup = this.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+        const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
                                                  'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray')
         this.customArray = this.settings.fieldCustom.split(',');
         this.typeArray = this.settings.fieldType.split(',');
@@ -341,7 +322,7 @@ class PublicFieldsPage extends Page {
         } // end            
     } // customSearch
     addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
-        const theList = this.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
+        const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
         let number = (`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(""+number+"");
@@ -360,7 +341,7 @@ class PublicFieldsPage extends Page {
         return arr;
     }
     fieldAddTextField() {
-        const theField = this.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");

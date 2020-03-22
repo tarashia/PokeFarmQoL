@@ -34,33 +34,7 @@ class ShelterPage extends Page {
             });
 	});
     }
-    settingsChange(element, textElement, customClass, typeClass) {
-        if(JSON.stringify(this.settings).indexOf(element) >= 0) {
-            if (this.settings[element] === false ) {
-                this.settings[element] = true;
-            } else if (this.settings[element] === true ) {
-                this.settings[element] = false;
-            } else if (typeof this.settings[element] === 'string') {
-                if (element === 'findType') {
-                    if (textElement === 'none') {
-                        let tempIndex = typeClass - 1;
-                        this.typeArray.splice(tempIndex, tempIndex);
-                        this.settings.findType = this.typeArray.toString();
-                    } else {
-                        let tempIndex = typeClass - 1;
-                        this.typeArray[tempIndex] = textElement;
-                        this.settings.findType = this.typeArray.toString();
-                    }
-                }
-                if (element === 'findCustom') {
-                    let tempIndex = customClass - 1;
-                    this.customArray[tempIndex] = textElement;
-                    this.settings.findCustom = this.customArray.toString();
-                }
-            }
-            return true;
-        } else { return false; }
-    }
+
     setupHTML() {
         $('.tabbed_interface.horizontal>div').removeClass('tab-active');
         $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
@@ -72,27 +46,12 @@ class ShelterPage extends Page {
 
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
-        let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findCustom"/></label><input type='button' value='Remove' id='removeShelterTextfield'></div>`;
-        this.customArray = this.settings.findCustom.split(',');
-        let numberOfValue = this.customArray.length;
+        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield')
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+                                             'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
-        for (let i = 0; i < numberOfValue; i++) {
-            let rightDiv = i + 1;
-            let rightValue = this.customArray[i];
-            $('#searchkeys').append(theField);
-            $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-        }
-
-        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`;
-        this.typeArray = this.settings.findType.split(',');
-        let numberOfType = this.typeArray.length;
-
-        for (let o = 0; o < numberOfType; o++) {
-            let rightDiv = o + 1;
-            let rightValue = this.typeArray[o];
-            $('#shelterTypes').append(theType);
-            $('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-        }
+	Helpers.setupFieldArrayHTML(this.customARray, 'searchkeys', theField, 'numberDiv')
+	Helpers.setupFieldArrayHTML(this.typeArray, 'shelterTypes', theType, 'typeNumber')
 
         $('[data-shelter=reload]').addClass('customSearchOnClick');
         $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
@@ -122,8 +81,11 @@ class ShelterPage extends Page {
         }));
 
         $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
-            obj.settingsChange(this.getAttribute('data-key'), $(this).val(),
-			       $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+            obj.settingsChange(this.getAttribute('data-key'),
+			       $(this).val(),
+			       $(this).parent().parent().attr('class'),
+			       $(this).parent().attr('class'),
+			       (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch();
             obj.saveSettings();
         }));
