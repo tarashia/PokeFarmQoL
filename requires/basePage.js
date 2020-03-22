@@ -51,8 +51,29 @@ class Page {
         }
     }
 
-    settingsChange(element, textElement, customClass, typeClass) {
-	/* empty */
+    settingsChange(element, textElement, customClass, typeClass, arrayName) {
+        if (JSON.stringify(this.settings).indexOf(element) >= 0) {
+            if (typeof this.settings[element] === 'boolean') {
+                this.settings[element] = !this.settings[element]
+            } else if (typeof this.settings[element] === 'string') {
+                if (arrayName !== undefined && arrayName !== '') {
+                    if (textElement === 'none') {
+                        let tempIndex = typeClass - 1;
+                        this[arrayName].splice(tempIndex, tempIndex);
+                        this.settings[element] = this[arrayName].toString();
+                    } else {
+                        let tempIndex = typeClass - 1;
+                        this[arrayName][tempIndex] = textElement;
+                        this.settings[element] = this[arrayName].toString();
+                    }
+                }
+                else {
+                    this.settings[element] = textElement;
+                }
+            }
+	    return true;
+        }
+        else { return false }
     }
 
     setupHTML() { /* empty */ }
