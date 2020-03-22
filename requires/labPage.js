@@ -14,52 +14,19 @@ class LabPage extends Page {
         });
     }
     
-    settingsChange(element, textElement, customClass, typeClass) {
-        if (element === 'findLabEgg') {
-            let tempIndex = customClass - 1;
-            this.searchArray[tempIndex] = textElement;
-            this.settings.findLabEgg = this.searchArray.toString();
-            return true;
-        }
-        else if(element === 'findLabType') {
-            if (textElement === 'none') {
-                let tempIndex = typeClass - 1;
-                this.listArray.splice(tempIndex, tempIndex);
-                this.settings.findLabType = this.listArray.toString();
-            } else {
-                let tempIndex = typeClass - 1;
-                this.listArray[tempIndex] = textElement;
-                this.settings.findLabType = this.listArray.toString();
-            }
-            return true;
-        }
-        else { return false; }
-    }
     setupHTML() {
         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', TEMPLATES.labOptionsHTML);
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
 
-        let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findLabEgg"/></label><input type='button' value='Remove' id='removeLabSearch'></div>`;
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch')
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+                                             'removeLabTypeList', 'labTypes', 'listArray');
+
         this.searchArray = this.settings.findLabEgg.split(',');
-        let numberOfValue = this.searchArray.length;
-
-        for (let i = 0; i < numberOfValue; i++) {
-            let rightDiv = i + 1;
-            let rightValue = this.searchArray[i];
-            $('#searchkeys').append(theField);
-            $('.numberDiv').removeClass('numberDiv').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-        }
-
-        let theType = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findLabType"> ` + GLOBALS.TYPE_OPTIONS + ` </select> <input type='button' value='Remove' id='removeLabTypeList'> </div>`;
         this.listArray = this.settings.findLabType.split(',');
-        let numberOfType = this.listArray.length;
 
-        for (let o = 0; o < numberOfType; o++) {
-            let rightDiv = o + 1;
-            let rightValue = this.listArray[o];
-            $('#labTypes').append(theType);
-            $('.typeNumber').removeClass('typeNumber').addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-        }
+	Helpers.setupFieldArrayHTML(this.searchArray, 'searchkeys', theField, 'numberDiv')
+	Helpers.setupFieldArrayHTML(this.listArray, 'labTypes', theType, 'typeNumber')
     }
     setupCSS() {
         //lab css
@@ -103,7 +70,11 @@ class LabPage extends Page {
         }));
 
         $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
-            obj.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
+            obj.settingsChange(this.getAttribute('data-key'),
+			       $(this).val(),
+			       $(this).parent().parent().attr('class'),
+			       $(this).parent().attr('class'),
+                               (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch();
             obj.saveSettings();
         }));
