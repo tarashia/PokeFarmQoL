@@ -84,7 +84,7 @@ class LabPage extends Page {
         }));
     }
     addTextField() {
-        let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findLabEgg"/></label><input type='button' value='Remove' id='removeLabSearch'></div>`;
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch')
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
@@ -104,9 +104,10 @@ class LabPage extends Page {
         }
     }
     addTypeList() {
-        let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findLabType"> ` + GLOBALS.TYPE_OPTIONS + `</select> <input type='button' value='Remove' id='removeLabTypeList'> </div>`;
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+                                             'removeLabTypeList', 'labTypes', 'listArray');	
         let numberTypes = $('#labTypes>div').length;
-        $('#labTypes').append(theList);
+        $('#labTypes').append(theType);
         $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
     }
     removeTypeList(byebye, key) {
