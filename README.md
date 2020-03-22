@@ -13,6 +13,7 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~**Multiuser Page** - Party Mods don't work~~
 - ~~**Farm Page** - Sorting by new dex entry doesn't work~~
 - ~~**Public Fields** - Searching other player's fields doesn't work~~
+- **Public/Private Field** - When reloading page with no types, the page will reload with 15 empty type boxes
 
 # Open Suggestions
 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
