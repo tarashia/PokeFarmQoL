@@ -48,7 +48,6 @@ let Helpers = (function Helpers() {
             if (localStorage.getItem(KEY) === null) {
                 API.saveSettings(KEY);
             } else {
-                // console.log(localStorage.getItem(KEY))
                 try {
                     let countScriptSettings = Object.keys(obj).length
                     let localStorageString = JSON.parse(localStorage.getItem(KEY));
@@ -76,11 +75,19 @@ let Helpers = (function Helpers() {
             return obj;
         },
         saveSettings(KEY, obj) {
-            //                 console.log('Helpers.saveSettings')
-            //                 console.log(KEY)
-            //                 console.log(obj)
             localStorage.setItem(KEY, JSON.stringify(obj));
         },
+
+	textSearchDiv(cls, data_key, id) {
+            return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${data_key}"/></label>` +
+		`<input type='button' value='Remove' id='${id}'></div>`;
+	},
+	
+	selectSearchDiv(cls, name, data_key, options, id, divParent, array_name) {
+            return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}' ` +
+		`array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+	},
+	
     };
 
     return API;
