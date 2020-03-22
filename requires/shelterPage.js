@@ -35,7 +35,7 @@ class ShelterPage extends Page {
 	});
     }
     settingsChange(element, textElement, customClass, typeClass) {
-        if(JSON.stringify(this.settings).indexOf(element) >= 0) { // shelter settings
+        if(JSON.stringify(this.settings).indexOf(element) >= 0) {
             if (this.settings[element] === false ) {
                 this.settings[element] = true;
             } else if (this.settings[element] === true ) {
