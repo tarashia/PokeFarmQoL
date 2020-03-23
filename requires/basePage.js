@@ -3,21 +3,21 @@ class Page {
     DEFAULT_SETTINGS() { return this.defaultSettings }
 
     constructor(ssk, ds, url) {
-	this.settingsSaveKey = ssk;
-	this.defaultSettings = ds;
-	this.url = url
-	this.settings = this.defaultSettings;
+        this.settingsSaveKey = ssk;
+        this.defaultSettings = ds;
+        this.url = url
+        this.settings = this.defaultSettings;
     }
 
     onPage(w) {
-	return w.location.href.indexOf(this.url) != -1
+        return w.location.href.indexOf(this.url) != -1
     }
 
     loadSettings() {
         this.settings =
-	    Helpers.loadSettings(this.settingsSaveKey,
-				 this.defaultSettings,
-				 this.settings);
+            Helpers.loadSettings(this.settingsSaveKey,
+                                 this.defaultSettings,
+                                 this.settings);
     }
 
     saveSettings() {
@@ -29,23 +29,23 @@ class Page {
     }
     
     populateSettings(obj) {
-	if(obj === undefined) {
-	    obj = this.settings
-	}
+        if(obj === undefined) {
+            obj = this.settings
+        }
         for (let key in obj) {
             if (!obj.hasOwnProperty(key)) {
                 continue;
             }
             let value = obj[key];
-	    if (typeof value === 'object') {
-		this.populateSettings(obj[key])
-	    }
+            if (typeof value === 'object') {
+                this.populateSettings(obj[key])
+            }
             else if (typeof value === 'boolean') {
                 Helpers.toggleSetting(key, value, false);
                 continue;
             }
-	    else if (typeof value === 'string') {
-		Helpers.toggleSetting(key, value, false);
+            else if (typeof value === 'string') {
+                Helpers.toggleSetting(key, value, false);
                 continue;
             }
         }
@@ -62,7 +62,12 @@ class Page {
                         this[arrayName].splice(tempIndex, tempIndex);
                         this.settings[element] = this[arrayName].toString();
                     } else {
-                        let tempIndex = typeClass - 1;
+                        let tempIndex = -1;
+                        if(typeClass !== undefined) {
+                            tempIndex = typeClass - 1 // select array
+                        } else if(customClass !== undefined) {
+                            tempIndex = customClass - 1 // textfield array
+                        }
                         this[arrayName][tempIndex] = textElement;
                         this.settings[element] = this[arrayName].toString();
                     }
@@ -71,7 +76,7 @@ class Page {
                     this.settings[element] = textElement;
                 }
             }
-	    return true;
+            return true;
         }
         else { return false }
     }

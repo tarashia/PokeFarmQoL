@@ -84,14 +84,14 @@ class LabPage extends Page {
         }));
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch')
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray')
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
     }
     removeTextField(byebye, key) {
         // when textfield is removed, the value will be deleted from the localstorage
-        thisx.searchArray = $.grep(this.searchArray, function(value) {
+        this.searchArray = $.grep(this.searchArray, function(value) {
             return value != key;
         });
         this.settings.findCustom = this.searchArray.toString()
