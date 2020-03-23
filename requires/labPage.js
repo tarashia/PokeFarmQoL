@@ -18,7 +18,7 @@ class LabPage extends Page {
         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', TEMPLATES.labOptionsHTML);
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch')
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray')
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
                                              'removeLabTypeList', 'labTypes', 'listArray');
 

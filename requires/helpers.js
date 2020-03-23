@@ -78,9 +78,10 @@ let Helpers = (function Helpers() {
             localStorage.setItem(KEY, JSON.stringify(obj));
         },
 
-	textSearchDiv(cls, data_key, id) {
-            return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${data_key}"/></label>` +
-		`<input type='button' value='Remove' id='${id}'></div>`;
+	textSearchDiv(cls, data_key, id, array_name) {
+            return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${data_key}" ` +
+		((array_name !== undefined) ? `array-name='${array_name}'` : ``) +
+		`/></label><input type='button' value='Remove' id='${id}'></div>`;
 	},
 	
 	selectSearchDiv(cls, name, data_key, options, id, divParent, array_name) {
