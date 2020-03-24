@@ -40,7 +40,7 @@ class PrivateFieldsPage extends Page {
     setupHTML() {
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removePrivateFieldSearch')
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removePrivateFieldSearch', 'customArray')
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
                                              'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
         const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
@@ -89,7 +89,7 @@ class PrivateFieldsPage extends Page {
         }));
 
         $(document).on('click', '#addPrivateFieldTypeSearch', (function() { //add field type list
-            obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes');
+            obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
             obj.customSearch();
         }));
 
@@ -100,7 +100,7 @@ class PrivateFieldsPage extends Page {
         }));
 
         $(document).on('click', '#addPrivateFieldNatureSearch', (function() { //add field nature search
-            obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes')
+            obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes', 'natureArray')
             obj.customSearch();
         }));
 
@@ -111,7 +111,7 @@ class PrivateFieldsPage extends Page {
         }));
 
         $(document).on('click', '#addPrivateFieldEggGroupSearch', (function() { //add egg group nature search
-            obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroupSearch', 'eggGroupTypes')
+            obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroupSearch', 'eggGroupTypes', 'eggGroupArray')
             obj.customSearch();
         }));
 
@@ -192,8 +192,8 @@ class PrivateFieldsPage extends Page {
             }) // each
         } // end
     }
-    addSelectSearch(cls, name, data_key, options, id, divParent) {
-        let theList = `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+    addSelectSearch(cls, name, data_key, options, id, divParent, arrayName) {
+	const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, arrayName)
         let number = (`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(""+number+"");
