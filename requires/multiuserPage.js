@@ -1,11 +1,11 @@
 class MultiuserPage extends Page {
     constructor() {
-	super('QoLMultiuser', {
+        super('QoLMultiuser', {
             hideDislike : false,
             hideAll : false,
             niceTable : false,
-	}, 'users/');
-	const obj = this
+        }, 'users/');
+        const obj = this
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 obj.partyModification();
@@ -14,30 +14,21 @@ class MultiuserPage extends Page {
     }
     
     settingsChange(element, textElement, customClass, typeClass, arrayName) {
-	if(super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
-	    return false;
-	}
+        if(super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
+            return false;
+        }
 
-	const mutuallyExclusive = ["hideAll", "hideDislike", "hideTable"]
-	const idx = mutuallyExclsive.indexOf(element)
-	if(idx > -1) {
-	    // true -> false
-	    if(this.settings[element] === true) {
-		this.settings[element] = false;
-	    }
-	    // false -> true
-	    else {
-		for(let i = 0; i < mutuallyExclusive.length; i++) {
-		    if(i === idx) {
-			this.settings[mutuallyExclusive[i]] = true;
-		    } else {
-			this.settings[mutuallyExclusive[i]] = false;
-		    }
-		}
-	    }
-	    return true;
-	}
-	else { return false; }
+        const mutuallyExclusive = ["hideAll", "hideDislike", "niceTable"]
+        const idx = mutuallyExclusive.indexOf(element)
+        if(idx > -1) {
+            for(let i = 0; i < mutuallyExclusive.length; i++) {
+                if(i !== idx) {
+                    this.settings[mutuallyExclusive[i]] = false;
+                }
+            }
+            return true;
+        }
+        else { return false; }
     }
     setupHTML() {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', TEMPLATES.partyModHTML);
@@ -54,7 +45,7 @@ class MultiuserPage extends Page {
         });
     }
     setupHandlers() {
-	const obj = this
+        const obj = this
         $(window).on('load', (function() {
             obj.loadSettings();
             obj.partyModification();
@@ -71,9 +62,9 @@ class MultiuserPage extends Page {
         $(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
             obj.settingsChange(this.getAttribute('data-key'),
-			       $(this).val(),
+                               $(this).val(),
                                $(this).parent().parent().attr('class'),
-			       $(this).parent().attr('class'));
+                               $(this).parent().attr('class'));
             obj.partyModification();
             obj.saveSettings();
         }));
