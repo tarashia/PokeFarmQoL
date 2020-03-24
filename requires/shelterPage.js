@@ -1,6 +1,6 @@
 class ShelterPage extends Page {
     constructor() {
-	super('QoLShelter', {
+        super('QoLShelter', {
             findCustom: "",
             findType: "",
             findTypeEgg: true,
@@ -23,16 +23,16 @@ class ShelterPage extends Page {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
-	}, '/shelter')
-	this.customArray = [];
-	this.typeArray = [];
-	this.eggNoDuplicateArray = [];
-	const obj = this
-	this.observer = new MutationObserver(function(mutations) {
+        }, '/shelter')
+        this.customArray = [];
+        this.typeArray = [];
+        this.eggNoDuplicateArray = [];
+        const obj = this
+        this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-		obj.customSearch();
+                obj.customSearch();
             });
-	});
+        });
     }
 
     setupHTML() {
@@ -50,8 +50,11 @@ class ShelterPage extends Page {
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
                                              'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
-	Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv')
-	Helpers.setupFieldArrayHTML(this.typeArray, 'shelterTypes', theType, 'typeNumber')
+        this.customArray = this.settings.findCustom.split(',');
+        this.typeArray = this.settings.findType.split(',');
+
+        Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv')
+        Helpers.setupFieldArrayHTML(this.typeArray, 'shelterTypes', theType, 'typeNumber')
 
         $('[data-shelter=reload]').addClass('customSearchOnClick');
         $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
@@ -67,7 +70,7 @@ class ShelterPage extends Page {
         });
     }
     setupHandlers() {
-	const obj = this
+        const obj = this
         $(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
             obj.loadSettings();
             obj.customSearch();
@@ -82,10 +85,10 @@ class ShelterPage extends Page {
 
         $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-			       $(this).val(),
-			       $(this).parent().parent().attr('class'),
-			       $(this).parent().attr('class'),
-			       (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
+                               $(this).val(),
+                               $(this).parent().parent().attr('class'),
+                               $(this).parent().attr('class'),
+                               (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch();
             obj.saveSettings();
         }));
@@ -104,6 +107,7 @@ class ShelterPage extends Page {
 
         $(document).on('click', '#addShelterTextfield', (function() { //add shelter text field
             obj.addTextField();
+            obj.saveSettings();
         }));
 
         $(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
@@ -114,7 +118,7 @@ class ShelterPage extends Page {
 
         $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
             obj.addTypeList();
-	    obj.customSearch();
+            obj.customSearch();
         }));
 
         $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
@@ -124,7 +128,7 @@ class ShelterPage extends Page {
         }));
     }
     addTextField() {
-	const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray')
+        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray')
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
@@ -144,7 +148,7 @@ class ShelterPage extends Page {
         }
     }
     addTypeList() {
-	const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+        const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
                                              'removeShelterTypeList', 'fieldTypes', 'typeArray');
         let numberTypes = $('#shelterTypes>div').length;
         $('#shelterTypes').append(theList);
