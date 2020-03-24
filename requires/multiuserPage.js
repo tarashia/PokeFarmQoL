@@ -248,4 +248,3 @@ class MultiuserPage extends Page {
 }
     
 const multiuserPage = new MultiuserPage();
-
