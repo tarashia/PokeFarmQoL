@@ -19,6 +19,8 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
 - **Private Field** - Highlight pokemon that are ready to evolve (not by item)
 - **Private Field** - Highlight pokemon that are ready to evolve (by item)
+- **Private Field** - Highlight Pokemon based on how fully evolved they are
+- **All** - Add "at a glance" party reminder in the timers bar
 - **Pokedex** - Search for dual type pokemon
 
 # Past Suggestions/Issues
