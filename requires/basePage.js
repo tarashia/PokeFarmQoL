@@ -42,11 +42,10 @@ class Page {
             }
             else if (typeof value === 'boolean') {
                 Helpers.toggleSetting(key, value, false);
-                continue;
             }
             else if (typeof value === 'string') {
-                Helpers.toggleSetting(key, value, false);
-                continue;
+                console.log("TODO - split and populate")
+                // Helpers.toggleSetting(key, value, false);
             }
         }
     }
