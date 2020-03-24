@@ -183,7 +183,7 @@
                         let pg = PAGES[key]
                         if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].setupHTML();
-                            fn.backwork.populateSettingsPage(pg[PAGE_OBJ_INDEX].getSettings());
+                            fn.backwork.populateSettingsPage()
                         }
                     }
                 },
@@ -230,6 +230,7 @@
                         'loading Settings'    : fn.backwork.loadSettings,
                         'checking for update' : fn.backwork.checkForUpdate,
                         'setting up HTML'     : fn.backwork.setupHTML,
+			'populating Settings' : fn.backwork.populateSettingsPage,
                         'setting up CSS'      : fn.backwork.setupCSS,
                         'setting up Observers': fn.backwork.setupObservers,
                         'setting up Handlers' : fn.backwork.setupHandlers,
