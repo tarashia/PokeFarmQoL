@@ -192,9 +192,9 @@ class PrivateFieldsPage extends Page {
             }) // each
         } // end
     }
-    addSelectSearch(cls, name, data_key, options, id, divParent, arrayName) {
-	const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, arrayName)
-        let number = (`#${divParent}>div`).length;
+    addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
+	const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
+        let number = $(`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(""+number+"");
     }
