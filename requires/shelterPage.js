@@ -46,11 +46,11 @@ class ShelterPage extends Page {
 
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield')
+        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray')
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
                                              'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
-	Helpers.setupFieldArrayHTML(this.customARray, 'searchkeys', theField, 'numberDiv')
+	Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv')
 	Helpers.setupFieldArrayHTML(this.typeArray, 'shelterTypes', theType, 'typeNumber')
 
         $('[data-shelter=reload]').addClass('customSearchOnClick');
@@ -124,7 +124,7 @@ class ShelterPage extends Page {
         }));
     }
     addTextField() {
-        let theField = `<div class='numberDiv'><label><input type="text" class="qolsetting" data-key="findCustom"/></label><input type='button' value='Remove' id='removeShelterTextfield'></div>`;
+	const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray')
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
@@ -144,7 +144,8 @@ class ShelterPage extends Page {
         }
     }
     addTypeList() {
-        let theList = `<div class='typeNumber'> <select name="types" class="qolsetting" data-key="findType"> ` + GLOBALS.TYPE_OPTIONS + `</select> <input type='button' value='Remove' id='removeShelterTypeList'> </div>`;
+	const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+                                             'removeShelterTypeList', 'fieldTypes', 'typeArray');
         let numberTypes = $('#shelterTypes>div').length;
         $('#shelterTypes').append(theList);
         $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
