@@ -44,24 +44,15 @@ class PublicFieldsPage extends Page {
 	}
 
 	const mutuallyExclusive = ["fieldByBerry", "fieldByMiddle", "fieldByGrid"]
-	const idx = mutuallyExclsive.indexOf(element)
-	if(idx > -1) {
-	    // true -> false
-	    if(this.settings[element] === true) {
-		this.settings[element] = false;
-	    }
-	    // false -> true
-	    else {
-		for(let i = 0; i < mutuallyExclusive.length; i++) {
-		    if(i === idx) {
-			this.settings[mutuallyExclusive[i]] = true;
-		    } else {
-			this.settings[mutuallyExclusive[i]] = false;
-		    }
-		}
-	    }
-	    return true;
-	}
+        const idx = mutuallyExclusive.indexOf(element)
+        if(idx > -1) {
+            for(let i = 0; i < mutuallyExclusive.length; i++) {
+                if(i !== idx) {
+                    this.settings[mutuallyExclusive[i]] = false;
+                }
+            }
+            return true;
+        }
 	else { return false; }
     }
 
@@ -323,7 +314,7 @@ class PublicFieldsPage extends Page {
     } // customSearch
     addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
         const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
-        let number = (`#${divParent}>div`).length;
+        let number = $(`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(""+number+"");
     }
