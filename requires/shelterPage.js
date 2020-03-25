@@ -168,7 +168,22 @@ class ShelterPage extends Page {
             $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
     }
+    insertShelterFoundDiv(number, name, img) {
+        document.querySelector('#sheltersuccess').
+            insertAdjacentHTML('beforeend',
+                               '<div id="shelterfound">' + name + ((number > 1) ? 's' : '') + ' found ' + img + '</div>')
+    }
+    insertShelterTypeFoundDiv(number, type, stage, names) {
+        document.querySelector('#sheltersuccess').
+            insertAdjacentHTML('beforeend',
+                               '<div id="shelterfound">' + number + ' ' + type + ' ' + stage +
+                               ((number > 1) ? 'types' : 'type') + 'found! (' +
+                               names.toString() + ')</div>')
+    }
+    
     customSearch() {
+        const obj = this;
+        
         let dexData = GLOBALS.DEX_DATA;
         // search whatever you want to find in the shelter & grid
         let lengthEggs = 0;
@@ -213,38 +228,32 @@ class ShelterPage extends Page {
             if (value.startsWith('[')) {
                 if ($('img[title*="'+value+'"]').length) {
                     let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1]; //type of Pokémon found
-                    let imgResult = $("img[title*='"+value+"']").length+" "+searchResult; //amount + type found
+                    let selected = $("img[title*='"+value+"']")
+                    let imgResult = selected.length+" "+searchResult; //amount + type found
                     let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2]; //image for type of Pokémon
                     let shelterImgSearch = $('img[title*="'+value+'"]');
                     let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
                     $(shelterBigImg).addClass('shelterfoundme');
 
-                    if ($("img[title*='"+value+"']").length > 1) {
-                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+imgResult+'s found '+imgFitResult+'</div>');
-                    } else {
-                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+imgResult+' found '+imgFitResult+'</div>');
-                    }
+                    this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult)
                 }
             }
             //new Pokémon search.
-            if (value === 'Pokémon') {
+            else if (value === 'Pokémon') {
                 if ($("#shelterarea .tooltip_content:contains("+value+")").length) {
                     let searchResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 1];
-                    let tooltipResult = $("#shelterarea .tooltip_content:contains("+value+")").length+" "+searchResult;
+                    let selected = $("#shelterarea .tooltip_content:contains("+value+")")
+                    let tooltipResult = selected.length+" "+searchResult;
                     let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
-                    let shelterImgSearch = $("#shelterarea .tooltip_content:contains("+value+")")
+                    let shelterImgSearch = selected
                     let shelterBigImg = shelterImgSearch.prev().children('img.big');
                     $(shelterBigImg).addClass('shelterfoundme');
 
-                    if ($("#shelterarea .tooltip_content:contains("+value+")").length > 1) {
-                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-                    } else {
-                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-                    }
+                    this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult)
                 }
             }
             //new egg search.
-            if (value === "Egg") { //tooltip_content search. new egg.
+            else if (value === "Egg") { //tooltip_content search. new egg.
                 if ($("#shelterarea .tooltip_content:contains("+value+")").length) {
                     this.eggNoDuplicateArray = this.settings.NewEggDuplicate.split(',');
                     this.eggNoDuplicateArray = this.eggNoDuplicateArray.filter(v=>v!='');
@@ -267,9 +276,7 @@ class ShelterPage extends Page {
                     let newEggResult = newEggFinds+" "+searchResult;
                     let imgFitResult = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
 
-                    if (newEggFinds <1) {
-                        let thisDoesNothing = 0;
-                    } else {
+                    if (newEggFinds >= 1) {
                         let shelterImgSearch = $("#shelterarea .tooltip_content:contains("+value+")");
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
                         $(shelterBigImg).addClass('shelterfoundme');
@@ -277,11 +284,7 @@ class ShelterPage extends Page {
                         let shelterBigImgRemove = shelterImgRemove.prev().children('img.big');
                         $(shelterBigImgRemove).removeClass('shelterfoundme');
 
-                        if (newEggFinds > 1) {
-                            document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+newEggResult+'s found '+imgFitResult+'</div>');
-                        } else if (newEggFinds === 1) {
-                            document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+newEggResult+' found '+imgFitResult+'</div>');
-                        }
+                        this.insertShelterFoundDiv(newEggFinds.length, newEggResult, imgFitResult)
                     }
                 }
             }
@@ -316,119 +319,74 @@ class ShelterPage extends Page {
 
         //loop to find all the custom search parameters
         let customSearchAmount = this.customArray.length;
+        const heartPng = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
+        const eggPng = `<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">`;
         for (let i = 0; i < customSearchAmount; i++) {
             let value = this.customArray[i];
             if (value != "") {
                 //custom pokemon search
                 if (this.settings.customPokemon === true) {
-                    //Males
+                    let genderMatch = undefined;
                     if (shelterValueArrayCustom.indexOf("[M]") > -1) {
-                        if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']").length) {
+                        genderMatch = "[M]"
+                    } else if(shelterValueArrayCustom.indexOf("[F]") > -1) {
+                        genderMatch = "[F]"
+                    } else if(shelterValueArrayCustom.indexOf("[N]") > -1) {
+                        genderMatch = "[N]"
+                    }
+
+                    if(genderMatch !== undefined) {
+                        let selected = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
+                        if (selected.length) {
                             let searchResult = value;
-                            let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[M]") +2];
-                            let tooltipResult = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']").length+" Male "+imgGender+" "+searchResult;
-                            let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-                            let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']")
+                            let genderName = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
+                            let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
+                            let tooltipResult = selected.length + genderName + imgGender + " " + searchResult;
+                            let shelterImgSearch = selected
                             let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
                             $(shelterBigImg).addClass('shelterfoundme');
 
-                            if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[M]']").length > 1) {
-                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-                            } else {
-                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-                            }
+                            this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng)
                         }
                     }
-                    //Females
-                    if (shelterValueArrayCustom.indexOf("[F]") > -1) {
-                        if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']").length) {
-                            let searchResult = value;
-                            let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[F]") +2];
-                            let tooltipResult = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']").length+" Female "+imgGender+" "+searchResult;
-                            let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-                            let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']")
-                            let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
-                            $(shelterBigImg).addClass('shelterfoundme');
 
-                            if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[F]']").length > 1) {
-                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-                            } else {
-                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-                            }
-                        }
-                    }
-                    //Genderless
-                    if (shelterValueArrayCustom.indexOf("[N]") > -1) {
-                        if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length) {
-                            let searchResult = value;
-                            let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf("[N]") +2];
-                            let tooltipResult = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length+" Genderless "+imgGender+" "+searchResult;
-                            let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-                            let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']")
-                            let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
-                            $(shelterBigImg).addClass('shelterfoundme');
-
-                            if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length > 1) {
-                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-                            } else {
-                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-                            }
-                        }
-                    }
                     //No genders
-                    if (shelterValueArrayCustom.length === 0) {
-                        if ($('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))').length) {
+                    else if (shelterValueArrayCustom.length === 0) {
+                        let selected = $('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
+                        if (selected.length) {
                             let searchResult = value;
-                            let tooltipResult = $('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))').length+" "+searchResult;
-                            let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-                            let shelterImgSearch = $('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
+                            let tooltipResult = selected.length + " " + searchResult;
+                            let shelterImgSearch = selected
                             let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
                             $(shelterBigImg).addClass('shelterfoundme');
-
-                            if ($("#shelterarea .tooltip_content:containsIN("+value+") img[title*='[N]']").length > 1) {
-                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+'s found '+imgFitResult+'</div>');
-                            } else {
-                                document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-                            }
+                            this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng)
                         }
                     }
                 }
 
                 //custom egg
                 if (this.settings.customEgg === true) {
-                    let name_matches = $('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")');
-                    let num_matches = name_matches.length;
-
-                    if (num_matches) {
+                    let selected = $('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")');
+                    if (selected.length) {
                         let searchResult = value;
-                        let tooltipResult = num_matches+" "+searchResult;
-                        let imgFitResult = `<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">`;
-                        let shelterImgSearch = name_matches;
+                        let tooltipResult = selected.length + " " + searchResult;
+                        let shelterImgSearch = selected;
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
                         $(shelterBigImg).addClass('shelterfoundme');
-
-                        if (num_matches > 1) {
-                            document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' Eggs found '+imgFitResult+'</div>');
-                        } else {
-                            document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' egg found '+imgFitResult+'</div>');
-                        }
+                        this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng)
                     }
                 }
 
                 //imgSearch with Pokémon
                 if (this.settings.customPng === true) {
-                    if ($('#shelterarea img[src*="'+value+'"]').length) {
-                        let searchResult = $('#shelterarea img[src*="'+value+'"]').parent().next().text().split('(')[0]
-                        let tooltipResult = $('#shelterarea img[src*="'+value+'"]').length+" "+searchResult+' (Custom img search)';
+                    let selected = $('#shelterarea img[src*="'+value+'"]')
+                    if (selected.length) {
+                        let searchResult = selected.parent().next().text().split('(')[0]
+                        let tooltipResult = selected.length+" "+searchResult+' (Custom img search)';
                         let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-                        let shelterImgSearch = $('#shelterarea img[src*="'+value+'"]');
+                        let shelterImgSearch = selected
                         $(shelterImgSearch).addClass('shelterfoundme');
-
-                        if ($('#shelterarea img[src*="'+value+'"]').length > 1) {
-                            document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-                        } else {
-                            document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+tooltipResult+' found '+imgFitResult+'</div>');
-                        }
+                        this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng)
                     }
                 }
             }
@@ -443,14 +401,16 @@ class ShelterPage extends Page {
                 let value = filteredTypeArray[i];
                 let foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
 
+                let selected = undefined;
+                let typePokemonNames = [];
                 if (this.settings.findTypeEgg === true) {
-                    let typePokemonNames = [];
-                    $('#shelterarea>.tooltip_content:contains("Egg")').each(function() {
+                    typePokemonNames = [];
+                    selected = $('#shelterarea>.tooltip_content:contains("Egg")')
+                    selected.each(function() {
                         let searchPokemon = ($(this).text().split(' ')[0]);
                         let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                         let searchTypeOne = dexData[searchPokemonIndex + 1];
                         let searchTypeTwo = dexData[searchPokemonIndex + 2];
-
                         if ((searchTypeOne === value) || (searchTypeTwo === value)) {
                             typePokemonNames.push(searchPokemon);
                         }
@@ -462,17 +422,13 @@ class ShelterPage extends Page {
                         $(shelterBigImg).addClass('shelterfoundme');
                     }
 
-                    if (typePokemonNames.length == 1) {
-                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+typePokemonNames.length+' '+foundType+' egg type found! ('+typePokemonNames.toString()+')</div>');
-                    } else if (typePokemonNames.length > 1) {
-                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+typePokemonNames.length+' '+foundType+' egg types found! ('+typePokemonNames.toString()+')</div>');
-                    }
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames)
                 }
 
                 if (this.settings.findTypePokemon === true) {
-                    let typePokemonNames = [];
-
-                    $('#shelterarea>.tooltip_content').not(':contains("Egg")').each(function() {
+                    typePokemonNames = [];
+                    selected = $('#shelterarea>.tooltip_content').not(':contains("Egg")')
+                    selected.each(function() {
                         let searchPokemon = ($(this).text().split(' ')[0]);
                         let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                         let searchTypeOne = dexData[searchPokemonIndex + 1];
@@ -482,22 +438,17 @@ class ShelterPage extends Page {
                         }
                     })
 
-                    let typeImgStandOutLength = typePokemonNames.length;
-                    for (let o = 0; o < typeImgStandOutLength; o++) {
+                    for (let o = 0; o < typePokemonNames.length; o++) {
                         let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN('"+typePokemonNames[o]+" (')")
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
                         $(shelterBigImg).addClass('shelterfoundme');
                     }
 
-                    if (typePokemonNames.length == 1) {
-                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+typePokemonNames.length+' '+foundType+' Pokémon type found! ('+typePokemonNames.toString()+')</div>');
-                    } else if (typePokemonNames.length > 1) {
-                        document.querySelector('#sheltersuccess').insertAdjacentHTML('beforeend','<div id="shelterfound">'+typePokemonNames.length+' '+foundType+' Pokémon types found! ('+typePokemonNames.toString()+')</div>');
-                    }
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames)
                 }
             }
-        }
-    }
+        } // filteredTypeArray
+    } // customSearch
     removeEgg(element) {
         this.eggNoDuplicateArray = this.settings.NewEggDuplicate.split(',');
         let eggList = this.eggNoDuplicateArray.length;
