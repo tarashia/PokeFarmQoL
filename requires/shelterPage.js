@@ -194,7 +194,7 @@ class ShelterPage extends Page {
         let selected = $("#shelterarea .tooltip_content")
         let readyBigImg = [];
         selected.each((idx, s) => {
-            let text = s.textContent().split(' ')
+            let text = s.textContent.split(' ')
             let name = text[0]
             let level = parseInt(text[1].substring(4))
 
@@ -202,7 +202,7 @@ class ShelterPage extends Page {
             let evolve_level = 7;
 
             if(level >= evolve_level) {
-                let shelterBigImg = selected.parent().prev().children('img.big');
+                let shelterBigImg = $(s).prev().children('img.big');
                 readyBigImg.push(shelterBigImg)
             }
         })
