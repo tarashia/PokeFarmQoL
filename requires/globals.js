@@ -103,7 +103,7 @@ let dexDataPromise = new Promise((resolve, reject) => {
             let dex = $(html[10].querySelector('#dexdata')).html()
             GLOBALS.DEX_DATA = dex.split(',');
             let date = (new Date()).toUTCString();
-            GLOBAL.DEX_UPDATE_DATE = date;
+            GLOBALS.DEX_UPDATE_DATE = date;
             updateLocalStorageDex();
             resolve('Success')
         });
