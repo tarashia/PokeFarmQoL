@@ -96,6 +96,13 @@ GLOBALS.TYPE_OPTIONS = Helpers.buildOptionsString(GLOBALS.TYPE_LIST);
 GLOBALS.NATURE_OPTIONS = Helpers.buildOptionsString(GLOBALS.NATURE_LIST);
 GLOBALS.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST);
 
+// manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+// GLOBALS.DEX_DATA is the data loaded directly from the script contained in
+// the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
+// - their types
+// - if they hatch from an egg,
+// - if you have the eggdex, and
+// - if you have the regular, shiny, albino, and melanistic pokedex entries
 let dexDataPromise = new Promise((resolve, reject) => {
     if(localStorage.getItem('QoLPokedex') === null) {
         $.get('https://pokefarm.com/dex').then(data => {
@@ -136,3 +143,8 @@ function updateLocalStorageDex(updateDate) {
     localStorage.setItem('QoLPokedex', JSON.stringify(datePlusDex))
     $('.qolDate').val(dateString)
 }
+
+// manage GLOBALS.MORE_DEX_DATA
+// GLOBALS.MORE_DEX_DATA is used to manage dex information
+// not directly loadable from the <script> in the HTML.
+// 3/27/2020 - Adding evolution data to this section
