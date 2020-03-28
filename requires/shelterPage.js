@@ -177,7 +177,7 @@ class ShelterPage extends Page {
     searchForImgTitle(key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const key_index = SEARCH_DATA.indexOf(key)
-        const value = SEARCH_DATA[key_index]
+        const value = SEARCH_DATA[key_index + 1]
         const selected = $('img[title*="'+value+'"]')
         if (selected.length) {
             let searchResult = SEARCH_DATA[key_index + 2]; //type of Pokémon found
