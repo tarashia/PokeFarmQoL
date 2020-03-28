@@ -168,6 +168,61 @@ class ShelterPage extends Page {
             $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
     }
+    insertShelterFoundDiv(number, name, img) {
+        document.querySelector('#sheltersuccess').
+            insertAdjacentHTML('beforeend',
+                               '<div id="shelterfound">' + name + ((number > 1) ? 's' : '') + ' found ' + img + '</div>')
+    }
+    insertShelterTypeFoundDiv(number, type, stage, names) {
+        document.querySelector('#sheltersuccess').
+            insertAdjacentHTML('beforeend',
+                               '<div id="shelterfound">' + number + ' ' + type + ' ' + stage +
+                               ((number > 1) ? 'types' : 'type') + 'found! (' +
+                               names.toString() + ')</div>')
+    }
+    
+    searchForImgTitle(key) {
+        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+        const key_index = SEARCH_DATA.indexOf(key)
+        const value = SEARCH_DATA[key_index + 1]
+        const selected = $('img[title*="'+value+'"]')
+        if (selected.length) {
+            let searchResult = SEARCH_DATA[key_index + 2]; //type of Pokémon found
+            let imgResult = selected.length + " " + searchResult; //amount + type found
+            let imgFitResult = SEARCH_DATA[key_index + 3]; //image for type of Pokémon
+            let shelterBigImg = selected.parent().prev().children('img.big');
+            $(shelterBigImg).addClass('shelterfoundme');
+            
+            this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult)
+        }
+    }
+
+    searchForReadyToEvolveByLevel(dexData) {
+        let selected = $("#shelterarea .tooltip_content")
+        let readyBigImg = [];
+        selected.each((idx, s) => {
+            let text = s.textContent.split(' ')
+            let name = text[0]
+            let level = parseInt(text[1].substring(4))
+
+            // get level that pokemon needs to be at to evolve
+            let evolve_level = 7;
+
+            if(level >= evolve_level) {
+                let shelterBigImg = $(s).prev().children('img.big');
+                readyBigImg.push(shelterBigImg)
+            }
+        })
+
+        for(let i = 0; i < readyBigImg.length; i++) {
+            $(readyBigImg[i]).addClass('shelterfoundme');
+        }
+
+        let imgResult = readyBigImg.length + " " + "ready to evolve"
+        this.insertShelterFoundDiv(readyBigImg.length, imgResult, "")
+
+    }
+
     customSearch() {
         let dexData = GLOBALS.DEX_DATA;
         // search whatever you want to find in the shelter & grid
