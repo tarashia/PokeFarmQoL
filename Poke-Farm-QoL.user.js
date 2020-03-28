@@ -3,22 +3,24 @@
 // @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
 // @homepage     https://github.com/jpgualdarrama/PokeFarmShelter
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmShelter/raw/master/Poke-Farm-QoL.user.js
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmShelter/raw/implement_field_base/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.3.52
 // @match        https://pokefarm.com/*
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
 // @require      https://cdn.rawgit.com/omichelsen/compare-versions/v3.1.0/index.js
-// @resource     QolHubHTML            https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/qolHubHTML.html
-// @resource     shelterSettingsHTML    https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/shelterOptionsHTML.html
-// @resource     evolveFastHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/evolveFastHTML.html
-// @resource     labOptionsHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/labOptionsHTML.html
-// @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/fieldSearchHTML.html
-// @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/privateFieldSearchHTML.html
-// @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/css/pfqol.css
+// @resource     QolHubHTML            https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/qolHubHTML.html
+// @resource     shelterSettingsHTML    https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/shelterOptionsHTML.html
+// @resource     evolveFastHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/evolveFastHTML.html
+// @resource     labOptionsHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/labOptionsHTML.html
+// @resource     fieldSortHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/fieldSortHTML.html
+// @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/fieldSearchHTML.html
+// @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/templates/privateFieldSearchHTML.html
+// @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/implement_field_base/resources/css/pfqol.css
 // @require      requires/helpers.js
 // @require      requires/globals.js
+// @require      requires/basePage.js
 // @require      requires/shelterPage.js
 // @require      requires/privateFieldsPage.js
 // @require      requires/publicFieldsPage.js
@@ -27,7 +29,7 @@
 // @require      requires/multiuserPage.js
 // @require      requires/farmPage.js
 // @require      requires/daycarePage.js
-// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
+// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/implement_field_base/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -74,18 +76,17 @@
         }
 
         const PAGES = {
-            'Daycare': [DaycarePage, 'enableDaycare', Helpers.onDaycarePage],
-            'Farm' : [FarmPage, 'easyEvolve', Helpers.onFarmTab1],
-            'Fishing' : [FishingPage, 'fishingEnable', Helpers.onFishingPage],
-            'Lab' : [LabPage, 'labNotifier', Helpers.onLabPage],
-            'Multiuser' : [MultiuserPage, 'partyMod', Helpers.onMultiuserPage],
-            'PrivateFields' : [PrivateFieldsPage, 'privateFieldEnable', Helpers.onPrivateFieldsPage],
-            'PublicFields' : [PublicFieldsPage, 'publicFieldEnable', Helpers.onPublicFieldsPage],
-            'Shelter' : [ShelterPage, 'shelterEnable', Helpers.onShelterPage],
+            'Daycare': [daycarePage, 'enableDaycare'],
+            'Farm' : [farmPage, 'easyEvolve'],
+            'Fishing' : [fishingPage, 'fishingEnable'],
+            'Lab' : [labPage, 'labNotifier'],
+            'Multiuser' : [multiuserPage, 'partyMod'],
+            'PrivateFields' : [privateFieldsPage, 'privateFieldEnable'],
+            'PublicFields' : [publicFieldsPage, 'publicFieldEnable'],
+            'Shelter' : [shelterPage, 'shelterEnable'],
         }
         const PAGE_OBJ_INDEX = 0;
         const PAGE_VAR_INDEX = 1;
-        const PAGE_FUN_INDEX = 2;
 
         const fn = { // all the functions for the script
             /** background stuff */
@@ -108,7 +109,7 @@
                 loadSettings() { // initial settings on first run and setting the variable settings key
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].loadSettings();
                         }
                     }
@@ -146,7 +147,7 @@
                 saveSettings() { // Save changed settings
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].saveSettings();
                         }
                     }
@@ -169,7 +170,7 @@
                     }
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].populateSettings();
                         }
                     }
@@ -180,9 +181,9 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].setupHTML();
-                            fn.backwork.populateSettingsPage(pg[PAGE_OBJ_INDEX].getSettings());
+                            fn.backwork.populateSettingsPage()
                         }
                     }
                 },
@@ -191,7 +192,7 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].setupCSS();
                         }
                     }
@@ -205,7 +206,7 @@
                 setupObservers() { // all the Observers that needs to run
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].setupObserver();
                         }
                     }
@@ -213,7 +214,7 @@
                 setupHandlers() { // all the event handlers
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                             pg[PAGE_OBJ_INDEX].setupHandlers();
                         }
                     }
@@ -229,6 +230,7 @@
                         'loading Settings'    : fn.backwork.loadSettings,
                         'checking for update' : fn.backwork.checkForUpdate,
                         'setting up HTML'     : fn.backwork.setupHTML,
+			'populating Settings' : fn.backwork.populateSettingsPage,
                         'setting up CSS'      : fn.backwork.setupCSS,
                         'setting up Observers': fn.backwork.setupObservers,
                         'setting up Handlers' : fn.backwork.setupHandlers,
@@ -301,7 +303,7 @@
                     } else {
                         for(const key of Object.keys(PAGES)) {
                             let pg = PAGES[key]
-                            if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_FUN_INDEX]()) {
+                            if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
                                 pg[PAGE_OBJ_INDEX].settingsChange();
                             }
                         }

@@ -13,13 +13,15 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~**Multiuser Page** - Party Mods don't work~~
 - ~~**Farm Page** - Sorting by new dex entry doesn't work~~
 - ~~**Public Fields** - Searching other player's fields doesn't work~~
+- ~~**Public/Private Field** - When reloading page with no types, the page will reload with 15 empty type boxes~~
 
 # Open Suggestions
 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
 - **Private Field** - Highlight pokemon that are ready to evolve (not by item)
 - **Private Field** - Highlight pokemon that are ready to evolve (by item)
-- **Private Field** - Highlight pokemon that are not fully evolved
-- **Party** - Create a reminder on the timer bar with the number of Pokemon and Eggs in your party
+- **Private Field** - Highlight Pokemon based on how fully evolved they are
+- **All** - Add "at a glance" party reminder in the timers bar
+- **Pokedex** - Search for dual type pokemon
 - **Public/Private Field** - Emulate advanced search features from shelter
 
 # Past Suggestions/Issues

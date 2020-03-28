@@ -1,62 +1,34 @@
-class MultiuserPage {
-    SETTINGS_SAVE_KEY() { return 'QoLMultiuser'; }
-    DEFAULT_SETTINGS() { return {
-        hideDislike : false,
-        hideAll : false,
-        niceTable : false,
-    }};
-    
+class MultiuserPage extends Page {
     constructor() {
-        this.settings = DEFAULT_SETTINGS();
+        super('QoLMultiuser', {
+            hideDislike : false,
+            hideAll : false,
+            niceTable : false,
+        }, 'users/');
+        const obj = this
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                this.partyModification();
+                obj.partyModification();
             });
         });
     }
     
-    loadSettings() { // initial settings on first run and setting the variable settings key
-        this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    }
-    saveSettings() { // Save changed settings
-        Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    }
-    getSettings() { return this.settings; }
-    populateSettings() {
-        for (let key in this.settings) {
-            if (!this.settings.hasOwnProperty(key)) {
-                continue;
-            }
-            let value = this.settings[key];
-            if (typeof value === 'boolean') {
-                Helpers.toggleSetting(key, value, false);
-                continue;
-            }
+    settingsChange(element, textElement, customClass, typeClass, arrayName) {
+        if(super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
+            return false;
+        }
 
-            if (typeof value === 'string') {
-                Helpers.toggleSetting(key, value, false);
-                continue;
+        const mutuallyExclusive = ["hideAll", "hideDislike", "niceTable"]
+        const idx = mutuallyExclusive.indexOf(element)
+        if(idx > -1) {
+            for(let i = 0; i < mutuallyExclusive.length; i++) {
+                if(i !== idx) {
+                    this.settings[mutuallyExclusive[i]] = false;
+                }
             }
+            return true;
         }
-    }
-    settingsChange(element, textElement, customClass, typeClass) {
-        if (this.settings[element] === false ) {
-            this.settings[element] = true;
-            if (element === "hideAll") {
-                this.settings.hideDislike = false;
-                this.settings.niceTable = false;
-            } else if (element === "hideDislike") {
-                this.settings.hideAll = false;
-                this.settings.niceTable = false;
-            } else if (element === "niceTable") {
-                this.settings.hideDislike = false;
-                this.settings.hideAll = false;
-            }
-        } else if (this.settings[element] === true ) {
-            this.settings[element] = false;
-        } else if (typeof this.settings[element] === 'string') {
-            this.settings[element] = textElement;
-        }
+        else { return false; }
     }
     setupHTML() {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', TEMPLATES.partyModHTML);
@@ -73,29 +45,32 @@ class MultiuserPage {
         });
     }
     setupHandlers() {
-        $(window).on('load', (function(e) {
-            this.loadSettings();
-            this.partyModification();
+        const obj = this
+        $(window).on('load', (function() {
+            obj.loadSettings();
+            obj.partyModification();
         }));
 
-        $(document).on('click input', '#qolpartymod', (function(e) { // partymods
-            this.partyModification();
+        $(document).on('click input', '#qolpartymod', (function() {
+            obj.partyModification();
         }));
 
-        $(document).on('click', '.tabbed_interface', (function(e) {
-            this.partyModification();
+        $(document).on('click', '.tabbed_interface', (function() {
+            obj.partyModification();
         }));
 
-        $(document).on('change', '.qolsetting', (function(e) {
-            this.loadSettings();
-            this.settingsChange(e.getAttribute('data-key'), $(e).val(),
-                               $(e).parent().parent().attr('class'), $(e).parent().attr('class'));
-            this.partyModification();
-            this.saveSettings();
+        $(document).on('change', '.qolsetting', (function() {
+            obj.loadSettings();
+            obj.settingsChange(this.getAttribute('data-key'),
+                               $(this).val(),
+                               $(this).parent().parent().attr('class'),
+                               $(this).parent().attr('class'));
+            obj.partyModification();
+            obj.saveSettings();
         }));
         
-        $('input.qolalone').on('change', function(e) { //only 1 textbox may be true
-            $('input.qolalone').not(e).prop('checked', false);
+        $('input.qolalone').on('change', function() { //only 1 textbox may be true
+            $('input.qolalone').not(this).prop('checked', false);
         });
     }
     partyModification() {

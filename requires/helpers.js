@@ -1,18 +1,6 @@
 let Helpers = (function Helpers() {
     /* public stuff */
     const API = {
-        onPage(pg) { return window.location.href.indexOf(pg) != -1; },
-        onMultiuserPage() { return API.onPage("users/"); },
-        onShelterPage() { return API.onPage("/shelter"); },
-        onPublicFieldsPage() { return API.onPage("fields/"); },
-        onPrivateFieldsPage() { return API.onPage("fields") && !API.onPublicFieldsPage(); },
-        onFarmPage(tab) { return API.onPage("farm#" + ((tab===undefined) ? "" : tab)); },
-        onFarmTab1() { return API.onFarmPage('tab=1'); },
-        onFishingPage() { return API.onPage("fishing"); },
-        onLabPage() { return API.onPage("/lab"); },
-        onDexPage() { return API.onPage("dex"); },
-        onDaycarePage() { return API.onPage("daycare"); },
-
         shelterKeyIsTopCheckbox(k) {
             return k != 'findCustom' && k != 'findMale' && k != 'findFemale' && k != 'findNoGender' && k != 'customEgg' && k != 'customPokemon' && k != 'customPng';
         },
@@ -60,7 +48,6 @@ let Helpers = (function Helpers() {
             if (localStorage.getItem(KEY) === null) {
                 API.saveSettings(KEY);
             } else {
-                // console.log(localStorage.getItem(KEY))
                 try {
                     let countScriptSettings = Object.keys(obj).length
                     let localStorageString = JSON.parse(localStorage.getItem(KEY));
@@ -88,11 +75,20 @@ let Helpers = (function Helpers() {
             return obj;
         },
         saveSettings(KEY, obj) {
-            //                 console.log('Helpers.saveSettings')
-            //                 console.log(KEY)
-            //                 console.log(obj)
             localStorage.setItem(KEY, JSON.stringify(obj));
         },
+
+	textSearchDiv(cls, data_key, id, array_name) {
+            return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${data_key}" ` +
+		((array_name !== undefined) ? `array-name='${array_name}'` : ``) +
+		`/></label><input type='button' value='Remove' id='${id}'></div>`;
+	},
+	
+	selectSearchDiv(cls, name, data_key, options, id, divParent, array_name) {
+            return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}' ` +
+		`array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+	},
+	
     };
 
     return API;

@@ -1,36 +1,22 @@
-class DaycarePage {
-    SETTINGS_SAVE_KEY() { return 'QoLDaycare' }
-    DEFAULT_SETTINGS() { return {} }
-    
+class DaycarePage extends Page {
     constructor() {
-        this.settings = DEFAULT_SETTINGS();    
+	super('QoLDaycare', {}, 'daycare')
+	const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if(document.querySelector('#fs_pokemon') !== null) {
-                    this.customSearch()
+                    obj.customSearch()
                 }
             })
         });
     } // constructor
    
-    loadSettings() { // initial settings on first run and setting the variable settings key
-        this.settings = Helpers.loadSettings(this.SETTINGS_SAVE_KEY(), this.DEFAULT_SETTINGS(), this.settings);
-    }
-    saveSettings() { // Save changed settings
-        Helpers.saveSettings(this.SETTINGS_SAVE_KEY(), this.settings)
-    }
-    // getSettings() { return this.settings; }
-    populateSettings() { /* empty */ }
-    settingsChange(element, textElement, customClass, typeClass) { /* empty */ }
-    setupHTML() { /* empty */ }
-    setupCSS() { /* empty */ }
     setupObserver() {
         this.observer.observe(document.querySelector('body'), {
             childList: true,
             subtree: true
         });
     }
-    setupHandlers() { /* empty */ }
     customSearch() {
         const button = document.querySelector('#pkmnadd')
 
@@ -107,7 +93,7 @@ class DaycarePage {
                 } // for
             }
         } // if
-    }, // customSearch
+    } // customSearch
 };
 
 const daycarePage = new DaycarePage();
