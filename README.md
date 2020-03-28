@@ -24,6 +24,7 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - **All** - Add "at a glance" party reminder in the timers bar
 - **Pokedex** - Search for dual type pokemon
 - **Public/Private Field** - Emulate advanced search features from shelter
+- **Public/Private Field** - Make the automatic tooltip function toggable
 
 # Past Suggestions/Issues
 - **Farm Page** - Easy Evolution doesn't work when the list is sorted - This was not fixed, because it is impossible to implement given the current design of the sorted lists without copying code from pokefarm.
