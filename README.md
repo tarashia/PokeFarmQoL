@@ -14,6 +14,8 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~**Farm Page** - Sorting by new dex entry doesn't work~~
 - ~~**Public Fields** - Searching other player's fields doesn't work~~
 - ~~**Public/Private Field** - When reloading page with no types, the page will reload with 15 empty type boxes~~
+- `~**Shelter** - Delta Pokemon are not highlighted~~
+- **Public/Private Fields** - Nicknamed pokemon are not highlighted correctly
 
 # Open Suggestions
 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
