@@ -278,13 +278,14 @@ class PublicFieldsPage extends Page {
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
             $('.fieldmon').each(function() {
                 let searchPokemonBigImg = $(this)[0].childNodes[0];
-                let searchPokemon = searchPokemonBigImg.alt;
+                const tooltip_data = Helpers.parseFieldPokemonTooltip($(searchPokemonBigImg).parent().next()[0])
+
+                let searchPokemon = tooltip_data.species;
                 let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                 let searchTypeOne = dexData[searchPokemonIndex + 1];
                 let searchTypeTwo = dexData[searchPokemonIndex + 2];
 
-                let searchNature = $($(this).next()[0].querySelector('.fieldmontip')).children(':contains(Nature)')[0].innerText.split(" ")[1];
-                if (searchNature.indexOf("(") > -1) { searchNature = searchNature.slice(0, -1); }
+                let searchNature = tooltip_data.nature;
 
                 let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).
                     children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
