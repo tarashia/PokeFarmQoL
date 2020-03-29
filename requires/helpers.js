@@ -88,6 +88,53 @@ let Helpers = (function Helpers() {
             return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}' ` +
 		`array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
 	},
+
+        parseFieldPokemonTooltip(tooltip) {
+            const dataElements = $(tooltip).children(0).children()
+
+            // nickname
+            const nickname = dataElements[1].textContent
+
+            // species
+            const species  = dataElements[2].textContent.trim().split(':  ')[1]
+
+            // types
+            const typeElements = $(dataElements[3]).children().slice(1,)
+            const typeUrls = typeElements.map(idx => typeElements[idx]['src'])
+            let types = typeUrls.map(idx =>
+                                     typeUrls[idx].substring(typeUrls[idx].indexOf("types/")+"types/".length,
+                                                             typeUrls[idx].indexOf(".png")))
+            types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1))
+            types = types.map(idx => GLOBALS.TYPE_LIST.indexOf(types[idx]))
+            
+            // level
+            const level = parseInt(dataElements[4].textContent.split(' ')[1])
+
+            // happiness
+            let happiness = dataElements[6].textContent.split(' ')[1].trim()
+            happiness = parseInt(happiness.substring(0, happiness.length-1))
+
+            // nature
+            let nature = dataElements[7].textContent.split(' ')[1]
+            nature = GLOBALS.NATURE_LIST.indexOf(nature.substring(0, nature.length-1))
+
+            // held item
+            const item = dataElements[8].textContent.substring(dataElements[8].textContent.indexOf(' ')+1)
+
+            // egg groups
+            const eggGroups = dataElements[9].textContent.substring("Egg Group: ".length).split('/')
+
+            return {
+                'nickname': nickname,
+                'species': species,
+                'types': types,
+                'level': level,
+                'happiness_percent': happiness,
+                'nature': nature,
+                'item': item,
+                'eggGroups': eggGroups,
+            }
+        }
 	
     };
 
