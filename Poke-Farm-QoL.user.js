@@ -1,4 +1,3 @@
-
 // ==UserScript==
 // @name         Poké Farm QoL
 // @namespace    https://github.com/jpgualdarrama/
