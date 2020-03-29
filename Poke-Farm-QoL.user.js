@@ -340,4 +340,3 @@
     }));
 
 })(jQuery); //end of userscript
-
