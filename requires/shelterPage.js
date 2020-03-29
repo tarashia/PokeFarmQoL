@@ -247,8 +247,6 @@ class ShelterPage extends Page {
         document.querySelector('#sheltersuccess').innerHTML="";
         $('#shelterarea>div>img').removeClass('shelterfoundme');
 
-        // mark
-        
         if(this.settings.findShiny === true) {
             this.searchForImgTitle('findShiny')
         }
