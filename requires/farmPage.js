@@ -94,6 +94,7 @@ class FarmPage extends Page {
         this.clearSortedEvolveLists()
     }
     easyEvolveTypeList() {
+        const obj = this
         let dexData = GLOBALS.DEX_DATA;
         this.clearSortedEvolveLists()
 
@@ -144,10 +145,10 @@ class FarmPage extends Page {
             let evolveTypeTwo = "";
 
             if (!evolveInDex) {
-                if (evolvePokemon in this.settings.KNOWN_EXCEPTIONS) {
-                    evolveTypeOne = this.settings.KNOWN_EXCEPTIONS[evolvePokemon][0]
-                    if(this.settings.KNOWN_EXCEPTIONS[evolvePokemon].length > 1) {
-                        evolveTypeTwo = this.settings.KNOWN_EXCEPTIONS[evolvePokemon][1]
+                if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
+                    evolveTypeOne = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon][0]
+                    if(obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].length > 1) {
+                        evolveTypeTwo = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon][1]
                     }
                 } else {
                     // Get the dex number for previousPokemon
@@ -190,15 +191,15 @@ class FarmPage extends Page {
                                 }
                             });
                             // add the exception to the known exceptions list
-                            evolveTypeOne = this.settings.TYPE_APPEND[types[0].toUpperCase()]
-                            this.settings.KNOWN_EXCEPTIONS[evolvePokemon] = [evolveTypeOne]
+                            evolveTypeOne = obj.settings.TYPE_APPEND[types[0].toUpperCase()]
+                            obj.settings.KNOWN_EXCEPTIONS[evolvePokemon] = [evolveTypeOne]
 
                             if(types.length > 1) {
-                                evolveTypeTwo = this.settings.TYPE_APPEND[types[1].toUpperCase()]
-                                this.settings.KNOWN_EXCEPTIONS[evolvePokemon].push(evolveTypeTwo)
+                                evolveTypeTwo = obj.settings.TYPE_APPEND[types[1].toUpperCase()]
+                                obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].push(evolveTypeTwo)
                             }
 
-                            this.saveSettings();
+                            obj.saveSettings();
                             break;
                         } // if
                     } // for
@@ -211,7 +212,7 @@ class FarmPage extends Page {
             if (getEvolveString.includes('title="[DELTA')) {
                 let deltaType = getEvolveString.match('DELTA-(.*)]">');
 
-                $(this).clone().appendTo(this.settings.TYPE_APPEND[deltaType[1]]);
+                $(this).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
             }
 
             // type one must exist for both the previous and evolve Pokemon
@@ -240,7 +241,7 @@ class FarmPage extends Page {
                 if (!previousInDex) { console.log("ERROR: Could not resolve " + previousPokemon) }
                 if (!evolveInDex)   { console.log("ERROR: Could not resolve " + evolvePokemon) }
 
-                $(this).clone().appendTo(this.settings.TYPE_APPEND['NONE']);
+                $(this).clone().appendTo(obj.settings.TYPE_APPEND['NONE']);
             }
         }); // each
 
