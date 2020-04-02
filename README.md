@@ -16,6 +16,7 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~**Public/Private Field** - When reloading page with no types, the page will reload with 15 empty type boxes~~
 - `~**Shelter** - Delta Pokemon are not highlighted~~
 - **Public/Private Fields** - Nicknamed pokemon are not highlighted correctly
+- *All* - Script not working, but old script is working. Multiple users affected
 
 # Open Suggestions
 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
