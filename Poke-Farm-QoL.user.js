@@ -18,17 +18,17 @@
 // @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/fieldSearchHTML.html
 // @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/privateFieldSearchHTML.html
 // @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/css/pfqol.css
-// @require      requires/helpers.js
-// @require      requires/globals.js
-// @require      requires/basePage.js
-// @require      requires/shelterPage.js
-// @require      requires/privateFieldsPage.js
-// @require      requires/publicFieldsPage.js
-// @require      requires/labPage.js
-// @require      requires/fishingPage.js
-// @require      requires/multiuserPage.js
-// @require      requires/farmPage.js
-// @require      requires/daycarePage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/helpers.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/globals.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/basePage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/shelterPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/privateFieldsPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/publicFieldsPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/labPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/fishingPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/multiuserPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/farmPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/daycarePage.js
 // @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
