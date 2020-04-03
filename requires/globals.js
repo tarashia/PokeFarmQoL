@@ -143,11 +143,3 @@ function updateLocalStorageDex(updateDate) {
     localStorage.setItem('QoLPokedex', JSON.stringify(datePlusDex))
     $('.qolDate').val(dateString)
 }
-
-// manage GLOBALS.MORE_DEX_DATA
-// GLOBALS.MORE_DEX_DATA is used to manage dex information
-// not directly loadable from the <script> in the HTML.
-// 3/27/2020 - Adding evolution data to this section
-GLOBALS.MORE_DEX_DATA = [
-    '{"columns":["id"','"name"',
-]

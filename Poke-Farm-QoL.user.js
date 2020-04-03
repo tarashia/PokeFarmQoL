@@ -20,6 +20,7 @@
 // @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/resources/css/pfqol.css
 // @require      requires/helpers.js
 // @require      requires/globals.js
+// @require      requires/dexUtilities.js
 // @require      requires/basePage.js
 // @require      requires/shelterPage.js
 // @require      requires/privateFieldsPage.js
@@ -333,6 +334,10 @@
         GLOBALS.DEX_UPDATE_DATE = date;
         $('.qolDate').text(GLOBALS.DEX_UPDATE_DATE);
         updateLocalStorageDex(date);
+        // this will update local storage
+        DexUtilities.updateEvolveByList().then(() => {
+            GLOBALS.EVOLVE_BY_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
+        });
     }));
 
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
