@@ -1,24 +1,6 @@
 class DexUtilities {
-    static updateEvolveByList() {
-        return new Promise((resolve, reject) => {
-            $.get('https://pokefarm.com/dex').then(data => {
-                let html = jQuery.parseHTML(data)
-                let dex = $(html[10].querySelector('#dexdata')).html()
-                let json = JSON.parse(dex)
-                const dexNumbers = [];
-                // get list of pokedex numbers
-                for(let r in json.regions) {
-                    for(let i = 0; i < json.regions[r].length; i++) {
-                        dexNumbers.push(json.regions[r][i][0])
-                    }
-                }
-
-                // load and parse the evolution data for each
-                DexUtilities.parseEvolutionTrees(dexNumbers).then(() => {
-                    resolve('Success')
-                })
-            });
-        }) // return
+    static loadDexPage() {
+        return $.get('https://pokefarm.com/dex')
     }
     /*
     static loadAllEvolutionTrees() {
@@ -90,65 +72,67 @@ class DexUtilities {
         return tree
     }
 
-    static parseEvolutionTrees(dexNumbers) {
+    static loadEvolutionTrees(dexNumbers) {
+        return $.when(
+            for(let d = 0; d < dexNumbers.length; d++) {
+                $.get('https://pokefarm.com/dex/' + dexNumbers[d])
+            } // for
+        } // return
+    } // loadEvolutionTrees
+
+    static parseEvolutionTrees(args) {
         const families = {}
         const flat_families = {}
         localStorage.setItem('QoLEvolveByLevel', "{}");
-        return new Promise((resolve, reject) => {
-            for(let d = 0; d < dexNumbers.length; d++) {
-                new Promise((res, rej) => {
-                    $.get('https://pokefarm.com/dex/' + dexNumbers[d]).then(data => {
-                        // because the evolution tree for all the members of a single family will have the same text,
-                        // use the text as a key in families
-                        let tree = $(data).find('.evolutiontree')[0]
-                        
-                        // if the current pokemon is the root of it's evolution tree,
-                        // there will be no link in the span with the pokemon's name
-                        let rootName = $(tree).children()[0].textContent
-                        
-                        if(!(rootName in flat_families)) {
-                            // parseEvolutionTree returns a tree
-                            families[tree.textContent] = DexUtilities.parseEvolutionTree(rootName, tree)
-                            // flattenFamily returns an object containing:
-                            // - a list of the dex numbers of the family members
-                            // - a list of evolutions in the family formatted like:
-                            //   - {'source': <beginning pokemon>,
-                            //   -  'condition': <condition html>,
-                            //      'target': <ending pokemon>}
-                            let flattened = DexUtilities.flattenFamily(families[tree.textContent])
-                            
-                            // parse the evolution conditions
-                            DexUtilities.parseEvolutionConditions(flattened)
-                            
-                            // copy the data into the global object to prevent loading data
-                            // multiple times
-                            for(let i = 0; i < flattened.members.length; i++) {
-                                flat_families[flattened.members[i]] = flattened.evolutions;
-                            }
-                            
-                            // right now, only interested in pokemon that evolve by level
-                            // so, this just builds a list of pokemon that evolve by level
-                            for(let i = 0; i < flattened.evolutions.length; i++) {
-                                if(Array.isArray(flattened.evolutions[i].condition)) {
-                                    for(let j = 0; j < flattened.evolutions[i].condition.length; j++) {
-                                        if(flattened.evolutions[i].condition[j].condition === "Level") {
-                                            console.log(flattened.evolutions[i].source)
-                                            let json = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
-                                            json[flattened.evolutions[i].source] = flattened.evolutions[i].condition[j].condition + " " +
-                                                flattened.evolutions[i].condition[j].data
-                                            localStorage.setItem('QoLEvolveByLevel', JSON.stringify(json));
-                                        } // if
-                                    } // for
-                                } // if
-                            } // for
-                        } // if not in flat_families
-                        res('Success')
-                    }) // get
-                }) // promise
-            } // for
-            resolve('Success')
-        }) // return promise
-    } // parseEvolutionTrees
+        console.log('args')
+        console.log(args)
+        /*
+        // because the evolution tree for all the members of a single family will have the same text,
+        // use the text as a key in families
+        let tree = $(data).find('.evolutiontree')[0]
+        
+        // if the current pokemon is the root of it's evolution tree,
+        // there will be no link in the span with the pokemon's name
+        let rootName = $(tree).children()[0].textContent
+        
+        if(!(rootName in flat_families)) {
+        // parseEvolutionTree returns a tree
+        families[tree.textContent] = DexUtilities.parseEvolutionTree(rootName, tree)
+        // flattenFamily returns an object containing:
+        // - a list of the dex numbers of the family members
+        // - a list of evolutions in the family formatted like:
+        //   - {'source': <beginning pokemon>,
+        //   -  'condition': <condition html>,
+        //      'target': <ending pokemon>}
+        let flattened = DexUtilities.flattenFamily(families[tree.textContent])
+        
+        // parse the evolution conditions
+        DexUtilities.parseEvolutionConditions(flattened)
+        
+        // copy the data into the global object to prevent loading data
+        // multiple times
+        for(let i = 0; i < flattened.members.length; i++) {
+        flat_families[flattened.members[i]] = flattened.evolutions;
+        }
+        
+        // right now, only interested in pokemon that evolve by level
+        // so, this just builds a list of pokemon that evolve by level
+        for(let i = 0; i < flattened.evolutions.length; i++) {
+        if(Array.isArray(flattened.evolutions[i].condition)) {
+        for(let j = 0; j < flattened.evolutions[i].condition.length; j++) {
+        if(flattened.evolutions[i].condition[j].condition === "Level") {
+        console.log(flattened.evolutions[i].source)
+        let json = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
+        json[flattened.evolutions[i].source] = flattened.evolutions[i].condition[j].condition + " " +
+        flattened.evolutions[i].condition[j].data
+        localStorage.setItem('QoLEvolveByLevel', JSON.stringify(json));
+        } // if
+        } // for
+        } // if
+        } // for
+        } // if not in flat_families
+        */
+    }
 
     static flattenFamily(family_obj, ret_obj, evo_src) {
         if(ret_obj === undefined) {

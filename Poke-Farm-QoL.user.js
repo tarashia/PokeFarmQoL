@@ -334,10 +334,26 @@
         GLOBALS.DEX_UPDATE_DATE = date;
         $('.qolDate').text(GLOBALS.DEX_UPDATE_DATE);
         updateLocalStorageDex(date);
-        // this will update local storage
-        DexUtilities.updateEvolveByList().then(() => {
-            GLOBALS.EVOLVE_BY_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
-        });
+        // this will update the GLOBALS.EVOLVE_BY_LEVEL_LIST
+        // and local storage
+        DexUtilities.loadDexPage().then(() => {
+            let html = jQuery.parseHTML(data)
+            let dex = $(html[10].querySelector('#dexdata')).html()
+            let json = JSON.parse(dex)
+            const dexNumbers = [];
+            // get list of pokedex numbers
+            for(let r in json.regions) {
+                for(let i = 0; i < json.regions[r].length; i++) {
+                    dexNumbers.push(json.regions[r][i][0])
+                }
+            }
+
+            // load and parse the evolution data for each
+            DexUtilities.loadEvolutionTrees(dexNumbers).done((args) => {
+                DexUtilities.parseEvolutionTrees(args)
+                GLOBALS.EVOLVE_BY_LEVEL_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
+            })
+        })
     }));
 
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
