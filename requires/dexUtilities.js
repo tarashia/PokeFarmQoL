@@ -2,26 +2,60 @@ class DexUtilities {
     static loadDexPage() {
         return $.get('https://pokefarm.com/dex')
     }
-    /*
-    static loadAllEvolutionTrees() {
-        const pokemon = $('.region-entries .ecnt')
-        for(let i = 0; i < pokemon.length; i++) {
-            const ref = pokemon[i]['href']
-            const urlSuffix = ref.substring("https://pokefarm.com/".length)
-            const dexNumber = urlSuffix.substring("dex/".length)
-
-            // create a dummy div to put data in
-            const div = `<div id="${dexNumber}" class="dexevodata"></div>`
-            if($(`#${dexNumber}`).length === 0) {
-                pokemon[i].insertAdjacentHTML('afterend', div)
-            }
-        }
+    static parseDexPage(data) {
+        let html = jQuery.parseHTML(data)
+        let dex = $(html[10].querySelector('#dexdata')).html()
+        return dex.split(',');
     }
-    */
-    static parseEvolutionLi(li) {
+    static loadDexIntoGlobalsFromStorage() {
+        if(localStorage.getItem('QoLPokedex') === null) {
+            return false;
+        }
+        let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
+        GLOBALS.DEX_UPDATE_DATE = dateAndDex[0];
+        let dex = dateAndDex.slice(1);
+        GLOBALS.DEX_DATA = dex;
+        return true;
+    }
+    static loadDexIntoGlobalsFromWeb() {
+        DexUtilities.loadDexPage().then((data) => {
+            GLOBALS.DEX_UPDATE_DATE = (new Date()).toUTCString();
+            GLOBALS.DEX_DATA = DexUtilities.parseDexPage(data)
+            DexUtilities.updateLocalStorageDex();
+        });
+    }
+    static loadDexIntoGlobalsFromWebIfOld() {
+        // If it's more than 30 days old, update the dex
+        const THIRTY_DAYS_IN_MS = 30*24*3600*1000
+        let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
+        if ((Date.now() - Date.parse(dateAndDex[0])) > THIRTY_DAYS_IN_MS) {
+            DexUtilities.loadDexIntoGlobalsFromWeb()
+            return true;
+        }
+        return false;
+    }
+    static updateLocalStorageDex(updateDate) {
+        let dateString = "";
+        if(updateDate === undefined) {
+            dateString = (new Date()).toUTCString();
+        } else {
+            dateString = updateDate;
+        }
+        const datePlusDex = [dateString].concat(GLOBALS.DEX_DATA)
+        localStorage.setItem('QoLPokedex', JSON.stringify(datePlusDex))
+        $('.qolDate').val(dateString)
+    }
+    static parseEvolutionLi(li, dex_id_map) {
         let condition = $(li).children('.condition')
-        // let target = $(li).find('.name>a')[0]['href'].substring("https://pokefarm.com/dex/".length)
-        let target = $(li).find('.name')[0].textContent
+        let targetElem = $(li).find('.name')[0]
+        let target = targetElem.textContent
+
+        // if the targetElem has a link as a child, store the dex ID in the link
+        if($(targetElem).find('a').length) {
+            let link = $(targetElem).find('a')[0]['href']
+            let id = link.substring("https://pokefarm.com/dex/".length)
+            dex_id_map[target] = id
+        }
 
         let ret = {}
         ret[target] = {
@@ -30,7 +64,7 @@ class DexUtilities {
         ret[target]['evolutions'] = []
         if($(li).children('ul').length) {
             $(li).children('ul').each((i, ul) => {
-                let nest = DexUtilities.parseEvolutionUl(ul)
+                let nest = DexUtilities.parseEvolutionUl(ul, dex_id_map)
                 ret[target]['evolutions'].push(nest)
             })
             return ret
@@ -39,20 +73,20 @@ class DexUtilities {
         }
     }
 
-    static parseEvolutionUl(ul) {
+    static parseEvolutionUl(ul, dex_id_map) {
         const lis = $(ul).children('li')
         const num_parallel_evolutions = lis.length
 
         let ret = {}
         for(let i = 0; i < num_parallel_evolutions; i++) {
-            let nest = DexUtilities.parseEvolutionLi(lis[i])
+            let nest = DexUtilities.parseEvolutionLi(lis[i], dex_id_map)
             for(let d in nest) {
                 ret[d] = nest[d]
             }
         }
         return ret
     }
-    static parseEvolutionTree(root, evotree) {
+    static parseEvolutionTree(root, evotree, dex_id_map) {
         const uls = $(evotree).children('ul')
         const tree = {}
         const textContent = evotree.textContent
@@ -65,74 +99,81 @@ class DexUtilities {
             return tree
         }
 
+        if($(evotree).children('span').length) {
+            let linkElem = $(evotree).children('span').children('a')
+            if(linkElem.length) {
+                let link = linkElem[0]['href']
+                let dex_id = link.substring("https://pokefarm.com/dex/".length)
+                dex_id_map[root] = dex_id
+            }
+        }
+
         tree[root] = []
         $(uls).each((i, ul) => {
-            tree[root].push(DexUtilities.parseEvolutionUl(ul))
+            tree[root].push(DexUtilities.parseEvolutionUl(ul, dex_id_map))
         })
         return tree
     }
 
-    static loadEvolutionTrees(dexNumbers) {
-        return $.when(
-            for(let d = 0; d < dexNumbers.length; d++) {
-                $.get('https://pokefarm.com/dex/' + dexNumbers[d])
-            } // for
-        } // return
+    static loadEvolutionTrees(dexNumbers, progressBar, progressSpan) {
+        let requests = []
+        progressBar.value = 0
+        progressSpan.textContent = "Loading Pokedex info. Please wait until this is complete..."
+
+        for(let d = 0; d < dexNumbers.length; d++) {
+            let r = $.get('https://pokefarm.com/dex/' + dexNumbers[d]).then((data) => {
+                progressBar.value = progressBar['value'] + 1
+                progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
+                return data
+            })
+            requests.push(r)
+        }
+
+        return $.when.apply(undefined, requests)
     } // loadEvolutionTrees
 
     static parseEvolutionTrees(args) {
         const families = {}
         const flat_families = {}
-        localStorage.setItem('QoLEvolveByLevel', "{}");
-        console.log('args')
-        console.log(args)
-        /*
-        // because the evolution tree for all the members of a single family will have the same text,
-        // use the text as a key in families
-        let tree = $(data).find('.evolutiontree')[0]
-        
-        // if the current pokemon is the root of it's evolution tree,
-        // there will be no link in the span with the pokemon's name
-        let rootName = $(tree).children()[0].textContent
-        
-        if(!(rootName in flat_families)) {
-        // parseEvolutionTree returns a tree
-        families[tree.textContent] = DexUtilities.parseEvolutionTree(rootName, tree)
-        // flattenFamily returns an object containing:
-        // - a list of the dex numbers of the family members
-        // - a list of evolutions in the family formatted like:
-        //   - {'source': <beginning pokemon>,
-        //   -  'condition': <condition html>,
-        //      'target': <ending pokemon>}
-        let flattened = DexUtilities.flattenFamily(families[tree.textContent])
-        
-        // parse the evolution conditions
-        DexUtilities.parseEvolutionConditions(flattened)
-        
-        // copy the data into the global object to prevent loading data
-        // multiple times
-        for(let i = 0; i < flattened.members.length; i++) {
-        flat_families[flattened.members[i]] = flattened.evolutions;
-        }
-        
-        // right now, only interested in pokemon that evolve by level
-        // so, this just builds a list of pokemon that evolve by level
-        for(let i = 0; i < flattened.evolutions.length; i++) {
-        if(Array.isArray(flattened.evolutions[i].condition)) {
-        for(let j = 0; j < flattened.evolutions[i].condition.length; j++) {
-        if(flattened.evolutions[i].condition[j].condition === "Level") {
-        console.log(flattened.evolutions[i].source)
-        let json = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
-        json[flattened.evolutions[i].source] = flattened.evolutions[i].condition[j].condition + " " +
-        flattened.evolutions[i].condition[j].data
-        localStorage.setItem('QoLEvolveByLevel', JSON.stringify(json));
-        } // if
-        } // for
-        } // if
-        } // for
-        } // if not in flat_families
-        */
-    }
+        const dex_id_map = {}
+
+        for(let a = 0; a < args.length; a++) {
+            let data = args[a]
+            // because the evolution tree for all the members of a single family will have the same text,
+            // use the text as a key in families
+            // use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
+            let ownerDocument = document.implementation.createHTMLDocument('virtual');
+            let tree = $(data, ownerDocument).find('.evolutiontree')[0]
+
+            // if the current pokemon is the root of its evolution tree,
+            // there will be no link in the span with the pokemon's name
+            let rootName = $(tree).children()[0].textContent
+
+            // if the root name is already in in the flat files, but the root of the tree is not in the dex_id_map
+            if((!(rootName in flat_families)) || (!(rootName in dex_id_map))) {
+                // parseEvolutionTree returns a tree
+                families[tree.textContent] = DexUtilities.parseEvolutionTree(rootName, tree, dex_id_map)
+                // flattenFamily returns an object containing:
+                // - a list of the dex numbers of the family members
+                // - a list of evolutions in the family formatted like:
+                //   - {'source': <beginning pokemon>,
+                //   -  'condition': <condition html>,
+                //      'target': <ending pokemon>}
+                let flattened = DexUtilities.flattenFamily(families[tree.textContent])
+
+                // parse the evolution conditions
+                DexUtilities.parseEvolutionConditions(flattened)
+
+                // copy the data into the global object to prevent loading data
+                // multiple times
+                for(let i = 0; i < flattened.members.length; i++) {
+                    flat_families[flattened.members[i]] = flattened.evolutions;
+                }
+            } // if not in flat_families
+        } // for a
+
+        return [flat_families, dex_id_map]
+    } // parseEvolutionTrees
 
     static flattenFamily(family_obj, ret_obj, evo_src) {
         if(ret_obj === undefined) {

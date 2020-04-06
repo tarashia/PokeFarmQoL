@@ -103,43 +103,8 @@ GLOBALS.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST);
 // - if they hatch from an egg,
 // - if you have the eggdex, and
 // - if you have the regular, shiny, albino, and melanistic pokedex entries
-let dexDataPromise = new Promise((resolve, reject) => {
-    if(localStorage.getItem('QoLPokedex') === null) {
-        $.get('https://pokefarm.com/dex').then(data => {
-            let html = jQuery.parseHTML(data)
-            let dex = $(html[10].querySelector('#dexdata')).html()
-            GLOBALS.DEX_DATA = dex.split(',');
-            let date = (new Date()).toUTCString();
-            GLOBALS.DEX_UPDATE_DATE = date;
-            updateLocalStorageDex();
-            resolve('Success')
-        });
-    } else {
-        // If it's more than 30 days old, update the dex
-        const THIRTY_DAYS_IN_MS = 30*24*3600*1000
-        let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
-        let date = dateAndDex[0];
-        if ((Date.now() - Date.parse(date)) > THIRTY_DAYS_IN_MS) {
-            updateLocalStorageDex();
-            dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
-        }
-        GLOBALS.DEX_UPDATE_DATE = dateAndDex[0];
-        let dex = dateAndDex.slice(1);
-        GLOBALS.DEX_DATA = dex;
-        resolve('Success')
-    }
-});
-
-dexDataPromise.then((m) => { /* empty */ });
-
-function updateLocalStorageDex(updateDate) {
-    let dateString = "";
-    if(updateDate === undefined) {
-        dateString = (new Date()).toUTCString();
-    } else {
-        dateString = updateDate;
-    }
-    const datePlusDex = [dateString].concat(GLOBALS.DEX_DATA)
-    localStorage.setItem('QoLPokedex', JSON.stringify(datePlusDex))
-    $('.qolDate').val(dateString)
+if(!DexUtilities.loadDexIntoGlobalsFromStorage()) { // can't load it from storage
+    DexUtilities.loadDexIntoGlobalsFromWeb(); // so load it from the web
+} else { // can load it from storage
+    DexUtilities.loadDexIntoGlobalsFromWebIfOld(); // reload it from web if it's old
 }
