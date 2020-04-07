@@ -38,11 +38,6 @@
 // @grant        GM_info
 // ==/UserScript==
 
-/*
-  1. Modularize
-  2. Commonize
-*/
-
 (function($) {
     'use strict';
     // :contains to case insensitive
