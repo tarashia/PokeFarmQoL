@@ -185,7 +185,7 @@ class ShelterPage extends Page {
             let imgFitResult = SEARCH_DATA[key_index + 3]; //image for type of Pokémon
             let shelterBigImg = selected.parent().prev().children('img.big');
             $(shelterBigImg).addClass('shelterfoundme');
-            
+
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult)
         }
     }
@@ -199,9 +199,12 @@ class ShelterPage extends Page {
             let level = parseInt(text[1].substring(4))
 
             // get level that pokemon needs to be at to evolve
-            let evolve_level = 7;
+            let evolve_level = undefined
+            if(GLOBALS.EVOLVE_BY_LEVEL_LIST[name] !== undefined) {
+                evolve_level = parseInt(GLOBALS.EVOLVE_BY_LEVEL_LIST[name].split(' ')[1])
+            }
 
-            if(level >= evolve_level) {
+            if(evolve_level !== undefined && level >= evolve_level) {
                 let shelterBigImg = $(s).prev().children('img.big');
                 readyBigImg.push(shelterBigImg)
             }
@@ -290,12 +293,12 @@ class ShelterPage extends Page {
 
         if(this.settings.findNewEgg === true) {
             let key = 'findNewEgg'
-            let value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1]            
+            let value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1]
             let selected = $("#shelterarea .tooltip_content:contains(" + value + ")").filter(function(){
                 // .text() will include the text in the View/Adopt and Hide buttons, so there will be a space
                 return $(this).text().startsWith(value + " ");
             });
-            
+
             if (selected.length) {
                 let searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
                 let imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];

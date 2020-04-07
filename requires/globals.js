@@ -108,3 +108,5 @@ if(!DexUtilities.loadDexIntoGlobalsFromStorage()) { // can't load it from storag
 } else { // can load it from storage
     DexUtilities.loadDexIntoGlobalsFromWebIfOld(); // reload it from web if it's old
 }
+
+GLOBALS.EVOLVE_BY_LEVEL_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
