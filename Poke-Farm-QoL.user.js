@@ -3,9 +3,9 @@
 // @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
 // @homepage     https://github.com/jpgualdarrama/PokeFarmShelter
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmShelter/raw/master/Poke-Farm-QoL.user.js
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmShelter/raw/dev/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      1.3.52
+// @version      1.3.54
 // @match        https://pokefarm.com/*
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
@@ -36,11 +36,6 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // ==/UserScript==
-
-/*
-  1. Modularize
-  2. Commonize
-*/
 
 (function($) {
     'use strict';
@@ -328,11 +323,89 @@
     $(document).on('click', '#updateDex', (function() {
         // GLOBALS.DEX_DATA will contain the latest info as is read from local storage
         // this handler updates the local storage
-        console.log('Clicked!')
+        const progressSpan = $('span.qolDexUpdateProgress')[0]
+        progressSpan.textContent = "Loading..."
+
         let date = (new Date()).toUTCString();
         GLOBALS.DEX_UPDATE_DATE = date;
         $('.qolDate').text(GLOBALS.DEX_UPDATE_DATE);
-        updateLocalStorageDex(date);
+        DexUtilities.updateLocalStorageDex(date);
+
+        // this will update the GLOBALS.EVOLVE_BY_LEVEL_LIST
+        // and local storage
+        DexUtilities.loadDexPage().then((data) => {
+            let html = jQuery.parseHTML(data)
+            let dex = $(html[10].querySelector('#dexdata')).html()
+            let json = JSON.parse(dex)
+            const dexNumbers = [];
+
+            // load current list of processed dex IDs
+            let dexIDsCache = []
+            if(localStorage.getItem('QoLDexIDsCache') !== null) {
+                dexIDsCache = JSON.parse(localStorage.getItem('QoLDexIDsCache'))
+            }
+
+            // get the list of pokedex numbers that haven't been processed before
+            for(let r in json.regions) {
+                for(let i = 0; i < json.regions[r].length; i++) {
+                    if(dexIDsCache.indexOf(json.regions[r][i][0]) == -1) {
+                        dexNumbers.push(json.regions[r][i][0])
+                    }
+                }
+            }
+
+            // Add the list of dexNumbers to the cache and write it back to local storage
+            dexIDsCache = dexIDsCache.concat(dexNumbers)
+            localStorage.setItem('QoLDexIDsCache', JSON.stringify(dexIDsCache))
+
+            // load current evolve by level list
+            let evolveByLevelList = {}
+            if(localStorage.getItem('QoLEvolveByLevel') !== null) {
+                evolveByLevelList = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
+            }
+
+            if(dexNumbers.length > 0) {
+                // update the progress bar in the hub
+                const limit = dexNumbers.length
+                const progressBar = $('progress.qolDexUpdateProgress')[0]
+                progressBar['max'] = limit
+
+                // load and parse the evolution data for each
+                DexUtilities.loadEvolutionTrees(dexNumbers, progressBar, progressSpan).then((...args) => {
+                    // filter out the html data
+                    let trees = args
+                    const parsed_families_and_dex_ids = DexUtilities.parseEvolutionTrees(trees)
+                    const parsed_families = parsed_families_and_dex_ids[0]
+                    const dex_ids = parsed_families_and_dex_ids[1]
+
+                    // right now, only interested in pokemon that evolve by level
+                    // so, this just builds a list of pokemon that evolve by level
+                    let evolveByLevelList = {}
+                    for(let pokemon in parsed_families) {
+                        let evolutions = parsed_families[pokemon]
+                        for(let i = 0; i < evolutions.length; i++) {
+                            let evo = evolutions[i]
+                            if(!(evo.source in evolveByLevelList) && Array.isArray(evo.condition)) {
+                                for(let j = 0; j < evo.condition.length; j++) {
+                                    let cond = evo.condition[j]
+                                    if(cond.condition === "Level") {
+                                        evolveByLevelList[evo.source] = cond.condition + " " + cond.data
+                                        evolveByLevelList[dex_ids[evo.source]] = cond.condition + " " + cond.data
+                                    } // if
+                                } // for
+                            } // if
+                        } // for
+                    } // for pokemon
+
+                    GLOBALS.EVOLVE_BY_LEVEL_LIST = evolveByLevelList
+                    localStorage.setItem('QoLEvolveByLevel', JSON.stringify(evolveByLevelList))
+                    progressSpan.textContent = "Complete!"
+                }) // loadEvolutionTrees
+            } // if dexNumbers.length > 0
+            else {
+                progressSpan.textContent = "Complete!"
+            }
+        }) // loadDexPage
     }));
 
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log

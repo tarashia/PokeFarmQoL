@@ -1,10 +1,6 @@
 let Helpers = (function Helpers() {
     /* public stuff */
     const API = {
-        shelterKeyIsTopCheckbox(k) {
-            return k != 'findCustom' && k != 'findMale' && k != 'findFemale' && k != 'findNoGender' && k != 'customEgg' && k != 'customPokemon' && k != 'customPng';
-        },
-
         publicFieldsKeyIsTopCheckbox(k) {
             return k === 'fieldNewPokemon' || k === 'fieldShiny' || k === 'fieldAlbino' || k === 'fieldMelanistic' ||
                 k === 'fieldPrehistoric' || k === 'fieldDelta' || k === 'fieldMega' || k === 'fieldStarter' ||

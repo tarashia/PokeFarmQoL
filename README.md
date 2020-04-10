@@ -19,12 +19,14 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 
 # Open Suggestions
 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
-- **Shelter** - Highlight pokemon that are ready to evolve (not by item)
 - **Private Field** - Highlight Pokemon based on how fully evolved they are
 - **All** - Add "at a glance" party reminder in the timers bar
 - **Pokedex** - Search for dual type pokemon
 - **Public/Private Field** - Emulate advanced search features from shelter
 - **Public/Private Field** - Make the automatic tooltip function toggable
+
+# In Progress
+- **Shelter** - Highlight pokemon that are ready to evolve (not by item)
 
 # Past Suggestions/Issues
 - **Farm Page** - Easy Evolution doesn't work when the list is sorted - This was not fixed, because it is impossible to implement given the current design of the sorted lists without copying code from pokefarm.
