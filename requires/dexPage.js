@@ -7,10 +7,25 @@ class DexPage extends Page {
                 obj.filter();
             });
         });
+        this.typeArray = []
     }
 
     setupHTML() {
-
+//         const type1SelectDiv = `<select name="type1" class="qolsetting filtertype" data-key="filterType" array-name="filterTypes">` +
+//               GLOBALS.TYPE_OPTIONS + `</select>`
+//         const type2SelectDiv = `<select name="type2" class="qolsetting filtertype" data-key="filterType" array-name="filterTypes">` +
+//               GLOBALS.TYPE_OPTIONS + `</select>`
+//         const multifilter = `<li class="entry filter filter-type2">` +
+//               `<a class="ecnt" href="#">` +
+//               `<span class="type type-unknown"></span>` +
+//               `<span class="qol-types">` +
+//               `<span class="type-wrap-span">` + type1SelectDiv + `</span>` +
+//               `<span class="type-wrap-span">` + type2SelectDiv + `</span>` +
+//               `</span>` +
+//               `</a>` +
+//               `</li>`
+        const elem = document.querySelector('.filter-type')
+        elem.parentNode.appendChild(elem.cloneNode(true))
     }
 
     setupHandlers() {
