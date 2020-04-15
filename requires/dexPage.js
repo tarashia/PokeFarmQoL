@@ -25,11 +25,70 @@ class DexPage extends Page {
 //               `</a>` +
 //               `</li>`
         const elem = document.querySelector('.filter-type')
-        elem.parentNode.appendChild(elem.cloneNode(true))
+        const clone = elem.cloneNode(true)
+        elem.parentNode.appendChild(clone)
+        $(clone).addClass('filter-type-2')
     }
 
     setupHandlers() {
+        var h = $.parseJSON($("#dexdata").html())
+        const q = $("#dextemplate").html();
+        const type2 = $('.filter-type-2')
+        const g = document.querySelector('.filter-type-2 .name')
+        const l = document.querySelector(".filter-type-2 .types")
+        const c = $(l).children()
+        const k = c.map(function() {
+            return this.getAttribute("data-type")
+        }).get()
+        // based on code from dex.min.js
+        function toggleSelected(b) {
+            l.addClass("selected");
+            c.removeClass("selected");
+            if(b && b.length) {
+                g.text(a(b.data("type")))
+                b.addClass("selected")
+            } else {
+                l.removeClass("selected")
+                g.text("")
+            }
+        }
 
+        function e() {
+            var a = c.filter(".selected").data("type");
+            h = a;
+            f.removeClass("filter-type");
+            $.each(k, function(b, c) {
+                c == a ? f.addClass("filter-type").addClass("t-" + c) : f.removeClass("t-" + c)
+            })
+        }
+
+        type2.on("mousedown.dextfilter touchstart.dextfilter", function(event) {
+            event.preventDefault();
+            var leftedge = type2.offset().left
+            var width = type2.width();
+            var rightedge = leftedge + width
+            event.preventDefault();
+            var xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
+            if(xLocation >= leftedge & xLocation < rightedge) {
+                xLocation -= leftedge;
+                xLocation = Math.floor(xLocation / width * c.length)
+                xLocation = c.eq(xLocation)
+                if(xLocation.data("type") == h) {
+                    toggleSelected()
+                } else {
+                    h = null
+                    toggleSelected(xLocation)
+                }
+            } else {
+                toggleSelected()
+            }
+        })
+        $(document.body).on("mousemove.dextfilter touchmove.dextfilter", type2)
+            .on("mouseup.dextfilter touchend.dextfilter touchcancel.dextfilter", function(event) {
+            event.preventDefault();
+            $(document.body).off("mousemove.dextfilter touchmove.dextfilter mouseup.dextfilter touchend.dextfilter touchcancel.dextfilter");
+            e()
+        })
     }
 
     addTypeList() {
