@@ -17,6 +17,7 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~**Shelter** - Delta Pokemon are not highlighted~~
 - ~~**Public/Private Fields** - Nicknamed pokemon are not highlighted correctly~~
 - ~~**All** - Script not working, but old script is working. Multiple users affected~~
+- --**Public/Private Fields** - parseFieldTooltip does not properly handle cases were the tooltip contains different information
 
 # Open Suggestions
 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
