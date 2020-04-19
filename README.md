@@ -10,12 +10,14 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - Highlight eligible breeding partners for a pokemon while searching from the daycare
 
 # Open Issues
-- ~~**Multiuser Page** - Party Mods don't work~~
-- ~~**Farm Page** - Sorting by new dex entry doesn't work~~
-- ~~**Public Fields** - Searching other player's fields doesn't work~~
-- ~~**Public/Private Field** - When reloading page with no types, the page will reload with 15 empty type boxes~~
-- ~~**Shelter** - Delta Pokemon are not highlighted~~
-- ~~**Public/Private Fields** - Nicknamed pokemon are not highlighted correctly~~
+- ~~ISSUE 1 - **Multiuser Page** - Party Mods don't work~~
+- ~~ISSUE 2 - **Farm Page** - Sorting by new dex entry doesn't work~~
+- ~~ISSUE 3 - **Public Fields** - Searching other player's fields doesn't work~~
+- ~~ISSUE 4 - **Public/Private Field** - When reloading page with no types, the page will reload with 15 empty type boxes~~
+- ~~ISSUE 5 - **Shelter** - Delta Pokemon are not highlighted~~
+- ~~ISSUE 6 - **Public/Private Fields** - Nicknamed pokemon are not highlighted correctly~~
+- ~~ISSUE 7 - **All** - Script not working, but old script is working. Multiple users affected~~
+- ISSUE 8 - **Public/Private Fields** - parseFieldTooltip does not properly handle cases were the tooltip contains different information
 
 # Open Suggestions
 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
