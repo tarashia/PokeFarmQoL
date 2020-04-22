@@ -19,6 +19,7 @@
 // @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_8/resources/templates/privateFieldSearchHTML.html
 // @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_8/resources/css/pfqol.css
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_8/requires/helpers.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_8/requires/dexUtilities.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_8/requires/globals.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_8/requires/basePage.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_8/requires/shelterPage.js
