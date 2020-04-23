@@ -123,7 +123,7 @@ let Helpers = (function Helpers() {
             happiness = parseInt(happiness.substring(0, happiness.length-1))
 
             // nature
-            let nature = dataElements[index++].textContent.split(' ')[1]
+            let nature = dataElements[index++].textContent.split(' ')[1].replace('(', '').trim()
             nature = GLOBALS.NATURE_LIST.indexOf(nature) // .substring(0, nature.length-1))
 
             // held item

@@ -111,7 +111,7 @@ class PrivateFieldsPage extends Page {
         }));
 
         $(document).on('click', '#addPrivateFieldEggGroupSearch', (function() { //add egg group nature search
-            obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroupSearch', 'eggGroupTypes', 'eggGroupArray')
+            obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray')
             obj.customSearch();
         }));
 
@@ -161,10 +161,10 @@ class PrivateFieldsPage extends Page {
 
                 let searchPokemon = tooltip_data.species;
                 let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
-                let searchTypeOne = dexData[searchPokemonIndex + 1];
-                let searchTypeTwo = dexData[searchPokemonIndex + 2];
+                let searchTypeOne = tooltip_data.types[0] + ""
+                let searchTypeTwo = (tooltip_data.types.length > 1) ? tooltip_data.types[1] + "": ""
 
-                let searchNature = tooltip_data.nature;
+                let searchNature = GLOBALS.NATURE_LIST[tooltip_data.nature];
 
                 let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).
                     children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
@@ -193,7 +193,7 @@ class PrivateFieldsPage extends Page {
         } // end
     }
     addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
-	const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
+        const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
         let number = $(`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(""+number+"");
