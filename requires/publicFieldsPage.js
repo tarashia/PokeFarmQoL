@@ -282,10 +282,10 @@ class PublicFieldsPage extends Page {
 
                 let searchPokemon = tooltip_data.species;
                 let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
-                let searchTypeOne = dexData[searchPokemonIndex + 1];
-                let searchTypeTwo = dexData[searchPokemonIndex + 2];
+                let searchTypeOne = tooltip_data.types[0] + ""
+                let searchTypeTwo = (tooltip_data.types.length > 1) ? tooltip_data.types[1] + "": ""
 
-                let searchNature = tooltip_data.nature;
+                let searchNature = GLOBALS.NATURE_LIST[tooltip_data.nature];
 
                 let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).
                     children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
