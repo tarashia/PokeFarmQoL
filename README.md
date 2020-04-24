@@ -18,6 +18,7 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~ISSUE 6 - **Public/Private Fields** - Nicknamed pokemon are not highlighted correctly~~
 - ~~ISSUE 7 - **All** - Script not working, but old script is working. Multiple users affected~~
 - ISSUE 8 - **Public/Private Fields** - parseFieldTooltip does not properly handle cases were the tooltip contains different information
+- ISSUE 9 - **All** - Script randomly stops working (May be related to TM Issue 477)
 
 # Open Suggestions
 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
