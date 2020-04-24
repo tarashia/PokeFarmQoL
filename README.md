@@ -27,6 +27,7 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - **Pokedex** - Search for dual type pokemon
 - **Public/Private Field** - Emulate advanced search features from shelter
 - **Public/Private Field** - Make the automatic tooltip function toggable
+- **Public Field** - Grey out fully clicked fields - https://pokefarm.com/forum/post/5235358
 
 # In Progress
 - **Shelter** - Highlight pokemon that are ready to evolve (not by item)
