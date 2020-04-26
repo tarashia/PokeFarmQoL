@@ -20,16 +20,16 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ISSUE 9 - **All** - Script randomly stops working (May be related to TM Issue 477)
 
 # Open Suggestions
-- ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
-- **Private Field** - Highlight Pokemon based on how fully evolved they are
-- **All** - Add "at a glance" party reminder in the timers bar
-- **Pokedex** - Search for dual type pokemon
-- **Public/Private Field** - Emulate advanced search features from shelter
-- **Public/Private Field** - Make the automatic tooltip function toggable
-- **Public Field** - Grey out fully clicked fields - https://pokefarm.com/forum/post/5235358
+- SUGGEST 1 - ~~**Public/Private Field** - Move "sort by" toggles above search fields~~
+- SUGGEST 3 - **Private Field** - Highlight Pokemon based on how fully evolved they are
+- SUGGEST 4 - **All** - Add "at a glance" party reminder in the timers bar
+- SUGGEST 5 - **Pokedex** - Search for dual type pokemon
+- SUGGEST 6 - **Public/Private Field** - Emulate advanced search features from shelter
+- SUGGEST 7 - **Public/Private Field** - Make the automatic tooltip function toggable
+- SUGGEST 8 - **Public Field** - Grey out fully clicked fields - https://pokefarm.com/forum/post/5235358
 
 # In Progress
-- **Shelter** - Highlight pokemon that are ready to evolve (not by item)
+- SUGGEST 2 - **Shelter** - Highlight pokemon that are ready to evolve (not by item)
 - ISSUE 8 - **Public/Private Fields** - parseFieldTooltip does not properly handle cases were the tooltip contains different information
 
 # Past Suggestions/Issues
