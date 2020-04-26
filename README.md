@@ -17,7 +17,6 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 - ~~ISSUE 5 - **Shelter** - Delta Pokemon are not highlighted~~
 - ~~ISSUE 6 - **Public/Private Fields** - Nicknamed pokemon are not highlighted correctly~~
 - ~~ISSUE 7 - **All** - Script not working, but old script is working. Multiple users affected~~
-- ISSUE 8 - **Public/Private Fields** - parseFieldTooltip does not properly handle cases were the tooltip contains different information
 - ISSUE 9 - **All** - Script randomly stops working (May be related to TM Issue 477)
 
 # Open Suggestions
@@ -31,6 +30,7 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 
 # In Progress
 - **Shelter** - Highlight pokemon that are ready to evolve (not by item)
+- ISSUE 8 - **Public/Private Fields** - parseFieldTooltip does not properly handle cases were the tooltip contains different information
 
 # Past Suggestions/Issues
 - **Farm Page** - Easy Evolution doesn't work when the list is sorted - This was not fixed, because it is impossible to implement given the current design of the sorted lists without copying code from pokefarm.
