@@ -15,30 +15,30 @@ let Helpers = (function Helpers() {
             return str;
         },
 
-	toggleSetting(key, set = false) {
-	    if (typeof set === 'boolean') {
-		let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
-		if (element && element.type === 'checkbox') {
-		    element.checked = set;
-		}
-	    }
-	    else if (typeof set === 'string') {
-		let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
-		if (element && element.type === 'text') {
-		    element.value = set;
-		}
-	    }
-	}, // toggleSetting
+        toggleSetting(key, set = false) {
+            if (typeof set === 'boolean') {
+                let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
+                if (element && element.type === 'checkbox') {
+                    element.checked = set;
+                }
+            }
+            else if (typeof set === 'string') {
+                let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
+                if (element && element.type === 'text') {
+                    element.value = set;
+                }
+            }
+        }, // toggleSetting
 
-	setupFieldArrayHTML(arr, id, div, cls) {
-	    let n = arr.length;
-	    for(let i = 0; i < n; i++) {
-		let rightDiv = i + 1;
-		let rightValue = arr[i];
-		$(`#${id}`).append(div);
-		$(`.${cls}`).removeClass(cls).addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
-	    }
-	},
+        setupFieldArrayHTML(arr, id, div, cls) {
+            let n = arr.length;
+            for(let i = 0; i < n; i++) {
+                let rightDiv = i + 1;
+                let rightValue = arr[i];
+                $(`#${id}`).append(div);
+                $(`.${cls}`).removeClass(cls).addClass(""+rightDiv+"").find('.qolsetting').val(rightValue);
+            }
+        },
 
         loadSettings(KEY, DEFAULT, obj) {
             if (localStorage.getItem(KEY) === null) {
@@ -74,53 +74,71 @@ let Helpers = (function Helpers() {
             localStorage.setItem(KEY, JSON.stringify(obj));
         },
 
-	textSearchDiv(cls, data_key, id, array_name) {
+        textSearchDiv(cls, data_key, id, array_name) {
             return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${data_key}" ` +
-		((array_name !== undefined) ? `array-name='${array_name}'` : ``) +
-		`/></label><input type='button' value='Remove' id='${id}'></div>`;
-	},
-	
-	selectSearchDiv(cls, name, data_key, options, id, divParent, array_name) {
+                ((array_name !== undefined) ? `array-name='${array_name}'` : ``) +
+                `/></label><input type='button' value='Remove' id='${id}'></div>`;
+        },
+
+        selectSearchDiv(cls, name, data_key, options, id, divParent, array_name) {
             return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${data_key}' ` +
-		`array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
-	},
+                `array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+        },
 
         parseFieldPokemonTooltip(tooltip) {
             const dataElements = $(tooltip).children(0).children()
 
+            let index = 1;
             // nickname
-            const nickname = dataElements[1].textContent
+            const nickname = dataElements[index++].textContent
 
             // species
-            const species  = dataElements[2].textContent.trim().split(':  ')[1]
+            const species  = dataElements[index++].textContent.trim().split(':  ')[1]
+
+            // dataElements[3] will be a forme if the pokemon has a forme
+            let forme = ""
+            if(dataElements[index].textContent.startsWith("Forme")) {
+                forme = dataElements[index++].textContent.substr("Forme: ".length)
+            }
 
             // types
-            const typeElements = $(dataElements[3]).children().slice(1,)
+            const typeElements = $(dataElements[index++]).children().slice(1,)
             const typeUrls = typeElements.map(idx => typeElements[idx]['src'])
             let types = typeUrls.map(idx =>
                                      typeUrls[idx].substring(typeUrls[idx].indexOf("types/")+"types/".length,
                                                              typeUrls[idx].indexOf(".png")))
             types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1))
             types = types.map(idx => GLOBALS.TYPE_LIST.indexOf(types[idx]))
-            
+
             // level
-            const level = parseInt(dataElements[4].textContent.split(' ')[1])
+            const level = parseInt(dataElements[index++].textContent.split(' ')[1])
+
+            // if the pokemon's happiness is less than max, skip the next index, since it will be a progress bar
+            if(!dataElements[index].textContent.startsWith("Happiness")) {
+                index++;
+            }
 
             // happiness
-            let happiness = dataElements[6].textContent.split(' ')[1].trim()
+            let happiness = dataElements[index++].textContent.split(' ')[1].trim()
             happiness = parseInt(happiness.substring(0, happiness.length-1))
 
             // nature
-            let nature = dataElements[7].textContent.split(' ')[1]
-            nature = GLOBALS.NATURE_LIST.indexOf(nature.substring(0, nature.length-1))
+            let nature = dataElements[index++].textContent.split(' ')[1].replace('(', '').trim()
+            nature = GLOBALS.NATURE_LIST.indexOf(nature) // .substring(0, nature.length-1))
 
             // held item
-            const item = dataElements[8].textContent.substring(dataElements[8].textContent.indexOf(' ')+1)
+            let item = ""
+            if(dataElements[index].textContent !== "Item: None") {
+                item = dataElements[index++].textContent.substring(dataElements[8].textContent.indexOf(' ')+1)
+            } else {
+                item = "None"
+                index++
+            }
 
             // egg groups
-            const eggGroups = dataElements[9].textContent.substring("Egg Group: ".length).split('/')
+            const eggGroups = dataElements[index++].textContent.substring("Egg Group: ".length).split('/')
 
-            return {
+            const ret = {
                 'nickname': nickname,
                 'species': species,
                 'types': types,
@@ -130,8 +148,12 @@ let Helpers = (function Helpers() {
                 'item': item,
                 'eggGroups': eggGroups,
             }
+            if(forme !== "") {
+                ret.forme = forme
+            }
+            return ret;
         }
-	
+
     };
 
     return API;
