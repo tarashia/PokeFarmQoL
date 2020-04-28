@@ -4,26 +4,18 @@ class DexPage extends Page {
         const obj = this
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                obj.filter();
+                obj.applyTypeFilters();
             });
         });
         this.typeArray = []
     }
-
+    setupObserver() {
+        this.observer.observe(document.querySelector('#regionslist'), {
+            childList: true,
+            subtree: true,
+        });
+    }
     setupHTML() {
-//         const type1SelectDiv = `<select name="type1" class="qolsetting filtertype" data-key="filterType" array-name="filterTypes">` +
-//               GLOBALS.TYPE_OPTIONS + `</select>`
-//         const type2SelectDiv = `<select name="type2" class="qolsetting filtertype" data-key="filterType" array-name="filterTypes">` +
-//               GLOBALS.TYPE_OPTIONS + `</select>`
-//         const multifilter = `<li class="entry filter filter-type2">` +
-//               `<a class="ecnt" href="#">` +
-//               `<span class="type type-unknown"></span>` +
-//               `<span class="qol-types">` +
-//               `<span class="type-wrap-span">` + type1SelectDiv + `</span>` +
-//               `<span class="type-wrap-span">` + type2SelectDiv + `</span>` +
-//               `</span>` +
-//               `</a>` +
-//               `</li>`
         const elem = document.querySelector('.filter-type')
         const clone = elem.cloneNode(true)
         elem.parentNode.appendChild(clone)
@@ -31,41 +23,22 @@ class DexPage extends Page {
     }
 
     setupHandlers() {
+        const obj = this
         var h = $.parseJSON($("#dexdata").html())
-        const q = $("#dextemplate").html();
         const type2 = $('.filter-type-2')
-        const g = document.querySelector('.filter-type-2 .name')
-        const l = document.querySelector(".filter-type-2 .types")
-        const c = $(l).children()
+        const g = $('.filter-type-2 .name i')
+        const l = $(".filter-type-2 .types")
+        const c = l.children()
         const k = c.map(function() {
             return this.getAttribute("data-type")
         }).get()
-        // based on code from dex.min.js
-        function toggleSelected(b) {
-            l.addClass("selected");
-            c.removeClass("selected");
-            if(b && b.length) {
-                g.text(a(b.data("type")))
-                b.addClass("selected")
-            } else {
-                l.removeClass("selected")
-                g.text("")
-            }
-        }
 
-        function e() {
-            var a = c.filter(".selected").data("type");
-            h = a;
-            f.removeClass("filter-type");
-            $.each(k, function(b, c) {
-                c == a ? f.addClass("filter-type").addClass("t-" + c) : f.removeClass("t-" + c)
-            })
-        }
+        const typesSpan = $('.filter-type-2 .types')
 
         type2.on("mousedown.dextfilter touchstart.dextfilter", function(event) {
             event.preventDefault();
-            var leftedge = type2.offset().left
-            var width = type2.width();
+            var leftedge = typesSpan.offset().left
+            var width = typesSpan.width();
             var rightedge = leftedge + width
             event.preventDefault();
             var xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
@@ -74,21 +47,65 @@ class DexPage extends Page {
                 xLocation = Math.floor(xLocation / width * c.length)
                 xLocation = c.eq(xLocation)
                 if(xLocation.data("type") == h) {
-                    toggleSelected()
+                    obj.toggleSelectedTypes()
+                    obj.applyTypeFilters();
                 } else {
                     h = null
-                    toggleSelected(xLocation)
+                    obj.toggleSelectedTypes(xLocation)
+                    obj.applyTypeFilters();
                 }
             } else {
-                toggleSelected()
+                obj.toggleSelectedTypes()
+                obj.applyTypeFilters();
             }
         })
         $(document.body).on("mousemove.dextfilter touchmove.dextfilter", type2)
             .on("mouseup.dextfilter touchend.dextfilter touchcancel.dextfilter", function(event) {
             event.preventDefault();
-            $(document.body).off("mousemove.dextfilter touchmove.dextfilter mouseup.dextfilter touchend.dextfilter touchcancel.dextfilter");
-            e()
+            // $(document.body).off("mousemove.dextfilter touchmove.dextfilter mouseup.dextfilter touchend.dextfilter touchcancel.dextfilter");
+            obj.applyTypeFilters()
         })
+    }
+
+    toggleSelectedTypes(b) {
+        const g = $('.filter-type-2 .name i')
+        const l = $(".filter-type-2 .types")
+        const c = l.children()
+
+        l.addClass("selected");
+        c.removeClass("selected");
+        if(b && b.length) {
+            g.text(b.data("type").charAt(0).toUpperCase() + b.data("type").slice(1))
+            b.addClass("selected")
+        } else {
+            l.removeClass("selected")
+            g.text("")
+        }
+    }
+
+    applyTypeFilters() {
+        const l1 = $(".filter-type .types")
+        const l = $(".filter-type-2 .types")
+        const c1 = l1.children()
+        const c = l.children()
+
+        // get the first filter type
+        const a1 = c1.filter(".selected").data("type");
+        const a = c.filter(".selected").data("type");
+
+        let selector = '.region-entries>li.entry'
+        if(a1 !== undefined) {
+            selector += '.t-' + a1
+        }
+        if(a !== undefined) {
+            selector += '.t-' + a
+        }
+        if(a1 || a) {
+            // Set "display" to "none" for all elements
+            $('.region-entries>li.entry').css("display", "none")
+            // Set "display" to "inline-block" for elements matching selector
+            $(selector).css("display", "inline-block")
+        }
     }
 
     addTypeList() {
