@@ -3,35 +3,35 @@
 // @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
 // @homepage     https://github.com/jpgualdarrama/PokeFarmShelter
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmShelter/raw/dev/Poke-Farm-QoL.user.js
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmShelter/raw/test_issue_13/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.3.54
 // @match        https://pokefarm.com/*
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
 // @require      https://cdn.rawgit.com/omichelsen/compare-versions/v3.1.0/index.js
-// @resource     QolHubHTML            https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/resources/templates/qolHubHTML.html
-// @resource     shelterSettingsHTML    https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/resources/templates/shelterOptionsHTML.html
-// @resource     evolveFastHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/resources/templates/evolveFastHTML.html
-// @resource     labOptionsHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/resources/templates/labOptionsHTML.html
-// @resource     fieldSortHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/resources/templates/fieldSortHTML.html
-// @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/resources/templates/fieldSearchHTML.html
-// @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/resources/templates/privateFieldSearchHTML.html
-// @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/resources/css/pfqol.css
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/helpers.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/dexUtilities.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/globals.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/basePage.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/shelterPage.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/privateFieldsPage.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/publicFieldsPage.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/labPage.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/fishingPage.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/multiuserPage.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/farmPage.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/daycarePage.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/dev/requires/dexPage.js
-// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/dev/Poke-Farm-QoL.user.js
+// @resource     QolHubHTML            https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/resources/templates/qolHubHTML.html
+// @resource     shelterSettingsHTML    https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/resources/templates/shelterOptionsHTML.html
+// @resource     evolveFastHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/resources/templates/evolveFastHTML.html
+// @resource     labOptionsHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/resources/templates/labOptionsHTML.html
+// @resource     fieldSortHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/resources/templates/fieldSortHTML.html
+// @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/resources/templates/fieldSearchHTML.html
+// @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/resources/templates/privateFieldSearchHTML.html
+// @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/resources/css/pfqol.css
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/helpers.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/dexUtilities.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/globals.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/basePage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/shelterPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/privateFieldsPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/publicFieldsPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/labPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/fishingPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/multiuserPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/farmPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/daycarePage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_issue_13/requires/dexPage.js
+// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/test_issue_13/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
