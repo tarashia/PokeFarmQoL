@@ -19,6 +19,8 @@ class DexPage extends Page {
         const elem = document.querySelector('.filter-type')
         const clone = elem.cloneNode(true)
         elem.parentNode.appendChild(clone)
+        // can't remove filter-type class or else the filtering
+        // won't look right
         $(clone).addClass('filter-type-2')
     }
 
@@ -59,12 +61,6 @@ class DexPage extends Page {
                 obj.applyTypeFilters();
             }
         })
-        $(document.body).on("mousemove.dextfilter touchmove.dextfilter", type2)
-            .on("mouseup.dextfilter touchend.dextfilter touchcancel.dextfilter", function(event) {
-            event.preventDefault();
-            // $(document.body).off("mousemove.dextfilter touchmove.dextfilter mouseup.dextfilter touchend.dextfilter touchcancel.dextfilter");
-            obj.applyTypeFilters()
-        })
     }
 
     toggleSelectedTypes(b) {
@@ -75,8 +71,14 @@ class DexPage extends Page {
         l.addClass("selected");
         c.removeClass("selected");
         if(b && b.length) {
-            g.text(b.data("type").charAt(0).toUpperCase() + b.data("type").slice(1))
-            b.addClass("selected")
+            if(!b.hasClass("selected")) {
+                b.addClass("selected")
+                g.text(b.data("type").charAt(0).toUpperCase() + b.data("type").slice(1))
+            } else {
+                l.removeClass("selected")
+                b.removeClass("selected")
+                g.text("")
+            }
         } else {
             l.removeClass("selected")
             g.text("")
@@ -84,8 +86,8 @@ class DexPage extends Page {
     }
 
     applyTypeFilters() {
-        const l1 = $(".filter-type .types")
-        const l = $(".filter-type-2 .types")
+        const l1 = $(".entry.filter-type:not(.filter-type-2) .types")
+        const l = $(".entry.filter-type-2 .types")
         const c1 = l1.children()
         const c = l.children()
 
@@ -104,6 +106,8 @@ class DexPage extends Page {
             // Set "display" to "none" for all elements
             $('.region-entries>li.entry').css("display", "none")
             // Set "display" to "inline-block" for elements matching selector
+            $(selector).css("display", "inline-block")
+        } else {
             $(selector).css("display", "inline-block")
         }
     }
