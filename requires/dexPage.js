@@ -49,10 +49,11 @@ class DexPage extends Page {
                 xLocation = Math.floor(xLocation / width * c.length)
                 xLocation = c.eq(xLocation)
                 if(xLocation.data("type") == h) {
+                    h = null
                     obj.toggleSelectedTypes()
                     obj.applyTypeFilters();
                 } else {
-                    h = null
+                    h = xLocation.data("type")
                     obj.toggleSelectedTypes(xLocation)
                     obj.applyTypeFilters();
                 }
