@@ -30,6 +30,7 @@
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_merge_issue_13_into_master/requires/multiuserPage.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_merge_issue_13_into_master/requires/farmPage.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_merge_issue_13_into_master/requires/daycarePage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/test_merge_issue_13_into_master/requires/dexPage.js
 // @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/test_merge_issue_13_into_master/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
