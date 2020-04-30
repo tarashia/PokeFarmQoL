@@ -1,6 +1,6 @@
 class DexPage extends Page {
     constructor() {
-        super('QoLPokedex', {}, '/dex')
+        super('QoLDexPage', {}, '/dex')
         const obj = this
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
