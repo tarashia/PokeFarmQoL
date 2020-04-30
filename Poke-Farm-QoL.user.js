@@ -2,8 +2,8 @@
 // @name         Poké Farm QoL
 // @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
-// @homepage     https://github.com/jpgualdarrama/PokeFarmShelter
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmShelter/raw/master/Poke-Farm-QoL.user.js
+// @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.3.55
 // @match        https://pokefarm.com/*
