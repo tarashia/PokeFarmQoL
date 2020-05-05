@@ -90,11 +90,25 @@ class FarmPage extends Page {
         }
         catch(err){ /* empty */ }
     }
+    checkForValidDexData(pokemon) {
+        if(GLOBALS.DEX_DATA === undefined) {
+            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub')
+        } else if(GLOBALS.DEX_DATA === null) {
+            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub')
+        } else if(pokemon !== undefined) {
+            if(GLOBALS.DEX_DATA.indexOf(`"${pokemon}"`) === -1) {
+                window.laert(`Could not find ${pokemon} in the currently loaded Pokedex data. ` +
+                             `Please reload by pressing "Update Pokdex" in the QoL Hub`);
+            }
+        }
+    }
     easyEvolveNormalList() {
         this.clearSortedEvolveLists()
+        this.checkForValidDexData()
     }
     easyEvolveTypeList() {
         const obj = this
+        obj.checkForValidDexData()
         let dexData = GLOBALS.DEX_DATA;
         this.clearSortedEvolveLists()
 
@@ -120,6 +134,8 @@ class FarmPage extends Page {
             let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
             let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
             let evolveInDex = dexData.indexOf('"'+evolvePokemon+'"') != -1;
+            obj.checkForValidDexData(previousPokemon)
+            obj.checkForValidDexData(evolvePokemon)
 
             // if the pokemon's name doens't match the species name, previousInDex will be false
             // load the pokemon's species and set the pokemon's name to the species name for the rest of this loop
