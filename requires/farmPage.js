@@ -97,7 +97,7 @@ class FarmPage extends Page {
             window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub')
         } else if(pokemon !== undefined) {
             if(GLOBALS.DEX_DATA.indexOf(`"${pokemon}"`) === -1) {
-                window.laert(`Could not find ${pokemon} in the currently loaded Pokedex data. ` +
+                window.alert(`Could not find ${pokemon} in the currently loaded Pokedex data. ` +
                              `Please reload by pressing "Update Pokdex" in the QoL Hub`);
             }
         }
@@ -134,9 +134,7 @@ class FarmPage extends Page {
             let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
             let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
             let evolveInDex = dexData.indexOf('"'+evolvePokemon+'"') != -1;
-            obj.checkForValidDexData(previousPokemon)
-            obj.checkForValidDexData(evolvePokemon)
-
+            
             // if the pokemon's name doens't match the species name, previousInDex will be false
             // load the pokemon's species and set the pokemon's name to the species name for the rest of this loop
             if (!previousInDex) {
@@ -168,6 +166,7 @@ class FarmPage extends Page {
                     }
                 } else {
                     // Get the dex number for previousPokemon
+                    obj.checkForValidDexData(previousPokemon)
                     let dexNumber = dexData[dexData.indexOf('"'+previousPokemon+'"') - 1].replace(/"/g,'').replace('[', '');
                     // Load the dex page for previousPokemon
                     let evolutions = {}
@@ -221,6 +220,7 @@ class FarmPage extends Page {
                     } // for
                 }
             } else {
+                obj.checkForValidDexData(evolvePokemon)
                 evolveTypeOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 1];
                 evolveTypeTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 2];
             }
