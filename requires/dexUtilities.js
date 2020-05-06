@@ -14,7 +14,16 @@ class DexUtilities {
         if(Object.keys(JSON.parse(localStorage.getItem('QoLPokedex'))).length === 0) {
             return false;
         }
+
         let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
+        // if QoLPokedex only contains date
+        if((dateAndDex.length === 1) ||
+           // or if the dex part of the array is empty
+           (dateAndDex[1] === undefined) ||
+            (dateAndDex[1] === null)) {
+            return false;
+        }
+
         GLOBALS.DEX_UPDATE_DATE = dateAndDex[0];
         let dex = dateAndDex.slice(1);
         GLOBALS.DEX_DATA = dex;
