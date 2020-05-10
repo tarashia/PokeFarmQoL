@@ -177,7 +177,7 @@ class FarmPage extends Page {
                             previousInDex = true
 
                             // load types from the summary page
-                            let typeImgs = html[9].querySelectorAll('.type>img'), typeUrls = []
+                            let typeImgs = html[25].querySelectorAll('.type>img'), typeUrls = []
                             typeImgs.forEach((e) => typeUrls.push(e['src']))
                             let types = typeUrls.map((url, idx) =>
                                                      url.substring(url.indexOf("types/")+"types/".length,
