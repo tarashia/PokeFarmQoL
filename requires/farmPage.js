@@ -150,8 +150,27 @@ class FarmPage extends Page {
                     async: false,
                     success: function(data) {
                         let html = jQuery.parseHTML(data)
-                        previousPokemon = html[25].querySelector('#pkmnspecdata>p>a').text
-                        previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                        // for some reason, the links can be loaded in a different order
+                        /// so do not assume that the first <a> is the species
+                        let links = html[25].querySelectorAll('#pkmnspecdata>p>a')
+                        let hrefs = []
+                        let speciesIndex = -1;
+                        links.forEach((e) => hrefs.push(e.getAttribute('href')))
+                        for(let i = 0; i < links.length; i++) {
+                            if(hrefs[i].match(/\/dex\/.*/)) {
+                                speciesIndex = i;
+                                break;
+                            }
+                        }
+                        if(speciesIndex === -1) {
+                            const msg = `Unable to determine species of pokemon from ${url}.`
+                            console.error(msg)
+                            window.aleret(msg)
+                            previousInDex = false;
+                        } else {
+                            previousPokemon = links[speciesIndex].text
+                            previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         const msg = `Unable to load the summary page ${url}.`
