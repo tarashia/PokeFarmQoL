@@ -164,7 +164,7 @@ class FarmPage extends Page {
 
             // error if still can't find previousPokemon in dexData
             if(!previousInDex) {
-                const msg = `Unable to find ${previousPokemon} in pokedex. Stopping to prevent this from ` +
+                const msg = `Unable to find pokemon evolving from (${previousPokemon}) in pokedex. Stopping to prevent this from ` +
                       `popping up repeatedly. Please try reloading the pokedex data from the QoL Hub and refreshing the page.`
                 console.error(msg)
                 window.alert(msg)
@@ -318,7 +318,7 @@ class FarmPage extends Page {
             }
 
             if(!evolveInDex) {
-                const msg = `Unable to find ${evolvePokemon} in pokedex data, or unable to load it from PokeFarm Dex page` +
+                const msg = `Unable to find pokemon evolving to (${evolvePokemon}) in pokedex data, or unable to load it from PokeFarm Dex page` +
                       `Stopping processing to prevent this from happening multiple times. Please try reloading the dex data` +
                       `through the QoL Hub`
                 console.error(msg)
