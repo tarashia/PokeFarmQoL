@@ -139,6 +139,11 @@ class FarmPage extends Page {
             let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
             let evolveInDex = dexData.indexOf('"'+evolvePokemon+'"') != -1;
 
+            let evolveTypePrevOne = "";
+            let evolveTypePrevTwo = "";
+            let evolveTypeOne = "";
+            let evolveTypeTwo = "";
+
             // if the pokemon's name doesn't match the species name, previousInDex will be false
             // load the pokemon's species and set the pokemon's name to the species name for the rest of this loop
             if (!previousInDex) {
@@ -169,7 +174,19 @@ class FarmPage extends Page {
                             previousInDex = false;
                         } else {
                             previousPokemon = links[speciesIndex].text
-                            previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                            previousInDex = true
+
+                            // load types from the summary page
+                            let typeImgs = html[9].querySelectorAll('.type>img'), typeUrls = []
+                            typeImgs.forEach((e) => typeUrls.push(e['src']))
+                            let types = typeUrls.map((url, idx) =>
+                                                     url.substring(url.indexOf("types/")+"types/".length,
+                                                                   url.indexOf(".png")))
+                            types = types.map((type, idx) => type.charAt(0).toUpperCase() + type.substring(1))
+                            types = types.map((type, idx) => GLOBALS.TYPE_LIST.indexOf(type))
+                            evolveTypePrevOne = "" + types[0]
+                            if(types.length > 1) { evolveTypePrevTwo = "" + types[1] }
+
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -179,6 +196,9 @@ class FarmPage extends Page {
                         previousInDex = false
                     },
                 });
+            } else {
+                evolveTypePrevOne = dexData[dexData.indexOf('"'+previousPokemon+'"') + 1];
+                evolveTypePrevTwo = dexData[dexData.indexOf('"'+previousPokemon+'"') + 2];
             }
 
             // error if still can't find previousPokemon in dexData
@@ -191,13 +211,6 @@ class FarmPage extends Page {
             }
 
             // whether or not the pokemon already existed in the dex or was loaded from the dex, we can now load its types
-            obj.checkForValidDexData(previousPokemon)
-            let evolveTypePrevOne = dexData[dexData.indexOf('"'+previousPokemon+'"') + 1];
-            let evolveTypePrevTwo = dexData[dexData.indexOf('"'+previousPokemon+'"') + 2];
-
-            let evolveTypeOne = "";
-            let evolveTypeTwo = "";
-
             if (!evolveInDex) {
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
                     evolveTypeOne = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon][0]
@@ -250,9 +263,9 @@ class FarmPage extends Page {
                                 evolutions[evoNumber] = evoName
                             })
                             evolveInDex = true;
+
                             // Get the types
-                            let typeImgs = html[9].querySelectorAll('#dexinfo .dexdetails>li>img')
-                            let typeUrls = []
+                            let typeImgs = html[9].querySelectorAll('#dexinfo .dexdetails>li>img'), typeUrls = []
                             typeImgs.forEach((e) => typeUrls.push(e['src']))
                             let types = typeUrls.map((url, idx) =>
                                                      url.substring(url.indexOf("types/")+"types/".length,
