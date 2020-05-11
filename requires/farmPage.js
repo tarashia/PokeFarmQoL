@@ -132,10 +132,19 @@ class FarmPage extends Page {
             let getEvolveString = $(this).html();
             let previousPokemon = getEvolveString.substring(getEvolveString.indexOf('/summary/') + '/summary/'.length + 7, getEvolveString.indexOf('</a>'))
             let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
+
+            // Handle unicode characters
+            previousPokemon = previousPokemon.replace(/é/g, '\\u00e9')
+
             let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
             let evolveInDex = dexData.indexOf('"'+evolvePokemon+'"') != -1;
 
-            // if the pokemon's name doens't match the species name, previousInDex will be false
+            let evolveTypePrevOne = "";
+            let evolveTypePrevTwo = "";
+            let evolveTypeOne = "";
+            let evolveTypeTwo = "";
+
+            // if the pokemon's name doesn't match the species name, previousInDex will be false
             // load the pokemon's species and set the pokemon's name to the species name for the rest of this loop
             if (!previousInDex) {
                 let url = getEvolveString.substr(getEvolveString.indexOf('href="')+'href="'.length, '/summary/AAAAA'.length);
@@ -146,8 +155,39 @@ class FarmPage extends Page {
                     async: false,
                     success: function(data) {
                         let html = jQuery.parseHTML(data)
-                        previousPokemon = html[25].querySelector('#pkmnspecdata>p>a').text
-                        previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                        // for some reason, the links can be loaded in a different order
+                        /// so do not assume that the first <a> is the species
+                        let links = html[25].querySelectorAll('#pkmnspecdata>p>a')
+                        let hrefs = []
+                        let speciesIndex = -1;
+                        links.forEach((e) => hrefs.push(e.getAttribute('href')))
+                        for(let i = 0; i < links.length; i++) {
+                            if(hrefs[i].match(/\/dex\/.*/)) {
+                                speciesIndex = i;
+                                break;
+                            }
+                        }
+                        if(speciesIndex === -1) {
+                            const msg = `Unable to determine species of pokemon from ${url}.`
+                            console.error(msg)
+                            window.aleret(msg)
+                            previousInDex = false;
+                        } else {
+                            previousPokemon = links[speciesIndex].text
+                            previousInDex = true
+
+                            // load types from the summary page
+                            let typeImgs = html[25].querySelectorAll('.type>img'), typeUrls = []
+                            typeImgs.forEach((e) => typeUrls.push(e['src']))
+                            let types = typeUrls.map((url, idx) =>
+                                                     url.substring(url.indexOf("types/")+"types/".length,
+                                                                   url.indexOf(".png")))
+                            types = types.map((type, idx) => type.charAt(0).toUpperCase() + type.substring(1))
+                            types = types.map((type, idx) => GLOBALS.TYPE_LIST.indexOf(type))
+                            evolveTypePrevOne = "" + types[0]
+                            if(types.length > 1) { evolveTypePrevTwo = "" + types[1] }
+
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         const msg = `Unable to load the summary page ${url}.`
@@ -156,11 +196,14 @@ class FarmPage extends Page {
                         previousInDex = false
                     },
                 });
+            } else {
+                evolveTypePrevOne = dexData[dexData.indexOf('"'+previousPokemon+'"') + 1];
+                evolveTypePrevTwo = dexData[dexData.indexOf('"'+previousPokemon+'"') + 2];
             }
 
             // error if still can't find previousPokemon in dexData
             if(!previousInDex) {
-                const msg = `Unable to find ${previousPokemon} in pokedex. Stopping to prevent this from` +
+                const msg = `Unable to find pokemon evolving from (${previousPokemon}) in pokedex. Stopping to prevent this from ` +
                       `popping up repeatedly. Please try reloading the pokedex data from the QoL Hub and refreshing the page.`
                 console.error(msg)
                 window.alert(msg)
@@ -168,13 +211,6 @@ class FarmPage extends Page {
             }
 
             // whether or not the pokemon already existed in the dex or was loaded from the dex, we can now load its types
-            obj.checkForValidDexData(previousPokemon)
-            let evolveTypePrevOne = dexData[dexData.indexOf('"'+previousPokemon+'"') + 1];
-            let evolveTypePrevTwo = dexData[dexData.indexOf('"'+previousPokemon+'"') + 2];
-
-            let evolveTypeOne = "";
-            let evolveTypeTwo = "";
-
             if (!evolveInDex) {
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
                     evolveTypeOne = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon][0]
@@ -183,25 +219,61 @@ class FarmPage extends Page {
                     }
                     evolveInDex = true;
                 } else {
+                    // Load the summary page for previousPokemon to get its dex number
+                    let url = getEvolveString.substr(getEvolveString.indexOf('href="')+'href="'.length, '/summary/AAAAA'.length);
+
                     // Get the dex number for previousPokemon
-                    let dexNumber = dexData[dexData.indexOf('"'+previousPokemon+'"') - 1].replace(/"/g,'').replace('[', '');
+                    let dexNumber = "";
+                    $.ajax({
+                        type: "GET",
+                        url: 'https://pokefarm.com' + url,
+                        async: false,
+                        success: function(data) {
+                            let html = jQuery.parseHTML(data)
+                            // previousPokemon = html[25].querySelector('#pkmnspecdata>p>a').text
+                            dexNumber = html[25].querySelector('#pkmnspecdata>p>a').getAttribute('href').substring('/dex/'.length)
+                            // previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            const msg = `Unable to load the summary page ${url}.`
+                            console.error(msg)
+                            window.alert(msg)
+                            previousInDex = false
+                        },
+                    });
+
+                    // let dexNumber = dexData[dexData.indexOf('"'+previousPokemon+'"') - 1].replace(/"/g,'').replace('[', '');
                     // Load the dex page for previousPokemon
                     let evolutions = {}
-                    let url = 'https://pokefarm.com/dex/' + dexNumber
+                    url = 'https://pokefarm.com/dex/' + dexNumber
                     $.ajax({
                         type: "GET",
                         url: url,
                         async: false,
                         success: function(data, textStatus, jqXHR ) {
+                            // Kill two birds with one stone: 1) get the evolutions, and 2) check that
+                            // evolveTypePrevOne and evolveTypePrevTwo are correct
+
                             let html = jQuery.parseHTML(data)
-                            let evosSpans = html[9].querySelectorAll('.evolutiontree>ul>li>.name')
                             // Get the evolutions from the dex page
+                            let evosSpans = html[9].querySelectorAll('.evolutiontree>ul>li>.name')
                             evosSpans.forEach((e) => {
                                 let evoNumber = e.querySelector('a').attributes['href'].value.substr(5)
                                 let evoName = e.innerText
                                 evolutions[evoNumber] = evoName
                             })
                             evolveInDex = true;
+
+                            // Get the types
+                            let typeImgs = html[9].querySelectorAll('#dexinfo .dexdetails>li>img'), typeUrls = []
+                            typeImgs.forEach((e) => typeUrls.push(e['src']))
+                            let types = typeUrls.map((url, idx) =>
+                                                     url.substring(url.indexOf("types/")+"types/".length,
+                                                                   url.indexOf(".png")))
+                            types = types.map((type, idx) => type.charAt(0).toUpperCase() + type.substring(1))
+                            types = types.map((type, idx) => GLOBALS.TYPE_LIST.indexOf(type))
+                            evolveTypePrevOne = "" + types[0]
+                            if(types.length > 1) { evolveTypePrevTwo = "" + types[1] }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             const msg = `Unable to load the Pokedex page for ${previousPokemon} (${url}).`
@@ -212,9 +284,11 @@ class FarmPage extends Page {
                     });
                     // If evolvePokemon matches one of the evolutions
                     let errorOccurred = false;
+                    let processedEvolution = false;
                     for(let k in evolutions) {
                         errorOccurred = false;
                         if (evolvePokemon === evolutions[k]) {
+                            processedEvolution = true;
                             let types = [];
                             let url = 'https://pokefarm.com/dex/' + k
                             // Load dex page for the match
@@ -263,6 +337,11 @@ class FarmPage extends Page {
                             break;
                         } // if
                     } // for
+                    if(!processedEvolution) {
+                        const msg = `An error occurred when processing ${evolvePokemon}`
+                        console.error(msg)
+                        window.alert(msg)
+                    }
                 } // else ( if(evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) )
             } else {
                 obj.checkForValidDexData(evolvePokemon)
@@ -271,7 +350,7 @@ class FarmPage extends Page {
             }
 
             if(!evolveInDex) {
-                const msg = `Unable to find ${evolvePokemon} in pokedex data, or unable to load it from PokeFarm Dex page` +
+                const msg = `Unable to find pokemon evolving to (${evolvePokemon}) in pokedex data, or unable to load it from PokeFarm Dex page` +
                       `Stopping processing to prevent this from happening multiple times. Please try reloading the dex data` +
                       `through the QoL Hub`
                 console.error(msg)
