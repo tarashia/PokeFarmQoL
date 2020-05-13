@@ -161,6 +161,7 @@ class FarmPage extends Page {
                         let hrefs = []
                         let speciesIndex = -1;
                         links.forEach((e) => hrefs.push(e.getAttribute('href')))
+                        console.log('# links - ', links.length)
                         for(let i = 0; i < links.length; i++) {
                             console.log('href - ', hrefs[i])
                             if(hrefs[i].match(/\/dex\/.*/)) {
