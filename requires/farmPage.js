@@ -155,41 +155,56 @@ class FarmPage extends Page {
                     async: false,
                     success: function(data) {
                         let html = jQuery.parseHTML(data)
-                        // for some reason, the links can be loaded in a different order
-                        /// so do not assume that the first <a> is the species
-                        let links = html[25].querySelectorAll('#pkmnspecdata>p>a')
-                        let hrefs = []
-                        let speciesIndex = -1;
-                        links.forEach((e) => hrefs.push(e.getAttribute('href')))
-                        console.log('# links - ', links.length)
-                        for(let i = 0; i < links.length; i++) {
-                            console.log('href - ', hrefs[i])
-                            if(hrefs[i].match(/\/dex\/.*/)) {
-                                speciesIndex = i;
+                        // first find the right element in html to read from
+                        let htmlIndex = -1
+                        for(let j = 0; j < html.length; j++) {
+                            if($(html[j]).is('div#core')) {
+                                htmlIndex = j;
                                 break;
                             }
                         }
-                        if(speciesIndex === -1) {
-                            const msg = `Unable to determine species of pokemon from ${url}.`
+			            if(htmlIndex === -1) {
+                            const msg = `Unable to find species name on ${url}.`
                             console.error(msg)
                             window.alert(msg)
                             previousInDex = false;
-                        } else {
-                            previousPokemon = links[speciesIndex].text
-                            previousInDex = true
+			            } else {
+                            // for some reason, the links can be loaded in a different order
+                            /// so do not assume that the first <a> is the species
+                            let links = html[htmlIndex].querySelectorAll('#pkmnspecdata>p>a')
+                            let hrefs = []
+                            let speciesIndex = -1;
+                            links.forEach((e) => hrefs.push(e.getAttribute('href')))
+                            console.log('# links - ', links.length)
+                            for(let i = 0; i < links.length; i++) {
+                                console.log('href - ', hrefs[i])
+                                if(hrefs[i].match(/\/dex\/.*/)) {
+                                    speciesIndex = i;
+                                    break;
+                                }
+                            }
+                            if(speciesIndex === -1) {
+                                const msg = `Unable to determine species of pokemon from ${url}.`
+                                console.error(msg)
+                                window.alert(msg)
+                                previousInDex = false;
+                            } else {
+                                previousPokemon = links[speciesIndex].text
+                                previousInDex = true
 
-                            // load types from the summary page
-                            let typeImgs = html[25].querySelectorAll('.type>img'), typeUrls = []
-                            typeImgs.forEach((e) => typeUrls.push(e['src']))
-                            let types = typeUrls.map((url, idx) =>
-                                                     url.substring(url.indexOf("types/")+"types/".length,
-                                                                   url.indexOf(".png")))
-                            types = types.map((type, idx) => type.charAt(0).toUpperCase() + type.substring(1))
-                            types = types.map((type, idx) => GLOBALS.TYPE_LIST.indexOf(type))
-                            evolveTypePrevOne = "" + types[0]
-                            if(types.length > 1) { evolveTypePrevTwo = "" + types[1] }
+                                // load types from the summary page
+                                let typeImgs = html[htmlIndex].querySelectorAll('.type>img'), typeUrls = []
+                                typeImgs.forEach((e) => typeUrls.push(e['src']))
+                                let types = typeUrls.map((url, idx) =>
+                                                         url.substring(url.indexOf("types/")+"types/".length,
+                                                                       url.indexOf(".png")))
+                                types = types.map((type, idx) => type.charAt(0).toUpperCase() + type.substring(1))
+                                types = types.map((type, idx) => GLOBALS.TYPE_LIST.indexOf(type))
+                                evolveTypePrevOne = "" + types[0]
+                                if(types.length > 1) { evolveTypePrevTwo = "" + types[1] }
 
-                        }
+                            } // speciesIndex > -1
+                        } // htmlIndex > -1
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         const msg = `Unable to load the summary page ${url}.`
@@ -232,9 +247,21 @@ class FarmPage extends Page {
                         async: false,
                         success: function(data) {
                             let html = jQuery.parseHTML(data)
-                            // previousPokemon = html[25].querySelector('#pkmnspecdata>p>a').text
-                            dexNumber = html[25].querySelector('#pkmnspecdata>p>a').getAttribute('href').substring('/dex/'.length)
-                            // previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1
+                            let htmlIndex = -1
+                            for(let j = 0; j < html.length; j++) {
+                                if($(html[j]).is('div#core')) {
+                                    htmlIndex = j;
+                                    break;
+                                }
+                            }
+                            if(htmlIndex === -1) {
+                                const msg = `Unable to find find dex number in summary page ${url}.`
+                                console.error(msg)
+                                window.alert(msg)
+                                previousInDex = false;
+                            } else {
+                                dexNumber = html[htmlIndex].querySelector('#pkmnspecdata>p>a').getAttribute('href').substring('/dex/'.length)
+                            }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             const msg = `Unable to load the summary page ${url}.`
