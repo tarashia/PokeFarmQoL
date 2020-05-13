@@ -163,7 +163,7 @@ class FarmPage extends Page {
                                 break;
                             }
                         }
-			            if(htmlIndex === -1) {
+                        if(htmlIndex === -1) {
                             const msg = `Unable to find species name on ${url}.`
                             console.error(msg)
                             window.alert(msg)
@@ -284,25 +284,40 @@ class FarmPage extends Page {
                             // evolveTypePrevOne and evolveTypePrevTwo are correct
 
                             let html = jQuery.parseHTML(data)
-                            // Get the evolutions from the dex page
-                            let evosSpans = html[9].querySelectorAll('.evolutiontree>ul>li>.name')
-                            evosSpans.forEach((e) => {
-                                let evoNumber = e.querySelector('a').attributes['href'].value.substr(5)
-                                let evoName = e.innerText
-                                evolutions[evoNumber] = evoName
-                            })
-                            evolveInDex = true;
+                            // first find the right element in html to read from
+                            let htmlIndex = -1
+                            for(let j = 0; j < html.length; j++) {
+                                if($(html[j]).is('div#core')) {
+                                    htmlIndex = j;
+                                    break;
+                                }
+                            }
+                            if(htmlIndex === -1) {
+                                const msg = `Unable to find evolutions on ${url}.`
+                                console.error(msg)
+                                window.alert(msg)
+                                evolveInDex = false;
+                            } else {
+                                // Get the evolutions from the dex page
+                                let evosSpans = html[htmlIndex].querySelectorAll('.evolutiontree>ul>li>.name')
+                                evosSpans.forEach((e) => {
+                                    let evoNumber = e.querySelector('a').attributes['href'].value.substr(5)
+                                    let evoName = e.innerText
+                                    evolutions[evoNumber] = evoName
+                                })
+                                evolveInDex = true;
 
-                            // Get the types
-                            let typeImgs = html[9].querySelectorAll('#dexinfo .dexdetails>li>img'), typeUrls = []
-                            typeImgs.forEach((e) => typeUrls.push(e['src']))
-                            let types = typeUrls.map((url, idx) =>
-                                                     url.substring(url.indexOf("types/")+"types/".length,
-                                                                   url.indexOf(".png")))
-                            types = types.map((type, idx) => type.charAt(0).toUpperCase() + type.substring(1))
-                            types = types.map((type, idx) => GLOBALS.TYPE_LIST.indexOf(type))
-                            evolveTypePrevOne = "" + types[0]
-                            if(types.length > 1) { evolveTypePrevTwo = "" + types[1] }
+                                // Get the types
+                                let typeImgs = html[htmlIndex].querySelectorAll('#dexinfo .dexdetails>li>img'), typeUrls = []
+                                typeImgs.forEach((e) => typeUrls.push(e['src']))
+                                let types = typeUrls.map((url, idx) =>
+                                                         url.substring(url.indexOf("types/")+"types/".length,
+                                                                       url.indexOf(".png")))
+                                types = types.map((type, idx) => type.charAt(0).toUpperCase() + type.substring(1))
+                                types = types.map((type, idx) => GLOBALS.TYPE_LIST.indexOf(type))
+                                evolveTypePrevOne = "" + types[0]
+                                if(types.length > 1) { evolveTypePrevTwo = "" + types[1] }
+                            } // htmlIndex > -1
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             const msg = `Unable to load the Pokedex page for ${previousPokemon} (${url}).`
@@ -327,14 +342,29 @@ class FarmPage extends Page {
                                 async: false,
                                 success: function(data) {
                                     let html = jQuery.parseHTML(data)
-                                    let typesLi = html[9].querySelector('.dexdetails>li')
-                                    typesLi.querySelectorAll('img').forEach((i) => {
-                                        let src = i.attributes.src.value
-                                        // Get the types for the match
-                                        types.push(src.substring(src.indexOf('types') + 'types'.length + 1,
-                                                                 src.indexOf('.png')))
-                                    });
-                                    evolveInDex = true;
+                                    // first find the right element in html to read from
+                                    let htmlIndex = -1
+                                    for(let j = 0; j < html.length; j++) {
+                                        if($(html[j]).is('div#core')) {
+                                            htmlIndex = j;
+                                            break;
+                                        }
+                                    }
+                                    if(htmlIndex === -1) {
+                                        const msg = `Unable to find dex details on dex page for pokedex number ${k}`
+                                        console.error(msg)
+                                        window.alert(msg)
+                                        evolveInDex = false;
+                                    } else {
+                                        let typesLi = html[htmlIndex].querySelector('.dexdetails>li')
+                                        typesLi.querySelectorAll('img').forEach((i) => {
+                                            let src = i.attributes.src.value
+                                            // Get the types for the match
+                                            types.push(src.substring(src.indexOf('types') + 'types'.length + 1,
+                                                                     src.indexOf('.png')))
+                                        });
+                                        evolveInDex = true;
+                                    }
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
                                     const msg = `Unable to load the Pokedex page for ${evolvePokemon} (${url}).`
