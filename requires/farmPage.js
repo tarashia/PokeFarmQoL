@@ -170,7 +170,7 @@ class FarmPage extends Page {
                         if(speciesIndex === -1) {
                             const msg = `Unable to determine species of pokemon from ${url}.`
                             console.error(msg)
-                            window.aleret(msg)
+                            window.alert(msg)
                             previousInDex = false;
                         } else {
                             previousPokemon = links[speciesIndex].text
