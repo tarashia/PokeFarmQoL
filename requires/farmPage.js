@@ -378,10 +378,16 @@ class FarmPage extends Page {
                     $(this).clone().appendTo('.'+evolveTypeTwo+'');
                 }
                 // extra type from prev pokemon
-                if([evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevOne) == -1) {
+                if(parseInt(evolveTypePrevOne) !== NaN &&
+                   parseInt(evolveTypePrevOne) > -1 &&
+                   [evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevOne) == -1) {
                     $(this).clone().appendTo('.'+evolveTypePrevOne+'');
                 }
-                if(evolveTypePrevTwo >= 0 && [evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevTwo) == -1) {
+                console.log("Next line is evolveTypePrevTwo")
+                console.log(evolveTypePrevTwo)
+                if(parseInt(evolveTypePrevTwo) !== NaN && 
+                   parseInt(evolveTypePrevTwo) > -1 && 
+                   [evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevTwo) == -1) {
                     $(this).clone().appendTo('.'+evolveTypePrevTwo+'');
                 }
             } else { // pokemon is not in the dex (this should never happen)
