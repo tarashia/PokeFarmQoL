@@ -162,6 +162,7 @@ class FarmPage extends Page {
                         let speciesIndex = -1;
                         links.forEach((e) => hrefs.push(e.getAttribute('href')))
                         for(let i = 0; i < links.length; i++) {
+                            console.log('href - ', hrefs[i])
                             if(hrefs[i].match(/\/dex\/.*/)) {
                                 speciesIndex = i;
                                 break;
@@ -383,8 +384,6 @@ class FarmPage extends Page {
                    [evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevOne) == -1) {
                     $(this).clone().appendTo('.'+evolveTypePrevOne+'');
                 }
-                console.log("Next line is evolveTypePrevTwo")
-                console.log(evolveTypePrevTwo)
                 if(parseInt(evolveTypePrevTwo) !== NaN && 
                    parseInt(evolveTypePrevTwo) > -1 && 
                    [evolveTypeOne, evolveTypeTwo].indexOf(evolveTypePrevTwo) == -1) {
