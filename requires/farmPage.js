@@ -90,16 +90,11 @@ class FarmPage extends Page {
         }
         catch(err){ /* empty */ }
     }
-    checkForValidDexData(pokemon) {
+    checkForValidDexData() {
         if(GLOBALS.DEX_DATA === undefined) {
             window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub')
         } else if(GLOBALS.DEX_DATA === null) {
             window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub')
-        } else if(pokemon !== undefined) {
-            if(GLOBALS.DEX_DATA.indexOf(`"${pokemon}"`) === -1) {
-                window.alert(`Could not find ${pokemon} in the currently loaded Pokedex data. ` +
-                             `Please reload by pressing "Update Pokdex" in the QoL Hub`);
-            }
         }
     }
     easyEvolveNormalList() {
@@ -126,6 +121,18 @@ class FarmPage extends Page {
         let typeListColor = $('.tabbed_interface>div').css('color');
         $(".qolChangeLogContent").css("background-color", ""+typeListBackground+"");
         $(".qolChangeLogContent").css("color", ""+typeListColor+"");
+		
+		/*
+		Nested helper function
+		*/
+		findDivCoreIndex = function(html) {
+			for(let j = 0; j < html.length; j++) {
+				if($(html[j]).is('div#core')) {
+					return j;
+				}
+			}
+			return -1;
+		}
 
         $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index, value) {
             // getting the <li> element from the pokemon & the pokemon evolved name
@@ -156,17 +163,10 @@ class FarmPage extends Page {
                     success: function(data) {
                         let html = jQuery.parseHTML(data)
                         // first find the right element in html to read from
-                        let htmlIndex = -1
-                        for(let j = 0; j < html.length; j++) {
-                            if($(html[j]).is('div#core')) {
-                                htmlIndex = j;
-                                break;
-                            }
-                        }
+                        let htmlIndex = findDivCoreIndex(html)
                         if(htmlIndex === -1) {
                             const msg = `Unable to find species name on ${url}.`
                             console.error(msg)
-                            window.alert(msg)
                             previousInDex = false;
 			            } else {
                             // for some reason, the links can be loaded in a different order
@@ -186,7 +186,6 @@ class FarmPage extends Page {
                             if(speciesIndex === -1) {
                                 const msg = `Unable to determine species of pokemon from ${url}.`
                                 console.error(msg)
-                                window.alert(msg)
                                 previousInDex = false;
                             } else {
                                 previousPokemon = links[speciesIndex].text
@@ -209,7 +208,6 @@ class FarmPage extends Page {
                     error: function(jqXHR, textStatus, errorThrown) {
                         const msg = `Unable to load the summary page ${url}.`
                         console.error(msg)
-                        window.alert(msg)
                         previousInDex = false
                     },
                 });
@@ -220,11 +218,8 @@ class FarmPage extends Page {
 
             // error if still can't find previousPokemon in dexData
             if(!previousInDex) {
-                const msg = `Unable to find pokemon evolving from (${previousPokemon}) in pokedex. Stopping to prevent this from ` +
-                      `popping up repeatedly. Please try reloading the pokedex data from the QoL Hub and refreshing the page.`
+                const msg = `Unable to find pokemon evolving from (${previousPokemon}) in pokedex.`
                 console.error(msg)
-                window.alert(msg)
-                return false; // this 'breaks' the loop
             }
 
             // whether or not the pokemon already existed in the dex or was loaded from the dex, we can now load its types
@@ -247,17 +242,10 @@ class FarmPage extends Page {
                         async: false,
                         success: function(data) {
                             let html = jQuery.parseHTML(data)
-                            let htmlIndex = -1
-                            for(let j = 0; j < html.length; j++) {
-                                if($(html[j]).is('div#core')) {
-                                    htmlIndex = j;
-                                    break;
-                                }
-                            }
+                            let htmlIndex = findDivCoreIndex(html)
                             if(htmlIndex === -1) {
                                 const msg = `Unable to find find dex number in summary page ${url}.`
                                 console.error(msg)
-                                window.alert(msg)
                                 previousInDex = false;
                             } else {
                                 dexNumber = html[htmlIndex].querySelector('#pkmnspecdata>p>a').getAttribute('href').substring('/dex/'.length)
@@ -266,7 +254,6 @@ class FarmPage extends Page {
                         error: function(jqXHR, textStatus, errorThrown) {
                             const msg = `Unable to load the summary page ${url}.`
                             console.error(msg)
-                            window.alert(msg)
                             previousInDex = false
                         },
                     });
@@ -285,17 +272,10 @@ class FarmPage extends Page {
 
                             let html = jQuery.parseHTML(data)
                             // first find the right element in html to read from
-                            let htmlIndex = -1
-                            for(let j = 0; j < html.length; j++) {
-                                if($(html[j]).is('div#core')) {
-                                    htmlIndex = j;
-                                    break;
-                                }
-                            }
+                            let htmlIndex = findDivCoreIndex(html)
                             if(htmlIndex === -1) {
                                 const msg = `Unable to find evolutions on ${url}.`
                                 console.error(msg)
-                                window.alert(msg)
                                 evolveInDex = false;
                             } else {
                                 // Get the evolutions from the dex page
@@ -322,7 +302,6 @@ class FarmPage extends Page {
                         error: function(jqXHR, textStatus, errorThrown) {
                             const msg = `Unable to load the Pokedex page for ${previousPokemon} (${url}).`
                             console.error(msg)
-                            window.alert(msg)
                             evolveInDex = false
                         },
                     });
@@ -343,17 +322,10 @@ class FarmPage extends Page {
                                 success: function(data) {
                                     let html = jQuery.parseHTML(data)
                                     // first find the right element in html to read from
-                                    let htmlIndex = -1
-                                    for(let j = 0; j < html.length; j++) {
-                                        if($(html[j]).is('div#core')) {
-                                            htmlIndex = j;
-                                            break;
-                                        }
-                                    }
+                                    let htmlIndex = findDivCoreIndex(html)
                                     if(htmlIndex === -1) {
                                         const msg = `Unable to find dex details on dex page for pokedex number ${k}`
                                         console.error(msg)
-                                        window.alert(msg)
                                         evolveInDex = false;
                                     } else {
                                         let typesLi = html[htmlIndex].querySelector('.dexdetails>li')
@@ -369,7 +341,6 @@ class FarmPage extends Page {
                                 error: function(jqXHR, textStatus, errorThrown) {
                                     const msg = `Unable to load the Pokedex page for ${evolvePokemon} (${url}).`
                                     console.error(msg)
-                                    window.alert(msg)
                                     evolveInDex = false
                                     errorOccurred = true;
                                 },
@@ -391,7 +362,6 @@ class FarmPage extends Page {
                             if(errorOccurred) {
                                 const msg = `An error occurred when processing ${evolvePokemon}`
                                 console.error(msg)
-                                window.alert(msg)
                             }
                             break;
                         } // if
@@ -399,22 +369,16 @@ class FarmPage extends Page {
                     if(!processedEvolution) {
                         const msg = `An error occurred when processing ${evolvePokemon}`
                         console.error(msg)
-                        window.alert(msg)
                     }
                 } // else ( if(evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) )
             } else {
-                obj.checkForValidDexData(evolvePokemon)
                 evolveTypeOne = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 1];
                 evolveTypeTwo = dexData[dexData.indexOf('"'+evolvePokemon+'"') + 2];
             }
 
             if(!evolveInDex) {
-                const msg = `Unable to find pokemon evolving to (${evolvePokemon}) in pokedex data, or unable to load it from PokeFarm Dex page` +
-                      `Stopping processing to prevent this from happening multiple times. Please try reloading the dex data` +
-                      `through the QoL Hub`
+                const msg = `Unable to find pokemon evolving to (${evolvePokemon}) in pokedex data, or unable to load it from PokeFarm Dex page`
                 console.error(msg)
-                window.alert(msg)
-                return false;
             }
 
             if (getEvolveString.includes('title="[DELTA')) {
@@ -449,8 +413,8 @@ class FarmPage extends Page {
                 }
             } else { // pokemon is not in the dex (this should never happen)
                 console.error(index, previousPokemon, evolvePokemon)
-                if (!previousInDex) { console.error("ERROR: Could not resolve " + previousPokemon) }
-                if (!evolveInDex)   { console.error("ERROR: Could not resolve " + evolvePokemon) }
+                if (!previousInDex) { console.error("Could not resolve " + previousPokemon) }
+                if (!evolveInDex)   { console.error("Could not resolve " + evolvePokemon) }
 
                 $(this).clone().appendTo(obj.settings.TYPE_APPEND['NONE']);
             }
