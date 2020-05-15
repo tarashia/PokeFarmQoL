@@ -125,7 +125,7 @@ class FarmPage extends Page {
 		/*
 		Nested helper function
 		*/
-		findDivCoreIndex = function(html) {
+		const findDivCoreIndex = function(html) {
 			for(let j = 0; j < html.length; j++) {
 				if($(html[j]).is('div#core')) {
 					return j;
