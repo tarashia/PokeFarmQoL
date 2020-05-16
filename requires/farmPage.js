@@ -439,21 +439,34 @@ class FarmPage extends Page {
         $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index, value) {
             // getting the <li> element from the pokemon & the pokemon evolved name
             let getEvolveString = $(this).html();
+            console.log('Evolve String - ' , getEvolveString)
             let beforeEvolvePokemon = $(this).children().children().text().slice(0,-6);
+            console.log('Before Evolve - ', beforeEvolvePokemon)
             let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
+            console.log('Evolve - ', evolvePokemon)
             let evolvePokemonChange = evolvePokemon.split(' ').join('').replace('[','').replace(']','');
+            console.log('Evolve Pokemon Change - ', evolvePokemonChange)
 
-            if ($('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(evolvePokemon.split(' ').join('')) === false) {
-                document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">'+beforeEvolvePokemon+' > '+evolvePokemon+'</h3><ul class="'+evolvePokemonChange+' qolChangeLogContent"></ul></li><br>');
+            let cls = 'Class - ' + evolvePokemon.split(' ').join('')
+            if ($('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(cls) === false) {
+                document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend','<li class="expandlist"><h3 class="slidermenu">'+
+                                                                                beforeEvolvePokemon+' > '+evolvePokemon+
+                                                                                '</h3><ul class="'+evolvePokemonChange+
+                                                                                ' qolChangeLogContent"></ul></li><br>');
             }
             $(this).clone().appendTo('.'+evolvePokemonChange+'');
         });
 
         $('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li').each(function (index, value) {
+            console.log('index - ', index, ' value - ', value)
             let amountOfEvolves = $(this).children().children().length;
+            console.log('# evolves - ', amountOfEvolves)
             let getEvolveString = $(this).children().children().html();
+            console.log('Evolve String (#2) - ', getEvolveString)
             let beforeEvolvePokemon = $(this).children().children().children().children().first().text().split(' ').join('');
+            console.log('Before Evolve (#2) - ', beforeEvolvePokemon)
             let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
+            console.log('Evolve (#2) - ', evolvePokemon)
 
             $(this).children('.slidermenu').html(beforeEvolvePokemon+' > '+evolvePokemon+' ('+amountOfEvolves+')')
         });
