@@ -27,22 +27,22 @@ class FarmPage extends Page {
     }
 
     constructor() {
-	super('QoLFarm', {}, 'farm#tab=1')
-	this.defaultSettings = this.DEFAULT_SETTINGS();
-	this.settings = this.defaultSettings;
-	this.evolveListCache = "";
-	const obj = this
-	this.observer = new MutationObserver(function(mutations) {
+        super('QoLFarm', {}, 'farm#tab=1')
+        this.defaultSettings = this.DEFAULT_SETTINGS();
+        this.settings = this.defaultSettings;
+        this.evolveListCache = "";
+        const obj = this
+        this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-		obj.easyQuickEvolve();
+                obj.easyQuickEvolve();
             });
-	});
+        });
     }
     setupHTML() {
         $(document).ready(function() {
             $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
             document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend',
-									 '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
+                                                                         '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
             // use the evolve button
             $('#farmnews-evolutions>p>label>input').addClass('qolquickevo')
         });
@@ -56,7 +56,7 @@ class FarmPage extends Page {
         });
     }
     setupHandlers() {
-	const obj = this;
+        const obj = this;
         $(document).on('click', '#qolevolvenormal', (function() {
             obj.easyEvolveNormalList();
         }));
@@ -121,18 +121,18 @@ class FarmPage extends Page {
         let typeListColor = $('.tabbed_interface>div').css('color');
         $(".qolChangeLogContent").css("background-color", ""+typeListBackground+"");
         $(".qolChangeLogContent").css("color", ""+typeListColor+"");
-		
-		/*
-		Nested helper function
-		*/
-		const findDivCoreIndex = function(html) {
-			for(let j = 0; j < html.length; j++) {
-				if($(html[j]).is('div#core')) {
-					return j;
-				}
-			}
-			return -1;
-		}
+        
+        /*
+          Nested helper function
+        */
+        const findDivCoreIndex = function(html) {
+            for(let j = 0; j < html.length; j++) {
+                if($(html[j]).is('div#core')) {
+                    return j;
+                }
+            }
+            return -1;
+        }
 
         $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index, value) {
             // getting the <li> element from the pokemon & the pokemon evolved name
@@ -168,7 +168,7 @@ class FarmPage extends Page {
                             const msg = `Unable to find species name on ${url}.`
                             console.error(msg)
                             previousInDex = false;
-			            } else {
+                        } else {
                             // for some reason, the links can be loaded in a different order
                             /// so do not assume that the first <a> is the species
                             let links = html[htmlIndex].querySelectorAll('#pkmnspecdata>p>a')
