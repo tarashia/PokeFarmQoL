@@ -222,8 +222,9 @@ class FarmPage extends Page {
                 console.error(msg)
             }
 
-            // whether or not the pokemon already existed in the dex or was loaded from the dex, we can now load its types
-            if (!evolveInDex) {
+            // only check about the evolution endpoint ("evolving to") if the "evolving from" could be loaded without
+            // an error
+            if (previousInDex && !evolveInDex) {
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
                     evolveTypeOne = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon][0]
                     if(obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].length > 1) {
