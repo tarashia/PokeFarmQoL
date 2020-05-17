@@ -436,29 +436,83 @@ class FarmPage extends Page {
         $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
         document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNameList">');
 
+        let errorOccurred = false;
         $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index, value) {
             // getting the <li> element from the pokemon & the pokemon evolved name
             let getEvolveString = $(this).html();
-            let beforeEvolvePokemon = $(this).children().children().text().slice(0,-6);
-            let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
-            let evolvePokemonChange = evolvePokemon.split(' ').join('').replace('[','').replace(']','');
-
-            if ($('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(evolvePokemon.split(' ').join('')) === false) {
-                document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">'+beforeEvolvePokemon+' > '+evolvePokemon+'</h3><ul class="'+evolvePokemonChange+' qolChangeLogContent"></ul></li><br>');
-            }
-            $(this).clone().appendTo('.'+evolvePokemonChange+'');
+            if(getEvolveString === undefined || getEvolveString === "") {
+                console.error(`Unable to parse html from <li> at index ${index}`);
+                errorOccurred = true;
+            } else {
+                let beforeEvolvePokemon = $(this).children().children().text().slice(0,-6);
+                if(beforeEvolvePokemon === undefined || beforeEvolvePokemon === "") {
+                    console.error(`Unable to parse pokemon-evolving-from from <li> at index ${index}`);
+                    errorOccurred = true;
+                } else {
+                    let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
+                    if(evolvePokemon === undefined || evolvePokemon === "") {
+                        console.error(`Unable to parse pokemon-evolving-to from <li> at index ${index}`);
+                        errorOccurred = true;
+                    } else {
+                        // Replace all spaces with a character that is not part of any Pokemon's name, but is valid in a CSS selector
+                        let evolvePokemonClass = evolvePokemon.replace(/ /g,'_').replace('[','').replace(']','').replace(/\./g,'')
+                        if(evolvePokemonClass === undefined || evolvePokemonClass === "") {
+                            console.error(`Unable to create valid CSS class for pokemon-evolving-to from <li> at index ${index}`)
+                            errorOccurred = true;
+                        } else {
+                            if ($('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(evolvePokemonClass) === false) {
+                                document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend','<li class="expandlist"><h3 class="slidermenu">'+
+                                                                                                beforeEvolvePokemon+' > '+evolvePokemon+
+                                                                                                '</h3><ul class="'+evolvePokemonClass+
+                                                                                                ' qolChangeLogContent"></ul></li><br>');
+                            } // class
+                            $(this).clone().appendTo('.'+evolvePokemonClass+'');
+                        } // evolvePokemonClass
+                    } // evolvePokemon
+                } // beforeEvolvePokemon
+            } // getEvolveString
         });
+
+        if(errorOccurred) {
+            window.alert('Error occurred while sorting pokemon by name')
+            return;
+        }
 
         $('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li').each(function (index, value) {
             let amountOfEvolves = $(this).children().children().length;
-            let getEvolveString = $(this).children().children().html();
-            let beforeEvolvePokemon = $(this).children().children().children().children().first().text().split(' ').join('');
-            let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + 12);
+            if(amountOfEvolves === 0) {
+                console.error(`Found 0 evolutions for <li> at ${index} of evolve name list`);
+                errorOccurred = true;
+            } else {
+                let getEvolveString = $(this).children().children().html();
+                if(getEvolveString === undefined || getEvolveString === "") {
+                    console.error(`Unable to parse evolve string from <li> at ${index} from evolve name list`)
+                    errorOccurred = true;
+                } else {
+                    let beforeEvolvePokemon = $(this).children().children().children().children().first().text() // .split(' ').join('');
 
-            $(this).children('.slidermenu').html(beforeEvolvePokemon+' > '+evolvePokemon+' ('+amountOfEvolves+')')
+                    if(beforeEvolvePokemon === undefined || beforeEvolvePokemon === "") {
+                        console.error(`Unable to parse pokemon-evolving-from from <li> at ${index} from evolve name list`)
+                        errorOccurred = true;
+                    } else {
+                        let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf("into</span> ") + "into</span> ".length);
+                        if(evolvePokemon === undefined || evolvePokemon === "") {
+                            console.error(`Unable to parse pokemon-evolving-to from <li> at ${index} from evolve name list`)
+                            errorOccurred = true;
+                        } else {
+                            $(this).children('.slidermenu').html(beforeEvolvePokemon+' > '+evolvePokemon+' ('+amountOfEvolves+')')
+                        }
+                    }
+                } // getEvolveString
+            } // amountOfEvolves
         });
 
         $('.evolvepkmnlist').hide();
+
+        if(errorOccurred) {
+            window.alert('Error occurred while sorting pokemon by name')
+            return;
+        }
 
         //layout of the created html
         let typeBackground = $('.panel>h3').css('background-color');
