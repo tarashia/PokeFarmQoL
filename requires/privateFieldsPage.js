@@ -19,6 +19,9 @@ class PrivateFieldsPage extends Page {
             fieldNoGender: true,
             fieldItem: true,
             customItem: true, // unused
+            customEgg: true,
+            customPokemon: true,
+            customPng: false,
             releaseSelectAll : true,
 	}, 'fields');
 	this.customArray = [];
