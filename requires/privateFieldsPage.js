@@ -17,7 +17,8 @@ class PrivateFieldsPage extends Page {
             fieldMale: true,
             fieldFemale: true,
             fieldNoGender: true,
-            customItem: true,
+            fieldItem: true,
+            customItem: true, // unused
             releaseSelectAll : true,
 	}, 'fields');
 	this.customArray = [];
@@ -142,11 +143,67 @@ class PrivateFieldsPage extends Page {
         }));
     }
     // specific
+    /*
+    insertFoundDiv(number, name, img) {
+        document.querySelector('#sheltersuccess').
+            insertAdjacentHTML('beforeend',
+                               '<div id="shelterfound">' + name + ((number > 1) ? 's' : '') + ' found ' + img + '</div>')
+    }
+    */
+    searchForImgTitle(key) {
+        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+        const key_index = SEARCH_DATA.indexOf(key)
+        const value = SEARCH_DATA[key_index + 1]
+        const selected = $('img[title*="'+value+'"]')
+        if (selected.length) {
+            let searchResult = SEARCH_DATA[key_index + 2]; //type of Pokémon found
+            let imgResult = selected.length + " " + searchResult; //amount + type found
+            let imgFitResult = SEARCH_DATA[key_index + 3]; //image for type of Pokémon
+            // next line different from shelter
+            let bigImg = selected.parent().parent().parent().parent().prev().children('img.big')
+            $(bigImg).addClass('privatefoundme');
+
+            // this.insertFoundDiv(selected.length, imgResult, imgFitResult)
+        }
+    }
     customSearch() {
         let dexData = GLOBALS.DEX_DATA;
         let bigImgs = document.querySelectorAll('.privatefoundme')
         if(bigImgs !== null) {
             bigImgs.forEach((b) => {$(b).removeClass('privatefoundme')})
+        }
+
+        if(this.settings.fieldShiny === true) {
+            this.searchForImgTitle('findShiny')
+        }
+        if(this.settings.fieldAlbino === true) {
+            this.searchForImgTitle('findAlbino')
+        }
+        if(this.settings.fieldMelanistic === true) {
+            this.searchForImgTitle('findMelanistic')
+        }
+        if(this.settings.fieldPrehistoric === true) {
+            this.searchForImgTitle('findPrehistoric')
+        }
+        if(this.settings.fieldDelta === true) {
+            this.searchForImgTitle('findDelta')
+        }
+        if(this.settings.fieldMega === true) {
+            this.searchForImgTitle('findMega')
+        }
+        if(this.settings.fieldStarter === true) {
+            this.searchForImgTitle('findStarter')
+        }
+        if(this.settings.fieldCustomSprite === true) {
+            this.searchForImgTitle('findCustomSprite')
+        }
+        if(this.settings.fieldItem === true) {
+            // pokemon that hold items will have HTML that matches the following selector
+            let items = $('.tooltip_content .item>div>.tooltip_item')
+            if(items.length) {
+                let itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big')
+                $(itemBigImgs).addClass('privatefoundme');
+            }
         }
 
         const filteredTypeArray = this.typeArray.filter(v=>v!='');
