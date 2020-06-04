@@ -192,7 +192,7 @@ class PrivateFieldsPage extends Page {
                 let genderMatch = genderMatches[i];
                 let selected = $("#field_field .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
                 if (selected.length) {
-                    let shelterBigImg = selected.parent().prev().children('img.big');
+                    let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
                     $(shelterBigImg).addClass('privatefoundme');
                 }
             }
@@ -202,7 +202,7 @@ class PrivateFieldsPage extends Page {
         else {
             let selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
             if (selected.length) {
-                let shelterBigImg = selected.parent().prev().children('img.big');
+                let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
                 $(shelterBigImg).addClass('privatefoundme');
             }
         }
@@ -211,7 +211,7 @@ class PrivateFieldsPage extends Page {
     searchForCustomEgg(value) {
         let selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
         if (selected.length) {
-            let shelterBigImg = selected.prev().children('img.big');
+            let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
             $(shelterBigImg).addClass('privatefoundme');
         }
     }
@@ -311,7 +311,9 @@ class PrivateFieldsPage extends Page {
             if (value != "") {
                 //custom pokemon search
                 if (this.settings.customPokemon === true) {
-                    this.searchForCustomPokemon(value, male, female, nogender);
+                    this.searchForCustomPokemon(value, this.settings.fieldMale,
+                                                this.settings.fieldFemale,
+                                                this.settings.fieldNoGender);
                 }
 
                 //custom egg
