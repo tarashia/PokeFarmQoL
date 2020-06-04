@@ -199,7 +199,7 @@ class PublicFieldsPage extends Page {
                 let selected = $("#field_field .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
                 if (selected.length) {
                     let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
-                    $(shelterBigImg).addClass('privatefoundme');
+                    $(shelterBigImg).addClass('publicfoundme');
                 }
             }
         }
@@ -209,7 +209,7 @@ class PublicFieldsPage extends Page {
             let selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
             if (selected.length) {
                 let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
-                $(shelterBigImg).addClass('privatefoundme');
+                $(shelterBigImg).addClass('publicfoundme');
             }
         }
 
@@ -218,14 +218,14 @@ class PublicFieldsPage extends Page {
         let selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
         if (selected.length) {
             let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
-            $(shelterBigImg).addClass('privatefoundme');
+            $(shelterBigImg).addClass('publicfoundme');
         }
     }
     searchForCustomPng(value) {
         let selected = $('#field_field img[src*="'+value+'"]')
         if (selected.length) {
             let shelterImgSearch = selected
-            $(shelterImgSearch).addClass('privatefoundme');
+            $(shelterImgSearch).addClass('publicfoundme');
         }
     }
     customSearch() {
