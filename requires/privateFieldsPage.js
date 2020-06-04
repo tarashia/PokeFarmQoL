@@ -66,7 +66,6 @@ class PrivateFieldsPage extends Page {
         let fieldOrderCssBorder = $('#field_field').css('border');
         $("#fieldorder").css("background-color", ""+fieldOrderCssColor+"");
         $("#fieldorder").css("border", ""+fieldOrderCssBorder+"");
-
         $("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
         $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
     }
