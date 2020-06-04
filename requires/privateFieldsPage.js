@@ -180,6 +180,48 @@ class PrivateFieldsPage extends Page {
             // this.insertFoundDiv(selected.length, imgResult, imgFitResult)
         }
     }
+
+    searchForCustomPokemon(value, male, female, nogender) {
+        let genderMatches = []
+        if (male) { genderMatches.push("[M]") }
+        if(female) { genderMatches.push("[F]") }
+        if(nogender) { genderMatches.push("[N]") }
+
+        if(genderMatches.length > 0) {
+            for(let i = 0; i < genderMatches.length; i++) {
+                let genderMatch = genderMatches[i];
+                let selected = $("#field_field .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
+                if (selected.length) {
+                    let shelterBigImg = selected.parent().prev().children('img.big');
+                    $(shelterBigImg).addClass('privatefoundme');
+                }
+            }
+        }
+
+        //No genders
+        else {
+            let selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
+            if (selected.length) {
+                let shelterBigImg = selected.parent().prev().children('img.big');
+                $(shelterBigImg).addClass('privatefoundme');
+            }
+        }
+
+    }
+    searchForCustomEgg(value) {
+        let selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
+        if (selected.length) {
+            let shelterBigImg = selected.prev().children('img.big');
+            $(shelterBigImg).addClass('privatefoundme');
+        }
+    }
+    searchForCustomPng(value) {
+        let selected = $('#field_field img[src*="'+value+'"]')
+        if (selected.length) {
+            let shelterImgSearch = selected
+            $(shelterImgSearch).addClass('privatefoundme');
+        }
+    }
     customSearch() {
         let dexData = GLOBALS.DEX_DATA;
         let bigImgs = document.querySelectorAll('.privatefoundme')
@@ -262,6 +304,27 @@ class PrivateFieldsPage extends Page {
                 }
             }) // each
         } // end
+
+        // custom search
+        for (let i = 0; i < this.customArray.length; i++) {
+            let value = this.customArray[i];
+            if (value != "") {
+                //custom pokemon search
+                if (this.settings.customPokemon === true) {
+                    this.searchForCustomPokemon(value, male, female, nogender);
+                }
+
+                //custom egg
+                if (this.settings.customEgg === true) {
+                    this.searchForCustomEgg(value);
+                }
+
+                //imgSearch with Pokémon
+                if (this.settings.customPng === true) {
+                    this.searchForCustomPng(value);
+                }
+            }
+        }
     }
     addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
         const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
