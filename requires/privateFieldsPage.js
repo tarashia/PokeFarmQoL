@@ -44,7 +44,7 @@ class PrivateFieldsPage extends Page {
     setupHTML() {
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removePrivateFieldSearch', 'customArray')
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
                                              'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
         const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
@@ -121,6 +121,17 @@ class PrivateFieldsPage extends Page {
 
         $(document).on('click', '#removePrivateFieldEggGroup', (function() { //remove egg group nature search
             obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
+            obj.saveSettings();
+            obj.customSearch();
+        }));
+
+        $(document).on('click', '#addTextField', (function() {
+            obj.addTextField();
+            obj.saveSettings();
+        }));
+
+        $(document).on('click', '#removeTextField', (function() {
+            obj.removeTextField(this, $(this).parent().find('input').val());
             obj.saveSettings();
             obj.customSearch();
         }));
@@ -270,6 +281,26 @@ class PrivateFieldsPage extends Page {
         }
 
         return arr;
+    }
+    addTextField() {
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
+        let numberDiv = $('#searchkeys>div').length;
+        $('#searchkeys').append(theField);
+        $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
+    }
+    removeTextField(byebye, key) {
+        this.customArray = $.grep(this.customArray, function(value) {
+            return value != key;
+        });
+        this.settings.fieldCustom = this.customArray.toString()
+
+        $(byebye).parent().remove();
+
+        let i;
+        for(i = 0; i < $('#searchkeys>div').length; i++) {
+            let rightDiv = i + 1;
+            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+        }
     }
     releaseEnableReleaseAll() {
         if(this.settings.releaseSelectAll === true) {
