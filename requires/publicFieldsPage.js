@@ -313,11 +313,14 @@ class PublicFieldsPage extends Page {
 
             $('#pokemonclickcount').remove(); //make sure no duplicates are being produced
             document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
-            if (JSON.stringify(pokemonClicked) === pokemonInField) {
-                $('#pokemonclickcount').css({"color" : "#059121"});
-            }
-            if (pokemonClicked !== JSON.parse(pokemonInField)) {
-                $('#pokemonclickcount').css({"color" : "#a30323"});
+
+            if(pokemonInField !== "") {
+                if (JSON.stringify(pokemonClicked) === pokemonInField) {
+                    $('#pokemonclickcount').css({"color" : "#059121"});
+                }
+                if (pokemonClicked !== JSON.parse(pokemonInField)) {
+                    $('#pokemonclickcount').css({"color" : "#a30323"});
+                }
             }
         }
 
