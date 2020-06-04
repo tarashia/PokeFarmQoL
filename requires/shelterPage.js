@@ -395,7 +395,7 @@ class ShelterPage extends Page {
 
                 //imgSearch with Pokémon
                 if (this.settings.customPng === true) {
-                    let selected = $('#shelterarea img[src*="'+value+'"]')
+                    let selected = $('#shelterarea img.big[src*="'+value+'"]')
                     if (selected.length) {
                         let searchResult = selected.parent().next().text().split('(')[0]
                         let tooltipResult = selected.length+" "+searchResult+' (Custom img search)';
