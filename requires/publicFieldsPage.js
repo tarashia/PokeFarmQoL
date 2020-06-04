@@ -25,6 +25,9 @@ class PublicFieldsPage extends Page {
             fieldCustomPng: false,
             fieldItem: true,
             customItem: true,
+            customEgg: true,
+            customPokemon: true,
+            customPng: false,
         }, 'fields/');
         this.customArray = [];
         this.typeArray = [];
@@ -60,7 +63,7 @@ class PublicFieldsPage extends Page {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldSortHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch', 'customArray')
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
                                              'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
         const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
@@ -107,14 +110,6 @@ class PublicFieldsPage extends Page {
             obj.customSearch();
         });
 
-        $(document).on('click', '#addFieldSearch', (function() { //add field text field
-            obj.fieldAddTextField();
-        }));
-
-        $(document).on('click', '#removeFieldSearch', (function() { //remove field text field
-            obj.fieldRemoveTextField(this, $(this).parent().find('input').val());
-        }));
-
         $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
             obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
             obj.customSearch();
@@ -144,6 +139,17 @@ class PublicFieldsPage extends Page {
 
         $(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
             obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
+            obj.saveSettings();
+            obj.customSearch();
+        }));
+
+        $(document).on('click', '#addTextField', (function() {
+            obj.addTextField();
+            obj.saveSettings();
+        }));
+
+        $(document).on('click', '#removeTextField', (function() {
+            obj.removeTextField(this, $(this).parent().find('input').val());
             obj.saveSettings();
             obj.customSearch();
         }));
@@ -332,19 +338,18 @@ class PublicFieldsPage extends Page {
 
         return arr;
     }
-    fieldAddTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
+    addTextField() {
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
     }
-    fieldRemoveTextField(byebye, key) {
-        this.customArray = $.grep(this.customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+    removeTextField(byebye, key) {
+        this.customArray = $.grep(this.customArray, function(value) {
             return value != key;
         });
         this.settings.fieldCustom = this.customArray.toString()
 
-        this.saveSettings();
         $(byebye).parent().remove();
 
         let i;
