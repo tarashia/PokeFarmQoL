@@ -21,10 +21,11 @@ class PublicFieldsPage extends Page {
             fieldMale: true,
             fieldFemale: true,
             fieldNoGender: true,
+            fieldCustomItem: true, // unused
             fieldCustomPokemon: true,
+            fieldCustomEgg: true,
             fieldCustomPng: false,
             fieldItem: true,
-            customItem: true,
         }, 'fields/');
         this.customArray = [];
         this.typeArray = [];
@@ -60,7 +61,7 @@ class PublicFieldsPage extends Page {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldSortHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
                                              'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
         const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
@@ -107,14 +108,6 @@ class PublicFieldsPage extends Page {
             obj.customSearch();
         });
 
-        $(document).on('click', '#addFieldSearch', (function() { //add field text field
-            obj.fieldAddTextField();
-        }));
-
-        $(document).on('click', '#removeFieldSearch', (function() { //remove field text field
-            obj.fieldRemoveTextField(this, $(this).parent().find('input').val());
-        }));
-
         $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
             obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
             obj.customSearch();
@@ -148,6 +141,17 @@ class PublicFieldsPage extends Page {
             obj.customSearch();
         }));
 
+        $(document).on('click', '#addTextField', (function() {
+            obj.addTextField();
+            obj.saveSettings();
+        }));
+
+        $(document).on('click', '#removeTextField', (function() {
+            obj.removeTextField(this, $(this).parent().find('input').val());
+            obj.saveSettings();
+            obj.customSearch();
+        }));
+
         $(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
             obj.customSearch();
@@ -169,6 +173,61 @@ class PublicFieldsPage extends Page {
         });
     }
     // specific
+    searchForImgTitle(key) {
+        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+        const key_index = SEARCH_DATA.indexOf(key)
+        const value = SEARCH_DATA[key_index + 1]
+        const selected = $('img[title*="'+value+'"]')
+        if (selected.length) {
+            let searchResult = SEARCH_DATA[key_index + 2]; //type of Pokémon found
+            let imgResult = selected.length + " " + searchResult; //amount + type found
+            let imgFitResult = SEARCH_DATA[key_index + 3]; //image for type of Pokémon
+            // next line different from shelter
+            let bigImg = selected.parent().parent().parent().parent().prev().children('img.big')
+            $(bigImg).addClass('publicfoundme');
+        }
+    }
+    searchForCustomPokemon(value, male, female, nogender) {
+        let genderMatches = []
+        if (male) { genderMatches.push("[M]") }
+        if(female) { genderMatches.push("[F]") }
+        if(nogender) { genderMatches.push("[N]") }
+
+        if(genderMatches.length > 0) {
+            for(let i = 0; i < genderMatches.length; i++) {
+                let genderMatch = genderMatches[i];
+                let selected = $("#field_field .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
+                if (selected.length) {
+                    let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
+                    $(shelterBigImg).addClass('publicfoundme');
+                }
+            }
+        }
+
+        //No genders
+        else {
+            let selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
+            if (selected.length) {
+                let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
+                $(shelterBigImg).addClass('publicfoundme');
+            }
+        }
+
+    }
+    searchForCustomEgg(value) {
+        let selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
+        if (selected.length) {
+            let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
+            $(shelterBigImg).addClass('publicfoundme');
+        }
+    }
+    searchForCustomPng(value) {
+        let selected = $('#field_field img[src*="'+value+'"]')
+        if (selected.length) {
+            let shelterImgSearch = selected
+            $(shelterImgSearch).addClass('publicfoundme');
+        }
+    }
     customSearch() {
         let dexData = GLOBALS.DEX_DATA;
 
@@ -254,11 +313,14 @@ class PublicFieldsPage extends Page {
 
             $('#pokemonclickcount').remove(); //make sure no duplicates are being produced
             document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
-            if (JSON.stringify(pokemonClicked) === pokemonInField) {
-                $('#pokemonclickcount').css({"color" : "#059121"});
-            }
-            if (pokemonClicked !== JSON.parse(pokemonInField)) {
-                $('#pokemonclickcount').css({"color" : "#a30323"});
+
+            if(pokemonInField !== "") {
+                if (JSON.stringify(pokemonClicked) === pokemonInField) {
+                    $('#pokemonclickcount').css({"color" : "#059121"});
+                }
+                if (pokemonClicked !== JSON.parse(pokemonInField)) {
+                    $('#pokemonclickcount').css({"color" : "#a30323"});
+                }
             }
         }
 
@@ -268,6 +330,39 @@ class PublicFieldsPage extends Page {
         let bigImgs = document.querySelectorAll('.publicfoundme')
         if(bigImgs !== null) {
             bigImgs.forEach((b) => {$(b).removeClass('publicfoundme')})
+        }
+
+        if(this.settings.fieldShiny === true) {
+            this.searchForImgTitle('findShiny')
+        }
+        if(this.settings.fieldAlbino === true) {
+            this.searchForImgTitle('findAlbino')
+        }
+        if(this.settings.fieldMelanistic === true) {
+            this.searchForImgTitle('findMelanistic')
+        }
+        if(this.settings.fieldPrehistoric === true) {
+            this.searchForImgTitle('findPrehistoric')
+        }
+        if(this.settings.fieldDelta === true) {
+            this.searchForImgTitle('findDelta')
+        }
+        if(this.settings.fieldMega === true) {
+            this.searchForImgTitle('findMega')
+        }
+        if(this.settings.fieldStarter === true) {
+            this.searchForImgTitle('findStarter')
+        }
+        if(this.settings.fieldCustomSprite === true) {
+            this.searchForImgTitle('findCustomSprite')
+        }
+        if(this.settings.fieldItem === true) {
+            // pokemon that hold items will have HTML that matches the following selector
+            let items = $('.tooltip_content .item>div>.tooltip_item')
+            if(items.length) {
+                let itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big')
+                $(itemBigImgs).addClass('publicfoundme');
+            }
         }
 
         const filteredTypeArray = this.typeArray.filter(v=>v!='');
@@ -312,6 +407,29 @@ class PublicFieldsPage extends Page {
                 }
             }) // each
         } // end            
+
+        // custom search
+        for (let i = 0; i < this.customArray.length; i++) {
+            let value = this.customArray[i];
+            if (value != "") {
+                //custom pokemon search
+                if (this.settings.fieldCustomPokemon === true) {
+                    this.searchForCustomPokemon(value, this.settings.fieldMale,
+                                                this.settings.fieldFemale,
+                                                this.settings.fieldNoGender);
+                }
+
+                //custom egg
+                if (this.settings.fieldCustomEgg === true) {
+                    this.searchForCustomEgg(value);
+                }
+
+                //imgSearch with Pokémon
+                if (this.settings.fieldCustomPng === true) {
+                    this.searchForCustomPng(value);
+                }
+            }
+        }
     } // customSearch
     addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
         const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
@@ -332,19 +450,18 @@ class PublicFieldsPage extends Page {
 
         return arr;
     }
-    fieldAddTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeFieldSearch')
+    addTextField() {
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
         let numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
     }
-    fieldRemoveTextField(byebye, key) {
-        this.customArray = $.grep(this.customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+    removeTextField(byebye, key) {
+        this.customArray = $.grep(this.customArray, function(value) {
             return value != key;
         });
         this.settings.fieldCustom = this.customArray.toString()
 
-        this.saveSettings();
         $(byebye).parent().remove();
 
         let i;

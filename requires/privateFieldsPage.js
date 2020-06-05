@@ -17,7 +17,11 @@ class PrivateFieldsPage extends Page {
             fieldMale: true,
             fieldFemale: true,
             fieldNoGender: true,
-            customItem: true,
+            fieldItem: true,
+            customItem: true, // unused
+            customEgg: true,
+            customPokemon: true,
+            customPng: false,
             releaseSelectAll : true,
 	}, 'fields');
 	this.customArray = [];
@@ -40,7 +44,7 @@ class PrivateFieldsPage extends Page {
     setupHTML() {
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removePrivateFieldSearch', 'customArray')
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
                                              'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
         const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
@@ -62,7 +66,6 @@ class PrivateFieldsPage extends Page {
         let fieldOrderCssBorder = $('#field_field').css('border');
         $("#fieldorder").css("background-color", ""+fieldOrderCssColor+"");
         $("#fieldorder").css("border", ""+fieldOrderCssBorder+"");
-
         $("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
         $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
     }
@@ -121,6 +124,17 @@ class PrivateFieldsPage extends Page {
             obj.customSearch();
         }));
 
+        $(document).on('click', '#addTextField', (function() {
+            obj.addTextField();
+            obj.saveSettings();
+        }));
+
+        $(document).on('click', '#removeTextField', (function() {
+            obj.removeTextField(this, $(this).parent().find('input').val());
+            obj.saveSettings();
+            obj.customSearch();
+        }));
+
         $(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
             obj.customSearch();
@@ -142,11 +156,109 @@ class PrivateFieldsPage extends Page {
         }));
     }
     // specific
+    /*
+    insertFoundDiv(number, name, img) {
+        document.querySelector('#sheltersuccess').
+            insertAdjacentHTML('beforeend',
+                               '<div id="shelterfound">' + name + ((number > 1) ? 's' : '') + ' found ' + img + '</div>')
+    }
+    */
+    searchForImgTitle(key) {
+        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+        const key_index = SEARCH_DATA.indexOf(key)
+        const value = SEARCH_DATA[key_index + 1]
+        const selected = $('img[title*="'+value+'"]')
+        if (selected.length) {
+            let searchResult = SEARCH_DATA[key_index + 2]; //type of Pokémon found
+            let imgResult = selected.length + " " + searchResult; //amount + type found
+            let imgFitResult = SEARCH_DATA[key_index + 3]; //image for type of Pokémon
+            // next line different from shelter
+            let bigImg = selected.parent().parent().parent().parent().prev().children('img.big')
+            $(bigImg).addClass('privatefoundme');
+
+            // this.insertFoundDiv(selected.length, imgResult, imgFitResult)
+        }
+    }
+
+    searchForCustomPokemon(value, male, female, nogender) {
+        let genderMatches = []
+        if (male) { genderMatches.push("[M]") }
+        if(female) { genderMatches.push("[F]") }
+        if(nogender) { genderMatches.push("[N]") }
+
+        if(genderMatches.length > 0) {
+            for(let i = 0; i < genderMatches.length; i++) {
+                let genderMatch = genderMatches[i];
+                let selected = $("#field_field .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
+                if (selected.length) {
+                    let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
+                    $(shelterBigImg).addClass('privatefoundme');
+                }
+            }
+        }
+
+        //No genders
+        else {
+            let selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
+            if (selected.length) {
+                let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
+                $(shelterBigImg).addClass('privatefoundme');
+            }
+        }
+
+    }
+    searchForCustomEgg(value) {
+        let selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
+        if (selected.length) {
+            let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
+            $(shelterBigImg).addClass('privatefoundme');
+        }
+    }
+    searchForCustomPng(value) {
+        let selected = $('#field_field img[src*="'+value+'"]')
+        if (selected.length) {
+            let shelterImgSearch = selected
+            $(shelterImgSearch).addClass('privatefoundme');
+        }
+    }
     customSearch() {
         let dexData = GLOBALS.DEX_DATA;
         let bigImgs = document.querySelectorAll('.privatefoundme')
         if(bigImgs !== null) {
             bigImgs.forEach((b) => {$(b).removeClass('privatefoundme')})
+        }
+
+        if(this.settings.fieldShiny === true) {
+            this.searchForImgTitle('findShiny')
+        }
+        if(this.settings.fieldAlbino === true) {
+            this.searchForImgTitle('findAlbino')
+        }
+        if(this.settings.fieldMelanistic === true) {
+            this.searchForImgTitle('findMelanistic')
+        }
+        if(this.settings.fieldPrehistoric === true) {
+            this.searchForImgTitle('findPrehistoric')
+        }
+        if(this.settings.fieldDelta === true) {
+            this.searchForImgTitle('findDelta')
+        }
+        if(this.settings.fieldMega === true) {
+            this.searchForImgTitle('findMega')
+        }
+        if(this.settings.fieldStarter === true) {
+            this.searchForImgTitle('findStarter')
+        }
+        if(this.settings.fieldCustomSprite === true) {
+            this.searchForImgTitle('findCustomSprite')
+        }
+        if(this.settings.fieldItem === true) {
+            // pokemon that hold items will have HTML that matches the following selector
+            let items = $('.tooltip_content .item>div>.tooltip_item')
+            if(items.length) {
+                let itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big')
+                $(itemBigImgs).addClass('privatefoundme');
+            }
         }
 
         const filteredTypeArray = this.typeArray.filter(v=>v!='');
@@ -191,6 +303,29 @@ class PrivateFieldsPage extends Page {
                 }
             }) // each
         } // end
+
+        // custom search
+        for (let i = 0; i < this.customArray.length; i++) {
+            let value = this.customArray[i];
+            if (value != "") {
+                //custom pokemon search
+                if (this.settings.customPokemon === true) {
+                    this.searchForCustomPokemon(value, this.settings.fieldMale,
+                                                this.settings.fieldFemale,
+                                                this.settings.fieldNoGender);
+                }
+
+                //custom egg
+                if (this.settings.customEgg === true) {
+                    this.searchForCustomEgg(value);
+                }
+
+                //imgSearch with Pokémon
+                if (this.settings.customPng === true) {
+                    this.searchForCustomPng(value);
+                }
+            }
+        }
     }
     addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
         const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
@@ -210,6 +345,26 @@ class PrivateFieldsPage extends Page {
         }
 
         return arr;
+    }
+    addTextField() {
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
+        let numberDiv = $('#searchkeys>div').length;
+        $('#searchkeys').append(theField);
+        $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
+    }
+    removeTextField(byebye, key) {
+        this.customArray = $.grep(this.customArray, function(value) {
+            return value != key;
+        });
+        this.settings.fieldCustom = this.customArray.toString()
+
+        $(byebye).parent().remove();
+
+        let i;
+        for(i = 0; i < $('#searchkeys>div').length; i++) {
+            let rightDiv = i + 1;
+            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+        }
     }
     releaseEnableReleaseAll() {
         if(this.settings.releaseSelectAll === true) {
