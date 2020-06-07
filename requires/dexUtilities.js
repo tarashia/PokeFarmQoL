@@ -133,12 +133,19 @@ class DexUtilities {
         progressSpan.textContent = "Loading Pokedex info. Please wait until this is complete..."
 
         for(let d = 0; d < dexNumbers.length; d++) {
-            let r = $.get('https://pokefarm.com/dex/' + dexNumbers[d]).then((data) => {
+            // if the dex number is 000, the user has not seen the pokemon,
+            // so just increment the progress bar value
+            if(dexNumbers[d] === "000") {
                 progressBar.value = progressBar['value'] + 1
                 progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
-                return data
-            })
-            requests.push(r)
+            } else {
+                let r = $.get('https://pokefarm.com/dex/' + dexNumbers[d]).then((data) => {
+                    progressBar.value = progressBar['value'] + 1
+                    progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
+                    return data
+                })
+                requests.push(r)
+            }
         }
 
         return $.when.apply(undefined, requests)
