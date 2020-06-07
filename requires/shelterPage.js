@@ -313,7 +313,16 @@ class ShelterPage extends Page {
         }
 
         if(this.settings.findReadyToEvolve === true) {
-            this.searchForReadyToEvolveByLevel(dexData)
+            if(GLOBALS.EVOLVE_BY_LEVEL_LIST === null) {
+                window.alert('Unable to load list of pokemon that can evolve by level. Please try updating dex ' +
+                             'by clicking "Update Pokedex" in the QoL Hub. If the problem persists, please post in the thread.\n\n' +
+                             'Disabling this function until the checkbox is clicked again');
+                this.settings.findReadyToEvolve = false;
+                // uncheck checkbox
+                $('[data-key=findReadyToEvolve]')[0].checked = false
+            } else {
+                this.searchForReadyToEvolveByLevel(dexData)
+            }
         }
         
         //loop to find all search genders for the custom
