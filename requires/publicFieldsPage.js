@@ -82,6 +82,11 @@ class PublicFieldsPage extends Page {
         let fieldOrderCssBorder = $('#field_field').css('border');
         $("#fieldorder").css("background-color", ""+fieldOrderCssColor+"");
         $("#fieldorder").css("border", ""+fieldOrderCssBorder+"");
+        $("#tooltipenable").css("background-color", ""+fieldOrderCssColor+"");
+        $("#tooltipenable").css("border", ""+fieldOrderCssBorder+"");
+        $("#tooltipenable").css("max-width", "600px");
+        $("#tooltipenable").css("position", "relative");
+        $("#tooltipenable").css("margin", "16px auto");
         $("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
         $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
     }
