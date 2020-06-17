@@ -174,6 +174,13 @@
                         }
                     }
                 },
+                clearPageSettings(pageName) {
+                    if(! (pageName in PAGES) ) {
+                        console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`)
+                    } else {
+                        PAGES[pageName][0].resetSettings();
+                    }
+                },
                 setupHTML() { // injects the HTML changes from TEMPLATES into the site
                     // Header link to Userscript settings
                     document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', TEMPLATES.qolHubLinkHTML);
@@ -229,7 +236,7 @@
                         'loading Settings'    : fn.backwork.loadSettings,
                         'checking for update' : fn.backwork.checkForUpdate,
                         'setting up HTML'     : fn.backwork.setupHTML,
-			'populating Settings' : fn.backwork.populateSettingsPage,
+                        'populating Settings' : fn.backwork.populateSettingsPage,
                         'setting up CSS'      : fn.backwork.setupCSS,
                         'setting up Observers': fn.backwork.setupObservers,
                         'setting up Handlers' : fn.backwork.setupHandlers,
@@ -306,6 +313,12 @@
                                 pg[PAGE_OBJ_INDEX].settingsChange();
                             }
                         }
+                    }
+                },
+
+                clearPageSettings(pageName) {
+                    if(pageName !== "None") { // "None" matches option in HTML
+                        fn.backwork.clearPageSettings(pageName)
                     }
                 }
             }, // end of API
@@ -410,6 +423,16 @@
                 progressSpan.textContent = "Complete!"
             }
         }) // loadDexPage
+    }));
+
+    $(document).on('click', '#resetPageSettings', (function() {
+        const page = $(this).parent().find('select').val()
+        PFQoL.clearPageSettings(page)
+    }));
+
+    $(document).on('click', '#clearCachedDex', (function() {
+        localStorage.removeItem('QoLEvolveByLevel')
+        localStorage.removeItem('QoLDexIDsCache')
     }));
 
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
