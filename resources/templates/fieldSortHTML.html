@@ -17,12 +17,31 @@
   </label>
 </div>
 <div id=tooltipenable>
-  <label>
-     <input type="checkbox" class="qolsetting" data-key="tooltipNoBerry"/>
-     Enable tooltip (no berry selected)
-  </label>
-  <label>
-    <input type="checkbox" class="qolsetting" data-key="tooltipBerry"/>
-    Enable tooltip (berry selected)
-  </label>
+  <button type="button" class="collapsible">Tooltip Settings</button>
+  <div class="collapsible_content">
+    <table>
+      <tr>
+        <td>
+          <label>
+            <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipEnableMods"/>
+            Enable QoL Tooltip Changes
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>
+            <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipNoBerry"/>
+            Enable tooltip<br>(No berry selected)
+          </label>
+        </td>
+        <td>
+          <label>
+            <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipBerry"/>
+            Enable tooltip<br>(Berry selected)
+          </label>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>

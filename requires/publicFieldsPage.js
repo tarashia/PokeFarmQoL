@@ -26,6 +26,10 @@ class PublicFieldsPage extends Page {
             fieldCustomEgg: true,
             fieldCustomPng: false,
             fieldItem: true,
+            /* tooltip settings */
+            tooltipEnableMods: false,
+            tooltipNoBerry: false,
+            tooltipBerry: false,
         }, 'fields/');
         this.customArray = [];
         this.typeArray = [];
@@ -76,6 +80,11 @@ class PublicFieldsPage extends Page {
         Helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
         Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
         Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+
+        if(this.settings.tooltipEnableMods === false) {
+            $('[data-key=tooltipNoBerry]').prop('disabled', true);
+            $('[data-key=tooltipBerry]').prop('disabled', true);
+        }
     }
     setupCSS() {
         let fieldOrderCssColor = $('#field_field').css('background-color');
@@ -89,6 +98,9 @@ class PublicFieldsPage extends Page {
         $("#tooltipenable").css("margin", "16px auto");
         $("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
         $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
+        $(".collapsible").css("background-color", ""+fieldOrderCssColor+"");
+        $(".collapsible").css("border", ""+fieldOrderCssBorder+"");
+        $(".collapsible_content").css("background-color", ""+fieldOrderCssColor+"");
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#field_field'), {
@@ -176,6 +188,18 @@ class PublicFieldsPage extends Page {
         $('input.qolalone').on('change', function() { //only 1 textbox may be true
             $('input.qolalone').not(this).prop('checked', false);
         });
+
+        $('.collapsible').on('click', function() {
+            this.classList.toggle('active');
+            var content = this.nextElementSibling;
+            if(content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block"
+            }
+        });
+
+        // tooltip setting changes
     }
     // specific
     searchForImgTitle(key) {
