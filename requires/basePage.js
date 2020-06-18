@@ -50,6 +50,11 @@ class Page {
         }
     }
 
+    resetSettings() {
+        this.settings = JSON.parse(JSON.stringify(this.defaultSettings));
+        this.saveSettings()
+    }
+
     settingsChange(element, textElement, customClass, typeClass, arrayName) {
         if (JSON.stringify(this.settings).indexOf(element) >= 0) {
             if (typeof this.settings[element] === 'boolean') {
