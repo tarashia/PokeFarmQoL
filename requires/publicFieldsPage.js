@@ -199,7 +199,33 @@ class PublicFieldsPage extends Page {
             }
         });
 
-        // tooltip setting changes
+        $('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function() {
+            if($(this).prop('checked')) {
+                $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false)
+                $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', false)
+            } else {
+                $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true)
+                $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', true)
+            }
+        })
+
+        $('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
+            if($(this).prop('checked')) {
+                $('#field_field>div.field>.fieldmon+.tooltip_content').removeAttribute('data-tooltip')
+                $('#field_field>div.field>.fieldmon+.tooltip_content').removeClass('tooltip-trigger')
+            } else {
+                $('#field_field>div.field>.fieldmon+.tooltip_content').setAttribute('data-tooltip')
+                $('#field_field>div.field>.fieldmon+.tooltip_content').addClass('tooltip-trigger')
+            }
+        });
+
+        $('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
+            if($(this).prop('checked')) {
+                $('#field_field>div.field>.fieldmon+.tooltip_content').css( { 'cssText': 'display: none !important' } )
+            } else {
+
+            }
+        });
     }
     // specific
     searchForImgTitle(key) {
