@@ -84,6 +84,16 @@ class PublicFieldsPage extends Page {
         if(this.settings.tooltipEnableMods === false) {
             $('[data-key=tooltipNoBerry]').prop('disabled', true);
             $('[data-key=tooltipBerry]').prop('disabled', true);
+        } else {
+            if( $('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
+                if($(this).hasClass('selected')) {
+                    if($('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) { obj.disableTooltips(); }
+                    else { obj.enableTooltips(); }
+                } else {
+                    if($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
+                    else { obj.enableTooltips(); }
+                }
+            }
         }
     }
     setupCSS() {
@@ -199,37 +209,60 @@ class PublicFieldsPage extends Page {
             }
         });
 
+        $('#field_berries').on('click', function() {
+            if( $('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
+                if($(this).hasClass('selected')) {
+                    if($('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) { obj.disableTooltips(); }
+                    else { obj.enableTooltips(); }
+                } else {
+                    if($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
+                    else { obj.enableTooltips(); }
+                }
+            }
+        });
+
         $('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function() {
             if($(this).prop('checked')) {
                 $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false)
                 $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', false)
+                if($(this).hasClass('selected')) {
+                    if($('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) { obj.disableTooltips(); }
+                    else { obj.enableTooltips(); }
+                } else {
+                    if($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
+                    else { obj.enableTooltips(); }
+                }
             } else {
                 $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true)
                 $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', true)
+                obj.enableTooltips();
             }
+            obj.saveSettings();
         })
 
         $('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
-            if($(this).prop('checked')) {
-                $('#field_field>div.field>.fieldmon').each((index, v) => {
-                    $(v).removeAttr('data-tooltip').removeClass('tooltip-trigger')
-                });
-            } else {
-                $('#field_field>div.field>.fieldmon').each((index, v) => {
-                    v.setAttribute('data-tooltip', "")
-                });
+            if($('#field_berries.selected').length == 0) {
+                if($(this).prop('checked')) { obj.disableTooltips(); }
+                else { obj.enableTooltips(); }
             }
+            obj.saveSettings();
         });
 
         $('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
-            if($(this).prop('checked')) {
-                
-            } else {
-
+            if($('#field_berries.selected').length) {
+                if($(this).prop('checked')) { obj.disableTooltips(); }
+                else { obj.enableTooltips(); }
             }
+            obj.saveSettings();
         });
     }
     // specific
+    disableTooltips() {
+        $('#field_field>div.field>.fieldmon').removeAttr('data-tooltip').removeClass('tooltip_trigger')
+    }
+    enableTooltips() {
+        $('#field_field>div.field>.fieldmon').attr('data-tooltip', "")
+    }
     searchForImgTitle(key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const key_index = SEARCH_DATA.indexOf(key)
