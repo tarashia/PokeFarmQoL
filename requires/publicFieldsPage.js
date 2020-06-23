@@ -211,17 +211,19 @@ class PublicFieldsPage extends Page {
 
         $('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
             if($(this).prop('checked')) {
-                $('#field_field>div.field>.fieldmon+.tooltip_content').removeAttribute('data-tooltip')
-                $('#field_field>div.field>.fieldmon+.tooltip_content').removeClass('tooltip-trigger')
+                $('#field_field>div.field>.fieldmon').each((index, v) => {
+                    $(v).removeAttr('data-tooltip').removeClass('tooltip-trigger')
+                });
             } else {
-                $('#field_field>div.field>.fieldmon+.tooltip_content').setAttribute('data-tooltip')
-                $('#field_field>div.field>.fieldmon+.tooltip_content').addClass('tooltip-trigger')
+                $('#field_field>div.field>.fieldmon').each((index, v) => {
+                    v.setAttribute('data-tooltip', "")
+                });
             }
         });
 
         $('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
             if($(this).prop('checked')) {
-                $('#field_field>div.field>.fieldmon+.tooltip_content').css( { 'cssText': 'display: none !important' } )
+                
             } else {
 
             }
