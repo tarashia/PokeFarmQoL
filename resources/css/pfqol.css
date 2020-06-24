@@ -1,4 +1,4 @@
-/* Pokéfarm QoL style sheet */
+/* PokÃ©farm QoL style sheet */
 
 /* Shelter Page */
 
@@ -55,7 +55,7 @@
     padding-top: 20px;
 }
 
-/* shelter Pokémon/egg found background */
+/* shelter PokÃ©mon/egg found background */
 .publicfoundme, .privatefoundme, .shelterfoundme, .daycarefoundme {
     box-shadow: 0px 0px 25px 15px #d5e265;
     background-color: #d5e265;
@@ -63,7 +63,7 @@
 }
 
 /*shelterSort */
-    
+
 /* shelter grid sort */
 .qolshelterareagrid {
     min-height: 350px;
@@ -397,8 +397,25 @@
     font-weight: bold;
 }
 
+.collapsible {
+  color: #444;
+  cursor: pointer;
+  padding: 4px;
+  width: 100%;
+  text-align: left;
+  max-width: 600px;
+  position: relative;
+  border-radius: 6px;
+}
 
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+  background-color: #ccc;
+}
 
-
-
-
+/* Style the collapsible content. Note: hidden by default */
+.collapsible_content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
