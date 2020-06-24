@@ -5,7 +5,7 @@
 // @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
 // @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/merge_issue_15_into_master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      1.3.59
+// @version      1.3.60
 // @match        https://pokefarm.com/*
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
@@ -338,6 +338,9 @@
     }));
 
     $(document).on('click', '#updateDex', (function() {
+        // Manually update GLOBALS.DEX_DATA
+        DexUtilities.loadDexIntoGlobalsFromWeb()
+        
         // GLOBALS.DEX_DATA will contain the latest info as is read from local storage
         // this handler updates the local storage
         const progressSpan = $('span.qolDexUpdateProgress')[0]
