@@ -338,6 +338,9 @@
     }));
 
     $(document).on('click', '#updateDex', (function() {
+        // Manually update GLOBALS.DEX_DATA
+        DexUtilities.loadDexIntoGlobalsFromWeb()
+
         // GLOBALS.DEX_DATA will contain the latest info as is read from local storage
         // this handler updates the local storage
         const progressSpan = $('span.qolDexUpdateProgress')[0]
