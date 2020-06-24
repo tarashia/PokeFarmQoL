@@ -226,7 +226,7 @@ class PublicFieldsPage extends Page {
     // specific
     handleTooltipSettings() {
         const obj = this
-        if(obj.settings.tooltipEnableMods === true) {
+        if($('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
             // make sure checkboxes are enabled
             $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false)
             $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', false)
