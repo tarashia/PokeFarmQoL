@@ -11,6 +11,7 @@ const TEMPLATES = { // all the new/changed HTML for the userscript
     partyModHTML          : `<div id='qolpartymod'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>`,
     evolveFastHTML        : GM_getResourceText('evolveFastHTML'),
     labOptionsHTML        : GM_getResourceText('labOptionsHTML'),
+    fieldTooltipModHTML   : GM_getResourceText('fieldTooltipModHTML'),
 }
 
 let GLOBALS = {
