@@ -63,6 +63,7 @@ class PublicFieldsPage extends Page {
     }
 
     setupHTML() {
+        document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldTooltipModHTML);
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldSortHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
 
