@@ -24,10 +24,6 @@ class Page {
         Helpers.saveSettings(this.settingsSaveKey, this.settings)
     }
 
-    getSettings() {
-        return this.settings;
-    }
-    
     populateSettings(obj) {
         if(obj === undefined) {
             obj = this.settings
