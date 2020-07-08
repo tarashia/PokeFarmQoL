@@ -47,7 +47,7 @@ class PrivateFieldsPage extends Page {
     }
 
     setupHTML() {
-        document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldTooltipModHTML);
+        document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.privateFieldTooltipModHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
 
         const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
