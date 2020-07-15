@@ -1,4 +1,10 @@
-/* PokÃ©farm QoL style sheet */
+/* Pokéfarm QoL style sheet */
+
+/* Announcement bar */
+
+#announcements li[data-name="QoL] {
+    cursor: pointer;
+}
 
 /* Shelter Page */
 
