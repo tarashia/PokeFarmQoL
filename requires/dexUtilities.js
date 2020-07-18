@@ -545,21 +545,6 @@ class DexUtilities {
                         stack.pop()
                     }
                     let parseEvolutionPaths = function(tree) {
-                        // append this node to the path array
-                        stack.push(name)
-                        if(num_children === 0) {
-                            // append all of its children
-                            paths.push(stack.reverse().join('|'));
-                            stack.reverse()
-                        } else {
-                            // otherwise try subtrees
-                            for(let i = 0; i < num_children; i++) {
-                                createPaths(stack, children[i], paths)
-                            }
-                        }
-                        stack.pop()
-                    }
-                    let parseEvolutionPaths = function(tree) {
                         let paths = []
                         createPaths([], tree, paths)
 
@@ -586,7 +571,6 @@ class DexUtilities {
                         // return paths.map((p) => { return p.split('|').length })
                         return pokemon_path_data;
                     }
-
                     // - 1 because there is one less evolution then there are pokemon
                     let parsed_path_data = parseEvolutionPaths(final_tree);
                     for(let p in parsed_path_data) {
