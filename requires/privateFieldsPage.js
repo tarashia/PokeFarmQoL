@@ -18,6 +18,7 @@ class PrivateFieldsPage extends Page {
             fieldFemale: true,
             fieldNoGender: true,
             fieldItem: true,
+            fieldNFE: false,
             customItem: true, // unused
             customEgg: true,
             customPokemon: true,
@@ -247,6 +248,45 @@ class PrivateFieldsPage extends Page {
     enableTooltips() {
         $('#field_field>div.field>.fieldmon').attr('data-tooltip', "")
     }
+    highlightByHowFullyEvolved(pokemon_elem) {
+        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
+        // will not exist. If this occurs. don't try highlighting anything until the
+        // pokemon is "put down"
+        if(!$(pokemon_elem).next().length) { return; }
+
+        const tooltip = Helpers.parseFieldPokemonTooltip($(pokemon_elem).next()[0]);
+        let pokemon = tooltip['species'];
+
+        const key = 'QoLEvolutionTreeDepth'
+        if(localStorage.getItem(key) !== null) {
+            const evolution_data = JSON.parse(localStorage.getItem(key))
+            if(Object.keys(evolution_data).length > 0) {
+                // if can't find the pokemon directly, try looking for its form data
+                if(!evolution_data[pokemon]) {
+                    if(tooltip['forme']) {
+                        pokemon = pokemon + ' [' + tooltip['forme'] + ']'
+                    }
+                }
+                if(!evolution_data[pokemon]) {
+                    console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
+                } else {
+                    const evolutions_left = evolution_data[pokemon].remaining
+                    const evolution_tree_depth = evolution_data[pokemon].total
+
+                    if(evolutions_left === 1) {
+                        $(pokemon_elem).children('img.big').addClass('oneevolutionleft');
+                    } else if(evolutions_left === 2) {
+                        $(pokemon_elem).children('img.big').addClass('twoevolutionleft');
+                    }
+                }
+            } else {
+                console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
+            }
+        } else {
+            console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
+        }
+    }
+
     searchForImgTitle(key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const key_index = SEARCH_DATA.indexOf(key)
@@ -306,6 +346,7 @@ class PrivateFieldsPage extends Page {
         }
     }
     customSearch() {
+        const obj = this
         let dexData = GLOBALS.DEX_DATA;
         let bigImgs = document.querySelectorAll('.privatefoundme')
         if(bigImgs !== null) {
@@ -344,7 +385,18 @@ class PrivateFieldsPage extends Page {
                 $(itemBigImgs).addClass('privatefoundme');
             }
         }
-
+        if(this.settings.fieldNFE === true) {
+            $('.fieldmon').each(function() {
+                obj.highlightByHowFullyEvolved(this)
+            })
+        } else {
+            $('.oneevolutionleft').each((k, v) => {
+                $(v).removeClass('oneevolutionleft');
+            });
+            $('.twoevolutionleft').each((k, v) => {
+                $(v).removeClass('twoevolutionleft');
+            });
+        }
         const filteredTypeArray = this.typeArray.filter(v=>v!='');
         const filteredNatureArray = this.natureArray.filter(v=>v!='');
         const filteredEggGroupArray = this.eggGroupArray.filter(v=>v!='');

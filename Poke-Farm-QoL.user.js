@@ -358,33 +358,7 @@
         DexUtilities.loadDexPage().then((data) => {
             let html = jQuery.parseHTML(data)
             let dex = $(html[10].querySelector('#dexdata')).html()
-            let json = JSON.parse(dex)
-            const dexNumbers = [];
-
-            // load current list of processed dex IDs
-            let dexIDsCache = []
-            if(localStorage.getItem('QoLDexIDsCache') !== null) {
-                dexIDsCache = JSON.parse(localStorage.getItem('QoLDexIDsCache'))
-            }
-
-            // get the list of pokedex numbers that haven't been processed before
-            for(let r in json.regions) {
-                for(let i = 0; i < json.regions[r].length; i++) {
-                    if(dexIDsCache.indexOf(json.regions[r][i][0]) == -1) {
-                        dexNumbers.push(json.regions[r][i][0])
-                    }
-                }
-            }
-
-            // Add the list of dexNumbers to the cache and write it back to local storage
-            dexIDsCache = dexIDsCache.concat(dexNumbers)
-            localStorage.setItem('QoLDexIDsCache', JSON.stringify(dexIDsCache))
-
-            // load current evolve by level list
-            let evolveByLevelList = {}
-            if(localStorage.getItem('QoLEvolveByLevel') !== null) {
-                evolveByLevelList = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
-            }
+            const dexNumbers = DexUtilities.parseAndStoreDexNumbers(dex);
 
             if(dexNumbers.length > 0) {
                 // update the progress bar in the hub
@@ -392,37 +366,31 @@
                 const progressBar = $('progress.qolDexUpdateProgress')[0]
                 progressBar['max'] = limit
 
-                // load and parse the evolution data for each
-                DexUtilities.loadEvolutionTrees(dexNumbers, progressBar, progressSpan).then((...args) => {
-                    // filter out the html data
-                    let trees = args
-                    const parsed_families_and_dex_ids = DexUtilities.parseEvolutionTrees(trees)
-                    const parsed_families = parsed_families_and_dex_ids[0]
-                    const dex_ids = parsed_families_and_dex_ids[1]
-
-                    // right now, only interested in pokemon that evolve by level
-                    // so, this just builds a list of pokemon that evolve by level
-                    let evolveByLevelList = {}
-                    for(let pokemon in parsed_families) {
-                        let evolutions = parsed_families[pokemon]
-                        for(let i = 0; i < evolutions.length; i++) {
-                            let evo = evolutions[i]
-                            if(!(evo.source in evolveByLevelList) && Array.isArray(evo.condition)) {
-                                for(let j = 0; j < evo.condition.length; j++) {
-                                    let cond = evo.condition[j]
-                                    if(cond.condition === "Level") {
-                                        evolveByLevelList[evo.source] = cond.condition + " " + cond.data
-                                        evolveByLevelList[dex_ids[evo.source]] = cond.condition + " " + cond.data
-                                    } // if
-                                } // for
-                            } // if
-                        } // for
-                    } // for pokemon
-
-                    GLOBALS.EVOLVE_BY_LEVEL_LIST = evolveByLevelList
-                    localStorage.setItem('QoLEvolveByLevel', JSON.stringify(evolveByLevelList))
-                    progressSpan.textContent = "Complete!"
-                }) // loadEvolutionTrees
+                DexUtilities.loadDexPages(dexNumbers, progressBar, progressSpan).then((...dexPagesHTML) => {
+                    DexUtilities.loadFormPages(dexPagesHTML, progressBar, progressSpan).then((...formPagesHTML) => {
+                        
+                        // Combine the arrays of HTML into one array
+                        let allPagesHTML = dexPagesHTML.concat(formPagesHTML);
+                        
+                        // Parse evolution data
+                        // const parsed_families_and_dex_ids = DexUtilities.parseEvolutionTrees(dexPagesHTML);
+                        const parsed_families_and_dex_ids = DexUtilities.parseEvolutionTrees(allPagesHTML);
+                        const parsed_families = parsed_families_and_dex_ids[0]
+                        const dex_ids = parsed_families_and_dex_ids[1]
+                        
+                        // Parse form data
+                        // const parsed_forms_and_map = DexUtilities.parseFormData(formPagesHTML);
+                        const parsed_forms_and_map = DexUtilities.parseFormData(allPagesHTML);
+                        const form_data = parsed_forms_and_map[0];
+                        const form_map = parsed_forms_and_map[1];
+                        
+                        DexUtilities.saveEvolveByLevelList(parsed_families, dex_ids)
+                        
+                        DexUtilities.saveEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
+                        
+                        progressSpan.textContent = "Complete!"
+                    }); // loadFormPages
+                }) // loadDexData
             } // if dexNumbers.length > 0
             else {
                 progressSpan.textContent = "Complete!"
@@ -438,6 +406,7 @@
     $(document).on('click', '#clearCachedDex', (function() {
         localStorage.removeItem('QoLEvolveByLevel')
         localStorage.removeItem('QoLDexIDsCache')
+        localStorage.removeItem("QoLEvolutionTreeDepth")
     }));
 
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log

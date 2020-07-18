@@ -62,12 +62,39 @@
 	  </label>
 	</td>
       </tr>
+    </tbody>
+  </table>
+  <h4>Search on evolutions</h4>
+  <span>Highlight pokemon based on evolution data. Make sure to use the <i>Update Pokedex</i> button in the QoL Hub to load evolution data.</span>
+  <div class="tooltip">Note
+    <span class="tooltiptext">
+      Currently, these buttons may not highlight pokemon with multiple forms correctly. This is due to the form of a pokemon not being readily available in the text on the shelter page before clicking "Adopt" on the pokemon.
+      <br>
+      There is a work-around for this, but it has not been implemented yet.
+    </span>
+  </div>
+  <table>
+    <tbody>
       <tr>
 	<td colspan="2">
 	  <label>
 	    <input type="checkbox" class="qolsetting" data-key="findReadyToEvolve"/>Ready to Evolve (by Level)
 	  </label>
 	</td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <label>
+            <input type="checkbox" class="qolsetting" data-key="findNFE"/>
+            <div class="tooltip">Evolutions Left
+              <span class="tooltiptext">
+                Pokemon with one evolution left are highlighted in red
+                <br>
+                Pokemon with two evolutions left are highlighted in blue
+              </span>
+            </div>
+          </label>
+        </td>
       </tr>
     </tbody>
   </table>

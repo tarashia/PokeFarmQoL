@@ -92,7 +92,7 @@
     align-items: center;
 }
 
-    /* fields */
+/* fields */
 /* Field settings div */
 #fieldorder {
     margin: 16px auto;
@@ -418,4 +418,17 @@
   padding: 0 18px;
   display: none;
   overflow: hidden;
+}
+
+/* evolutions left highlighting */
+.oneevolutionleft {
+    box-shadow: 0px 0px 25px 15px #f36971; /* light red */
+    background-color: #f36971;
+    border-radius: 100%;
+}
+
+.twoevolutionleft {
+    box-shadow: 0px 0px 25px 15px #6a6df2; /* light blue */
+    background-color: #6a6df2;
+    border-radius: 100%;
 }

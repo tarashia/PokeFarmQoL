@@ -19,6 +19,7 @@ class ShelterPage extends Page {
             findMale: true,
             findFemale: true,
             findNoGender: true,
+            findNFE: false,
             customEgg: true,
             customPokemon: true,
             customPng: false,
@@ -219,6 +220,45 @@ class ShelterPage extends Page {
 
     }
 
+    highlightByHowFullyEvolved(pokemon_elem) {
+        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
+        // will not exist. If this occurs. don't try highlighting anything until the
+        // pokemon is "put down"
+        if(!$(pokemon_elem).next().length) { return; }
+
+        const tooltip_elem = $(pokemon_elem).next()[0];
+        const tooltip = {
+            species: tooltip_elem.textContent.split(' ')[0],
+            forme: ''
+        }
+        let pokemon = tooltip['species'];
+
+        if(GLOBALS.EVOLUTIONS_LEFT !== undefined) {
+            const evolution_data = GLOBALS.EVOLUTIONS_LEFT;
+            // if can't find the pokemon directly, try looking for its form data
+            if(!evolution_data[pokemon]) {
+                if(tooltip['forme']) {
+                    pokemon = pokemon + ' [' + tooltip['forme'] + ']'
+                }
+            }
+            if(!evolution_data[pokemon]) {
+                // Do not log error here. Repeated errors can (will) slow down the page
+                // console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
+            } else {
+                const evolutions_left = evolution_data[pokemon].remaining
+                const evolution_tree_depth = evolution_data[pokemon].total
+
+                if(evolutions_left === 1) {
+                    $(pokemon_elem).children('img.big').addClass('oneevolutionleft');
+                } else if(evolutions_left === 2) {
+                    $(pokemon_elem).children('img.big').addClass('twoevolutionleft');
+                }
+            }
+        } else {
+            console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
+        }
+    }
+
     customSearch() {
         const obj = this;
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
@@ -273,6 +313,18 @@ class ShelterPage extends Page {
         }
         if(this.settings.findCustomSprite === true) {
             this.searchForImgTitle('findCustomSprite')
+        }
+        if(this.settings.findNFE === true) {
+            $('#shelterarea>[data-stage=pokemon]').each(function() {
+                obj.highlightByHowFullyEvolved(this)
+            })
+        } else {
+            $('.oneevolutionleft').each((k, v) => {
+                $(v).removeClass('oneevolutionleft');
+            });
+            $('.twoevolutionleft').each((k, v) => {
+                $(v).removeClass('twoevolutionleft');
+            });
         }
 
         if(this.settings.findNewPokemon === true) {
