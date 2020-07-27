@@ -165,14 +165,19 @@ class ShelterPage extends Page {
     insertShelterFoundDiv(number, name, img) {
         document.querySelector('#sheltersuccess').
             insertAdjacentHTML('beforeend',
-                               '<div id="shelterfound">' + name + ((number > 1) ? 's' : '') + ' found ' + img + '</div>')
+                               '<div id="shelterfound">' + name + ((number !== 1) ? 's' : '') + ' found ' + img + '</div>')
     }
     insertShelterTypeFoundDiv(number, type, stage, names) {
+        let stageNoun = '';
+        if (stage === 'egg') {
+            stageNoun = stage + (number !== 1 ? 's' : '');
+        } else { // i.e. stage === 'Pokemon'
+            stageNoun = stage;
+        }
         document.querySelector('#sheltersuccess').
             insertAdjacentHTML('beforeend',
-                               '<div id="shelterfound">' + number + ' ' + type + ' ' + stage +
-                               ((number > 1) ? 'types' : 'type') + 'found! (' +
-                               names.toString() + ')</div>')
+                               '<div id="shelterfound">' + number + ' ' + type + ' type ' +
+                               stageNoun + ' found!' + (names.length > 0 ? (' + names.toString() + ')' : '') + '</div>')
     }
     
     searchForImgTitle(key) {
