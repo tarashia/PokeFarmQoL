@@ -112,3 +112,7 @@ if(!DexUtilities.loadDexIntoGlobalsFromStorage()) { // can't load it from storag
 }
 
 GLOBALS.EVOLVE_BY_LEVEL_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))
+
+if(localStorage.getItem("QoLEvolutionTreeDepth") !== "{}") {
+    GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem("QoLEvolutionTreeDepth"));
+}
