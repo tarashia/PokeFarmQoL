@@ -2,7 +2,7 @@
 
 /* Announcement bar */
 
-#announcements li[data-name="QoL] {
+#announcements li[data-name="QoL"] {
     cursor: pointer;
 }
 
