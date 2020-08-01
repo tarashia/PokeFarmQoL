@@ -14,52 +14,31 @@ class WishforgePage extends Page {
     } // constructor
     
     setupHTML() {
-        // test table
+        // setup table format
         const header = "<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>";
-        const rows = {
-            "normal": "<td>Normal</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "fire": "<td>Fire</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "water": "<td>Water</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "electric": "<td>Electric</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "grass": "<td>Grass</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "ice": "<td>Ice</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "fighting": "<td>Fighting</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "poison": "<td>Poison</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "ground": "<td>Ground</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "flying": "<td>Flying</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "psychic": "<td>Psychic</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "bug": "<td>Bug</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "rock": "<td>Rock</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "ghost": "<td>Ghost</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "dragon": "<td>Dragon</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "dark": "<td>Dark</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "steel": "<td>Steel</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-            "fairy": "<td>Fairy</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>",
-        };
-        const table = `<table>
-            <tr id=”head”> ${header}</tr>
-            <tr id=”normal”> ${rows["normal"]} </tr>
-            <tr id=”fire”> ${rows["fire"]} </tr>
-            <tr id=”water”> ${rows["water"]} </tr>
-            <tr id=”electric”> ${rows["electric"]} </tr>
-            <tr id=”grass”> ${rows["grass"]} </tr>
-            <tr id=”ice”> ${rows["ice"]} </tr>
-            <tr id=”fighting”> ${rows["fighting"]} </tr>
-            <tr id=”poison”> ${rows["poison"]} </tr>
-            <tr id=”ground”> ${rows["ground"]} </tr>
-            <tr id=”flying”> ${rows["flying"]} </tr>
-            <tr id=”psychic”> ${rows["psychic"]} </tr>
-            <tr id=”bug”> ${rows["bug"]} </tr>
-            <tr id=”rock”> ${rows["rock"]} </tr>
-            <tr id=”ghost”> ${rows["ghost"]} </tr>
-            <tr id=”dragon”> ${rows["dragon"]} </tr>
-            <tr id=”dark”> ${rows["dark"]} </tr>
-            <tr id=”steel”> ${rows["steel"]} </tr>
-            <tr id=”fairy”> ${rows["fairy"]} </tr>
-            </table>`;
         
-        const list = $($('ul.badgelist')[1]);
-        list.prepend(table);
+        // use GLOBALS.TYPE_LIST to get list of types
+        const types = GLOBALS.TYPE_LIST;
+        
+        // build HTML table
+        let rows = {};
+        for (let i = 0; i < types.length; i++) {
+            rows[types[i]] = `<td>${types[i]}</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>`
+        };
+        let table = `<table><tr id="head"> ${header}</tr>`;
+        for (let i = 0; i < types.length; i++) {
+            table += `<tr id=${types[i]}> ${rows[${types[i]}]} </tr>`;
+        }
+        table += `</table>`;
+        
+        // add table to page
+        const craftedBadgesList = $($('ul.badgelist')[1]);
+        craftedBadgesList.prepend(table);
+        
+        // move elements from original elements to table
+        for (let i = 0; i < types.length; i++) {
+            $($($(craftedBadgesList.children()[i]).children()[0]).children()[0]).appendTo(`tr#${types[i]}`);
+        }
         
     }
 };
