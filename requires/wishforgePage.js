@@ -25,23 +25,25 @@ class WishforgePage extends Page {
         for (let i = 0; i < types.length; i++) {
             rows[types[i]] = `<td>${types[i]}</td> <td></td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>`
         };
-        let table = `<table><tr id="head"> ${header}</tr>`;
-        /*
-        <colgroup>
-            <col span="1" style="width: 15%;">
-            <col span="1" style="width: 70%;">
-            <col span="1" style="width: 15%;">
-        </colgroup>
-        */
+        let table = `<table style="width: 100%">` +
+            `<colgroup>` +
+            `<col span="1" style="width: 10%;">` +
+            `<col span="1" style="width: 20%;">` +
+            `<col span="1" style="width: 20%;">` +
+            `<col span="1" style="width: 20%;">` +
+            `<col span="1" style="width: 10%;">` +
+            `<col span="1" style="width: 10%;">` +
+            `</colgroup>` +
+            `<tr id="head"> ${header}</tr>`;
         for (let i = 0; i < types.length; i++) {
             table += `<tr id=${types[i]}> ${rows[types[i]]} </tr>`;
         }
         table += `</table>`;
-        
+
         // add table to page
         const craftedBadgesList = $($('ul.badgelist')[1]);
         craftedBadgesList.prepend(table);
-        
+
         // define column aliases to make the movements more logical
         const LEVEL_COL = 2;
         const GEM_COL = 3;
@@ -59,9 +61,20 @@ class WishforgePage extends Page {
 
             // get badge name
             let badgeName = $($(craftedBadgesList.children()[index]).children()[0]); // .innerText;
-            badgeName.text(badgeName.text().replace(` ${types[i]} Badge`, ""));
+            badgeName.text(' ' + badgeName.text().replace(` ${types[i]} Badge`, ""));
+            badgeName.css('display', 'inline-block');
             badgeName.appendTo(`tr#${types[i]}>td:nth-child(${LEVEL_COL})`);
+
+            // get gem progress bar
+
+            // get item progress bar
+
+            // get upgrade button
+
+            // get notify button
+
         }
+
     }
 };
 
