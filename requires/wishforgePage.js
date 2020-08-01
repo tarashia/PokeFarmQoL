@@ -1,6 +1,6 @@
 class WishforgePage extends Page {
     constructor() {
-        super('QoLWishforge', {}, 'wishforge');
+        super('QoLWishforge', {}, 'forge');
         const obj = this;
         /*
         this.observer = new MutationObserver(function(mutations) {
