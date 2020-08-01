@@ -23,11 +23,18 @@ class WishforgePage extends Page {
         // build HTML table
         let rows = {};
         for (let i = 0; i < types.length; i++) {
-            rows[types[i]] = `<td>${types[i]}</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>`
+            rows[types[i]] = `<td>${types[i]}</td> <td></td> <td>Test</td> <td>Test</td> <td>Test</td> <td>Test</td>`
         };
         let table = `<table><tr id="head"> ${header}</tr>`;
+        /*
+        <colgroup>
+            <col span="1" style="width: 15%;">
+            <col span="1" style="width: 70%;">
+            <col span="1" style="width: 15%;">
+        </colgroup>
+        */
         for (let i = 0; i < types.length; i++) {
-            table += `<tr id=${types[i]}> ${rows[${types[i]}]} </tr>`;
+            table += `<tr id=${types[i]}> ${rows[types[i]]} </tr>`;
         }
         table += `</table>`;
         
@@ -35,11 +42,26 @@ class WishforgePage extends Page {
         const craftedBadgesList = $($('ul.badgelist')[1]);
         craftedBadgesList.prepend(table);
         
+        // define column aliases to make the movements more logical
+        const LEVEL_COL = 2;
+        const GEM_COL = 3;
+        const ITEM_COL = 4;
+        const UPDATE_COL = 5;
+        const NOTIFY_COL = 6;
+
         // move elements from original elements to table
         for (let i = 0; i < types.length; i++) {
-            $($($(craftedBadgesList.children()[i]).children()[0]).children()[0]).appendTo(`tr#${types[i]}`);
+            let index = i + 1;
+
+            // get badge image
+            let badgeImg = $($($(craftedBadgesList.children()[index]).children()[0]).children()[0]);
+            badgeImg.appendTo(`tr#${types[i]}>td:nth-child(${LEVEL_COL})`);
+
+            // get badge name
+            let badgeName = $($(craftedBadgesList.children()[index]).children()[0]); // .innerText;
+            badgeName.text(badgeName.text().replace(` ${types[i]} Badge`, ""));
+            badgeName.appendTo(`tr#${types[i]}>td:nth-child(${LEVEL_COL})`);
         }
-        
     }
 };
 
