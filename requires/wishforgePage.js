@@ -58,7 +58,7 @@ class WishforgePage extends Page {
             <tr id=”fairy”> ${rows["fairy"]} </tr>
             </table>`;
         
-        list = $($('ul.badgelist')[1]);
+        const list = $($('ul.badgelist')[1]);
         list.prepend(table);
         
     }
