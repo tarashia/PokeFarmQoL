@@ -33,6 +33,7 @@
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/farmPage.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/daycarePage.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/dexPage.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/wishforgePage.js
 // @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @connect      github.com
 // @grant        GM_getResourceText
@@ -63,7 +64,8 @@
             partyMod: true,
             easyEvolve: true,
             labNotifier: true,
-            dexFilterEnable: true
+            dexFilterEnable: true,
+            condenseWishforge: true
         };
 
         const SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
@@ -84,7 +86,8 @@
             'PrivateFields' : [privateFieldsPage, 'privateFieldEnable'],
             'PublicFields' : [publicFieldsPage, 'publicFieldEnable'],
             'Shelter' : [shelterPage, 'shelterEnable'],
-            'Dex': [dexPage, 'dexFilterEnable']
+            'Dex': [dexPage, 'dexFilterEnable'],
+            'Wishforge': [wishforgePage, 'condenseWishforge'],
         }
         const PAGE_OBJ_INDEX = 0;
         const PAGE_VAR_INDEX = 1;
