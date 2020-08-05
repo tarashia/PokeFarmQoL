@@ -2,15 +2,11 @@ class WishforgePage extends Page {
     constructor() {
         super('QoLWishforge', {}, 'forge');
         const obj = this;
-        /*
         this.observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
-              if(document.querySelector('#fs_pokemon') !== null) {
-                  obj.customSearch();
-              }
+              obj.setupHTML();
           })
         });
-        */
     } // constructor
 
     setupHTML() {
@@ -100,6 +96,12 @@ class WishforgePage extends Page {
         for (let i = types.length; i >= 1; i--) {
             $(children[i]).remove();
         }
+    }
+    
+    setupObserver() {
+        this.observer.observe(document.querySelector('ul.badgelist'), {
+            childList: true
+        });
     }
 };
 
