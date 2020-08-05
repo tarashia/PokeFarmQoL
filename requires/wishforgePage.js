@@ -4,7 +4,9 @@ class WishforgePage extends Page {
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
-              obj.setupHTML();
+              if(mutation.type === "childList" && mutation.addedNodes.length) {
+                  obj.setupHTML();
+              }
           })
         });
     } // constructor
@@ -99,7 +101,8 @@ class WishforgePage extends Page {
     }
     
     setupObserver() {
-        this.observer.observe(document.querySelector('ul.badgelist'), {
+        const target = $('#badges').next("div")[0];
+        this.observer.observe(target, {
             childList: true
         });
     }
