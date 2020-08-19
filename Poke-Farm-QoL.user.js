@@ -371,26 +371,27 @@
 
                 DexUtilities.loadDexPages(dexNumbers, progressBar, progressSpan).then((...dexPagesHTML) => {
                     DexUtilities.loadFormPages(dexPagesHTML, progressBar, progressSpan).then((...formPagesHTML) => {
-                        
+
                         // Combine the arrays of HTML into one array
                         let allPagesHTML = dexPagesHTML.concat(formPagesHTML);
-                        
+
                         // Parse evolution data
-                        // const parsed_families_and_dex_ids = DexUtilities.parseEvolutionTrees(dexPagesHTML);
                         const parsed_families_and_dex_ids = DexUtilities.parseEvolutionTrees(allPagesHTML);
                         const parsed_families = parsed_families_and_dex_ids[0]
                         const dex_ids = parsed_families_and_dex_ids[1]
-                        
+
                         // Parse form data
-                        // const parsed_forms_and_map = DexUtilities.parseFormData(formPagesHTML);
                         const parsed_forms_and_map = DexUtilities.parseFormData(allPagesHTML);
                         const form_data = parsed_forms_and_map[0];
                         const form_map = parsed_forms_and_map[1];
-                        
+
+                        // Collect regional form data
+                        const regional_form_map = DexUtilities.extractRegionalForms(form_map);
+
                         DexUtilities.saveEvolveByLevelList(parsed_families, dex_ids)
-                        
                         DexUtilities.saveEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
-                        
+                        DexUtilities.saveRegionalFormsList(parsed_families, dex_ids, regional_form_map);
+
                         progressSpan.textContent = "Complete!"
                     }); // loadFormPages
                 }) // loadDexData
