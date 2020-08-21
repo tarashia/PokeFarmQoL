@@ -111,6 +111,13 @@ class FarmPage extends Page {
         }
         let regionalFormList = GLOBALS.REGIONAL_FORMS_LIST;
 
+        if (!regionalFormList) {
+            window.alert("Message from QoL script:\nUnable to load list of regional forms. " +
+                         "The list will be sorted by types, but there may be mistakes. " +
+                         "Please clear and reload your pokedex data by clicking the \"Clear Cached Dex\" "+
+                         "and then clicking the \"Update Pokedex\" button in the QoL Hub.");
+        }
+
         this.clearSortedEvolveLists()
 
         let typeBackground = $('.panel>h3').css('background-color');
