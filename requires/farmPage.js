@@ -231,7 +231,7 @@ class FarmPage extends Page {
                 let htmlIndex = findDivCoreIndex(html);
                 if(!logErrorIfIndexNegativeOne(htmlIndex,
                                                `Unable to find dex details on dex page for pokedex number ${number}`)) {
-                    types = getTypesFromDexPage(html[htmlIndex]).map((t) => obj.settings.TYPE_APPPEND[t.toUpperCase()]);
+                    types = getTypesFromDexPage(html[htmlIndex]);
                     status = true;
                 }
             });
