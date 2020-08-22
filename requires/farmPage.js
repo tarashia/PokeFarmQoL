@@ -231,7 +231,7 @@ class FarmPage extends Page {
                 let htmlIndex = findDivCoreIndex(html);
                 if(!logErrorIfIndexNegativeOne(htmlIndex,
                                                `Unable to find dex details on dex page for pokedex number ${number}`)) {
-                    types = getTypesFromDexPage(html[htmlIndex]);
+                    types = getTypesFromDexPage(html[htmlIndex]).map((t) => "" + t);
                     status = true;
                 }
             });
@@ -398,7 +398,7 @@ class FarmPage extends Page {
             if(!evolveInDex) {
                 // Step 2.b
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
-                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon];
+                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => "" + t);
                     evolveInDex = true;
                 }
                 // Step 2.c
