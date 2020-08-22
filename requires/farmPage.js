@@ -176,7 +176,7 @@ class FarmPage extends Page {
             };
         }
 
-        const loadEvolutionOriginDexNUmber = function(evoUrl) {
+        const loadEvolutionOriginDexNumber = function(evoUrl) {
             let dexNumber = "";
             loadSummaryPage(evoUrl, (data) => {
                 let html = jQuery.parseHTML(data);
