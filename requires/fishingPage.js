@@ -16,7 +16,7 @@ class FishingPage extends Page {
     }
     releaseSelectAll() {
         $("#selectallfishcheckbox").click(function(){
-            $('input:checkbox').not(this).prop('checked', this.checked);
+            $(this).parent().parent().next().find('input:checkbox').prop('checked', this.checked);
         });
 
         $('#movefishselectanycheckbox').click(function() {
