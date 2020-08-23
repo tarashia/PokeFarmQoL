@@ -3,7 +3,13 @@ const TEMPLATES = { // all the new/changed HTML for the userscript
     qolHubUpdateLinkHTML  : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
     qolSettingsMenuHTML   : GM_getResourceText('QoLSettingsMenuHTML'),
     shelterSettingsHTML   : GM_getResourceText('shelterSettingsHTML'),
-    massReleaseSelectHTML : `<label id="selectallfish"><input id="selectallfishcheckbox" type="checkbox">Select all</label><label id="movefishselectany"><input id="movefishdselectanycheckbox" type="checkbox">Select Any  </label><label id="movefishselectsour"><input id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefishselectspicy"><input id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefishselectdry"><input id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefishselectsweet"><input id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefishselectbitter"><input id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
+    massReleaseSelectHTML : `<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label>` +
+    `<label id="movefishselectany"><input class="qolsetting" id="movefishdselectanycheckbox" type="checkbox">Select Any  </label>` +
+    `<label id="movefishselectsour"><input class="qolsetting" id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label>` +
+    `<label id="movefishselectspicy"><input class="qolsetting" id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label>` +
+    `<label id="movefishselectdry"><input class="qolsetting" id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label>` +
+    `<label id="movefishselectsweet"><input class="qolsetting" id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label>` +
+    `<label id="movefishselectbitter"><input class="qolsetting" id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
     fieldSortHTML         : GM_getResourceText('fieldSortHTML'),
     fieldSearchHTML       : GM_getResourceText('fieldSearchHTML'),
     privateFieldSearchHTML: GM_getResourceText('privateFieldSearchHTML'),
