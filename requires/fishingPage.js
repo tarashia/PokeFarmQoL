@@ -3,10 +3,11 @@ class FishingPage extends Page {
 	super('QoLFishing', {}, 'fishing')
 	// no observer
     }
-    
-    setupHTML() {
-        // fishing select all button on caught fishing
-        document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('beforeend', TEMPLATES.massReleaseSelectHTML);
+    setupHandlers() {
+        const obj = this;
+        $(document).on('mouseover', '#caughtfishcontainer', (function() { //select all feature
+            obj.releaseSelectAll();
+        }));
     }
     setupHandlers() {
         $(document).on('mouseover', '#caughtfishcontainer', (function() { //select all feature
