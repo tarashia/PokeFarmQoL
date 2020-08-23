@@ -350,6 +350,49 @@ class DexUtilities {
 
         return [form_data, form_map];
     } // parseFormData
+
+    static extractRegionalForms(form_map) {
+        const regional_form_data = {};
+
+        const REGIONAL_NAME_MARKERS = ['Kantonian',
+                                       'Johtoian', // unused
+                                       'Hoennian', // unused
+                                       'Sinnohian', // unused
+                                       'Unovan',
+                                       'Kalosian', // unused
+                                       'Alolan',
+                                       'Galarian'];
+
+        const all_species = Object.keys(form_map);
+        let checked_species = {};
+        for(let i = 0; i < all_species.length; i++) {
+            let current = all_species[i];
+            let base = (current.indexOf('[') > -1) ? current.substring(0, current.indexOf('[')).trim() : current;
+            if(!checked_species.hasOwnProperty(base)) {
+                checked_species[base] = true;
+
+                let form_names = form_map[base].map((e) => e.name);
+
+                // if any of the names have one of the regional markers,
+                // add the regional names to the list
+                let forms_with_markers = form_names.filter((n) => {
+                    return REGIONAL_NAME_MARKERS.filter((r) => n.indexOf(`${r}`) > -1).length > 0;
+                });
+
+                // filter out megas/totems
+                // these are filtered out this way to allow for Galarian Zen Mode Darmanitan
+                forms_with_markers = forms_with_markers.filter((n) => n.indexOf('Mega Forme') == -1);
+                forms_with_markers = forms_with_markers.filter((n) => n.indexOf('Totem Forme') == -1);
+
+                if(forms_with_markers && forms_with_markers.length) {
+                    (regional_form_data[base] = regional_form_data[base] || []).push(base);
+                    regional_form_data[base] = regional_form_data[base].concat(forms_with_markers);
+                }
+            }
+        }
+
+        return regional_form_data;
+    }
     
     static flattenFamily(family_obj, ret_obj, evo_src) {
         if(ret_obj === undefined) {
@@ -592,5 +635,17 @@ class DexUtilities {
         GLOBALS.EVOLUTIONS_LEFT = maxEvoTreeDepth;
 
     } // saveEvolutionTreeDepths
+
+    static saveRegionalFormsList(parsed_families, dex_ids, regional_form_map) {
+        // GLOBALS.REGIONAL_FORMS_LIST maps base pokemon species names to the list
+        // of regional forms, including the base name.
+        // e.g. - GLOBALS.REGIONAL_FORMS_LIST[Rattata] = ["Rattata", "Rattata [Alolan Forme]"]
+        const key = 'QoLRegionalFormsList';
+        const list = regional_form_map;
+
+        localStorage.setItem(key, JSON.stringify(list));
+        GLOBALS.REGIONAL_FORMS_LIST = list;
+
+    } // saveRegionalFormsList
 
 } // DexUtilities
