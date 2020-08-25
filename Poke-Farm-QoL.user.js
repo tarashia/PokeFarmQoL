@@ -408,9 +408,10 @@
     }));
 
     $(document).on('click', '#clearCachedDex', (function() {
-        localStorage.removeItem('QoLEvolveByLevel')
-        localStorage.removeItem('QoLDexIDsCache')
-        localStorage.removeItem("QoLEvolutionTreeDepth")
+        localStorage.removeItem('QoLEvolveByLevel');
+        localStorage.removeItem('QoLDexIDsCache');
+        localStorage.removeItem("QoLEvolutionTreeDepth");
+        localStorage.removeItem('QoLRegionalFormsList');
     }));
 
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
