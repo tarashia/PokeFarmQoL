@@ -307,14 +307,7 @@ class FarmPage extends Page {
         }
 
         const getTypesFromDexPage = function(html) {
-            let typeImgs = Array.from(html.querySelectorAll('#dexinfo .dexdetails>li>img'));
-            let typeUrls = typeImgs.map((e)=> e['src']);
-            let types = typeUrls.map((url, idx) =>
-                                     url.substring(url.indexOf("types/")+"types/".length,
-                                                   url.indexOf(".png")))
-            types = types.map((type, idx) => type.charAt(0).toUpperCase() + type.substring(1))
-            types = types.map((type, idx) => GLOBALS.TYPE_LIST.indexOf(type))
-            return types;
+            return DexUtilities.parseTypesFromDexPage(html);
         }
 
         const getDexNumberFromSummaryData = function(html) {

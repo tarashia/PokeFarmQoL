@@ -388,10 +388,18 @@
                         // Collect regional form data
                         const regional_form_map = DexUtilities.extractRegionalForms(form_map);
 
+                        // Collect list of base names to make it easier down the line
+                        const base_names = DexUtilities.parseBaseNames(allPagesHTML);
+                        // Collect list of egg pngs
+                        const egg_pngs = DexUtilities.parseEggsPngsList(allPagesHTML);
+                        // Collect list of types
+                        const types    = DexUtilities.parseTypesList(allPagesHTML);
+                        const egg_pngs_types_map = DexUtilities.buildEggPngsTypesMap(base_names, egg_pngs, types);
+
                         DexUtilities.saveEvolveByLevelList(parsed_families, dex_ids)
                         DexUtilities.saveEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
                         DexUtilities.saveRegionalFormsList(parsed_families, dex_ids, regional_form_map);
-
+                        DexUtilities.saveEggTypesMap(egg_pngs_types_map);
                         progressSpan.textContent = "Complete!"
                     }); // loadFormPages
                 }) // loadDexData

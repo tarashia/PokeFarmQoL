@@ -250,6 +250,26 @@ class DexUtilities {
         };
     }
 
+    static parseTypesFromDexPage(html) {
+        let ownerDocument = document.implementation.createHTMLDocument('virtual');
+        let typeImgs = $(html, ownerDocument).find('.dexdetails>li>img');
+        let typeUrls = typeImgs.map((idx, img) => img.src);
+        let types = typeUrls.map((idx, url) =>
+                                 url.substring(url.indexOf("types/")+"types/".length,
+                                               url.indexOf(".png")));
+        types = types.map((idx, type) => type.charAt(0).toUpperCase() + type.substring(1));
+        types = types.map((idx, type) => GLOBALS.TYPE_LIST.indexOf(type));
+        return types;
+    }
+
+    static parseEggPngFromDexPage(html) {
+        let ownerDocument = document.implementation.createHTMLDocument('virtual');
+        let egg_url = ($(html, ownerDocument).find('.eggspr').find('img')
+                       .attr('src') || "")
+            .replace('https://pfq-static.com/img/', '');
+        return egg_url;
+    }
+    
     static parseEvolutionTrees(args) {
         const families = {}
         const flat_families = {}
@@ -351,6 +371,66 @@ class DexUtilities {
         return [form_data, form_map];
     } // parseFormData
 
+    /* base_names = {
+       'Rattata' : 'Rattata',
+       'Rattata [Alolan Forme]' : 'Rattata',
+       'Raticate [Alolan Totem Forme]' : 'Raticate'
+       }
+    */
+    static parseBaseNames(args) {
+        const list = {};
+        for(let a = 0; a <args.length; a++) {
+            let data = args[a];
+            const header_info = DexUtilities.getInfoFromDexPageHeader(data);
+            list[header_info.name] = header_info.base_name;
+        }
+        return list;
+    }
+
+    /* egg_pngs = {
+       'Rattata' : '... .png',
+       'Rattata [Alolan Forme]' : '... .png'
+       }
+    */
+    static parseEggsPngsList(args) {
+        const list = {};
+
+        for(let a = 0; a <args.length; a++) {
+            let data = args[a];
+            const header_info = DexUtilities.getInfoFromDexPageHeader(data);
+            const name = header_info.name;
+            const egg_url = parseEggPngFromDexPage(data);
+
+            if(egg_url) {
+                list[name] = egg_url;
+            }
+        }
+
+        return list;
+    }
+
+    /* types = {
+       'Rattata' : [Normal],
+       'Raticate' : [Normal],
+       'Rattata [Alolan Forme]' : [Normal, Dark],
+       'Raticate [Alolan Forme]' : [Normal, Dark]
+       }
+    */
+    static parseTypesList(args) {
+        const list = {};
+
+        for(let a = 0; a < args.length; a++) {
+            let data = args[a];
+            const header_info = DexUtilities.getInfoFromDexPageHeader(data);
+            const name = header_info.name;
+            const types = parseTypesFromDexPage(data);
+
+            list[name] = types;
+        }
+
+        return list;
+    }
+
     static extractRegionalForms(form_map) {
         const regional_form_data = {};
 
@@ -392,6 +472,26 @@ class DexUtilities {
         }
 
         return regional_form_data;
+    }
+
+    /* egg_pngs_types_map = {
+       'Rattata' : {
+             <kantonian.png> : [Normal],
+             <alolan.png> : [Normal, Dark],
+          }
+       }
+    */
+    static buildEggPngsTypeMap(base_names_list, egg_pngs_list, types_list) {
+        const map = {};
+
+        for(let name in egg_pngs_list) {
+            const base = base_names_list[name];
+            const png = egg_pngs_list[name];
+            const types = types_list[name];
+            (map[base] = map[base] || {})[png] = types;
+        }
+        
+        return map;
     }
     
     static flattenFamily(family_obj, ret_obj, evo_src) {
@@ -647,5 +747,18 @@ class DexUtilities {
         GLOBALS.REGIONAL_FORMS_LIST = list;
 
     } // saveRegionalFormsList
+
+    static saveEggTypesMap(map) {
+        // GLOBALS.EGGS_PNG_TO_TYPES_LIST will map a pokemon's base name to all the egg pngs that
+        // will appear in the shelter with that name, and map each of those pngs to the type(s)
+        // of that egg
+        // e.g. GLOBALS.EGGS_PNG_TO_TYPES_LIST[Rattata] = {
+        //           <kantonian.png> : [Normal],
+        //           <alolan.png> : [Normal, Dark]
+        // }
+        const key = 'QoLEggTypesMap';
+        localStorage.setItem(key, JSON.stringify(map));
+        GLOBALS.EGGS_PNG_TO_TYPES_LIST = map;
+    }
 
 } // DexUtilities
