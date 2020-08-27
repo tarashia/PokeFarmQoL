@@ -497,9 +497,9 @@ class ShelterPage extends Page {
                 let foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
 
                 let selected = undefined;
-                let typePokemonNames = [];
                 if (this.settings.findTypeEgg === true) {
-                    typePokemonNames = [];
+                    let typePokemonNames = [];
+                    let pokemonElems = [];
                     selected = $('#shelterarea>.tooltip_content:contains("Egg")');
                     selected.each(function() {
                         let searchPokemon = ($(this).text().split(' ')[0]);
@@ -520,11 +520,12 @@ class ShelterPage extends Page {
                         }
                         if ((searchTypeOne === value) || (searchTypeTwo === value)) {
                             typePokemonNames.push(searchPokemon);
+                            pokemonElems.push(this);
                         }
                     })
 
-                    for (let o = 0; o < typePokemonNames.length; o++) {
-                        let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN('"+typePokemonNames[o]+" Egg')");
+                    for (let o = 0; o < pokemonElems.length; o++) {
+                        let shelterImgSearch = $(pokemonElems[o]);
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
                         $(shelterBigImg).addClass('shelterfoundme');
                     }
@@ -533,7 +534,7 @@ class ShelterPage extends Page {
                 }
 
                 if (this.settings.findTypePokemon === true) {
-                    typePokemonNames = [];
+                    let typePokemonNames = [];
                     selected = $('#shelterarea>.tooltip_content').not(':contains("Egg")')
                     selected.each(function() {
                         let searchPokemon = ($(this).text().split(' ')[0]);
