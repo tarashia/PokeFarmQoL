@@ -259,7 +259,7 @@ class DexUtilities {
                                                url.indexOf(".png")));
         types = types.map((idx, type) => type.charAt(0).toUpperCase() + type.substring(1));
         types = types.map((idx, type) => GLOBALS.TYPE_LIST.indexOf(type));
-        return types;
+        return types.toArray();
     }
 
     static parseEggPngFromDexPage(html) {
@@ -394,18 +394,16 @@ class DexUtilities {
     */
     static parseEggsPngsList(args) {
         const list = {};
-
         for(let a = 0; a <args.length; a++) {
             let data = args[a];
             const header_info = DexUtilities.getInfoFromDexPageHeader(data);
             const name = header_info.name;
-            const egg_url = parseEggPngFromDexPage(data);
+            const egg_url = DexUtilities.parseEggPngFromDexPage(data);
 
             if(egg_url) {
                 list[name] = egg_url;
             }
         }
-
         return list;
     }
 
@@ -418,16 +416,14 @@ class DexUtilities {
     */
     static parseTypesList(args) {
         const list = {};
-
         for(let a = 0; a < args.length; a++) {
             let data = args[a];
             const header_info = DexUtilities.getInfoFromDexPageHeader(data);
             const name = header_info.name;
-            const types = parseTypesFromDexPage(data);
+            const types = DexUtilities.parseTypesFromDexPage(data);
 
             list[name] = types;
         }
-
         return list;
     }
 
@@ -481,19 +477,18 @@ class DexUtilities {
           }
        }
     */
-    static buildEggPngsTypeMap(base_names_list, egg_pngs_list, types_list) {
+    static buildEggPngsTypesMap(base_names_list, egg_pngs_list, types_list) {
         const map = {};
-
         for(let name in egg_pngs_list) {
             const base = base_names_list[name];
             const png = egg_pngs_list[name];
             const types = types_list[name];
             (map[base] = map[base] || {})[png] = types;
         }
-        
+
         return map;
     }
-    
+
     static flattenFamily(family_obj, ret_obj, evo_src) {
         if(ret_obj === undefined) {
             ret_obj = {
