@@ -33,6 +33,17 @@ class ShelterPage extends Page {
                 obj.customSearch();
             });
         });
+
+        // when the page is loaded, check to see if the data needed for finding eggs by type is loaded (if it's needed)
+        if(this.onPage(window) &&
+           this.settings.findTypeEgg &&
+           !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem('QoLEggTypesMap')))) {
+            window.alert("Message from QoL script:\nUnable to load list of pokemon eggs and their types, " +
+                         "which is used to distinguish eggs with the same name but different types (Vulpix and " +
+                         "Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. " +
+                         "Please clear and reload your pokedex data by clicking the \"Clear Cached Dex\" "+
+                         "and then clicking the \"Update Pokedex\" button in the QoL Hub to load list of eggs and types.");
+        }
     }
 
     setupHTML() {
@@ -479,6 +490,8 @@ class ShelterPage extends Page {
         const filteredTypeArray = this.typeArray.filter(v=>v!='');
 
         if (filteredTypeArray.length > 0) {
+            const egg_pngs_to_types = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
+                  JSON.parse(localStorage.getItem('QoLEggTypesMap')) || undefined;
             for (let i = 0; i < filteredTypeArray.length; i++) {
                 let value = filteredTypeArray[i];
                 let foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
@@ -487,12 +500,24 @@ class ShelterPage extends Page {
                 let typePokemonNames = [];
                 if (this.settings.findTypeEgg === true) {
                     typePokemonNames = [];
-                    selected = $('#shelterarea>.tooltip_content:contains("Egg")')
+                    selected = $('#shelterarea>.tooltip_content:contains("Egg")');
                     selected.each(function() {
                         let searchPokemon = ($(this).text().split(' ')[0]);
-                        let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
-                        let searchTypeOne = dexData[searchPokemonIndex + 1];
-                        let searchTypeTwo = dexData[searchPokemonIndex + 2];
+                        let searchTypeOne = "";
+                        let searchTypeTwo = "";
+                        if(egg_pngs_to_types) {
+                            let imgUrl = $($(this).prev().find('img')[0]).attr('src').replace('https://pfq-static.com/img/', '');
+                            searchTypeOne = egg_pngs_to_types[searchPokemon] &&
+                                egg_pngs_to_types[searchPokemon][imgUrl] &&
+                                ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
+                            searchTypeTwo = egg_pngs_to_types[searchPokemon] &&
+                                egg_pngs_to_types[searchPokemon][imgUrl] &&
+                                ("" + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
+                        } else {
+                            let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
+                            searchTypeOne = dexData[searchPokemonIndex + 1];
+                            searchTypeTwo = dexData[searchPokemonIndex + 2];
+                        }
                         if ((searchTypeOne === value) || (searchTypeTwo === value)) {
                             typePokemonNames.push(searchPokemon);
                         }
