@@ -146,7 +146,7 @@ class ShelterPage extends Page {
         $(window).on('keyup', function (a) {
             if (0 == $(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
-                    case this.select_next_match_key:
+                    case obj.select_next_match_key:
                         $(a.target).trigger('keyup.qol_shelter_shortcuts');
                         break;
                 }
