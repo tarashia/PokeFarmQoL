@@ -138,17 +138,12 @@ class ShelterPage extends Page {
         }));
 
         $(window).on('keyup.qol_shelter_shortcuts', function (a) {
-            // default is undefined, so set the value to either 0 or 1+ current
-            obj.currently_selected_match = 0 || (obj.currently_selected_match + 1);
-            console.log(obj.currently_selected_match);
-        });
-        
-        $(window).on('keyup', function (a) {
             if (0 == $(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
                     case obj.select_next_match_key:
-                        $(a.target).trigger('keyup.qol_shelter_shortcuts');
-                        break;
+                        // default is undefined, so set the value to either 0 or 1+ current
+                        obj.currently_selected_match = 0 || (obj.currently_selected_match + 1);
+                        console.log(obj.currently_selected_match);
                 }
             }
         });
