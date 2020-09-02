@@ -100,6 +100,11 @@ class PublicFieldsPage extends Page {
         $(".collapsible").css("background-color", ""+fieldOrderCssColor+"");
         $(".collapsible").css("border", ""+fieldOrderCssBorder+"");
         $(".collapsible_content").css("background-color", ""+fieldOrderCssColor+"");
+        
+        // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+        // settings as most of the text on the site, manually set the text color for
+        // '.collapsible' to match the text around it
+        $('#tooltipenable').children().eq(0).css('color', $('#fieldorder').find('.qolsetting').parent().eq(0).css('color'));
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#field_field'), {
