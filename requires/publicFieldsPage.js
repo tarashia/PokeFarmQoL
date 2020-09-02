@@ -228,6 +228,34 @@ class PublicFieldsPage extends Page {
             obj.handleTooltipSettings();
             obj.saveSettings();
         });
+
+        // based on PFQ's code in fields_public.min.js
+        $(window).on('keyup.field_shortcuts', function (a) {
+            const k = $("#field_berries");
+            if (0 == $(a.target).closest('input, textarea').length) {
+                switch (a.keyCode) {
+                    case 49: // 1
+                    case 97: // Num-1
+                        k.find('a').eq(0).trigger('click');
+                        break;
+                    case 50: // 2
+                    case 98: // Num-2
+                        k.find('a').eq(1).trigger('click');
+                        break;
+                    case 51: // 3
+                    case 99: // Num-3
+                        k.find('a').eq(2).trigger('click');
+                        break;
+                    case 52: // 4
+                    case 100: // Num-4
+                        k.find('a').eq(3).trigger('click');
+                        break;
+                    case 53: // 5
+                    case 101: // Num-5
+                        k.find('a').eq(4).trigger('click');
+                }
+            }
+        });
     }
     // specific
     handleTooltipSettings() {
