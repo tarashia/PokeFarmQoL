@@ -141,18 +141,21 @@ class ShelterPage extends Page {
              if (0 == $(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
                     case obj.select_next_match_key:
-                        // default is undefined, so set the value to either 0 or 1+ current
+                        var num_matches = $('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
+
+                        // remove all existing locks
+                        $('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
+
+                        // default is undefined, so set the value to either 0 or 1+current
                         obj.currently_selected_match = (obj.currently_selected_match + 1) || 0;
 
-                        var num_matches = $('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
                         if(num_matches) {
                             var mod_index = (num_matches == 1) ? 0 : (obj.currently_selected_match + 1) % num_matches - 1;
                             var selected = $('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(mod_index);
                             // these steps mimic clicking on the pokemon/egg
                             selected.parent().addClass('selected');
-                            selected.addClass('lock').removeClass('dismiss');
+                            selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
                             selected.next().find('[data-shelter=adopt]').focus();
-                            selected.trigger('click.shelterfade');
                         } else {
                             obj.currently_selected_match = undefined;
                         }
