@@ -44,6 +44,11 @@ class ShelterPage extends Page {
                          "Please clear and reload your pokedex data by clicking the \"Clear Cached Dex\" "+
                          "and then clicking the \"Update Pokedex\" button in the QoL Hub to load list of eggs and types.");
         }
+        
+        // used to keep track of the currently selected match
+        // matches can be selected via a shortcut key, specified via this.select_next_match_key
+        this.select_next_match_key = 78; // 'n'
+        this.currently_selected_match = undefined;
     }
 
     setupHTML() {
@@ -131,6 +136,32 @@ class ShelterPage extends Page {
             obj.saveSettings();
             obj.customSearch();
         }));
+
+        $(window).on('keyup.qol_shelter_shortcuts', function (a) {
+             if (0 == $(a.target).closest('input, textarea').length) {
+                switch (a.keyCode) {
+                    case obj.select_next_match_key:
+                        var num_matches = $('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
+
+                        // remove all existing locks
+                        $('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
+
+                        // default is undefined, so set the value to either 0 or 1+current
+                        obj.currently_selected_match = (obj.currently_selected_match + 1) || 0;
+
+                        if(num_matches) {
+                            var mod_index = (num_matches == 1) ? 0 : (obj.currently_selected_match + 1) % num_matches - 1;
+                            var selected = $('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(mod_index);
+                            // these steps mimic clicking on the pokemon/egg
+                            selected.parent().addClass('selected');
+                            selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
+                            selected.next().find('[data-shelter=adopt]').focus();
+                        } else {
+                            obj.currently_selected_match = undefined;
+                        }
+                }
+            }
+        });
     }
     addTextField() {
         const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray')
