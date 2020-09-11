@@ -145,6 +145,8 @@ class LabPage extends Page {
             let iDontWork = true;
         } else {
             if (this.settings.findTypeEgg === true) {
+                const egg_pngs_to_types = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
+                    JSON.parse(localStorage.getItem('QoLEggTypesMap')) || undefined;
                 let typesArrayNoEmptySpace = this.listArray.filter(v=>v!='');
                 let typeSearchAmount = typesArrayNoEmptySpace.length;
                 for (let i = 0; i < typeSearchAmount; i++) {
@@ -154,8 +156,22 @@ class LabPage extends Page {
 
                     $('#egglist>div>h3').each(function() {
                         let searchPokemon = ($(this).text().split(' ')[0]);
-                        let searchTypeOne = dexData[dexData.indexOf('"'+searchPokemon+'"') + 1];
-                        let searchTypeTwo = dexData[dexData.indexOf('"'+searchPokemon+'"') + 2];
+                        let searchTypeOne = "";
+                        let searchTypeTwo = "";
+                        
+                        if(egg_pngs_to_types) {
+                            let imgUrl = $($(this).prev().find('img')[0]).attr('src').replace('https://pfq-static.com/img/', '');
+                            searchTypeOne = egg_pngs_to_types[searchPokemon] &&
+                                egg_pngs_to_types[searchPokemon][imgUrl] &&
+                                ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
+                            searchTypeTwo = egg_pngs_to_types[searchPokemon] &&
+                                egg_pngs_to_types[searchPokemon][imgUrl] &&
+                                ("" + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
+                        } else {
+                            let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
+                            searchTypeOne = dexData[searchPokemonIndex + 1];
+                            searchTypeTwo = dexData[searchPokemonIndex + 2];
+                        }
                         if (searchTypeOne === value) {
                             amountOfTypesFound.push('found');
                             typePokemonNames.push(searchPokemon);
