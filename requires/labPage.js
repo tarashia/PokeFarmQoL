@@ -1,17 +1,30 @@
 class LabPage extends Page {
     constructor() {
-	super('QoLLab', {
-            findLabEgg: "",
-            findLabType: "",
-	}, '/lab')
+	    super('QoLLab', {
+            findLabEgg: "", // same as findCustom in shelter
+            customEgg: true,
+            findLabType: "", // same as findType in shelter
+            findTypeEgg: true,
+    	}, '/lab')
         this.searchArray = [];
         this.listArray = [];
-	const obj = this;
+    	const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 obj.customSearch();
             });
         });
+        
+        // when the page is loaded, check to see if the data needed for finding eggs by type is loaded (if it's needed)
+        if(this.onPage(window) &&
+           this.settings.findTypeEgg &&
+           !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem('QoLEggTypesMap')))) {
+            window.alert("Message from QoL script:\nUnable to load list of pokemon eggs and their types, " +
+                         "which is used to distinguish eggs with the same name but different types (Vulpix and " +
+                         "Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. " +
+                         "Please clear and reload your pokedex data by clicking the \"Clear Cached Dex\" "+
+                         "and then clicking the \"Update Pokedex\" button in the QoL Hub to load list of eggs and types.");
+        }
     }
     
     setupHTML() {
@@ -131,82 +144,86 @@ class LabPage extends Page {
         if (this.listArray.length == 1 && this.listArray[0] == "") {
             let iDontWork = true;
         } else {
-            let typesArrayNoEmptySpace = this.listArray.filter(v=>v!='');
-            let typeSearchAmount = typesArrayNoEmptySpace.length;
-            for (let i = 0; i < typeSearchAmount; i++) {
-                let value = typesArrayNoEmptySpace[i];
-                let amountOfTypesFound = [];
-                let typePokemonNames = [];
+            if (this.settings.findTypeEgg === true) {
+                let typesArrayNoEmptySpace = this.listArray.filter(v=>v!='');
+                let typeSearchAmount = typesArrayNoEmptySpace.length;
+                for (let i = 0; i < typeSearchAmount; i++) {
+                    let value = typesArrayNoEmptySpace[i];
+                    let amountOfTypesFound = [];
+                    let typePokemonNames = [];
 
-                $('#egglist>div>h3').each(function() {
-                    let searchPokemon = ($(this).text().split(' ')[0]);
-                    let searchTypeOne = dexData[dexData.indexOf('"'+searchPokemon+'"') + 1];
-                    let searchTypeTwo = dexData[dexData.indexOf('"'+searchPokemon+'"') + 2];
-                    if (searchTypeOne === value) {
-                        amountOfTypesFound.push('found');
-                        typePokemonNames.push(searchPokemon);
+                    $('#egglist>div>h3').each(function() {
+                        let searchPokemon = ($(this).text().split(' ')[0]);
+                        let searchTypeOne = dexData[dexData.indexOf('"'+searchPokemon+'"') + 1];
+                        let searchTypeTwo = dexData[dexData.indexOf('"'+searchPokemon+'"') + 2];
+                        if (searchTypeOne === value) {
+                            amountOfTypesFound.push('found');
+                            typePokemonNames.push(searchPokemon);
+                        }
+
+                        if (searchTypeTwo === value) {
+                            amountOfTypesFound.push('found');
+                            typePokemonNames.push(searchPokemon);
+                        }
+                    }) // each
+
+                    let foundType = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+
+                    let typeImgStandOutLength = typePokemonNames.length;
+                    for (let o = 0; o < typeImgStandOutLength; o++) {
+                        let value = typePokemonNames[o];
+                        let shelterImgSearch = $("#egglist>div>h3:containsIN("+value+")")
+                        let shelterBigImg = shelterImgSearch.next();
+                        $(shelterBigImg).addClass('shelterfoundme');
                     }
 
-                    if (searchTypeTwo === value) {
-                        amountOfTypesFound.push('found');
-                        typePokemonNames.push(searchPokemon);
+                    if (amountOfTypesFound.length < 1) {
+                        let iDontDoAnything = true;
+                    } else if (amountOfTypesFound.length > 1) {
+                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+amountOfTypesFound.length+' '+foundType+' egg types found! ('+typePokemonNames.toString()+')</div>');
+                    } else {
+                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+amountOfTypesFound.length+' '+foundType+' egg type found! ('+typePokemonNames.toString()+')</div>');
                     }
-                }) // each
-
-                let foundType = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
-
-                let typeImgStandOutLength = typePokemonNames.length;
-                for (let o = 0; o < typeImgStandOutLength; o++) {
-                    let value = typePokemonNames[o];
-                    let shelterImgSearch = $("#egglist>div>h3:containsIN("+value+")")
-                    let shelterBigImg = shelterImgSearch.next();
-                    $(shelterBigImg).addClass('shelterfoundme');
-                }
-
-                if (amountOfTypesFound.length < 1) {
-                    let iDontDoAnything = true;
-                } else if (amountOfTypesFound.length > 1) {
-                    document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+amountOfTypesFound.length+' '+foundType+' egg types found! ('+typePokemonNames.toString()+')</div>');
-                } else {
-                    document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+amountOfTypesFound.length+' '+foundType+' egg type found! ('+typePokemonNames.toString()+')</div>');
-                }
-            }
+                } // for
+            } // if
         } // else
 
         if (this.searchArray.length == 1 && this.searchArray[0] == "") {
             let iDontDoAnything = true;
         } else {
             let customSearchAmount = this.searchArray.length;
-        
-            for (let i = 0; i < customSearchAmount; i++) {
-                let value = this.searchArray[i];
-                if ($("#egglist>div>h3:containsIN("+value+")").length) {
-                    let searchResult = value;
+            
+            if (this.settings.customEgg === true) {
+                for (let i = 0; i < customSearchAmount; i++) {
+                    let value = this.searchArray[i];
+                    if ($("#egglist>div>h3:containsIN("+value+")").length) {
+                        let searchResult = value;
 
-                    let shelterImgSearch = $("#egglist>div>h3:containsIN("+value+")")
-                    let shelterBigImg = shelterImgSearch.next();
-                    $(shelterBigImg).addClass('shelterfoundme');
+                        let shelterImgSearch = $("#egglist>div>h3:containsIN("+value+")")
+                        let shelterBigImg = shelterImgSearch.next();
+                        $(shelterBigImg).addClass('shelterfoundme');
 
-                    if ($("#egglist>div>h3:containsIN("+value+")").length > 1) {
-                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+searchResult+' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                    } else {
-                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+searchResult+' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                    }
-                } // if
+                        if ($("#egglist>div>h3:containsIN("+value+")").length > 1) {
+                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+searchResult+' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                        } else {
+                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+searchResult+' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                        }
+                    } // if
 
-                if ($('#egglist>div img[src*="'+value+'"]').length) {
-                    let searchResult = $('#egglist>div img[src*="'+value+'"]').prev().text();
+                    if ($('#egglist>div img[src*="'+value+'"]').length) {
+                        let searchResult = $('#egglist>div img[src*="'+value+'"]').prev().text();
 
-                    let shelterImgSearch = $('#egglist>div img[src*="'+value+'"]')
-                    $(shelterImgSearch).addClass('shelterfoundme');
+                        let shelterImgSearch = $('#egglist>div img[src*="'+value+'"]')
+                        $(shelterImgSearch).addClass('shelterfoundme');
 
-                    if ($('#egglist>div img[src*="'+value+'"]').length > 1) {
-                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+searchResult+' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                    } else {
-                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+searchResult+' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                    }
-                } // if
-            } // for
+                        if ($('#egglist>div img[src*="'+value+'"]').length > 1) {
+                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+searchResult+' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                        } else {
+                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend','<div id="labfound">'+searchResult+' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                        }
+                    } // if
+                } // for
+            } // if
         } // else
     } // customSearch
 }
