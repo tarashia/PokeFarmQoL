@@ -160,7 +160,7 @@ class LabPage extends Page {
                         let searchTypeTwo = "";
                         
                         if(egg_pngs_to_types) {
-                            let imgUrl = $($(this).prev().find('img')[0]).attr('src').replace('https://pfq-static.com/img/', '');
+                            let imgUrl = $(this).next().attr('src').replace('https://pfq-static.com/img/', '');
                             searchTypeOne = egg_pngs_to_types[searchPokemon] &&
                                 egg_pngs_to_types[searchPokemon][imgUrl] &&
                                 ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
