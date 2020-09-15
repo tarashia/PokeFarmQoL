@@ -169,14 +169,14 @@ class DexPageParser {
             let ownerDocument = document.implementation.createHTMLDocument('virtual');
             let tree = $(data, ownerDocument).find('.evolutiontree')[0]
 
-            const header_info = DexUtilities.getInfoFromDexPageHeader(data);
+            const header_info = DexPageParser.getInfoFromDexPageHeader(data);
             let rootName = header_info.name;
 
             // if the root name is already in in the flat files, but the root of the tree is not in the dex_id_map
             if((!(rootName in flat_families)) || (!(rootName in dex_id_map))) {
                 // parseEvolutionTree returns a tree
                 families[tree.textContent] = EvolutionTreeParser.parseEvolutionTree(rootName, tree, dex_id_map)
-                // flattenFamily returns an object containing:
+                // flattenEvolutionFamily returns an object containing:
                 // - a list of the dex numbers of the family members
                 // - a list of evolutions in the family formatted like:
                 //   - {'source': <beginning pokemon>,
@@ -185,13 +185,13 @@ class DexPageParser {
 
                 // the evolution tree won't have the dex ID for the form of the pokemon that we're currently using
                 // use the footbar to get the full pokedex number for the current form
-                const footer_info = DexUtilities.getInfoFromDexPageFooter(data);
+                const footer_info = DexPageParser.getInfoFromDexPageFooter(data);
                 dex_id_map[rootName] = footer_info.shortlink_number;
                 
-                let flattened = DexUtilities.flattenFamily(families[tree.textContent])
+                let flattened = DexPageParser.flattenEvolutionFamily(families[tree.textContent])
 
                 // parse the evolution conditions
-                DexUtilities.parseEvolutionConditions(flattened)
+                DexPageParser.parseEvolutionConditions(flattened)
 
                 // copy the data into the global object to prevent loading data multiple times
                 if(flattened.evolutions.length) {
@@ -206,6 +206,38 @@ class DexPageParser {
 
         return [flat_families, dex_id_map]
     } // parseEvolutionTrees
+    
+    
+    
+    static flattenEvolutionFamily(family_obj, ret_obj, evo_src) {
+        if(ret_obj === undefined) {
+            ret_obj = {
+                'members': [],
+                'evolutions': []
+            }
+        }
+
+        if(Array.isArray(family_obj)) {
+            for(let i = 0; i < family_obj.length; i++) {
+                for(let key in family_obj[i]) {
+                    ret_obj.members.push(key)
+                    ret_obj.evolutions.push({
+                        'source': evo_src,
+                        'target': key,
+                        'condition': family_obj[i][key]['condition']
+                    })
+                    this.flattenEvolutionFamily(family_obj[i][key]['evolutions'], ret_obj, key);
+                }
+            }
+        } else if(typeof family_obj === 'object') {
+            for(let key in family_obj) {
+                ret_obj.members.push(key)
+                this.flattenEvolutionFamily(family_obj[key], ret_obj, key)
+            }
+        }
+
+        return ret_obj
+    }
 
     static parseFormData(args) {
         const form_data = {};
@@ -216,8 +248,8 @@ class DexPageParser {
         // use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
         for(let a = 0; a < args.length; a++) {
             let data = args[a]
-            const header_info = DexUtilities.getInfoFromDexPageHeader(data);
-            const footer_info = DexUtilities.getInfoFromDexPageFooter(data);
+            const header_info = DexPageParser.getInfoFromDexPageHeader(data);
+            const footer_info = DexPageParser.getInfoFromDexPageFooter(data);
 
             // use the footbar to get the full pokedex number for the current form
             let current_number = footer_info.shortlink_number;
@@ -267,7 +299,7 @@ class DexPageParser {
         const list = {};
         for(let a = 0; a <args.length; a++) {
             let data = args[a];
-            const header_info = DexUtilities.getInfoFromDexPageHeader(data);
+            const header_info = DexPageParser.getInfoFromDexPageHeader(data);
             list[header_info.name] = header_info.base_name;
         }
         return list;
@@ -282,9 +314,9 @@ class DexPageParser {
         const list = {};
         for(let a = 0; a <args.length; a++) {
             let data = args[a];
-            const header_info = DexUtilities.getInfoFromDexPageHeader(data);
+            const header_info = DexPageParser.getInfoFromDexPageHeader(data);
             const name = header_info.name;
-            const egg_url = DexUtilities.parseEggPngFromDexPage(data);
+            const egg_url = DexPageParser.parseEggPngFromDexPage(data);
 
             if(egg_url) {
                 list[name] = egg_url;
@@ -304,9 +336,9 @@ class DexPageParser {
         const list = {};
         for(let a = 0; a < args.length; a++) {
             let data = args[a];
-            const header_info = DexUtilities.getInfoFromDexPageHeader(data);
+            const header_info = DexPageParser.getInfoFromDexPageHeader(data);
             const name = header_info.name;
-            const types = DexUtilities.parseTypesFromDexPage(data);
+            const types = DexPageParser.parseTypesFromDexPage(data);
 
             list[name] = types;
         }
