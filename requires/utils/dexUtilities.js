@@ -113,36 +113,6 @@ class DexUtilities {
         
         return $.when.apply(undefined, requests)
     } // loadFormPages
-    
-    static flattenFamily(family_obj, ret_obj, evo_src) {
-        if(ret_obj === undefined) {
-            ret_obj = {
-                'members': [],
-                'evolutions': []
-            }
-        }
-
-        if(Array.isArray(family_obj)) {
-            for(let i = 0; i < family_obj.length; i++) {
-                for(let key in family_obj[i]) {
-                    ret_obj.members.push(key)
-                    ret_obj.evolutions.push({
-                        'source': evo_src,
-                        'target': key,
-                        'condition': family_obj[i][key]['condition']
-                    })
-                    this.flattenFamily(family_obj[i][key]['evolutions'], ret_obj, key);
-                }
-            }
-        } else if(typeof family_obj === 'object') {
-            for(let key in family_obj) {
-                ret_obj.members.push(key)
-                this.flattenFamily(family_obj[key], ret_obj, key)
-            }
-        }
-
-        return ret_obj
-    }
 
     static parseEvolutionConditions(flattened) {
         for(let e = 0; e < flattened.evolutions.length; e++) {
