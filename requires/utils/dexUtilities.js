@@ -114,62 +114,6 @@ class DexUtilities {
         return $.when.apply(undefined, requests)
     } // loadFormPages
 
-    static parseEvolutionConditions(flattened) {
-        for(let e = 0; e < flattened.evolutions.length; e++) {
-            let source = flattened.evolutions[e].source
-            let target = flattened.evolutions[e].target
-            let condition = flattened.evolutions[e].condition
-            let condText = condition.textContent
-            // for now, let's just parse for pokemon that evolve by level
-            // TODO: Non-Level conditions
-            if(condText.indexOf("Level ") > -1) {
-                // console.log(condition)
-                flattened.evolutions[e].condition = [];
-                let words = condText.split(" ")
-                let cond = "", clearCurrentCondition = false;
-
-                for(let w = 0; w < words.length; w++) {
-                    clearCurrentCondition = false
-                    if(words[w] === "Level") {
-                        clearCurrentCondition = true
-                        flattened.evolutions[e].condition.push({'condition': words[w], 'data': words[w+1]})
-                        w++;
-                    } else if(words[w] === "Happiness") {
-                        clearCurrentCondition = true
-                        flattened.evolutions[e].condition.push({'condition': words[w], 'data': ""})
-                    } else if(words[w].endsWith("ite")) { // Megas
-                        clearCurrentCondition = true
-                        // check for PFQ exclusive Megas
-                        if(w < words.length - 1 && words[w+1] === "Q") {
-                            flattened.evolutions[e].condition.push({'condition': "Mega", 'data': words[w] + " " + words[w+1]})
-                            w++;
-                        } else {
-                            flattened.evolutions[e].condition.push({'condition': "Mega", 'data': words[w]})
-                        }
-                    } else { // catch-all for now
-                        clearCurrentCondition = false
-                        cond = cond + words[w]
-                    }
-
-                    if(clearCurrentCondition) {
-                        if(cond !== "") {
-                            flattened.evolutions[e].condition.push({'condition': cond, 'data': ""})
-                        }
-                        cond = ""
-                    }
-                } // for
-
-                // if there's any leftover conditions, add it into the list
-                if(cond !== "") {
-                    flattened.evolutions[e].condition.push({'condition': cond, 'data': ""})
-                }
-            } // if level
-            else {
-                flattened.evolutions[e].condition = condition.textContent;
-            }
-        }
-    }
-
     static saveEvolveByLevelList(parsed_families, dex_ids) {
         // load current evolve by level list
         let evolveByLevelList = {}
