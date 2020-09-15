@@ -358,7 +358,7 @@
 
         // this will update the GLOBALS.EVOLVE_BY_LEVEL_LIST
         // and local storage
-        DexUtilities.loadDexPage().then((data) => {
+        DexUtilities.getDexPage().then((data) => {
             let html = jQuery.parseHTML(data)
             let dex = $(html[10].querySelector('#dexdata')).html()
             const dexNumbers = DexUtilities.parseAndStoreDexNumbers(dex);
@@ -407,7 +407,7 @@
             else {
                 progressSpan.textContent = "Complete!"
             }
-        }) // loadDexPage
+        }) // getDexPage
     }));
 
     $(document).on('click', '#resetPageSettings', (function() {

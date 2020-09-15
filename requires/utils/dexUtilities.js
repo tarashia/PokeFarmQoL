@@ -1,85 +1,4 @@
-class DexUtilities {
-    static loadDexPage() {
-        return $.get('https://pokefarm.com/dex')
-    }
-    static parseDexPage(data) {
-        let html = jQuery.parseHTML(data)
-        let dex = $(html[10].querySelector('#dexdata')).html()
-        return dex.split(',');
-    }
-    static loadDexIntoGlobalsFromStorage() {
-        if(localStorage.getItem('QoLPokedex') === null) {
-            return false;
-        }
-        if(Object.keys(JSON.parse(localStorage.getItem('QoLPokedex'))).length === 0) {
-            return false;
-        }
-
-        let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
-        // if QoLPokedex only contains date
-        if((dateAndDex.length === 1) ||
-           // or if the dex part of the array is empty
-           (dateAndDex[1] === undefined) ||
-            (dateAndDex[1] === null)) {
-            return false;
-        }
-
-        GLOBALS.DEX_UPDATE_DATE = dateAndDex[0];
-        let dex = dateAndDex.slice(1);
-        GLOBALS.DEX_DATA = dex;
-        return true;
-    }
-    static loadDexIntoGlobalsFromWeb() {
-        DexUtilities.loadDexPage().then((data) => {
-            GLOBALS.DEX_UPDATE_DATE = (new Date()).toUTCString();
-            GLOBALS.DEX_DATA = DexUtilities.parseDexPage(data)
-            DexUtilities.updateLocalStorageDex();
-        });
-    }
-    static loadDexIntoGlobalsFromWebIfOld() {
-        // If it's more than 30 days old, update the dex
-        const THIRTY_DAYS_IN_MS = 30*24*3600*1000
-        let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
-        if ((Date.now() - Date.parse(dateAndDex[0])) > THIRTY_DAYS_IN_MS) {
-            DexUtilities.loadDexIntoGlobalsFromWeb()
-            return true;
-        }
-        return false;
-    }
-    static updateLocalStorageDex(updateDate) {
-        let dateString = "";
-        if(updateDate === undefined) {
-            dateString = (new Date()).toUTCString();
-        } else {
-            dateString = updateDate;
-        }
-        const datePlusDex = [dateString].concat(GLOBALS.DEX_DATA)
-        localStorage.setItem('QoLPokedex', JSON.stringify(datePlusDex))
-        $('.qolDate').val(dateString)
-    }
-    static parseAndStoreDexNumbers(dex) {
-        let json = JSON.parse(dex)
-        // load current list of processed dex IDs
-        let dexIDsCache = []
-        if(localStorage.getItem('QoLDexIDsCache') !== null) {
-            dexIDsCache = JSON.parse(localStorage.getItem('QoLDexIDsCache'))
-        }
-        
-        let dexNumbers = [];
-        // get the list of pokedex numbers that haven't been processed before
-        for(let r in json.regions) {
-            for(let i = 0; i < json.regions[r].length; i++) {
-                if(dexIDsCache.indexOf(json.regions[r][i][0]) == -1) {
-                    dexNumbers.push(json.regions[r][i][0])
-                }
-            }
-        }
-        
-        // Add the list of dexNumbers to the cache and write it back to local storage
-        dexIDsCache = dexIDsCache.concat(dexNumbers)
-        localStorage.setItem('QoLDexIDsCache', JSON.stringify(dexIDsCache))
-        return dexNumbers;
-    }
+class EvolutionTreeParser {
     static parseEvolutionLi(li, dex_id_map) {
         let condition = $(li).children('.condition')
         let targetElem = $(li).find('.name')[0]
@@ -99,7 +18,7 @@ class DexUtilities {
         ret[target]['evolutions'] = []
         if($(li).children('ul').length) {
             $(li).children('ul').each((i, ul) => {
-                let nest = DexUtilities.parseEvolutionUl(ul, dex_id_map)
+                let nest = EvolutionTreeParser.parseEvolutionUl(ul, dex_id_map)
                 ret[target]['evolutions'].push(nest)
             })
             return ret
@@ -114,7 +33,7 @@ class DexUtilities {
 
         let ret = {}
         for(let i = 0; i < num_parallel_evolutions; i++) {
-            let nest = DexUtilities.parseEvolutionLi(lis[i], dex_id_map)
+            let nest = EvolutionTreeParser.parseEvolutionLi(lis[i], dex_id_map)
             for(let d in nest) {
                 ret[d] = nest[d]
             }
@@ -145,70 +64,37 @@ class DexUtilities {
 
         tree[root] = []
         $(uls).each((i, ul) => {
-            tree[root].push(DexUtilities.parseEvolutionUl(ul, dex_id_map))
+            tree[root].push(EvolutionTreeParser.parseEvolutionUl(ul, dex_id_map))
         })
         return tree
     }
+} // EvolutionTreeParser
 
-    static loadDexPages(dexNumbers, progressBar, progressSpan) {
-        let requests = []
-        progressBar.value = 0
-        progressSpan.textContent = "Loading Pokedex info. Please wait until this is complete..."
-
-        for(let d = 0; d < dexNumbers.length; d++) {
-            // if the dex number is 000, the user has not seen the pokemon,
-            // so just increment the progress bar value
-            if(dexNumbers[d] === "000") {
-                progressBar.value = progressBar['value'] + 1
-                progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
-            } else {
-                let r = $.get('https://pokefarm.com/dex/' + dexNumbers[d]).then((data) => {
-                    progressBar.value = progressBar['value'] + 1
-                    progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
-                    return data
-                })
-                requests.push(r)
+class DexPageParser {
+    static parseAndStoreDexNumbers(dex) {
+        let json = JSON.parse(dex)
+        // load current list of processed dex IDs
+        let dexIDsCache = []
+        if(localStorage.getItem('QoLDexIDsCache') !== null) {
+            dexIDsCache = JSON.parse(localStorage.getItem('QoLDexIDsCache'))
+        }
+        
+        let dexNumbers = [];
+        // get the list of pokedex numbers that haven't been processed before
+        for(let r in json.regions) {
+            for(let i = 0; i < json.regions[r].length; i++) {
+                if(dexIDsCache.indexOf(json.regions[r][i][0]) == -1) {
+                    dexNumbers.push(json.regions[r][i][0])
+                }
             }
         }
-
-        return $.when.apply(undefined, requests)
-    } // loadDexPages
-
-    static loadFormPages(firstFormHTML, progressBar, progressSpan) {
-        let requests = []
-        for(let a = 0; a < firstFormHTML.length; a++) {
-            let data = firstFormHTML[a]
-            // because the evolution tree for all the members of a single family will have the same text,
-            // use the text as a key in families
-            // use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
-            let ownerDocument = document.implementation.createHTMLDocument('virtual');
-            
-            // load data from pages for other forms
-            const form_links = $(data, ownerDocument).find('.formeregistration a')
-            if(form_links.length) {
-                progressBar['max'] = progressBar['max'] + form_links.length
-                form_links.each((k, v) => {
-                    let link = $(v).attr('href');
-                    let r = $.get('https://pokefarm.com/' + link).then((form_html) => {
-                        progressBar.value = progressBar['value'] + 1
-                        progressSpan.textContent = `Loaded ${progressBar['value']} of ${progressBar['max']} Pokemon`
-                        return form_html;
-                    })
-                    requests.push(r)
-                });
-                
-                /*
-                // make a promise for the current form so the list of forms for each pokemon will be complete
-                requests.push(Promise.resolve('Success').then(() => {
-                return data;
-                }));
-                */
-            }
-        } // for
         
-        return $.when.apply(undefined, requests)
-    } // loadFormPages
-    
+        // Add the list of dexNumbers to the cache and write it back to local storage
+        dexIDsCache = dexIDsCache.concat(dexNumbers)
+        localStorage.setItem('QoLDexIDsCache', JSON.stringify(dexIDsCache))
+        return dexNumbers;
+    }
+
     static getInfoFromDexPageHeader(html) {
         // Note - I thought this wouldn't work for exclusives because they're pokedex numbers all start with "000",
         // but when exclusives have multiple forms, each form has its dex entry, and the forms are not grouped
@@ -250,7 +136,7 @@ class DexUtilities {
         };
     }
 
-    static parseTypesFromDexPage(html) {
+        static parseTypesFromDexPage(html) {
         let ownerDocument = document.implementation.createHTMLDocument('virtual');
         let typeImgs = $(html, ownerDocument).find('.dexdetails>li>img');
         let typeUrls = typeImgs.map((idx, img) => img.src);
@@ -289,7 +175,7 @@ class DexUtilities {
             // if the root name is already in in the flat files, but the root of the tree is not in the dex_id_map
             if((!(rootName in flat_families)) || (!(rootName in dex_id_map))) {
                 // parseEvolutionTree returns a tree
-                families[tree.textContent] = DexUtilities.parseEvolutionTree(rootName, tree, dex_id_map)
+                families[tree.textContent] = EvolutionTreeParser.parseEvolutionTree(rootName, tree, dex_id_map)
                 // flattenFamily returns an object containing:
                 // - a list of the dex numbers of the family members
                 // - a list of evolutions in the family formatted like:
@@ -489,6 +375,124 @@ class DexUtilities {
         return map;
     }
 
+} // DexPageParser
+
+class DexUtilities {
+    static getDexPage() {
+        return $.get('https://pokefarm.com/dex')
+    }
+    static loadDexIntoGlobalsFromStorage() {
+        if(localStorage.getItem('QoLPokedex') === null) {
+            return false;
+        }
+        if(Object.keys(JSON.parse(localStorage.getItem('QoLPokedex'))).length === 0) {
+            return false;
+        }
+
+        let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
+        // if QoLPokedex only contains date
+        if((dateAndDex.length === 1) ||
+           // or if the dex part of the array is empty
+           (dateAndDex[1] === undefined) ||
+            (dateAndDex[1] === null)) {
+            return false;
+        }
+
+        GLOBALS.DEX_UPDATE_DATE = dateAndDex[0];
+        let dex = dateAndDex.slice(1);
+        GLOBALS.DEX_DATA = dex;
+        return true;
+    }
+    static loadDexIntoGlobalsFromWeb() {
+        DexUtilities.loadDexPage().then((data) => {
+            GLOBALS.DEX_UPDATE_DATE = (new Date()).toUTCString();
+            let html = jQuery.parseHTML(data);
+            let dex = $(html[10].querySelector('#dexdata')).html();
+            GLOBALS.DEX_DATA = dex.split(',');
+            DexUtilities.updateLocalStorageDex();
+        });
+    }
+    static loadDexIntoGlobalsFromWebIfOld() {
+        // If it's more than 30 days old, update the dex
+        const THIRTY_DAYS_IN_MS = 30*24*3600*1000
+        let dateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
+        if ((Date.now() - Date.parse(dateAndDex[0])) > THIRTY_DAYS_IN_MS) {
+            DexUtilities.loadDexIntoGlobalsFromWeb()
+            return true;
+        }
+        return false;
+    }
+    static updateLocalStorageDex(updateDate) {
+        let dateString = "";
+        if(updateDate === undefined) {
+            dateString = (new Date()).toUTCString();
+        } else {
+            dateString = updateDate;
+        }
+        const datePlusDex = [dateString].concat(GLOBALS.DEX_DATA)
+        localStorage.setItem('QoLPokedex', JSON.stringify(datePlusDex))
+        $('.qolDate').val(dateString)
+    }
+    
+    static loadDexPages(dexNumbers, progressBar, progressSpan) {
+        let requests = []
+        progressBar.value = 0
+        progressSpan.textContent = "Loading Pokedex info. Please wait until this is complete..."
+
+        for(let d = 0; d < dexNumbers.length; d++) {
+            // if the dex number is 000, the user has not seen the pokemon,
+            // so just increment the progress bar value
+            if(dexNumbers[d] === "000") {
+                progressBar.value = progressBar['value'] + 1
+                progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
+            } else {
+                let r = $.get('https://pokefarm.com/dex/' + dexNumbers[d]).then((data) => {
+                    progressBar.value = progressBar['value'] + 1
+                    progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
+                    return data
+                })
+                requests.push(r)
+            }
+        }
+
+        return $.when.apply(undefined, requests)
+    } // loadDexPages
+
+    static loadFormPages(firstFormHTML, progressBar, progressSpan) {
+        let requests = []
+        for(let a = 0; a < firstFormHTML.length; a++) {
+            let data = firstFormHTML[a]
+            // because the evolution tree for all the members of a single family will have the same text,
+            // use the text as a key in families
+            // use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
+            let ownerDocument = document.implementation.createHTMLDocument('virtual');
+            
+            // load data from pages for other forms
+            const form_links = $(data, ownerDocument).find('.formeregistration a')
+            if(form_links.length) {
+                progressBar['max'] = progressBar['max'] + form_links.length
+                form_links.each((k, v) => {
+                    let link = $(v).attr('href');
+                    let r = $.get('https://pokefarm.com/' + link).then((form_html) => {
+                        progressBar.value = progressBar['value'] + 1
+                        progressSpan.textContent = `Loaded ${progressBar['value']} of ${progressBar['max']} Pokemon`
+                        return form_html;
+                    })
+                    requests.push(r)
+                });
+                
+                /*
+                // make a promise for the current form so the list of forms for each pokemon will be complete
+                requests.push(Promise.resolve('Success').then(() => {
+                return data;
+                }));
+                */
+            }
+        } // for
+        
+        return $.when.apply(undefined, requests)
+    } // loadFormPages
+    
     static flattenFamily(family_obj, ret_obj, evo_src) {
         if(ret_obj === undefined) {
             ret_obj = {
