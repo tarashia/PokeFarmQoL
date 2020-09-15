@@ -541,9 +541,10 @@ class ShelterPage extends Page {
                             searchTypeOne = egg_pngs_to_types[searchPokemon] &&
                                 egg_pngs_to_types[searchPokemon][imgUrl] &&
                                 ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
-                            searchTypeTwo = egg_pngs_to_types[searchPokemon] &&
+                            searchTypeTwo = "" + ((egg_pngs_to_types[searchPokemon] &&
                                 egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ("" + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
+                                egg_pngs_to_types[searchPokemon][imgUrl].length > 1) ?
+                                egg_pngs_to_types[searchPokemon][imgUrl][1] : -1);
                         } else {
                             let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                             searchTypeOne = dexData[searchPokemonIndex + 1];
