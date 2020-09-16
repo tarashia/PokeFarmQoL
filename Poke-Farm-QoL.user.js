@@ -362,7 +362,7 @@
         DexUtilities.getDexPage().then((data) => {
             let html = jQuery.parseHTML(data)
             let dex = $(html[10].querySelector('#dexdata')).html()
-            const dexNumbers = DexUtilities.parseAndStoreDexNumbers(dex);
+            const dexNumbers = DexPageParser.parseAndStoreDexNumbers(dex);
 
             if(dexNumbers.length > 0) {
                 // update the progress bar in the hub
@@ -377,25 +377,25 @@
                         let allPagesHTML = dexPagesHTML.concat(formPagesHTML);
 
                         // Parse evolution data
-                        const parsed_families_and_dex_ids = DexUtilities.parseEvolutionTrees(allPagesHTML);
+                        const parsed_families_and_dex_ids = DexPageParser.parseEvolutionTrees(allPagesHTML);
                         const parsed_families = parsed_families_and_dex_ids[0]
                         const dex_ids = parsed_families_and_dex_ids[1]
 
                         // Parse form data
-                        const parsed_forms_and_map = DexUtilities.parseFormData(allPagesHTML);
+                        const parsed_forms_and_map = DexPageParser.parseFormData(allPagesHTML);
                         const form_data = parsed_forms_and_map[0];
                         const form_map = parsed_forms_and_map[1];
 
                         // Collect regional form data
-                        const regional_form_map = DexUtilities.extractRegionalForms(form_map);
+                        const regional_form_map = DexPageParser.extractRegionalForms(form_map);
 
                         // Collect list of base names to make it easier down the line
-                        const base_names = DexUtilities.parseBaseNames(allPagesHTML);
+                        const base_names = DexPageParser.parseBaseNames(allPagesHTML);
                         // Collect list of egg pngs
-                        const egg_pngs = DexUtilities.parseEggsPngsList(allPagesHTML);
+                        const egg_pngs = DexPageParser.parseEggsPngsList(allPagesHTML);
                         // Collect list of types
-                        const types    = DexUtilities.parseTypesList(allPagesHTML);
-                        const egg_pngs_types_map = DexUtilities.buildEggPngsTypesMap(base_names, egg_pngs, types);
+                        const types    = DexPageParser.parseTypesList(allPagesHTML);
+                        const egg_pngs_types_map = DexPageParser.buildEggPngsTypesMap(base_names, egg_pngs, types);
 
                         DexUtilities.saveEvolveByLevelList(parsed_families, dex_ids)
                         DexUtilities.saveEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
