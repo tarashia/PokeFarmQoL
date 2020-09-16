@@ -68,6 +68,36 @@ class EvolutionTreeParser {
         })
         return tree
     }
+    
+    static flattenEvolutionFamily(family_obj, ret_obj, evo_src) {
+        if(ret_obj === undefined) {
+            ret_obj = {
+                'members': [],
+                'evolutions': []
+            }
+        }
+
+        if(Array.isArray(family_obj)) {
+            for(let i = 0; i < family_obj.length; i++) {
+                for(let key in family_obj[i]) {
+                    ret_obj.members.push(key)
+                    ret_obj.evolutions.push({
+                        'source': evo_src,
+                        'target': key,
+                        'condition': family_obj[i][key]['condition']
+                    })
+                    this.flattenEvolutionFamily(family_obj[i][key]['evolutions'], ret_obj, key);
+                }
+            }
+        } else if(typeof family_obj === 'object') {
+            for(let key in family_obj) {
+                ret_obj.members.push(key)
+                this.flattenEvolutionFamily(family_obj[key], ret_obj, key)
+            }
+        }
+
+        return ret_obj
+    }
 } // EvolutionTreeParser
 
 class DexPageParser {
@@ -182,14 +212,13 @@ class DexPageParser {
                 //   - {'source': <beginning pokemon>,
                 //   -  'condition': <condition html>,
                 //      'target': <ending pokemon>}
+                let flattened = EvolutionTreeParser.flattenEvolutionFamily(families[tree.textContent])
 
                 // the evolution tree won't have the dex ID for the form of the pokemon that we're currently using
                 // use the footbar to get the full pokedex number for the current form
                 const footer_info = DexPageParser.getInfoFromDexPageFooter(data);
                 dex_id_map[rootName] = footer_info.shortlink_number;
-                
-                let flattened = DexPageParser.flattenEvolutionFamily(families[tree.textContent])
-
+              
                 // parse the evolution conditions
                 DexPageParser.parseEvolutionConditions(flattened)
 
@@ -334,36 +363,6 @@ class DexPageParser {
         return maxEvoTreeDepth;
 
     } // buildEvolutionTreeDepthsList
-    
-    static flattenEvolutionFamily(family_obj, ret_obj, evo_src) {
-        if(ret_obj === undefined) {
-            ret_obj = {
-                'members': [],
-                'evolutions': []
-            }
-        }
-
-        if(Array.isArray(family_obj)) {
-            for(let i = 0; i < family_obj.length; i++) {
-                for(let key in family_obj[i]) {
-                    ret_obj.members.push(key)
-                    ret_obj.evolutions.push({
-                        'source': evo_src,
-                        'target': key,
-                        'condition': family_obj[i][key]['condition']
-                    })
-                    this.flattenEvolutionFamily(family_obj[i][key]['evolutions'], ret_obj, key);
-                }
-            }
-        } else if(typeof family_obj === 'object') {
-            for(let key in family_obj) {
-                ret_obj.members.push(key)
-                this.flattenEvolutionFamily(family_obj[key], ret_obj, key)
-            }
-        }
-
-        return ret_obj
-    }
 
     static parseFormData(args) {
         const form_data = {};
