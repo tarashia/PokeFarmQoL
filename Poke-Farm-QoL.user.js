@@ -385,9 +385,12 @@
                         const parsed_forms_and_map = DexPageParser.parseFormData(allPagesHTML);
                         const form_data = parsed_forms_and_map[0];
                         const form_map = parsed_forms_and_map[1];
+                        
+                        // Build evolution tree depths
+                        const evolution_tree_depth_list = DexPageParser.buildEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
 
                         // Collect regional form data
-                        const regional_form_map = DexPageParser.extractRegionalForms(form_map);
+                        const regional_form_map = DexPageParser.buildRegionalFormsMap(form_map);
 
                         // Collect list of base names to make it easier down the line
                         const base_names = DexPageParser.parseBaseNames(allPagesHTML);
@@ -398,7 +401,7 @@
                         const egg_pngs_types_map = DexPageParser.buildEggPngsTypesMap(base_names, egg_pngs, types);
 
                         DexUtilities.saveEvolveByLevelList(parsed_families, dex_ids)
-                        DexUtilities.saveEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
+                        DexUtilities.saveEvolutionTreeDepths(evolution_tree_depth_list);
                         DexUtilities.saveRegionalFormsList(parsed_families, dex_ids, regional_form_map);
                         DexUtilities.saveEggTypesMap(egg_pngs_types_map);
                         progressSpan.textContent = "Complete!"
