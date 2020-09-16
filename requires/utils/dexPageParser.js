@@ -1,5 +1,31 @@
-class EvolutionTreeParser {
-    static parseEvolutionLi(li, dex_id_map) {
+/* _EvolutionTreeParser class
+ * This purely static class provides functions for parsing the evolution div of a dex page. 
+ * This class should only be used by the DexPageParser class.
+ * This classes complies with the practice of prepending an underscore on private items. This includes
+ * "private" methods within this class, and the class itself.
+ */
+class _EvolutionTreeParser {
+    
+    /* _parseEvolutionLi
+     * Parses the contents of an <li> element from the evolution tree div of a dex page
+     * Inputs:
+     * - li - an HTML node representing the <li> to be parsed
+     * - dex_id_map - object mapping Pokemon names to their ID values
+     *                e.g. {'Rattata' => '019'}
+     *     > TODO - there's definitely a better way to handle this that is used somewhere else
+     *              in DexPageParser already
+     * Output:
+     * - ret - object mapping the name of the evolution target to the evolution conditions and parsed evolutions of said Pokemon
+     *         e.g. {
+     *               'Vaporeon' => {
+     *                           'condition' => 'Water Stone', 
+     *                           'evolutions' => [
+     *                                            // parsed <ul> containing Vaporeon [Mega Forme Q]
+     *                                           ]
+     *                          }, ...
+     *              }
+     */
+    static _parseEvolutionLi(li, dex_id_map) {
         let condition = $(li).children('.condition')
         let targetElem = $(li).find('.name')[0]
         let target = targetElem.textContent
@@ -18,7 +44,7 @@ class EvolutionTreeParser {
         ret[target]['evolutions'] = []
         if($(li).children('ul').length) {
             $(li).children('ul').each((i, ul) => {
-                let nest = EvolutionTreeParser.parseEvolutionUl(ul, dex_id_map)
+                let nest = _EvolutionTreeParser.parseEvolutionUl(ul, dex_id_map)
                 ret[target]['evolutions'].push(nest)
             })
             return ret
@@ -27,19 +53,46 @@ class EvolutionTreeParser {
         }
     }
 
-    static parseEvolutionUl(ul, dex_id_map) {
+    /* _parseEvolutionUl
+     * Parses the contents of an <ul> element from the evolution tree div of a dex page
+     * Inputs:
+     * - ul - an HTML node representing the <ul> to be parsed
+     * - dex_id_map - object mapping Pokemon names to their ID values
+     *                e.g. {'Rattata' => '019'}
+     *     > TODO - there's definitely a better way to handle this that is used somewhere else
+     *              in DexPageParser already
+     * Output:
+     * - ret - object mapping the names of the evolution targets to the evolution conditions and parsed evolutions of said Pokemon.
+     *         ret will contain one key (i.e., one evolution target name) for each <li> found in the <ul> passed
+     *         e.g. {
+     *               'Vaporeon' => {
+     *                              'condition' => 'Water Stone', 
+     *                              'evolutions' => [
+     *                                               // parsed <ul> containing Vaporeon [Mega Forme Q]
+     *                                               {
+     *                                                'Vaporeon' => {
+     *                                                               'condition' => 'Water Stone', 
+     *                                                               'evolutions' => []
+     *                                                              }
+     *                                               }
+     *                                              ]
+     *                             }, ...
+     *              }
+     */
+    static _parseEvolutionUl(ul, dex_id_map) {
         const lis = $(ul).children('li')
         const num_parallel_evolutions = lis.length
 
         let ret = {}
         for(let i = 0; i < num_parallel_evolutions; i++) {
-            let nest = EvolutionTreeParser.parseEvolutionLi(lis[i], dex_id_map)
+            let nest = _EvolutionTreeParser._parseEvolutionLi(lis[i], dex_id_map)
             for(let d in nest) {
                 ret[d] = nest[d]
             }
         }
         return ret
     }
+    
     static parseEvolutionTree(root, evotree, dex_id_map) {
         const uls = $(evotree).children('ul')
         const tree = {}
@@ -64,7 +117,7 @@ class EvolutionTreeParser {
 
         tree[root] = []
         $(uls).each((i, ul) => {
-            tree[root].push(EvolutionTreeParser.parseEvolutionUl(ul, dex_id_map))
+            tree[root].push(_EvolutionTreeParser._parseEvolutionUl(ul, dex_id_map))
         })
         return tree
     }
@@ -98,7 +151,7 @@ class EvolutionTreeParser {
 
         return ret_obj
     }
-} // EvolutionTreeParser
+} // _EvolutionTreeParser
 
 class DexPageParser {
     static parseAndStoreDexNumbers(dex) {
@@ -205,14 +258,14 @@ class DexPageParser {
             // if the root name is already in in the flat files, but the root of the tree is not in the dex_id_map
             if((!(rootName in flat_families)) || (!(rootName in dex_id_map))) {
                 // parseEvolutionTree returns a tree
-                families[tree.textContent] = EvolutionTreeParser.parseEvolutionTree(rootName, tree, dex_id_map)
+                families[tree.textContent] = _EvolutionTreeParser.parseEvolutionTree(rootName, tree, dex_id_map)
                 // flattenEvolutionFamily returns an object containing:
                 // - a list of the dex numbers of the family members
                 // - a list of evolutions in the family formatted like:
                 //   - {'source': <beginning pokemon>,
                 //   -  'condition': <condition html>,
                 //      'target': <ending pokemon>}
-                let flattened = EvolutionTreeParser.flattenEvolutionFamily(families[tree.textContent])
+                let flattened = _EvolutionTreeParser.flattenEvolutionFamily(families[tree.textContent])
 
                 // the evolution tree won't have the dex ID for the form of the pokemon that we're currently using
                 // use the footbar to get the full pokedex number for the current form
