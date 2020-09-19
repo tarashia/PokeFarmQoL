@@ -39,7 +39,7 @@ class WishforgePage extends Page {
         table += `</table>`;
 
         // add table to page
-        const craftedBadgesList = $($('ul.badgelist')[1]);
+        const craftedBadgesList = $('#badges').next().find('ul.badgelist');
         craftedBadgesList.prepend(table);
 
         // define column aliases to make the movements more logical
