@@ -164,7 +164,8 @@ class LabPage extends Page {
                         if(egg_pngs_to_types && egg_pngs_to_types[searchPokemon] && 
                            egg_pngs_to_types[searchPokemon][imgUrl]) {
                             searchTypeOne = "" + egg_pngs_to_types[searchPokemon][imgUrl][0];
-                            searchTypeTwo = ("" + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
+                            searchTypeTwo = "" + (egg_pngs_to_types[searchPokemon][imgUrl].length > 1) ?
+                                egg_pngs_to_types[searchPokemon][imgUrl][1] : -1);
                         } else {
                             let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                             searchTypeOne = dexData[searchPokemonIndex + 1];
