@@ -158,15 +158,14 @@ class LabPage extends Page {
                         let searchPokemon = ($(this).text().split(' ')[0]);
                         let searchTypeOne = "";
                         let searchTypeTwo = "";
+			    
+		                let imgUrl = $(this).next().attr('src').replace('https://pfq-static.com/img/', '');
                         
-                        if(egg_pngs_to_types) {
-                            let imgUrl = $(this).next().attr('src').replace('https://pfq-static.com/img/', '');
-                            searchTypeOne = egg_pngs_to_types[searchPokemon] &&
-                                egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
-                            searchTypeTwo = egg_pngs_to_types[searchPokemon] &&
-                                egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ("" + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
+                        // Issue #61 - This now will default back to dexData if the pokemon is not in the egg_pngs_to_types list
+                        if(egg_pngs_to_types && egg_pngs_to_types[searchPokemon] && 
+                           egg_pngs_to_types[searchPokemon][imgUrl]) {
+                            searchTypeOne = "" + egg_pngs_to_types[searchPokemon][imgUrl][0];
+                            searchTypeTwo = ("" + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
                         } else {
                             let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                             searchTypeOne = dexData[searchPokemonIndex + 1];
