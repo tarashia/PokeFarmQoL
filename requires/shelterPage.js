@@ -536,14 +536,12 @@ class ShelterPage extends Page {
                         let searchPokemon = ($(this).text().split(' ')[0]);
                         let searchTypeOne = "";
                         let searchTypeTwo = "";
-                        if(egg_pngs_to_types) {
-                            let imgUrl = $($(this).prev().find('img')[0]).attr('src').replace('https://pfq-static.com/img/', '');
-                            searchTypeOne = egg_pngs_to_types[searchPokemon] &&
-                                egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
-                            searchTypeTwo = "" + ((egg_pngs_to_types[searchPokemon] &&
-                                egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                egg_pngs_to_types[searchPokemon][imgUrl].length > 1) ?
+                        let imgUrl = $($(this).prev().find('img')[0]).attr('src').replace('https://pfq-static.com/img/', '');
+                        
+                        if(egg_pngs_to_types && egg_pngs_to_types[searchPokemon] &&
+                           egg_pngs_to_types[searchPokemon][imgUrl]) {
+                            searchTypeOne = ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
+                            searchTypeTwo = "" + (egg_pngs_to_types[searchPokemon][imgUrl].length > 1) ?
                                 egg_pngs_to_types[searchPokemon][imgUrl][1] : -1);
                         } else {
                             let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
