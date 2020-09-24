@@ -158,8 +158,7 @@ class LabPage extends Page {
                         let searchPokemon = ($(this).text().split(' ')[0]);
                         let searchTypeOne = "";
                         let searchTypeTwo = "";
-			    
-		                let imgUrl = $(this).next().attr('src').replace('https://pfq-static.com/img/', '');
+                        let imgUrl = $(this).next().attr('src').replace('https://pfq-static.com/img/', '');
                         
                         // Issue #61 - This now will default back to dexData if the pokemon is not in the egg_pngs_to_types list
                         if(egg_pngs_to_types && egg_pngs_to_types[searchPokemon] && 
