@@ -456,11 +456,12 @@
         }) // loadDexPage
     }));
 
-    $(document).on('click', '#resetPageSettings', (function() {
-        const page = $(this).parent().find('select').val()
-        PFQoL.clearPageSettings(page)
+    // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
+    $(document).on('mouseover', '#clearCachedDex', (function() {
+        $('#clearCachedDex').next().remove();
     }));
 
+    // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
     $(document).on('click', '#clearCachedDex', (function() {
         $('#clearCachedDex').next().remove();
         localStorage.removeItem('QoLEvolveByLevel');
