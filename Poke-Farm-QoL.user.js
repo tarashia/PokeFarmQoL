@@ -350,6 +350,15 @@
         // this handler updates the local storage
         const progressSpan = $('span.qolDexUpdateProgress')[0]
         progressSpan.textContent = "Loading..."
+        
+        // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
+        // Disable button until done
+        const button = $('#updateDex');
+        button.prop('disabled', true);
+        // Add a note that the user needs to wait to close the page
+        const td = $(progressSpan).parent();
+        const waitMsgSpan = $('<span>Please wait for the text next to the progress bar to say <b>"Complete!"</b> before closing or refreshing this page. This may take several minutes');
+        td.prepend(waitMsgSpan);
 
         let date = (new Date()).toUTCString();
         GLOBALS.DEX_UPDATE_DATE = date;
@@ -400,12 +409,23 @@
                         DexUtilities.saveEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
                         DexUtilities.saveRegionalFormsList(parsed_families, dex_ids, regional_form_map);
                         DexUtilities.saveEggTypesMap(egg_pngs_types_map);
-                        progressSpan.textContent = "Complete!"
+                        progressSpan.textContent = "Complete!";
+        
+                        // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
+                        // Re-enable button
+                        button.prop('disabled', false);
+                        // Remove the note that was added earlier
+                        waitMsgSpan.remove();
                     }); // loadFormPages
                 }) // loadDexData
             } // if dexNumbers.length > 0
             else {
                 progressSpan.textContent = "Complete!"
+                // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
+                // Re-enable button
+                button.prop('disabled', false);
+                // Remove the note that was added earlier
+                waitMsgSpan.remove();
             }
         }) // loadDexPage
     }));
