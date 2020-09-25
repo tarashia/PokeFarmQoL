@@ -462,10 +462,12 @@
     }));
 
     $(document).on('click', '#clearCachedDex', (function() {
+        $('#clearCachedDex').next().remove();
         localStorage.removeItem('QoLEvolveByLevel');
         localStorage.removeItem('QoLDexIDsCache');
         localStorage.removeItem("QoLEvolutionTreeDepth");
         localStorage.removeItem('QoLRegionalFormsList');
+        $('#clearCachedDex').after('<span> Cleared!</span>');
     }));
 
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
