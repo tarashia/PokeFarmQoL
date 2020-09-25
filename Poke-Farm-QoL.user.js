@@ -359,7 +359,23 @@
         const td = $(progressSpan).parent();
         const waitMsgSpan = $('<span>Please wait for the text next to the progress bar to say <b>"Complete!"</b> before closing or refreshing this page. This may take several minutes');
         td.prepend(waitMsgSpan);
+        
+        const cleanupAfterDexPageProcessing = function(errorMessage) {
+            // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
+            // Re-enable button
+            button.prop('disabled', false);
+            // Remove the note that was added earlier
+            waitMsgSpan.remove();
 
+            // Issue #61 - Item 2
+            // Report the error if one occurs
+            if(errorMessage)
+                alert("An error occurred while processing the dex data. Please retry by clicking \"Update Pokedex\".\n" +
+                      "If this problem continues to occur, please post a message in the QoL script forum thread with this error message.\n\n" +
+                      "Error message:\n" +
+                      errorMessage);
+        }
+        
         let date = (new Date()).toUTCString();
         GLOBALS.DEX_UPDATE_DATE = date;
         $('.qolDate').text(GLOBALS.DEX_UPDATE_DATE);
@@ -378,68 +394,81 @@
                 const progressBar = $('progress.qolDexUpdateProgress')[0]
                 progressBar['max'] = limit
 
+                // Issue #61 - Item 2
+                // Hold an error message
+                let errorMessage = "";
+
                 DexUtilities.loadDexPages(dexNumbers, progressBar, progressSpan).then((...dexPagesHTML) => {
                     DexUtilities.loadFormPages(dexPagesHTML, progressBar, progressSpan).then((...formPagesHTML) => {
 
-                        // Combine the arrays of HTML into one array
-                        let allPagesHTML = dexPagesHTML.concat(formPagesHTML);
+                        // Issue #61 - Item 2
+                        // Wrap the code in a try/catch/finally to be able to let the user know when an error occurs
+                        try {
+                            progressSpan.textContent = "Processing loaded data...";
+                            // Combine the arrays of HTML into one array
+                            let allPagesHTML = dexPagesHTML.concat(formPagesHTML);
 
-                        // Parse evolution data
-                        const parsed_families_and_dex_ids = DexUtilities.parseEvolutionTrees(allPagesHTML);
-                        const parsed_families = parsed_families_and_dex_ids[0]
-                        const dex_ids = parsed_families_and_dex_ids[1]
+                            // Parse evolution data
+                            const parsed_families_and_dex_ids = DexUtilities.parseEvolutionTrees(allPagesHTML);
+                            const parsed_families = parsed_families_and_dex_ids[0]
+                            const dex_ids = parsed_families_and_dex_ids[1]
 
-                        // Parse form data
-                        const parsed_forms_and_map = DexUtilities.parseFormData(allPagesHTML);
-                        const form_data = parsed_forms_and_map[0];
-                        const form_map = parsed_forms_and_map[1];
+                            // Parse form data
+                            const parsed_forms_and_map = DexUtilities.parseFormData(allPagesHTML);
+                            const form_data = parsed_forms_and_map[0];
+                            const form_map = parsed_forms_and_map[1];
 
-                        // Collect regional form data
-                        const regional_form_map = DexUtilities.extractRegionalForms(form_map);
+                            // Collect regional form data
+                            const regional_form_map = DexUtilities.extractRegionalForms(form_map);
 
-                        // Collect list of base names to make it easier down the line
-                        const base_names = DexUtilities.parseBaseNames(allPagesHTML);
-                        // Collect list of egg pngs
-                        const egg_pngs = DexUtilities.parseEggsPngsList(allPagesHTML);
-                        // Collect list of types
-                        const types    = DexUtilities.parseTypesList(allPagesHTML);
-                        const egg_pngs_types_map = DexUtilities.buildEggPngsTypesMap(base_names, egg_pngs, types);
+                            // Collect list of base names to make it easier down the line
+                            const base_names = DexUtilities.parseBaseNames(allPagesHTML);
+                            // Collect list of egg pngs
+                            const egg_pngs = DexUtilities.parseEggsPngsList(allPagesHTML);
+                            // Collect list of types
+                            const types    = DexUtilities.parseTypesList(allPagesHTML);
+                            const egg_pngs_types_map = DexUtilities.buildEggPngsTypesMap(base_names, egg_pngs, types);
 
-                        DexUtilities.saveEvolveByLevelList(parsed_families, dex_ids)
-                        DexUtilities.saveEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
-                        DexUtilities.saveRegionalFormsList(parsed_families, dex_ids, regional_form_map);
-                        DexUtilities.saveEggTypesMap(egg_pngs_types_map);
-                        progressSpan.textContent = "Complete!";
+                            DexUtilities.saveEvolveByLevelList(parsed_families, dex_ids)
+                            DexUtilities.saveEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
+                            DexUtilities.saveRegionalFormsList(parsed_families, dex_ids, regional_form_map);
+                            DexUtilities.saveEggTypesMap(egg_pngs_types_map);
+                            progressSpan.textContent = "Complete!";
         
-                        // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
-                        // Re-enable button
-                        button.prop('disabled', false);
-                        // Remove the note that was added earlier
-                        waitMsgSpan.remove();
+                        } catch(err) {
+                            errorMessage = err.message;
+                        } finally {
+                            cleanupAfterDexPageProcessing(errorMessage);
+                        } // finally
+                    }).fail(() => {
+                        errorMessage = "Error occurred while loading dex pages for different forms.";
+                        cleanupAfterDexPageProcessing(errorMessage);
                     }); // loadFormPages
-                }) // loadDexData
+                }).fail(() => {
+                    errorMessage = "Error occurred while loading dex pages.";
+                    cleanupAfterDexPageProcessing(errorMessage);
+                }); // loadDexData
             } // if dexNumbers.length > 0
             else {
                 progressSpan.textContent = "Complete!"
-                // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
-                // Re-enable button
-                button.prop('disabled', false);
-                // Remove the note that was added earlier
-                waitMsgSpan.remove();
+                cleanupAfterDexPageProcessing(errorMessage);
             }
         }) // loadDexPage
     }));
 
-    $(document).on('click', '#resetPageSettings', (function() {
-        const page = $(this).parent().find('select').val()
-        PFQoL.clearPageSettings(page)
+    // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
+    $(document).on('mouseover', '#clearCachedDex', (function() {
+        $('#clearCachedDex').next().remove();
     }));
 
+    // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
     $(document).on('click', '#clearCachedDex', (function() {
+        $('#clearCachedDex').next().remove();
         localStorage.removeItem('QoLEvolveByLevel');
         localStorage.removeItem('QoLDexIDsCache');
         localStorage.removeItem("QoLEvolutionTreeDepth");
         localStorage.removeItem('QoLRegionalFormsList');
+        $('#clearCachedDex').after('<span> Cleared!</span>');
     }));
 
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
