@@ -151,8 +151,10 @@ class DexUtilities {
     }
 
     static loadDexPages(dexNumbers, progressBar, progressSpan) {
-        let requests = []
-        progressBar.value = 0
+        let requests = [];
+        let failedLoads = 0;
+        let progressBarTexts = ["", ""];
+        progressBar.value = 0;
         progressSpan.textContent = "Loading Pokedex info. Please wait until this is complete..."
 
         for(let d = 0; d < dexNumbers.length; d++) {
@@ -163,11 +165,18 @@ class DexUtilities {
                 progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
             } else {
                 let r = $.get('https://pokefarm.com/dex/' + dexNumbers[d]).then((data) => {
-                    progressBar.value = progressBar['value'] + 1
-                    progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
+                    progressBar.value = progressBar['value'] + 1;
+                    progressBarTexts[0] = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
+                    progressSpan.textContent = progressBarTexts[0] + ". " + progressBarTexts[1];
                     return data
-                })
-                requests.push(r)
+                }).fail(() => {
+                    progressBar.value = progressBar['value'] + 1;
+                    failedLoads++;
+                    progressBarTexts[1] = `Failed to load ${failedLoads} dex pages`;
+                    progressSpan.textContent = progressBarTexts[0] + ". " + progressBarTexts[1];
+                    return -1;
+                });
+                requests.push(r);
             }
         }
 
@@ -175,7 +184,9 @@ class DexUtilities {
     } // loadDexPages
 
     static loadFormPages(firstFormHTML, progressBar, progressSpan) {
-        let requests = []
+        let requests = [];
+        let failedLoads = 0;
+        let progressBarTexts = ["", ""];
         for(let a = 0; a < firstFormHTML.length; a++) {
             let data = firstFormHTML[a]
             // because the evolution tree for all the members of a single family will have the same text,
@@ -191,18 +202,18 @@ class DexUtilities {
                     let link = $(v).attr('href');
                     let r = $.get('https://pokefarm.com/' + link).then((form_html) => {
                         progressBar.value = progressBar['value'] + 1
-                        progressSpan.textContent = `Loaded ${progressBar['value']} of ${progressBar['max']} Pokemon`
+                        progressBarTexts[0] = `Loaded ${progressBar['value']} of ${progressBar['max']} Pokemon`;
+                        progressSpan.textContent = progressBarTexts[0] + ". " + progressBarTexts[1];
                         return form_html;
-                    })
-                    requests.push(r)
+                    }).fail(() => {
+                        progressBar.value = progressBar['value'] + 1;
+                        failedLoads++;
+                        progressBarTexts[1] = `Failed to load ${failedLoads} dex pages`;
+                        progressSpan.textContent = progressBarTexts[0] + ". " + progressBarTexts[1];
+                        return -1;
+                    });
+                    requests.push(r);
                 });
-                
-                /*
-                // make a promise for the current form so the list of forms for each pokemon will be complete
-                requests.push(Promise.resolve('Success').then(() => {
-                return data;
-                }));
-                */
             }
         } // for
         
