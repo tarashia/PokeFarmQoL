@@ -350,6 +350,16 @@
         // this handler updates the local storage
         const progressSpan = $('span.qolDexUpdateProgress')[0]
         progressSpan.textContent = "Loading..."
+        
+        // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
+        // Disable button until done
+        const button = $('#updateDex');
+        button.prop('disabled', true);
+        // Add a note that the user needs to wait to close the page
+        const td = $(progressSpan).parent();
+        const waitMsgSpan = $('<span>Please wait for the text next to the progress bar to say <b>"Complete!"</b> before closing or refreshing this page\n' +
+                              'This may take several minutes');
+        td.prepend(waitMsgSpan);
 
         let date = (new Date()).toUTCString();
         GLOBALS.DEX_UPDATE_DATE = date;
@@ -408,6 +418,12 @@
                 progressSpan.textContent = "Complete!"
             }
         }) // loadDexPage
+        
+        // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
+        // Re-enable button
+        button.prop('disabled', false);
+        // Remove the note that was added earlier
+        td.remove(waitMsgSpan);
     }));
 
     $(document).on('click', '#resetPageSettings', (function() {
