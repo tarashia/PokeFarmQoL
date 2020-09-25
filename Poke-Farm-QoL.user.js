@@ -359,7 +359,23 @@
         const td = $(progressSpan).parent();
         const waitMsgSpan = $('<span>Please wait for the text next to the progress bar to say <b>"Complete!"</b> before closing or refreshing this page. This may take several minutes');
         td.prepend(waitMsgSpan);
+        
+        const cleanupAfterDexPageProcessing = function(errorMessage) {
+            // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
+            // Re-enable button
+            button.prop('disabled', false);
+            // Remove the note that was added earlier
+            waitMsgSpan.remove();
 
+            // Issue #61 - Item 2
+            // Report the error if one occurs
+            if(errorMessage)
+                alert("An error occurred while processing the dex data. Please retry by clicking \"Update Pokedex\".\n" +
+                      "If this problem continues to occur, please post a message in the QoL script forum thread with this error message.\n\n" +
+                      "Error message:\n" +
+                      errorMessage);
+        }
+        
         let date = (new Date()).toUTCString();
         GLOBALS.DEX_UPDATE_DATE = date;
         $('.qolDate').text(GLOBALS.DEX_UPDATE_DATE);
@@ -421,30 +437,20 @@
                         } catch(err) {
                             errorMessage = err.message;
                         } finally {
-                            // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
-                            // Re-enable button
-                            button.prop('disabled', false);
-                            // Remove the note that was added earlier
-                            waitMsgSpan.remove();
-                            
-                            // Issue #61 - Item 2
-                            // Report the error if one occurs
-                            if(errorMessage)
-                                alert("An error occurred while processing the dex data. Please retry by clicking \"Update Pokedex\".\n" +
-                                      "If this problem continues to occur, please post a message in the QoL script forum thread with this error message.\n\n" +
-                                      "Error message:\n" +
-                                      errorMessage);
+                            cleanupAfterDexPageProcessing(errorMessage);
                         } // finally
+                    }).fail(() => {
+                        errorMessage = "Error occurred while loading dex pages for different forms.";
+                        cleanupAfterDexPageProcessing(errorMessage);
                     }); // loadFormPages
-                }) // loadDexData
+                }).fail(() => {
+                    errorMessage = "Error occurred while loading dex pages.";
+                    cleanupAfterDexPageProcessing(errorMessage);
+                }); // loadDexData
             } // if dexNumbers.length > 0
             else {
                 progressSpan.textContent = "Complete!"
-                // Issue #61 - Item 4 - Tell user that the Update Pokedex script isn't done until they see "Complete"
-                // Re-enable button
-                button.prop('disabled', false);
-                // Remove the note that was added earlier
-                waitMsgSpan.remove();
+                cleanupAfterDexPageProcessing(errorMessage);
             }
         }) // loadDexPage
     }));
