@@ -404,6 +404,7 @@
                         // Issue #61 - Item 2
                         // Wrap the code in a try/catch/finally to be able to let the user know when an error occurs
                         try {
+                            progressSpan.textContent = "Processing loaded data...";
                             // Combine the arrays of HTML into one array
                             let allPagesHTML = dexPagesHTML.concat(formPagesHTML);
 
