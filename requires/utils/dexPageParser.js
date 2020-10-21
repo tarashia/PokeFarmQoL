@@ -93,6 +93,54 @@ class _EvolutionTreeParser {
         return ret
     }
     
+    /* parseEvolutionTree
+     * Parses the content of an evolution tree of a dex page
+     * Inputs:
+     * - root - a string with the name of the pokemon at the base of the tree (e.g., 'Rattata')
+     * - evotree - the contents of $('.evolutiontree'). Example:
+     *             <div class="evolutiontree">
+     *               <span class="Name">
+     *                 <span class="icon" style="background-image:url(//url//)"></span>
+     *                 <b>Eevee</b>
+     *               </span>
+     *               <ul>
+     *                 <li>
+     *                   <span class="condition">Water Stone</span>
+     *                   <span class="name">
+     *                     <span class="icon" style="background-image:url(//url//)"></span>
+     *                     <a href="/dex/144">Vaporeon</a>
+     *                   </span>
+     *                   <ul>
+     *                     <li>
+     *                       <span class="condition">
+     *                         <img src=//url//>
+     *                         "Vaporeonite Q"
+     *                       </span>
+     *                       <span class="name">
+     *                         <span class="icon" style="background-image:url(//url//)"></span>
+     *                         <a href="/dex/144-Q">Vaporeon</a>
+     *                         <i class="small">[Mega Forme Q</i>
+     *                       </span>
+     *                     </li>
+     *                   </ul>
+     *                 </li>
+     *                 <li> ... data for Jolteon </li>
+     *                 ... data for Flareon, Espeon, Umbreon, Leafeon, Glaceon, Sylveon
+     *               </ul>
+     *             </div>
+     * - dex_id_map - object mapping Pokemon names to their ID values
+     *                e.g. {'Eevee' => '143'}
+     *     > TODO - there's definitely a better way to handle this that is used somewhere else
+     *              in DexPageParser already
+     * Outputs:
+     * - tree - One of two structures:
+     *          1. If a pokemon does not evolve, tree maps the name of the pokemon to the sentence
+     *            "<pokemon> is not known to evolve from or into any other Pokémon."
+     *            Example:
+     *            tree['Ditto'] = "Ditto is not known to evolve from or into any other Pokémon."
+     *          2. If a pokemon does evolve, tree contains the result of 
+     *             
+     */
     static parseEvolutionTree(root, evotree, dex_id_map) {
         const uls = $(evotree).children('ul')
         const tree = {}
@@ -106,6 +154,7 @@ class _EvolutionTreeParser {
             return tree
         }
 
+        // TODO: Pull this side effect out of this function
         if($(evotree).children('span').length) {
             let linkElem = $(evotree).children('span').children('a')
             if(linkElem.length) {
