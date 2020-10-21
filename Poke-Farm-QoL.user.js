@@ -387,7 +387,7 @@
                         const form_map = parsed_forms_and_map[1];
                         
                         // Build evolution tree depths
-                        const evolution_tree_depth_list = DexPageParser.buildEvolutionTreeDepths(parsed_families, dex_ids, form_data, form_map);
+                        const evolution_tree_depth_list = DexPageParser.buildEvolutionTreeDepthsList(parsed_families, dex_ids, form_data, form_map);
 
                         // Collect regional form data
                         const regional_form_map = DexPageParser.buildRegionalFormsMap(form_map);
