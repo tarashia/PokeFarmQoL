@@ -44,7 +44,7 @@ class _EvolutionTreeParser {
         ret[target]['evolutions'] = []
         if($(li).children('ul').length) {
             $(li).children('ul').each((i, ul) => {
-                let nest = _EvolutionTreeParser.parseEvolutionUl(ul, dex_id_map)
+                let nest = _EvolutionTreeParser._parseEvolutionUl(ul, dex_id_map)
                 ret[target]['evolutions'].push(nest)
             })
             return ret
