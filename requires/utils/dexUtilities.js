@@ -25,7 +25,7 @@ class DexUtilities {
         return true;
     }
     static loadDexIntoGlobalsFromWeb() {
-        DexUtilities.loadDexPage().then((data) => {
+        DexUtilities.getDexPage().then((data) => {
             GLOBALS.DEX_UPDATE_DATE = (new Date()).toUTCString();
             let html = jQuery.parseHTML(data);
             let dex = $(html[10].querySelector('#dexdata')).html();
