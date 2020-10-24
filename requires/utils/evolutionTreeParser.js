@@ -26,30 +26,31 @@ class EvolutionTreeParser {
      *              }
      */
     static _parseEvolutionLi(li, dex_id_map) {
-        let condition = $(li).children('.condition')
-        let targetElem = $(li).find('.name')[0]
-        let target = targetElem.textContent
+        let condition = li.children('.condition');
+        let targetElem = li.find('.name').eq(0);
+        let target = targetElem.text().trim();
 
         // if the targetElem has a link as a child, store the dex ID in the link
-        if($(targetElem).find('a').length) {
-            let link = $(targetElem).find('a')[0]['href']
+        if(targetElem.find('a').length) {
+            let link = targetElem.find('a')[0]['href']
             let id = link.substring("https://pokefarm.com/dex/".length)
             dex_id_map[target] = id
         }
 
-        let ret = {}
+        let ret = {};
         ret[target] = {
-            'condition': condition[0]
-        }
-        ret[target]['evolutions'] = []
-        if($(li).children('ul').length) {
-            $(li).children('ul').each((i, ul) => {
-                let nest = EvolutionTreeParser._parseEvolutionUl(ul, dex_id_map)
-                ret[target]['evolutions'].push(nest)
-            })
-            return ret
+            'condition': condition[0],
+            'evolutions': []
+        };
+        const uls = li.children('ul');
+        if(uls.length) {
+            for(let i = 0; i < uls.length; i++) {
+                let nest = EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dex_id_map);
+                ret[target]['evolutions'].push(nest);
+            }
+            return ret;
         } else {
-            return ret
+            return ret;
         }
     }
 
@@ -80,12 +81,12 @@ class EvolutionTreeParser {
      *              }
      */
     static _parseEvolutionUl(ul, dex_id_map) {
-        const lis = $(ul).children('li')
+        const lis = ul.children('li')
         const num_parallel_evolutions = lis.length
 
         let ret = {}
         for(let i = 0; i < num_parallel_evolutions; i++) {
-            let nest = EvolutionTreeParser._parseEvolutionLi(lis[i], dex_id_map)
+            let nest = EvolutionTreeParser._parseEvolutionLi(lis.eq(i), dex_id_map)
             for(let d in nest) {
                 ret[d] = nest[d]
             }
@@ -154,21 +155,21 @@ class EvolutionTreeParser {
      *             
      */
     static parseEvolutionTree(root, evotree, dex_id_map) {
-        const uls = $(evotree).children('ul')
+        const uls = evotree.children('ul');
         const tree = {}
-        const textContent = evotree.textContent
+        const textContent = evotree.text();
 
         const doesNotEvolveMarker = " is not known to evolve"
         const markerIndex = textContent.indexOf(doesNotEvolveMarker)
         if(markerIndex > -1) {
-            let name = textContent.substring(0, markerIndex)
-            tree[name] = []
-            return tree
+            // mimic the format of the output of flattenEvolutionFamily
+            let name = textContent.substring(0, markerIndex);
+            return {"members": ["Ditto"], "evolutions": []};
         }
 
         // TODO: Pull this side effect out of this function
-        if($(evotree).children('span').length) {
-            let linkElem = $(evotree).children('span').children('a')
+        if(evotree.children('span').length) {
+            let linkElem = evotree.children('span').children('a')
             if(linkElem.length) {
                 let link = linkElem[0]['href']
                 let dex_id = link.substring("https://pokefarm.com/dex/".length)
@@ -192,9 +193,9 @@ class EvolutionTreeParser {
          * }
          */
         tree[root] = []
-        $(uls).each((i, ul) => {
-            tree[root].push(EvolutionTreeParser._parseEvolutionUl(ul, dex_id_map))
-        })
+        for(let i = 0; i < uls.length; i++) {
+            tree[root].push(EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dex_id_map))
+        }
 
         // flatten the tree
         let flat = EvolutionTreeParser._flattenEvolutionTree(tree);
@@ -290,7 +291,6 @@ class EvolutionTreeParser {
             // for now, let's just parse for pokemon that evolve by level
             // TODO: Non-Level conditions
             if(condText.indexOf("Level ") > -1) {
-                // console.log(condition)
                 flattened.evolutions[e].condition = [];
                 let words = condText.split(" ")
                 let cond = "", clearCurrentCondition = false;
@@ -304,23 +304,14 @@ class EvolutionTreeParser {
                     } else if(words[w] === "Happiness") {
                         clearCurrentCondition = true
                         flattened.evolutions[e].condition.push({'condition': words[w], 'data': ""})
-                    } else if(words[w].endsWith("ite")) { // Megas
-                        clearCurrentCondition = true
-                        // check for PFQ exclusive Megas
-                        if(w < words.length - 1 && words[w+1] === "Q") {
-                            flattened.evolutions[e].condition.push({'condition': "Mega", 'data': words[w] + " " + words[w+1]})
-                            w++;
-                        } else {
-                            flattened.evolutions[e].condition.push({'condition': "Mega", 'data': words[w]})
-                        }
                     } else { // catch-all for now
                         clearCurrentCondition = false
-                        cond = cond + words[w]
+                        cond = cond + " " + words[w]
                     }
 
                     if(clearCurrentCondition) {
                         if(cond !== "") {
-                            flattened.evolutions[e].condition.push({'condition': cond, 'data': ""})
+                            flattened.evolutions[e].condition.push({'condition': cond.trim(), 'data': ""})
                         }
                         cond = ""
                     }
@@ -328,12 +319,15 @@ class EvolutionTreeParser {
 
                 // if there's any leftover conditions, add it into the list
                 if(cond !== "") {
-                    flattened.evolutions[e].condition.push({'condition': cond, 'data': ""})
+                    flattened.evolutions[e].condition.push({'condition': cond.trim(), 'data': ""})
                 }
             } // if level
             else {
-                flattened.evolutions[e].condition = condition.textContent;
+                flattened.evolutions[e].condition = condition.textContent.trim();
             }
         }
     }
 } // EvolutionTreeParser
+
+if(module)
+    module.exports = EvolutionTreeParser;

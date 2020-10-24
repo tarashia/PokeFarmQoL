@@ -1,0 +1,5 @@
+# coverage reports
+coverage/
+
+# dependency directories
+node_modules
