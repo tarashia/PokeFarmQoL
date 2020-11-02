@@ -1,5 +1,3 @@
-// let DexUtilities = (module) ? require("./dexUtilities") : DexUtilities;
-
 class LocalStorageManager {
     constructor(storage) {
         self.storage = storage;
