@@ -1,29 +1,30 @@
 {
-  "name": "PokeFarmQoL",
-  "version": "1.0.0",
-  "description": "Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pokéfarm experience even more!",
-  "main": "Poke-Farm-QoL.user.js",
-  "scripts": {
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jpgualdarrama/PokeFarmQoL.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jpgualdarrama/PokeFarmQoL/issues"
-  },
-  "homepage": "https://github.com/jpgualdarrama/PokeFarmQoL#readme",
-  "devDependencies": {
-    "jest": "^26.6.0"
-  },
-  "jest": {
-    "collectCoverage": true
-  },
-  "dependencies": {
-    "jquery": "^3.5.1"
-  }
+    "name": "PokeFarmQoL",
+    "version": "1.0.0",
+    "description": "Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pokéfarm experience even more!",
+    "main": "Poke-Farm-QoL.user.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jpgualdarrama/PokeFarmQoL.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jpgualdarrama/PokeFarmQoL/issues"
+    },
+    "homepage": "https://github.com/jpgualdarrama/PokeFarmQoL#readme",
+    "devDependencies": {
+        "jest": "^26.6.0"
+    },
+    "jest": {
+        "collectCoverage": true,
+        "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/__tests__/testTools.js"]
+    },
+    "dependencies": {
+        "jquery": "^3.5.1"
+    }
 }
