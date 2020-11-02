@@ -111,10 +111,10 @@ GLOBALS.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST);
 // - if they hatch from an egg,
 // - if you have the eggdex, and
 // - if you have the regular, shiny, albino, and melanistic pokedex entries
-if(!DexUtilities.loadDexIntoGlobalsFromStorage()) { // can't load it from storage
-    DexUtilities.loadDexIntoGlobalsFromWeb(); // so load it from the web
+if(!DexUtilities.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
+    DexUtilities.loadDexIntoGlobalsFromWeb($, GLOBALS); // so load it from the web
 } else { // can load it from storage
-    DexUtilities.loadDexIntoGlobalsFromWebIfOld(); // reload it from web if it's old
+    DexUtilities.loadDexIntoGlobalsFromWebIfOld($); // reload it from web if it's old
 }
 
 GLOBALS.EVOLVE_BY_LEVEL_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'))

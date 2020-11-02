@@ -70,8 +70,8 @@ let Helpers = (function Helpers() {
 
             return obj;
         },
-        saveSettings(KEY, obj) {
-            localStorage.setItem(KEY, JSON.stringify(obj));
+        saveSettings(key, obj) {
+            localStorage.setItem(key, JSON.stringify(obj));
         },
 
         textSearchDiv(cls, data_key, id, array_name) {

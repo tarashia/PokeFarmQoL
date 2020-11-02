@@ -33,7 +33,7 @@ class EvolutionTreeParser {
         // if the targetElem has a link as a child, store the dex ID in the link
         if(targetElem.find('a').length) {
             let link = targetElem.find('a')[0]['href']
-            let id = link.substring("https://pokefarm.com/dex/".length)
+            let id = link.substring("/dex/".length)
             dex_id_map[target] = id
         }
 
@@ -139,20 +139,27 @@ class EvolutionTreeParser {
      *          is an array which contains an object in each index.
      *          Example (of whole object and of one index of array):
      *          {
-     *           'Eevee' => [
-     *                       {
-     *                        'Vaporeon' => {
-     *                                       'condition' => 'Water Stone', 
-     *                                        'evolutions' => [
-     *                                                         // parsed <ul> containing 
-     *                                                         // Vaporeon [Mega Forme Q]
-     *                                                        ],
-     *                                      }, ...
-     *                       },
-     *                       // data for Jolteon, Flareon, Espeon, Umbreon, Leafeon, Glaceon, Sylveon
-     *                     ]
+     *           'members' => ['Eevee', 'Vaporeon', 'Jolteon', 'Flareon', 'Espeon', 'Umbreon',
+     *                         'Leafeon', 'Glaceon', 'Sylveon'],
+     *           'evolutions' => [
+     *             {'source' => 'Eevee'   , 'target' => 'Vaporeon', 'condition' => 'Water Stone'},
+     *             {'source' => 'Vaporeon', 'target' => 'Vaporeon [Mega Forme Q]', 'condition' => 'Vaporeonite Q'},
+     *             {'source' => 'Eevee'   , 'target' => 'Jolteon' , 'condition' => 'ThunderStone'},
+     *             {'source' => 'Jolteon' , 'target' => 'Jolteon [Mega Forme Q]' , 'condition' => 'Jolteonite Q'},
+     *             {'source' => 'Eevee'   , 'target' => 'Flareon' , 'condition' => 'Fire Stone'},
+     *             {'source' => 'Flareon' , 'target' => 'Flareon [Mega Forme Q]' , 'condition' => 'Flareonite Q'},
+     *             {'source' => 'Eevee'   , 'target' => 'Espeon'  , 'condition' => 'Happiess during Daytime'},
+     *             {'source' => 'Espeon'  , 'target' => 'Espeon [Mega Forme Q]'  , 'condition' => 'Espeonite Q'},
+     *             {'source' => 'Eevee'   , 'target' => 'Umbreon' , 'condition' => 'Happiness during Nighttime'},
+     *             {'source' => 'Umbreon' , 'target' => 'Umbreon [Mega Forme Q]' , 'condition' => 'Umbreonite Q'},
+     *             {'source' => 'Eevee'   , 'target' => 'Leafeon' , 'condition' => 'In Grass-type Field'},
+     *             {'source' => 'Leafeon' , 'target' => 'Leafeon [Mega Forme Q]' , 'condition' => 'Leafeonite Q'},
+     *             {'source' => 'Eevee'   , 'target' => 'Glaceon' , 'condition' => 'In Ice-type Field'},
+     *             {'source' => 'Glaceon' , 'target' => 'Glaceon [Mega Forme Q]' , 'condition' => 'Glaceonite Q'},
+     *             {'source' => 'Eevee'   , 'target' => 'Sylveon' , 'condition' => 'Affection'},
+     *             {'source' => 'Sylveon' , 'target' => 'Sylveon [Mega Forme Q]' , 'condition' => 'Sylveonite Q'},
+     *           ]
      *          }
-     *             
      */
     static parseEvolutionTree(root, evotree, dex_id_map) {
         const uls = evotree.children('ul');

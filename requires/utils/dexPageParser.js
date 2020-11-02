@@ -1,6 +1,7 @@
 /* This class includes static functions for parsing data from a single dex page.
    Functions which process multiple text pages are in DexUtilities.
- */
+*/
+
 class DexPageParser {
     /* Parse the header from a dex page
      * Inputs:
@@ -106,13 +107,14 @@ class DexPageParser {
      * Inputs:
      * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
      * Outputs:
-     * - tree - HTML from the <div class=evolutiontree>...</div> tag of the dex page
+     * - flattened - See EvolutionTreeParser.parseEvolutionTree for description
      */
-    static parseEvolutionTreeFromDexPage(html) {
-        let tree = html.find('.evolutiontree')[0];
-        return tree;
+    static parseEvolutionTreeFromDexPage(evolutionTreeParser, html, dex_id_map) {
+        const rootName = DexPageParser.getInfoFromDexPageHeader(html).name;
+        const tree = html.find('.evolutiontree').eq(0);
+        const flattened = evolutionTreeParser.parseEvolutionTree(rootName, tree, dex_id_map);
+        return flattened;
     }    
-
 } // DexPageParser
 
 if(module)
