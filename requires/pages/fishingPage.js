@@ -1,3 +1,5 @@
+const Page = (module) ? require('./basePage').Page : Page;
+    
 class FishingPage extends Page {
     constructor() {
 	super('QoLFishing', {}, 'fishing')

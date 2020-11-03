@@ -1,3 +1,5 @@
+const Page = (module) ? require('./basePage').Page : Page;
+    
 class PublicFieldsPage extends Page {
     constructor() {
         super('QoLPublicFields', {
@@ -63,9 +65,9 @@ class PublicFieldsPage extends Page {
     }
 
     setupHTML() {
-        document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.publicFieldTooltipModHTML);
-        document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.fieldSortHTML);
-        document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.fieldSearchHTML);
+        document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.publicFieldTooltipModHTML);
+        document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.fieldSortHTML);
+        document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.fieldSearchHTML);
 
         const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,

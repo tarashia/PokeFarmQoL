@@ -10,8 +10,8 @@
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
 // @require      https://cdn.rawgit.com/omichelsen/compare-versions/v3.1.0/index.js
-// @resource     QolHubHTML            https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/qolHubHTML.html
-// @resource     shelterSettingsHTML    https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/shelterOptionsHTML.html
+// @resource     qolHubHTML            https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/qolHubHTML.html
+// @resource     shelterOptionsHTML    https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/shelterOptionsHTML.html
 // @resource     evolveFastHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/evolveFastHTML.html
 // @resource     labOptionsHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/labOptionsHTML.html
 // @resource     fieldSortHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/fieldSortHTML.html
@@ -46,7 +46,8 @@
 // @grant        GM_info
 // ==/UserScript==
 
-(function($) {
+// (function($) {
+const pfqol = function($) {
     'use strict';
     // :contains to case insensitive
     $.extend($.expr[":"], {
@@ -69,6 +70,8 @@
         condenseWishforge: true
     };
     let USER_SETTINGS = DEFAULT_USER_SETTINGS;
+
+    const GLOBALS = GLOBALS;
 
     // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
     // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
@@ -238,7 +241,7 @@
                             let match = atob(data.response.content).match(/\/\/\s+@version\s+([^\n]+)/);
                             version = match[1];
                             if (compareVersions(GM_info.script.version, version) < 0) {
-                                document.querySelector("li[data-name*='QoL']").insertAdjacentHTML('afterend', TEMPLATES.qolHubUpdateLinkHTML);
+                                document.querySelector("li[data-name*='QoL']").insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubUpdateLinkHTML);
                             }
                         }
                     });
@@ -303,9 +306,9 @@
                 clearPageSettings(pageName) {
                     PAGES.clearPageSetting(pageName);
                 },
-                setupHTML() { // injects the HTML changes from TEMPLATES into the site
+                setupHTML() { // injects the HTML changes from GLOBALS.TEMPLATES into the site
                     // Header link to Userscript settings
-                    document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', TEMPLATES.qolHubLinkHTML);
+                    document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubLinkHTML);
 
                     PAGES.setupHTML();
                 },
@@ -391,7 +394,7 @@
 
     $(document).on('click', 'li[data-name*="QoL"]', (function() { //open QoL hub
         PFQoL.populateSettingsPage();
-        QoLHub.build($, document, TEMPLATES, GLOBALS, USER_SETTINGS);
+        QoLHub.build($, document, GLOBALS.TEMPLATES, GLOBALS, USER_SETTINGS);
     }));
 
     $(document).on('click', '.closeHub', (function() { //close QoL hub
@@ -418,4 +421,7 @@
         $(this).next().slideToggle();
     }));
 
-})(jQuery); //end of userscript
+// })(jQuery); //end of userscript
+}
+
+pfqol(jQuery);

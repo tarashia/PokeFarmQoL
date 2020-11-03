@@ -1,3 +1,5 @@
+const Page = (module) ? require('./basePage').Page : Page;
+    
 class ShelterPage extends Page {
     constructor() {
         super('QoLShelter', {
@@ -56,7 +58,7 @@ class ShelterPage extends Page {
         $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
         document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
         document.querySelector('.tabbed_interface.horizontal>ul>li').insertAdjacentHTML('afterend', '<li class=""><label>Sort</label></li>');
-        document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', TEMPLATES.shelterSettingsHTML);
+        document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
         document.querySelector('#shelteroptionsqol').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
         $('#shelteroptionsqol').addClass('tab-active');
 

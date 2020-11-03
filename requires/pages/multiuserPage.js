@@ -1,3 +1,5 @@
+const Page = (module) ? require('./basePage').Page : Page;
+    
 class MultiuserPage extends Page {
     constructor() {
         super('QoLMultiuser', {
@@ -31,7 +33,7 @@ class MultiuserPage extends Page {
         else { return false; }
     }
     setupHTML() {
-        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', TEMPLATES.partyModHTML);
+        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.partyModHTML);
     }
     setupCSS() {
         let menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');

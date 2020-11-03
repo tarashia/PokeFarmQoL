@@ -1,3 +1,5 @@
+const Page = (module) ? require('./basePage').Page : Page;
+    
 class WishforgePage extends Page {
     constructor() {
         super('QoLWishforge', {}, 'forge');

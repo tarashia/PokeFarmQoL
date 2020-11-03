@@ -1,3 +1,5 @@
+const Page = (module) ? require('./basePage').Page : Page;
+    
 class DexPage extends Page {
     constructor() {
         super('QoLDexPage', {}, '/dex')

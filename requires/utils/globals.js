@@ -1,35 +1,52 @@
-const TEMPLATES = { // all the new/changed HTML for the userscript
-    qolHubLinkHTML        : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
-    qolHubUpdateLinkHTML  : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
-    qolSettingsMenuHTML   : GM_getResourceText('QoLSettingsMenuHTML'),
-    shelterSettingsHTML   : GM_getResourceText('shelterSettingsHTML'),
-    massReleaseSelectHTML : `<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label>` +
-    `<label id="movefishselectany"><input class="qolsetting" id="movefishdselectanycheckbox" type="checkbox">Select Any  </label>` +
-    `<label id="movefishselectsour"><input class="qolsetting" id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label>` +
-    `<label id="movefishselectspicy"><input class="qolsetting" id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label>` +
-    `<label id="movefishselectdry"><input class="qolsetting" id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label>` +
-    `<label id="movefishselectsweet"><input class="qolsetting" id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label>` +
-    `<label id="movefishselectbitter"><input class="qolsetting" id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
-    fieldSortHTML         : GM_getResourceText('fieldSortHTML'),
-    fieldSearchHTML       : GM_getResourceText('fieldSearchHTML'),
-    privateFieldSearchHTML: GM_getResourceText('privateFieldSearchHTML'),
-    qolHubHTML            : GM_getResourceText('QolHubHTML'),
-    partyModHTML          : `<div id='qolpartymod'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>`,
-    evolveFastHTML        : GM_getResourceText('evolveFastHTML'),
-    labOptionsHTML        : GM_getResourceText('labOptionsHTML'),
-    publicFieldTooltipModHTML   : GM_getResourceText('publicFieldTooltipModHTML'),
-    privateFieldTooltipModHTML  : GM_getResourceText('privateFieldTooltipModHTML'),
-}
+class GLOBALS {
+    static fillTemplates(GM_getResourceText) {
+        GLOBALS.TEMPLATES.shelterOptionsHTML         = GM_getResourceText('shelterOptionsHTML');
+        GLOBALS.TEMPLATES.fieldSortHTML              = GM_getResourceText('fieldSortHTML');
+        GLOBALS.TEMPLATES.fieldSearchHTML            = GM_getResourceText('fieldSearchHTML');
+        GLOBALS.TEMPLATES.privateFieldSearchHTML     = GM_getResourceText('privateFieldSearchHTML');
+        GLOBALS.TEMPLATES.qolHubHTML                 = GM_getResourceText('qolHubHTML');
+        GLOBALS.TEMPLATES.evolveFastHTML             = GM_getResourceText('evolveFastHTML');
+        GLOBALS.TEMPLATES.labOptionsHTML             = GM_getResourceText('labOptionsHTML');
+        GLOBALS.TEMPLATES.publicFieldTooltipModHTML  = GM_getResourceText('publicFieldTooltipModHTML');
+        GLOBALS.TEMPLATES.privateFieldTooltipModHTML = GM_getResourceText('privateFieldTooltipModHTML');
+    }
+    static fillOptionsLists(helpers) {
+        GLOBALS.TYPE_OPTIONS = helpers.buildOptionsString(GLOBALS.TYPE_LIST);
+        GLOBALS.NATURE_OPTIONS = helpers.buildOptionsString(GLOBALS.NATURE_LIST);
+        GLOBALS.EGG_GROUP_OPTIONS = helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST);
+    }
+    static TEMPLATES = { // all the new/changed HTML for the userscript
+        qolHubLinkHTML        : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
+        qolHubUpdateLinkHTML  : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
+        // qolSettingsMenuHTML   : GM_getResourceText('QoLSettingsMenuHTML'),
+        massReleaseSelectHTML : `<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label>` +
+        `<label id="movefishselectany"><input class="qolsetting" id="movefishdselectanycheckbox" type="checkbox">Select Any  </label>` +
+        `<label id="movefishselectsour"><input class="qolsetting" id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label>` +
+        `<label id="movefishselectspicy"><input class="qolsetting" id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label>` +
+        `<label id="movefishselectdry"><input class="qolsetting" id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label>` +
+        `<label id="movefishselectsweet"><input class="qolsetting" id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label>` +
+        `<label id="movefishselectbitter"><input class="qolsetting" id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>`,
+        partyModHTML          : `<div id='qolpartymod'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>`,
+        // filled in by fillTemplates
+        shelterOptionsHTML   : null,
+        fieldSortHTML         : null,
+        fieldSearchHTML       : null,
+        privateFieldSearchHTML: null,
+        qolHubHTML            : null,
+        evolveFastHTML        : null,
+        labOptionsHTML        : null,
+        publicFieldTooltipModHTML   : null,
+        privateFieldTooltipModHTML  : null
+    };
 
-let GLOBALS = {
-    SETTINGS_SAVE_KEY : 'QoLSettings',
+    static SETTINGS_SAVE_KEY = 'QoLSettings';
     // Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
     // Don't change the order without looking for where this array is used
-    TYPE_LIST : ["Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"],
-    NATURE_LIST : ["Lonely", "Mild", "Hasty", "Gentle", "Bold", "Modest", "Timid", "Calm",
+    static TYPE_LIST = ["Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"];
+    static NATURE_LIST = ["Lonely", "Mild", "Hasty", "Gentle", "Bold", "Modest", "Timid", "Calm",
                    "Impish", "Adamant", "Jolly", "Careful", "Relaxed", "Brave", "Quiet", "Sassy",
-                   "Lax", "Naughty", "Rash", "Naïve", "Hardy", "Docile", "Serious", "Bashful", "Quirky"],
-    EGG_GROUP_LIST : [
+                   "Lax", "Naughty", "Rash", "Naïve", "Hardy", "Docile", "Serious", "Bashful", "Quirky"];
+    static EGG_GROUP_LIST = [
         "Undiscovered", // 0
         "Monster", // 1
         "Dragon", // 2
@@ -45,8 +62,8 @@ let GLOBALS = {
         "Mineral", // 12
         "Flying", // 13 <-- This skip is correct
         "Ditto", // 15
-    ],
-    EGG_GROUP_ID_TO_NAME : [
+    ];
+    static EGG_GROUP_ID_TO_NAME = [
         "Undiscovered", // 0
         "Monster", // 1
         "Dragon", // 2
@@ -63,8 +80,8 @@ let GLOBALS = {
         "Flying", // 13
         "ERROR", // 14
         "Ditto", // 15
-    ],
-    SHELTER_TYPE_TABLE : [
+    ];
+    static SHELTER_TYPE_TABLE = [
         "0", "Normal", '<img src="//pfq-static.com/img/types/normal.png/t=1262702646">',
         "1", "Fire", '<img src="//pfq-static.com/img/types/fire.png/t=1262702645">',
         "2", "Water", '<img src="//pfq-static.com/img/types/water.png/t=1262702646">',
@@ -83,8 +100,8 @@ let GLOBALS = {
         "15", "Dark", '<img src="//pfq-static.com/img/types/dark.png/t=1262702645">',
         "16", "Steel", '<img src="//pfq-static.com/img/types/steel.png/t=1262702646">',
         "17", "Fairy", '<img src="//pfq-static.com/img/types/fairy.png/t=1374419124">',
-    ],
-    SHELTER_SEARCH_DATA : [
+    ];
+    static SHELTER_SEARCH_DATA = [
         "findNewEgg", "Egg", "new egg", '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
         "findNewPokemon", "Pokémon", "new Pokémon", '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
         "findShiny", "SHINY", "Shiny", '<img src="//pfq-static.com/img/pkmn/shiny.png/t=1400179603">',
@@ -98,14 +115,19 @@ let GLOBALS = {
         "findMale", "[M]", "Male", '<img src="//pfq-static.com/img/pkmn/gender_m.png/t=1401213006">',
         "findFemale", "[F]", "Female", '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
         "findNoGender", "[N]", "Genderless", '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
-    ],
-}
-GLOBALS.TYPE_OPTIONS = Helpers.buildOptionsString(GLOBALS.TYPE_LIST);
-GLOBALS.NATURE_OPTIONS = Helpers.buildOptionsString(GLOBALS.NATURE_LIST);
-GLOBALS.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST);
+    ];
 
-// filled in by LocalStorageManager
-GLOBALS.DEX_DATA = null;
-GLOBALS.DEX_UPDATE_DATE = null;
-GLOBALS.EVOLVE_BY_LEVEL_LIST = null;
-GLOBALS.EVOLUTIONS_LEFT = null;
+    // filled in by fillOptionsLists
+    static TYPE_OPTIONS = null;
+    static NATURE_OPTIONS = null;
+    static EGG_GROUP_OPTIONS = null;
+
+    // filled in by LocalStorageManager
+    static DEX_DATA = null;
+    static DEX_UPDATE_DATE = null;
+    static EVOLVE_BY_LEVEL_LIST = null;
+    static EVOLUTIONS_LEFT = null;
+}
+
+if(module)
+    exports.GLOBALS = GLOBALS;

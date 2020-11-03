@@ -86,3 +86,6 @@ class Page {
     setupObserver() { /* empty */ }
     setupHandlers() { /* empty */ }
 } // Page
+
+if(module)
+    exports.Page = Page;

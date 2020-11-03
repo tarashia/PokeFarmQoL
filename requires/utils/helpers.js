@@ -158,3 +158,6 @@ let Helpers = (function Helpers() {
 
     return API;
 })();
+
+if(module)
+    exports.Helpers = Helpers;

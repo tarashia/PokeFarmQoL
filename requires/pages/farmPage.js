@@ -1,3 +1,5 @@
+const Page = (module) ? require('./basePage').Page : Page;
+
 class FarmPage extends Page {
     DEFAULT_SETTINGS() {
         let d = {TYPE_APPEND : {}};
@@ -122,7 +124,7 @@ class FarmPage extends Page {
 
         let typeBackground = $('.panel>h3').css('background-color');
         $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-        document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', TEMPLATES.evolveFastHTML);
+        document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
 
         let typeBorder = $('.panel>h3').css('border');
         let typeColor = $('.panel>h3').css('color');

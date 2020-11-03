@@ -1,3 +1,5 @@
+const Page = (module) ? require('./basePage').Page : Page;
+    
 class DaycarePage extends Page {
     constructor() {
 	super('QoLDaycare', {}, 'daycare')

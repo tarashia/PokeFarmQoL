@@ -1,3 +1,5 @@
+const Page = (module) ? require('./basePage').Page : Page;
+    
 class PrivateFieldsPage extends Page {
     constructor() {
 	super('QoLPrivateFields', {
@@ -48,8 +50,8 @@ class PrivateFieldsPage extends Page {
     }
 
     setupHTML() {
-        document.querySelector('#field_field').insertAdjacentHTML('beforebegin', TEMPLATES.privateFieldTooltipModHTML);
-        document.querySelector('#field_field').insertAdjacentHTML('afterend', TEMPLATES.privateFieldSearchHTML);
+        document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.privateFieldTooltipModHTML);
+        document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.privateFieldSearchHTML);
 
         const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
