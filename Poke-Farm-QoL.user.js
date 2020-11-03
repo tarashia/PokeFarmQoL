@@ -172,7 +172,7 @@
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
                         if(VARIABLES.userSettings[pg.setting] === true) {
-                            PAGES[key].object = PAGES[key].class();
+                            PAGES[key].object = new PAGES[key].class();
                         }
                     }
                 },
