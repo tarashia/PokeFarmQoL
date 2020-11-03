@@ -1030,5 +1030,3 @@ class FarmPage extends Page {
         }
     }
 }
-
-const farmPage = new FarmPage();

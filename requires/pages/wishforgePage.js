@@ -107,5 +107,3 @@ class WishforgePage extends Page {
         });
     }
 };
-
-const wishforgePage = new WishforgePage();

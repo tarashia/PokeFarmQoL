@@ -7,6 +7,7 @@ const EvolutionTreeParser = require("../requires/utils/evolutionTreeParser");
 const DexPageParser = require("../requires/utils/dexPageParser");
 const LocalStorageManager = require("../requires/utils/localStorageManager");
 const QoLHub = require("../requires/utils/qolHub");
+const localStorageManager = new LocalStorageManager(localStorage);
 
 const ownerDocument = document.implementation.createHTMLDocument('virtual');
 
@@ -59,6 +60,6 @@ describe("Handle update dex click", () => {
         const file = path.join(__dirname, './data/', 'qolHubHTML.html');
         const html = fs.readFileSync(file, 'utf-8', 'r');
         const context = jQuery(html, ownerDocument);
-        QoLHub.handleUpdateDexClick(jQuery, context, DexUtilities, LocalStorageManager, DexPageParser, EvolutionTreeParser, globals);
+        QoLHub.handleUpdateDexClick(jQuery, context, DexUtilities, localStorageManager, DexPageParser, EvolutionTreeParser, globals);
     });
 });

@@ -135,5 +135,3 @@ class DexPage extends Page {
         }
     }
 }
-
-const dexPage = new DexPage();

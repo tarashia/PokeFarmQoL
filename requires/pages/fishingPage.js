@@ -50,5 +50,3 @@ class FishingPage extends Page {
         });
     }
 };
-
-const fishingPage = new FishingPage();

@@ -82,20 +82,58 @@
         }
 
         const PAGES = {
-            'Daycare': [daycarePage, 'enableDaycare'],
-            'Farm' : [farmPage, 'easyEvolve'],
-            'Fishing' : [fishingPage, 'fishingEnable'],
-            'Lab' : [labPage, 'labNotifier'],
-            'Multiuser' : [multiuserPage, 'partyMod'],
-            'PrivateFields' : [privateFieldsPage, 'privateFieldEnable'],
-            'PublicFields' : [publicFieldsPage, 'publicFieldEnable'],
-            'Shelter' : [shelterPage, 'shelterEnable'],
-            'Dex': [dexPage, 'dexFilterEnable'],
-            'Wishforge': [wishforgePage, 'condenseWishforge'],
+            'Daycare': {
+                class: DaycarePage,
+                object: undefined,
+                setting: 'enableDaycare'
+            },
+            'Farm' : {
+                class: FarmPage,
+                object: undefined,
+                setting: 'easyEvolve'
+            },
+            'Fishing' : {
+                class: FishingPage,
+                object: undefined,
+                setting: 'fishingEnable'
+            },
+            'Lab' : {
+                class: LabPage,
+                object: undefined,
+                setting: 'labNotifier'
+            },
+            'Multiuser' : {
+                class: MultiuserPage,
+                object: undefined,
+                setting: 'partyMod'
+            },
+            'PrivateFields' : {
+                class: PrivateFieldsPage,
+                object: undefined,
+                setting: 'privateFieldEnable'
+            },
+            'PublicFields' : {
+                class: PublicFieldsPage,
+                object: undefined,
+                setting: 'publicFieldEnable'
+            },
+            'Shelter' : {
+                class: ShelterPage,
+                object: undefined,
+                setting: 'shelterEnable'
+            },
+            'Dex': {
+                class: DexPage,
+                object: undefined,
+                setting: 'dexFilterEnable'
+            },
+            'Wishforge': {
+                class: WishforgePage,
+                object: undefined,
+                setting: 'condenseWishforge'
+            },
         }
-        const PAGE_OBJ_INDEX = 0;
-        const PAGE_VAR_INDEX = 1;
-
+        
         const fn = { // all the functions for the script
             /** background stuff */
             backwork : { // backgrounds stuff
@@ -114,11 +152,19 @@
                         }
                     });
                 },
+                instantiatePages() {
+                    for(const key of Object.keys(PAGES)) {
+                        let pg = PAGES[key]
+                        if(VARIABLES.userSettings[pg.setting] === true) {
+                            PAGES[key].object = PAGES[key].class();
+                        }
+                    }
+                },
                 loadSettings() { // initial settings on first run and setting the variable settings key
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
-                            pg[PAGE_OBJ_INDEX].loadSettings();
+                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                            pg.object.loadSettings();
                         }
                     }
                     if (localStorage.getItem(SETTINGS_SAVE_KEY) === null) {
@@ -155,8 +201,8 @@
                 saveSettings() { // Save changed settings
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
-                            pg[PAGE_OBJ_INDEX].saveSettings();
+                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                            pg.object.saveSettings();
                         }
                     }
                     localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(VARIABLES.userSettings));
@@ -178,8 +224,8 @@
                     }
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
-                            pg[PAGE_OBJ_INDEX].populateSettings();
+                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                            pg.object.populateSettings();
                         }
                     }
                 },
@@ -196,8 +242,8 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
-                            pg[PAGE_OBJ_INDEX].setupHTML();
+                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                            pg.object.setupHTML();
                             fn.backwork.populateSettingsPage()
                         }
                     }
@@ -207,8 +253,8 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
-                            pg[PAGE_OBJ_INDEX].setupCSS();
+                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                            pg.object.setupCSS();
                         }
                     }
 
@@ -221,16 +267,16 @@
                 setupObservers() { // all the Observers that needs to run
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
-                            pg[PAGE_OBJ_INDEX].setupObserver();
+                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                            pg.object.setupObserver();
                         }
                     }
                 },
                 setupHandlers() { // all the event handlers
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
-                            pg[PAGE_OBJ_INDEX].setupHandlers();
+                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                            pg.object.setupHandlers();
                         }
                     }
 
@@ -242,13 +288,14 @@
                 },
                 startup() { // All the functions that are run to start the script on Pokéfarm
                     return {
-                        'loading Settings'    : fn.backwork.loadSettings,
-                        'checking for update' : fn.backwork.checkForUpdate,
-                        'setting up HTML'     : fn.backwork.setupHTML,
-                        'populating Settings' : fn.backwork.populateSettingsPage,
-                        'setting up CSS'      : fn.backwork.setupCSS,
-                        'setting up Observers': fn.backwork.setupObservers,
-                        'setting up Handlers' : fn.backwork.setupHandlers,
+                        'creating Page handlers': fn.backwork.instantiatePages,
+                        'loading Settings'      : fn.backwork.loadSettings,
+                        'checking for update'   : fn.backwork.checkForUpdate,
+                        'setting up HTML'       : fn.backwork.setupHTML,
+                        'populating Settings'   : fn.backwork.populateSettingsPage,
+                        'setting up CSS'        : fn.backwork.setupCSS,
+                        'setting up Observers'  : fn.backwork.setupObservers,
+                        'setting up Handlers'   : fn.backwork.setupHandlers,
                     }
                 },
                 init() { // Starts all the functions.
@@ -279,8 +326,8 @@
                     } else {
                         for(const key of Object.keys(PAGES)) {
                             let pg = PAGES[key]
-                            if(VARIABLES.userSettings[pg[PAGE_VAR_INDEX]] === true && pg[PAGE_OBJ_INDEX].onPage(window)) {
-                                pg[PAGE_OBJ_INDEX].settingsChange();
+                            if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                                pg.object.settingsChange();
                             }
                         }
                     }

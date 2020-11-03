@@ -589,5 +589,3 @@ class ShelterPage extends Page {
         } // filteredTypeArray
     } // customSearch
 }
-
-const shelterPage = new ShelterPage();

@@ -1,3 +1,5 @@
+const LocalStorageManager = require("./localStorageManager");
+
 const TEMPLATES = { // all the new/changed HTML for the userscript
     qolHubLinkHTML        : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
     qolHubUpdateLinkHTML  : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
@@ -111,6 +113,7 @@ GLOBALS.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST);
 // - if they hatch from an egg,
 // - if you have the eggdex, and
 // - if you have the regular, shiny, albino, and melanistic pokedex entries
+const storageManager = new LocalStorageManager(localStorage);
 if(!storageManager.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
     storageManager.loadDexIntoGlobalsFromWeb($, document, DexUtilities, GLOBALS); // so load it from the web
 } else { // can load it from storage

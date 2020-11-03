@@ -243,5 +243,3 @@ class LabPage extends Page {
         } // else
     } // customSearch
 }
-
-const labPage = new LabPage()

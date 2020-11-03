@@ -175,7 +175,5 @@ class LocalStorageManager {
     }
 }
 
-const storageManager = new LocalStorageManager(localStorage);
-
 if(module)
-    module.exports = storageManager;
+    module.exports = LocalStorageManager;

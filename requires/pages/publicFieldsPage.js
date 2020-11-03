@@ -586,5 +586,3 @@ class PublicFieldsPage extends Page {
         }
     }
 }
-
-const publicFieldsPage = new PublicFieldsPage();

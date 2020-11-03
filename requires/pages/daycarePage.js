@@ -95,5 +95,3 @@ class DaycarePage extends Page {
         } // if
     } // customSearch
 };
-
-const daycarePage = new DaycarePage();

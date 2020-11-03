@@ -3,8 +3,8 @@ const path = require('path');
 const LocalStorageManager = require("../requires/utils/localStorageManager.js");
 const DexUtilities = require("../__mocks__/dexUtilities").dexUtilities;
 const jQuery = require('jquery').jQuery;
-// const jQuery = require("../__mocks__/jquery").jQuery;
 
+const localStorageManager = new LocalStorageManager(localStorage);
 const ownerDocument = document.implementation.createHTMLDocument('virtual');
 
 describe("Test loadDexIntoGlobalsFromStorage", () => {
@@ -12,22 +12,22 @@ describe("Test loadDexIntoGlobalsFromStorage", () => {
         // loadDexIntoGlobalsFromStorage
         localStorage.removeItem('QoLPokedex');
         const globals = {};
-        expect(LocalStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(false);
+        expect(localStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(false);
     });
     test("Should return false if dex is in storage but is empty", () => {
         localStorage.setItem("QoLPokedex", JSON.stringify([]));
         const globals = {};
-        expect(LocalStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(false);
+        expect(localStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(false);
     });
     test("Should return false if dex is of length 1", () => {
         localStorage.setItem("QoLPokedex", JSON.stringify(["1/1/1111"]));
         const globals = {};
-        expect(LocalStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(false);
+        expect(localStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(false);
     });
     test("Should return false if dex index 1 is invalid", () => {
         localStorage.setItem("QoLPokedex", JSON.stringify(["1/1/1111", undefined]));
         const globals = {};
-        expect(LocalStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(false);
+        expect(localStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(false);
     });
     test("Should set globals.DEX_UPDATE_DATE and globals.DEX_DATA when dex storage is valid", () => {
         const filepath = path.join(__dirname, "./data", "dex.json");
@@ -37,7 +37,7 @@ describe("Test loadDexIntoGlobalsFromStorage", () => {
         const dex = parsed.slice(1);
         localStorage.setItem("QoLPokedex", json);
         const globals = {};
-        expect(LocalStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(true);
+        expect(localStorageManager.loadDexIntoGlobalsFromStorage(globals)).toBe(true);
         expect(globals.DEX_UPDATE_DATE).toBe(date);
         expect(globals.DEX_DATA).toStrictEqual(dex);
     });
@@ -51,7 +51,7 @@ describe("Test loadDexIntoGlobalsFromWeb", () => {
         const date = (new Date()).toUTCString();
         const dex = parsed.slice(1);
         const globals = {};
-        LocalStorageManager.loadDexIntoGlobalsFromWeb(jQuery, ownerDocument, DexUtilities, globals);
+        localStorageManager.loadDexIntoGlobalsFromWeb(jQuery, ownerDocument, DexUtilities, globals);
         expect(globals.DEX_UPDATE_DATE).toBe(date);
         expect(globals.DEX_DATA).toStrictEqual(dex);
     });
@@ -67,7 +67,7 @@ describe("Test loadDexIntoGlobalsFromWebIfOld", () => {
         const globals = {};
         parsed[0] = date;
         localStorage.setItem("QoLPokedex", JSON.stringify(parsed));
-        const result = LocalStorageManager.loadDexIntoGlobalsFromWebIfOld(jQuery, ownerDocument, DexUtilities, globals);
+        const result = localStorageManager.loadDexIntoGlobalsFromWebIfOld(jQuery, ownerDocument, DexUtilities, globals);
         expect(result).toBe(true);
         expect(globals.DEX_UPDATE_DATE).toBe((new Date()).toUTCString());
         expect(globals.DEX_DATA).toStrictEqual(dex);
@@ -87,7 +87,7 @@ describe("Test loadDexIntoGlobalsFromWebIfOld", () => {
         };
         parsed[0] = date.toUTCString();
         localStorage.setItem("QoLPokedex", JSON.stringify(parsed));
-        const result = LocalStorageManager.loadDexIntoGlobalsFromWebIfOld(jQuery, ownerDocument, DexUtilities, globals);
+        const result = localStorageManager.loadDexIntoGlobalsFromWebIfOld(jQuery, ownerDocument, DexUtilities, globals);
         expect(result).toBe(false);
     });
 });
@@ -103,7 +103,7 @@ describe("Test loadEvolveByLevelList", () => {
         const json = JSON.stringify(evolveByLevel);
         localStorage.setItem('QoLEvolveByLevel', json);
         const globals = {};
-        LocalStorageManager.loadEvolveByLevelList(globals);
+        localStorageManager.loadEvolveByLevelList(globals);
         expect(globals.EVOLVE_BY_LEVEL_LIST).toStrictEqual(evolveByLevel);
     });
 });
@@ -118,7 +118,7 @@ describe("Test loadEvolutionTreeDepthList", () => {
         };
         const json = JSON.stringify(expected);
         localStorage.setItem('QoLEvolutionTreeDepth', json);
-        LocalStorageManager.loadEvolutionTreeDepthList(globals);
+        localStorageManager.loadEvolutionTreeDepthList(globals);
         expect(globals.EVOLUTIONS_LEFT).toStrictEqual(expected);
     });
 });
@@ -134,7 +134,7 @@ describe("Test updateLocalStorageDex", () => {
         const globals = {
             DEX_DATA: dex
         };
-        LocalStorageManager.updateLocalStorageDex(jQuery, ownerDocument, date, globals);
+        localStorageManager.updateLocalStorageDex(jQuery, ownerDocument, date, globals);
         const qolDateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
         const qolDate = new Date(Date.parse(qolDateAndDex[0]));
         const qolDex = qolDateAndDex.slice(1);
@@ -151,7 +151,7 @@ describe("Test updateLocalStorageDex", () => {
             DEX_DATA: dex
         };
         const now = new Date();
-        LocalStorageManager.updateLocalStorageDex(jQuery, ownerDocument, undefined, globals);
+        localStorageManager.updateLocalStorageDex(jQuery, ownerDocument, undefined, globals);
         const qolDateAndDex = JSON.parse(localStorage.getItem('QoLPokedex'));
         const qolDate = qolDateAndDex[0];
         const qolDex = qolDateAndDex.slice(1);
@@ -195,7 +195,7 @@ describe("Test saveEvolveByLevelList", () => {
             'Charizard [Mega Forme Y]': "006-Y",
         };
         localStorage.setItem('QoLEvolveByLevel', JSON.stringify(evolveByLevel));
-        LocalStorageManager.saveEvolveByLevelList(globals, parsed_families, dex_ids);
+        localStorageManager.saveEvolveByLevelList(globals, parsed_families, dex_ids);
         const newEvolveByLevel = JSON.parse(localStorage.getItem('QoLEvolveByLevel'));
         const expectedNewEvolveByLevel = {
             "001": "Level 16",
@@ -220,7 +220,7 @@ describe("Test parseAndStoreDexNumbers", () => {
         const data = fs.readFileSync(file, "utf8", 'r');
         const html = jQuery.parseHTML(data);
         const dex = jQuery(html[11].querySelector('#dexdata', ownerDocument)).html();
-        const dexNumbers = LocalStorageManager.parseAndStoreDexNumbers(dex);
+        const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
         // there are too many dex IDs to check, so let's just show that the length changed
         const newDexIDsCache = JSON.parse(localStorage.getItem('QoLDexIDsCache'));
         expect(dexIDsCache.length + dexNumbers.length).toBe(newDexIDsCache.length);

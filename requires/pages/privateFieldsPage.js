@@ -584,5 +584,3 @@ class PrivateFieldsPage extends Page {
         } // if
     } // moveEnableReleaseAll
 }
-
-const privateFieldsPage = new PrivateFieldsPage();
