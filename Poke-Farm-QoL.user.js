@@ -90,61 +90,143 @@
         const SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
 
         const PAGES = {
-            'Daycare': {
-                class: DaycarePage,
-                object: undefined,
-                setting: 'enableDaycare'
+            instantiatePages: function() {
+                for(const key of Object.keys(PAGES.pages)) {
+                    let pg = PAGES.pages[key]
+                    if(USER_SETTINGS[pg.setting] === true) {
+                        PAGES.pages[key].object = new PAGES.pages[key].class();
+                    }
+                }
+            }
+            loadSettings: function() {
+                for(const key of Object.keys(PAGES.pages)) {
+                    let pg = PAGES.pages[key];
+                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                        pg.object.loadSettings();
+                    }
+                }
             },
-            'Farm' : {
-                class: FarmPage,
-                object: undefined,
-                setting: 'easyEvolve'
+            saveSettings: function() {
+                for(const key of Object.keys(PAGES.pages)) {
+                    let pg = PAGES.pages[key];
+                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                        pg.object.saveSettings();
+                    }
+                }
             },
-            'Fishing' : {
-                class: FishingPage,
-                object: undefined,
-                setting: 'fishingEnable'
+            populateSettings: function() {
+                for(const key of Object.keys(PAGES.pages)) {
+                    let pg = PAGES.pages[key];
+                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                        pg.object.populateSettings();
+                    }
+                }
             },
-            'Lab' : {
-                class: LabPage,
-                object: undefined,
-                setting: 'labNotifier'
+            clearPageSettings: function(pageName) {
+                if(! (pageName in PAGES.pages) ) {
+                    console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`)
+                } else if(PAGES.pages[pageName].object) {
+                    PAGES.pages[pageName].object.resetSettings();
+                }
             },
-            'Multiuser' : {
-                class: MultiuserPage,
-                object: undefined,
-                setting: 'partyMod'
+            setupHTML: function() {
+                for(const key of Object.keys(PAGES.pages)) {
+                    let pg = PAGES.pages[key];
+                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                        pg.object.setupHTML();
+                        fn.backwork.populateSettingsPage()
+                    }
+                }
             },
-            'PrivateFields' : {
-                class: PrivateFieldsPage,
-                object: undefined,
-                setting: 'privateFieldEnable'
+            setupCSS: function() {
+                for(const key of Object.keys(PAGES.pages)) {
+                    let pg = PAGES.pages[key];
+                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                        pg.object.setupCSS();
+                    }
+                }
             },
-            'PublicFields' : {
-                class: PublicFieldsPage,
-                object: undefined,
-                setting: 'publicFieldEnable'
+            setupObservers: function() {
+                for(const key of Object.keys(PAGES.pages))) {
+                    let pg = PAGES.pages[key];
+                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                        pg.object.setupObserver();
+                    }
+                }
             },
-            'Shelter' : {
-                class: ShelterPage,
-                object: undefined,
-                setting: 'shelterEnable'
+            setupHandlers: function() {
+                for(const key of Object.keys(PAGES.pages)) {
+                    let pg = PAGES.pages[key];
+                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                        pg.object.setupHandlers();
+                    }
+                }
             },
-            'Dex': {
-                class: DexPage,
-                object: undefined,
-                setting: 'dexFilterEnable'
+            settingsPage: function() {
+                for(const key of Object.keys(PAGES.pages)) {
+                    let pg = PAGES.pages[key];
+                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                        pg.object.settingsChange();
+                    }
+                }
             },
-            'Wishforge': {
-                class: WishforgePage,
-                object: undefined,
-                setting: 'condenseWishforge'
-            },
+            pages: {
+                'Daycare': {
+                    class: DaycarePage,
+                    object: undefined,
+                    setting: 'enableDaycare'
+                },
+                'Farm' : {
+                    class: FarmPage,
+                    object: undefined,
+                    setting: 'easyEvolve'
+                },
+                'Fishing' : {
+                    class: FishingPage,
+                    object: undefined,
+                    setting: 'fishingEnable'
+                },
+                'Lab' : {
+                    class: LabPage,
+                    object: undefined,
+                    setting: 'labNotifier'
+                },
+                'Multiuser' : {
+                    class: MultiuserPage,
+                    object: undefined,
+                    setting: 'partyMod'
+                },
+                'PrivateFields' : {
+                    class: PrivateFieldsPage,
+                    object: undefined,
+                    setting: 'privateFieldEnable'
+                },
+                'PublicFields' : {
+                    class: PublicFieldsPage,
+                    object: undefined,
+                    setting: 'publicFieldEnable'
+                },
+                'Shelter' : {
+                    class: ShelterPage,
+                    object: undefined,
+                    setting: 'shelterEnable'
+                },
+                'Dex': {
+                    class: DexPage,
+                    object: undefined,
+                    setting: 'dexFilterEnable'
+                },
+                'Wishforge': {
+                    class: WishforgePage,
+                    object: undefined,
+                    setting: 'condenseWishforge'
+                },
+            }
         }
         
         const fn = { // all the functions for the script
             /** background stuff */
-            backwork : { // backgrounds stuff
+            backwork : { // background stuff
                 checkForUpdate() {
                     let version ="";
                     GM_xmlhttpRequest({
@@ -161,20 +243,10 @@
                     });
                 },
                 instantiatePages() {
-                    for(const key of Object.keys(PAGES)) {
-                        let pg = PAGES[key]
-                        if(USER_SETTINGS[pg.setting] === true) {
-                            PAGES[key].object = new PAGES[key].class();
-                        }
-                    }
+                    PAGES.instantiatePages();
                 },
                 loadSettings() { // initial settings on first run and setting the variable settings key
-                    for(const key of Object.keys(PAGES)) {
-                        let pg = PAGES[key]
-                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                            pg.object.loadSettings();
-                        }
-                    }
+                    PAGES.loadSettings();
                     if (localStorage.getItem(SETTINGS_SAVE_KEY) === null) {
                         fn.backwork.saveSettings();
                     } else {
@@ -207,12 +279,7 @@
                     }
                 }, // loadSettings
                 saveSettings() { // Save changed settings
-                    for(const key of Object.keys(PAGES)) {
-                        let pg = PAGES[key]
-                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                            pg.object.saveSettings();
-                        }
-                    }
+                    PAGES.saveSettings();
                     localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(USER_SETTINGS));
                 }, // saveSettings
                 populateSettingsPage() { // checks all settings checkboxes that are true in the settings
@@ -230,41 +297,20 @@
                             continue;
                         }
                     }
-                    for(const key of Object.keys(PAGES)) {
-                        let pg = PAGES[key]
-                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                            pg.object.populateSettings();
-                        }
-                    }
+                    PAGES.populateSettings();
                 },
                 clearPageSettings(pageName) {
-                    if(! (pageName in PAGES) ) {
-                        console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`)
-                    } else {
-                        PAGES[pageName][0].resetSettings();
-                    }
+                    PAGES.clearPageSetting(pageName);
                 },
                 setupHTML() { // injects the HTML changes from TEMPLATES into the site
                     // Header link to Userscript settings
                     document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', TEMPLATES.qolHubLinkHTML);
 
-                    for(const key of Object.keys(PAGES)) {
-                        let pg = PAGES[key]
-                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                            pg.object.setupHTML();
-                            fn.backwork.populateSettingsPage()
-                        }
-                    }
+                    PAGES.setupHTML();
                 },
                 setupCSS() { // All the CSS changes are added here
                     GM_addStyle(GM_getResourceText('QoLCSS'));
-
-                    for(const key of Object.keys(PAGES)) {
-                        let pg = PAGES[key]
-                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                            pg.object.setupCSS();
-                        }
-                    }
+                    PAGES.setupCSS();
 
                     //custom user css
                     let customUserCss = USER_SETTINGS.customCss;
@@ -273,20 +319,10 @@
                     $('head').append('<style type="text/css">'+customUserCss+'</style>');
                 },
                 setupObservers() { // all the Observers that needs to run
-                    for(const key of Object.keys(PAGES)) {
-                        let pg = PAGES[key]
-                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                            pg.object.setupObserver();
-                        }
-                    }
+                    PAGES.setupObservers();
                 },
                 setupHandlers() { // all the event handlers
-                    for(const key of Object.keys(PAGES)) {
-                        let pg = PAGES[key]
-                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                            pg.object.setupHandlers();
-                        }
-                    }
+                    PAGES.setupHandlers();
 
                     $(document).on('change', '.qolsetting', (function() {
                         fn.backwork.loadSettings();
@@ -332,12 +368,7 @@
                         }
                         fn.backwork.saveSettings();
                     } else {
-                        for(const key of Object.keys(PAGES)) {
-                            let pg = PAGES[key]
-                            if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                                pg.object.settingsChange();
-                            }
-                        }
+                        PAGES.settingsChange();
                     }
                 }, // settingsChange
 
