@@ -20,12 +20,12 @@
 // @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/fieldSearchHTML.html
 // @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/privateFieldSearchHTML.html
 // @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/css/pfqol.css
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/globals.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/helpers.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/evolutionTreeParser.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/dexPageParser.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/localStorageManager.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/dexUtilities.js
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/globals.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/qolHub.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/pages/basePage.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/pages/shelterPage.js
@@ -55,47 +55,39 @@
         }
     });
 
-    let PFQoL = (function PFQoL() {
-    // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
-    // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
-    // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
-    // - their types
-    // - if they hatch from an egg,
-    // - if you have the eggdex, and
-    // - if you have the regular, shiny, albino, and melanistic pokedex entries
-    const LOCAL_STORAGE = new LocalStorageManager(localStorage);
-    if(!LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
-    LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, GLOBALS); // so load it from the web
-    } else { // can load it from storage
-        LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($); // reload it from web if it's old
-    }
+    const DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
+        customCss: "",
+        enableDaycare: true,
+        shelterEnable: true,
+        fishingEnable: true,
+        publicFieldEnable: true,
+        privateFieldEnable: true,
+        partyMod: true,
+        easyEvolve: true,
+        labNotifier: true,
+        dexFilterEnable: true,
+        condenseWishforge: true
+    };
+    const USER_SETTINGS = DEFAULT_USER_SETTINGS;
 
-    LOCAL_STORAGE.loadEvolveByLevelList(GLOBALS);
-    LOCAL_STORAGE.loadEvolutionTreeDepthList(GLOBALS);
-
-        const DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
-            //variables
-            customCss: "",
-            enableDaycare: true,
-            shelterEnable: true,
-            fishingEnable: true,
-            publicFieldEnable: true,
-            privateFieldEnable: true,
-            partyMod: true,
-            easyEvolve: true,
-            labNotifier: true,
-            dexFilterEnable: true,
-            condenseWishforge: true
-        };
+    const PFQoL = (function PFQoL() {
+        // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+        // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
+        // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
+        // - their types
+        // - if they hatch from an egg,
+        // - if you have the eggdex, and
+        // - if you have the regular, shiny, albino, and melanistic pokedex entries
+        const LOCAL_STORAGE = new LocalStorageManager(localStorage);
+        if(!LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
+            LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, GLOBALS); // so load it from the web
+        } else { // can load it from storage
+            LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($); // reload it from web if it's old
+        }
+        LOCAL_STORAGE.loadEvolveByLevelList(GLOBALS);
+        LOCAL_STORAGE.loadEvolutionTreeDepthList(GLOBALS);
 
         const SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
-
-        const VARIABLES = { // all the variables that are going to be used in fn
-            userSettings : DEFAULT_USER_SETTINGS,
-            shelterTypeSearch : GLOBALS.SHELTER_TYPE_TABLE,
-            natureList : GLOBALS.NATURE_LIST,
-            shelterSearch : GLOBALS.SHELTER_SEARCH_DATA,
-        }
 
         const PAGES = {
             'Daycare': {
@@ -171,7 +163,7 @@
                 instantiatePages() {
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg.setting] === true) {
+                        if(USER_SETTINGS[pg.setting] === true) {
                             PAGES[key].object = new PAGES[key].class();
                         }
                     }
@@ -179,7 +171,7 @@
                 loadSettings() { // initial settings on first run and setting the variable settings key
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                             pg.object.loadSettings();
                         }
                     }
@@ -187,21 +179,21 @@
                         fn.backwork.saveSettings();
                     } else {
                         try {
-                            let countScriptSettings = Object.keys(VARIABLES.userSettings).length;
+                            let countScriptSettings = Object.keys(USER_SETTINGS).length;
                             let localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
                             let countLocalStorageSettings = Object.keys(localStorageString).length;
                             // adds new objects (settings) to the local storage
                             if (countLocalStorageSettings < countScriptSettings) {
-                                let defaultsSetting = VARIABLES.userSettings;
+                                let defaultsSetting = USER_SETTINGS;
                                 let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
                                 let newSetting = $.extend(true,{}, defaultsSetting, userSetting);
 
-                                VARIABLES.userSettings = newSetting;
+                                USER_SETTINGS = newSetting;
                                 fn.backwork.saveSettings();
                             }
                             // removes objects from the local storage if they don't exist anymore. Not yet possible..
                             if (countLocalStorageSettings > countScriptSettings) {
-                                //let defaultsSetting = VARIABLES.userSettings;
+                                //let defaultsSetting = USER_SETTINGS;
                                 //let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
                                 fn.backwork.saveSettings();
                             }
@@ -209,26 +201,26 @@
                         catch(err) {
                             fn.backwork.saveSettings();
                         }
-                        if (localStorage.getItem(SETTINGS_SAVE_KEY) != VARIABLES.userSettings) {
-                            VARIABLES.userSettings = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                        if (localStorage.getItem(SETTINGS_SAVE_KEY) != USER_SETTINGS) {
+                            USER_SETTINGS = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
                         }
                     }
                 }, // loadSettings
                 saveSettings() { // Save changed settings
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                             pg.object.saveSettings();
                         }
                     }
-                    localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(VARIABLES.userSettings));
+                    localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(USER_SETTINGS));
                 }, // saveSettings
                 populateSettingsPage() { // checks all settings checkboxes that are true in the settings
-                    for (let key in VARIABLES.userSettings) {
-                        if (!VARIABLES.userSettings.hasOwnProperty(key)) {
+                    for (let key in USER_SETTINGS) {
+                        if (!USER_SETTINGS.hasOwnProperty(key)) {
                             continue;
                         }
-                        let value = VARIABLES.userSettings[key];
+                        let value = USER_SETTINGS[key];
                         if (typeof value === 'boolean') {
                             Helpers.toggleSetting(key, value, false);
                             continue;
@@ -240,7 +232,7 @@
                     }
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                             pg.object.populateSettings();
                         }
                     }
@@ -258,7 +250,7 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                             pg.object.setupHTML();
                             fn.backwork.populateSettingsPage()
                         }
@@ -269,13 +261,13 @@
 
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                             pg.object.setupCSS();
                         }
                     }
 
                     //custom user css
-                    let customUserCss = VARIABLES.userSettings.customCss;
+                    let customUserCss = USER_SETTINGS.customCss;
                     let customUserCssInject = '<style type="text/css">'+customUserCss+'</style>'
                     //document.querySelector('head').append();
                     $('head').append('<style type="text/css">'+customUserCss+'</style>');
@@ -283,7 +275,7 @@
                 setupObservers() { // all the Observers that needs to run
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                             pg.object.setupObserver();
                         }
                     }
@@ -291,7 +283,7 @@
                 setupHandlers() { // all the event handlers
                     for(const key of Object.keys(PAGES)) {
                         let pg = PAGES[key]
-                        if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                        if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                             pg.object.setupHandlers();
                         }
                     }
@@ -330,19 +322,19 @@
             /** public stuff */
             API : { // the actual seeable and interactable part of the userscript
                 settingsChange(element, textElement, customClass, typeClass) {
-                    if (JSON.stringify(VARIABLES.userSettings).indexOf(element) >= 0) { // userscript settings
-                        if (VARIABLES.userSettings[element] === false ) {
-                            VARIABLES.userSettings[element] = true;
-                        } else if (VARIABLES.userSettings[element] === true ) {
-                            VARIABLES.userSettings[element] = false;
-                        } else if (typeof VARIABLES.userSettings[element] === 'string') {
-                            VARIABLES.userSettings[element] = textElement;
+                    if (JSON.stringify(USER_SETTINGS).indexOf(element) >= 0) { // userscript settings
+                        if (USER_SETTINGS[element] === false ) {
+                            USER_SETTINGS[element] = true;
+                        } else if (USER_SETTINGS[element] === true ) {
+                            USER_SETTINGS[element] = false;
+                        } else if (typeof USER_SETTINGS[element] === 'string') {
+                            USER_SETTINGS[element] = textElement;
                         }
                         fn.backwork.saveSettings();
                     } else {
                         for(const key of Object.keys(PAGES)) {
                             let pg = PAGES[key]
-                            if(VARIABLES.userSettings[pg.setting] === true && pg.object.onPage(window)) {
+                            if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                                 pg.object.settingsChange();
                             }
                         }
@@ -354,6 +346,9 @@
                         fn.backwork.clearPageSettings(pageName)
                     }
                 }, // clearPageSettings
+                populateSettingsPage() {
+                    fn.backwork.populateSettingsPage();
+                } // populateSettingsPage
             }, // end of API
         }; // end of fn
 
@@ -363,7 +358,7 @@
     })(); // end of PFQoL function
 
     $(document).on('click', 'li[data-name*="QoL"]', (function() { //open QoL hub
-        fn.backwork.populateSettingsPage();
+        PFQoL.populateSettingsPage();
         QoLHub.build($, document, TEMPLATES, GLOBALS, VARIABLES);
     }));
 

@@ -3,7 +3,7 @@
  */
 
 class QoLHub {
-    static build($, document, templates, globals, variables) {
+    static build($, document, templates, globals, settings) {
         $('body', document).append(templates.qolHubHTML);
         $('#core', document).addClass('scrolllock');
         let qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead', document).css('background-color');
@@ -15,7 +15,7 @@ class QoLHub {
         $('.qolopencloselist.qolChangeLogContent', document).css({"backgroundColor":""+qolHubCssBackground+"","color":""+qolHubCssTextColor+""});
         $('.qolDate', document).text(globals.DEX_UPDATE_DATE);
 
-        let customCss = variables.userSettings.customCss;
+        let customCss = settings.customCss;
 
         $('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolsetting" data-key="customCss"/></textarea>');
         if (customCss === "") {
