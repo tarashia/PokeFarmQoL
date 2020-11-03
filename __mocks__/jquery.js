@@ -3,7 +3,6 @@
 const jQ = jest.requireActual("jquery");
 
 const get = jest.fn((path) => {
-    // return Promise.resolve(path);
     return jQ.Deferred().resolve(path);
 });
 
