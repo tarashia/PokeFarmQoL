@@ -49,6 +49,15 @@ class LocalStorageManager {
                           "Error message: " + error);
         });
     }
+    
+    loadEvolveByLevelList(GLOBALS) {
+        GLOBALS.EVOLVE_BY_LEVEL_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'));
+    }
+    
+    loadEvolutionTreeDepthList(GLOBALS) {
+        GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem("QoLEvolutionTreeDepth"));
+    }
+
     /* Call loadDexIntoGlobalsFromWeb if more than 30 days have passed since it was last loaded
      * Inputs:
      * - $ - reference to jQuery

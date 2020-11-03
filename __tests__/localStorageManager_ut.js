@@ -92,6 +92,37 @@ describe("Test loadDexIntoGlobalsFromWebIfOld", () => {
     });
 });
 
+describe("Test loadEvolveByLevelList", () => {
+    test("Should load evolve by level list into globals", () => {
+        const evolveByLevel = {
+            "001": "Level 16",
+            "002": "Level 32",
+            "Bulbasaur": "Level 16",
+            "Ivysaur": "Level 32"
+        };
+        const json = JSON.stringify(evolveByLevel);
+        localStorage.setItem('QoLEvolveByLevel', json);
+        const globals = {};
+        LocalStorageManager.loadEvolveByLevelList(globals);
+        expect(globals.EVOLVE_BY_LEVEL_LIST).toStrictEqual(evolveByLevel);
+    });
+});
+
+describe("Test loadEvolutionTreeDepthList", () => {
+    test("Should load evolution tree depth list into globals", () => {
+        globals = {};
+        const expected = {
+            '001': { remaining: 2, total: 2},
+            '002': { remaining: 1, total: 2},
+            '003':  { remaining: 0, total: 2}
+        };
+        const json = JSON.stringify(expected);
+        localStorage.setItem('QoLEvolutionTreeDepth', json);
+        LocalStorageManager.loadEvolutionTreeDepthList(globals);
+        expect(globals.EVOLUTIONS_LEFT).toStrictEqual(expected);
+    });
+});
+
 describe("Test updateLocalStorageDex", () => {
     test("Should update local storage with dex and specified date", () => {
         const filepath = path.join(__dirname, "./data", "dex.json");
