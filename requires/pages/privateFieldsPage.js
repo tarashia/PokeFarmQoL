@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const PrivateFieldsBase = (module) ? require('./basePage').Page : Page;
     
-class PrivateFieldsPage extends Page {
+class PrivateFieldsPage extends PrivateFieldsBase {
     constructor() {
 	super('QoLPrivateFields', {
             fieldCustom: "",

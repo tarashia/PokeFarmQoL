@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const DexBase = (module) ? require('./basePage').Page : Page;
     
-class DexPage extends Page {
+class DexPage extends DexBase {
     constructor() {
         super('QoLDexPage', {}, '/dex')
         const obj = this

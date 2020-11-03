@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const FishingBase = (module) ? require('./basePage').Page : Page;
     
-class FishingPage extends Page {
+class FishingPage extends FishingBase {
     constructor() {
 	super('QoLFishing', {}, 'fishing')
 	// no observer

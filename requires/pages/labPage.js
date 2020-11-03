@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const LabBase = (module) ? require('./basePage').Page : Page;
     
-class LabPage extends Page {
+class LabPage extends LabBase {
     constructor() {
 	    super('QoLLab', {
             findLabEgg: "", // same as findCustom in shelter

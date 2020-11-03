@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const PublicFieldsBase = (module) ? require('./basePage').Page : Page;
     
-class PublicFieldsPage extends Page {
+class PublicFieldsPage extends PublicFieldsBase {
     constructor() {
         super('QoLPublicFields', {
             fieldByBerry: false,

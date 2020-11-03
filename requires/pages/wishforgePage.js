@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const WishforgeBase = (module) ? require('./basePage').Page : Page;
     
-class WishforgePage extends Page {
+class WishforgePage extends WishforgeBase {
     constructor() {
         super('QoLWishforge', {}, 'forge');
         const obj = this;

@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const ShelterBase = (module) ? require('./basePage').Page : Page;
     
-class ShelterPage extends Page {
+class ShelterPage extends ShelterBase {
     constructor() {
         super('QoLShelter', {
             findCustom: "",

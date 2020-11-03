@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const DaycareBase = (module) ? require('./basePage').Page : Page;
     
-class DaycarePage extends Page {
+class DaycarePage extends DaycareBase {
     constructor() {
 	super('QoLDaycare', {}, 'daycare')
 	const obj = this;

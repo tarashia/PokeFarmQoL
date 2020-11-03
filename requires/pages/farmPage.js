@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const FarmBase = (module) ? require('./basePage').Page : Page;
 
-class FarmPage extends Page {
+class FarmPage extends FarmBase {
     DEFAULT_SETTINGS() {
         let d = {TYPE_APPEND : {}};
         // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS

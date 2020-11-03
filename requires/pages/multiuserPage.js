@@ -1,6 +1,6 @@
-const Page = (module) ? require('./basePage').Page : Page;
+const MultiuserBase = (module) ? require('./basePage').Page : Page;
     
-class MultiuserPage extends Page {
+class MultiuserPage extends MultiuserBase {
     constructor() {
         super('QoLMultiuser', {
             hideDislike : false,
