@@ -359,7 +359,7 @@
 
     $(document).on('click', 'li[data-name*="QoL"]', (function() { //open QoL hub
         PFQoL.populateSettingsPage();
-        QoLHub.build($, document, TEMPLATES, GLOBALS, VARIABLES);
+        QoLHub.build($, document, TEMPLATES, GLOBALS, USER_SETTINGS);
     }));
 
     $(document).on('click', '.closeHub', (function() { //close QoL hub
