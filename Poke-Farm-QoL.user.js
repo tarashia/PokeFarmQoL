@@ -56,6 +56,22 @@
     });
 
     let PFQoL = (function PFQoL() {
+    // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+    // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
+    // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
+    // - their types
+    // - if they hatch from an egg,
+    // - if you have the eggdex, and
+    // - if you have the regular, shiny, albino, and melanistic pokedex entries
+    const LOCAL_STORAGE = new LocalStorageManager(localStorage);
+    if(!LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
+    LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, GLOBALS); // so load it from the web
+    } else { // can load it from storage
+        LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($); // reload it from web if it's old
+    }
+
+    LOCAL_STORAGE.loadEvolveByLevelList(GLOBALS);
+    LOCAL_STORAGE.loadEvolutionTreeDepthList(GLOBALS);
 
         const DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
             //variables
@@ -356,7 +372,7 @@
     }));
 
     $(document).on('click', '#updateDex', (function() {
-        QoLHub.handleUpdateDexClick($, document, DexUtilities, LocalStorageManager, DexPageParser, EvolutionTreeParser, GLOBALS);
+        QoLHub.handleUpdateDexClick($, document, DexUtilities, LOCAL_STORAGE, DexPageParser, EvolutionTreeParser, GLOBALS);
     }));
 
     $(document).on('click', '#resetPageSettings', (function() {
