@@ -1,5 +1,3 @@
-const LocalStorageManager = require("./localStorageManager");
-
 const TEMPLATES = { // all the new/changed HTML for the userscript
     qolHubLinkHTML        : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
     qolHubUpdateLinkHTML  : `<li data-name="QoLupdate"><a href=\"https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js\" target=\"_blank\"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>`,
