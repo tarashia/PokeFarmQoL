@@ -38,10 +38,7 @@ class LocalStorageManager {
         dexUtilities.getMainDexPage($).done((data) => {
             globals.DEX_UPDATE_DATE = (new Date()).toUTCString();
             let html = $.parseHTML(data);
-            console.log('Changing this to 11 while testing; idk if this is a permanent change')
-            // let dex = $(html[10].querySelector('#dexdata', document)).html();
-            // let dex = html.eq(10).find('#dexdata').html();
-            let dex = $(html[11].querySelector('#dexdata'), document).html();
+            let dex = $(html[html.length-1], document).find('#dexdata').html();
             globals.DEX_DATA = dex.split(',');
             this.updateLocalStorageDex($, document, globals.DEX_UPDATE_DATE, globals);
         }).catch((error) => {

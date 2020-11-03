@@ -57,11 +57,11 @@ class QoLHub {
 
         // this will update the globals.EVOLVE_BY_LEVEL_LIST
         // and local storage
+        const virtualDocument = document.implementation.createHTMLDocument('virtual');
         dexUtilities.getMainDexPage($).done((data) => {
             let html = $.parseHTML(data);
             console.log('Changing this to 11 while testing; idk if this is a permanent change')
-            // let dex = $(html[10].querySelector('#dexdata', document)).html();
-            let dex = $(html[11].querySelector('#dexdata', document)).html();
+            let dex = $(html[html.length-1], virtualDocument).find('#dexdata').html();
             const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
 
             if(dexNumbers.length > 0) {
@@ -69,19 +69,21 @@ class QoLHub {
                 const limit = dexNumbers.length;
                 const progressBar = $('progress.qolDexUpdateProgress', document)[0];
                 progressBar['max'] = limit;
-                dexUtilities.loadDexPages($, dexNumbers, progressBar, progressSpan).done((...dexPagesHTML) => {
-                    dexUtilities.loadFormPages($, document, dexPagesHTML, progressBar, progressSpan).done((...formPagesHTML) => {
+                dexUtilities.loadDexPages($, dexNumbers, progressBar, progressSpan).done((...data) => {
+                    const dexPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
+                    dexUtilities.loadFormPages($, virtualDocument, dexPagesHTML, progressBar, progressSpan).done((...formData) => {
+                        const formPagesHTML = formData.map(d => (Array.isArray(d) ? d[0] : d));
 
                         // Combine the arrays of HTML into one array
                         let allPagesHTML = dexPagesHTML.concat(formPagesHTML);
 
                         // Parse evolution data
-                        const parsed_families_and_dex_ids = dexUtilities.parseEvolutionTrees($, document, dexPageParser, evolutionTreeParser, allPagesHTML);
+                        const parsed_families_and_dex_ids = dexUtilities.parseEvolutionTrees($, virtualDocument, dexPageParser, evolutionTreeParser, allPagesHTML);
                         const parsed_families = parsed_families_and_dex_ids[0];
                         const dex_ids = parsed_families_and_dex_ids[1];
 
                         // Parse form data
-                        const parsed_forms_and_map = dexUtilities.parseFormData($, document, dexPageParser, allPagesHTML);
+                        const parsed_forms_and_map = dexUtilities.parseFormData($, virtualDocument, dexPageParser, allPagesHTML);
                         const form_data = parsed_forms_and_map[0];
                         const form_map = parsed_forms_and_map[1];
                         
@@ -92,11 +94,11 @@ class QoLHub {
                         const regional_form_map = dexUtilities.buildRegionalFormsMap(form_map);
 
                         // Collect list of base names to make it easier down the line
-                        const base_names = dexUtilities.parseBaseNames($, document, dexPageParser, allPagesHTML);
+                        const base_names = dexUtilities.parseBaseNames($, virtualDocument, dexPageParser, allPagesHTML);
                         // Collect list of egg pngs
-                        const egg_pngs = dexUtilities.parseEggsPngsList($, document, dexPageParser, allPagesHTML);
+                        const egg_pngs = dexUtilities.parseEggsPngsList($, virtualDocument, dexPageParser, allPagesHTML);
                         // Collect list of types
-                        const types    = dexUtilities.parseTypesList($, document, dexPageParser, globals, allPagesHTML);
+                        const types    = dexUtilities.parseTypesList($, virtualDocument, dexPageParser, globals, allPagesHTML);
                         const egg_pngs_types_map = dexUtilities.buildEggPngsTypesMap(base_names, egg_pngs, types);
 
                         localStorageManager.saveEvolveByLevelList(globals, parsed_families, dex_ids);

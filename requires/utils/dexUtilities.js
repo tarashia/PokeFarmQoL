@@ -44,7 +44,7 @@ class DexUtilities {
                 progressBar.value = progressBar['value'] + 1
                 progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
             } else {
-                let r = DexUtilities.getPokemonDexPage($, dexNumbers[d]).done((data) => {
+                let r = DexUtilities.getPokemonDexPage($, dexNumbers[d]).done((data, status, jqXHR) => {
                     progressBar.value = progressBar.value + 1
                     progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
                     return data

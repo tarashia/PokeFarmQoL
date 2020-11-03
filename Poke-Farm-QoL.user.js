@@ -20,8 +20,8 @@
 // @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/fieldSearchHTML.html
 // @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/templates/privateFieldSearchHTML.html
 // @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/resources/css/pfqol.css
-// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/globals.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/helpers.js
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/globals.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/evolutionTreeParser.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/dexPageParser.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/issue_48/requires/utils/localStorageManager.js
@@ -68,25 +68,26 @@
         dexFilterEnable: true,
         condenseWishforge: true
     };
-    const USER_SETTINGS = DEFAULT_USER_SETTINGS;
+    let USER_SETTINGS = DEFAULT_USER_SETTINGS;
+
+    // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+    // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
+    // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
+    // - their types
+    // - if they hatch from an egg,
+    // - if you have the eggdex, and
+    // - if you have the regular, shiny, albino, and melanistic pokedex entries
+    const LOCAL_STORAGE = new LocalStorageManager(localStorage);
+    if(!LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
+        LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, GLOBALS); // so load it from the web
+    } else { // can load it from storage
+        LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($); // reload it from web if it's old
+    }
+    LOCAL_STORAGE.loadEvolveByLevelList(GLOBALS);
+    LOCAL_STORAGE.loadEvolutionTreeDepthList(GLOBALS);
 
     const PFQoL = (function PFQoL() {
-        // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
-        // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
-        // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
-        // - their types
-        // - if they hatch from an egg,
-        // - if you have the eggdex, and
-        // - if you have the regular, shiny, albino, and melanistic pokedex entries
-        const LOCAL_STORAGE = new LocalStorageManager(localStorage);
-        if(!LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
-            LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, GLOBALS); // so load it from the web
-        } else { // can load it from storage
-            LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($); // reload it from web if it's old
-        }
-        LOCAL_STORAGE.loadEvolveByLevelList(GLOBALS);
-        LOCAL_STORAGE.loadEvolutionTreeDepthList(GLOBALS);
-
+        
         const SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
 
         const PAGES = {
@@ -97,7 +98,7 @@
                         PAGES.pages[key].object = new PAGES.pages[key].class();
                     }
                 }
-            }
+            },
             loadSettings: function() {
                 for(const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
@@ -147,7 +148,7 @@
                 }
             },
             setupObservers: function() {
-                for(const key of Object.keys(PAGES.pages))) {
+                for(const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
                     if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupObserver();
