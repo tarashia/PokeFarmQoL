@@ -161,11 +161,11 @@ const pfqol = function($) {
                     }
                 }
             },
-            setupHandlers: function() {
+            setupHandlers: function(GLOBALS) {
                 for(const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
                     if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.setupHandlers();
+                        pg.object.setupHandlers(GLOBALS);
                     }
                 }
             },
@@ -328,8 +328,8 @@ const pfqol = function($) {
                 setupObservers() { // all the Observers that needs to run
                     PAGES.setupObservers();
                 },
-                setupHandlers() { // all the event handlers
-                    PAGES.setupHandlers();
+                setupHandlers(GLOBALS) { // all the event handlers
+                    PAGES.setupHandlers(GLOBALS);
 
                     $(document).on('change', '.qolsetting', (function() {
                         fn.backwork.loadSettings();

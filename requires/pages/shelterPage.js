@@ -32,7 +32,7 @@ class ShelterPage extends ShelterBase {
         const obj = this
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                obj.customSearch();
+                obj.customSearch(GLOBALS);
             });
         });
 
@@ -87,17 +87,17 @@ class ShelterPage extends ShelterBase {
             childList: true,
         });
     }
-    setupHandlers() {
+    setupHandlers(GLOBALS) {
         const obj = this
         $(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
             obj.loadSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
         $(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
@@ -107,13 +107,13 @@ class ShelterPage extends ShelterBase {
                                $(this).parent().parent().attr('class'),
                                $(this).parent().attr('class'),
                                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
         $('.customSearchOnClick').on('click', (function() {
             obj.loadSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
@@ -125,18 +125,18 @@ class ShelterPage extends ShelterBase {
         $(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
             obj.removeTextField(this, $(this).parent().find('input').val());
             obj.saveSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
             obj.addTypeList();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
             obj.removeTypeList(this, $(this).parent().find('select').val());
             obj.saveSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(window).on('keyup.qol_shelter_shortcuts', function (a) {
@@ -308,7 +308,7 @@ class ShelterPage extends ShelterBase {
         }
     }
 
-    customSearch() {
+    customSearch(GLOBALS) {
         const obj = this;
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         
