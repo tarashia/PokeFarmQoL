@@ -1,7 +1,7 @@
 const ShelterBase = (module) ? require('./basePage').Page : Page;
     
 class ShelterPage extends ShelterBase {
-    constructor() {
+    constructor(GLOBALS) {
         super('QoLShelter', {
             findCustom: "",
             findType: "",
