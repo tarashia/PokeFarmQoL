@@ -72,6 +72,9 @@ const pfqol = function($) {
     let USER_SETTINGS = DEFAULT_USER_SETTINGS;
 
     const GLOBALS = Globals;
+    const HELPERS = Helpers;
+    GLOBALS.fillTemplates(GM_getResourceText);
+    GLOBALS.fillOptionsLists(HELPERS);
 
     // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
     // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
@@ -98,7 +101,7 @@ const pfqol = function($) {
                 for(const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key]
                     if(USER_SETTINGS[pg.setting] === true) {
-                        PAGES.pages[key].object = new PAGES.pages[key].class();
+                        PAGES.pages[key].object = new PAGES.pages[key].class(GLOBALS);
                     }
                 }
             },
@@ -293,11 +296,11 @@ const pfqol = function($) {
                         }
                         let value = USER_SETTINGS[key];
                         if (typeof value === 'boolean') {
-                            Helpers.toggleSetting(key, value, false);
+                            HELPERS.toggleSetting(key, value, false);
                             continue;
                         }
                         else if (typeof value === 'string') {
-                            Helpers.toggleSetting(key, value, false);
+                            HELPERS.toggleSetting(key, value, false);
                             continue;
                         }
                     }

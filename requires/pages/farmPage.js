@@ -1,7 +1,7 @@
 const FarmBase = (module) ? require('./basePage').Page : Page;
 
 class FarmPage extends FarmBase {
-    DEFAULT_SETTINGS() {
+    DEFAULT_SETTINGS(GLOBALS) {
         let d = {TYPE_APPEND : {}};
         // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
         for(let i = 0; i < GLOBALS.TYPE_LIST.length; i++) {
@@ -28,9 +28,9 @@ class FarmPage extends FarmBase {
         return d;
     }
 
-    constructor() {
+    constructor(GLOBALS) {
         super('QoLFarm', {}, 'farm#tab=1')
-        this.defaultSettings = this.DEFAULT_SETTINGS();
+        this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = "";
         const obj = this
