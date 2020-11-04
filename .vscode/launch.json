@@ -8,7 +8,8 @@
         "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
         "args": ["--verbose", "-i", "--no-cache"],
         "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen"
+        "internalConsoleOptions": "neverOpen",
+        "preLaunchTask": "Compile"
       }
     ]
   }

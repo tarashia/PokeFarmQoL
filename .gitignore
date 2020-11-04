@@ -1,5 +1,8 @@
 # coverage reports
-coverage/
+coverage
 
 # dependency directories
 node_modules
+
+# compiled JS for testing
+__tests__/compiled.js
