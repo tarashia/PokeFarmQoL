@@ -309,7 +309,7 @@ const pfqol = function($) {
                 clearPageSettings(pageName) {
                     PAGES.clearPageSetting(pageName);
                 },
-                setupHTML() { // injects the HTML changes from GLOBALS.TEMPLATES into the site
+                setupHTML(GLOBALS) { // injects the HTML changes from GLOBALS.TEMPLATES into the site
                     // Header link to Userscript settings
                     document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubLinkHTML);
 
@@ -357,7 +357,7 @@ const pfqol = function($) {
                             continue;
                         }
                         console.log(message);
-                        startup[message]();
+                        startup[message](GLOBALS);
                     }
                 },
             }, // end of backwork
