@@ -2,12 +2,12 @@
 
 const path = require('path');
 const fs = require('fs');
-loadDexFile = function(dexID) {
+const loadDexFile = function(dexID) {
     const file = path.join(__dirname, "./data/dex/", dexID + ".html");
     const html = fs.readFileSync(file, "utf8", 'r');
     return html;
 }
-dexPageExists = function(dexID) {
+const dexPageExists = function(dexID) {
     const file = path.join(__dirname, "./data/dex/", dexID + ".html");
     return fs.existsSync(file);
 }

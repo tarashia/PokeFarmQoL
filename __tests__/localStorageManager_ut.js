@@ -69,7 +69,12 @@ describe("Test loadDexIntoGlobalsFromWebIfOld", () => {
         localStorage.setItem("QoLPokedex", JSON.stringify(parsed));
         const result = localStorageManager.loadDexIntoGlobalsFromWebIfOld(jQuery, ownerDocument, DexUtilities, globals);
         expect(result).toBe(true);
-        expect(globals.DEX_UPDATE_DATE).toBe((new Date()).toUTCString());
+        // expect(globals.DEX_UPDATE_DATE).toBe((new Date()).toUTCString());
+        const expected1 = new Date();
+        const expected2 = new Date();
+        expected2.setSeconds(expected1.getSeconds()-1);
+        expect((expected1.toUTCString() === globals.DEX_UPDATE_DATE) || 
+               (expected2.toUTCString() === globals.DEX_UPDATE_DATE)).toBeTruthy();
         expect(globals.DEX_DATA).toStrictEqual(dex);
     });
     test("Should not update globals.DEX_UPDATE_DATE and globals.DEX_DATA when current dex is new enough", () => {
@@ -110,7 +115,7 @@ describe("Test loadEvolveByLevelList", () => {
 
 describe("Test loadEvolutionTreeDepthList", () => {
     test("Should load evolution tree depth list into globals", () => {
-        globals = {};
+        const globals = {};
         const expected = {
             '001': { remaining: 2, total: 2},
             '002': { remaining: 1, total: 2},
