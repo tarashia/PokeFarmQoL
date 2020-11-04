@@ -71,7 +71,7 @@ const pfqol = function($) {
     };
     let USER_SETTINGS = DEFAULT_USER_SETTINGS;
 
-    const GLOBALS = GLOBALS;
+    const GLOBALS = Globals;
 
     // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
     // GLOBALS.DEX_DATA is the data loaded directly from the script contained in

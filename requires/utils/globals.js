@@ -1,19 +1,19 @@
-class GLOBALS {
+class Globals {
     static fillTemplates(GM_getResourceText) {
-        GLOBALS.TEMPLATES.shelterOptionsHTML         = GM_getResourceText('shelterOptionsHTML');
-        GLOBALS.TEMPLATES.fieldSortHTML              = GM_getResourceText('fieldSortHTML');
-        GLOBALS.TEMPLATES.fieldSearchHTML            = GM_getResourceText('fieldSearchHTML');
-        GLOBALS.TEMPLATES.privateFieldSearchHTML     = GM_getResourceText('privateFieldSearchHTML');
-        GLOBALS.TEMPLATES.qolHubHTML                 = GM_getResourceText('qolHubHTML');
-        GLOBALS.TEMPLATES.evolveFastHTML             = GM_getResourceText('evolveFastHTML');
-        GLOBALS.TEMPLATES.labOptionsHTML             = GM_getResourceText('labOptionsHTML');
-        GLOBALS.TEMPLATES.publicFieldTooltipModHTML  = GM_getResourceText('publicFieldTooltipModHTML');
-        GLOBALS.TEMPLATES.privateFieldTooltipModHTML = GM_getResourceText('privateFieldTooltipModHTML');
+        Globals.TEMPLATES.shelterOptionsHTML         = GM_getResourceText('shelterOptionsHTML');
+        Globals.TEMPLATES.fieldSortHTML              = GM_getResourceText('fieldSortHTML');
+        Globals.TEMPLATES.fieldSearchHTML            = GM_getResourceText('fieldSearchHTML');
+        Globals.TEMPLATES.privateFieldSearchHTML     = GM_getResourceText('privateFieldSearchHTML');
+        Globals.TEMPLATES.qolHubHTML                 = GM_getResourceText('qolHubHTML');
+        Globals.TEMPLATES.evolveFastHTML             = GM_getResourceText('evolveFastHTML');
+        Globals.TEMPLATES.labOptionsHTML             = GM_getResourceText('labOptionsHTML');
+        Globals.TEMPLATES.publicFieldTooltipModHTML  = GM_getResourceText('publicFieldTooltipModHTML');
+        Globals.TEMPLATES.privateFieldTooltipModHTML = GM_getResourceText('privateFieldTooltipModHTML');
     }
     static fillOptionsLists(helpers) {
-        GLOBALS.TYPE_OPTIONS = helpers.buildOptionsString(GLOBALS.TYPE_LIST);
-        GLOBALS.NATURE_OPTIONS = helpers.buildOptionsString(GLOBALS.NATURE_LIST);
-        GLOBALS.EGG_GROUP_OPTIONS = helpers.buildOptionsString(GLOBALS.EGG_GROUP_LIST);
+        Globals.TYPE_OPTIONS = helpers.buildOptionsString(Globals.TYPE_LIST);
+        Globals.NATURE_OPTIONS = helpers.buildOptionsString(Globals.NATURE_LIST);
+        Globals.EGG_GROUP_OPTIONS = helpers.buildOptionsString(Globals.EGG_GROUP_LIST);
     }
     static TEMPLATES = { // all the new/changed HTML for the userscript
         qolHubLinkHTML        : `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>`,
@@ -130,4 +130,4 @@ class GLOBALS {
 }
 
 if(module)
-    exports.GLOBALS = GLOBALS;
+    exports.Globals = Globals;
