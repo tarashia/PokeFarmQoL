@@ -136,11 +136,11 @@ const pfqol = function($) {
                     PAGES.pages[pageName].object.resetSettings();
                 }
             },
-            setupHTML: function() {
+            setupHTML: function(GLOBALS) {
                 for(const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
                     if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.setupHTML();
+                        pg.object.setupHTML(GLOBALS);
                         fn.backwork.populateSettingsPage()
                     }
                 }
@@ -313,7 +313,7 @@ const pfqol = function($) {
                     // Header link to Userscript settings
                     document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubLinkHTML);
 
-                    PAGES.setupHTML();
+                    PAGES.setupHTML(GLOBALS);
                 },
                 setupCSS() { // All the CSS changes are added here
                     GM_addStyle(GM_getResourceText('QoLCSS'));

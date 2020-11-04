@@ -13,7 +13,7 @@ class WishforgePage extends WishforgeBase {
         });
     } // constructor
 
-    setupHTML() {
+    setupHTML(GLOBALS) {
         // setup table format
         const header = "<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>";
 

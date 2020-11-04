@@ -53,7 +53,7 @@ class ShelterPage extends ShelterBase {
         this.currently_selected_match = undefined;
     }
 
-    setupHTML() {
+    setupHTML(GLOBALS) {
         $('.tabbed_interface.horizontal>div').removeClass('tab-active');
         $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
         document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
