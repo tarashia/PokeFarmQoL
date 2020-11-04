@@ -1,13 +1,13 @@
 const DaycareBase = (module) ? require('./basePage').Page : Page;
     
 class DaycarePage extends DaycareBase {
-    constructor() {
+    constructor(GLOBALS) {
         super('QoLDaycare', {}, 'daycare')
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if(document.querySelector('#fs_pokemon') !== null) {
-                    obj.customSearch()
+                    obj.customSearch(GLOBALS);
                 }
             })
         });
@@ -19,7 +19,7 @@ class DaycarePage extends DaycareBase {
             subtree: true
         });
     }
-    customSearch() {
+    customSearch(GLOBALS) {
         const button = document.querySelector('#pkmnadd')
 
         let gender = null;

@@ -395,7 +395,7 @@ const pfqol = function($) {
         return fn.API;
     })(); // end of PFQoL function
 
-    $(document).on('click', 'li[data-name*="QoL"]', (function() { //open QoL hub
+    $(document).on('click', 'li[data-name="QoL"]', (function() { //open QoL hub
         PFQoL.populateSettingsPage();
         QoLHub.build($, document, GLOBALS.TEMPLATES, GLOBALS, USER_SETTINGS);
     }));
@@ -423,8 +423,9 @@ const pfqol = function($) {
     $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
         $(this).next().slideToggle();
     }));
-
-// })(jQuery); //end of userscript
 }
 
 pfqol(jQuery);
+
+if(module)
+    exports.pfqol = pfqol;
