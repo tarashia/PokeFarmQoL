@@ -169,7 +169,7 @@ const pfqol = function($) {
                     }
                 }
             },
-            settingsPage: function() {
+            settingsChange: function() {
                 for(const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
                     if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
