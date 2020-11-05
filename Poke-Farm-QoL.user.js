@@ -425,7 +425,7 @@ const pfqol = function($) {
     }));
 }
 
-pfqol(jQuery);
-
 if(module)
     exports.pfqol = pfqol;
+else
+    pfqol(jQuery);

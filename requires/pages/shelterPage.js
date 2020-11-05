@@ -224,7 +224,7 @@ class ShelterPage extends ShelterBase {
                                stageNoun + ' found!' + (names.length > 0 ? '(' + names.toString() + ')' : '') + '</div>')
     }
     
-    searchForImgTitle(key) {
+    searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const key_index = SEARCH_DATA.indexOf(key)
         const value = SEARCH_DATA[key_index + 1]
@@ -240,7 +240,7 @@ class ShelterPage extends ShelterBase {
         }
     }
 
-    searchForReadyToEvolveByLevel(dexData) {
+    searchForReadyToEvolveByLevel(GLOBALS, dexData) {
         let selected = $("#shelterarea .tooltip_content")
         let readyBigImg = [];
         selected.each((idx, s) => {
@@ -269,7 +269,7 @@ class ShelterPage extends ShelterBase {
 
     }
 
-    highlightByHowFullyEvolved(pokemon_elem) {
+    highlightByHowFullyEvolved(GLOBALS, pokemon_elem) {
         // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
         // will not exist. If this occurs. don't try highlighting anything until the
         // pokemon is "put down"
@@ -340,32 +340,32 @@ class ShelterPage extends ShelterBase {
         $('#shelterarea>div>img').removeClass('shelterfoundme');
 
         if(this.settings.findShiny === true) {
-            this.searchForImgTitle('findShiny')
+            this.searchForImgTitle(GLOBALS, 'findShiny')
         }
         if(this.settings.findAlbino === true) {
-            this.searchForImgTitle('findAlbino')
+            this.searchForImgTitle(GLOBALS, 'findAlbino')
         }
         if(this.settings.findMelanistic === true) {
-            this.searchForImgTitle('findMelanistic')
+            this.searchForImgTitle(GLOBALS, 'findMelanistic')
         }
         if(this.settings.findPrehistoric === true) {
-            this.searchForImgTitle('findPrehistoric')
+            this.searchForImgTitle(GLOBALS, 'findPrehistoric')
         }
         if(this.settings.findDelta === true) {
-            this.searchForImgTitle('findDelta')
+            this.searchForImgTitle(GLOBALS, 'findDelta')
         }
         if(this.settings.findMega === true) {
-            this.searchForImgTitle('findMega')
+            this.searchForImgTitle(GLOBALS, 'findMega')
         }
         if(this.settings.findStarter === true) {
-            this.searchForImgTitle('findStarter')
+            this.searchForImgTitle(GLOBALS, 'findStarter')
         }
         if(this.settings.findCustomSprite === true) {
-            this.searchForImgTitle('findCustomSprite')
+            this.searchForImgTitle(GLOBALS, 'findCustomSprite')
         }
         if(this.settings.findNFE === true) {
             $('#shelterarea>[data-stage=pokemon]').each(function() {
-                obj.highlightByHowFullyEvolved(this)
+                obj.highlightByHowFullyEvolved(GLOBALS, this)
             })
         } else {
             $('.oneevolutionleft').each((k, v) => {
@@ -422,7 +422,7 @@ class ShelterPage extends ShelterBase {
                 // uncheck checkbox
                 $('[data-key=findReadyToEvolve]')[0].checked = false
             } else {
-                this.searchForReadyToEvolveByLevel(dexData)
+                this.searchForReadyToEvolveByLevel(GLOBALS, dexData)
             }
         }
         
