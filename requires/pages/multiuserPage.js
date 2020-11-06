@@ -32,7 +32,7 @@ class MultiuserPage extends MultiuserBase {
         }
         else { return false; }
     }
-    setupHTML() {
+    setupHTML(GLOBALS) {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.partyModHTML);
     }
     setupCSS() {

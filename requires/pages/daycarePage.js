@@ -73,7 +73,7 @@ class DaycarePage extends DaycareBase {
                     // There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
                     // The gender title can be "[M], [F], [N]"
                     let searchGender = searchIcons[0].title.toLowerCase().substring(1,2)
-                    let searchEggGroups = eggGroupDiv.innerText.slice("Egg Group: ".length).split('/')
+                    let searchEggGroups = $(eggGroupDiv).text().slice("Egg Group: ".length).split('/')
 
                     // Match ditto to anything that can breed
                     if(searchPokemon === "Ditto" && eggGroup1 !== "Undiscovered") {

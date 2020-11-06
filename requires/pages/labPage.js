@@ -1,7 +1,7 @@
 const LabBase = (module) ? require('./basePage').Page : Page;
     
 class LabPage extends LabBase {
-    constructor() {
+    constructor(GLOBALS) {
 	    super('QoLLab', {
             findLabEgg: "", // same as findCustom in shelter
             customEgg: true,
@@ -29,7 +29,7 @@ class LabPage extends LabBase {
         }
     }
     
-    setupHTML() {
+    setupHTML(GLOBALS) {
         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.labOptionsHTML);
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
 

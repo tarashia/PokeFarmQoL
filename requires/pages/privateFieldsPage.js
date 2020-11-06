@@ -49,7 +49,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
 	    w.location.href.indexOf("fields/") == -1
     }
 
-    setupHTML() {
+    setupHTML(GLOBALS) {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.privateFieldTooltipModHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.privateFieldSearchHTML);
 

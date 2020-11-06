@@ -64,7 +64,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         else { return false; }
     }
 
-    setupHTML() {
+    setupHTML(GLOBALS) {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.publicFieldTooltipModHTML);
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.fieldSortHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.fieldSearchHTML);
