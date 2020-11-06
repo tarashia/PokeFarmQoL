@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 // __tests__/testTools.js
 
 const path = require('path');
