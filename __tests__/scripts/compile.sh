@@ -3,6 +3,7 @@ echo "Compiling code into one js file..."
 
 # Order from Poke-Farm-QoL.user.js
 ROOT="."
+TOP_LEVEL="${ROOT}/Poke-Farm-QoL.user.js"
 declare -a INPUT=("${ROOT}/node_modules/jquery/dist/jquery.min.js"
                   "${ROOT}/requires/utils/helpers.js"
                   "${ROOT}/requires/utils/globals.js"
@@ -22,7 +23,7 @@ declare -a INPUT=("${ROOT}/node_modules/jquery/dist/jquery.min.js"
                   "${ROOT}/requires/pages/daycarePage.js"
                   "${ROOT}/requires/pages/dexPage.js"
                   "${ROOT}/requires/pages/wishforgePage.js"
-                  "${ROOT}/Poke-Farm-QoL.user.js"
+                  "${TOP_LEVEL}"
                   )
 OUTPUT="${ROOT}/__tests__/compiled.js"
 
@@ -35,6 +36,9 @@ echo "const GM_info            = require('../__mocks__/tampermonkey').GM_info" >
 
 for i in "${INPUT[@]}"
 do
+   if [ "$i" = "${TOP_LEVEL}" ]; then
+      echo "module = true;" >> "${OUTPUT}"
+   fi
    cat "$i" >> "${OUTPUT}"
    echo "" >> "${OUTPUT}"
 done
