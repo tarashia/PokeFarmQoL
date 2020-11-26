@@ -298,11 +298,11 @@ const pfqol = function($) {
                         }
                         let value = USER_SETTINGS[key];
                         if (typeof value === 'boolean') {
-                            HELPERS.toggleSetting(key, value, false);
+                            HELPERS.toggleSetting(key, value);//, false);
                             continue;
                         }
                         else if (typeof value === 'string') {
-                            HELPERS.toggleSetting(key, value, false);
+                            HELPERS.toggleSetting(key, value);//, false);
                             continue;
                         }
                     }

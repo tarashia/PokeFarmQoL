@@ -1,12 +1,6 @@
 let Helpers = (function Helpers() {
     /* public stuff */
     const API = {
-        publicFieldsKeyIsTopCheckbox(k) {
-            return k === 'fieldNewPokemon' || k === 'fieldShiny' || k === 'fieldAlbino' || k === 'fieldMelanistic' ||
-                k === 'fieldPrehistoric' || k === 'fieldDelta' || k === 'fieldMega' || k === 'fieldStarter' ||
-                k === 'fieldCustomSprite' || k === 'fieldItem'
-        },
-
         buildOptionsString(arr) {
             let str = '<option value="none">None</option> ';
             for(let i = 0; i < arr.length; i++) {
@@ -15,13 +9,15 @@ let Helpers = (function Helpers() {
             return str;
         },
 
-        toggleSetting(key, set = false) {
+        toggleSetting(key, set) {// = false) {
+            // update values for checkboxes
             if (typeof set === 'boolean') {
                 let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
                 if (element && element.type === 'checkbox') {
                     element.checked = set;
                 }
             }
+            // update values for string settings
             else if (typeof set === 'string') {
                 let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
                 if (element && element.type === 'text') {
