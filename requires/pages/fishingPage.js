@@ -1,52 +1,46 @@
 const FishingBase = (module) ? require('./basePage').Page : Page;
-    
+
 class FishingPage extends FishingBase {
     constructor() {
-	super('QoLFishing', {}, 'fishing')
-	// no observer
+        super('QoLFishing', {}, 'fishing')
+        // no observer
+    }
+    setupHTML(GLOBALS) {
+        // fishing select all button on caught fishing
+        document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('beforeend', GLOBALS.TEMPLATES.massReleaseSelectHTML);
     }
     setupHandlers() {
         const obj = this;
-        $(document).on('mouseover', '#caughtfishcontainer', (function() { //select all feature
-            obj.releaseSelectAll();
-        }));
-    }
-    setupHandlers() {
-        $(document).on('mouseover', '#caughtfishcontainer', (function() { //select all feature
-            this.releaseSelectAll();
-        }));
-    }
-    releaseSelectAll() {
-        $("#selectallfishcheckbox").click(function(){
+        $("#selectallfishcheckbox").on('click', function () {
             $(this).parent().parent().next().find('input:checkbox').prop('checked', this.checked);
         });
 
-        $('#movefishselectanycheckbox').click(function() {
+        $('#movefishselectanycheckbox').on('click', function () {
             let selectAny = $('.icons:contains("Any")').prev().prev('input');
             $(selectAny).not(this).prop('checked', this.checked);
         });
 
-        $('#movefishselectsourcheckbox').click(function() {
+        $('#movefishselectsourcheckbox').on('click', function () {
             let selectSour = $('.icons:contains("Sour")').prev().prev('input');
             $(selectSour).not(this).prop('checked', this.checked);
         });
 
-        $('#movefishselectspicycheckbox').click(function() {
+        $('#movefishselectspicycheckbox').on('click', function () {
             let selectSpicy = $('.icons:contains("Spicy")').prev().prev('input');
             $(selectSpicy).not(this).prop('checked', this.checked);
         });
 
-        $('#movefishselectdrycheckbox').click(function() {
+        $('#movefishselectdrycheckbox').on('click', function () {
             let selectDry = $('.icons:contains("Dry")').prev().prev('input');
             $(selectDry).not(this).prop('checked', this.checked);
         });
 
-        $('#movefishselectsweetcheckbox').click(function() {
+        $('#movefishselectsweetcheckbox').on('click', function () {
             let selectSweet = $('.icons:contains("Sweet")').prev().prev('input');
             $(selectSweet).not(this).prop('checked', this.checked);
         });
 
-        $('#movefishselectbittercheckbox').click(function() {
+        $('#movefishselectbittercheckbox').on('click', function () {
             let selectBitter = $('.icons:contains("Bitter")').prev().prev('input');
             $(selectBitter).not(this).prop('checked', this.checked);
         });

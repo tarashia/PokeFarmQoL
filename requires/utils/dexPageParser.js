@@ -80,7 +80,9 @@ class DexPageParser {
      */
     static parseTypesFromDexPage(html, type_list) {
         let typeImgs = html.find('.dexdetails>li>img');
-        let typeUrls = typeImgs.map((idx, img) => img.src);
+        let typeUrls = typeImgs.map((idx, img) => {
+            return img.src
+        });
         let types = typeUrls.map((idx, url) =>
                                  url.substring(url.indexOf("types/")+"types/".length,
                                                url.indexOf(".png")));

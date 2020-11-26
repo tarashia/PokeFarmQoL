@@ -85,12 +85,14 @@ let Helpers = (function Helpers() {
                 `array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
         },
 
-        parseFieldPokemonTooltip(tooltip) {
+        parseFieldPokemonTooltip(GLOBALS, tooltip) {
             const dataElements = $(tooltip).children(0).children()
 
             let index = 1;
             // nickname
             const nickname = dataElements[index++].textContent
+
+            index++;
 
             // species
             const species  = dataElements[index++].textContent.trim().split(':  ')[1]

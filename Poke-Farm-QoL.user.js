@@ -101,7 +101,9 @@ const pfqol = function($) {
                 for(const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key]
                     if(USER_SETTINGS[pg.setting] === true) {
-                        PAGES.pages[key].object = new PAGES.pages[key].class(GLOBALS);
+                        PAGES.pages[key].object = new PAGES.pages[key].class($, GLOBALS, {
+                            DexPageParser: DexPageParser
+                        });
                     }
                 }
             },

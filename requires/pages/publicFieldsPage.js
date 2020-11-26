@@ -1,7 +1,7 @@
 const PublicFieldsBase = (module) ? require('./basePage').Page : Page;
     
 class PublicFieldsPage extends PublicFieldsBase {
-    constructor() {
+    constructor(jQuery, GLOBALS) {
         super('QoLPublicFields', {
             fieldByBerry: false,
             fieldByMiddle: false,
@@ -33,6 +33,7 @@ class PublicFieldsPage extends PublicFieldsBase {
             tooltipNoBerry: false,
             tooltipBerry: false,
         }, 'fields/');
+        this.jQuery = jQuery;
         this.customArray = [];
         this.typeArray = [];
         this.natureArray = [];
@@ -40,7 +41,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         const obj = this
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                obj.customSearch();
+                obj.customSearch(GLOBALS);
                 obj.handleTooltipSettings();
             });
         });
@@ -111,60 +112,59 @@ class PublicFieldsPage extends PublicFieldsBase {
     setupObserver() {
         this.observer.observe(document.querySelector('#field_field'), {
             childList: true,
-            attributeFilter: ['class'],
-        });
-        this.observer.observe(document.querySelector('#fieldorder'), {
-            childList: true,
+            characterdata: true,
+            subtree: true,
+            characterDataOldValue: true,
         });
     }
-    setupHandlers() {
+    setupHandlers(GLOBALS) {
         const obj = this
         $(window).on('load', (function() {
             obj.loadSettings()
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
             obj.handleTooltipSettings()
             obj.saveSettings()
         }));
 
         $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         document.addEventListener("keydown", function() {
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         });
 
         $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
             obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
             obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
             obj.saveSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
             obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes', 'natureArray')
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
             obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
             obj.saveSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
             obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray')
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
             obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
             obj.saveSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(document).on('click', '#addTextField', (function() {
@@ -175,12 +175,12 @@ class PublicFieldsPage extends PublicFieldsBase {
         $(document).on('click', '#removeTextField', (function() {
             obj.removeTextField(this, $(this).parent().find('input').val());
             obj.saveSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
         }));
 
         $(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
@@ -190,7 +190,7 @@ class PublicFieldsPage extends PublicFieldsBase {
                                $(this).parent().parent().attr('class'),
                                $(this).parent().attr('class'),
                                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.customSearch();
+            obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
@@ -290,7 +290,7 @@ class PublicFieldsPage extends PublicFieldsBase {
     enableTooltips() {
         $('#field_field>div.field>.fieldmon').attr('data-tooltip', "")
     }
-    searchForImgTitle(key) {
+    searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const key_index = SEARCH_DATA.indexOf(key)
         const value = SEARCH_DATA[key_index + 1]
@@ -313,7 +313,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         if(genderMatches.length > 0) {
             for(let i = 0; i < genderMatches.length; i++) {
                 let genderMatch = genderMatches[i];
-                let selected = $("#field_field .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
+                let selected = this.jQuery("#field_field .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
                 if (selected.length) {
                     let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
                     $(shelterBigImg).addClass('publicfoundme');
@@ -323,7 +323,7 @@ class PublicFieldsPage extends PublicFieldsBase {
 
         //No genders
         else {
-            let selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
+            let selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
             if (selected.length) {
                 let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
                 $(shelterBigImg).addClass('publicfoundme');
@@ -332,7 +332,7 @@ class PublicFieldsPage extends PublicFieldsBase {
 
     }
     searchForCustomEgg(value) {
-        let selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
+        let selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
         if (selected.length) {
             let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
             $(shelterBigImg).addClass('publicfoundme');
@@ -345,7 +345,7 @@ class PublicFieldsPage extends PublicFieldsBase {
             $(shelterImgSearch).addClass('publicfoundme');
         }
     }
-    customSearch() {
+    customSearch(GLOBALS) {
         let dexData = GLOBALS.DEX_DATA;
 
         /////////////////////////////////////////////////
@@ -428,8 +428,11 @@ class PublicFieldsPage extends PublicFieldsBase {
 
             let pokemonInField = $('.fieldpkmncount').text();
 
-            $('#pokemonclickcount').remove(); //make sure no duplicates are being produced
-            document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
+            if ($('#pokemonclickcount').length === 0) {
+                document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
+            } else if($('#pokemonclickcount').text() !== (pokemonClicked+' / '+pokemonInField+' Clicked')) {
+                $('#pokemonclickcount').text(pokemonClicked+' / '+pokemonInField+' Clicked');
+            }
 
             if(pokemonInField !== "") {
                 if (JSON.stringify(pokemonClicked) === pokemonInField) {
@@ -450,28 +453,28 @@ class PublicFieldsPage extends PublicFieldsBase {
         }
 
         if(this.settings.fieldShiny === true) {
-            this.searchForImgTitle('findShiny')
+            this.searchForImgTitle(GLOBALS, 'findShiny')
         }
         if(this.settings.fieldAlbino === true) {
-            this.searchForImgTitle('findAlbino')
+            this.searchForImgTitle(GLOBALS, 'findAlbino')
         }
         if(this.settings.fieldMelanistic === true) {
-            this.searchForImgTitle('findMelanistic')
+            this.searchForImgTitle(GLOBALS, 'findMelanistic')
         }
         if(this.settings.fieldPrehistoric === true) {
-            this.searchForImgTitle('findPrehistoric')
+            this.searchForImgTitle(GLOBALS, 'findPrehistoric')
         }
         if(this.settings.fieldDelta === true) {
-            this.searchForImgTitle('findDelta')
+            this.searchForImgTitle(GLOBALS, 'findDelta')
         }
         if(this.settings.fieldMega === true) {
-            this.searchForImgTitle('findMega')
+            this.searchForImgTitle(GLOBALS, 'findMega')
         }
         if(this.settings.fieldStarter === true) {
-            this.searchForImgTitle('findStarter')
+            this.searchForImgTitle(GLOBALS, 'findStarter')
         }
         if(this.settings.fieldCustomSprite === true) {
-            this.searchForImgTitle('findCustomSprite')
+            this.searchForImgTitle(GLOBALS, 'findCustomSprite')
         }
         if(this.settings.fieldItem === true) {
             // pokemon that hold items will have HTML that matches the following selector
@@ -490,7 +493,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
             $('.fieldmon').each(function() {
                 let searchPokemonBigImg = $(this)[0].childNodes[0];
-                const tooltip_data = Helpers.parseFieldPokemonTooltip($(searchPokemonBigImg).parent().next()[0])
+                const tooltip_data = Helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0])
 
                 let searchPokemon = tooltip_data.species;
                 let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
@@ -499,8 +502,8 @@ class PublicFieldsPage extends PublicFieldsBase {
 
                 let searchNature = GLOBALS.NATURE_LIST[tooltip_data.nature];
 
-                let searchEggGroup = $($(this).next()[0].querySelector('.fieldmontip')).
-                    children(':contains(Egg Group)')[0].innerText.slice("Egg Group: ".length)
+                let searchEggGroup = $(this).next().find('.fieldmontip').
+                    children(':contains(Egg Group)').eq(0).text().slice("Egg Group: ".length)
 
                 for (let i = 0; i < filteredTypeArray.length; i++) {
                     if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {

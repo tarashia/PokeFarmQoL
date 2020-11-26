@@ -4,8 +4,9 @@ echo "Compiling code into one js file..."
 # Order from Poke-Farm-QoL.user.js
 ROOT="."
 TOP_LEVEL="${ROOT}/Poke-Farm-QoL.user.js"
-declare -a INPUT=("${ROOT}/node_modules/jquery/dist/jquery.min.js"
-                  "${ROOT}/requires/utils/helpers.js"
+declare -a EXTERNALS=("${ROOT}/node_modules/jquery/dist/jquery.min.js"
+                     )
+declare -a INPUT=("${ROOT}/requires/utils/helpers.js"
                   "${ROOT}/requires/utils/globals.js"
                   "${ROOT}/requires/utils/evolutionTreeParser.js"
                   "${ROOT}/requires/utils/dexPageParser.js"
@@ -34,8 +35,13 @@ echo "const GM_xmlhttpRequest  = require('../__mocks__/tampermonkey').GM_xmlhttp
 echo "const GM_addStyle        = require('../__mocks__/tampermonkey').GM_addStyle" >> "${OUTPUT}"
 echo "const GM_info            = require('../__mocks__/tampermonkey').GM_info" >> "${OUTPUT}"
 
-for i in "${INPUT[@]}"
-do
+for i in "${EXTERNALS[@]}"; do
+   echo "/* istanbul ignore next */" >> "${OUTPUT}"
+   cat "$i" >> "${OUTPUT}"
+   echo "" >> "${OUTPUT}"
+done
+
+for i in "${INPUT[@]}"; do
    if [ "$i" = "${TOP_LEVEL}" ]; then
       echo "module = true;" >> "${OUTPUT}"
    fi

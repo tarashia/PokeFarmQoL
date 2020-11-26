@@ -44,7 +44,6 @@ class DexPage extends DexBase {
             var leftedge = typesSpan.offset().left
             var width = typesSpan.width();
             var rightedge = leftedge + width
-            event.preventDefault();
             var xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
             if(xLocation >= leftedge & xLocation < rightedge) {
                 xLocation -= leftedge;
@@ -52,7 +51,7 @@ class DexPage extends DexBase {
                 xLocation = c.eq(xLocation)
                 if(xLocation.data("type") == h) {
                     h = null
-                    obj.toggleSelectedTypes()
+                    obj.toggleSelectedTypes(xLocation)
                     obj.applyTypeFilters();
                 } else {
                     h = xLocation.data("type")
@@ -112,28 +111,6 @@ class DexPage extends DexBase {
             $(selector).css("display", "inline-block")
         } else {
             $(selector).css("display", "inline-block")
-        }
-    }
-
-    addTypeList() {
-        const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
-                                             'removeShelterTypeList', 'fieldTypes', 'typeArray');
-        let numberTypes = $('#shelterTypes>div').length;
-        $('#shelterTypes').append(theList);
-        $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
-    }
-    removeTypeList(byebye, key) {
-        this.typeArray = $.grep(this.typeArray, function(value) {
-            return value != key;
-        });
-        this.settings.findType = this.typeArray.toString()
-
-        $(byebye).parent().remove();
-
-        let i;
-        for(i = 0; i < $('#shelterTypes>div').length; i++) {
-            let rightDiv = i + 1;
-            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
     }
 }

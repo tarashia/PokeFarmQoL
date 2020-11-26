@@ -1,7 +1,9 @@
+const { collapseTextChangeRangesAcrossMultipleVersions } = require('typescript');
+
 const ShelterBase = (module) ? require('./basePage').Page : Page;
     
 class ShelterPage extends ShelterBase {
-    constructor(GLOBALS) {
+    constructor(jQuery, GLOBALS) {
         super('QoLShelter', {
             findCustom: "",
             findType: "",
@@ -26,7 +28,8 @@ class ShelterPage extends ShelterBase {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
-        }, '/shelter')
+        }, '/shelter');
+        this.jQuery = jQuery;
         this.customArray = [];
         this.typeArray = [];
         const obj = this
@@ -129,7 +132,7 @@ class ShelterPage extends ShelterBase {
         }));
 
         $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
-            obj.addTypeList();
+            obj.addTypeList(GLOBALS);
             obj.customSearch(GLOBALS);
         }));
 
@@ -185,7 +188,7 @@ class ShelterPage extends ShelterBase {
             $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
     }
-    addTypeList() {
+    addTypeList(GLOBALS) {
         const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
                                              'removeShelterTypeList', 'fieldTypes', 'typeArray');
         let numberTypes = $('#shelterTypes>div').length;
@@ -282,7 +285,7 @@ class ShelterPage extends ShelterBase {
         }
         let pokemon = tooltip['species'];
 
-        if(GLOBALS.EVOLUTIONS_LEFT !== undefined) {
+        if(GLOBALS.EVOLUTIONS_LEFT !== undefined && GLOBALS.EVOLUTIONS_LEFT !== null) {
             const evolution_data = GLOBALS.EVOLUTIONS_LEFT;
             // if can't find the pokemon directly, try looking for its form data
             if(!evolution_data[pokemon]) {
@@ -328,8 +331,8 @@ class ShelterPage extends ShelterBase {
             $('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
             $('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
             $('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
-            $('#shelterpage #shelter #shelterarea:before').css({'display' : 'none!important'});
-            $('<pseudo:before>').attr('style', 'display: none!important');
+            // $('#shelterpage #shelter #shelterarea:before').css({'display' : 'none!important'});
+            // $('<pseudo:before>').attr('style', 'display: none!important');
             $('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
         }
 
@@ -442,9 +445,10 @@ class ShelterPage extends ShelterBase {
         let customSearchAmount = this.customArray.length;
         const heartPng = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
         const eggPng = `<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">`;
+        console.log('Shelter custom search:', this.customArray);
         for (let i = 0; i < customSearchAmount; i++) {
-            let value = this.customArray[i];
-            if (value != "") {
+            let customValue = this.customArray[i];
+            if (customValue != "") {
                 //custom pokemon search
                 if (this.settings.customPokemon === true) {
                     let genderMatches = []
@@ -461,9 +465,9 @@ class ShelterPage extends ShelterBase {
                     if(genderMatches.length > 0) {
                         for(let i = 0; i < genderMatches.length; i++) {
                             let genderMatch = genderMatches[i];
-                            let selected = $("#shelterarea .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
+                            let selected = this.jQuery("#shelterarea .tooltip_content:containsIN("+customValue+") img[title*='" + genderMatch + "']")
                             if (selected.length) {
-                                let searchResult = value;
+                                let searchResult = customValue;
                                 let genderName = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
                                 let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
                                 let tooltipResult = selected.length + ' ' + genderName + imgGender + " " + searchResult;
@@ -478,9 +482,9 @@ class ShelterPage extends ShelterBase {
 
                     //No genders
                     else if (shelterValueArrayCustom.length === 0) {
-                        let selected = $('#shelterarea .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
+                        let selected = this.jQuery('#shelterarea .tooltip_content:containsIN('+customValue+'):not(:containsIN("Egg"))')
                         if (selected.length) {
-                            let searchResult = value;
+                            let searchResult = customValue;
                             let tooltipResult = selected.length + " " + searchResult;
                             let shelterImgSearch = selected
                             let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
@@ -492,9 +496,9 @@ class ShelterPage extends ShelterBase {
 
                 //custom egg
                 if (this.settings.customEgg === true) {
-                    let selected = $('#shelterarea .tooltip_content:containsIN('+value+'):contains("Egg")');
+                    let selected = this.jQuery('#shelterarea .tooltip_content:containsIN('+customValue+'):contains("Egg")');
                     if (selected.length) {
-                        let searchResult = value;
+                        let searchResult = customValue;
                         let tooltipResult = selected.length + " " + searchResult;
                         let shelterImgSearch = selected;
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
@@ -505,7 +509,7 @@ class ShelterPage extends ShelterBase {
 
                 //imgSearch with Pokémon
                 if (this.settings.customPng === true) {
-                    let selected = $('#shelterarea img.big[src*="'+value+'"]')
+                    let selected = this.jQuery('#shelterarea img.big[src*="'+customValue+'"]')
                     if (selected.length) {
                         let searchResult = selected.parent().next().text().split('(')[0]
                         let tooltipResult = selected.length+" "+searchResult+' (Custom img search)';
@@ -529,10 +533,11 @@ class ShelterPage extends ShelterBase {
                 let value = filteredTypeArray[i];
                 let foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
 
+                let typePokemonNames = [];
                 let selected = undefined;
                 if (this.settings.findTypeEgg === true) {
-                    let typePokemonNames = [];
                     let pokemonElems = [];
+                    typePokemonNames = [];
                     selected = $('#shelterarea>.tooltip_content:contains("Egg")');
                     selected.each(function() {
                         let searchPokemon = ($(this).text().split(' ')[0]);
@@ -567,7 +572,7 @@ class ShelterPage extends ShelterBase {
                 }
 
                 if (this.settings.findTypePokemon === true) {
-                    let typePokemonNames = [];
+                    typePokemonNames = [];
                     selected = $('#shelterarea>.tooltip_content').not(':contains("Egg")')
                     selected.each(function() {
                         let searchPokemon = ($(this).text().split(' ')[0]);
@@ -580,7 +585,7 @@ class ShelterPage extends ShelterBase {
                     })
 
                     for (let o = 0; o < typePokemonNames.length; o++) {
-                        let shelterImgSearch = $("#shelterarea .tooltip_content:containsIN('"+typePokemonNames[o]+" (')")
+                        let shelterImgSearch = this.jQuery("#shelterarea .tooltip_content:containsIN('"+typePokemonNames[o]+" (')")
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
                         $(shelterBigImg).addClass('shelterfoundme');
                     }

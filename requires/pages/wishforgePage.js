@@ -1,13 +1,13 @@
 const WishforgeBase = (module) ? require('./basePage').Page : Page;
     
 class WishforgePage extends WishforgeBase {
-    constructor() {
+    constructor(jQuery, GLOBALS) {
         super('QoLWishforge', {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
               if(mutation.type === "childList" && mutation.addedNodes.length) {
-                  obj.setupHTML();
+                  obj.setupHTML(GLOBALS);
               }
           })
         });
@@ -41,7 +41,7 @@ class WishforgePage extends WishforgeBase {
         table += `</table>`;
 
         // add table to page
-        const craftedBadgesList = $('ul.badgelist').eq(1);
+        const craftedBadgesList = $('#badges').next().find('ul.badgelist');
         craftedBadgesList.prepend(table);
 
         // define column aliases to make the movements more logical
@@ -52,47 +52,48 @@ class WishforgePage extends WishforgeBase {
         const NOTIFY_COL = 6;
 
         // move elements from original elements to table
-        for (let i = 0; i < types.length; i++) {
-            let index = i + 1;
+        for (let j = 0; j < types.length; j++) {
+            let type = types[j];
+            let index = j + 1;
             let li = $(craftedBadgesList.children()[index])
 
             // get badge image
             let badgeImg = $($(li.children()[0]).children()[0]);
-            badgeImg.appendTo(`tr#${types[i]}>td:nth-child(${LEVEL_COL})`);
+            badgeImg.appendTo(`tr#${type}>td:nth-child(${LEVEL_COL})`);
 
             // get badge name
             let badgeName = $(li.children()[0]);
-            badgeName.text(' ' + badgeName.text().replace(` ${types[i]} Badge`, ""));
+            badgeName.text(' ' + badgeName.text().replace(` ${type} Badge`, ""));
             badgeName.css('display', 'inline-block');
-            badgeName.appendTo(`tr#${types[i]}>td:nth-child(${LEVEL_COL})`);
+            badgeName.appendTo(`tr#${type}>td:nth-child(${LEVEL_COL})`);
 
             // get gem progress bar
             let gemProgress = $(li.children()[0]);
-            gemProgress.appendTo(`tr#${types[i]}>td:nth-child(${GEM_COL})`);
+            gemProgress.appendTo(`tr#${type}>td:nth-child(${GEM_COL})`);
 
             // if the badge is under construction, the tooltip will not be there
             if($(li.children()[0]).hasClass('itemtooltip')) {
                 let gemTooltip = $(li.children()[0]);
-                gemTooltip.appendTo(`tr#${types[i]}>td:nth-child(${GEM_COL})`);
+                gemTooltip.appendTo(`tr#${type}>td:nth-child(${GEM_COL})`);
             }
 
             // get item progress bar
             let itemProgress = $(li.children()[0]);
-            itemProgress.appendTo(`tr#${types[i]}>td:nth-child(${ITEM_COL})`);
+            itemProgress.appendTo(`tr#${type}>td:nth-child(${ITEM_COL})`);
 
             // if the badge is under construction, the tooltip will not be there
             if($(li.children()[0]).hasClass('itemtooltip')) {
                 let itemTooltip = $(li.children()[0]);
-                itemTooltip.appendTo(`tr#${types[i]}>td:nth-child(${ITEM_COL})`);
+                itemTooltip.appendTo(`tr#${type}>td:nth-child(${ITEM_COL})`);
             }
 
             // get notify button
             let notifyBtn = $(li.children()[0]);
-            notifyBtn.appendTo(`tr#${types[i]}>td:nth-child(${NOTIFY_COL})`);
+            notifyBtn.appendTo(`tr#${type}>td:nth-child(${NOTIFY_COL})`);
 
             // get upgrade button
             let updateBtn = $(li.children()[0]);
-            updateBtn.appendTo(`tr#${types[i]}>td:nth-child(${UPDATE_COL})`);
+            updateBtn.appendTo(`tr#${type}>td:nth-child(${UPDATE_COL})`);
         }
 
         // remove the li's left over

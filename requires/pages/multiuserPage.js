@@ -1,30 +1,30 @@
 const MultiuserBase = (module) ? require('./basePage').Page : Page;
-    
+
 class MultiuserPage extends MultiuserBase {
     constructor() {
         super('QoLMultiuser', {
-            hideDislike : false,
-            hideAll : false,
-            niceTable : false,
+            hideDislike: false,
+            hideAll: false,
+            niceTable: false,
         }, 'users/');
         const obj = this
-        this.observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
+        this.observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
                 obj.partyModification();
             });
         });
     }
-    
+
     settingsChange(element, textElement, customClass, typeClass, arrayName) {
-        if(super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
+        if (super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
             return false;
         }
 
         const mutuallyExclusive = ["hideAll", "hideDislike", "niceTable"]
         const idx = mutuallyExclusive.indexOf(element)
-        if(idx > -1) {
-            for(let i = 0; i < mutuallyExclusive.length; i++) {
-                if(i !== idx) {
+        if (idx > -1) {
+            for (let i = 0; i < mutuallyExclusive.length; i++) {
+                if (i !== idx) {
                     this.settings[mutuallyExclusive[i]] = false;
                 }
             }
@@ -37,9 +37,9 @@ class MultiuserPage extends MultiuserBase {
     }
     setupCSS() {
         let menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
-        $("#qolpartymod").css("background-color", ""+menuBackground+"");
+        $("#qolpartymod").css("background-color", "" + menuBackground + "");
         let menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
-        $("#qolpartymod").css("color", ""+menuColor+"");
+        $("#qolpartymod").css("color", "" + menuColor + "");
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#multiuser'), {
@@ -48,30 +48,30 @@ class MultiuserPage extends MultiuserBase {
     }
     setupHandlers() {
         const obj = this
-        $(window).on('load', (function() {
+        $(window).on('load', (function () {
             obj.loadSettings();
             obj.partyModification();
         }));
 
-        $(document).on('click input', '#qolpartymod', (function() {
+        $(document).on('click input', '#qolpartymod', (function () {
             obj.partyModification();
         }));
 
-        $(document).on('click', '.tabbed_interface', (function() {
+        $(document).on('click', '.tabbed_interface', (function () {
             obj.partyModification();
         }));
 
-        $(document).on('change', '.qolsetting', (function() {
+        $(document).on('change', '.qolsetting', (function () {
             obj.loadSettings();
             obj.settingsChange(this.getAttribute('data-key'),
-                               $(this).val(),
-                               $(this).parent().parent().attr('class'),
-                               $(this).parent().attr('class'));
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'));
             obj.partyModification();
             obj.saveSettings();
         }));
-        
-        $('input.qolalone').on('change', function() { //only 1 textbox may be true
+
+        $('input.qolalone').on('change', function () { //only 1 textbox may be true
             $('input.qolalone').not(this).prop('checked', false);
         });
     }

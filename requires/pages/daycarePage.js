@@ -1,8 +1,9 @@
 const DaycareBase = (module) ? require('./basePage').Page : Page;
     
 class DaycarePage extends DaycareBase {
-    constructor(GLOBALS) {
+    constructor(jQuery, GLOBALS) {
         super('QoLDaycare', {}, 'daycare')
+        this.jQuery = jQuery;
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
@@ -51,9 +52,9 @@ class DaycarePage extends DaycareBase {
         // in globals.js to match the order that PFQ has it in
 
         // clear matches
-        let bigImgs = document.querySelectorAll('.privatefoundme')
+        let bigImgs = document.querySelectorAll('.daycarefoundme')
         if(bigImgs !== null) {
-            bigImgs.forEach((b) => {$(b).removeClass('privatefoundme')})
+            bigImgs.forEach((b) => {$(b).removeClass('daycarefoundme')})
         }
 
         if(gender !== null && eggGroup1 !== null) {
