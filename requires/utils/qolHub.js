@@ -120,6 +120,3 @@ class QoLHub {
         }) ;// getMainDexPage
     } // handleUpdateDexClick
 } // QoLHub
-
-if(module)
-    module.exports = QoLHub;

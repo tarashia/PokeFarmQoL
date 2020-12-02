@@ -128,6 +128,3 @@ class Globals {
     static EVOLVE_BY_LEVEL_LIST = null;
     static EVOLUTIONS_LEFT = null;
 }
-
-if(module)
-    exports.Globals = Globals;
