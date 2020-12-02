@@ -87,7 +87,7 @@ const pfqol = function($) {
     if(!LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
         LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, GLOBALS); // so load it from the web
     } else { // can load it from storage
-        LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($); // reload it from web if it's old
+        LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($, document, DexUtilities, GLOBALS); // reload it from web if it's old
     }
     LOCAL_STORAGE.loadEvolveByLevelList(GLOBALS);
     LOCAL_STORAGE.loadEvolutionTreeDepthList(GLOBALS);
@@ -428,6 +428,6 @@ const pfqol = function($) {
 }
 
 if(module)
-    exports.pfqol = pfqol;
+    module.exports.pfqol = pfqol;
 else
     pfqol(jQuery);
