@@ -1,4 +1,4 @@
-const jQuery = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs')
 const path = require('path')
@@ -36,7 +36,7 @@ describe("Test Dex Page", () => {
 
         localStorage.setItem('QoLDex', '{}');
 
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
 
         // trigger MutationObserver
         $('#regionslist .region-entries li.entry').eq(0).remove();
@@ -44,7 +44,7 @@ describe("Test Dex Page", () => {
         // mimic click outside the types list
         const types2Span = $('.filter-type-2 .types');
         const type2 = $('.filter-type-2');
-        let event = jQuery.Event("mousedown.dextfilter");
+        let event = $.Event("mousedown.dextfilter");
         event.originalEvent = {
             preventDefault: () => { return true; }
         };
@@ -57,7 +57,7 @@ describe("Test Dex Page", () => {
         type2.trigger(event);
 
         // mimic click inside the types list to enable 2nd type search
-        event = jQuery.Event("mousedown.dextfilter");
+        event = $.Event("mousedown.dextfilter");
         event.originalEvent = {
             preventDefault: () => { return true; }
         };
@@ -70,7 +70,7 @@ describe("Test Dex Page", () => {
         type2.trigger(event);
 
         // mimic second click inside the types list to disable 2nd tyep search
-        event = jQuery.Event("mousedown.dextfilter");
+        event = $.Event("mousedown.dextfilter");
         event.originalEvent = {
             preventDefault: () => { return true; }
         };
@@ -87,7 +87,7 @@ describe("Test Dex Page", () => {
         const normal = types1Span.children().eq(0);
         normal.addClass("selected");
         // mimic click inside the types list to enable 2nd type search
-        event = jQuery.Event("mousedown.dextfilter");
+        event = $.Event("mousedown.dextfilter");
         event.originalEvent = {
             preventDefault: () => { return true; }
         };
@@ -102,7 +102,7 @@ describe("Test Dex Page", () => {
         // // mimic click outside the types list
         // const types2Span = $('.filter-type-2 .types');
         // const type2 = $('.filter-type-2');
-        // let event = jQuery.Event("mousedown.dextfilter");
+        // let event = $.Event("mousedown.dextfilter");
         // event.originalEvent = {
         //     preventDefault: () => { return true; }
         // };

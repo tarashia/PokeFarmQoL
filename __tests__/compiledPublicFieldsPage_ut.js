@@ -1,4 +1,4 @@
-const jQuery = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs')
 const path = require('path')
@@ -63,7 +63,7 @@ describe("Test Public Fields Page", () => {
                              '"tooltipEnableMods":true,'+
                              '"tooltipNoBerry":true,'+
                              '"tooltipBerry":true}');
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
 
         $(window).trigger('load');
         $('.field', document).trigger('load');
@@ -109,7 +109,7 @@ describe("Test Public Fields Page", () => {
          $('[data-key=fieldClickCount]').trigger('click');
 
          // trigger keydown handler
-        let keyevent = jQuery.Event('keydown');
+        let keyevent = $.Event('keydown');
         keyevent.keyCode = 78;
         $(window).trigger(keyevent);
 
@@ -117,7 +117,7 @@ describe("Test Public Fields Page", () => {
         const keys = [49, 97, 50, 98, 51, 99, 52, 100, 53, 101];
         for(let i = 0; i < keys.length; i++) {
             let key = keys[i];
-            keyevent = jQuery.Event('keyup.field_shortcuts');
+            keyevent = $.Event('keyup.field_shortcuts');
             keyevent.keyCode = key;
             $(window).trigger(keyevent);
         }
@@ -152,7 +152,8 @@ describe("Test Public Fields Page", () => {
                              '"tooltipEnableMods":true,'+
                              '"tooltipNoBerry":true,'+
                              '"tooltipBerry":true}');
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
+
         // use 'fieldShiny' click as a roundabout way to reload the settings
         $('[data-key=fieldShiny]').trigger('click');
     });

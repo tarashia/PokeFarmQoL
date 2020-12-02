@@ -1,4 +1,4 @@
-const jQuery = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs')
 const path = require('path')
@@ -61,7 +61,8 @@ describe("Test Shelter page", () => {
                '"customPng":true,'+
                '"shelterGrid":true}');
         
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
+
         // trigger '#shelteroptionsqol input' change event
         // trigger '.qolsetting' change event
         // trigger '.qolsetting' input event
@@ -77,7 +78,7 @@ describe("Test Shelter page", () => {
         // // trigger '#removeShelterTypeList' click event
         $('#removeShelterTypeList').trigger('click');
         // trigger 'keyup.qol_shelter_shortcuts' keyup event
-        const keyevent = jQuery.Event('keyup.qol_shelter_shortcuts');
+        const keyevent = $.Event('keyup.qol_shelter_shortcuts');
         keyevent.keyCode = 78;
         $(window).trigger(keyevent);
         $(window).trigger(keyevent);

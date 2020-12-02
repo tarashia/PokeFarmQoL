@@ -1,4 +1,4 @@
-const jQuery = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs')
 const path = require('path')
@@ -79,7 +79,7 @@ describe("Test Farm Page", () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
 
         // trigger '#qolevolvenormal' click handler
         $('#qolevolvenormal').trigger('click');

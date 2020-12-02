@@ -1,4 +1,4 @@
-const jQuery = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs')
 const path = require('path')
@@ -61,7 +61,7 @@ describe("Test Private Fields Page", () => {
                             '"tooltipNoBerry":true,'+
                             '"tooltipBerry":true}');
 
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
 
         $(window).trigger('load');
         $('.field', document).trigger('load');
@@ -114,7 +114,8 @@ describe("Test Private Fields Page", () => {
                             '"tooltipEnableMods":true,'+
                             '"tooltipNoBerry":true,'+
                             '"tooltipBerry":true}');
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
+
         // use 'fieldShiny' click as a roundabout way to reload the settings
         $('[data-key=fieldShiny]').trigger('click');
 
@@ -182,7 +183,7 @@ describe("Test Private Fields Page", () => {
                             '"tooltipNoBerry":true,'+
                             '"tooltipBerry":true}');
 
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
 
         // trigger dialog buttons
         $('*[data-menu="release"]').trigger('click');
@@ -228,7 +229,7 @@ describe("Test Private Fields Page", () => {
                             '"tooltipNoBerry":true,'+
                             '"tooltipBerry":true}');
 
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
 
         // trigger dialog buttons
         $('*[data-menu="bulkmove"]').trigger('click');

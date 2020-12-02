@@ -1,4 +1,4 @@
-const jQuery = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs')
 const path = require('path')
@@ -39,7 +39,7 @@ describe("Test Lab Page", () => {
                              '"customEgg":true,'+
                              '"findLabType":"13,9",'+
                              '"findTypeEgg":true}');
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
 
         // trigger 'window' load handler
         $(window).trigger('load');

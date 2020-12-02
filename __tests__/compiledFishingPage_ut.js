@@ -1,4 +1,4 @@
-const jQuery = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs')
 const path = require('path')
@@ -35,7 +35,7 @@ describe("Test Fishing Page", () => {
         document.documentElement.innerHTML = innerHTML;
 
         localStorage.setItem('QoLLab', '{}');
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
 
         $("#selectallfishcheckbox").trigger('click');
         $('#movefishselectanycheckbox').trigger('click');

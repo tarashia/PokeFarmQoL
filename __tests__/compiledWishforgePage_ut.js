@@ -1,4 +1,4 @@
-const jQuery = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs')
 const path = require('path')
@@ -38,7 +38,7 @@ describe("Test Wishforge Page", () => {
         const craftedBadgesDiv = $('#badges').next("div").clone();
         const craftedBadgesUl = craftedBadgesDiv.children().eq(0);
 
-        pfqol.pfqol(jQuery);
+        pfqol.pfqol($);
 
         // // trigger MutationObserver by adding an element in the div with the badge list
         // $('#badges').next("div").append('<p>Test</p>');
