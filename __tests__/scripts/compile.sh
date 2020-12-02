@@ -29,23 +29,20 @@ declare -a INPUT=("${ROOT}/requires/utils/helpers.js"
 OUTPUT="${ROOT}/__tests__/compiled.js"
 
 # try to mimic the web environment
-echo "module = false;" > "${OUTPUT}"
+echo "" > "${OUTPUT}"
 echo "const GM_getResourceText = require('../__mocks__/tampermonkey').GM_getResourceText" >> "${OUTPUT}"
 echo "const GM_xmlhttpRequest  = require('../__mocks__/tampermonkey').GM_xmlhttpRequest" >> "${OUTPUT}"
 echo "const GM_addStyle        = require('../__mocks__/tampermonkey').GM_addStyle" >> "${OUTPUT}"
 echo "const GM_info            = require('../__mocks__/tampermonkey').GM_info" >> "${OUTPUT}"
 
-for i in "${EXTERNALS[@]}"; do
+for FILE in "${EXTERNALS[@]}"; do
    echo "/* istanbul ignore next */" >> "${OUTPUT}"
-   cat "$i" >> "${OUTPUT}"
+   cat "$FILE" >> "${OUTPUT}"
    echo "" >> "${OUTPUT}"
 done
 
-for i in "${INPUT[@]}"; do
-   if [ "$i" = "${TOP_LEVEL}" ]; then
-      echo "module = true;" >> "${OUTPUT}"
-   fi
-   cat "$i" >> "${OUTPUT}"
+for FILE in "${INPUT[@]}"; do
+   cat "$FILE" >> "${OUTPUT}"
    echo "" >> "${OUTPUT}"
 done
 
