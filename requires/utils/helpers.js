@@ -26,7 +26,7 @@ let Helpers = (function Helpers() {
             }
         }, // toggleSetting
 
-        setupFieldArrayHTML(arr, id, div, cls) {
+        setupFieldArrayHTML($, arr, id, div, cls) {
             let n = arr.length;
             for(let i = 0; i < n; i++) {
                 let rightDiv = i + 1;
@@ -81,7 +81,7 @@ let Helpers = (function Helpers() {
                 `array-name='${array_name}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
         },
 
-        parseFieldPokemonTooltip(GLOBALS, tooltip) {
+        parseFieldPokemonTooltip($, GLOBALS, tooltip) {
             const dataElements = $(tooltip).children(0).children()
 
             let index = 1;
@@ -156,6 +156,3 @@ let Helpers = (function Helpers() {
 
     return API;
 })();
-
-if(module)
-    exports.Helpers = Helpers;
