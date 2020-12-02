@@ -1,7 +1,7 @@
-const DexBase = (module) ? require('./basePage').Page : Page;
+const DexBase = Page;
     
 class DexPage extends DexBase {
-    constructor() {
+    constructor(jQuery) {
         super('QoLDexPage', {}, '/dex')
         const obj = this
         this.observer = new MutationObserver(function(mutations) {
@@ -9,6 +9,7 @@ class DexPage extends DexBase {
                 obj.applyTypeFilters();
             });
         });
+        this.jQuery = jQuery;
         this.typeArray = []
     }
     setupObserver() {
@@ -23,21 +24,21 @@ class DexPage extends DexBase {
         elem.parentNode.appendChild(clone)
         // can't remove filter-type class or else the filtering
         // won't look right
-        $(clone).addClass('filter-type-2')
+        this.jQuery(clone).addClass('filter-type-2')
     }
 
     setupHandlers() {
         const obj = this
-        var h = $.parseJSON($("#dexdata").html())
-        const type2 = $('.filter-type-2')
-        const g = $('.filter-type-2 .name i')
-        const l = $(".filter-type-2 .types")
+        var h = obj.jQuery.parseJSON(obj.jQuery("#dexdata").html())
+        const type2 = obj.jQuery('.filter-type-2')
+        const g = obj.jQuery('.filter-type-2 .name i')
+        const l = obj.jQuery(".filter-type-2 .types")
         const c = l.children()
         const k = c.map(function() {
             return this.getAttribute("data-type")
         }).get()
 
-        const typesSpan = $('.filter-type-2 .types')
+        const typesSpan = obj.jQuery('.filter-type-2 .types')
 
         type2.on("mousedown.dextfilter touchstart.dextfilter", function(event) {
             event.preventDefault();
@@ -66,8 +67,8 @@ class DexPage extends DexBase {
     }
 
     toggleSelectedTypes(b) {
-        const g = $('.filter-type-2 .name i')
-        const l = $(".filter-type-2 .types")
+        const g = this.jQuery('.filter-type-2 .name i')
+        const l = this.jQuery(".filter-type-2 .types")
         const c = l.children()
 
         l.addClass("selected");
@@ -88,8 +89,8 @@ class DexPage extends DexBase {
     }
 
     applyTypeFilters() {
-        const l1 = $(".entry.filter-type:not(.filter-type-2) .types")
-        const l = $(".entry.filter-type-2 .types")
+        const l1 = this.jQuery(".entry.filter-type:not(.filter-type-2) .types")
+        const l = this.jQuery(".entry.filter-type-2 .types")
         const c1 = l1.children()
         const c = l.children()
 
@@ -106,11 +107,11 @@ class DexPage extends DexBase {
         }
         if(a1 || a) {
             // Set "display" to "none" for all elements
-            $('.region-entries>li.entry').css("display", "none")
+            this.jQuery('.region-entries>li.entry').css("display", "none")
             // Set "display" to "inline-block" for elements matching selector
-            $(selector).css("display", "inline-block")
+            this.jQuery(selector).css("display", "inline-block")
         } else {
-            $(selector).css("display", "inline-block")
+            this.jQuery(selector).css("display", "inline-block")
         }
     }
 }

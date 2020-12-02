@@ -1,8 +1,9 @@
-const WishforgeBase = (module) ? require('./basePage').Page : Page;
+const WishforgeBase = Page;
     
 class WishforgePage extends WishforgeBase {
     constructor(jQuery, GLOBALS) {
         super('QoLWishforge', {}, 'forge');
+        this.jQuery = jQuery;
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
@@ -14,6 +15,7 @@ class WishforgePage extends WishforgeBase {
     } // constructor
 
     setupHTML(GLOBALS) {
+        const obj = this;
         // setup table format
         const header = "<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>";
 
@@ -41,7 +43,7 @@ class WishforgePage extends WishforgeBase {
         table += `</table>`;
 
         // add table to page
-        const craftedBadgesList = $('#badges').next().find('ul.badgelist');
+        const craftedBadgesList = obj.jQuery('#badges').next().find('ul.badgelist');
         craftedBadgesList.prepend(table);
 
         // define column aliases to make the movements more logical
@@ -55,56 +57,57 @@ class WishforgePage extends WishforgeBase {
         for (let j = 0; j < types.length; j++) {
             let type = types[j];
             let index = j + 1;
-            let li = $(craftedBadgesList.children()[index])
+            let li = obj.jQuery(craftedBadgesList.children()[index])
 
             // get badge image
-            let badgeImg = $($(li.children()[0]).children()[0]);
+            let badgeImg = obj.jQuery(obj.jQuery(li.children()[0]).children()[0]);
             badgeImg.appendTo(`tr#${type}>td:nth-child(${LEVEL_COL})`);
 
             // get badge name
-            let badgeName = $(li.children()[0]);
+            let badgeName = obj.jQuery(li.children()[0]);
             badgeName.text(' ' + badgeName.text().replace(` ${type} Badge`, ""));
             badgeName.css('display', 'inline-block');
             badgeName.appendTo(`tr#${type}>td:nth-child(${LEVEL_COL})`);
 
             // get gem progress bar
-            let gemProgress = $(li.children()[0]);
+            let gemProgress = obj.jQuery(li.children()[0]);
             gemProgress.appendTo(`tr#${type}>td:nth-child(${GEM_COL})`);
 
             // if the badge is under construction, the tooltip will not be there
-            if($(li.children()[0]).hasClass('itemtooltip')) {
-                let gemTooltip = $(li.children()[0]);
+            if(obj.jQuery(li.children()[0]).hasClass('itemtooltip')) {
+                let gemTooltip = obj.jQuery(li.children()[0]);
                 gemTooltip.appendTo(`tr#${type}>td:nth-child(${GEM_COL})`);
             }
 
             // get item progress bar
-            let itemProgress = $(li.children()[0]);
+            let itemProgress = obj.jQuery(li.children()[0]);
             itemProgress.appendTo(`tr#${type}>td:nth-child(${ITEM_COL})`);
 
             // if the badge is under construction, the tooltip will not be there
-            if($(li.children()[0]).hasClass('itemtooltip')) {
-                let itemTooltip = $(li.children()[0]);
+            if(obj.jQuery(li.children()[0]).hasClass('itemtooltip')) {
+                let itemTooltip = obj.jQuery(li.children()[0]);
                 itemTooltip.appendTo(`tr#${type}>td:nth-child(${ITEM_COL})`);
             }
 
             // get notify button
-            let notifyBtn = $(li.children()[0]);
+            let notifyBtn = obj.jQuery(li.children()[0]);
             notifyBtn.appendTo(`tr#${type}>td:nth-child(${NOTIFY_COL})`);
 
             // get upgrade button
-            let updateBtn = $(li.children()[0]);
+            let updateBtn = obj.jQuery(li.children()[0]);
             updateBtn.appendTo(`tr#${type}>td:nth-child(${UPDATE_COL})`);
         }
 
         // remove the li's left over
         const children = craftedBadgesList.children();
         for (let i = types.length; i >= 1; i--) {
-            $(children[i]).remove();
+            obj.jQuery(children[i]).remove();
         }
     }
     
     setupObserver() {
-        const target = $('#badges').next("div")[0];
+        const obj = this;
+        const target = obj.jQuery('#badges').next("div")[0];
         this.observer.observe(target, {
             childList: true
         });

@@ -1,4 +1,4 @@
-const DaycareBase = (module) ? require('./basePage').Page : Page;
+const DaycareBase = Page;
     
 class DaycarePage extends DaycareBase {
     constructor(jQuery, GLOBALS) {
@@ -9,7 +9,7 @@ class DaycarePage extends DaycareBase {
             mutations.forEach(function(mutation) {
                 let fs_pokemon = document.querySelector('#fs_pokemon');
                 if(fs_pokemon !== null &&
-                  $.contains(fs_pokemon, mutation.target)) {
+                  obj.jQuery.contains(fs_pokemon, mutation.target)) {
                     obj.customSearch(GLOBALS);
                 }
             })
@@ -23,6 +23,7 @@ class DaycarePage extends DaycareBase {
         });
     }
     customSearch(GLOBALS) {
+        const obj = this;
         const button = document.querySelector('#pkmnadd')
 
         let gender = null;
@@ -54,7 +55,7 @@ class DaycarePage extends DaycareBase {
         // clear matches
         let bigImgs = document.querySelectorAll('.daycarefoundme')
         if(bigImgs !== null) {
-            bigImgs.forEach((b) => {$(b).removeClass('daycarefoundme')})
+            bigImgs.forEach((b) => {obj.jQuery(b).removeClass('daycarefoundme')})
         }
 
         if(gender !== null && eggGroup1 !== null) {
@@ -62,23 +63,23 @@ class DaycarePage extends DaycareBase {
             if(fieldmons !== null) {
                 for(let m = 0; m < fieldmons.length; m++) {
                     let mon = fieldmons[m]
-                    let searchPokemonBigImg = $(mon)[0].childNodes[0];
+                    let searchPokemonBigImg = obj.jQuery(mon)[0].childNodes[0];
                     let searchPokemon = searchPokemonBigImg.alt;
 
-                    let tooltip = $(mon).next()
+                    let tooltip = obj.jQuery(mon).next()
                     let fieldmontip = tooltip[0].querySelector('.fieldmontip')
-                    let speciesDiv = $(fieldmontip).children(':contains(Species)')[0];
-                    let eggGroupDiv = $(fieldmontip).children(':contains(Egg Group)')[0]
+                    let speciesDiv = obj.jQuery(fieldmontip).children(':contains(Species)')[0];
+                    let eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0]
                     let searchIcons = speciesDiv.querySelector('span').querySelectorAll('img')
 
                     // There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
                     // The gender title can be "[M], [F], [N]"
                     let searchGender = searchIcons[0].title.toLowerCase().substring(1,2)
-                    let searchEggGroups = $(eggGroupDiv).text().slice("Egg Group: ".length).split('/')
+                    let searchEggGroups = obj.jQuery(eggGroupDiv).text().slice("Egg Group: ".length).split('/')
 
                     // Match ditto to anything that can breed
                     if(searchPokemon === "Ditto" && eggGroup1 !== "Undiscovered") {
-                        $(searchPokemonBigImg).addClass('daycarefoundme')
+                        obj.jQuery(searchPokemonBigImg).addClass('daycarefoundme')
                     }
                     // Match correct gender
                     else {
@@ -91,7 +92,7 @@ class DaycarePage extends DaycareBase {
                         }
 
                         if(genderCorrect && (group1Correct || group2Correct)) {
-                            $(searchPokemonBigImg).addClass('daycarefoundme')
+                            obj.jQuery(searchPokemonBigImg).addClass('daycarefoundme')
                         }
                     }
 

@@ -1,4 +1,4 @@
-const PublicFieldsBase = (module) ? require('./basePage').Page : Page;
+const PublicFieldsBase = Page;
     
 class PublicFieldsPage extends PublicFieldsBase {
     constructor(jQuery, GLOBALS) {
@@ -81,33 +81,33 @@ class PublicFieldsPage extends PublicFieldsBase {
         this.typeArray = this.settings.fieldType.split(',');
         this.natureArray = this.settings.fieldNature.split(',');
         this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-        Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
-        Helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
-        Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
-        Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+        Helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
+        Helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
+        Helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
 
         this.handleTooltipSettings()
     }
     setupCSS() {
-        let fieldOrderCssColor = $('#field_field').css('background-color');
-        let fieldOrderCssBorder = $('#field_field').css('border');
-        $("#fieldorder").css("background-color", ""+fieldOrderCssColor+"");
-        $("#fieldorder").css("border", ""+fieldOrderCssBorder+"");
-        $("#tooltipenable").css("background-color", ""+fieldOrderCssColor+"");
-        $("#tooltipenable").css("border", ""+fieldOrderCssBorder+"");
-        $("#tooltipenable").css("max-width", "600px");
-        $("#tooltipenable").css("position", "relative");
-        $("#tooltipenable").css("margin", "16px auto");
-        $("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
-        $("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
-        $(".collapsible").css("background-color", ""+fieldOrderCssColor+"");
-        $(".collapsible").css("border", ""+fieldOrderCssBorder+"");
-        $(".collapsible_content").css("background-color", ""+fieldOrderCssColor+"");
+        let fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
+        let fieldOrderCssBorder = this.jQuery('#field_field').css('border');
+        this.jQuery("#fieldorder").css("background-color", ""+fieldOrderCssColor+"");
+        this.jQuery("#fieldorder").css("border", ""+fieldOrderCssBorder+"");
+        this.jQuery("#tooltipenable").css("background-color", ""+fieldOrderCssColor+"");
+        this.jQuery("#tooltipenable").css("border", ""+fieldOrderCssBorder+"");
+        this.jQuery("#tooltipenable").css("max-width", "600px");
+        this.jQuery("#tooltipenable").css("position", "relative");
+        this.jQuery("#tooltipenable").css("margin", "16px auto");
+        this.jQuery("#fieldsearch").css("background-color", ""+fieldOrderCssColor+"");
+        this.jQuery("#fieldsearch").css("border", ""+fieldOrderCssBorder+"");
+        this.jQuery(".collapsible").css("background-color", ""+fieldOrderCssColor+"");
+        this.jQuery(".collapsible").css("border", ""+fieldOrderCssBorder+"");
+        this.jQuery(".collapsible_content").css("background-color", ""+fieldOrderCssColor+"");
         
         // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
         // settings as most of the text on the site, manually set the text color for
         // '.collapsible' to match the text around it
-        $(".collapsible").css("color", $("#content").find("h1").eq(0).css("color"));
+        this.jQuery(".collapsible").css("color", this.jQuery("#content").find("h1").eq(0).css("color"));
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#field_field'), {
@@ -119,14 +119,14 @@ class PublicFieldsPage extends PublicFieldsBase {
     }
     setupHandlers(GLOBALS) {
         const obj = this
-        $(window).on('load', (function() {
+        obj.jQuery(window).on('load', (function() {
             obj.loadSettings()
             obj.customSearch(GLOBALS);
             obj.handleTooltipSettings()
             obj.saveSettings()
         }));
 
-        $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
+        obj.jQuery(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
             obj.customSearch(GLOBALS);
         }));
 
@@ -134,71 +134,71 @@ class PublicFieldsPage extends PublicFieldsBase {
             obj.customSearch(GLOBALS);
         });
 
-        $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
+        obj.jQuery(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
             obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
-            obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
+        obj.jQuery(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
+            obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
+        obj.jQuery(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
             obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes', 'natureArray')
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
-            obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
+        obj.jQuery(document).on('click', '#removeFieldNature', (function() { //remove field nature search
+            obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
+        obj.jQuery(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
             obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray')
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
-            obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
+        obj.jQuery(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
+            obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('click', '#addTextField', (function() {
+        obj.jQuery(document).on('click', '#addTextField', (function() {
             obj.addTextField();
             obj.saveSettings();
         }));
 
-        $(document).on('click', '#removeTextField', (function() {
-            obj.removeTextField(this, $(this).parent().find('input').val());
+        obj.jQuery(document).on('click', '#removeTextField', (function() {
+            obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('change', '.qolsetting', (function() {
+        obj.jQuery(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+        obj.jQuery(document).on('input', '.qolsetting', (function() { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-                               $(this).val(),
-                               $(this).parent().parent().attr('class'),
-                               $(this).parent().attr('class'),
+                               obj.jQuery(this).val(),
+                               obj.jQuery(this).parent().parent().attr('class'),
+                               obj.jQuery(this).parent().attr('class'),
                                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        $('input.qolalone').on('change', function() { //only 1 textbox may be true
-            $('input.qolalone').not(this).prop('checked', false);
+        obj.jQuery('input.qolalone').on('change', function() { //only 1 textbox may be true
+            obj.jQuery('input.qolalone').not(this).prop('checked', false);
         });
 
-        $('.collapsible').on('click', function() {
+        obj.jQuery('.collapsible').on('click', function() {
             this.classList.toggle('active');
             var content = this.nextElementSibling;
             if(content.style.display === "block") {
@@ -208,33 +208,33 @@ class PublicFieldsPage extends PublicFieldsBase {
             }
         });
 
-        $('#field_berries').on('click', function() {
+        obj.jQuery('#field_berries').on('click', function() {
             obj.loadSettings();
             obj.handleTooltipSettings()
         });
 
-        $('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function() {
+        obj.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function() {
             obj.loadSettings();
             obj.handleTooltipSettings();
             obj.saveSettings();
         })
 
-        $('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
+        obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
             obj.loadSettings();
             obj.handleTooltipSettings();
             obj.saveSettings();
         });
 
-        $('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
+        obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
             obj.loadSettings();
             obj.handleTooltipSettings();
             obj.saveSettings();
         });
 
         // based on PFQ's code in fields_public.min.js
-        $(window).on('keyup.field_shortcuts', function (a) {
-            const k = $("#field_berries");
-            if (0 == $(a.target).closest('input, textarea').length) {
+        obj.jQuery(window).on('keyup.field_shortcuts', function (a) {
+            const k = obj.jQuery("#field_berries");
+            if (0 == obj.jQuery(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
                     case 49: // 1
                     case 97: // Num-1
@@ -261,47 +261,47 @@ class PublicFieldsPage extends PublicFieldsBase {
     }
     // specific
     handleTooltipSettings() {
-        const obj = this
-        if($('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
+        const obj = this;
+        if(obj.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
             // make sure checkboxes are enabled
-            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false)
-            $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', false)
+            obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false)
+            obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', false)
 
             // use the correct setting to turn on the tooltips based on the berries
-            if($('#field_berries').hasClass('selected')) {
-                if($('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) { obj.disableTooltips(); }
+            if(obj.jQuery('#field_berries').hasClass('selected')) {
+                if(obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) { obj.disableTooltips(); }
                 else { obj.enableTooltips(); }
             } else {
-                if($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
+                if(obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
                 else { obj.enableTooltips(); }
             }
         } else {
-            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true)
-            $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', true)
+            obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true)
+            obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', true)
             // if tooltipNoBerry was checked before the mods were disabled, reenable the tooltips
-            if($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) {
+            if(obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) {
                 obj.enableTooltips();
             }
         }
     }
     disableTooltips() {
-        $('#field_field>div.field>.fieldmon').removeAttr('data-tooltip').removeClass('tooltip_trigger')
+        this.jQuery('#field_field>div.field>.fieldmon').removeAttr('data-tooltip').removeClass('tooltip_trigger')
     }
     enableTooltips() {
-        $('#field_field>div.field>.fieldmon').attr('data-tooltip', "")
+        this.jQuery('#field_field>div.field>.fieldmon').attr('data-tooltip', "")
     }
     searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const key_index = SEARCH_DATA.indexOf(key)
         const value = SEARCH_DATA[key_index + 1]
-        const selected = $('img[title*="'+value+'"]')
+        const selected = this.jQuery('img[title*="'+value+'"]')
         if (selected.length) {
             let searchResult = SEARCH_DATA[key_index + 2]; //type of Pokémon found
             let imgResult = selected.length + " " + searchResult; //amount + type found
             let imgFitResult = SEARCH_DATA[key_index + 3]; //image for type of Pokémon
             // next line different from shelter
             let bigImg = selected.parent().parent().parent().parent().prev().children('img.big')
-            $(bigImg).addClass('publicfoundme');
+            this.jQuery(bigImg).addClass('publicfoundme');
         }
     }
     searchForCustomPokemon(value, male, female, nogender) {
@@ -316,7 +316,7 @@ class PublicFieldsPage extends PublicFieldsBase {
                 let selected = this.jQuery("#field_field .tooltip_content:containsIN("+value+") img[title*='" + genderMatch + "']")
                 if (selected.length) {
                     let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
-                    $(shelterBigImg).addClass('publicfoundme');
+                    this.jQuery(shelterBigImg).addClass('publicfoundme');
                 }
             }
         }
@@ -326,7 +326,7 @@ class PublicFieldsPage extends PublicFieldsBase {
             let selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))')
             if (selected.length) {
                 let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
-                $(shelterBigImg).addClass('publicfoundme');
+                this.jQuery(shelterBigImg).addClass('publicfoundme');
             }
         }
 
@@ -335,111 +335,112 @@ class PublicFieldsPage extends PublicFieldsBase {
         let selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
         if (selected.length) {
             let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big')
-            $(shelterBigImg).addClass('publicfoundme');
+            this.jQuery(shelterBigImg).addClass('publicfoundme');
         }
     }
     searchForCustomPng(value) {
-        let selected = $('#field_field img[src*="'+value+'"]')
+        let selected = this.jQuery('#field_field img[src*="'+value+'"]')
         if (selected.length) {
             let shelterImgSearch = selected
-            $(shelterImgSearch).addClass('publicfoundme');
+            this.jQuery(shelterImgSearch).addClass('publicfoundme');
         }
     }
     customSearch(GLOBALS) {
+        const obj = this;
         let dexData = GLOBALS.DEX_DATA;
 
         /////////////////////////////////////////////////
         //////////////////// sorting ////////////////////
         /////////////////////////////////////////////////
         if (this.settings.fieldByBerry === true) { //sort field by berries
-            $('.fieldmon').removeClass("qolSortMiddle");
-            $('.field').removeClass("qolGridField");
-            $('.fieldmon').removeClass("qolGridPokeSize");
-            $('.fieldmon>img').removeClass("qolGridPokeImg");
+            this.jQuery('.fieldmon').removeClass("qolSortMiddle");
+            this.jQuery('.field').removeClass("qolGridField");
+            this.jQuery('.fieldmon').removeClass("qolGridPokeSize");
+            this.jQuery('.fieldmon>img').removeClass("qolGridPokeImg");
 
-            if($('#field_field [data-flavour*="any-"]').length) {
-                $('#field_field [data-flavour*="any-"]').addClass("qolAnyBerry");
+            if(this.jQuery('#field_field [data-flavour*="any-"]').length) {
+                this.jQuery('#field_field [data-flavour*="any-"]').addClass("qolAnyBerry");
             }
-            if($('#field_field [data-flavour*="sour-"]').length) {
-                $('#field_field [data-flavour*="sour-"]').addClass("qolSourBerry");
+            if(this.jQuery('#field_field [data-flavour*="sour-"]').length) {
+                this.jQuery('#field_field [data-flavour*="sour-"]').addClass("qolSourBerry");
             }
-            if($('#field_field [data-flavour*="spicy-"]').length) {
-                $('#field_field [data-flavour*="spicy-"]').addClass("qolSpicyBerry");
+            if(this.jQuery('#field_field [data-flavour*="spicy-"]').length) {
+                this.jQuery('#field_field [data-flavour*="spicy-"]').addClass("qolSpicyBerry");
             }
-            if($('#field_field [data-flavour*="dry-"]').length) {
-                $('#field_field [data-flavour*="dry-"]').addClass("qolDryBerry");
+            if(this.jQuery('#field_field [data-flavour*="dry-"]').length) {
+                this.jQuery('#field_field [data-flavour*="dry-"]').addClass("qolDryBerry");
             }
-            if($('#field_field [data-flavour*="sweet-"]').length) {
-                $('#field_field [data-flavour*="sweet-"]').addClass("qolSweetBerry");
+            if(this.jQuery('#field_field [data-flavour*="sweet-"]').length) {
+                this.jQuery('#field_field [data-flavour*="sweet-"]').addClass("qolSweetBerry");
             }
-            if($('#field_field [data-flavour*="bitter-"]').length) {
-                $('#field_field [data-flavour*="bitter-"]').addClass("qolBitterBerry");
+            if(this.jQuery('#field_field [data-flavour*="bitter-"]').length) {
+                this.jQuery('#field_field [data-flavour*="bitter-"]').addClass("qolBitterBerry");
             }
         }
         else if (this.settings.fieldByMiddle === true) { //sort field in the middle
-            $('#field_field [data-flavour*="any-"]').removeClass("qolAnyBerry");
-            $('#field_field [data-flavour*="sour-"]').removeClass("qolSourBerry");
-            $('#field_field [data-flavour*="spicy-"]').removeClass("qolSpicyBerry");
-            $('#field_field [data-flavour*="dry-"]').removeClass("qolDryBerry");
-            $('#field_field [data-flavour*="sweet-"]').removeClass("qolSweetBerry");
-            $('#field_field [data-flavour*="bitter-"]').removeClass("qolBitterBerry");
-            $('.field').removeClass("qolGridField");
-            $('.fieldmon').removeClass("qolGridPokeSize");
-            $('.fieldmon>img').removeClass("qolGridPokeImg");
+            this.jQuery('#field_field [data-flavour*="any-"]').removeClass("qolAnyBerry");
+            this.jQuery('#field_field [data-flavour*="sour-"]').removeClass("qolSourBerry");
+            this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass("qolSpicyBerry");
+            this.jQuery('#field_field [data-flavour*="dry-"]').removeClass("qolDryBerry");
+            this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass("qolSweetBerry");
+            this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass("qolBitterBerry");
+            this.jQuery('.field').removeClass("qolGridField");
+            this.jQuery('.fieldmon').removeClass("qolGridPokeSize");
+            this.jQuery('.fieldmon>img').removeClass("qolGridPokeImg");
 
-            $('.fieldmon').addClass("qolSortMiddle");
+            this.jQuery('.fieldmon').addClass("qolSortMiddle");
         }
         else if (this.settings.fieldByGrid === true) { //sort field in a grid
-            $('#field_field [data-flavour*="any-"]').removeClass("qolAnyBerry");
-            $('#field_field [data-flavour*="sour-"]').removeClass("qolSourBerry");
-            $('#field_field [data-flavour*="spicy-"]').removeClass("qolSpicyBerry");
-            $('#field_field [data-flavour*="dry-"]').removeClass("qolDryBerry");
-            $('#field_field [data-flavour*="sweet-"]').removeClass("qolSweetBerry");
-            $('#field_field [data-flavour*="bitter-"]').removeClass("qolBitterBerry");
-            $('.fieldmon').removeClass("qolSortMiddle");
+            this.jQuery('#field_field [data-flavour*="any-"]').removeClass("qolAnyBerry");
+            this.jQuery('#field_field [data-flavour*="sour-"]').removeClass("qolSourBerry");
+            this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass("qolSpicyBerry");
+            this.jQuery('#field_field [data-flavour*="dry-"]').removeClass("qolDryBerry");
+            this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass("qolSweetBerry");
+            this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass("qolBitterBerry");
+            this.jQuery('.fieldmon').removeClass("qolSortMiddle");
 
-            $('.field').addClass("qolGridField");
-            $('.fieldmon').addClass("qolGridPokeSize");
-            $('.fieldmon>img').addClass("qolGridPokeImg");
+            this.jQuery('.field').addClass("qolGridField");
+            this.jQuery('.fieldmon').addClass("qolGridPokeSize");
+            this.jQuery('.fieldmon>img').addClass("qolGridPokeImg");
         }
         else {
-            $('#field_field [data-flavour*="any-"]').removeClass("qolAnyBerry");
-            $('#field_field [data-flavour*="sour-"]').removeClass("qolSourBerry");
-            $('#field_field [data-flavour*="spicy-"]').removeClass("qolSpicyBerry");
-            $('#field_field [data-flavour*="dry-"]').removeClass("qolDryBerry");
-            $('#field_field [data-flavour*="sweet-"]').removeClass("qolSweetBerry");
-            $('#field_field [data-flavour*="bitter-"]').removeClass("qolBitterBerry");
-            $('.fieldmon').removeClass("qolSortMiddle");
-            $('.field').removeClass("qolGridField");
-            $('.fieldmon').removeClass("qolGridPokeSize");
-            $('.fieldmon>img').removeClass("qolGridPokeImg");
+            this.jQuery('#field_field [data-flavour*="any-"]').removeClass("qolAnyBerry");
+            this.jQuery('#field_field [data-flavour*="sour-"]').removeClass("qolSourBerry");
+            this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass("qolSpicyBerry");
+            this.jQuery('#field_field [data-flavour*="dry-"]').removeClass("qolDryBerry");
+            this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass("qolSweetBerry");
+            this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass("qolBitterBerry");
+            this.jQuery('.fieldmon').removeClass("qolSortMiddle");
+            this.jQuery('.field').removeClass("qolGridField");
+            this.jQuery('.fieldmon').removeClass("qolGridPokeSize");
+            this.jQuery('.fieldmon>img').removeClass("qolGridPokeImg");
         }
 
         //Pokémon click counter
         if (this.settings.fieldClickCount === false) {
-            $('#pokemonclickcount').remove();
+            this.jQuery('#pokemonclickcount').remove();
         } else if (this.settings.fieldClickCount === true) {
-            let pokemonFed = $(".fieldmon").map(function() { return $(this).attr("data-fed"); }).get();
+            let pokemonFed = this.jQuery(".fieldmon").map(function() { return obj.jQuery(this).attr("data-fed"); }).get();
 
             let pokemonClicked = 0;
             for (var i = 0; i < pokemonFed.length; i++) {
                 pokemonClicked += pokemonFed[i] << 0;
             }
 
-            let pokemonInField = $('.fieldpkmncount').text();
+            let pokemonInField = this.jQuery('.fieldpkmncount').text();
 
-            if ($('#pokemonclickcount').length === 0) {
+            if (this.jQuery('#pokemonclickcount').length === 0) {
                 document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
-            } else if($('#pokemonclickcount').text() !== (pokemonClicked+' / '+pokemonInField+' Clicked')) {
-                $('#pokemonclickcount').text(pokemonClicked+' / '+pokemonInField+' Clicked');
+            } else if(this.jQuery('#pokemonclickcount').text() !== (pokemonClicked+' / '+pokemonInField+' Clicked')) {
+                this.jQuery('#pokemonclickcount').text(pokemonClicked+' / '+pokemonInField+' Clicked');
             }
 
             if(pokemonInField !== "") {
                 if (JSON.stringify(pokemonClicked) === pokemonInField) {
-                    $('#pokemonclickcount').css({"color" : "#059121"});
+                    this.jQuery('#pokemonclickcount').css({"color" : "#059121"});
                 }
                 if (pokemonClicked !== JSON.parse(pokemonInField)) {
-                    $('#pokemonclickcount').css({"color" : "#a30323"});
+                    this.jQuery('#pokemonclickcount').css({"color" : "#a30323"});
                 }
             }
         }
@@ -449,7 +450,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         /////////////////////////////////////////////////
         let bigImgs = document.querySelectorAll('.publicfoundme')
         if(bigImgs !== null) {
-            bigImgs.forEach((b) => {$(b).removeClass('publicfoundme')})
+            bigImgs.forEach((b) => {obj.jQuery(b).removeClass('publicfoundme')})
         }
 
         if(this.settings.fieldShiny === true) {
@@ -478,10 +479,10 @@ class PublicFieldsPage extends PublicFieldsBase {
         }
         if(this.settings.fieldItem === true) {
             // pokemon that hold items will have HTML that matches the following selector
-            let items = $('.tooltip_content .item>div>.tooltip_item')
+            let items = this.jQuery('.tooltip_content .item>div>.tooltip_item')
             if(items.length) {
                 let itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big')
-                $(itemBigImgs).addClass('publicfoundme');
+                this.jQuery(itemBigImgs).addClass('publicfoundme');
             }
         }
 
@@ -491,9 +492,9 @@ class PublicFieldsPage extends PublicFieldsBase {
 
         //loop to find all the types
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
-            $('.fieldmon').each(function() {
-                let searchPokemonBigImg = $(this)[0].childNodes[0];
-                const tooltip_data = Helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0])
+            this.jQuery('.fieldmon').each(function() {
+                let searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
+                const tooltip_data = Helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0])
 
                 let searchPokemon = tooltip_data.species;
                 let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
@@ -502,18 +503,18 @@ class PublicFieldsPage extends PublicFieldsBase {
 
                 let searchNature = GLOBALS.NATURE_LIST[tooltip_data.nature];
 
-                let searchEggGroup = $(this).next().find('.fieldmontip').
+                let searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
                     children(':contains(Egg Group)').eq(0).text().slice("Egg Group: ".length)
 
                 for (let i = 0; i < filteredTypeArray.length; i++) {
                     if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                        $(searchPokemonBigImg).addClass('publicfoundme');
+                        obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
                     }
                 }
 
                 for (let i = 0; i < filteredNatureArray.length; i++) {
                     if(searchNature === GLOBALS.NATURE_LIST[filteredNatureArray[i]]) {
-                        $(searchPokemonBigImg).addClass('publicfoundme');
+                        obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
                     }
                 }
 
@@ -522,7 +523,7 @@ class PublicFieldsPage extends PublicFieldsBase {
                     if(searchEggGroup === value ||
                        searchEggGroup.indexOf(value + "/") > -1 ||
                        searchEggGroup.indexOf("/" + value) > -1) {
-                        $(searchPokemonBigImg).addClass('publicfoundme');
+                        obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
                     }
                 }
             }) // each
@@ -553,41 +554,41 @@ class PublicFieldsPage extends PublicFieldsBase {
     } // customSearch
     addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
         const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name)
-        let number = $(`#${divParent}>div`).length;
-        $(`#${divParent}`).append(theList);
-        $(`.${cls}`).removeClass(cls).addClass(""+number+"");
+        let number = this.jQuery(`#${divParent}>div`).length;
+        this.jQuery(`#${divParent}`).append(theList);
+        this.jQuery(`.${cls}`).removeClass(cls).addClass(""+number+"");
     }
     removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
-        arr = $.grep(arr, function(value) { return value != key; });
+        arr = this.jQuery.grep(arr, function(value) { return value != key; });
         this.settings[settingsKey] = arr.toString();
 
-        $(byebye).parent().remove();
+        this.jQuery(byebye).parent().remove();
 
-        for(let i = 0; i < $(`#${divParent}>div`).length; i++) {
+        for(let i = 0; i < this.jQuery(`#${divParent}>div`).length; i++) {
             let rightDiv = i + 1;
-            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            this.jQuery('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
 
         return arr;
     }
     addTextField() {
         const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray')
-        let numberDiv = $('#searchkeys>div').length;
-        $('#searchkeys').append(theField);
-        $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
+        let numberDiv = this.jQuery('#searchkeys>div').length;
+        this.jQuery('#searchkeys').append(theField);
+        this.jQuery('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
     }
     removeTextField(byebye, key) {
-        this.customArray = $.grep(this.customArray, function(value) {
+        this.customArray = this.jQuery.grep(this.customArray, function(value) {
             return value != key;
         });
         this.settings.fieldCustom = this.customArray.toString()
 
-        $(byebye).parent().remove();
+        this.jQuery(byebye).parent().remove();
 
         let i;
-        for(i = 0; i < $('#searchkeys>div').length; i++) {
+        for(i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
             let rightDiv = i + 1;
-            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            this.jQuery('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
     }
 }

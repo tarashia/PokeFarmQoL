@@ -1,6 +1,4 @@
-const { collapseTextChangeRangesAcrossMultipleVersions } = require('typescript');
-
-const ShelterBase = (module) ? require('./basePage').Page : Page;
+const ShelterBase = Page;
     
 class ShelterPage extends ShelterBase {
     constructor(jQuery, GLOBALS) {
@@ -57,13 +55,13 @@ class ShelterPage extends ShelterBase {
     }
 
     setupHTML(GLOBALS) {
-        $('.tabbed_interface.horizontal>div').removeClass('tab-active');
-        $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
+        this.jQuery('.tabbed_interface.horizontal>div').removeClass('tab-active');
+        this.jQuery('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
         document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
         document.querySelector('.tabbed_interface.horizontal>ul>li').insertAdjacentHTML('afterend', '<li class=""><label>Sort</label></li>');
         document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
         document.querySelector('#shelteroptionsqol').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
-        $('#shelteroptionsqol').addClass('tab-active');
+        this.jQuery('#shelteroptionsqol').addClass('tab-active');
 
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
@@ -74,16 +72,16 @@ class ShelterPage extends ShelterBase {
         this.customArray = this.settings.findCustom.split(',');
         this.typeArray = this.settings.findType.split(',');
 
-        Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv')
-        Helpers.setupFieldArrayHTML(this.typeArray, 'shelterTypes', theType, 'typeNumber')
+        Helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv')
+        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber')
 
-        $('[data-shelter=reload]').addClass('customSearchOnClick');
-        $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
-        $('[data-shelter=blackflute]').addClass('customSearchOnClick');
+        this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
+        this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
+        this.jQuery('[data-shelter=blackflute]').addClass('customSearchOnClick');
     }
     setupCSS() {
-        let shelterSuccessCss = $('#sheltercommands').css('background-color');
-        $('#sheltersuccess').css('background-color', shelterSuccessCss);
+        let shelterSuccessCss = this.jQuery('#sheltercommands').css('background-color');
+        this.jQuery('#sheltersuccess').css('background-color', shelterSuccessCss);
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#shelterarea'), {
@@ -92,71 +90,71 @@ class ShelterPage extends ShelterBase {
     }
     setupHandlers(GLOBALS) {
         const obj = this
-        $(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
+        this.jQuery(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        $(document).on('change', '.qolsetting', (function() {
+        this.jQuery(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+        this.jQuery(document).on('input', '.qolsetting', (function() { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-                               $(this).val(),
-                               $(this).parent().parent().attr('class'),
-                               $(this).parent().attr('class'),
+                               obj.jQuery(this).val(),
+                               obj.jQuery(this).parent().parent().attr('class'),
+                               obj.jQuery(this).parent().attr('class'),
                                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        $('.customSearchOnClick').on('click', (function() {
+        this.jQuery('.customSearchOnClick').on('click', (function() {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        $(document).on('click', '#addShelterTextfield', (function() { //add shelter text field
+        this.jQuery(document).on('click', '#addShelterTextfield', (function() { //add shelter text field
             obj.addTextField();
             obj.saveSettings();
         }));
 
-        $(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
-            obj.removeTextField(this, $(this).parent().find('input').val());
+        this.jQuery(document).on('click', '#removeShelterTextfield', (function() { //remove shelter text field
+            obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
+        this.jQuery(document).on('click', '#addShelterTypeList', (function() { //add shelter type list
             obj.addTypeList(GLOBALS);
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
-            obj.removeTypeList(this, $(this).parent().find('select').val());
+        this.jQuery(document).on('click', '#removeShelterTypeList', (function() { //remove shelter type list
+            obj.removeTypeList(this, obj.jQuery(this).parent().find('select').val());
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        $(window).on('keyup.qol_shelter_shortcuts', function (a) {
-             if (0 == $(a.target).closest('input, textarea').length) {
+        this.jQuery(window).on('keyup.qol_shelter_shortcuts', function (a) {
+             if (0 == obj.jQuery(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
                     case obj.select_next_match_key:
-                        var num_matches = $('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
+                        var num_matches = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
 
                         // remove all existing locks
-                        $('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
+                        obj.jQuery('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
 
                         // default is undefined, so set the value to either 0 or 1+current
                         obj.currently_selected_match = (obj.currently_selected_match + 1) || 0;
 
                         if(num_matches) {
                             var mod_index = (num_matches == 1) ? 0 : (obj.currently_selected_match + 1) % num_matches - 1;
-                            var selected = $('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(mod_index);
+                            var selected = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(mod_index);
                             // these steps mimic clicking on the pokemon/egg
                             selected.parent().addClass('selected');
                             selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
@@ -170,43 +168,43 @@ class ShelterPage extends ShelterBase {
     }
     addTextField() {
         const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray')
-        let numberDiv = $('#searchkeys>div').length;
-        $('#searchkeys').append(theField);
-        $('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
+        let numberDiv = this.jQuery('#searchkeys>div').length;
+        this.jQuery('#searchkeys').append(theField);
+        this.jQuery('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
     }
     removeTextField(byebye, key) {
-        this.customArray = $.grep(this.customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
+        this.customArray = this.jQuery.grep(this.customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
             return value != key;
         });
         this.settings.findCustom = this.customArray.toString()
 
-        $(byebye).parent().remove();
+        this.jQuery(byebye).parent().remove();
 
         let i;
-        for(i = 0; i < $('#searchkeys>div').length; i++) {
+        for(i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
             let rightDiv = i + 1;
-            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            this.jQuery('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
     }
     addTypeList(GLOBALS) {
         const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
                                              'removeShelterTypeList', 'fieldTypes', 'typeArray');
-        let numberTypes = $('#shelterTypes>div').length;
-        $('#shelterTypes').append(theList);
-        $('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
+        let numberTypes = this.jQuery('#shelterTypes>div').length;
+        this.jQuery('#shelterTypes').append(theList);
+        this.jQuery('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
     }
     removeTypeList(byebye, key) {
-        this.typeArray = $.grep(this.typeArray, function(value) {
+        this.typeArray = this.jQuery.grep(this.typeArray, function(value) {
             return value != key;
         });
         this.settings.findType = this.typeArray.toString()
 
-        $(byebye).parent().remove();
+        this.jQuery(byebye).parent().remove();
 
         let i;
-        for(i = 0; i < $('#shelterTypes>div').length; i++) {
+        for(i = 0; i < this.jQuery('#shelterTypes>div').length; i++) {
             let rightDiv = i + 1;
-            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            this.jQuery('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
     }
     insertShelterFoundDiv(number, name, img) {
@@ -231,20 +229,21 @@ class ShelterPage extends ShelterBase {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const key_index = SEARCH_DATA.indexOf(key)
         const value = SEARCH_DATA[key_index + 1]
-        const selected = $('img[title*="'+value+'"]')
+        const selected = this.jQuery('img[title*="'+value+'"]')
         if (selected.length) {
             let searchResult = SEARCH_DATA[key_index + 2]; //type of Pokémon found
             let imgResult = selected.length + " " + searchResult; //amount + type found
             let imgFitResult = SEARCH_DATA[key_index + 3]; //image for type of Pokémon
             let shelterBigImg = selected.parent().prev().children('img.big');
-            $(shelterBigImg).addClass('shelterfoundme');
+            this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult)
         }
     }
 
     searchForReadyToEvolveByLevel(GLOBALS, dexData) {
-        let selected = $("#shelterarea .tooltip_content")
+        const obj = this;
+        let selected = this.jQuery("#shelterarea .tooltip_content")
         let readyBigImg = [];
         selected.each((idx, s) => {
             let text = s.textContent.split(' ')
@@ -258,13 +257,13 @@ class ShelterPage extends ShelterBase {
             }
 
             if(evolve_level !== undefined && level >= evolve_level) {
-                let shelterBigImg = $(s).prev().children('img.big');
+                let shelterBigImg = obj.jQuery(s).prev().children('img.big');
                 readyBigImg.push(shelterBigImg)
             }
         })
 
         for(let i = 0; i < readyBigImg.length; i++) {
-            $(readyBigImg[i]).addClass('shelterfoundme');
+            this.jQuery(readyBigImg[i]).addClass('shelterfoundme');
         }
 
         let imgResult = readyBigImg.length + " " + "ready to evolve"
@@ -276,9 +275,9 @@ class ShelterPage extends ShelterBase {
         // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
         // will not exist. If this occurs. don't try highlighting anything until the
         // pokemon is "put down"
-        if(!$(pokemon_elem).next().length) { return; }
+        if(!this.jQuery(pokemon_elem).next().length) { return; }
 
-        const tooltip_elem = $(pokemon_elem).next()[0];
+        const tooltip_elem = this.jQuery(pokemon_elem).next()[0];
         const tooltip = {
             species: tooltip_elem.textContent.split(' ')[0],
             forme: ''
@@ -301,9 +300,9 @@ class ShelterPage extends ShelterBase {
                 const evolution_tree_depth = evolution_data[pokemon].total
 
                 if(evolutions_left === 1) {
-                    $(pokemon_elem).children('img.big').addClass('oneevolutionleft');
+                    this.jQuery(pokemon_elem).children('img.big').addClass('oneevolutionleft');
                 } else if(evolutions_left === 2) {
-                    $(pokemon_elem).children('img.big').addClass('twoevolutionleft');
+                    this.jQuery(pokemon_elem).children('img.big').addClass('twoevolutionleft');
                 }
             }
         } else {
@@ -320,27 +319,27 @@ class ShelterPage extends ShelterBase {
         let lengthEggs = 0;
 
         //sort in grid
-        $('#shelterarea').removeClass('qolshelterareagrid');
-        $('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
-        $('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
-        $('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
-        $('#sheltergridthingy').remove();
+        this.jQuery('#shelterarea').removeClass('qolshelterareagrid');
+        this.jQuery('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
+        this.jQuery('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
+        this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
+        this.jQuery('#sheltergridthingy').remove();
 
         if (this.settings.shelterGrid === true) { //shelter grid
-            $('#shelterarea').addClass('qolshelterareagrid');
-            $('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
-            $('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
-            $('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
-            // $('#shelterpage #shelter #shelterarea:before').css({'display' : 'none!important'});
-            // $('<pseudo:before>').attr('style', 'display: none!important');
-            $('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
+            this.jQuery('#shelterarea').addClass('qolshelterareagrid');
+            this.jQuery('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
+            this.jQuery('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
+            this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
+            // this.jQuery('#shelterpage #shelter #shelterarea:before').css({'display' : 'none!important'});
+            // this.jQuery('<pseudo:before>').attr('style', 'display: none!important');
+            this.jQuery('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
         }
 
         //search values depending on settings
         const shelterValueArray = [];
         //emptying the sheltersuccess div to avoid duplicates
         document.querySelector('#sheltersuccess').innerHTML="";
-        $('#shelterarea>div>img').removeClass('shelterfoundme');
+        this.jQuery('#shelterarea>div>img').removeClass('shelterfoundme');
 
         if(this.settings.findShiny === true) {
             this.searchForImgTitle(GLOBALS, 'findShiny')
@@ -367,29 +366,29 @@ class ShelterPage extends ShelterBase {
             this.searchForImgTitle(GLOBALS, 'findCustomSprite')
         }
         if(this.settings.findNFE === true) {
-            $('#shelterarea>[data-stage=pokemon]').each(function() {
+            this.jQuery('#shelterarea>[data-stage=pokemon]').each(function() {
                 obj.highlightByHowFullyEvolved(GLOBALS, this)
             })
         } else {
-            $('.oneevolutionleft').each((k, v) => {
-                $(v).removeClass('oneevolutionleft');
+            this.jQuery('.oneevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('oneevolutionleft');
             });
-            $('.twoevolutionleft').each((k, v) => {
-                $(v).removeClass('twoevolutionleft');
+            this.jQuery('.twoevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('twoevolutionleft');
             });
         }
 
         if(this.settings.findNewPokemon === true) {
             let key = 'findNewPokemon'
             let value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1]
-            let selected = $("#shelterarea .tooltip_content:contains(" + value + ")")
+            let selected = this.jQuery("#shelterarea .tooltip_content:contains(" + value + ")")
             if (selected.length) {
                 let searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
                 let imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                 let tooltipResult = selected.length+" "+searchResult;
                 let shelterImgSearch = selected
                 let shelterBigImg = shelterImgSearch.prev().children('img.big');
-                $(shelterBigImg).addClass('shelterfoundme');
+                this.jQuery(shelterBigImg).addClass('shelterfoundme');
                 
                 this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult)
             }
@@ -398,9 +397,9 @@ class ShelterPage extends ShelterBase {
         if(this.settings.findNewEgg === true) {
             let key = 'findNewEgg'
             let value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1]
-            let selected = $("#shelterarea .tooltip_content:contains(" + value + ")").filter(function(){
+            let selected = this.jQuery("#shelterarea .tooltip_content:contains(" + value + ")").filter(function(){
                 // .text() will include the text in the View/Adopt and Hide buttons, so there will be a space
-                return $(this).text().startsWith(value + " ");
+                return obj.jQuery(this).text().startsWith(value + " ");
             });
 
             if (selected.length) {
@@ -410,7 +409,7 @@ class ShelterPage extends ShelterBase {
                 if (selected.length >= 1) {
                     let shelterImgSearch = selected
                     let shelterBigImg = shelterImgSearch.prev().children('img.big');
-                    $(shelterBigImg).addClass('shelterfoundme');
+                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
                 }
                 this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult)
             }
@@ -423,7 +422,7 @@ class ShelterPage extends ShelterBase {
                              'Disabling this function until the checkbox is clicked again');
                 this.settings.findReadyToEvolve = false;
                 // uncheck checkbox
-                $('[data-key=findReadyToEvolve]')[0].checked = false
+                this.jQuery('[data-key=findReadyToEvolve]')[0].checked = false
             } else {
                 this.searchForReadyToEvolveByLevel(GLOBALS, dexData)
             }
@@ -473,7 +472,7 @@ class ShelterPage extends ShelterBase {
                                 let tooltipResult = selected.length + ' ' + genderName + imgGender + " " + searchResult;
                                 let shelterImgSearch = selected
                                 let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
-                                $(shelterBigImg).addClass('shelterfoundme');
+                                this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
                                 this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng)
                             }
@@ -488,7 +487,7 @@ class ShelterPage extends ShelterBase {
                             let tooltipResult = selected.length + " " + searchResult;
                             let shelterImgSearch = selected
                             let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
-                            $(shelterBigImg).addClass('shelterfoundme');
+                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
                             this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng)
                         }
                     }
@@ -502,7 +501,7 @@ class ShelterPage extends ShelterBase {
                         let tooltipResult = selected.length + " " + searchResult;
                         let shelterImgSearch = selected;
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
-                        $(shelterBigImg).addClass('shelterfoundme');
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
                         this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng)
                     }
                 }
@@ -515,7 +514,7 @@ class ShelterPage extends ShelterBase {
                         let tooltipResult = selected.length+" "+searchResult+' (Custom img search)';
                         let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
                         let shelterImgSearch = selected
-                        $(shelterImgSearch).addClass('shelterfoundme');
+                        this.jQuery(shelterImgSearch).addClass('shelterfoundme');
                         this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng)
                     }
                 }
@@ -538,13 +537,13 @@ class ShelterPage extends ShelterBase {
                 if (this.settings.findTypeEgg === true) {
                     let pokemonElems = [];
                     typePokemonNames = [];
-                    selected = $('#shelterarea>.tooltip_content:contains("Egg")');
+                    selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
                     selected.each(function() {
-                        let searchPokemon = ($(this).text().split(' ')[0]);
+                        let searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
                         let searchTypeOne = "";
                         let searchTypeTwo = "";
                         if(egg_pngs_to_types) {
-                            let imgUrl = $($(this).prev().find('img')[0]).attr('src').replace('https://pfq-static.com/img/', '');
+                            let imgUrl = obj.jQuery(obj.jQuery(this).prev().find('img')[0]).attr('src').replace('https://pfq-static.com/img/', '');
                             searchTypeOne = egg_pngs_to_types[searchPokemon] &&
                                 egg_pngs_to_types[searchPokemon][imgUrl] &&
                                 ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
@@ -563,9 +562,9 @@ class ShelterPage extends ShelterBase {
                     })
 
                     for (let o = 0; o < pokemonElems.length; o++) {
-                        let shelterImgSearch = $(pokemonElems[o]);
+                        let shelterImgSearch = this.jQuery(pokemonElems[o]);
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
-                        $(shelterBigImg).addClass('shelterfoundme');
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
                     this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames)
@@ -573,9 +572,9 @@ class ShelterPage extends ShelterBase {
 
                 if (this.settings.findTypePokemon === true) {
                     typePokemonNames = [];
-                    selected = $('#shelterarea>.tooltip_content').not(':contains("Egg")')
+                    selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")')
                     selected.each(function() {
-                        let searchPokemon = ($(this).text().split(' ')[0]);
+                        let searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
                         let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                         let searchTypeOne = dexData[searchPokemonIndex + 1];
                         let searchTypeTwo = dexData[searchPokemonIndex + 2];
@@ -587,7 +586,7 @@ class ShelterPage extends ShelterBase {
                     for (let o = 0; o < typePokemonNames.length; o++) {
                         let shelterImgSearch = this.jQuery("#shelterarea .tooltip_content:containsIN('"+typePokemonNames[o]+" (')")
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
-                        $(shelterBigImg).addClass('shelterfoundme');
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
                     this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames)

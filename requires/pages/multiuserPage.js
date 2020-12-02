@@ -1,12 +1,13 @@
-const MultiuserBase = (module) ? require('./basePage').Page : Page;
+const MultiuserBase = Page;
 
 class MultiuserPage extends MultiuserBase {
-    constructor() {
+    constructor(jQuery) {
         super('QoLMultiuser', {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
         }, 'users/');
+        this.jQuery = jQuery;
         const obj = this
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -36,10 +37,10 @@ class MultiuserPage extends MultiuserBase {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.partyModHTML);
     }
     setupCSS() {
-        let menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
-        $("#qolpartymod").css("background-color", "" + menuBackground + "");
-        let menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
-        $("#qolpartymod").css("color", "" + menuColor + "");
+        let menuBackground = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
+        this.jQuery("#qolpartymod").css("background-color", "" + menuBackground + "");
+        let menuColor = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
+        this.jQuery("#qolpartymod").css("color", "" + menuColor + "");
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#multiuser'), {
@@ -48,203 +49,199 @@ class MultiuserPage extends MultiuserBase {
     }
     setupHandlers() {
         const obj = this
-        $(window).on('load', (function () {
+        obj.jQuery(window).on('load', (function () {
             obj.loadSettings();
             obj.partyModification();
         }));
 
-        $(document).on('click input', '#qolpartymod', (function () {
+        obj.jQuery(document).on('click input', '#qolpartymod', (function () {
             obj.partyModification();
         }));
 
-        $(document).on('click', '.tabbed_interface', (function () {
+        obj.jQuery(document).on('click', '.tabbed_interface', (function () {
             obj.partyModification();
         }));
 
-        $(document).on('change', '.qolsetting', (function () {
+        obj.jQuery(document).on('change', '.qolsetting', (function () {
             obj.loadSettings();
             obj.settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'));
+                obj.jQuery(this).val(),
+                obj.jQuery(this).parent().parent().attr('class'),
+                obj.jQuery(this).parent().attr('class'));
             obj.partyModification();
             obj.saveSettings();
         }));
 
-        $('input.qolalone').on('change', function () { //only 1 textbox may be true
-            $('input.qolalone').not(this).prop('checked', false);
+        obj.jQuery('input.qolalone').on('change', function () { //only 1 textbox may be true
+            obj.jQuery('input.qolalone').not(this).prop('checked', false);
         });
     }
     partyModification() {
         if (this.settings.hideDislike === false && this.settings.hideAll === false && this.settings.niceTable === false) {
-            $('#trainerimage').removeClass('qolpartyclickhide');
-            $('#profilebox').removeClass('qolpartyclickhide');
-            $('#multiuser .pkmn').removeClass('qolpartyclickhide');
-            $('#multiuser .name').removeClass('qolpartyclickhide');
-            $('#multiuser .expbar').removeClass('qolpartyclickhide');
-            $('#multiuser .taste').removeClass('qolpartyclickhide');
-            $('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").removeClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").removeClass('qolpartyclickwidth');
-            $(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").removeClass('qolpartyclickblock');
-            $('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-            $('#multiuser .party>div').removeClass('qolpartyclickalot');
-            $('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
-            $('.mu_navlink.next').removeClass('qolpartyclicknav');
-            $('#multiuser .party').removeClass('qolpartyclickpartywidth');
-            $('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-            $('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-            $('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-            $('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-            $('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-            $('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-            $('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
-            $('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
-            $('#multiuser .pkmn').removeClass('qolpartyclickhide');
-            $('#multiuser .name').removeClass('qolpartyclickhide');
-            $('#multiuser .expbar').removeClass('qolpartyclickhide');
-            $('#multiuser .taste').removeClass('qolpartyclickhide');
-            $('#multiuser .party').removeClass('qolpartyclickpartywidth');
-            $('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-            $('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-            $('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-            $('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-            $('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-            $('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-            $('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-
-            $('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
+            this.jQuery('#trainerimage').removeClass('qolpartyclickhide');
+            this.jQuery('#profilebox').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+            this.jQuery('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").removeClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").removeClass('qolpartyclickwidth');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").removeClass('qolpartyclickblock');
+            this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
+            this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
+            this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
+            this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+            this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+            this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+            this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+            this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+            this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+            this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+            this.jQuery('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
+            this.jQuery('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
+            this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+            this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+            this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+            this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+            this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+            this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+            this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+            this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+            this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
         }
 
         if (this.settings.hideDislike === true) {
-            $('#trainerimage').removeClass('qolpartyclickhide');
-            $('#profilebox').removeClass('qolpartyclickhide');
-            $('#multiuser .pkmn').removeClass('qolpartyclickhide');
-            $('#multiuser .name').removeClass('qolpartyclickhide');
-            $('#multiuser .expbar').removeClass('qolpartyclickhide');
-            $('#multiuser .taste').removeClass('qolpartyclickhide');
-            $('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").removeClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").removeClass('qolpartyclickwidth');
-            $(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").removeClass('qolpartyclickblock');
-            $('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-            $('#multiuser .party>div').removeClass('qolpartyclickalot');
-            $('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
-            $('.mu_navlink.next').removeClass('qolpartyclicknav');
-            $('#multiuser .party').removeClass('qolpartyclickpartywidth');
-            $('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-            $('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-            $('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-            $('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-            $('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-            $('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-            $('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
-            $('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
-            $('#multiuser .pkmn').removeClass('qolpartyclickhide');
-            $('#multiuser .name').removeClass('qolpartyclickhide');
-            $('#multiuser .expbar').removeClass('qolpartyclickhide');
-            $('#multiuser .taste').removeClass('qolpartyclickhide');
-            $('#multiuser .party').removeClass('qolpartyclickpartywidth');
-            $('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-            $('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-            $('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-            $('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-            $('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-            $('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-            $('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-
-            $('.party>div>.action>.berrybuttons').addClass('qolpartyclicktextalign');
-            $(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").addClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").addClass('qolpartyclickwidth');
-            $(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").addClass('qolpartyclickblock');
+            this.jQuery('#trainerimage').removeClass('qolpartyclickhide');
+            this.jQuery('#profilebox').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+            this.jQuery('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").removeClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").removeClass('qolpartyclickwidth');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").removeClass('qolpartyclickblock');
+            this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
+            this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
+            this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
+            this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+            this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+            this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+            this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+            this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+            this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+            this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+            this.jQuery('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
+            this.jQuery('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
+            this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+            this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+            this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+            this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+            this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+            this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+            this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+            this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+            this.jQuery('.party>div>.action>.berrybuttons').addClass('qolpartyclicktextalign');
+            this.jQuery(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").addClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").addClass('qolpartyclickwidth');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").addClass('qolpartyclickblock');
         }
 
         if (this.settings.niceTable === true) {
-            $('#trainerimage').removeClass('qolpartyclickhide');
-            $('#profilebox').removeClass('qolpartyclickhide');
-            $('#multiuser .pkmn').removeClass('qolpartyclickhide');
-            $('#multiuser .name').removeClass('qolpartyclickhide');
-            $('#multiuser .expbar').removeClass('qolpartyclickhide');
-            $('#multiuser .taste').removeClass('qolpartyclickhide');
-            $('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").removeClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").removeClass('qolpartyclickwidth');
-            $(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").removeClass('qolpartyclickblock');
-            $('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-            $('#multiuser .party>div').removeClass('qolpartyclickalot');
-            $('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
-            $('.mu_navlink.next').removeClass('qolpartyclicknav');
-            $('#multiuser .party').removeClass('qolpartyclickpartywidth');
-            $('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-            $('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-            $('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-            $('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-            $('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-            $('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-            $('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
-            $('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
-            $('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
-
-            $('#multiuser .pkmn').addClass('qolpartyclickhide');
-            $('#multiuser .name').addClass('qolpartyclickhide');
-            $('#multiuser .expbar').addClass('qolpartyclickhide');
-            $('#multiuser .taste').addClass('qolpartyclickhide');
-            $('#multiuser .party').addClass('qolpartyclickpartywidth');
-            $('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
-            $('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
-            $('#multiuser .party>div:nth-child(2)').addClass('qolpartyclickbordertwo');
-            $('#multiuser .party>div:nth-child(5)').addClass('qolpartyclickborderthree');
-            $('#multiuser .party>div:nth-child(6)').addClass('qolpartyclickborderfour');
-            $('#multiuser .party>div:nth-child(2n+1)').addClass('qolpartyclickborderfive');
-            $('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
-            $('.party>div>.action>.berrybuttons').addClass('qolpartyclicktextalign');
-            $(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").addClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").addClass('qolpartyclickwidth');
-            $(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").addClass('qolpartyclickblock');
+            this.jQuery('#trainerimage').removeClass('qolpartyclickhide');
+            this.jQuery('#profilebox').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+            this.jQuery('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").removeClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").removeClass('qolpartyclickwidth');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").removeClass('qolpartyclickblock');
+            this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
+            this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
+            this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
+            this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+            this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+            this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+            this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+            this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+            this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+            this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+            this.jQuery('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
+            this.jQuery('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
+            this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
+            this.jQuery('#multiuser .pkmn').addClass('qolpartyclickhide');
+            this.jQuery('#multiuser .name').addClass('qolpartyclickhide');
+            this.jQuery('#multiuser .expbar').addClass('qolpartyclickhide');
+            this.jQuery('#multiuser .taste').addClass('qolpartyclickhide');
+            this.jQuery('#multiuser .party').addClass('qolpartyclickpartywidth');
+            this.jQuery('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
+            this.jQuery('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
+            this.jQuery('#multiuser .party>div:nth-child(2)').addClass('qolpartyclickbordertwo');
+            this.jQuery('#multiuser .party>div:nth-child(5)').addClass('qolpartyclickborderthree');
+            this.jQuery('#multiuser .party>div:nth-child(6)').addClass('qolpartyclickborderfour');
+            this.jQuery('#multiuser .party>div:nth-child(2n+1)').addClass('qolpartyclickborderfive');
+            this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
+            this.jQuery('.party>div>.action>.berrybuttons').addClass('qolpartyclicktextalign');
+            this.jQuery(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").addClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").addClass('qolpartyclickwidth');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").addClass('qolpartyclickblock');
         }
 
 
         if (this.settings.hideAll === true) {
-            $('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
-            $(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").removeClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").removeClass('qolpartyclickwidth');
-            $(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").removeClass('qolpartyclickblock');
-            $('#multiuser .pkmn').removeClass('qolpartyclickhide');
-            $('#multiuser .name').removeClass('qolpartyclickhide');
-            $('#multiuser .expbar').removeClass('qolpartyclickhide');
-            $('#multiuser .taste').removeClass('qolpartyclickhide');
-            $('#multiuser .party').removeClass('qolpartyclickpartywidth');
-            $('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-            $('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-            $('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-            $('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-            $('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-            $('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-            $('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-
-            $('#trainerimage').addClass('qolpartyclickhide');
-            $('#profilebox').addClass('qolpartyclickhide');
-            $('#multiuser .pkmn').addClass('qolpartyclickhide');
-            $('#multiuser .name').addClass('qolpartyclickhide');
-            $('#multiuser .expbar').addClass('qolpartyclickhide');
-            $('#multiuser .taste').addClass('qolpartyclickhide');
-            $('#partybox .party>div>.action.working').addClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").addClass('qolpartyclickhide');
-            $(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").addClass('qolpartyclickwidth');
-            $(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").addClass('qolpartyclickblock');
-            $('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
-            $('#multiuser .party>div').addClass('qolpartyclickalot');
-            $('#multiuser .party>div>.action a[data-berry]').addClass('qolpartyclickz');
-            $('.mu_navlink.next').addClass('qolpartyclicknav');
-            $('#multiuser .party').addClass('qolpartyclickpartywidth');
-            $('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
-            $('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
-            $('#multiuser .party>div:nth-child(2)').addClass('qolpartyclickbordertwo');
-            $('#multiuser .party>div:nth-child(5)').addClass('qolpartyclickborderthree');
-            $('#multiuser .party>div:nth-child(6)').addClass('qolpartyclickborderfour');
-            $('#multiuser .party>div:nth-child(2n+1)').addClass('qolpartyclickborderfive');
-            $('#multiuser.tabbed_interface.horizontal>ul').addClass('qolpartyclickul');
-            $('#multiuser.tabbed_interface>ul>li>label').addClass('qolpartyclicklilabel');
+            this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
+            this.jQuery(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").removeClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").removeClass('qolpartyclickwidth');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").removeClass('qolpartyclickblock');
+            this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+            this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+            this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+            this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+            this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+            this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+            this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+            this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+            this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+            this.jQuery('#trainerimage').addClass('qolpartyclickhide');
+            this.jQuery('#profilebox').addClass('qolpartyclickhide');
+            this.jQuery('#multiuser .pkmn').addClass('qolpartyclickhide');
+            this.jQuery('#multiuser .name').addClass('qolpartyclickhide');
+            this.jQuery('#multiuser .expbar').addClass('qolpartyclickhide');
+            this.jQuery('#multiuser .taste').addClass('qolpartyclickhide');
+            this.jQuery('#partybox .party>div>.action.working').addClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons:not([data-up='sour'])>[data-berry='aspear'], .party>div>.action>.berrybuttons:not([data-up='spicy'])>[data-berry='cheri'], .party>div>.action>.berrybuttons:not([data-up='dry'])>[data-berry='chesto'], .party>div>.action>.berrybuttons:not([data-up='sweet'])>[data-berry='pecha'], .party>div>.action>.berrybuttons:not([data-up='bitter'])>[data-berry='rawst']").addClass('qolpartyclickhide');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='sour']>[data-berry='aspear'], .party>div>.action>.berrybuttons[data-up='spicy']>[data-berry='cheri'], .party>div>.action>.berrybuttons[data-up='dry']>[data-berry='chesto'], .party>div>.action>.berrybuttons[data-up='sweet']>[data-berry='pecha'], .party>div>.action>.berrybuttons[data-up='bitter']>[data-berry='rawst']").addClass('qolpartyclickwidth');
+            this.jQuery(".party>div>.action>.berrybuttons[data-up='any']>[data-berry]").addClass('qolpartyclickblock');
+            this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
+            this.jQuery('#multiuser .party>div').addClass('qolpartyclickalot');
+            this.jQuery('#multiuser .party>div>.action a[data-berry]').addClass('qolpartyclickz');
+            this.jQuery('.mu_navlink.next').addClass('qolpartyclicknav');
+            this.jQuery('#multiuser .party').addClass('qolpartyclickpartywidth');
+            this.jQuery('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
+            this.jQuery('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
+            this.jQuery('#multiuser .party>div:nth-child(2)').addClass('qolpartyclickbordertwo');
+            this.jQuery('#multiuser .party>div:nth-child(5)').addClass('qolpartyclickborderthree');
+            this.jQuery('#multiuser .party>div:nth-child(6)').addClass('qolpartyclickborderfour');
+            this.jQuery('#multiuser .party>div:nth-child(2n+1)').addClass('qolpartyclickborderfive');
+            this.jQuery('#multiuser.tabbed_interface.horizontal>ul').addClass('qolpartyclickul');
+            this.jQuery('#multiuser.tabbed_interface>ul>li>label').addClass('qolpartyclicklilabel');
         }
     }
 }

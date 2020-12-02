@@ -1,4 +1,4 @@
-const LabBase = (module) ? require('./basePage').Page : Page;
+const LabBase = Page;
 
 class LabPage extends LabBase {
     constructor(jQuery, GLOBALS) {
@@ -41,13 +41,13 @@ class LabPage extends LabBase {
         this.searchArray = this.settings.findLabEgg.split(',');
         this.listArray = this.settings.findLabType.split(',');
 
-        Helpers.setupFieldArrayHTML(this.searchArray, 'searchkeys', theField, 'numberDiv')
-        Helpers.setupFieldArrayHTML(this.listArray, 'labTypes', theType, 'typeNumber')
+        Helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv')
+        Helpers.setupFieldArrayHTML(this.jQuery, this.listArray, 'labTypes', theType, 'typeNumber')
     }
     setupCSS() {
         //lab css
-        let labSuccessCss = $('#labpage>div').css('background-color');
-        $('#labsuccess').css('background-color', labSuccessCss);
+        let labSuccessCss = this.jQuery('#labpage>div').css('background-color');
+        this.jQuery('#labsuccess').css('background-color', labSuccessCss);
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#labpage>div>div>div'), {
@@ -59,90 +59,91 @@ class LabPage extends LabBase {
     }
     setupHandlers(GLOBALS) {
         const obj = this;
-        $(document).on('click', '#addLabSearch', (function () { //add lab text field
+        obj.jQuery(document).on('click', '#addLabSearch', (function () { //add lab text field
             obj.addTextField();
         }));
 
-        $(document).on('click', '#removeLabSearch', (function () { //remove lab text field
-            obj.removeTextField(this, $(this).parent().find('input').val());
+        obj.jQuery(document).on('click', '#removeLabSearch', (function () { //remove lab text field
+            obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
             obj.saveSettings();
         }));
 
-        $(document).on('click', '#addLabTypeList', (function () { //add lab type list
+        obj.jQuery(document).on('click', '#addLabTypeList', (function () { //add lab type list
             obj.addTypeList(GLOBALS);
         }));
 
-        $(document).on('click', '#removeLabTypeList', (function () { //remove lab type list
-            obj.removeTypeList(this, $(this).parent().find('select').val());
+        obj.jQuery(document).on('click', '#removeLabTypeList', (function () { //remove lab type list
+            obj.removeTypeList(this, obj.jQuery(this).parent().find('select').val());
             obj.saveSettings();
         }));
 
-        $(document).on('change', '#labCustomSearch input', (function () { //lab search
+        obj.jQuery(document).on('change', '#labCustomSearch input', (function () { //lab search
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('click', '#labpage', (function () { //shelter search
+        obj.jQuery(document).on('click', '#labpage', (function () { //shelter search
             obj.customSearch(GLOBALS);
         }));
 
-        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+        obj.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'),
+                obj.jQuery(this).val(),
+                obj.jQuery(this).parent().parent().attr('class'),
+                obj.jQuery(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        $(window).on('load', (function (e) {
+        obj.jQuery(window).on('load', (function (e) {
             obj.customSearch(GLOBALS);
         }));
     }
     addTextField() {
         const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray')
-        let numberDiv = $('#searchkeys>div').length;
-        $('#searchkeys').append(theField);
-        $('.numberDiv').removeClass('numberDiv').addClass("" + numberDiv + "");
+        let numberDiv = this.jQuery('#searchkeys>div').length;
+        this.jQuery('#searchkeys').append(theField);
+        this.jQuery('.numberDiv').removeClass('numberDiv').addClass("" + numberDiv + "");
     }
     removeTextField(byebye, key) {
         // when textfield is removed, the value will be deleted from the localstorage
-        this.searchArray = $.grep(this.searchArray, function (value) {
+        this.searchArray = this.jQuery.grep(this.searchArray, function (value) {
             return value != key;
         });
         this.settings.findCustom = this.searchArray.toString()
 
-        $(byebye).parent().remove();
+        this.jQuery(byebye).parent().remove();
 
-        for (let i = 0; i < $('#searchkeys>div').length; i++) {
+        for (let i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
             let rightDiv = i + 1;
-            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
+            this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
     addTypeList(GLOBALS) {
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'listArray');
-        let numberTypes = $('#labTypes>div').length;
-        $('#labTypes').append(theType);
-        $('.typeNumber').removeClass('typeNumber').addClass("" + numberTypes + "");
+        let numberTypes = this.jQuery('#labTypes>div').length;
+        this.jQuery('#labTypes').append(theType);
+        this.jQuery('.typeNumber').removeClass('typeNumber').addClass("" + numberTypes + "");
     }
     removeTypeList(byebye, key) {
-        this.listArray = $.grep(this.listArray, function (value) {
+        this.listArray = this.jQuery.grep(this.listArray, function (value) {
             return value != key;
         });
         this.settings.findType = this.listArray.toString()
 
-        $(byebye).parent().remove();
+        this.jQuery(byebye).parent().remove();
 
-        for (let i = 0; i < $('#labTypes>div').length; i++) {
+        for (let i = 0; i < this.jQuery('#labTypes>div').length; i++) {
             let rightDiv = i + 1;
-            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
+            this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
     customSearch(GLOBALS) {
+        const obj = this;
         let dexData = GLOBALS.DEX_DATA;
         document.querySelector('#labsuccess').innerHTML = "";
-        $('#egglist>div>img').removeClass('shelterfoundme');
+        obj.jQuery('#egglist>div>img').removeClass('shelterfoundme');
 
         if (!(this.listArray.length == 1 && this.listArray[0] == "")) {
             if (this.settings.findTypeEgg === true) {
@@ -155,13 +156,13 @@ class LabPage extends LabBase {
                     let amountOfTypesFound = [];
                     let typePokemonNames = [];
 
-                    $('#egglist>div>h3').each(function () {
-                        let searchPokemon = ($(this).text().split(' ')[0]);
+                    obj.jQuery('#egglist>div>h3').each(function () {
+                        let searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
                         let searchTypeOne = "";
                         let searchTypeTwo = "";
 
                         if (egg_pngs_to_types) {
-                            let imgUrl = $(this).next().attr('src').replace('https://pfq-static.com/img/', '');
+                            let imgUrl = obj.jQuery(this).next().attr('src').replace('https://pfq-static.com/img/', '');
                             searchTypeOne = egg_pngs_to_types[searchPokemon] &&
                                 egg_pngs_to_types[searchPokemon][imgUrl] &&
                                 ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
@@ -191,7 +192,7 @@ class LabPage extends LabBase {
                         let value = typePokemonNames[o];
                         let shelterImgSearch = this.jQuery("#egglist>div>h3:containsIN(" + value + ")")
                         let shelterBigImg = shelterImgSearch.next();
-                        $(shelterBigImg).addClass('shelterfoundme');
+                        obj.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
                     if (amountOfTypesFound.length > 1) {
@@ -214,7 +215,7 @@ class LabPage extends LabBase {
 
                         let shelterImgSearch = this.jQuery("#egglist>div>h3:containsIN(" + value + ")")
                         let shelterBigImg = shelterImgSearch.next();
-                        $(shelterBigImg).addClass('shelterfoundme');
+                        obj.jQuery(shelterBigImg).addClass('shelterfoundme');
 
                         if (this.jQuery("#egglist>div>h3:containsIN(" + value + ")").length > 1) {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
@@ -223,13 +224,13 @@ class LabPage extends LabBase {
                         }
                     } // if
 
-                    if ($('#egglist>div img[src*="' + value + '"]').length) {
-                        let searchResult = $('#egglist>div img[src*="' + value + '"]').prev().text();
+                    if (obj.jQuery('#egglist>div img[src*="' + value + '"]').length) {
+                        let searchResult = obj.jQuery('#egglist>div img[src*="' + value + '"]').prev().text();
 
-                        let shelterImgSearch = $('#egglist>div img[src*="' + value + '"]')
-                        $(shelterImgSearch).addClass('shelterfoundme');
+                        let shelterImgSearch = obj.jQuery('#egglist>div img[src*="' + value + '"]')
+                        obj.jQuery(shelterImgSearch).addClass('shelterfoundme');
 
-                        if ($('#egglist>div img[src*="' + value + '"]').length > 1) {
+                        if (obj.jQuery('#egglist>div img[src*="' + value + '"]').length > 1) {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
                         } else {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
