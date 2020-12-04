@@ -35,10 +35,20 @@ describe("Test that PFQoL compiles", () => {
         global.location.href = "https://pokefarm.com/party";
         pfqol.pfqol(jQuery);
         jQuery('li[data-name="QoL"]').eq(0).trigger('click');
+        jQuery('[data-key=enableDaycare]').trigger('click');
         jQuery('#updateDex').eq(0).trigger('click');
         jQuery('#resetPageSettings').eq(0).trigger('click');
         jQuery('#clearCachedDex').eq(0).trigger('click');
         jQuery('h3.slidermenu').trigger('click');
         jQuery('.closeHub').eq(0).trigger('click');
+
+        // test keydown handler for #qolcustomcss
+        let keyevent = jQuery.Event('keydown');
+        keyevent.keyCode = 9 // tab
+        jQuery('#qolcustomcss').trigger(keyevent);
+        keyevent = jQuery.Event('keydown');
+        keyevent.keyCode = 0;
+        keyevent.which = 9 // tab
+        jQuery('#qolcustomcss').trigger(keyevent);
     });
 });
