@@ -298,12 +298,10 @@ const pfqol = function($) {
                         }
                         let value = USER_SETTINGS[key];
                         if (typeof value === 'boolean') {
-                            HELPERS.toggleSetting(key, value);//, false);
-                            continue;
+                            HELPERS.toggleSetting(key, value);
                         }
                         else if (typeof value === 'string') {
-                            HELPERS.toggleSetting(key, value);//, false);
-                            continue;
+                            HELPERS.toggleSetting(key, value);
                         }
                     }
                     PAGES.populateSettings();
@@ -399,7 +397,7 @@ const pfqol = function($) {
 
     $(document).on('click', 'li[data-name="QoL"]', (function() { //open QoL hub
         PFQoL.populateSettingsPage();
-        QoLHub.build($, document, GLOBALS.TEMPLATES, GLOBALS, USER_SETTINGS);
+        QoLHub.build($, document, GLOBALS.TEMPLATES, GLOBALS, USER_SETTINGS, PFQoL.settingsChange);
     }));
 
     $(document).on('click', '.closeHub', (function() { //close QoL hub
