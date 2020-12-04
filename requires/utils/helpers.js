@@ -9,19 +9,12 @@ let Helpers = (function Helpers() {
             return str;
         },
 
-        toggleSetting(key, set) {// = false) {
+        toggleSetting(key, set) {
             // update values for checkboxes
             if (typeof set === 'boolean') {
                 let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
                 if (element && element.type === 'checkbox') {
                     element.checked = set;
-                }
-            }
-            // update values for string settings
-            else if (typeof set === 'string') {
-                let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
-                if (element && element.type === 'text') {
-                    element.value = set;
                 }
             }
         }, // toggleSetting
@@ -72,7 +65,7 @@ let Helpers = (function Helpers() {
 
         textSearchDiv(cls, data_key, id, array_name) {
             return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${data_key}" ` +
-                ((array_name !== undefined) ? `array-name='${array_name}'` : ``) +
+                `array-name='${array_name}'` +
                 `/></label><input type='button' value='Remove' id='${id}'></div>`;
         },
 
