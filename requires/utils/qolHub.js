@@ -3,16 +3,16 @@
  */
 
 class QoLHub {
-    static build($, document, templates, globals, settings) {
+    static build($, document, templates, globals, settings, settingsChange) {
         $('body', document).append(templates.qolHubHTML);
         $('#core', document).addClass('scrolllock');
         let qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead', document).css('background-color');
         let qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead', document).css('color');
         let qolHubCssBackground = $('.qolHubTable', document).css('background-color');
         let qolHubCssTextColor = $('.qolHubTable', document).css('color');
-        $('.qolHubHead', document).css({"backgroundColor":""+qolHubCssBackgroundHead+"","color":""+qolHubCssTextColorHead+""});
-        $('.qolChangeLogHead', document).css({"backgroundColor":""+qolHubCssBackgroundHead+"","color":""+qolHubCssTextColorHead+""});
-        $('.qolopencloselist.qolChangeLogContent', document).css({"backgroundColor":""+qolHubCssBackground+"","color":""+qolHubCssTextColor+""});
+        $('.qolHubHead', document).css({ "backgroundColor": "" + qolHubCssBackgroundHead + "", "color": "" + qolHubCssTextColorHead + "" });
+        $('.qolChangeLogHead', document).css({ "backgroundColor": "" + qolHubCssBackgroundHead + "", "color": "" + qolHubCssTextColorHead + "" });
+        $('.qolopencloselist.qolChangeLogContent', document).css({ "backgroundColor": "" + qolHubCssBackground + "", "color": "" + qolHubCssTextColor + "" });
         $('.qolDate', document).text(globals.DEX_UPDATE_DATE);
 
         let customCss = settings.customCss;
@@ -24,16 +24,24 @@ class QoLHub {
             $('.textareahub textarea', document).val(customCss);
         }
 
-        $('#qolcustomcss', document).on('keydown', function(e) {
+        $('#qolcustomcss', document).on('keydown', function (e) {
             if (e.keyCode == 9 || e.which == 9) {
                 e.preventDefault();
                 var s = this.selectionStart;
-                $(this).val(function(i, v) {
+                $(this).val(function (i, v) {
                     return v.substring(0, s) + "\t" + v.substring(this.selectionEnd)
                 });
                 this.selectionEnd = s + 1;
             }
         });
+
+        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+            settingsChange(this.getAttribute('data-key'),
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
+                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
+        }));
     }
 
     static close($, document) {
@@ -60,10 +68,10 @@ class QoLHub {
         const virtualDocument = document;//.implementation.createHTMLDocument('virtual');
         dexUtilities.getMainDexPage($).done((data) => {
             let html = $.parseHTML(data);
-            let dex = $(html[html.length-1], virtualDocument).find('#dexdata').html();
+            let dex = $(html[html.length - 1], virtualDocument).find('#dexdata').html();
             const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
 
-            if(dexNumbers.length > 0) {
+            if (dexNumbers.length > 0) {
                 // update the progress bar in the hub
                 const limit = dexNumbers.length;
                 const progressBar = $('progress.qolDexUpdateProgress', document)[0];
@@ -85,7 +93,7 @@ class QoLHub {
                         const parsed_forms_and_map = dexUtilities.parseFormData($, virtualDocument, dexPageParser, allPagesHTML);
                         const form_data = parsed_forms_and_map[0];
                         const form_map = parsed_forms_and_map[1];
-                        
+
                         // Build evolution tree depths
                         const evolution_tree_depth_list = dexUtilities.buildEvolutionTreeDepthsList(parsed_families, dex_ids, form_data, form_map);
 
@@ -97,7 +105,7 @@ class QoLHub {
                         // Collect list of egg pngs
                         const egg_pngs = dexUtilities.parseEggsPngsList($, virtualDocument, dexPageParser, allPagesHTML);
                         // Collect list of types
-                        const types    = dexUtilities.parseTypesList($, virtualDocument, dexPageParser, globals, allPagesHTML);
+                        const types = dexUtilities.parseTypesList($, virtualDocument, dexPageParser, globals, allPagesHTML);
                         const egg_pngs_types_map = dexUtilities.buildEggPngsTypesMap(base_names, egg_pngs, types);
 
                         localStorageManager.saveEvolveByLevelList(globals, parsed_families, dex_ids);
@@ -107,7 +115,7 @@ class QoLHub {
                         progressSpan.textContent = "Complete!";
                     }).fail((error) => {
                         console.log(error);
-                    }) ; // loadFormPages
+                    }); // loadFormPages
                 }).fail((error) => {
                     console.log(error);
                 }) // loadDexData
@@ -117,6 +125,6 @@ class QoLHub {
             }
         }).fail((error) => {
             console.log(error);
-        }) ;// getMainDexPage
+        });// getMainDexPage
     } // handleUpdateDexClick
 } // QoLHub
