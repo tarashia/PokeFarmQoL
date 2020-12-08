@@ -42,6 +42,10 @@ class QoLHub {
                 $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
         }));
+
+        $(document).on('click', '.closeHub', (function () { //close QoL hub
+            QoLHub.close($, document);
+        }));
     }
 
     static close($, document) {
