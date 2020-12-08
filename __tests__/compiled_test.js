@@ -37,7 +37,8 @@ describe("Test that PFQoL compiles", () => {
         jQuery('li[data-name="QoL"]').eq(0).trigger('click');
         jQuery('[data-key=enableDaycare]').trigger('click');
         jQuery('#updateDex').eq(0).trigger('click');
-        jQuery('#resetPageSettings').eq(0).trigger('click');
+        jQuery('select[data-key=resetPageSettings]>option:eq(2)').prop('selected', true);
+        jQuery('input#resetPageSettings').trigger('click');
         jQuery('#clearCachedDex').eq(0).trigger('click');
         jQuery('h3.slidermenu').trigger('click');
         jQuery('.closeHub').eq(0).trigger('click');

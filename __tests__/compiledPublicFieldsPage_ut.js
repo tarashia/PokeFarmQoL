@@ -157,4 +157,85 @@ describe("Test Public Fields Page", () => {
         // use 'fieldShiny' click as a roundabout way to reload the settings
         $('[data-key=fieldShiny]').trigger('click');
     });
+
+    test("Test loadSettings when local storage has less settings", () => {
+        const htmlpath = path.join(__dirname, './data/', 'publicFields.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = "https://pokefarm.com/fields/ECEInTheHole";
+        document.documentElement.innerHTML = innerHTML;
+
+        localStorage.setItem('QoLPublicFields', 
+                             '{"fieldByBerry":false,'+
+                             '"fieldByMiddle":false,'+
+                             '"fieldByGrid":false,'+
+                             '"fieldClickCount":true,'+
+                             '"fieldCustom":"Mawile,c/3/6.png/t=1507192849",'+
+                             '"fieldType":"1, 2",'+
+                             '"fieldNature":"1,2",'+
+                             '"fieldEggGroup":"1,2",'+
+                             '"fieldNewPokemon":true,'+
+                             '"fieldShiny":true,'+
+                             '"fieldAlbino":true,'+
+                             '"fieldMelanistic":true,'+
+                             '"fieldPrehistoric":true,'+
+                             '"fieldDelta":true,'+
+                             '"fieldMega":true,'+
+                             '"fieldStarter":true,'+
+                             '"fieldCustomSprite":true,'+
+                             '"fieldMale":true,'+
+                             '"fieldFemale":true,'+
+                             '"fieldNoGender":true,'+
+                             '"fieldCustomItem":true,'+
+                             '"fieldCustomPokemon":true,'+
+                             '"fieldCustomEgg":true,'+
+                             '"fieldCustomPng":true,'+
+                             '"fieldItem":true,'+
+                             '"tooltipEnableMods":true,'+
+                             '"tooltipNoBerry":true,'/*+
+                             '"tooltipBerry":true}'*/);
+        pfqol.pfqol($);
+
+    });
+
+    test("Test loadSettings when local storage has more settings", () => {
+        const htmlpath = path.join(__dirname, './data/', 'publicFields.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = "https://pokefarm.com/fields/ECEInTheHole";
+        document.documentElement.innerHTML = innerHTML;
+
+        localStorage.setItem('QoLPublicFields', 
+                             '{"fieldByBerry":false,'+
+                             '"fieldByMiddle":false,'+
+                             '"fieldByGrid":false,'+
+                             '"fieldClickCount":true,'+
+                             '"fieldCustom":"Mawile,c/3/6.png/t=1507192849",'+
+                             '"fieldType":"1, 2",'+
+                             '"fieldNature":"1,2",'+
+                             '"fieldEggGroup":"1,2",'+
+                             '"fieldNewPokemon":true,'+
+                             '"fieldShiny":true,'+
+                             '"fieldAlbino":true,'+
+                             '"fieldMelanistic":true,'+
+                             '"fieldPrehistoric":true,'+
+                             '"fieldDelta":true,'+
+                             '"fieldMega":true,'+
+                             '"fieldStarter":true,'+
+                             '"fieldCustomSprite":true,'+
+                             '"fieldMale":true,'+
+                             '"fieldFemale":true,'+
+                             '"fieldNoGender":true,'+
+                             '"fieldCustomItem":true,'+
+                             '"fieldCustomPokemon":true,'+
+                             '"fieldCustomEgg":true,'+
+                             '"fieldCustomPng":true,'+
+                             '"fieldItem":true,'+
+                             '"tooltipEnableMods":true,'+
+                             '"tooltipNoBerry":true,'+
+                             '"tooltipBerry":true,'+
+                             '"fdsa":true');
+        pfqol.pfqol($);
+
+    });
 });

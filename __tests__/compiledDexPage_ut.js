@@ -81,7 +81,6 @@ describe("Test Dex Page", () => {
         types2Span.width(162);
         event.pageX = 160;
         type2.trigger(event);
-
         // select a type in the first type list
         const types1Span = $('.filter-type:not(.filter-type-2) .types');
         const normal = types1Span.children().eq(0);
@@ -98,20 +97,39 @@ describe("Test Dex Page", () => {
         types2Span.width(162);
         event.pageX = 160;
         type2.trigger(event);
-        
-        // // mimic click outside the types list
-        // const types2Span = $('.filter-type-2 .types');
-        // const type2 = $('.filter-type-2');
-        // let event = $.Event("mousedown.dextfilter");
-        // event.originalEvent = {
-        //     preventDefault: () => { return true; }
-        // };
-        // types2Span.offset({
-        //     top: 0,
-        //     left: 462.5
-        // });
-        // types2Span.width(162);
-        // event.pageX = 511;
-        // type2.trigger(event);
     });
+
+    test("Test touch event handler on Dex page", () => {
+        const htmlpath = path.join(__dirname, './data/', 'dex.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = "https://pokefarm.com/dex";
+        document.documentElement.innerHTML = innerHTML;
+
+        localStorage.setItem('QoLDex', '{}');
+
+        pfqol.pfqol($);
+
+        const types2Span = $('.filter-type-2 .types');
+        const type2 = $('.filter-type-2');
+        let event = $.Event("mousedown.dextfilter");
+
+        // mimic touch event
+        event = $.Event("touchstart.dextfilter");
+        event.originalEvent = {
+            touches: [{
+                pageX: 160
+            }],
+            preventDefault: () => { return true; }
+        };
+        types2Span.offset({
+            top: 0,
+            left: 462.5
+        });
+        types2Span.width(162);
+        event.pageX = 160;
+        type2.trigger(event);
+
+    });
+
 });
