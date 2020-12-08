@@ -1,11 +1,11 @@
 const DexBase = Page;
-    
+
 class DexPage extends DexBase {
     constructor(jQuery) {
         super('QoLDexPage', {}, '/dex')
         const obj = this
-        this.observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
+        this.observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
                 obj.applyTypeFilters();
             });
         });
@@ -34,23 +34,23 @@ class DexPage extends DexBase {
         const g = obj.jQuery('.filter-type-2 .name i')
         const l = obj.jQuery(".filter-type-2 .types")
         const c = l.children()
-        const k = c.map(function() {
+        const k = c.map(function () {
             return this.getAttribute("data-type")
         }).get()
 
         const typesSpan = obj.jQuery('.filter-type-2 .types')
 
-        type2.on("mousedown.dextfilter touchstart.dextfilter", function(event) {
+        type2.on("mousedown.dextfilter touchstart.dextfilter", function (event) {
             event.preventDefault();
             var leftedge = typesSpan.offset().left
             var width = typesSpan.width();
             var rightedge = leftedge + width
             var xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
-            if(xLocation >= leftedge & xLocation < rightedge) {
+            if (xLocation >= leftedge & xLocation < rightedge) {
                 xLocation -= leftedge;
                 xLocation = Math.floor(xLocation / width * c.length)
                 xLocation = c.eq(xLocation)
-                if(xLocation.data("type") == h) {
+                if (xLocation.data("type") == h) {
                     h = null
                     obj.toggleSelectedTypes(xLocation)
                     obj.applyTypeFilters();
@@ -73,15 +73,9 @@ class DexPage extends DexBase {
 
         l.addClass("selected");
         c.removeClass("selected");
-        if(b && b.length) {
-            if(!b.hasClass("selected")) {
-                b.addClass("selected")
-                g.text(b.data("type").charAt(0).toUpperCase() + b.data("type").slice(1))
-            } else {
-                l.removeClass("selected")
-                b.removeClass("selected")
-                g.text("")
-            }
+        if (b && b.length && !b.hasClass("selected")) {
+            b.addClass("selected")
+            g.text(b.data("type").charAt(0).toUpperCase() + b.data("type").slice(1))
         } else {
             l.removeClass("selected")
             g.text("")
@@ -99,13 +93,13 @@ class DexPage extends DexBase {
         const a = c.filter(".selected").data("type");
 
         let selector = '.region-entries>li.entry'
-        if(a1 !== undefined) {
+        if (a1 !== undefined) {
             selector += '.t-' + a1
         }
-        if(a !== undefined) {
+        if (a !== undefined) {
             selector += '.t-' + a
         }
-        if(a1 || a) {
+        if (a1 || a) {
             // Set "display" to "none" for all elements
             this.jQuery('.region-entries>li.entry').css("display", "none")
             // Set "display" to "inline-block" for elements matching selector

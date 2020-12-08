@@ -47,11 +47,11 @@
 // ==/UserScript==
 
 // (function($) {
-const pfqol = function($) {
+const pfqol = function ($) {
     'use strict';
     // :contains to case insensitive
     $.extend($.expr[":"], {
-        "containsIN": function(elem, i, match, array) {
+        "containsIN": function (elem, i, match, array) {
             return (elem.textContent || elem.innerText || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
         }
     });
@@ -84,7 +84,7 @@ const pfqol = function($) {
     // - if you have the eggdex, and
     // - if you have the regular, shiny, albino, and melanistic pokedex entries
     const LOCAL_STORAGE = new LocalStorageManager(localStorage);
-    if(!LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
+    if (!LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
         LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, GLOBALS); // so load it from the web
     } else { // can load it from storage
         LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($, document, DexUtilities, GLOBALS); // reload it from web if it's old
@@ -93,88 +93,88 @@ const pfqol = function($) {
     LOCAL_STORAGE.loadEvolutionTreeDepthList(GLOBALS);
 
     const PFQoL = (function PFQoL() {
-        
+
         const SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
 
         const PAGES = {
-            instantiatePages: function() {
-                for(const key of Object.keys(PAGES.pages)) {
+            instantiatePages: function () {
+                for (const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key]
-                    if(USER_SETTINGS[pg.setting] === true) {
+                    if (USER_SETTINGS[pg.setting] === true) {
                         PAGES.pages[key].object = new PAGES.pages[key].class($, GLOBALS, {
                             DexPageParser: DexPageParser
                         });
                     }
                 }
             },
-            loadSettings: function() {
-                for(const key of Object.keys(PAGES.pages)) {
+            loadSettings: function () {
+                for (const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
-                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.loadSettings();
                     }
                 }
             },
-            saveSettings: function() {
-                for(const key of Object.keys(PAGES.pages)) {
+            saveSettings: function () {
+                for (const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
-                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.saveSettings();
                     }
                 }
             },
-            populateSettings: function() {
-                for(const key of Object.keys(PAGES.pages)) {
+            populateSettings: function () {
+                for (const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
-                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.populateSettings();
                     }
                 }
             },
-            clearPageSettings: function(pageName) {
-                if(! (pageName in PAGES.pages) ) {
+            clearPageSettings: function (pageName) {
+                if (!(pageName in PAGES.pages)) {
                     console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`)
-                } else if(PAGES.pages[pageName].object) {
+                } else if (PAGES.pages[pageName].object) {
                     PAGES.pages[pageName].object.resetSettings();
                 }
             },
-            setupHTML: function(GLOBALS) {
-                for(const key of Object.keys(PAGES.pages)) {
+            setupHTML: function (GLOBALS) {
+                for (const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
-                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupHTML(GLOBALS);
                         fn.backwork.populateSettingsPage()
                     }
                 }
             },
-            setupCSS: function() {
-                for(const key of Object.keys(PAGES.pages)) {
+            setupCSS: function () {
+                for (const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
-                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupCSS();
                     }
                 }
             },
-            setupObservers: function() {
-                for(const key of Object.keys(PAGES.pages)) {
+            setupObservers: function () {
+                for (const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
-                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupObserver();
                     }
                 }
             },
-            setupHandlers: function(GLOBALS) {
-                for(const key of Object.keys(PAGES.pages)) {
+            setupHandlers: function (GLOBALS) {
+                for (const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
-                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupHandlers(GLOBALS);
                     }
                 }
             },
-            settingsChange: function() {
-                for(const key of Object.keys(PAGES.pages)) {
+            settingsChange: function () {
+                for (const key of Object.keys(PAGES.pages)) {
                     let pg = PAGES.pages[key];
-                    if(USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.settingsChange();
                     }
                 }
@@ -185,37 +185,37 @@ const pfqol = function($) {
                     object: undefined,
                     setting: 'enableDaycare'
                 },
-                'Farm' : {
+                'Farm': {
                     class: FarmPage,
                     object: undefined,
                     setting: 'easyEvolve'
                 },
-                'Fishing' : {
+                'Fishing': {
                     class: FishingPage,
                     object: undefined,
                     setting: 'fishingEnable'
                 },
-                'Lab' : {
+                'Lab': {
                     class: LabPage,
                     object: undefined,
                     setting: 'labNotifier'
                 },
-                'Multiuser' : {
+                'Multiuser': {
                     class: MultiuserPage,
                     object: undefined,
                     setting: 'partyMod'
                 },
-                'PrivateFields' : {
+                'PrivateFields': {
                     class: PrivateFieldsPage,
                     object: undefined,
                     setting: 'privateFieldEnable'
                 },
-                'PublicFields' : {
+                'PublicFields': {
                     class: PublicFieldsPage,
                     object: undefined,
                     setting: 'publicFieldEnable'
                 },
-                'Shelter' : {
+                'Shelter': {
                     class: ShelterPage,
                     object: undefined,
                     setting: 'shelterEnable'
@@ -232,17 +232,17 @@ const pfqol = function($) {
                 },
             }
         }
-        
+
         const fn = { // all the functions for the script
             /** background stuff */
-            backwork : { // background stuff
+            backwork: { // background stuff
                 checkForUpdate() {
-                    let version ="";
+                    let version = "";
                     GM_xmlhttpRequest({
                         method: 'GET',
                         url: 'https://api.github.com/repos/jpgualdarrama/PokeFarmQoL/contents/Poke-Farm-QoL.user.js',
                         responseType: 'json',
-                        onload: function(data) {
+                        onload: function (data) {
                             let match = atob(data.response.content).match(/\/\/\s+@version\s+([^\n]+)/);
                             version = match[1];
                             if (compareVersions(GM_info.script.version, version) < 0) {
@@ -267,7 +267,7 @@ const pfqol = function($) {
                             if (countLocalStorageSettings < countScriptSettings) {
                                 let defaultsSetting = USER_SETTINGS;
                                 let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                let newSetting = $.extend(true,{}, defaultsSetting, userSetting);
+                                let newSetting = $.extend(true, {}, defaultsSetting, userSetting);
 
                                 USER_SETTINGS = newSetting;
                                 fn.backwork.saveSettings();
@@ -279,7 +279,7 @@ const pfqol = function($) {
                                 fn.backwork.saveSettings();
                             }
                         }
-                        catch(err) {
+                        catch (err) {
                             fn.backwork.saveSettings();
                         }
                         if (localStorage.getItem(SETTINGS_SAVE_KEY) != USER_SETTINGS) {
@@ -293,21 +293,20 @@ const pfqol = function($) {
                 }, // saveSettings
                 populateSettingsPage() { // checks all settings checkboxes that are true in the settings
                     for (let key in USER_SETTINGS) {
-                        if (!USER_SETTINGS.hasOwnProperty(key)) {
-                            continue;
-                        }
-                        let value = USER_SETTINGS[key];
-                        if (typeof value === 'boolean') {
-                            HELPERS.toggleSetting(key, value);
-                        }
-                        else if (typeof value === 'string') {
-                            HELPERS.toggleSetting(key, value);
+                        if (USER_SETTINGS.hasOwnProperty(key)) {
+                            let value = USER_SETTINGS[key];
+                            if (typeof value === 'boolean') {
+                                HELPERS.toggleSetting(key, value);
+                            }
+                            else if (typeof value === 'string') {
+                                HELPERS.toggleSetting(key, value);
+                            }
                         }
                     }
                     PAGES.populateSettings();
                 },
                 clearPageSettings(pageName) {
-                    PAGES.clearPageSetting(pageName);
+                    PAGES.clearPageSettings(pageName);
                 },
                 setupHTML(GLOBALS) { // injects the HTML changes from GLOBALS.TEMPLATES into the site
                     // Header link to Userscript settings
@@ -321,9 +320,9 @@ const pfqol = function($) {
 
                     //custom user css
                     let customUserCss = USER_SETTINGS.customCss;
-                    let customUserCssInject = '<style type="text/css">'+customUserCss+'</style>'
+                    let customUserCssInject = '<style type="text/css">' + customUserCss + '</style>'
                     //document.querySelector('head').append();
-                    $('head').append('<style type="text/css">'+customUserCss+'</style>');
+                    $('head').append('<style type="text/css">' + customUserCss + '</style>');
                 },
                 setupObservers() { // all the Observers that needs to run
                     PAGES.setupObservers();
@@ -331,7 +330,7 @@ const pfqol = function($) {
                 setupHandlers(GLOBALS) { // all the event handlers
                     PAGES.setupHandlers(GLOBALS);
 
-                    $(document).on('change', '.qolsetting', (function() {
+                    $(document).on('change', '.qolsetting', (function () {
                         fn.backwork.loadSettings();
                         fn.API.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
                         fn.backwork.saveSettings();
@@ -340,35 +339,34 @@ const pfqol = function($) {
                 startup() { // All the functions that are run to start the script on Pokéfarm
                     return {
                         'creating Page handlers': fn.backwork.instantiatePages,
-                        'loading Settings'      : fn.backwork.loadSettings,
-                        'checking for update'   : fn.backwork.checkForUpdate,
-                        'setting up HTML'       : fn.backwork.setupHTML,
-                        'populating Settings'   : fn.backwork.populateSettingsPage,
-                        'setting up CSS'        : fn.backwork.setupCSS,
-                        'setting up Observers'  : fn.backwork.setupObservers,
-                        'setting up Handlers'   : fn.backwork.setupHandlers,
+                        'loading Settings': fn.backwork.loadSettings,
+                        'checking for update': fn.backwork.checkForUpdate,
+                        'setting up HTML': fn.backwork.setupHTML,
+                        'populating Settings': fn.backwork.populateSettingsPage,
+                        'setting up CSS': fn.backwork.setupCSS,
+                        'setting up Observers': fn.backwork.setupObservers,
+                        'setting up Handlers': fn.backwork.setupHandlers,
                     }
                 },
                 init() { // Starts all the functions.
                     console.log('Starting up ..');
                     let startup = fn.backwork.startup();
                     for (let message in startup) {
-                        if (!startup.hasOwnProperty(message)) {
-                            continue;
+                        if (startup.hasOwnProperty(message)) {
+                            console.log(message);
+                            startup[message](GLOBALS);
                         }
-                        console.log(message);
-                        startup[message](GLOBALS);
                     }
                 },
             }, // end of backwork
 
             /** public stuff */
-            API : { // the actual seeable and interactable part of the userscript
+            API: { // the actual seeable and interactable part of the userscript
                 settingsChange(element, textElement, customClass, typeClass) {
                     if (JSON.stringify(USER_SETTINGS).indexOf(element) >= 0) { // userscript settings
-                        if (USER_SETTINGS[element] === false ) {
+                        if (USER_SETTINGS[element] === false) {
                             USER_SETTINGS[element] = true;
-                        } else if (USER_SETTINGS[element] === true ) {
+                        } else if (USER_SETTINGS[element] === true) {
                             USER_SETTINGS[element] = false;
                         } else if (typeof USER_SETTINGS[element] === 'string') {
                             USER_SETTINGS[element] = textElement;
@@ -380,7 +378,7 @@ const pfqol = function($) {
                 }, // settingsChange
 
                 clearPageSettings(pageName) {
-                    if(pageName !== "None") { // "None" matches option in HTML
+                    if (pageName !== "None") { // "None" matches option in HTML
                         fn.backwork.clearPageSettings(pageName)
                     }
                 }, // clearPageSettings
@@ -395,37 +393,33 @@ const pfqol = function($) {
         return fn.API;
     })(); // end of PFQoL function
 
-    $(document).on('click', 'li[data-name="QoL"]', (function() { //open QoL hub
+    $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
         PFQoL.populateSettingsPage();
         QoLHub.build($, document, GLOBALS.TEMPLATES, GLOBALS, USER_SETTINGS, PFQoL.settingsChange);
     }));
 
-    $(document).on('click', '.closeHub', (function() { //close QoL hub
-        QoLHub.close($, document);
-    }));
-
-    $(document).on('click', '#updateDex', (function() {
+    $(document).on('click', '#updateDex', (function () {
         QoLHub.handleUpdateDexClick($, document, DexUtilities, LOCAL_STORAGE, DexPageParser, EvolutionTreeParser, GLOBALS);
     }));
 
-    $(document).on('click', '#resetPageSettings', (function() {
+    $(document).on('click', '#resetPageSettings', (function () {
         const page = $(this).parent().find('select').val()
         PFQoL.clearPageSettings(page)
     }));
 
-    $(document).on('click', '#clearCachedDex', (function() {
+    $(document).on('click', '#clearCachedDex', (function () {
         localStorage.removeItem('QoLEvolveByLevel');
         localStorage.removeItem('QoLDexIDsCache');
         localStorage.removeItem("QoLEvolutionTreeDepth");
         localStorage.removeItem('QoLRegionalFormsList');
     }));
 
-    $(document).on('click', 'h3.slidermenu', (function() { //show hidden li in change log
+    $(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
         $(this).next().slideToggle();
     }));
 }
 
-if(module)
+if (module)
     module.exports.pfqol = pfqol;
 else
     pfqol(jQuery);
