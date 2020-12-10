@@ -1,7 +1,4 @@
 class Page {
-    SETTINGS_SAVE_KEY() { return this.settingsSaveKey }
-    DEFAULT_SETTINGS() { return this.defaultSettings }
-
     constructor(ssk, ds, url) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
@@ -55,7 +52,9 @@ class Page {
         if (JSON.stringify(this.settings).indexOf(element) >= 0) {
             if (typeof this.settings[element] === 'boolean') {
                 this.settings[element] = !this.settings[element]
-            } else if (typeof this.settings[element] === 'string') {
+            }
+            /*
+            else if (typeof this.settings[element] === 'string') {
                 if (arrayName !== undefined && arrayName !== '') {
                     if (textElement === 'none') {
                         let tempIndex = typeClass - 1;
@@ -76,6 +75,7 @@ class Page {
                     this.settings[element] = textElement;
                 }
             }
+            */
             return true;
         }
         else { return false }
