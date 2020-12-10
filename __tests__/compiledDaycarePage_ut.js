@@ -49,8 +49,10 @@ describe("Test Daycare Page", () => {
         pfqol.pfqol($);
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
+        // this expect won't work, because the MutationObserver is triggered asynchronously,
+        // and based on research online, there is no way to test MutationObserver's reliably with jest
         // expect($('.daycarefoundme').length).toBe(12);
-        
+
         // test Undiscovered in Daycare
         $('#pkmnadd').attr('data-gender', 'f');
         $('#pkmnadd').attr('data-egggroup', '0');
