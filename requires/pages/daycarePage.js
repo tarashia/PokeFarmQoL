@@ -74,7 +74,7 @@ class DaycarePage extends DaycareBase {
                     // Match Ditto in Daycare to anything that can breed
                     if (gender === 'd' && eggGroup1 === "Ditto" &&
                         searchPokemon !== "Ditto" && searchEggGroups[0] !== "Undiscovered") {
-                        obj.jQuery(searchPokemonBigImg).addClass('.daycarefoundme');
+                        obj.jQuery(searchPokemonBigImg).addClass('daycarefoundme');
                     }
                     // Match Ditto in field to anything that can breed
                     else if (eggGroup1 !== "Ditto" && searchPokemon === "Ditto" && eggGroup1 !== "Undiscovered") {
