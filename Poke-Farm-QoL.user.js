@@ -329,12 +329,6 @@ const pfqol = function ($) {
                 },
                 setupHandlers(GLOBALS) { // all the event handlers
                     PAGES.setupHandlers(GLOBALS);
-
-                    $(document).on('change', '.qolsetting', (function () {
-                        fn.backwork.loadSettings();
-                        fn.API.settingsChange(this.getAttribute('data-key'), $(this).val(), $(this).parent().parent().attr('class'), $(this).parent().attr('class'));
-                        fn.backwork.saveSettings();
-                    }));
                 },
                 startup() { // All the functions that are run to start the script on Pokéfarm
                     return {
@@ -394,8 +388,8 @@ const pfqol = function ($) {
     })(); // end of PFQoL function
 
     $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
-        PFQoL.populateSettingsPage();
         QoLHub.build($, document, GLOBALS.TEMPLATES, GLOBALS, USER_SETTINGS, PFQoL.settingsChange);
+        PFQoL.populateSettingsPage();
     }));
 
     $(document).on('click', '#updateDex', (function () {
