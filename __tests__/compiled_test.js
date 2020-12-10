@@ -127,6 +127,7 @@ describe("Test that PFQoL compiles", () => {
         ////////////////////////////////////////
 
         ////////////////////////////////////////
+        // this doesn't need any expects; it's not important enough
         jQuery('h3.slidermenu').trigger('click');
         ////////////////////////////////////////
 
