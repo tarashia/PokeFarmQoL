@@ -52,7 +52,7 @@ class DexPage extends DexBase {
                 xLocation = c.eq(xLocation)
                 if (xLocation.data("type") == h) {
                     h = null
-                    obj.toggleSelectedTypes(xLocation)
+                    obj.toggleSelectedTypes()
                     obj.applyTypeFilters();
                 } else {
                     h = xLocation.data("type")
