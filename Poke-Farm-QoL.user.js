@@ -5,7 +5,7 @@
 // @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
 // @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_48/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      1.6.4
+// @version      1.6.8
 // @match        https://pokefarm.com/*
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
@@ -407,11 +407,19 @@ const pfqol = function ($) {
         PFQoL.clearPageSettings(page)
     }));
 
-    $(document).on('click', '#clearCachedDex', (function () {
+    // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
+    $(document).on('mouseover', '#clearCachedDex', (function() {
+        $('#clearCachedDex').next().remove();
+    }));
+
+    // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
+    $(document).on('click', '#clearCachedDex', (function() {
+        $('#clearCachedDex').next().remove();
         localStorage.removeItem('QoLEvolveByLevel');
         localStorage.removeItem('QoLDexIDsCache');
         localStorage.removeItem("QoLEvolutionTreeDepth");
         localStorage.removeItem('QoLRegionalFormsList');
+        $('#clearCachedDex').after('<span> Cleared!</span>');
     }));
 
     $(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log

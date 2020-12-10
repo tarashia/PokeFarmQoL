@@ -79,55 +79,107 @@ let Helpers = (function Helpers() {
 
             let index = 1;
             // nickname
-            const nickname = dataElements[index++].textContent
+            const nickname = dataElements[index].textContent
+            if(!nickname)
+                console.error(`Helpers.parseFieldPokemonTooltip - nickname '${nickname}' (is not a valid name)`);
+            index++;
+
+            // Issue #59 - Pokefarm added a new h3 element after the nickname
+            // that contains no data
+            index++;
 
             index++;
 
             // species
-            const species  = dataElements[index++].textContent.trim().split(':  ')[1]
+            let species = "";
+            if(dataElements[index].textContent) {
+                let tc = dataElements[index].textContent;
+                let tc_split = tc.trim().split(':  ');
+                if(tc_split.length == 1)
+                    console.error("Helpers.parseFieldPokemonTooltip - species text does not contain ':  '");
+                else
+                    species = tc_split[1];
+            }
+            index++;
 
             // dataElements[3] will be a forme if the pokemon has a forme
             let forme = ""
-            if(dataElements[index].textContent.startsWith("Forme")) {
-                forme = dataElements[index++].textContent.substr("Forme: ".length)
+            if(dataElements[index].textContent &&
+               dataElements[index].textContent.startsWith("Forme")) {
+                forme = dataElements[index].textContent.substr("Forme: ".length)
+                index++;
             }
 
             // types
-            const typeElements = $(dataElements[index++]).children().slice(1,)
+            const typeElements = $(dataElements[index]).children().slice(1,);
             const typeUrls = typeElements.map(idx => typeElements[idx]['src'])
             let types = typeUrls.map(idx =>
                                      typeUrls[idx].substring(typeUrls[idx].indexOf("types/")+"types/".length,
                                                              typeUrls[idx].indexOf(".png")))
             types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1))
             types = types.map(idx => GLOBALS.TYPE_LIST.indexOf(types[idx]))
+            index++;
 
             // level
-            const level = parseInt(dataElements[index++].textContent.split(' ')[1])
+            let level = -1;
+            if(dataElements[index].textContent) {
+                let tc_split = dataElements[index].textContent.split(' ');
+                if(tc_split.length > 1)
+                    level = parseInt(tc_split[1]);
+            } else {
+                console.error("Helpers.parseFieldPokemonToolTip - could not load level because text was empty");
+            }
+            index++;
 
             // if the pokemon's happiness is less than max, skip the next index, since it will be a progress bar
-            if(!dataElements[index].textContent.startsWith("Happiness")) {
+            if(!dataElements[index].textContent ||
+               !dataElements[index].textContent.startsWith("Happiness")) {
                 index++;
             }
 
             // happiness
-            let happiness = dataElements[index++].textContent.split(' ')[1].trim()
-            happiness = parseInt(happiness.substring(0, happiness.length-1))
+            let happiness = -1;
+            if(dataElements[index].textContent) {
+                let tc_split = dataElements[index].textContent.split(' ');
+                if(tc_split.length > 1) {
+                    happiness = tc_split[1].trim();
+                    happiness = parseInt(happiness.substring(0, happiness.length-1));
+                }
+            } else {
+                console.error("Helpers.parseFieldPokemonToolTip - could not load happiness because text was empty");
+            }
+            index++;
 
             // nature
-            let nature = dataElements[index++].textContent.split(' ')[1].replace('(', '').trim()
-            nature = GLOBALS.NATURE_LIST.indexOf(nature) // .substring(0, nature.length-1))
+            let nature = -1;
+            if(dataElements[index].textContent) {
+                let tc_split = dataElements[index].textContent.split(' ');
+                if(tc_split.length > 1) {
+                    nature = tc_split[1].replace('(', '').trim()
+                    nature = GLOBALS.NATURE_LIST.indexOf(nature) // .substring(0, nature.length-1))
+                }
+            } else {
+                console.error("Helpers.parseFieldPokemonToolTip - could not load nature because text was empty");
+            }
+            index++;
 
             // held item
             let item = ""
             if(dataElements[index].textContent !== "Item: None") {
-                item = dataElements[index++].textContent.substring(dataElements[8].textContent.indexOf(' ')+1)
+                item = dataElements[index].textContent.substring(dataElements[8].textContent.indexOf(' ')+1)
             } else {
                 item = "None"
-                index++
             }
+            index++;
 
             // egg groups
-            const eggGroups = dataElements[index++].textContent.substring("Egg Group: ".length).split('/')
+            let eggGroups = []
+            if(dataElements[index].textContent)
+                eggGroups = dataElements[index].textContent.substring("Egg Group: ".length).split('/')
+            else {
+                console.error("Helpers.parseFieldPokemonToolTip - could not load egg groups because text was empty");
+            }
+            index++;
 
             const ret = {
                 'nickname': nickname,
@@ -143,7 +195,7 @@ let Helpers = (function Helpers() {
                 ret.forme = forme
             }
             return ret;
-        }
+        } // parseFieldPokemonToolTip
 
     };
 
