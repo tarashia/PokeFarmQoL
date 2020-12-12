@@ -96,6 +96,7 @@ class LabPage extends LabBase {
         }));
 
         obj.jQuery(window).on('load', (function (e) {
+            obj.loadSettings();
             obj.customSearch(GLOBALS);
         }));
     }
@@ -143,7 +144,7 @@ class LabPage extends LabBase {
         const obj = this;
         let dexData = GLOBALS.DEX_DATA;
         document.querySelector('#labsuccess').innerHTML = "";
-        obj.jQuery('#egglist>div>img').removeClass('shelterfoundme');
+        obj.jQuery('#egglist>div>img').removeClass('labfoundme');
 
         if (!(this.listArray.length == 1 && this.listArray[0] == "")) {
             if (this.settings.findTypeEgg === true) {
@@ -192,7 +193,7 @@ class LabPage extends LabBase {
                         let value = typePokemonNames[o];
                         let shelterImgSearch = this.jQuery("#egglist>div>h3:containsIN(" + value + ")")
                         let shelterBigImg = shelterImgSearch.next();
-                        obj.jQuery(shelterBigImg).addClass('shelterfoundme');
+                        obj.jQuery(shelterBigImg).addClass('labfoundme');
                     }
 
                     if (amountOfTypesFound.length > 1) {
@@ -215,7 +216,7 @@ class LabPage extends LabBase {
 
                         let shelterImgSearch = this.jQuery("#egglist>div>h3:containsIN(" + value + ")")
                         let shelterBigImg = shelterImgSearch.next();
-                        obj.jQuery(shelterBigImg).addClass('shelterfoundme');
+                        obj.jQuery(shelterBigImg).addClass('labfoundme');
 
                         if (this.jQuery("#egglist>div>h3:containsIN(" + value + ")").length > 1) {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
@@ -228,7 +229,7 @@ class LabPage extends LabBase {
                         let searchResult = obj.jQuery('#egglist>div img[src*="' + value + '"]').prev().text();
 
                         let shelterImgSearch = obj.jQuery('#egglist>div img[src*="' + value + '"]')
-                        obj.jQuery(shelterImgSearch).addClass('shelterfoundme');
+                        obj.jQuery(shelterImgSearch).addClass('labfoundme');
 
                         if (obj.jQuery('#egglist>div img[src*="' + value + '"]').length > 1) {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
