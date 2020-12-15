@@ -53,7 +53,6 @@ class Page {
             if (typeof this.settings[element] === 'boolean') {
                 this.settings[element] = !this.settings[element]
             }
-            /*
             else if (typeof this.settings[element] === 'string') {
                 if (arrayName !== undefined && arrayName !== '') {
                     if (textElement === 'none') {
@@ -75,7 +74,6 @@ class Page {
                     this.settings[element] = textElement;
                 }
             }
-            */
             return true;
         }
         else { return false }

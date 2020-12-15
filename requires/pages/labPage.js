@@ -211,6 +211,9 @@ class LabPage extends LabBase {
             if (this.settings.customEgg === true) {
                 for (let i = 0; i < customSearchAmount; i++) {
                     let value = this.searchArray[i];
+                    // skip falsy values (including empty strings)
+                    if(!value) continue;
+
                     if (this.jQuery("#egglist>div>h3:containsIN(" + value + ")").length) {
                         let searchResult = value;
 

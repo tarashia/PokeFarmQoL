@@ -49,7 +49,7 @@ describe("Test Lab Page", () => {
         pfqol.pfqol($);
         // trigger 'window' load handler
         $(window).trigger('load');
-        
+
         // check that settings were applied correctly
         expect(localStorage.getItem('QoLLab')).toBe(settings);
 
@@ -176,9 +176,15 @@ describe("Test Lab Page", () => {
         ////////////////////////////////////////////////////
         // trigger '#labCustomSearch input' change handler
         $('[data-key=findTypeEgg]').trigger('click'); // Should disable Ghost
+        expect($('[data-key=findTypeEgg]').prop('checked')).toBe(false);
         expect($('.labfoundme').length).toBe(1);
-        // $('[data-key=findTypeEgg]').trigger('click'); // Should re-enable Ghost back in
-        // expect($('.labfoundme').length).toBe(2);
+        // check that the rest stayed the same
+        expect($('[data-key=customEgg]').length).toBe(1);
+        expect($('[data-key=customEgg]').prop('checked')).toBe(CUSTOM_SEARCH_SETTING);
+        expect($('[data-key=findLabEgg]').length).toBe(2);
+        expect($('[data-key=findLabEgg]').eq(0).val()).toBe(CUSTOM_SEARCH_1);
+        expect($('[data-key=findLabEgg]').eq(1).val()).toBe('');
+        expect($('[id=removeLabSearch]').length).toBe(2);
         ////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////
@@ -186,8 +192,30 @@ describe("Test Lab Page", () => {
         $('[data-key=findLabEgg]').eq(0).val('test');
         $('[data-key=findLabEgg]').trigger('input'); // Should disable 'G'
         expect($('.labfoundme').length).toBe(0);
-        $('[data-key=findLabEgg]').trigger('click'); // Should re-disable 'G'
+        $('[data-key=findLabEgg]').eq(0).val('G');
+        $('[data-key=findLabEgg]').trigger('input'); // Should re-enable 'G'
+        expect($('.labfoundme').length).toBe(1);
+        // check that the rest stayed the same
+        expect($('[data-key=findTypeEgg]').length).toBe(1);
+        expect($('[data-key=findTypeEgg]').prop('checked')).toBe(false);
+        expect($('[data-key=customEgg]').length).toBe(1);
+        expect($('[data-key=customEgg]').prop('checked')).toBe(CUSTOM_SEARCH_SETTING);
+        expect($('[id=removeLabSearch]').length).toBe(2);
+        ////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////
+        // test that re-enabling type search works
+        $('[data-key=findTypeEgg]').trigger('click'); // Should re-enable Ghost back in
+        expect($('[data-key=findTypeEgg]').prop('checked')).toBe(true);
+        expect($('[data-key=findTypeEgg]').length).toBe(1);
         expect($('.labfoundme').length).toBe(2);
+        // check that the rest stayed the same
+        expect($('[data-key=customEgg]').length).toBe(1);
+        expect($('[data-key=customEgg]').prop('checked')).toBe(CUSTOM_SEARCH_SETTING);
+        expect($('[data-key=findLabEgg]').length).toBe(2);
+        expect($('[data-key=findLabEgg]').eq(0).val()).toBe(CUSTOM_SEARCH_1);
+        expect($('[data-key=findLabEgg]').eq(1).val()).toBe('');
+        expect($('[id=removeLabSearch]').length).toBe(2);
         ////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////
