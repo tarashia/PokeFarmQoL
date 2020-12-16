@@ -825,11 +825,6 @@
             </ul>
         </div>
         <div id="content">
-            <div id="qolpartymod" style="background-color: rgb(210, 232, 175); color: rgb(0, 64, 0);"><label><input
-                        type="checkbox" class="qolsetting qolalone" data-key="hideDislike">Hide disliked
-                    berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable">Show
-                    in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll">Hide
-                    all click fast</label></div>
             <div class="tabbed_interface horizontal" id="multiuser">
                 <ul>
                     <li data-name="Rainquail" class="tab-active"><label>Rainquail</label></li>
@@ -851,6 +846,7 @@
                             <div class="center small"><b>Interactions:</b> <span id="clickcount_act_sent">0</span> sent
                                 / 0 received</div>
                             <div class="party wide">
+                                <!-- Pokemon that likes Any berry -->
                                 <div data-pid="F7P5d">
                                     <div class="pkmn">
                                         <div style="background-image:url('https://pfq-static.com/img/pkmn/f/u/z.png/t=1543732963')"
@@ -904,6 +900,7 @@
                                         <div class="nature"><b>Bashful</b> nature</div>
                                     </div>
                                 </div>
+                                <!-- Pokemon that likes 1 berry (in this case Spicy) -->
                                 <div data-pid="44q-G">
                                     <div class="pkmn">
                                         <div style="background-image:url('https://pfq-static.com/img/pkmn/f/u/z.png/t=1543732963')"
@@ -920,7 +917,7 @@
                                         <div style="width:25.1%"></div><span>Lv. 25 — 613 / 2,439</span>
                                     </div>
                                     <div class="action">
-                                        <div class="berrybuttons" data-up="any" data-down="any"><a href="#"
+                                        <div class="berrybuttons" data-up="spicy" data-down="sour"><a href="#"
                                                 data-berry="aspear" data-tooltip=""><span>Aspear Berry</span><img
                                                     src="https://pfq-static.com/img/items/aspearberry.png/t=1369079719"
                                                     alt="Aspear Berry"></a>
@@ -943,7 +940,7 @@
                                             <div class="tooltip_content">Rawst Berry (BITTER)</div>
                                         </div>
                                     </div>
-                                    <div class="taste">Likes:<div class="right"><b>Any</b> food</div>
+                                    <div class="taste">Likes:<div class="right"><b>Spicy</b> food</div>
                                     </div>
                                     <div class="extra">
                                         <div class="type"><img
@@ -957,6 +954,7 @@
                                         <div class="nature"><b>Serious</b> nature</div>
                                     </div>
                                 </div>
+                                <!-- Pokemon that has already been fed -->
                                 <div data-pid="hj7QM">
                                     <div class="pkmn">
                                         <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')"
@@ -967,7 +965,7 @@
                                     <div class="expbar">
                                         <div style="width:9.8%"></div><span>884 / 8,960</span>
                                     </div>
-                                    <div class="action"><a href="#" data-berry="aspear">Hold the Egg!</a></div>
+                                    <div class="action"></div>
                                     <div class="taste">&nbsp;<div>&nbsp;</div>
                                     </div>
                                     <div class="extra">
@@ -979,6 +977,7 @@
                                                 alt="Hatch progress">&nbsp;9%</div>
                                     </div>
                                 </div>
+                                <!-- Egg -->
                                 <div data-pid="hj7QV">
                                     <div class="pkmn">
                                         <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')"
@@ -1001,6 +1000,7 @@
                                                 alt="Hatch progress">&nbsp;9%</div>
                                     </div>
                                 </div>
+                                <!-- Another Egg -->
                                 <div data-pid="hkXXN">
                                     <div class="pkmn">
                                         <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')"
@@ -1023,6 +1023,7 @@
                                                 alt="Hatch progress">&nbsp;8%</div>
                                     </div>
                                 </div>
+                                <!-- Another Egg -->
                                 <div data-pid="hkR_K">
                                     <div class="pkmn">
                                         <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')"
