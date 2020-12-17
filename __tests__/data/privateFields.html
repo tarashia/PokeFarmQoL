@@ -509,7 +509,8 @@
                         style="width:48px;height:48px" class="avatar" alt="ECEInTheHole's Avatar"></div>
                 <div class="tooltip_content"><a href="/user/~me">Profile</a><a href="/fields">My Fields</a><a
                         href="/farm#tab=5.5">Edit Avatar</a><a href="/outfit">Edit Trainer</a>
-                    <hr><a href="#" id="logout">Log out</a></div>
+                    <hr><a href="#" id="logout">Log out</a>
+                </div>
             </div>
             <div id="head-left">
                 <ul>
@@ -1005,79 +1006,11 @@
             <div id="field_nav"><button type="button" data-action="previous" disabled="">&lt; Previous</button><button
                     type="button" data-action="next">Next &gt;</button><button type="button" data-action="jump">To
                     Release</button></div>
-            <div id="tooltipenable"
-                style="background-color: rgb(226, 255, 205); border: 1px solid rgb(158, 198, 144); max-width: 600px; position: relative; margin: 16px auto;">
-                <button type="button" class="collapsible"
-                    style="background-color: rgb(226, 255, 205); border: 1px solid rgb(158, 198, 144); color: rgb(0, 64, 0);"><b>Tooltip
-                        Settings</b></button>
-                <div class="collapsible_content" style="background-color: rgb(226, 255, 205); display: none;">
-                    <span> The "Enable tooltip" settings force the tooltip on or off. To revert back to Pokefarm's
-                        default tooltip settings, uncheck "Enable QoL Tooltip Changes" and refresh the page.</span>
-                    <hr>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" class="qolsetting tooltipsetting"
-                                            data-key="tooltipEnableMods">
-                                        Enable QoL Tooltip Settings
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" class="qolsetting tooltipsetting"
-                                            data-key="tooltipNoBerry" disabled="">
-                                        Hide tooltip
-                                    </label>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
             <div id="field_field" data-mode="private" data-user="ECEInTheHole">
                 <div class="field"
                     style="background-image:url('https://pfq-static.com/img/fields/unknown1.png/t=1310914579')">
-                    <!-- summary/haxor --><span class="fieldmon tooltip_trigger"
-                        style="left: 11.3636%; top: 0%; animation-delay: 716ms; margin-left: -5.56816px; margin-top: 0px;"
-                        data-id="h6gwy"><img src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big"
-                            alt="Yamask"><img src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030"
-                            class="small" alt="Yamask"></span>
-                    <div class="tooltip_content" style="right: 0px; top: 0px; margin-right: 4px;">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gwy">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
-                                        title="[M][SHINY]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Modest<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Dry</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Spicy</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon tooltip_trigger"
+                    <!-- 2 mons that like Any berry -->
+                    <span class="fieldmon tooltip_trigger"
                         style="left: 73.9394%; top: 57.6316%; animation-delay: 294ms; margin-left: -36.2303px; margin-top: -24.2053px;"
                         data-id="h61mF"><img src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209"
                             class="big privatefoundme" alt="Yamask"><img
@@ -1121,7 +1054,8 @@
                                             <p>Special Evolution Item</p>
                                             <p class="q">(<img
                                                     src="https://pfq-static.com/img/pkmn/item.png/t=1428937036">:
-                                                <span>3</span>)</p>
+                                                <span>3</span>)
+                                            </p>
                                         </div>
                                         <p>A peculiar stone that prevents a Pokémon from evolving when Held.</p>
                                         <p class="small">Sells for <img src="//pfq-static.com/img/zophan/credits.png"
@@ -1133,7 +1067,43 @@
                             </div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon tooltip_trigger"
+                    </div>
+                    <span class="fieldmon"
+                        style="left: 51.8182%; top: 0%; animation-delay: 576ms; margin-left: -25.3909px; margin-top: 0px;"
+                        data-id="h6gtW" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gtW">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
+                                        title="[M]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Hardy</div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <!-- 3 mons that like Sour berry -->
+                    <span class="fieldmon tooltip_trigger"
                         style="left: 13.7879%; top: 0%; animation-delay: 840ms; margin-left: -6.75607px; margin-top: 0px;"
                         data-id="h6Vpq"><img src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big"
                             alt="Yamask"><img src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030"
@@ -1169,117 +1139,8 @@
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon tooltip_trigger"
-                        style="left: 19.3939%; top: 0%; animation-delay: 437ms; margin-left: -9.50301px; margin-top: 0px;"
-                        data-id="h6gw6"><img src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big"
-                            alt="Yamask"><img src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030"
-                            class="small" alt="Yamask"></span>
-                    <div class="tooltip_content" style="right: 0px; top: 0px; margin-right: 4px;">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gw6">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
-                                        title="[F]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Rash<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Dry</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Bitter</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
-                        style="left: 21.5152%; top: 0%; animation-delay: 797ms; margin-left: -10.5424px; margin-top: 0px;"
-                        data-id="h6gwx" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gwx">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
-                                        title="[F]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Mild<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Dry</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
-                        style="left: 23.6364%; top: 0%; animation-delay: 668ms; margin-left: -11.5818px; margin-top: 0px;"
-                        data-id="h6gt3" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gt3">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
-                                        title="[F]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Hasty<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Sweet</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
+                    </div>
+                    <span class="fieldmon"
                         style="left: 25.9091%; top: 0%; animation-delay: 699ms; margin-left: -12.6955px; margin-top: 0px;"
                         data-id="h6gwM" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
@@ -1316,7 +1177,8 @@
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon"
+                    </div>
+                    <span class="fieldmon"
                         style="left: 31.8182%; top: 0%; animation-delay: 142ms; margin-left: -15.5909px; margin-top: 0px;"
                         data-id="h6gwS" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
@@ -1353,7 +1215,199 @@
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon"
+                    </div>
+                    <!-- 4 mons that like Spicy berry -->
+                    <span class="fieldmon"
+                        style="left: 85%; top: 0%; animation-delay: 497ms; margin-left: -41.65px; margin-top: 0px;"
+                        data-id="h6gwR" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gwR">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
+                                        title="[F]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Impish<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Spicy</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Dry</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <span class="fieldmon"
+                        style="left: 99.5455%; top: 0.263158%; animation-delay: 771ms; margin-left: -48.7773px; margin-top: -0.110526px;"
+                        data-id="h6gwL" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gwL">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
+                                        title="[F]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Bold<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Spicy</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Dry</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <span class="fieldmon"
+                        style="left: 99.3939%; top: 0.526316%; animation-delay: 535ms; margin-left: -48.703px; margin-top: -0.221053px;"
+                        data-id="h6gw-" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gw-">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
+                                        title="[F]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Relaxed<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Spicy</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Sweet</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <span class="fieldmon"
+                        style="left: 48.4848%; top: 72.6316%; animation-delay: 687ms; margin-left: -23.7576px; margin-top: -30.5053px;"
+                        data-id="h6gw0" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gw0">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
+                                        title="[M]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Impish<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Spicy</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Dry</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <!-- 5 mons that like Dry berry -->
+                    <span class="fieldmon tooltip_trigger"
+                        style="left: 11.3636%; top: 0%; animation-delay: 716ms; margin-left: -5.56816px; margin-top: 0px;"
+                        data-id="h6gwy"><img src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big"
+                            alt="Yamask"><img src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030"
+                            class="small" alt="Yamask"></span>
+                    <div class="tooltip_content" style="right: 0px; top: 0px; margin-right: 4px;">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gwy">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
+                                        title="[M][SHINY]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Modest<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Dry</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Spicy</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <span class="fieldmon"
                         style="left: 32.1212%; top: 0%; animation-delay: 508ms; margin-left: -15.7394px; margin-top: 0px;"
                         data-id="h6gtH" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
@@ -1384,13 +1438,128 @@
                                     src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
                             <div><b>Nature:</b> Naughty<div style="float: right">(<img
                                         src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Spicy</span> <img
+                                        class="flavourup">Dry</span> <img
                                         src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
                                         class="flavourdown">Bitter</span>)</div><br style="clear:both"></div>
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon"
+                    </div>
+                    <span class="fieldmon"
+                        style="left: 69.2424%; top: 0%; animation-delay: 735ms; margin-left: -33.9288px; margin-top: 0px;"
+                        data-id="h6gw7" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gw7">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
+                                        title="[F]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Lonely<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Dry</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <span class="fieldmon"
+                        style="left: 21.5152%; top: 0%; animation-delay: 797ms; margin-left: -10.5424px; margin-top: 0px;"
+                        data-id="h6gwx" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gwx">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
+                                        title="[F]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Mild<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Dry</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <span class="fieldmon tooltip_trigger"
+                        style="left: 19.3939%; top: 0%; animation-delay: 437ms; margin-left: -9.50301px; margin-top: 0px;"
+                        data-id="h6gw6"><img src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big"
+                            alt="Yamask"><img src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030"
+                            class="small" alt="Yamask"></span>
+                    <div class="tooltip_content" style="right: 0px; top: 0px; margin-right: 4px;">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gw6">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
+                                        title="[F]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Rash<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Dry</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Bitter</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <!-- 6 mons that like Sweet berry -->
+                    <span class="fieldmon"
                         style="left: 32.5758%; top: 0%; animation-delay: 643ms; margin-left: -15.9621px; margin-top: 0px;"
                         data-id="h6gwY" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
@@ -1421,13 +1590,52 @@
                                     src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
                             <div><b>Nature:</b> Quiet<div style="float: right">(<img
                                         src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Dry</span> <img
+                                        class="flavourup">Sweet</span> <img
                                         src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Sweet</span>)</div><br style="clear:both"></div>
+                                        class="flavourdown">Dry</span>)</div><br style="clear:both"></div>
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon"
+                    </div>
+                    <span class="fieldmon"
+                        style="left: 23.6364%; top: 0%; animation-delay: 668ms; margin-left: -11.5818px; margin-top: 0px;"
+                        data-id="h6gt3" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gt3">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
+                                        title="[F]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Hasty<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Sweet</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <span class="fieldmon"
                         style="left: 33.6364%; top: 0%; animation-delay: 792ms; margin-left: -16.4818px; margin-top: 0px;"
                         data-id="h6gwV" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
@@ -1464,151 +1672,8 @@
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon"
-                        style="left: 39.3939%; top: 0%; animation-delay: 965ms; margin-left: -19.303px; margin-top: 0px;"
-                        data-id="h6gtP" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gtP">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
-                                        title="[M]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Mild<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Dry</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
-                        style="left: 48.3333%; top: 0%; animation-delay: 851ms; margin-left: -23.6833px; margin-top: 0px;"
-                        data-id="h6gwk" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gwk">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
-                                        title="[M]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Mild<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Dry</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
-                        style="left: 51.8182%; top: 0%; animation-delay: 576ms; margin-left: -25.3909px; margin-top: 0px;"
-                        data-id="h6gtW" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gtW">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
-                                        title="[M]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Hardy</div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
-                        style="left: 51.9697%; top: 0%; animation-delay: 251ms; margin-left: -25.4652px; margin-top: 0px;"
-                        data-id="h6gqP" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gqP">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
-                                        title="[F]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Quiet<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Dry</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Sweet</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
+                    </div>
+                    <span class="fieldmon"
                         style="left: 62.5758%; top: 0%; animation-delay: 69ms; margin-left: -30.6621px; margin-top: 0px;"
                         data-id="h6VRw" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
@@ -1645,7 +1710,8 @@
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon"
+                    </div>
+                    <span class="fieldmon"
                         style="left: 65.4545%; top: 0%; animation-delay: 16ms; margin-left: -32.0727px; margin-top: 0px;"
                         data-id="h6gwj" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
@@ -1682,44 +1748,8 @@
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon"
-                        style="left: 69.2424%; top: 0%; animation-delay: 735ms; margin-left: -33.9288px; margin-top: 0px;"
-                        data-id="h6gw7" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gw7">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
-                                        title="[F]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Lonely<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Spicy</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
+                    </div>
+                    <span class="fieldmon"
                         style="left: 69.8485%; top: 0%; animation-delay: 598ms; margin-left: -34.2258px; margin-top: 0px;"
                         data-id="h6gtD" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
@@ -1756,9 +1786,11 @@
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon"
-                        style="left: 85%; top: 0%; animation-delay: 497ms; margin-left: -41.65px; margin-top: 0px;"
-                        data-id="h6gwR" data-tooltip=""><img
+                    </div>
+                    <!-- 9 mons that like Bitter berry -->
+                    <span class="fieldmon"
+                        style="left: 39.3939%; top: 0%; animation-delay: 965ms; margin-left: -19.303px; margin-top: 0px;"
+                        data-id="h6gtP" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
                             src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
                             alt="Yamask"></span>
@@ -1769,7 +1801,83 @@
                                     style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
                                 </div>
                             </div>
-                            <h3><a href="/summary/h6gwR">Yamask</a></h3>
+                            <h3><a href="/summary/h6gtP">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
+                                        title="[M]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Mild<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Bitter</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <span class="fieldmon"
+                        style="left: 48.3333%; top: 0%; animation-delay: 851ms; margin-left: -23.6833px; margin-top: 0px;"
+                        data-id="h6gwk" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gwk">Yamask</a></h3>
+                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
+                            <div><b>Species:</b> <img
+                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
+                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
+                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
+                                        title="[M]"></span></div>
+                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
+                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
+                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
+                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
+                            <div class="expbar">
+                                <div style="width:0%"></div>
+                            </div>
+                            <div><b>Happiness:</b> <img
+                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
+                            <div><b>Nature:</b> Mild<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Bitter</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
+                            <div class="item"><b>Item:</b> <i>None</i></div>
+                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
+                        </div>
+                    </div>
+                    <span class="fieldmon"
+                        style="left: 51.9697%; top: 0%; animation-delay: 251ms; margin-left: -25.4652px; margin-top: 0px;"
+                        data-id="h6gqP" data-tooltip=""><img
+                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
+                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
+                            alt="Yamask"></span>
+                    <div class="tooltip_content">
+                        <div class="fieldmontip">
+                            <div class="pkmn">
+                                <div class="pokemon"
+                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
+                                </div>
+                            </div>
+                            <h3><a href="/summary/h6gqP">Yamask</a></h3>
                             <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
                             <div><b>Species:</b> <img
                                     src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
@@ -1785,11 +1893,11 @@
                             </div>
                             <div><b>Happiness:</b> <img
                                     src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Impish<div style="float: right">(<img
+                            <div><b>Nature:</b> Quiet<div style="float: right">(<img
                                         src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Sour</span> <img
+                                        class="flavourup">Bitter</span> <img
                                         src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Dry</span>)</div><br style="clear:both"></div>
+                                        class="flavourdown">Sweet</span>)</div><br style="clear:both"></div>
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
@@ -1824,7 +1932,7 @@
                                     src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
                             <div><b>Nature:</b> Hasty<div style="float: right">(<img
                                         src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Sweet</span> <img
+                                        class="flavourup">Bitter</span> <img
                                         src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
                                         class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
                             <div class="item"><b>Item:</b> <i>None</i></div>
@@ -1859,7 +1967,12 @@
                             </div>
                             <div><b>Happiness:</b> <img
                                     src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Quirky</div>
+                            <div><b>Nature:</b> Quiet<div style="float: right">(<img
+                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                        class="flavourup">Bitter</span> <img
+                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                        class="flavourdown">Sweet</span>)</div><br style="clear:both"></div>
+
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
@@ -1894,7 +2007,7 @@
                                     src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
                             <div><b>Nature:</b> Brave<div style="float: right">(<img
                                         src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Spicy</span> <img
+                                        class="flavourup">Bitter</span> <img
                                         src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
                                         class="flavourdown">Sweet</span>)</div><br style="clear:both"></div>
                             <div class="item"><b>Item:</b> <i>None</i></div>
@@ -1929,81 +2042,11 @@
                             </div>
                             <div><b>Happiness:</b> <img
                                     src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Bashful</div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
-                        style="left: 99.5455%; top: 0.263158%; animation-delay: 771ms; margin-left: -48.7773px; margin-top: -0.110526px;"
-                        data-id="h6gwL" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gwL">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
-                                        title="[F]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Bold<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Sour</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Spicy</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
-                        style="left: 99.3939%; top: 0.526316%; animation-delay: 535ms; margin-left: -48.703px; margin-top: -0.221053px;"
-                        data-id="h6gw-" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gw-">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007"
-                                        title="[F]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Relaxed<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Sour</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Sweet</span>)</div><br style="clear:both"></div>
+                            <div><b>Nature:</b> Quiet<div style="float: right">(<img
+                                src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
+                                class="flavourup">Bitter</span> <img
+                                src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
+                                class="flavourdown">Sweet</span>)</div><br style="clear:both"></div>
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
@@ -2038,13 +2081,14 @@
                                     src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
                             <div><b>Nature:</b> Brave<div style="float: right">(<img
                                         src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Spicy</span> <img
+                                        class="flavourup">Bitter</span> <img
                                         src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
                                         class="flavourdown">Sweet</span>)</div><br style="clear:both"></div>
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
-                    </div><span class="fieldmon"
+                    </div>
+                    <span class="fieldmon"
                         style="left: 82.2727%; top: 23.9474%; animation-delay: 379ms; margin-left: -40.3136px; margin-top: -10.0579px;"
                         data-id="h6gwJ" data-tooltip=""><img
                             src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
@@ -2075,46 +2119,9 @@
                                     src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
                             <div><b>Nature:</b> Hasty<div style="float: right">(<img
                                         src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Sweet</span> <img
+                                        class="flavourup">Bitter</span> <img
                                         src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
                                         class="flavourdown">Sour</span>)</div><br style="clear:both"></div>
-                            <div class="item"><b>Item:</b> <i>None</i></div>
-                            <div><b>Egg Group:</b> Mineral/Amorphous</div>
-                        </div>
-                    </div><span class="fieldmon"
-                        style="left: 48.4848%; top: 72.6316%; animation-delay: 687ms; margin-left: -23.7576px; margin-top: -30.5053px;"
-                        data-id="h6gw0" data-tooltip=""><img
-                            src="https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209" class="big" alt="Yamask"><img
-                            src="https://pfq-static.com/img/pkmn/n/g/p/8.png/t=1589304030" class="small"
-                            alt="Yamask"></span>
-                    <div class="tooltip_content">
-                        <div class="fieldmontip">
-                            <div class="pkmn">
-                                <div class="pokemon"
-                                    style="background-image: url('https://pfq-static.com/img/pkmn/g/s/d/2.png/t=1589312209')">
-                                </div>
-                            </div>
-                            <h3><a href="/summary/h6gw0">Yamask</a></h3>
-                            <h3 style="display:none"><a href="/summary/hello">Yamask</a></h3>
-                            <div><b>Species:</b> <img
-                                    src="https://pfq-static.com/img/dex/flags/all.svg/t=1576842644#unova"
-                                    style="height:1em;vertical-align:middle"> Yamask <span class="icons"><img
-                                        src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
-                                        title="[M]"></span></div>
-                            <div class="forme"><b>Forme:</b> Galarian Forme</div>
-                            <div><b>Type:</b> <img src="https://pfq-static.com/img/types/ground.png/t=1262702646"><img
-                                    src="https://pfq-static.com/img/types/ghost.png/t=1262702645"></div>
-                            <div class="level"><b>Level:</b> 1 (0 / 8)</div>
-                            <div class="expbar">
-                                <div style="width:0%"></div>
-                            </div>
-                            <div><b>Happiness:</b> <img
-                                    src="https://pfq-static.com/img/pkmn/heart_1.png/t=1427152952">&nbsp;27%</div>
-                            <div><b>Nature:</b> Impish<div style="float: right">(<img
-                                        src="https://pfq-static.com/img/pkmn/heart_2.png/t=1427152947"> <span
-                                        class="flavourup">Sour</span> <img
-                                        src="https://pfq-static.com/img/pkmn/heart_0.png/t=1427152941"> <span
-                                        class="flavourdown">Dry</span>)</div><br style="clear:both"></div>
                             <div class="item"><b>Item:</b> <i>None</i></div>
                             <div><b>Egg Group:</b> Mineral/Amorphous</div>
                         </div>
@@ -2138,259 +2145,7 @@
                         visibility</label>
                     <hr><label data-menu="sortfields">Organise Fields</label><label data-menu="search">Search
                         Fields</label><label data-menu="buy">Buy new Field</label>
-                    <hr><label data-menu="release">Mass release</label><label data-menu="sell">Sell</label></div>
-            </div>
-            <div id="fieldsearch" style="background-color: rgb(226, 255, 205); border: 1px solid rgb(158, 198, 144);">
-                <h4>Advanced Field search</h4>
-                <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at
-                    once and it will notify you whenever it will find the types of Pokemons you selected!</p>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldShiny">Shiny
-                                </label>
-                            </td>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldAlbino">Albino
-                                </label>
-                            </td>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldMelanistic">Melanistic
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldPrehistoric">Prehistoric
-                                </label>
-                            </td>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldDelta">Delta
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldMega">Mega
-                                </label>
-                            </td>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldStarter">Starter
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldCustomSprite">Custom Sprite
-                                </label>
-                            </td>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldItem">Holds Item
-                                </label>
-                            </td>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldNFE">
-                                    <div class="tooltip">Evolutions Left
-                                        <span class="tooltiptext">
-                                            Pokemon with one evolution left are highlighted in red
-                                            <br>
-                                            Pokemon with two evolutions left are highlighted in blue
-                                        </span>
-                                    </div>
-                                </label>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h4>Search on type</h4>
-                <p>Select which types of Pokemon you wish to find</p>
-                <input type="button" value="Add type" id="addPrivateFieldTypeSearch">
-                <div id="fieldTypes">
-                    <div class="0"></div>
-                    <div class="1"> <select name="types" class="qolsetting" data-key="fieldType" array-name="typeArray">
-                            <option value="none">None</option>
-                            <option value="0">Normal</option>
-                            <option value="1">Fire</option>
-                            <option value="2">Water</option>
-                            <option value="3">Electric</option>
-                            <option value="4">Grass</option>
-                            <option value="5">Ice</option>
-                            <option value="6">Fighting</option>
-                            <option value="7">Poison</option>
-                            <option value="8">Ground</option>
-                            <option value="9">Flying</option>
-                            <option value="10">Psychic</option>
-                            <option value="11">Bug</option>
-                            <option value="12">Rock</option>
-                            <option value="13">Ghost</option>
-                            <option value="14">Dragon</option>
-                            <option value="15">Dark</option>
-                            <option value="16">Steel</option>
-                            <option value="17">Fairy</option>
-                        </select> <input type="button" value="Remove" id="removePrivateFieldTypeSearch"> </div>
-                </div>
-                <h4>Search on nature</h4>
-                <p>Select which natures of Pokemon you wish to find</p>
-                <input type="button" value="Add nature" id="addPrivateFieldNatureSearch">
-                <div id="natureTypes">
-                    <div class="0"></div>
-                    <div class="1"> <select name="natures" class="qolsetting" data-key="fieldNature"
-                            array-name="natureArray">
-                            <option value="none">None</option>
-                            <option value="0">Lonely</option>
-                            <option value="1">Mild</option>
-                            <option value="2">Hasty</option>
-                            <option value="3">Gentle</option>
-                            <option value="4">Bold</option>
-                            <option value="5">Modest</option>
-                            <option value="6">Timid</option>
-                            <option value="7">Calm</option>
-                            <option value="8">Impish</option>
-                            <option value="9">Adamant</option>
-                            <option value="10">Jolly</option>
-                            <option value="11">Careful</option>
-                            <option value="12">Relaxed</option>
-                            <option value="13">Brave</option>
-                            <option value="14">Quiet</option>
-                            <option value="15">Sassy</option>
-                            <option value="16">Lax</option>
-                            <option value="17">Naughty</option>
-                            <option value="18">Rash</option>
-                            <option value="19">Naïve</option>
-                            <option value="20">Hardy</option>
-                            <option value="21">Docile</option>
-                            <option value="22">Serious</option>
-                            <option value="23">Bashful</option>
-                            <option value="24">Quirky</option>
-                        </select> <input type="button" value="Remove" id="removePrivateFieldNature"> </div>
-                </div>
-                <h4>Search on egg group</h4>
-                <p>Select which egg groups you wish to find</p>
-                <input type="button" value="Add egg group" id="addPrivateFieldEggGroupSearch">
-                <div id="eggGroupTypes">
-                    <div class="0"></div>
-                    <div class="1"> <select name="eggGroups" class="qolsetting" data-key="fieldEggGroup"
-                            array-name="eggGroupArray">
-                            <option value="none">None</option>
-                            <option value="0">Undiscovered</option>
-                            <option value="1">Monster</option>
-                            <option value="2">Dragon</option>
-                            <option value="3">Field</option>
-                            <option value="4">Bug</option>
-                            <option value="5">Grass</option>
-                            <option value="6">Water 1</option>
-                            <option value="7">Water 2</option>
-                            <option value="8">Water 3</option>
-                            <option value="9">Amorphous</option>
-                            <option value="10">Fairy</option>
-                            <option value="11">Human-Like</option>
-                            <option value="12">Mineral</option>
-                            <option value="13">Flying</option>
-                            <option value="14">Ditto</option>
-                        </select> <input type="button" value="Remove" id="removePrivateFieldEggGroup"> </div>
-                </div>
-                <h4>Custom Search</h4>
-                <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-                <div class="tooltip">Custom Search Help
-                    <span class="tooltiptext">
-                        Custom search by Pokemon name
-                        <br>
-                        <br>
-                        Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to
-                        find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific
-                        gender, select the gender you wish to find.
-                        <br>
-                        <br>
-                        Custom search by image code
-                        <br>
-                        <br>
-                        Select By img code (and de-select Custom Egg &amp; Custom Pokemon checkboxes) to find a Pokemon
-                        or egg by img code. For example you wish to find a Bulbasaur. You paste it's Img code in the
-                        search bar:
-                        <br>
-                        //pfq-static.com/img/pkmn/1/g/g.png/t=1474027727
-                        <br>
-                        and now it will show you when a Bulbasaur is found! Copy paste the complete link (starting from
-                        //) or you won't find anything.
-                        <br>
-                        <br>
-                        <a
-                            href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List
-                            of Eggs Image Codes</a>
-                        <br>
-                        <br>
-                        More info on finding Pokemon with their img code:
-                        <br>
-                        <br>
-                        <a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon
-                            Modifications - Make Shelter Pokemon Stand Out"</a>
-                    </span>
-                </div>
-
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg
-                                </label>
-                            </td>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="customPokemon">Custom Pokemon
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="customPng">By img code
-                                </label>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h4>Search on gender</h4>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldMale">Male
-                                </label>
-                            </td>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldFemale">Female
-                                </label>
-                            </td>
-                            <td>
-                                <label>
-                                    <input type="checkbox" class="qolsetting" data-key="fieldNoGender">Genderless
-                                </label>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h4>Search Keys</h4>
-                <input type="button" value="Add searchfield" id="addTextField">
-                <div id="searchkeys">
-                    <div class="0"></div>
-                    <div class="1"><label><input type="text" class="qolsetting" data-key="fieldCustom"
-                                array-name="customArray"></label><input type="button" value="Remove"
-                            id="removeTextField"></div>
+                    <hr><label data-menu="release">Mass release</label><label data-menu="sell">Sell</label>
                 </div>
             </div>
             <a href="/fields/ECEInTheHole" id="fieldmodetoggle">Go to Public View</a>
