@@ -119,311 +119,432 @@ describe("Test Private Fields Page", () => {
         ////////////////////////////////////////
     });
 
-    // test("Test Search controls on Private Fields page", () => {
-    //     const htmlpath = path.join(__dirname, './data/', 'privateFields.html');
-    //     const html = fs.readFileSync(htmlpath, 'utf8', 'r');
-    //     const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-    //     global.location.href = "https://pokefarm.com/fields";
-    //     document.documentElement.innerHTML = innerHTML;
-    //     localStorage.setItem('QoLPrivateFields',
-    //         '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
-    //         '"fieldType":"8,13",' +
-    //         '"fieldNature":"8",' +
-    //         '"fieldEggGroup":"12,9",' +
-    //         '"fieldNewPokemon":true,' +
-    //         '"fieldShiny":true,' +
-    //         '"fieldAlbino":true,' +
-    //         '"fieldMelanistic":true,' +
-    //         '"fieldPrehistoric":true,' +
-    //         '"fieldDelta":true,' +
-    //         '"fieldMega":true,' +
-    //         '"fieldStarter":true,' +
-    //         '"fieldCustomSprite":true,' +
-    //         '"fieldMale":true,' +
-    //         '"fieldFemale":true,' +
-    //         '"fieldNoGender":true,' +
-    //         '"fieldItem":true,' +
-    //         '"fieldNFE":true,' +
-    //         '"customItem":true,' +
-    //         '"customEgg":true,' +
-    //         '"customPokemon":true,' +
-    //         '"customPng":true,' +
-    //         '"releaseSelectAll":true,' +
-    //         '"tooltipEnableMods":true,' +
-    //         '"tooltipNoBerry":true,' +
-    //         '"tooltipBerry":true}');
+    test("Test Search controls on Private Fields page", () => {
+        ////////////////////////////////////////
+        // setup
+        const htmlpath = path.join(__dirname, './data/', 'privateFields.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = "https://pokefarm.com/fields";
+        document.documentElement.innerHTML = innerHTML;
+        localStorage.setItem('QoLPrivateFields',
+            '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
+            '"fieldType":"8,13,0",' +
+            '"fieldNature":"8",' +
+            '"fieldEggGroup":"12,9,1,2",' +
+            '"fieldNewPokemon":true,' +
+            '"fieldShiny":true,' +
+            '"fieldAlbino":true,' +
+            '"fieldMelanistic":true,' +
+            '"fieldPrehistoric":true,' +
+            '"fieldDelta":true,' +
+            '"fieldMega":true,' +
+            '"fieldStarter":true,' +
+            '"fieldCustomSprite":true,' +
+            '"fieldMale":true,' +
+            '"fieldFemale":true,' +
+            '"fieldNoGender":true,' +
+            '"fieldItem":true,' +
+            '"fieldNFE":true,' +
+            '"customItem":true,' +
+            '"customEgg":true,' +
+            '"customPokemon":true,' +
+            '"customPng":true,' +
+            '"releaseSelectAll":true,' +
+            '"tooltipEnableMods":true,' +
+            '"tooltipNoBerry":true,' +
+            '"tooltipBerry":true}');
 
-    //     pfqol.pfqol($);
+        pfqol.pfqol($);
+        ////////////////////////////////////////
 
-    //     $(window).trigger('load');
-    //     $('.field', document).trigger('load');
-    //     $('#addPrivateFieldTypeSearch').trigger('click');
-    //     $('#removePrivateFieldTypeSearch').trigger('click');
-    //     $('#addPrivateFieldNatureSearch').trigger('click');
-    //     $('#removePrivateFieldNature').trigger('click');
-    //     $('#addPrivateFieldEggGroupSearch').trigger('click');
-    //     $('#removePrivateFieldEggGroup').trigger('click');
-    //     $('#addTextField').trigger('click');
-    //     $('#removeTextField').trigger('click');
-    //     // trigger '.qolsetting' change and input events
-    //     $('[data-key=fieldShiny]').trigger('click');
-    //     $('.collapsible').trigger('click');
-    //     $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
-    //     $('.tooltipsetting[data-key=tooltipNoBerry]').trigger('click');
+        ////////////////////////////////////////
+        // check that HTML was setup correctly
+        expect($('[data-key=fieldShiny]').length).toBe(1);
+        expect($('[data-key=fieldAlbino]').length).toBe(1);
+        expect($('[data-key=fieldMelanistic]').length).toBe(1);
+        expect($('[data-key=fieldPrehistoric]').length).toBe(1);
+        expect($('[data-key=fieldDelta]').length).toBe(1);
+        expect($('[data-key=fieldMega]').length).toBe(1);
+        expect($('[data-key=fieldStarter]').length).toBe(1);
+        expect($('[data-key=fieldCustomSprite]').length).toBe(1);
+        expect($('[data-key=fieldItem]').length).toBe(1);
+        expect($('[data-key=fieldNFE]').length).toBe(1);
 
-    //     // trigger MutationObserver observe
-    //     $('#field_field>.field>span').eq(-1).remove();
-    //     $('#field_field>.field>div').eq(-1).remove();
+        expect($('input').filter('#addPrivateFieldTypeSearch').length).toBe(1);
+        expect($('[data-key=fieldType][array-name=typeArray]').length).toBe(3);
+        expect($('input').filter('#removePrivateFieldTypeSearch').length).toBe(3);
+        expect($('input').filter('#addPrivateFieldNatureSearch').length).toBe(1);
+        expect($('[data-key=fieldNature][array-name=natureArray]').length).toBe(1);
+        expect($('input').filter('#removePrivateFieldNature').length).toBe(1);
+        expect($('input').filter('#addPrivateFieldEggGroupSearch').length).toBe(1);
+        expect($('[data-key=fieldEggGroup][array-name=eggGroupArray]').length).toBe(4);
+        expect($('input').filter('#removePrivateFieldEggGroup').length).toBe(4);
 
-    //     // trigger else portion of handleTooltipSettings()
-    //     $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
+        expect($('[data-key=customEgg]').length).toBe(1);
+        expect($('[data-key=customPokemon]').length).toBe(1);
+        expect($('[data-key=customPng]').length).toBe(1);
 
-    //     // get coverage for no genders branch in custom pokemon part of customSearch
-    //     localStorage.setItem('QoLPrivateFields',
-    //         '{"fieldCustom":"Yamask",' +
-    //         '"fieldType":"8,13",' +
-    //         '"fieldNature":"8",' +
-    //         '"fieldEggGroup":"12,9",' +
-    //         '"fieldNewPokemon":true,' +
-    //         '"fieldShiny":true,' +
-    //         '"fieldAlbino":true,' +
-    //         '"fieldMelanistic":true,' +
-    //         '"fieldPrehistoric":true,' +
-    //         '"fieldDelta":true,' +
-    //         '"fieldMega":true,' +
-    //         '"fieldStarter":true,' +
-    //         '"fieldCustomSprite":true,' +
-    //         '"fieldMale":false,' + // <-- false
-    //         '"fieldFemale":false,' + // <-- false
-    //         '"fieldNoGender":false,' + // <-- false
-    //         '"fieldItem":true,' +
-    //         '"fieldNFE":true,' +
-    //         '"customItem":true,' +
-    //         '"customEgg":true,' +
-    //         '"customPokemon":true,' +
-    //         '"customPng":true,' +
-    //         '"releaseSelectAll":true,' +
-    //         '"tooltipEnableMods":true,' +
-    //         '"tooltipNoBerry":true,' +
-    //         '"tooltipBerry":true}');
-    //     pfqol.pfqol($);
+        expect($('[data-key=fieldMale]').length).toBe(1);
+        expect($('[data-key=fieldFemale]').length).toBe(1);
+        expect($('[data-key=fieldNoGender]').length).toBe(1);
 
-    //     // use 'fieldShiny' click as a roundabout way to reload the settings
-    //     $('[data-key=fieldShiny]').trigger('click');
+        expect($('input').filter('#addTextField').length).toBe(1);
+        expect($('[data-key=fieldCustom][array-name=customArray]').length).toBe(2);
+        expect($('input').filter('#removeTextField').length).toBe(2);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // Execute load handlers
+        $(window).trigger('load');
+        $('.field', document).trigger('load');
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('#addPrivateFieldTypeSearch').trigger('click');
+        // $('#removePrivateFieldTypeSearch').trigger('click');
+        // $('#addPrivateFieldNatureSearch').trigger('click');
+        // $('#removePrivateFieldNature').trigger('click');
+        // $('#addPrivateFieldEggGroupSearch').trigger('click');
+        // $('#removePrivateFieldEggGroup').trigger('click');
+        // $('#addTextField').trigger('click');
+        // $('#removeTextField').trigger('click');
+        // // trigger '.qolsetting' change and input events
+        // $('[data-key=fieldShiny]').trigger('click');
+        // $('.collapsible').trigger('click');
+        // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
+        // $('.tooltipsetting[data-key=tooltipNoBerry]').trigger('click');
 
-    //     // get coverage for findNFE = false branch in customSearch
-    //     localStorage.setItem('QoLPrivateFields',
-    //         '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
-    //         '"fieldType":"8,13",' +
-    //         '"fieldNature":"8",' +
-    //         '"fieldEggGroup":"12,9",' +
-    //         '"fieldNewPokemon":true,' +
-    //         '"fieldShiny":true,' +
-    //         '"fieldAlbino":true,' +
-    //         '"fieldMelanistic":true,' +
-    //         '"fieldPrehistoric":true,' +
-    //         '"fieldDelta":true,' +
-    //         '"fieldMega":true,' +
-    //         '"fieldStarter":true,' +
-    //         '"fieldCustomSprite":true,' +
-    //         '"fieldMale":true,' +
-    //         '"fieldFemale":true,' +
-    //         '"fieldNoGender":true,' +
-    //         '"fieldItem":true,' +
-    //         '"fieldNFE":false,' +// <-- false
-    //         '"customItem":true,' +
-    //         '"customEgg":true,' +
-    //         '"customPokemon":true,' +
-    //         '"customPng":true,' +
-    //         '"releaseSelectAll":true,' +
-    //         '"tooltipEnableMods":true,' +
-    //         '"tooltipNoBerry":true,' +
-    //         '"tooltipBerry":true}');
-    //     $('[data-key="fieldNFE"]').trigger('click');
-    // });
+        // // trigger MutationObserver observe
+        // $('#field_field>.field>span').eq(-1).remove();
+        // $('#field_field>.field>div').eq(-1).remove();
 
-    // test("Test Release controls on Private Fields Release dialog", () => {
-    //     ////////////////////////////////////////
-    //     // setup
-    //     /* HTML is setup to have:
-    //      * - 2 mons that like Any berry
-    //      * - 3 mons that like Sour berry
-    //      * - 4 mons that like Spicy berry
-    //      * - 5 mons that like Dry berry
-    //      * - 6 mons that like Sweet berry
-    //      * - 9 mons that like Bitter berry
-    //      * - 29 pokemon in total
-    //      */
-    //     const NUM_ANY = 2;
-    //     const NUM_SOUR = 3;
-    //     const NUM_SPICY = 4;
-    //     const NUM_DRY = 5;
-    //     const NUM_SWEET = 6;
-    //     const NUM_BITTER = 9;
-    //     const NUM_POKEMON = 29;
-    //     const htmlpath = path.join(__dirname, './data/', 'privateFieldsWithReleaseDialog.html');
-    //     const html = fs.readFileSync(htmlpath, 'utf8', 'r');
-    //     const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-    //     global.location.href = "https://pokefarm.com/fields";
-    //     document.documentElement.innerHTML = innerHTML;
-    //     localStorage.setItem('QoLPrivateFields',
-    //         '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
-    //         '"fieldType":"8,13",' +
-    //         '"fieldNature":"8",' +
-    //         '"fieldEggGroup":"12,9",' +
-    //         '"fieldNewPokemon":true,' +
-    //         '"fieldShiny":true,' +
-    //         '"fieldAlbino":true,' +
-    //         '"fieldMelanistic":true,' +
-    //         '"fieldPrehistoric":true,' +
-    //         '"fieldDelta":true,' +
-    //         '"fieldMega":true,' +
-    //         '"fieldStarter":true,' +
-    //         '"fieldCustomSprite":true,' +
-    //         '"fieldMale":true,' +
-    //         '"fieldFemale":true,' +
-    //         '"fieldNoGender":true,' +
-    //         '"fieldItem":true,' +
-    //         '"fieldNFE":true,' +
-    //         '"customItem":true,' +
-    //         '"customEgg":true,' +
-    //         '"customPokemon":true,' +
-    //         '"customPng":true,' +
-    //         '"releaseSelectAll":true,' +
-    //         '"tooltipEnableMods":true,' +
-    //         '"tooltipNoBerry":true,' +
-    //         '"tooltipBerry":true}');
+        // // trigger else portion of handleTooltipSettings()
+        // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
 
-    //     pfqol.pfqol($);
-    //     ////////////////////////////////////////
+        // // get coverage for no genders branch in custom pokemon part of customSearch
+        // localStorage.setItem('QoLPrivateFields',
+        //     '{"fieldCustom":"Yamask",' +
+        //     '"fieldType":"8,13",' +
+        //     '"fieldNature":"8",' +
+        //     '"fieldEggGroup":"12,9",' +
+        //     '"fieldNewPokemon":true,' +
+        //     '"fieldShiny":true,' +
+        //     '"fieldAlbino":true,' +
+        //     '"fieldMelanistic":true,' +
+        //     '"fieldPrehistoric":true,' +
+        //     '"fieldDelta":true,' +
+        //     '"fieldMega":true,' +
+        //     '"fieldStarter":true,' +
+        //     '"fieldCustomSprite":true,' +
+        //     '"fieldMale":false,' + // <-- false
+        //     '"fieldFemale":false,' + // <-- false
+        //     '"fieldNoGender":false,' + // <-- false
+        //     '"fieldItem":true,' +
+        //     '"fieldNFE":true,' +
+        //     '"customItem":true,' +
+        //     '"customEgg":true,' +
+        //     '"customPokemon":true,' +
+        //     '"customPng":true,' +
+        //     '"releaseSelectAll":true,' +
+        //     '"tooltipEnableMods":true,' +
+        //     '"tooltipNoBerry":true,' +
+        //     '"tooltipBerry":true}');
+        // pfqol.pfqol($);
 
-    //     ////////////////////////////////////////
-    //     // check that HTML was setup correctly
-    //     expect($('#selectallfieldcheckbox').length).toBe(1);
-    //     expect($('selectallfieldanycheckbox').length).toBe(1);
-    //     expect($('selectallfieldsourcheckbox').length).toBe(1);
-    //     expect($('selectallfieldspicycheckbox').length).toBe(1);
-    //     expect($('selectallfielddrycheckbox').length).toBe(1);
-    //     expect($('selectallfieldsweetcheckbox').length).toBe(1);
-    //     expect($('selectallfieldbittercheckbox').length).toBe(1);
-    //     ////////////////////////////////////////
+        // // use 'fieldShiny' click as a roundabout way to reload the settings
+        // $('[data-key=fieldShiny]').trigger('click');
 
-    //     ////////////////////////////////////////
-    //     // trigger dialog buttons
-    //     $('*[data-menu="release"]').trigger('click');
-    //     ////////////////////////////////////////
+        // // get coverage for findNFE = false branch in customSearch
+        // localStorage.setItem('QoLPrivateFields',
+        //     '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
+        //     '"fieldType":"8,13",' +
+        //     '"fieldNature":"8",' +
+        //     '"fieldEggGroup":"12,9",' +
+        //     '"fieldNewPokemon":true,' +
+        //     '"fieldShiny":true,' +
+        //     '"fieldAlbino":true,' +
+        //     '"fieldMelanistic":true,' +
+        //     '"fieldPrehistoric":true,' +
+        //     '"fieldDelta":true,' +
+        //     '"fieldMega":true,' +
+        //     '"fieldStarter":true,' +
+        //     '"fieldCustomSprite":true,' +
+        //     '"fieldMale":true,' +
+        //     '"fieldFemale":true,' +
+        //     '"fieldNoGender":true,' +
+        //     '"fieldItem":true,' +
+        //     '"fieldNFE":false,' +// <-- false
+        //     '"customItem":true,' +
+        //     '"customEgg":true,' +
+        //     '"customPokemon":true,' +
+        //     '"customPng":true,' +
+        //     '"releaseSelectAll":true,' +
+        //     '"tooltipEnableMods":true,' +
+        //     '"tooltipNoBerry":true,' +
+        //     '"tooltipBerry":true}');
+        // $('[data-key="fieldNFE"]').trigger('click');
+    });
 
-    //     ////////////////////////////////////////
-    //     // check that select all checkbox works
-    //     $('#selectallfieldcheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(NUM_POKEMON);
-    //     $('#selectallfieldcheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(0);
-    //     ////////////////////////////////////////
+    test("Test Release controls on Private Fields Release dialog", () => {
+        ////////////////////////////////////////
+        // setup
+        /* HTML is setup to have:
+         * - 2 mons that like Any berry
+         * - 3 mons that like Sour berry
+         * - 4 mons that like Spicy berry
+         * - 5 mons that like Dry berry
+         * - 6 mons that like Sweet berry
+         * - 9 mons that like Bitter berry
+         * - 29 pokemon in total
+         */
+        const NUM_ANY = 2;
+        const NUM_SOUR = 3;
+        const NUM_SPICY = 4;
+        const NUM_DRY = 5;
+        const NUM_SWEET = 6;
+        const NUM_BITTER = 9;
+        const NUM_POKEMON = 29;
+        const htmlpath = path.join(__dirname, './data/', 'privateFieldsWithReleaseDialog.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = "https://pokefarm.com/fields";
+        document.documentElement.innerHTML = innerHTML;
+        localStorage.setItem('QoLPrivateFields',
+            '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
+            '"fieldType":"8,13",' +
+            '"fieldNature":"8",' +
+            '"fieldEggGroup":"12,9",' +
+            '"fieldNewPokemon":true,' +
+            '"fieldShiny":true,' +
+            '"fieldAlbino":true,' +
+            '"fieldMelanistic":true,' +
+            '"fieldPrehistoric":true,' +
+            '"fieldDelta":true,' +
+            '"fieldMega":true,' +
+            '"fieldStarter":true,' +
+            '"fieldCustomSprite":true,' +
+            '"fieldMale":true,' +
+            '"fieldFemale":true,' +
+            '"fieldNoGender":true,' +
+            '"fieldItem":true,' +
+            '"fieldNFE":true,' +
+            '"customItem":true,' +
+            '"customEgg":true,' +
+            '"customPokemon":true,' +
+            '"customPng":true,' +
+            '"releaseSelectAll":true,' +
+            '"tooltipEnableMods":true,' +
+            '"tooltipNoBerry":true,' +
+            '"tooltipBerry":true}');
 
-    //     ////////////////////////////////////////
-    //     // check that select any checkbox works
-    //     $('#selectallfieldanycheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(NUM_ANY);
-    //     $('#selectallfieldanycheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(0);
-    //     ////////////////////////////////////////
+        pfqol.pfqol($);
+        ////////////////////////////////////////
 
-    //     ////////////////////////////////////////
-    //     // check that select sour checkbox works
-    //     $('#selectallfieldsourcheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(NUM_SOUR);
-    //     $('#selectallfieldsourcheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(0);
-    //     ////////////////////////////////////////
+        ////////////////////////////////////////
+        // trigger dialog buttons
+        $('*[data-menu="release"]').eq(0).trigger('click');
+        ////////////////////////////////////////
 
-    //     ////////////////////////////////////////
-    //     // check that select spicy checkbox works
-    //     $('#selectallfieldspicycheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(NUM_SPICY);
-    //     $('#selectallfieldspicycheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(0);
-    //     ////////////////////////////////////////
+        ////////////////////////////////////////
+        // check that HTML was setup correctly
+        // TODO: check why 2 is correct for this and check if the webpage works like this
+        expect($('input').filter('#selectallfieldcheckbox').length).toBe(2);
+        expect($('input').filter('#selectallfieldanycheckbox').length).toBe(2);
+        expect($('input').filter('#selectallfieldsourcheckbox').length).toBe(2);
+        expect($('input').filter('#selectallfieldspicycheckbox').length).toBe(2);
+        expect($('input').filter('#selectallfielddrycheckbox').length).toBe(2);
+        expect($('input').filter('#selectallfieldsweetcheckbox').length).toBe(2);
+        expect($('input').filter('#selectallfieldbittercheckbox').length).toBe(2);
+        // expected number from HTML
+        expect($('#massreleaselist>ul>li>label>input').length).toBe(NUM_POKEMON);
+        ////////////////////////////////////////
 
-    //     ////////////////////////////////////////
-    //     // check that select dry checkbox works
-    //     $('#selectallfielddrycheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(NUM_DRY);
-    //     $('#selectallfielddrycheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(0);
-    //     ////////////////////////////////////////
+        ////////////////////////////////////////
+        // check that select all checkbox works
+        $('#selectallfieldcheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(NUM_POKEMON);
+        $('#selectallfieldcheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
 
-    //     ////////////////////////////////////////
-    //     // check that select sweet checkbox works
-    //     $('#selectallfieldsweetcheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(NUM_SWEET);
-    //     $('#selectallfieldsweetcheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(0);
-    //     ////////////////////////////////////////
+        ////////////////////////////////////////
+        // check that select any checkbox works
+        $('#selectallfieldanycheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(NUM_ANY);
+        $('#selectallfieldanycheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
 
-    //     ////////////////////////////////////////
-    //     // check that select bitter checkbox works
-    //     $('#selectallfieldbittercheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(NUM_BITTER);
-    //     $('#selectallfieldbittercheckbox').trigger('click');
-    //     expect($('#massreleaselist>ul>li>label>input').length).toBe(0);
-    //     ////////////////////////////////////////
+        ////////////////////////////////////////
+        // check that select sour checkbox works
+        $('#selectallfieldsourcheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(NUM_SOUR);
+        $('#selectallfieldsourcheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
 
-    // });
+        ////////////////////////////////////////
+        // check that select spicy checkbox works
+        $('#selectallfieldspicycheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(NUM_SPICY);
+        $('#selectallfieldspicycheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
 
-    // test("Test Move controls on Private Fields Bulk Move dialog", () => {
-    //     const htmlpath = path.join(__dirname, './data/', 'privateFieldsWithBulkMoveDialog.html');
-    //     const html = fs.readFileSync(htmlpath, 'utf8', 'r');
-    //     const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-    //     global.location.href = "https://pokefarm.com/fields";
-    //     document.documentElement.innerHTML = innerHTML;
-    //     localStorage.setItem('QoLPrivateFields',
-    //         '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
-    //         '"fieldType":"8,13",' +
-    //         '"fieldNature":"8",' +
-    //         '"fieldEggGroup":"12,9",' +
-    //         '"fieldNewPokemon":true,' +
-    //         '"fieldShiny":true,' +
-    //         '"fieldAlbino":true,' +
-    //         '"fieldMelanistic":true,' +
-    //         '"fieldPrehistoric":true,' +
-    //         '"fieldDelta":true,' +
-    //         '"fieldMega":true,' +
-    //         '"fieldStarter":true,' +
-    //         '"fieldCustomSprite":true,' +
-    //         '"fieldMale":true,' +
-    //         '"fieldFemale":true,' +
-    //         '"fieldNoGender":true,' +
-    //         '"fieldItem":true,' +
-    //         '"fieldNFE":true,' +
-    //         '"customItem":true,' +
-    //         '"customEgg":true,' +
-    //         '"customPokemon":true,' +
-    //         '"customPng":true,' +
-    //         '"releaseSelectAll":true,' +
-    //         '"tooltipEnableMods":true,' +
-    //         '"tooltipNoBerry":true,' +
-    //         '"tooltipBerry":true}');
+        ////////////////////////////////////////
+        // check that select dry checkbox works
+        $('#selectallfielddrycheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(NUM_DRY);
+        $('#selectallfielddrycheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
 
-    //     pfqol.pfqol($);
+        ////////////////////////////////////////
+        // check that select sweet checkbox works
+        $('#selectallfieldsweetcheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(NUM_SWEET);
+        $('#selectallfieldsweetcheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
 
-    //     // check that HTML was setup correctly
-    //     expect($('#movefieldselectallcheckbox').length).toBe(1);
-    //     expect($('movefieldselectanycheckbox').length).toBe(1);
-    //     expect($('movefieldselectsourcheckbox').length).toBe(1);
-    //     expect($('movefieldselectspicycheckbox').length).toBe(1);
-    //     expect($('movefieldselectdrycheckbox').length).toBe(1);
-    //     expect($('movefieldselectsweetcheckbox').length).toBe(1);
-    //     expect($('movefieldselectbittercheckbox').length).toBe(1);
+        ////////////////////////////////////////
+        // check that select bitter checkbox works
+        $('#selectallfieldbittercheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(NUM_BITTER);
+        $('#selectallfieldbittercheckbox').trigger('click');
+        expect($('#massreleaselist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
 
-    //     // trigger dialog buttons
-    //     $('*[data-menu="bulkmove"]').trigger('click');
-    //     $('#movefieldselectallcheckbox').trigger('click');
-    //     $('#movefieldselectanycheckbox').trigger('click');
-    //     $('#movefieldselectsourcheckbox').trigger('click');
-    //     $('#movefieldselectspicycheckbox').trigger('click');
-    //     $('#movefieldselectdrycheckbox').trigger('click');
-    //     $('#movefieldselectsweetcheckbox').trigger('click');
-    //     $('#movefieldselectbittercheckbox').trigger('click');
-    // });
+    });
+
+    test("Test Move controls on Private Fields Bulk Move dialog", () => {
+        ////////////////////////////////////////
+        // setup
+        /* HTML is setup to have:
+         * - 2 mons that like Any berry
+         * - 3 mons that like Sour berry
+         * - 4 mons that like Spicy berry
+         * - 5 mons that like Dry berry
+         * - 6 mons that like Sweet berry
+         * - 9 mons that like Bitter berry
+         * - 29 pokemon in total
+         */
+        const NUM_ANY = 2;
+        const NUM_SOUR = 3;
+        const NUM_SPICY = 4;
+        const NUM_DRY = 5;
+        const NUM_SWEET = 6;
+        const NUM_BITTER = 9;
+        const NUM_POKEMON = 29;
+        const htmlpath = path.join(__dirname, './data/', 'privateFieldsWithBulkMoveDialog.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = "https://pokefarm.com/fields";
+        document.documentElement.innerHTML = innerHTML;
+        localStorage.setItem('QoLPrivateFields',
+            '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
+            '"fieldType":"8,13",' +
+            '"fieldNature":"8",' +
+            '"fieldEggGroup":"12,9",' +
+            '"fieldNewPokemon":true,' +
+            '"fieldShiny":true,' +
+            '"fieldAlbino":true,' +
+            '"fieldMelanistic":true,' +
+            '"fieldPrehistoric":true,' +
+            '"fieldDelta":true,' +
+            '"fieldMega":true,' +
+            '"fieldStarter":true,' +
+            '"fieldCustomSprite":true,' +
+            '"fieldMale":true,' +
+            '"fieldFemale":true,' +
+            '"fieldNoGender":true,' +
+            '"fieldItem":true,' +
+            '"fieldNFE":true,' +
+            '"customItem":true,' +
+            '"customEgg":true,' +
+            '"customPokemon":true,' +
+            '"customPng":true,' +
+            '"releaseSelectAll":true,' +
+            '"tooltipEnableMods":true,' +
+            '"tooltipNoBerry":true,' +
+            '"tooltipBerry":true}');
+
+        pfqol.pfqol($);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // trigger dialog buttons
+        $('*[data-menu="bulkmove"]').eq(0).trigger('click');
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // check that HTML was setup correctly
+        expect($('input').filter('#movefieldselectallcheckbox').length).toBe(2);
+        expect($('input').filter('#movefieldselectanycheckbox').length).toBe(2);
+        expect($('input').filter('#movefieldselectsourcheckbox').length).toBe(2);
+        expect($('input').filter('#movefieldselectspicycheckbox').length).toBe(2);
+        expect($('input').filter('#movefieldselectdrycheckbox').length).toBe(2);
+        expect($('input').filter('#movefieldselectsweetcheckbox').length).toBe(2);
+        expect($('input').filter('#movefieldselectbittercheckbox').length).toBe(2);
+        // expected number from HTML
+        expect($('#massmovelist>ul>li>label>input').length).toBe(NUM_POKEMON);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // check that select all checkbox works
+        $('#movefieldselectallcheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(NUM_POKEMON);
+        $('#movefieldselectallcheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // check that select any checkbox works
+        $('#movefieldselectanycheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(NUM_ANY);
+        $('#movefieldselectanycheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // check that select sour checkbox works
+        $('#movefieldselectsourcheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(NUM_SOUR);
+        $('#movefieldselectsourcheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // check that select spicy checkbox works
+        $('#movefieldselectspicycheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(NUM_SPICY);
+        $('#movefieldselectspicycheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // check that select dry checkbox works
+        $('#movefieldselectdrycheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(NUM_DRY);
+        $('#movefieldselectdrycheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // check that select sweet checkbox works
+        $('#movefieldselectsweetcheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(NUM_SWEET);
+        $('#movefieldselectsweetcheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // check that select bitter checkbox works
+        $('#movefieldselectbittercheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(NUM_BITTER);
+        $('#movefieldselectbittercheckbox').trigger('click');
+        expect($('#massmovelist>ul>li>label>input:checked').length).toBe(0);
+        ////////////////////////////////////////
+    });
 });
