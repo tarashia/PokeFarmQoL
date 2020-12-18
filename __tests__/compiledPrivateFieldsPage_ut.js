@@ -202,26 +202,103 @@ describe("Test Private Fields Page", () => {
         
         ////////////////////////////////////////
         // $('#addPrivateFieldTypeSearch').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#removePrivateFieldTypeSearch').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#addPrivateFieldNatureSearch').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#removePrivateFieldNature').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#addPrivateFieldEggGroupSearch').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#removePrivateFieldEggGroup').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#addTextField').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#removeTextField').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // // trigger '.qolsetting' change and input events
         // $('[data-key=fieldShiny]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('.collapsible').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('.tooltipsetting[data-key=tooltipNoBerry]').trigger('click');
-
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // // trigger MutationObserver observe
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#field_field>.field>span').eq(-1).remove();
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#field_field>.field>div').eq(-1).remove();
-
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // // trigger else portion of handleTooltipSettings()
         // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
-
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // // get coverage for no genders branch in custom pokemon part of customSearch
         // localStorage.setItem('QoLPrivateFields',
         //     '{"fieldCustom":"Yamask",' +
