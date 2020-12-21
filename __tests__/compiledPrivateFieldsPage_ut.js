@@ -134,65 +134,109 @@ describe("Test Private Fields Page", () => {
          * - 9 Holding an Item
          * - 10 Not Fully Evolved
          */
-
+        const NUM_SHINY = 1;
+        const NUM_ALBINO = 2;
+        const NUM_MELANISTIC = 3;
+        const NUM_PREHISTORIC = 4;
+        const NUM_DELTA = 5;
+        const NUM_MEGA = 6;
+        const NUM_STARTER = 7;
+        const NUM_CS = 8;
+        const NUM_HOLDING_ITEM = 9;
+        const NUM_NFE = 10;
         const htmlpath = path.join(__dirname, './data/', 'privateFieldsForSearchTests.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = "https://pokefarm.com/fields";
         document.documentElement.innerHTML = innerHTML;
         localStorage.setItem('QoLPrivateFields',
-            '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
-            '"fieldType":"8,13,0",' +
-            '"fieldNature":"8",' +
-            '"fieldEggGroup":"12,9,1,2",' +
-            '"fieldNewPokemon":true,' +
-            '"fieldShiny":true,' +
-            '"fieldAlbino":true,' +
-            '"fieldMelanistic":true,' +
-            '"fieldPrehistoric":true,' +
-            '"fieldDelta":true,' +
-            '"fieldMega":true,' +
-            '"fieldStarter":true,' +
-            '"fieldCustomSprite":true,' +
-            '"fieldMale":true,' +
-            '"fieldFemale":true,' +
-            '"fieldNoGender":true,' +
-            '"fieldItem":true,' +
-            '"fieldNFE":true,' +
-            '"customItem":true,' +
-            '"customEgg":true,' +
-            '"customPokemon":true,' +
-            '"customPng":true,' +
-            '"releaseSelectAll":true,' +
-            '"tooltipEnableMods":true,' +
-            '"tooltipNoBerry":true,' +
-            '"tooltipBerry":true}');
+            // '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
+            // '"fieldType":"8,13,0",' +
+            // '"fieldNature":"8",' +
+            // '"fieldEggGroup":"12,9,1,2",' +
+            '{"fieldCustom":"",' +
+            '"fieldType":"",' +
+            '"fieldNature":"",' +
+            '"fieldEggGroup":"",' +
+            '"fieldNewPokemon":false,' +
+            '"fieldShiny":false,' +
+            '"fieldAlbino":false,' +
+            '"fieldMelanistic":false,' +
+            '"fieldPrehistoric":false,' +
+            '"fieldDelta":false,' +
+            '"fieldMega":false,' +
+            '"fieldStarter":false,' +
+            '"fieldCustomSprite":false,' +
+            '"fieldMale":false,' +
+            '"fieldFemale":false,' +
+            '"fieldNoGender":false,' +
+            '"fieldItem":false,' +
+            '"fieldNFE":false,' +
+            '"customItem":false,' +
+            '"customEgg":false,' +
+            '"customPokemon":false,' +
+            '"customPng":false,' +
+            '"releaseSelectAll":false,' +
+            '"tooltipEnableMods":false,' +
+            '"tooltipNoBerry":false,' +
+            '"tooltipBerry":false}');
 
         pfqol.pfqol($);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
-        // check that HTML was setup correctly
+        // check that settings were loaded correctly
+        const loadedSettings = JSON.parse(localStorage.getItem('QoLPrivateFields'));
         expect($('[data-key=fieldShiny]').length).toBe(1);
-        expect($('[data-key=fieldAlbino]').length).toBe(1);
-        expect($('[data-key=fieldMelanistic]').length).toBe(1);
-        expect($('[data-key=fieldPrehistoric]').length).toBe(1);
-        expect($('[data-key=fieldDelta]').length).toBe(1);
-        expect($('[data-key=fieldMega]').length).toBe(1);
-        expect($('[data-key=fieldStarter]').length).toBe(1);
-        expect($('[data-key=fieldCustomSprite]').length).toBe(1);
-        expect($('[data-key=fieldItem]').length).toBe(1);
-        expect($('[data-key=fieldNFE]').length).toBe(1);
+        expect($('[data-key=fieldShiny]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldShiny).toBe(false);
 
+        expect($('[data-key=fieldAlbino]').length).toBe(1);
+        expect($('[data-key=fieldAlbino]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldAlbino).toBe(false);
+        
+        expect($('[data-key=fieldMelanistic]').length).toBe(1);
+        expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldMelanistic).toBe(false);
+        
+        expect($('[data-key=fieldPrehistoric]').length).toBe(1);
+        expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldPrehistoric).toBe(false);
+        
+        expect($('[data-key=fieldDelta]').length).toBe(1);
+        expect($('[data-key=fieldDelta]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldDelta).toBe(false);
+        
+        expect($('[data-key=fieldMega]').length).toBe(1);
+        expect($('[data-key=fieldMega]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldMega).toBe(false);
+        
+        expect($('[data-key=fieldStarter]').length).toBe(1);
+        expect($('[data-key=fieldStarter]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldStarter).toBe(false);
+        
+        expect($('[data-key=fieldCustomSprite]').length).toBe(1);
+        expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldCustomSprite).toBe(false);
+        
+        expect($('[data-key=fieldItem]').length).toBe(1);
+        expect($('[data-key=fieldItem]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldItem).toBe(false);
+        
+        expect($('[data-key=fieldNFE]').length).toBe(1);
+        expect($('[data-key=fieldNFE]').prop('checked')).toBe(false);
+        expect(loadedSettings.fieldNFE).toBe(false);
+        
+        // check that HTML was setup correctly
         expect($('input').filter('#addPrivateFieldTypeSearch').length).toBe(1);
-        expect($('[data-key=fieldType][array-name=typeArray]').length).toBe(3);
-        expect($('input').filter('#removePrivateFieldTypeSearch').length).toBe(3);
+        expect($('[data-key=fieldType][array-name=typeArray]').length).toBe(1);
+        expect($('input').filter('#removePrivateFieldTypeSearch').length).toBe(1);
         expect($('input').filter('#addPrivateFieldNatureSearch').length).toBe(1);
         expect($('[data-key=fieldNature][array-name=natureArray]').length).toBe(1);
         expect($('input').filter('#removePrivateFieldNature').length).toBe(1);
         expect($('input').filter('#addPrivateFieldEggGroupSearch').length).toBe(1);
-        expect($('[data-key=fieldEggGroup][array-name=eggGroupArray]').length).toBe(4);
-        expect($('input').filter('#removePrivateFieldEggGroup').length).toBe(4);
+        expect($('[data-key=fieldEggGroup][array-name=eggGroupArray]').length).toBe(1);
+        expect($('input').filter('#removePrivateFieldEggGroup').length).toBe(1);
 
         expect($('[data-key=customEgg]').length).toBe(1);
         expect($('[data-key=customPokemon]').length).toBe(1);
@@ -203,8 +247,8 @@ describe("Test Private Fields Page", () => {
         expect($('[data-key=fieldNoGender]').length).toBe(1);
 
         expect($('input').filter('#addTextField').length).toBe(1);
-        expect($('[data-key=fieldCustom][array-name=customArray]').length).toBe(2);
-        expect($('input').filter('#removeTextField').length).toBe(2);
+        expect($('[data-key=fieldCustom][array-name=customArray]').length).toBe(1);
+        expect($('input').filter('#removeTextField').length).toBe(1);
         ////////////////////////////////////////
         
         ////////////////////////////////////////
@@ -214,159 +258,238 @@ describe("Test Private Fields Page", () => {
         ////////////////////////////////////////
         
         ////////////////////////////////////////
-        // $('[data-key=fieldShiny]').trigger('click');
-        // check that the correct elements were changed
+        // test selecting shiny pokemon
+        $('[data-key=fieldShiny]').trigger('click');
+        expect($('[data-key=fieldShiny]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldShiny).toBe(true);
+        expect($('.privatefoundme').length).toBe(NUM_SHINY);
+        $('[data-key=fieldShiny]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldShiny]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldShiny).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('[data-key=fieldAlbino]').trigger('click');
+        expect($('[data-key=fieldAlbino]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldAlbino).toBe(true);
+        expect($('.privatefoundme').length).toBe(NUM_ALBINO);
+        $('[data-key=fieldAlbino]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldAlbino]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldAlbino).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('[data-key=fieldMelanistic]').trigger('click');
+        expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMelanistic).toBe(true);
+        expect($('.privatefoundme').length).toBe(NUM_MELANISTIC);
+        $('[data-key=fieldMelanistic]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMelanistic).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('[data-key=fieldPrehistoric]').trigger('click');
+        expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldPrehistoric).toBe(true);
+        expect($('.privatefoundme').length).toBe(NUM_PREHISTORIC);
+        $('[data-key=fieldPrehistoric]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldPrehistoric).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('[data-key=fieldDelta]').trigger('click');
+        expect($('[data-key=fieldDelta]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldDelta).toBe(true);
+        expect($('.privatefoundme').length).toBe(NUM_DELTA);
+        $('[data-key=fieldDelta]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldDelta]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldDelta).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('[data-key=fieldMega]').trigger('click');
+        expect($('[data-key=fieldMega]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMega).toBe(true);
+        expect($('.privatefoundme').length).toBe(NUM_MEGA);
+        $('[data-key=fieldMega]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldMega]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMega).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('[data-key=fieldStarter]').trigger('click');
+        expect($('[data-key=fieldStarter]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldStarter).toBe(true);
+        expect($('.privatefoundme').length).toBe(NUM_STARTER);
+        $('[data-key=fieldStarter]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldStarter]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldStarter).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('[data-key=fieldCustomSprite]').trigger('click');
+        expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustomSprite).toBe(true);
+        expect($('.privatefoundme').length).toBe(NUM_CS);
+        $('[data-key=fieldCustomSprite]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustomSprite).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('[data-key=fieldItem]').trigger('click');
+        expect($('[data-key=fieldItem]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldItem).toBe(true);
+        expect($('.privatefoundme').length).toBe(NUM_HOLDING_ITEM);
+        $('[data-key=fieldItem]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldItem]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldItem).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('[data-key=fieldNFE]').trigger('click');
+        expect($('[data-key=fieldNFE]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNFE).toBe(true);
+        // @TODO: Setup the data to to be able to look for NFE pokemon
+        // expect($('.privatefoundme').length).toBe(NUM_NFE);
+        $('[data-key=fieldNFE]').trigger('click');
+        expect($('.privatefoundme').length).toBe(0);
+        expect($('[data-key=fieldNFE]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNFE).toBe(false);
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('#addPrivateFieldTypeSearch').trigger('click');
+        // check that the correct changes were applied
+        expect($('[data-key=fieldType]').length).toBe(2);
+        expect($('[id=removePrivateFieldTypeSearch').length).toBe(2);
+        expect($('[data-key=fieldType]').eq(0).val()).toBe("none");
+        expect($('[data-key=fieldType]').eq(1).val()).toBe("none");
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
-        // $('[data-key=fieldAlbino]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
+        $('[data-key=fieldType]').eq(0).prop('selectedIndex', 8); // Ground
+        expect($('.privatefoundme').length).toBe(45);
+        $('[data-key=fieldType]').eq(1).prop('selectedIndex', 4); // Grass
+        expect($('.privatefoundme').length).toBe(55);
         ////////////////////////////////////////
         
         ////////////////////////////////////////
-        // $('[data-key=fieldMelanistic]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
+        $('#removePrivateFieldTypeSearch').eq(0).trigger('click');
+        // check that the correct changes were applied
+        expect($('[data-key=fieldType]').length).toBe(1);
+        expect($('[id=removePrivateFieldTypeSearch').length).toBe(1);
+        expect($('[data-key=fieldType]').eq(0).prop('selectedIndex')).toBe(4);
+        expect($('.privatefoundme').length).toBe(10);
+        // click remove again
+        $('#removePrivateFieldTypeSearch').eq(0).trigger('click');
+        expect($('[data-key=fieldType]').length).toBe(0);
+        expect($('[id=removePrivateFieldTypeSearch').length).toBe(0);
+        expect($('.privatefoundme').length).toBe(0);
         ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('[data-key=fieldPrehistoric]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('[data-key=fieldDelta]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('[data-key=fieldMega]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('[data-key=fieldStarter]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('[data-key=fieldCustomSprite]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('[data-key=fieldItem]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('[data-key=fieldNFE]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('#addPrivateFieldTypeSearch').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('[data-key=fieldType]').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('#removePrivateFieldTypeSearch').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // $('#addPrivateFieldNatureSearch').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // $('#removePrivateFieldNature').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // $('#addPrivateFieldEggGroupSearch').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // $('#removePrivateFieldEggGroup').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // $('#addTextField').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // $('[data-key=fieldType]').eq(0).val('Cofagrigus');
+        // $('[data-key=fieldType]').trigger('input');
+        
+        // // check that the correct changes were applied
+        // expect($('.privatefoundme').length).toBe(45);
         // check that the rest stayed the same
         ////////////////////////////////////////
         
+        // '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
+            // '"fieldType":"8,13,0",' +
+            // '"fieldNature":"8",' +
+            // '"fieldEggGroup":"12,9,1,2",' +
+        
         ////////////////////////////////////////
         // $('#removeTextField').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // $('.collapsible').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // $('.tooltipsetting[data-key=tooltipNoBerry]').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // // trigger MutationObserver observe
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // $('#field_field>.field>span').eq(-1).remove();
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // $('#field_field>.field>div').eq(-1).remove();
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // // trigger else portion of handleTooltipSettings()
         // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
-        // check that the correct elements were changed
+        // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
         
