@@ -13,7 +13,10 @@
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "preLaunchTask": "Compile"
+      "preLaunchTask": "Compile",
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+      ]
     }
   ]
 }
