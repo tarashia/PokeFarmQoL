@@ -373,7 +373,7 @@ describe("Test Private Fields Page", () => {
         $('#addPrivateFieldTypeSearch').trigger('click');
         // check that the correct changes were applied
         expect($('[data-key=fieldType]').length).toBe(2);
-        expect($('[id=removePrivateFieldTypeSearch').length).toBe(2);
+        expect($('[id=removePrivateFieldTypeSearch]').length).toBe(2);
         expect($('[data-key=fieldType]').eq(0).val()).toBe("none");
         expect($('[data-key=fieldType]').eq(1).val()).toBe("none");
         // check that the rest stayed the same
