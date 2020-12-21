@@ -122,7 +122,20 @@ describe("Test Private Fields Page", () => {
     test("Test Search controls on Private Fields page", () => {
         ////////////////////////////////////////
         // setup
-        const htmlpath = path.join(__dirname, './data/', 'privateFields.html');
+        /* HTML is setup to have the following:
+         * - 1 Shinys
+         * - 2 Albinos
+         * - 3 Melanistics
+         * - 4 Prehistorics
+         * - 5 Deltas
+         * - 6 Megas
+         * - 7 Starters
+         * - 8 Custom Sprites
+         * - 9 Holding an Item
+         * - 10 Not Fully Evolved
+         */
+
+        const htmlpath = path.join(__dirname, './data/', 'privateFieldsForSearchTests.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = "https://pokefarm.com/fields";
@@ -201,7 +214,73 @@ describe("Test Private Fields Page", () => {
         ////////////////////////////////////////
         
         ////////////////////////////////////////
+        // $('[data-key=fieldShiny]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldAlbino]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldMelanistic]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldPrehistoric]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldDelta]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldMega]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldStarter]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldCustomSprite]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldItem]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldNFE]').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // $('#addPrivateFieldTypeSearch').trigger('click');
+        // check that the correct elements were changed
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        // $('[data-key=fieldType]').trigger('click');
         // check that the correct elements were changed
         // check that the rest stayed the same
         ////////////////////////////////////////
@@ -244,13 +323,6 @@ describe("Test Private Fields Page", () => {
         
         ////////////////////////////////////////
         // $('#removeTextField').trigger('click');
-        // check that the correct elements were changed
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // // trigger '.qolsetting' change and input events
-        // $('[data-key=fieldShiny]').trigger('click');
         // check that the correct elements were changed
         // check that the rest stayed the same
         ////////////////////////////////////////
