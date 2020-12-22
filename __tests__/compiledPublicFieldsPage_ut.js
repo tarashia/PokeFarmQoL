@@ -26,6 +26,61 @@ beforeAll(() => {
     );
 });
 
+/*
+ * Controls that need to be tested:
+ * - Tooltip mods
+ *   - tooltipEnableMods (checkbox)
+ *   - tooltipNoBerry (checkbox)
+ *   - tooltipBerry (checkbox)
+ *   - Test: tooltipEnableMods=false->true, tooltipNoBerry   =false->true, no berry selected
+ *   - Test: tooltipEnableMods=false->true, tooltipNoBerry   =true->false, no berry selected
+ *   - Test: tooltipEnableMods=false->true, tooltipNoBerry   =false->true,    berry selected
+ *   - Test: tooltipEnableMods=false->true, tooltipNoBerry   =true->false,    berry selected
+ *   - Test: tooltipEnableMods=false->true, tooltipBerry     =false->true, no berry selected
+ *   - Test: tooltipEnableMods=false->true, tooltipBerry     =false->true,    berry selected
+ *   - Test: tooltipEnableMods=false->true, tooltipBerry     =true->false, no berry selected
+ *   - Test: tooltipEnableMods=false->true, tooltipBerry     =true->false,    berry selected
+ *   - Test: tooltipNoBerry   =false->true, tooltipEnableMods=true->false, no berry selected
+ *   - Test: tooltipNerry     =false->true, tooltipEnableMods=true->false,    berry selected
+ * - Field sort controls
+ *   - fieldByBerry (checkbox)
+ *   - fieldByMiddle (checkbox)
+ *   - fieldByGrid (checkbox)
+ *   - fieldClickCount (checkbox)
+ *   - Test: fieldByBerry - check that none of the other 2 are selected and that class is added
+ *   - Test: fieldByMiddle - check that none of the other 2 are selected and that class is added
+ *   - Test: fieldByGrid - check that none of the other 2 are selected and that class is added
+ *   - Test: fieldClickCount - check that class is added
+ * - Field search controls
+ *   - fieldShiny (checkbox)
+ *   - fieldAlbino (checkbox)
+ *   - fieldMelanistic (checkbox)
+ *   - fieldPrehistoric (checkbox)
+ *   - fieldDelta (checkbox)
+ *   - fieldMega (checkbox)
+ *   - fieldStarter (checkbox)
+ *   - fieldCustomSprite (checkbox)
+ *   - fieldItem (checkbox)
+ *   - #addFieldTypeSearch (button)
+ *   - #fieldTypes[...] (select)
+ *   - #removeFieldTypeSearch[...] (button)
+ *   - #addFieldNatureSearch (button)
+ *   - #natureTypes[...] (select)
+ *   - #removeFieldNature[...] (button)
+ *   - #addFieldEggGroupSearch (button)
+ *   - #eggGroupTypes[...] (select)
+ *   - #removeFieldEggGroup[...] (button)
+ *   - fieldCustomEgg (checkbox)
+ *   - fieldCustomPokemon (checkbox)
+ *   - fieldCustomPng (checkbox)
+ *   - fieldMale (checkbox)
+ *   - fieldFemale (checkbox)
+ *   - fieldNoGender (checkbox)
+ *   - #addTextField (button)
+ *   - #searchkeys[...] (textfield)
+ *   - #removeTextField[...] (button)
+*/
+
 describe("Test Public Fields Page", () => {
     test("Test PFQoL controls on Public Fields page", () => {
         const htmlpath = path.join(__dirname, './data/', 'publicFields.html');
