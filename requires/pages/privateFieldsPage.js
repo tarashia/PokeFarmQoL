@@ -505,7 +505,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
         if (this.settings.releaseSelectAll === true && 
             !this.jQuery('#selectallfield').length) {
             const checkboxes = '<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all  </label><label id="selectallfieldany"><input id="selectallfieldanycheckbox" type="checkbox">Select Any  </label><label id="selectallfieldsour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour  </label><label id="selectallfieldspicy"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label><label id="selectallfielddry"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry  </label><label id="selectallfieldsweet"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet  </label><label id="selectallfieldbitter"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter  </label>';
-            this.jQuery('.dialog>div>div>div>div>button').after(checkboxes);
+            this.jQuery('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
             this.jQuery('#selectallfieldcheckbox').click(function () {
                 obj.jQuery('#massreleaselist>ul>li>label>input').not(this).prop('checked', this.checked);
             });
