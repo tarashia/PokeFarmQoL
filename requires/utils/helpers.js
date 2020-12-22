@@ -88,8 +88,6 @@ let Helpers = (function Helpers() {
             // that contains no data
             index++;
 
-            index++;
-
             // species
             let species = "";
             if(dataElements[index].textContent) {
@@ -143,7 +141,7 @@ let Helpers = (function Helpers() {
                 let tc_split = dataElements[index].textContent.split(' ');
                 if(tc_split.length > 1) {
                     happiness = tc_split[1].trim();
-                    happiness = parseInt(happiness.substring(0, happiness.length-1));
+                    happiness = (happiness == 'MAX') ? 100 : parseInt(happiness.substring(0, happiness.length-1));
                 }
             } else {
                 console.error("Helpers.parseFieldPokemonToolTip - could not load happiness because text was empty");
