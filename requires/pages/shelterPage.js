@@ -444,7 +444,6 @@ class ShelterPage extends ShelterBase {
         let customSearchAmount = this.customArray.length;
         const heartPng = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
         const eggPng = `<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">`;
-        console.log('Shelter custom search:', this.customArray);
         for (let i = 0; i < customSearchAmount; i++) {
             let customValue = this.customArray[i];
             if (customValue != "") {
