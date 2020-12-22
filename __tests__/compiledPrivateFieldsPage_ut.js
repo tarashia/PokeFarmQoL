@@ -658,14 +658,13 @@ describe("Test Private Fields Page", () => {
 
         ////////////////////////////////////////
         // check that HTML was setup correctly
-        // TODO: check why 2 is correct for this and check if the webpage works like this
-        expect($('input').filter('#selectallfieldcheckbox').length).toBe(2);
-        expect($('input').filter('#selectallfieldanycheckbox').length).toBe(2);
-        expect($('input').filter('#selectallfieldsourcheckbox').length).toBe(2);
-        expect($('input').filter('#selectallfieldspicycheckbox').length).toBe(2);
-        expect($('input').filter('#selectallfielddrycheckbox').length).toBe(2);
-        expect($('input').filter('#selectallfieldsweetcheckbox').length).toBe(2);
-        expect($('input').filter('#selectallfieldbittercheckbox').length).toBe(2);
+        expect($('input').filter('#selectallfieldcheckbox').length).toBe(1);
+        expect($('input').filter('#selectallfieldanycheckbox').length).toBe(1);
+        expect($('input').filter('#selectallfieldsourcheckbox').length).toBe(1);
+        expect($('input').filter('#selectallfieldspicycheckbox').length).toBe(1);
+        expect($('input').filter('#selectallfielddrycheckbox').length).toBe(1);
+        expect($('input').filter('#selectallfieldsweetcheckbox').length).toBe(1);
+        expect($('input').filter('#selectallfieldbittercheckbox').length).toBe(1);
         // expected number from HTML
         expect($('#massreleaselist>ul>li>label>input').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
@@ -790,13 +789,13 @@ describe("Test Private Fields Page", () => {
 
         ////////////////////////////////////////
         // check that HTML was setup correctly
-        expect($('input').filter('#movefieldselectallcheckbox').length).toBe(2);
-        expect($('input').filter('#movefieldselectanycheckbox').length).toBe(2);
-        expect($('input').filter('#movefieldselectsourcheckbox').length).toBe(2);
-        expect($('input').filter('#movefieldselectspicycheckbox').length).toBe(2);
-        expect($('input').filter('#movefieldselectdrycheckbox').length).toBe(2);
-        expect($('input').filter('#movefieldselectsweetcheckbox').length).toBe(2);
-        expect($('input').filter('#movefieldselectbittercheckbox').length).toBe(2);
+        expect($('input').filter('#movefieldselectallcheckbox').length).toBe(1);
+        expect($('input').filter('#movefieldselectanycheckbox').length).toBe(1);
+        expect($('input').filter('#movefieldselectsourcheckbox').length).toBe(1);
+        expect($('input').filter('#movefieldselectspicycheckbox').length).toBe(1);
+        expect($('input').filter('#movefieldselectdrycheckbox').length).toBe(1);
+        expect($('input').filter('#movefieldselectsweetcheckbox').length).toBe(1);
+        expect($('input').filter('#movefieldselectbittercheckbox').length).toBe(1);
         // expected number from HTML
         expect($('#massmovelist>ul>li>label>input').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
