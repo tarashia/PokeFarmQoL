@@ -117,49 +117,58 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(document).on('click', '*[data-menu="release"]', (function () { //select all feature
+        this.jQuery(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
+            e.stopPropagation();
             obj.releaseEnableReleaseAll();
         }));
 
-        this.jQuery(document).on('click', '#addPrivateFieldTypeSearch', (function () { //add field type list
+        this.jQuery(document).on('click', '#addPrivateFieldTypeSearch', (function (e) { //add field type list
+            e.stopPropagation();
             obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(document).on('click', '#removePrivateFieldTypeSearch', (function () { //remove field type list
+        this.jQuery(document).on('click', '#removePrivateFieldTypeSearch', (function (e) { //remove field type list
+            e.stopPropagation();
             obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldType', 'fieldTypes')
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(document).on('click', '#addPrivateFieldNatureSearch', (function () { //add field nature search
+        this.jQuery(document).on('click', '#addPrivateFieldNatureSearch', (function (e) { //add field nature search
+            e.stopPropagation();
             obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes', 'natureArray')
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(document).on('click', '#removePrivateFieldNature', (function () { //remove field nature search
+        this.jQuery(document).on('click', '#removePrivateFieldNature', (function (e) { //remove field nature search
+            e.stopPropagation();
             obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldNature', 'natureTypes')
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(document).on('click', '#addPrivateFieldEggGroupSearch', (function () { //add egg group nature search
+        this.jQuery(document).on('click', '#addPrivateFieldEggGroupSearch', (function (e) { //add egg group nature search
+            e.stopPropagation();
             obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray')
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(document).on('click', '#removePrivateFieldEggGroup', (function () { //remove egg group nature search
+        this.jQuery(document).on('click', '#removePrivateFieldEggGroup', (function (e) { //remove egg group nature search
+            e.stopPropagation();
             obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes')
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(document).on('click', '#addTextField', (function () {
+        this.jQuery(document).on('click', '#addTextField', (function (e) {
+            e.stopPropagation();
             obj.addTextField();
             obj.saveSettings();
         }));
 
-        this.jQuery(document).on('click', '#removeTextField', (function () {
+        this.jQuery(document).on('click', '#removeTextField', (function (e) {
+            e.stopPropagation();
             obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
             obj.saveSettings();
             obj.customSearch(GLOBALS);
