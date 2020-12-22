@@ -77,6 +77,12 @@ describe("Test Private Fields Page", () => {
         ////////////////////////////////////////
 
         ////////////////////////////////////////
+        $('.collapsible').trigger('click');
+        // check that the correct changes were applied
+        // check that the rest stayed the same
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
         // check "Enable QoL Tooltip Settings" button
         // click button to disable tooltip modifications
         $('[data-key=tooltipEnableMods]').trigger('click');
@@ -117,11 +123,28 @@ describe("Test Private Fields Page", () => {
         expect(localStorage.getItem('QoLPrivateFields'))
             .toEqual(expect.stringContaining('"tooltipNoBerry":true'));
         ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // // trigger else portion of handleTooltipSettings()
+        // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
+        // check that the correct changes were applied
+        // check that the rest stayed the same
+        ////////////////////////////////////////
     });
 
     test("Test Search controls on Private Fields page", () => {
         ////////////////////////////////////////
-        // setup
+        // remove handlers that linger from the previous test
+        $(document).off('click', '#addPrivateFieldTypeSearch');
+        $(document).off('click', '#removePrivateFieldTypeSearch');
+        $(document).off('click', '#addPrivateFieldNatureSearch');
+        $(document).off('click', '#removePrivateFieldNature');
+        $(document).off('click', '#addPrivateFieldEggGroupSearch');
+        $(document).off('click', '#removePrivateFieldEggGroup');
+        $(document).off('click', '#addTextField');
+        $(document).off('click', '#removeTextField');
+        
+        // setup HTML
         /* HTML is setup to have the following:
          * - 1 Shinys
          * - 2 Albinos
@@ -144,6 +167,19 @@ describe("Test Private Fields Page", () => {
         const NUM_CS = 8;
         const NUM_HOLDING_ITEM = 9;
         const NUM_NFE = 10;
+        /* For testing natures, HTML has:
+         * - 7 Mild nature
+         * - 1 Bold nature
+         */
+        const NUM_MILD = 7;
+        const NUM_BOLD = 1;
+        /* For testing egg groups, HTML has:
+         * - ## Amorphous
+         * - ## Monster
+         */
+        const NUM_AMORPHOUS = 45;
+        const NUM_MONSTER = 10;
+
         const htmlpath = path.join(__dirname, './data/', 'privateFieldsForSearchTests.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -374,188 +410,190 @@ describe("Test Private Fields Page", () => {
         // check that the correct changes were applied
         expect($('[data-key=fieldType]').length).toBe(2);
         expect($('[id=removePrivateFieldTypeSearch]').length).toBe(2);
-        expect($('[data-key=fieldType]').eq(0).val()).toBe("none");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("");
+        // null because it was never set to anything
+        expect($('[data-key=fieldType]').eq(0).val()).toBe(null);
         expect($('[data-key=fieldType]').eq(1).val()).toBe("none");
-        // check that the rest stayed the same
         ////////////////////////////////////////
         
         ////////////////////////////////////////
-        $('[data-key=fieldType]').eq(0).prop('selectedIndex', 8); // Ground
-        expect($('.privatefoundme').length).toBe(45);
-        $('[data-key=fieldType]').eq(1).prop('selectedIndex', 4); // Grass
-        expect($('.privatefoundme').length).toBe(55);
+        // test selecting a type from the list
+        $('[data-key=fieldType]').eq(0).prop('selectedIndex', 9); // Ground
+        $('[data-key=fieldType]').eq(0).trigger('input');
+        expect($('.privatefoundme').length).toBe(45); // just Ground
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("8");
+        $('[data-key=fieldType]').eq(1).prop('selectedIndex', 5); // Grass
+        $('[data-key=fieldType]').eq(1).trigger('input');
+        expect($('.privatefoundme').length).toBe(55); // Ground or Grass
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("8,4");
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         $('#removePrivateFieldTypeSearch').eq(0).trigger('click');
         // check that the correct changes were applied
         expect($('[data-key=fieldType]').length).toBe(1);
-        expect($('[id=removePrivateFieldTypeSearch').length).toBe(1);
-        expect($('[data-key=fieldType]').eq(0).prop('selectedIndex')).toBe(4);
-        expect($('.privatefoundme').length).toBe(10);
+        expect($('[id=removePrivateFieldTypeSearch]').length).toBe(1);
+        expect($('[data-key=fieldType]').eq(0).prop('selectedIndex')).toBe(5); // Grass
+        expect($('.privatefoundme').length).toBe(10); // just Ground
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("4");
         // click remove again
         $('#removePrivateFieldTypeSearch').eq(0).trigger('click');
         expect($('[data-key=fieldType]').length).toBe(0);
-        expect($('[id=removePrivateFieldTypeSearch').length).toBe(0);
+        expect($('[id=removePrivateFieldTypeSearch]').length).toBe(0);
         expect($('.privatefoundme').length).toBe(0);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("");
         ////////////////////////////////////////
 
         ////////////////////////////////////////
-        // $('#addPrivateFieldNatureSearch').trigger('click');
+        $('#addPrivateFieldNatureSearch').trigger('click');
         // check that the correct changes were applied
-        // check that the rest stayed the same
+        expect($('[data-key=fieldNature]').length).toBe(2);
+        expect($('[id=removePrivateFieldNature]').length).toBe(2);
+        // null because it was never set to anything
+        expect($('[data-key=fieldNature]').eq(0).val()).toBe(null);
+        expect($('[data-key=fieldNature]').eq(1).val()).toBe("none");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("");
         ////////////////////////////////////////
         
         ////////////////////////////////////////
-        // $('#removePrivateFieldNature').trigger('click');
-        // check that the correct changes were applied
-        // check that the rest stayed the same
+        // test selecting a nature from the list
+        $('[data-key=fieldNature]').eq(0).prop('selectedIndex', 2); // Mild
+        $('[data-key=fieldNature]').eq(0).trigger('input');
+        expect($('.privatefoundme').length).toBe(NUM_MILD); // just Mild
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("1");
+        $('[data-key=fieldNature]').eq(1).prop('selectedIndex', 5); // Bold
+        $('[data-key=fieldNature]').eq(1).trigger('input');
+        expect($('.privatefoundme').length).toBe(NUM_MILD+NUM_BOLD); // Mild or Bold
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("1,4");
         ////////////////////////////////////////
         
         ////////////////////////////////////////
-        // $('#addPrivateFieldEggGroupSearch').trigger('click');
+        $('#removePrivateFieldNature').eq(0).trigger('click');
         // check that the correct changes were applied
-        // check that the rest stayed the same
+        expect($('[data-key=fieldNature]').length).toBe(1);
+        expect($('[id=removePrivateFieldNature]').length).toBe(1);
+        expect($('[data-key=fieldNature]').eq(0).prop('selectedIndex')).toBe(5); // Bold
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("4");
+        expect($('.privatefoundme').length).toBe(NUM_BOLD); // just Bold
+        // click remove again
+        $('#removePrivateFieldNature').eq(0).trigger('click');
+        expect($('[data-key=fieldNature]').length).toBe(0);
+        expect($('[id=removePrivateFieldNature]').length).toBe(0);
+        expect($('.privatefoundme').length).toBe(0);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("");
         ////////////////////////////////////////
         
         ////////////////////////////////////////
-        // $('#removePrivateFieldEggGroup').trigger('click');
+        $('#addPrivateFieldEggGroupSearch').trigger('click');
         // check that the correct changes were applied
-        // check that the rest stayed the same
+        expect($('[data-key=fieldEggGroup]').length).toBe(2);
+        expect($('[id=removePrivateFieldEggGroup]').length).toBe(2);
+        // null because it was never set to anything
+        expect($('[data-key=fieldEggGroup]').eq(0).val()).toBe(null);
+        expect($('[data-key=fieldEggGroup]').eq(1).val()).toBe("none");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("");
         ////////////////////////////////////////
         
         ////////////////////////////////////////
-        // $('#addTextField').trigger('click');
+        // test selecting an egg group from the list
+        $('[data-key=fieldEggGroup]').eq(0).prop('selectedIndex', 10); // Amorphous
+        $('[data-key=fieldEggGroup]').eq(0).trigger('input');
+        expect($('.privatefoundme').length).toBe(NUM_AMORPHOUS); // just Amorphous
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("9");
+        $('[data-key=fieldEggGroup]').eq(1).prop('selectedIndex', 2); // Monster
+        $('[data-key=fieldEggGroup]').eq(1).trigger('input');
+        expect($('.privatefoundme').length).toBe(NUM_AMORPHOUS+NUM_MONSTER); // Amorphous or Monster
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("9,1");
+        ////////////////////////////////////////
+        
+        ////////////////////////////////////////
+        $('#removePrivateFieldEggGroup').trigger('click');
         // check that the correct changes were applied
-        // check that the rest stayed the same
+        expect($('[data-key=fieldEggGroup]').length).toBe(1);
+        expect($('[id=removePrivateFieldEggGroup]').length).toBe(1);
+        expect($('[data-key=fieldEggGroup]').eq(0).prop('selectedIndex')).toBe(2); // Monster
+        expect($('.privatefoundme').length).toBe(NUM_MONSTER); // just Monster
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("1");
+        // click remove again
+        $('#removePrivateFieldEggGroup').eq(0).trigger('click');
+        expect($('[data-key=fieldEggGroup]').length).toBe(0);
+        expect($('[id=removePrivateFieldEggGroup]').length).toBe(0);
+        expect($('.privatefoundme').length).toBe(0);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("");
         ////////////////////////////////////////
 
         ////////////////////////////////////////
-        // $('[data-key=fieldType]').eq(0).val('Cofagrigus');
-        // $('[data-key=fieldType]').trigger('input');
-        
-        // // check that the correct changes were applied
-        // expect($('.privatefoundme').length).toBe(45);
-        // check that the rest stayed the same
+        // testing adding custom search fields
+        $('#addTextField').trigger('click');
+        expect($('[data-key=fieldCustom]').length).toBe(2);
+        expect($('[id=removeTextField]').length).toBe(2);
+        expect($('[data-key=fieldCustom]').eq(0).val()).toBe("");
+        expect($('[data-key=fieldCustom]').eq(1).val()).toBe("");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("");
         ////////////////////////////////////////
-        
-        // '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
-            // '"fieldType":"8,13,0",' +
-            // '"fieldNature":"8",' +
-            // '"fieldEggGroup":"12,9,1,2",' +
-        
-        ////////////////////////////////////////
-        // $('#removeTextField').trigger('click');
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('.collapsible').trigger('click');
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('.tooltipsetting[data-key=tooltipNoBerry]').trigger('click');
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // // trigger MutationObserver observe
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('#field_field>.field>span').eq(-1).remove();
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // $('#field_field>.field>div').eq(-1).remove();
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // // trigger else portion of handleTooltipSettings()
-        // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
-        
-        ////////////////////////////////////////
-        // // get coverage for no genders branch in custom pokemon part of customSearch
-        // localStorage.setItem('QoLPrivateFields',
-        //     '{"fieldCustom":"Yamask",' +
-        //     '"fieldType":"8,13",' +
-        //     '"fieldNature":"8",' +
-        //     '"fieldEggGroup":"12,9",' +
-        //     '"fieldNewPokemon":true,' +
-        //     '"fieldShiny":true,' +
-        //     '"fieldAlbino":true,' +
-        //     '"fieldMelanistic":true,' +
-        //     '"fieldPrehistoric":true,' +
-        //     '"fieldDelta":true,' +
-        //     '"fieldMega":true,' +
-        //     '"fieldStarter":true,' +
-        //     '"fieldCustomSprite":true,' +
-        //     '"fieldMale":false,' + // <-- false
-        //     '"fieldFemale":false,' + // <-- false
-        //     '"fieldNoGender":false,' + // <-- false
-        //     '"fieldItem":true,' +
-        //     '"fieldNFE":true,' +
-        //     '"customItem":true,' +
-        //     '"customEgg":true,' +
-        //     '"customPokemon":true,' +
-        //     '"customPng":true,' +
-        //     '"releaseSelectAll":true,' +
-        //     '"tooltipEnableMods":true,' +
-        //     '"tooltipNoBerry":true,' +
-        //     '"tooltipBerry":true}');
-        // pfqol.pfqol($);
 
-        // // use 'fieldShiny' click as a roundabout way to reload the settings
-        // $('[data-key=fieldShiny]').trigger('click');
+        ////////////////////////////////////////
+        // test custom pokemon search by text
+        // enable the customPokemon button
+        $('[data-key=customPokemon]').trigger('click');
+        expect($('[data-key=customPokemon]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).customPokemon).toBe(true);
+        // enable the gender buttons so all matches will be found
+        $('[data-key=fieldMale]').trigger('click');
+        expect($('[data-key=fieldMale]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMale).toBe(true);
+        $('[data-key=fieldFemale]').trigger('click');
+        expect($('[data-key=fieldFemale]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldFemale).toBe(true);
+        // check search by name
+        $('[data-key=fieldCustom]').eq(0).val('Cofagrigus');
+        $('[data-key=fieldCustom]').eq(0).trigger('input');
+        expect($('.privatefoundme').length).toBe(45); // just text
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("Cofagrigus");
+        // disable the customPokemon button
+        $('[data-key=customPokemon]').trigger('click');
+        expect($('[data-key=customPokemon]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).customPokemon).toBe(false);
+        expect($('.privatefoundme').length).toBe(0);
+         // disable the gender buttons so all matches will be found
+         $('[data-key=fieldMale]').trigger('click');
+         expect($('[data-key=fieldMale]').prop('checked')).toBe(false);
+         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMale).toBe(false);
+         $('[data-key=fieldFemale]').trigger('click');
+         expect($('[data-key=fieldFemale]').prop('checked')).toBe(false);
+         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldFemale).toBe(false);
+         ////////////////////////////////////////
 
-        // // get coverage for findNFE = false branch in customSearch
-        // localStorage.setItem('QoLPrivateFields',
-        //     '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
-        //     '"fieldType":"8,13",' +
-        //     '"fieldNature":"8",' +
-        //     '"fieldEggGroup":"12,9",' +
-        //     '"fieldNewPokemon":true,' +
-        //     '"fieldShiny":true,' +
-        //     '"fieldAlbino":true,' +
-        //     '"fieldMelanistic":true,' +
-        //     '"fieldPrehistoric":true,' +
-        //     '"fieldDelta":true,' +
-        //     '"fieldMega":true,' +
-        //     '"fieldStarter":true,' +
-        //     '"fieldCustomSprite":true,' +
-        //     '"fieldMale":true,' +
-        //     '"fieldFemale":true,' +
-        //     '"fieldNoGender":true,' +
-        //     '"fieldItem":true,' +
-        //     '"fieldNFE":false,' +// <-- false
-        //     '"customItem":true,' +
-        //     '"customEgg":true,' +
-        //     '"customPokemon":true,' +
-        //     '"customPng":true,' +
-        //     '"releaseSelectAll":true,' +
-        //     '"tooltipEnableMods":true,' +
-        //     '"tooltipNoBerry":true,' +
-        //     '"tooltipBerry":true}');
-        // $('[data-key="fieldNFE"]').trigger('click');
+        ////////////////////////////////////////
+        // test custom search by PNG URL
+        // enable the customPng button
+        $('[data-key=customPng]').trigger('click');
+        expect($('[data-key=customPng]').prop('checked')).toBe(true);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).customPng).toBe(true);
+        // check search by URL
+        $('[data-key=fieldCustom]').eq(1).val('1/g/g.png/t=1569852763');
+        $('[data-key=fieldCustom]').eq(1).trigger('input');
+        expect($('.privatefoundme').length).toBe(10); // just PNG URL
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("Cofagrigus,1/g/g.png/t=1569852763");
+        // disable the customPng button
+        $('[data-key=customPng]').trigger('click');
+        expect($('[data-key=customPng]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).customPng).toBe(false);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // test removing custom fields
+        $('#removeTextField').eq(0).trigger('click');
+        // check that the correct changes were applied
+        expect($('[data-key=fieldCustom]').length).toBe(1);
+        expect($('[id=removeTextField]').length).toBe(1);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("1/g/g.png/t=1569852763");
+        // click remove again
+        $('#removeTextField').eq(0).trigger('click');
+        expect($('[data-key=fieldCustom]').length).toBe(0);
+        expect($('[id=removeTextField]').length).toBe(0);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("");
+        ////////////////////////////////////////
     });
 
     test("Test Release controls on Private Fields Release dialog", () => {
@@ -819,4 +857,116 @@ describe("Test Private Fields Page", () => {
         expect($('#massmovelist>ul>li>label>input:checked').length).toBe(0);
         ////////////////////////////////////////
     });
+
+    test("Corner case test cases for coverage", () => {
+
+        const htmlpath = path.join(__dirname, './data/', 'privateFieldsForSearchTests.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = "https://pokefarm.com/fields";
+        document.documentElement.innerHTML = innerHTML;
+        localStorage.setItem('QoLPrivateFields',
+            // '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
+            // '"fieldType":"8,13,0",' +
+            // '"fieldNature":"8",' +
+            // '"fieldEggGroup":"12,9,1,2",' +
+            '{"fieldCustom":"",' +
+            '"fieldType":"",' +
+            '"fieldNature":"",' +
+            '"fieldEggGroup":"",' +
+            '"fieldNewPokemon":false,' +
+            '"fieldShiny":false,' +
+            '"fieldAlbino":false,' +
+            '"fieldMelanistic":false,' +
+            '"fieldPrehistoric":false,' +
+            '"fieldDelta":false,' +
+            '"fieldMega":false,' +
+            '"fieldStarter":false,' +
+            '"fieldCustomSprite":false,' +
+            '"fieldMale":false,' +
+            '"fieldFemale":false,' +
+            '"fieldNoGender":false,' +
+            '"fieldItem":false,' +
+            '"fieldNFE":false,' +
+            '"customItem":false,' +
+            '"customEgg":false,' +
+            '"customPokemon":false,' +
+            '"customPng":false,' +
+            '"releaseSelectAll":false,' +
+            '"tooltipEnableMods":false,' +
+            '"tooltipNoBerry":false,' +
+            '"tooltipBerry":false}');
+
+        pfqol.pfqol($);
+
+        ////////////////////////////////////////
+        // trigger MutationObserver observe
+        $('#field_field>.field>span').eq(-1).remove();
+        $('#field_field>.field>div').eq(-1).remove();
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // get coverage for no genders branch in custom pokemon part of customSearch
+        localStorage.setItem('QoLPrivateFields',
+            '{"fieldCustom":"Yamask",' +
+            '"fieldType":"8,13",' +
+            '"fieldNature":"8",' +
+            '"fieldEggGroup":"12,9",' +
+            '"fieldNewPokemon":true,' +
+            '"fieldShiny":true,' +
+            '"fieldAlbino":true,' +
+            '"fieldMelanistic":true,' +
+            '"fieldPrehistoric":true,' +
+            '"fieldDelta":true,' +
+            '"fieldMega":true,' +
+            '"fieldStarter":true,' +
+            '"fieldCustomSprite":true,' +
+            '"fieldMale":false,' + // <-- false
+            '"fieldFemale":false,' + // <-- false
+            '"fieldNoGender":false,' + // <-- false
+            '"fieldItem":true,' +
+            '"fieldNFE":true,' +
+            '"customItem":true,' +
+            '"customEgg":true,' +
+            '"customPokemon":true,' +
+            '"customPng":true,' +
+            '"releaseSelectAll":true,' +
+            '"tooltipEnableMods":true,' +
+            '"tooltipNoBerry":true,' +
+            '"tooltipBerry":true}');
+        pfqol.pfqol($);
+
+        // use 'fieldShiny' click as a roundabout way to reload the settings
+        $('[data-key=fieldShiny]').trigger('click');
+
+        // get coverage for findNFE = false branch in customSearch
+        localStorage.setItem('QoLPrivateFields',
+            '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
+            '"fieldType":"8,13",' +
+            '"fieldNature":"8",' +
+            '"fieldEggGroup":"12,9",' +
+            '"fieldNewPokemon":true,' +
+            '"fieldShiny":true,' +
+            '"fieldAlbino":true,' +
+            '"fieldMelanistic":true,' +
+            '"fieldPrehistoric":true,' +
+            '"fieldDelta":true,' +
+            '"fieldMega":true,' +
+            '"fieldStarter":true,' +
+            '"fieldCustomSprite":true,' +
+            '"fieldMale":true,' +
+            '"fieldFemale":true,' +
+            '"fieldNoGender":true,' +
+            '"fieldItem":true,' +
+            '"fieldNFE":false,' +// <-- false
+            '"customItem":true,' +
+            '"customEgg":true,' +
+            '"customPokemon":true,' +
+            '"customPng":true,' +
+            '"releaseSelectAll":true,' +
+            '"tooltipEnableMods":true,' +
+            '"tooltipNoBerry":true,' +
+            '"tooltipBerry":true}');
+        $('[data-key="fieldNFE"]').trigger('click');
+    });  
 });
