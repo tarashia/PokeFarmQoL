@@ -174,8 +174,8 @@ describe("Test Private Fields Page", () => {
         const NUM_MILD = 7;
         const NUM_BOLD = 1;
         /* For testing egg groups, HTML has:
-         * - ## Amorphous
-         * - ## Monster
+         * - 45 Amorphous
+         * - 10 Monster
          */
         const NUM_AMORPHOUS = 45;
         const NUM_MONSTER = 10;
