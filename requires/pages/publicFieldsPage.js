@@ -282,6 +282,10 @@ class PublicFieldsPage extends PublicFieldsBase {
             if(obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) {
                 obj.enableTooltips();
             }
+            // same for tooltipBerry
+            if(obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) {
+                obj.enableTooltips();
+            }
         }
     }
     disableTooltips() {
