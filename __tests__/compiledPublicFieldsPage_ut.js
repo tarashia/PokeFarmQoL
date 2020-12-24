@@ -26,47 +26,6 @@ beforeAll(() => {
     );
 });
 
-
-/*
- * - Field sort controls
- *   - fieldByBerry (checkbox)
- *   - fieldByMiddle (checkbox)
- *   - fieldByGrid (checkbox)
- *   - fieldClickCount (checkbox)
- *   - Test: fieldByBerry - check that none of the other 2 are selected and that class is added
- *   - Test: fieldByMiddle - check that none of the other 2 are selected and that class is added
- *   - Test: fieldByGrid - check that none of the other 2 are selected and that class is added
- *   - Test: fieldClickCount - check that class is added
- * - Field search controls
- *   - fieldShiny (checkbox)
- *   - fieldAlbino (checkbox)
- *   - fieldMelanistic (checkbox)
- *   - fieldPrehistoric (checkbox)
- *   - fieldDelta (checkbox)
- *   - fieldMega (checkbox)
- *   - fieldStarter (checkbox)
- *   - fieldCustomSprite (checkbox)
- *   - fieldItem (checkbox)
- *   - #addFieldTypeSearch (button)
- *   - #fieldTypes[...] (select)
- *   - #removeFieldTypeSearch[...] (button)
- *   - #addFieldNatureSearch (button)
- *   - #natureTypes[...] (select)
- *   - #removeFieldNature[...] (button)
- *   - #addFieldEggGroupSearch (button)
- *   - #eggGroupTypes[...] (select)
- *   - #removeFieldEggGroup[...] (button)
- *   - fieldCustomEgg (checkbox)
- *   - fieldCustomPokemon (checkbox)
- *   - fieldCustomPng (checkbox)
- *   - fieldMale (checkbox)
- *   - fieldFemale (checkbox)
- *   - fieldNoGender (checkbox)
- *   - #addTextField (button)
- *   - #searchkeys[...] (textfield)
- *   - #removeTextField[...] (button)
-*/
-
 const expectTooltipsExist = function(numTooltipEnableMods,  numTooltipNoBerry, 
     numTooltipBerry,  tooltipEnableModsChecked, 
     tooltipNoBerryChecked,  tooltipNoBerryDisabled,
