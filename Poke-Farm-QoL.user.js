@@ -46,18 +46,23 @@
 // @grant        GM_info
 // ==/UserScript==
 
-// (function($) {
+/* globals jQuery compareVersions module GM_getResourceText GM_addStyle GM_xmlhttpRequest GM_info 
+        Globals Helpers LocalStorageManager DexUtilities DexPageParser
+        EvolutionTreeParser DaycarePage FarmPage LabPage PublicFieldsPage
+        PrivateFieldsPage  ShelterPage FishingPage MultiuserPage DexPage 
+        WishforgePage QoLHub */
 const pfqol = function ($) {
     'use strict';
     // :contains to case insensitive
-    $.extend($.expr[":"], {
-        "containsIN": function (elem, i, match, array) {
-            return (elem.textContent || elem.innerText || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+    $.extend($.expr[':'], {
+        // eslint-disable-next-line no-unused-vars
+        'containsIN': function (elem, i, match, array) {
+            return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
         }
     });
 
     const DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
-        customCss: "",
+        customCss: '',
         enableDaycare: true,
         shelterEnable: true,
         fishingEnable: true,
@@ -99,7 +104,7 @@ const pfqol = function ($) {
         const PAGES = {
             instantiatePages: function () {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key]
+                    let pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true) {
                         PAGES.pages[key].object = new PAGES.pages[key].class($, GLOBALS, {
                             DexPageParser: DexPageParser
@@ -133,7 +138,7 @@ const pfqol = function ($) {
             },
             clearPageSettings: function (pageName) {
                 if (!(pageName in PAGES.pages)) {
-                    console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`)
+                    console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`);
                 } else if (PAGES.pages[pageName].object) {
                     PAGES.pages[pageName].object.resetSettings();
                 }
@@ -143,7 +148,7 @@ const pfqol = function ($) {
                     let pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupHTML(GLOBALS);
-                        fn.backwork.populateSettingsPage()
+                        fn.backwork.populateSettingsPage();
                     }
                 }
             },
@@ -231,13 +236,13 @@ const pfqol = function ($) {
                     setting: 'condenseWishforge'
                 },
             }
-        }
+        };
 
         const fn = { // all the functions for the script
             /** background stuff */
             backwork: { // background stuff
                 checkForUpdate() {
-                    let version = "";
+                    let version = '';
                     GM_xmlhttpRequest({
                         method: 'GET',
                         url: 'https://api.github.com/repos/jpgualdarrama/PokeFarmQoL/contents/Poke-Farm-QoL.user.js',
@@ -246,7 +251,7 @@ const pfqol = function ($) {
                             let match = atob(data.response.content).match(/\/\/\s+@version\s+([^\n]+)/);
                             version = match[1];
                             if (compareVersions(GM_info.script.version, version) < 0) {
-                                document.querySelector("li[data-name*='QoL']").insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubUpdateLinkHTML);
+                                document.querySelector('li[data-name*=\'QoL\']').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubUpdateLinkHTML);
                             }
                         }
                     });
@@ -293,7 +298,7 @@ const pfqol = function ($) {
                 }, // saveSettings
                 populateSettingsPage() { // checks all settings checkboxes that are true in the settings
                     for (let key in USER_SETTINGS) {
-                        if (USER_SETTINGS.hasOwnProperty(key)) {
+                        if (Object.hasOwnProperty.call(USER_SETTINGS, key)) {
                             let value = USER_SETTINGS[key];
                             if (typeof value === 'boolean') {
                                 HELPERS.toggleSetting(key, value);
@@ -310,7 +315,7 @@ const pfqol = function ($) {
                 },
                 setupHTML(GLOBALS) { // injects the HTML changes from GLOBALS.TEMPLATES into the site
                     // Header link to Userscript settings
-                    document.querySelector("li[data-name*='Lucky Egg']").insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubLinkHTML);
+                    document.querySelector('li[data-name*=\'Lucky Egg\']').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubLinkHTML);
 
                     PAGES.setupHTML(GLOBALS);
                 },
@@ -320,7 +325,6 @@ const pfqol = function ($) {
 
                     //custom user css
                     let customUserCss = USER_SETTINGS.customCss;
-                    let customUserCssInject = '<style type="text/css">' + customUserCss + '</style>'
                     //document.querySelector('head').append();
                     $('head').append('<style type="text/css">' + customUserCss + '</style>');
                 },
@@ -340,13 +344,13 @@ const pfqol = function ($) {
                         'setting up CSS': fn.backwork.setupCSS,
                         'setting up Observers': fn.backwork.setupObservers,
                         'setting up Handlers': fn.backwork.setupHandlers,
-                    }
+                    };
                 },
                 init() { // Starts all the functions.
                     console.log('Starting up ..');
                     let startup = fn.backwork.startup();
                     for (let message in startup) {
-                        if (startup.hasOwnProperty(message)) {
+                        if (Object.hasOwnProperty.call(startup, message)) {
                             console.log(message);
                             startup[message](GLOBALS);
                         }
@@ -356,7 +360,7 @@ const pfqol = function ($) {
 
             /** public stuff */
             API: { // the actual seeable and interactable part of the userscript
-                settingsChange(element, textElement, customClass, typeClass) {
+                settingsChange(element, textElement) {
                     if (JSON.stringify(USER_SETTINGS).indexOf(element) >= 0) { // userscript settings
                         if (USER_SETTINGS[element] === false) {
                             USER_SETTINGS[element] = true;
@@ -372,8 +376,8 @@ const pfqol = function ($) {
                 }, // settingsChange
 
                 clearPageSettings(pageName) {
-                    if (pageName !== "None") { // "None" matches option in HTML
-                        fn.backwork.clearPageSettings(pageName)
+                    if (pageName !== 'None') { // "None" matches option in HTML
+                        fn.backwork.clearPageSettings(pageName);
                     }
                 }, // clearPageSettings
                 populateSettingsPage() {
@@ -397,8 +401,8 @@ const pfqol = function ($) {
     }));
 
     $(document).on('click', '#resetPageSettings', (function () {
-        const page = $(this).parent().find('select').val()
-        PFQoL.clearPageSettings(page)
+        const page = $(this).parent().find('select').val();
+        PFQoL.clearPageSettings(page);
     }));
 
     // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
@@ -411,7 +415,7 @@ const pfqol = function ($) {
         $('#clearCachedDex').next().remove();
         localStorage.removeItem('QoLEvolveByLevel');
         localStorage.removeItem('QoLDexIDsCache');
-        localStorage.removeItem("QoLEvolutionTreeDepth");
+        localStorage.removeItem('QoLEvolutionTreeDepth');
         localStorage.removeItem('QoLRegionalFormsList');
         $('#clearCachedDex').after('<span> Cleared!</span>');
     }));
@@ -419,9 +423,9 @@ const pfqol = function ($) {
     $(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
         $(this).next().slideToggle();
     }));
-}
+};
 
 if (module)
-    module.exports.pfqol = pfqol;
+{module.exports.pfqol = pfqol;}
 else
-    pfqol(jQuery);
+{pfqol(jQuery);}
