@@ -1,9 +1,10 @@
+// eslint-disable-next-line no-undef
 const FishingBase = Page;
 
+// eslint-disable-next-line no-unused-vars
 class FishingPage extends FishingBase {
     constructor(jQuery) {
-        super('QoLFishing', {}, 'fishing');
-        this.jQuery = jQuery;
+        super(jQuery, 'QoLFishing', {}, 'fishing');
         // no observer
     }
     setupHTML(GLOBALS) {
@@ -12,7 +13,7 @@ class FishingPage extends FishingBase {
     }
     setupHandlers() {
         const obj = this;
-        obj.jQuery("#selectallfishcheckbox").on('click', function () {
+        obj.jQuery('#selectallfishcheckbox').on('click', function () {
             obj.jQuery('li[data-flavour]>label>input').prop('checked', this.checked);
         });
 
@@ -40,4 +41,4 @@ class FishingPage extends FishingBase {
             obj.jQuery('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
         });
     }
-};
+}

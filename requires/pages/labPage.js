@@ -1,18 +1,20 @@
+/* globals Page Helpers */
 const LabBase = Page;
 
+// eslint-disable-next-line no-unused-vars
 class LabPage extends LabBase {
     constructor(jQuery, GLOBALS) {
-        super('QoLLab', {
-            findLabEgg: "", // same as findCustom in shelter
+        super(jQuery, 'QoLLab', {
+            findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
-            findLabType: "", // same as findType in shelter
+            findLabType: '', // same as findType in shelter
             findTypeEgg: true,
-        }, '/lab')
-        this.jQuery = jQuery;
+        }, '/lab');
         this.searchArray = [];
         this.listArray = [];
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.customSearch(GLOBALS);
             });
@@ -22,11 +24,11 @@ class LabPage extends LabBase {
         if (this.onPage(window) &&
             this.settings.findTypeEgg &&
             !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem('QoLEggTypesMap')))) {
-            window.alert("Message from QoL script:\nUnable to load list of pokemon eggs and their types, " +
-                "which is used to distinguish eggs with the same name but different types (Vulpix and " +
-                "Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. " +
-                "Please clear and reload your pokedex data by clicking the \"Clear Cached Dex\" " +
-                "and then clicking the \"Update Pokedex\" button in the QoL Hub to load list of eggs and types.");
+            window.alert('Message from QoL script:\nUnable to load list of pokemon eggs and their types, ' +
+                'which is used to distinguish eggs with the same name but different types (Vulpix and ' +
+                'Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. ' +
+                'Please clear and reload your pokedex data by clicking the "Clear Cached Dex" ' +
+                'and then clicking the "Update Pokedex" button in the QoL Hub to load list of eggs and types.');
         }
     }
 
@@ -34,15 +36,15 @@ class LabPage extends LabBase {
         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.labOptionsHTML);
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray')
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'listArray');
 
         this.searchArray = this.settings.findLabEgg.split(',');
         this.listArray = this.settings.findLabType.split(',');
 
-        Helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv')
-        Helpers.setupFieldArrayHTML(this.jQuery, this.listArray, 'labTypes', theType, 'typeNumber')
+        Helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv');
+        Helpers.setupFieldArrayHTML(this.jQuery, this.listArray, 'labTypes', theType, 'typeNumber');
     }
     setupCSS() {
         //lab css
@@ -95,23 +97,23 @@ class LabPage extends LabBase {
             obj.saveSettings();
         }));
 
-        obj.jQuery(window).on('load', (function (e) {
+        obj.jQuery(window).on('load', (function () {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
         }));
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray')
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
         let numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
-        this.jQuery('.numberDiv').removeClass('numberDiv').addClass("" + numberDiv + "");
+        this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
     }
     removeTextField(byebye, key) {
         // when textfield is removed, the value will be deleted from the localstorage
         this.searchArray = this.jQuery.grep(this.searchArray, function (value) {
             return value != key;
         });
-        this.settings.findCustom = this.searchArray.toString()
+        this.settings.findCustom = this.searchArray.toString();
 
         this.jQuery(byebye).parent().remove();
 
@@ -125,13 +127,13 @@ class LabPage extends LabBase {
             'removeLabTypeList', 'labTypes', 'listArray');
         let numberTypes = this.jQuery('#labTypes>div').length;
         this.jQuery('#labTypes').append(theType);
-        this.jQuery('.typeNumber').removeClass('typeNumber').addClass("" + numberTypes + "");
+        this.jQuery('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
     }
     removeTypeList(byebye, key) {
         this.listArray = this.jQuery.grep(this.listArray, function (value) {
             return value != key;
         });
-        this.settings.findType = this.listArray.toString()
+        this.settings.findType = this.listArray.toString();
 
         this.jQuery(byebye).parent().remove();
 
@@ -143,10 +145,10 @@ class LabPage extends LabBase {
     customSearch(GLOBALS) {
         const obj = this;
         let dexData = GLOBALS.DEX_DATA;
-        document.querySelector('#labsuccess').innerHTML = "";
+        document.querySelector('#labsuccess').innerHTML = '';
         obj.jQuery('#egglist>div>img').removeClass('labfoundme');
 
-        if (!(this.listArray.length == 1 && this.listArray[0] == "")) {
+        if (!(this.listArray.length == 1 && this.listArray[0] == '')) {
             if (this.settings.findTypeEgg === true) {
                 const egg_pngs_to_types = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
                     JSON.parse(localStorage.getItem('QoLEggTypesMap')) || undefined;
@@ -159,17 +161,17 @@ class LabPage extends LabBase {
 
                     obj.jQuery('#egglist>div>h3').each(function () {
                         let searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
-                        let searchTypeOne = "";
-                        let searchTypeTwo = "";
+                        let searchTypeOne = '';
+                        let searchTypeTwo = '';
 
                         if (egg_pngs_to_types) {
                             let imgUrl = obj.jQuery(this).next().attr('src').replace('https://pfq-static.com/img/', '');
                             searchTypeOne = egg_pngs_to_types[searchPokemon] &&
                                 egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
+                                ('' + egg_pngs_to_types[searchPokemon][imgUrl][0]);
                             searchTypeTwo = egg_pngs_to_types[searchPokemon] &&
                                 egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ("" + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
+                                ('' + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
                         } else {
                             let searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
                             searchTypeOne = dexData[searchPokemonIndex + 1];
@@ -184,14 +186,14 @@ class LabPage extends LabBase {
                             amountOfTypesFound.push('found');
                             typePokemonNames.push(searchPokemon);
                         }
-                    }) // each
+                    }); // each
 
                     let foundType = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
 
                     let typeImgStandOutLength = typePokemonNames.length;
                     for (let o = 0; o < typeImgStandOutLength; o++) {
                         let value = typePokemonNames[o];
-                        let shelterImgSearch = this.jQuery("#egglist>div>h3:containsIN(" + value + ")")
+                        let shelterImgSearch = this.jQuery('#egglist>div>h3:containsIN(' + value + ')');
                         let shelterBigImg = shelterImgSearch.next();
                         obj.jQuery(shelterBigImg).addClass('labfoundme');
                     }
@@ -205,7 +207,7 @@ class LabPage extends LabBase {
             } // if
         } // else
 
-        if (!(this.searchArray.length == 1 && this.searchArray[0] == "")) {
+        if (!(this.searchArray.length == 1 && this.searchArray[0] == '')) {
             let customSearchAmount = this.searchArray.length;
 
             if (this.settings.customEgg === true) {
@@ -214,14 +216,14 @@ class LabPage extends LabBase {
                     // skip falsy values (including empty strings)
                     if(!value) continue;
 
-                    if (this.jQuery("#egglist>div>h3:containsIN(" + value + ")").length) {
+                    if (this.jQuery('#egglist>div>h3:containsIN(' + value + ')').length) {
                         let searchResult = value;
 
-                        let shelterImgSearch = this.jQuery("#egglist>div>h3:containsIN(" + value + ")")
+                        let shelterImgSearch = this.jQuery('#egglist>div>h3:containsIN(' + value + ')');
                         let shelterBigImg = shelterImgSearch.next();
                         obj.jQuery(shelterBigImg).addClass('labfoundme');
 
-                        if (this.jQuery("#egglist>div>h3:containsIN(" + value + ")").length > 1) {
+                        if (this.jQuery('#egglist>div>h3:containsIN(' + value + ')').length > 1) {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
                         } else {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
@@ -231,7 +233,7 @@ class LabPage extends LabBase {
                     if (obj.jQuery('#egglist>div img[src*="' + value + '"]').length) {
                         let searchResult = obj.jQuery('#egglist>div img[src*="' + value + '"]').prev().text();
 
-                        let shelterImgSearch = obj.jQuery('#egglist>div img[src*="' + value + '"]')
+                        let shelterImgSearch = obj.jQuery('#egglist>div img[src*="' + value + '"]');
                         obj.jQuery(shelterImgSearch).addClass('labfoundme');
 
                         if (obj.jQuery('#egglist>div img[src*="' + value + '"]').length > 1) {

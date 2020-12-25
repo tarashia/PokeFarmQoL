@@ -2,6 +2,7 @@
    Functions which process multiple text pages are in DexUtilities.
 */
 
+// eslint-disable-next-line no-unused-vars
 class DexPageParser {
     /* Parse the header from a dex page
      * Inputs:
@@ -26,12 +27,12 @@ class DexPageParser {
 
         // https://stackoverflow.com/questions/3442394/using-text-to-retrieve-only-text-not-nested-in-child-tags
         // get text but not children's text
-        let name_text = name_header.clone().children().remove().end().text()
-        let name_splits = name_text.split(' ')
-        let base_pokemon_number = name_splits[0].replace('#','').replace(':','')
+        let name_text = name_header.clone().children().remove().end().text();
+        let name_splits = name_text.split(' ');
+        let base_pokemon_number = name_splits[0].replace('#','').replace(':','');
         // just in case the name is more than one word, join the remaining elements back together
-        name_splits.splice(0, 1)
-        let base_pokemon_name = name_splits.join(' ').trim()
+        name_splits.splice(0, 1);
+        let base_pokemon_name = name_splits.join(' ').trim();
         let pokemon_name = (form_i.length) ?
             base_pokemon_name + ' ' + form_i.text() :
             base_pokemon_name;
@@ -43,7 +44,7 @@ class DexPageParser {
             base_name: base_pokemon_name,
             // name of the form
             name: pokemon_name
-        }
+        };
     }
 
     /* Parse the footer from a dex page
@@ -81,11 +82,11 @@ class DexPageParser {
     static parseTypesFromDexPage(html, type_list) {
         let typeImgs = html.find('.dexdetails>li>img');
         let typeUrls = typeImgs.map((idx, img) => {
-            return img.src
+            return img.src;
         });
         let types = typeUrls.map((idx, url) =>
-                                 url.substring(url.indexOf("types/")+"types/".length,
-                                               url.indexOf(".png")));
+            url.substring(url.indexOf('types/')+'types/'.length,
+                url.indexOf('.png')));
         types = types.map((idx, type) => type.charAt(0).toUpperCase() + type.substring(1));
         types = types.map((idx, type) => type_list.indexOf(type)); // GLOBALS.TYPE_LIST.indexOf(type));
         return types.toArray();
@@ -100,7 +101,7 @@ class DexPageParser {
      */
     static parseEggPngFromDexPage(html) {
         let egg_url = (html.find('.eggspr').find('img')
-                       .attr('src') || "")
+            .attr('src') || '')
             .replace('https://pfq-static.com/img/', '');
         return egg_url;
     }

@@ -1,23 +1,24 @@
+/* globals Page */
 const WishforgeBase = Page;
     
+// eslint-disable-next-line no-unused-vars
 class WishforgePage extends WishforgeBase {
     constructor(jQuery, GLOBALS) {
-        super('QoLWishforge', {}, 'forge');
-        this.jQuery = jQuery;
+        super(jQuery, 'QoLWishforge', {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-              if(mutation.type === "childList" && mutation.addedNodes.length) {
-                  obj.setupHTML(GLOBALS);
-              }
-          })
+            mutations.forEach(function(mutation) {
+                if(mutation.type === 'childList' && mutation.addedNodes.length) {
+                    obj.setupHTML(GLOBALS);
+                }
+            });
         });
     } // constructor
 
     setupHTML(GLOBALS) {
         const obj = this;
         // setup table format
-        const header = "<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>";
+        const header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
 
         // use GLOBALS.TYPE_LIST to get list of types
         const types = GLOBALS.TYPE_LIST;
@@ -25,22 +26,22 @@ class WishforgePage extends WishforgeBase {
         // build HTML table
         let rows = {};
         for (let i = 0; i < types.length; i++) {
-            rows[types[i]] = `<td>${types[i]}</td> <td></td> <td></td> <td></td> <td></td> <td></td>`
-        };
-        let table = `<table style="width: 100%">` +
-            `<colgroup>` +
-            `<col span="1" style="width: 10%;">` +
-            `<col span="1" style="width: 20%;">` +
-            `<col span="1" style="width: 20%;">` +
-            `<col span="1" style="width: 20%;">` +
-            `<col span="1" style="width: 10%;">` +
-            `<col span="1" style="width: 10%;">` +
-            `</colgroup>` +
+            rows[types[i]] = `<td>${types[i]}</td> <td></td> <td></td> <td></td> <td></td> <td></td>`;
+        }
+        let table = '<table style="width: 100%">' +
+            '<colgroup>' +
+            '<col span="1" style="width: 10%;">' +
+            '<col span="1" style="width: 20%;">' +
+            '<col span="1" style="width: 20%;">' +
+            '<col span="1" style="width: 20%;">' +
+            '<col span="1" style="width: 10%;">' +
+            '<col span="1" style="width: 10%;">' +
+            '</colgroup>' +
             `<tr id="head"> ${header}</tr>`;
         for (let i = 0; i < types.length; i++) {
             table += `<tr id=${types[i]}> ${rows[types[i]]} </tr>`;
         }
-        table += `</table>`;
+        table += '</table>';
 
         // add table to page
         const craftedBadgesList = obj.jQuery('#badges').next().find('ul.badgelist');
@@ -57,7 +58,7 @@ class WishforgePage extends WishforgeBase {
         for (let j = 0; j < types.length; j++) {
             let type = types[j];
             let index = j + 1;
-            let li = obj.jQuery(craftedBadgesList.children()[index])
+            let li = obj.jQuery(craftedBadgesList.children()[index]);
 
             // get badge image
             let badgeImg = obj.jQuery(obj.jQuery(li.children()[0]).children()[0]);
@@ -65,7 +66,7 @@ class WishforgePage extends WishforgeBase {
 
             // get badge name
             let badgeName = obj.jQuery(li.children()[0]);
-            badgeName.text(' ' + badgeName.text().replace(` ${type} Badge`, ""));
+            badgeName.text(' ' + badgeName.text().replace(` ${type} Badge`, ''));
             badgeName.css('display', 'inline-block');
             badgeName.appendTo(`tr#${type}>td:nth-child(${LEVEL_COL})`);
 
@@ -107,9 +108,9 @@ class WishforgePage extends WishforgeBase {
     
     setupObserver() {
         const obj = this;
-        const target = obj.jQuery('#badges').next("div")[0];
+        const target = obj.jQuery('#badges').next('div')[0];
         this.observer.observe(target, {
             childList: true
         });
     }
-};
+}

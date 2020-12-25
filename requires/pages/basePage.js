@@ -1,43 +1,46 @@
+/* global Helpers */
+// eslint-disable-next-line no-unused-vars
 class Page {
-    constructor(ssk, ds, url) {
+    constructor(jQuery, ssk, ds, url) {
+        this.jQuery = jQuery;
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
-        this.url = url
+        this.url = url;
         this.settings = this.defaultSettings;
     }
 
     onPage(w) {
-        return w.location.href.indexOf(this.url) != -1
+        return w.location.href.indexOf(this.url) != -1;
     }
 
     loadSettings() {
         this.settings =
-            Helpers.loadSettings(this.settingsSaveKey,
-                                 this.defaultSettings,
-                                 this.settings);
+            Helpers.loadSettings(this.jQuery,this.settingsSaveKey,
+                this.defaultSettings,
+                this.settings);
     }
 
     saveSettings() {
-        Helpers.saveSettings(this.settingsSaveKey, this.settings)
+        Helpers.saveSettings(this.settingsSaveKey, this.settings);
     }
 
     populateSettings(obj) {
         if(obj === undefined) {
-            obj = this.settings
+            obj = this.settings;
         }
         for (let key in obj) {
-            if (!obj.hasOwnProperty(key)) {
+            if (!Object.prototype.hasOwnProperty.call(obj, key)) {
                 continue;
             }
             let value = obj[key];
             if (typeof value === 'object') {
-                this.populateSettings(obj[key])
+                this.populateSettings(obj[key]);
             }
             else if (typeof value === 'boolean') {
                 Helpers.toggleSetting(key, value);//, false);
             }
             else if (typeof value === 'string') {
-                console.log("TODO - split and populate")
+                console.log('TODO - split and populate');
                 // Helpers.toggleSetting(key, value, false);
             }
         }
@@ -45,13 +48,13 @@ class Page {
 
     resetSettings() {
         this.settings = JSON.parse(JSON.stringify(this.defaultSettings));
-        this.saveSettings()
+        this.saveSettings();
     }
 
     settingsChange(element, textElement, customClass, typeClass, arrayName) {
         if (JSON.stringify(this.settings).indexOf(element) >= 0) {
             if (typeof this.settings[element] === 'boolean') {
-                this.settings[element] = !this.settings[element]
+                this.settings[element] = !this.settings[element];
             }
             else if (typeof this.settings[element] === 'string') {
                 if (arrayName !== undefined && arrayName !== '') {
@@ -62,9 +65,9 @@ class Page {
                     } else {
                         let tempIndex = -1;
                         if(typeClass !== undefined) {
-                            tempIndex = typeClass - 1 // select array
+                            tempIndex = typeClass - 1; // select array
                         } else if(customClass !== undefined) {
-                            tempIndex = customClass - 1 // textfield array
+                            tempIndex = customClass - 1; // textfield array
                         }
                         this[arrayName][tempIndex] = textElement;
                         this.settings[element] = this[arrayName].toString();
@@ -76,7 +79,7 @@ class Page {
             }
             return true;
         }
-        else { return false }
+        else { return false; }
     }
 
     setupHTML() { /* empty */ }

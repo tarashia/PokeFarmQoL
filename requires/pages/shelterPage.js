@@ -1,10 +1,12 @@
+/* globals Page Helpers */
 const ShelterBase = Page;
     
+// eslint-disable-next-line no-unused-vars
 class ShelterPage extends ShelterBase {
     constructor(jQuery, GLOBALS) {
-        super('QoLShelter', {
-            findCustom: "",
-            findType: "",
+        super(jQuery, 'QoLShelter', {
+            findCustom: '',
+            findType: '',
             findTypeEgg: true,
             findTypePokemon: false,
             findNewEgg: true,
@@ -27,11 +29,11 @@ class ShelterPage extends ShelterBase {
             customPng: false,
             shelterGrid: true,
         }, '/shelter');
-        this.jQuery = jQuery;
         this.customArray = [];
         this.typeArray = [];
-        const obj = this
+        const obj = this;
         this.observer = new MutationObserver(function(mutations) {
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function(mutation) {
                 obj.customSearch(GLOBALS);
             });
@@ -41,11 +43,11 @@ class ShelterPage extends ShelterBase {
         if(this.onPage(window) &&
            this.settings.findTypeEgg &&
            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem('QoLEggTypesMap')))) {
-            window.alert("Message from QoL script:\nUnable to load list of pokemon eggs and their types, " +
-                         "which is used to distinguish eggs with the same name but different types (Vulpix and " +
-                         "Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. " +
-                         "Please clear and reload your pokedex data by clicking the \"Clear Cached Dex\" "+
-                         "and then clicking the \"Update Pokedex\" button in the QoL Hub to load list of eggs and types.");
+            window.alert('Message from QoL script:\nUnable to load list of pokemon eggs and their types, ' +
+                         'which is used to distinguish eggs with the same name but different types (Vulpix and ' +
+                         'Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. ' +
+                         'Please clear and reload your pokedex data by clicking the "Clear Cached Dex" '+
+                         'and then clicking the "Update Pokedex" button in the QoL Hub to load list of eggs and types.');
         }
         
         // used to keep track of the currently selected match
@@ -65,15 +67,15 @@ class ShelterPage extends ShelterBase {
 
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray')
+        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
-                                             'removeShelterTypeList', 'fieldTypes', 'typeArray');
+            'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
         this.customArray = this.settings.findCustom.split(',');
         this.typeArray = this.settings.findType.split(',');
 
-        Helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv')
-        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber')
+        Helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
 
         this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
         this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
@@ -89,7 +91,7 @@ class ShelterPage extends ShelterBase {
         });
     }
     setupHandlers(GLOBALS) {
-        const obj = this
+        const obj = this;
         this.jQuery(document).on('change', '#shelteroptionsqol input', (function() { //shelter search
             obj.loadSettings();
             obj.customSearch(GLOBALS);
@@ -104,10 +106,10 @@ class ShelterPage extends ShelterBase {
 
         this.jQuery(document).on('input', '.qolsetting', (function() { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-                               obj.jQuery(this).val(),
-                               obj.jQuery(this).parent().parent().attr('class'),
-                               obj.jQuery(this).parent().attr('class'),
-                               (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
+                obj.jQuery(this).val(),
+                obj.jQuery(this).parent().parent().attr('class'),
+                obj.jQuery(this).parent().attr('class'),
+                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
@@ -141,42 +143,42 @@ class ShelterPage extends ShelterBase {
         }));
 
         this.jQuery(window).on('keyup.qol_shelter_shortcuts', function (a) {
-             if (0 == obj.jQuery(a.target).closest('input, textarea').length) {
+            if (0 == obj.jQuery(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
-                    case obj.select_next_match_key:
-                        var num_matches = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
+                case obj.select_next_match_key:
+                    var num_matches = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
 
-                        // remove all existing locks
-                        obj.jQuery('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
+                    // remove all existing locks
+                    obj.jQuery('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
 
-                        // default is undefined, so set the value to either 0 or 1+current
-                        obj.currently_selected_match = (obj.currently_selected_match + 1) || 0;
+                    // default is undefined, so set the value to either 0 or 1+current
+                    obj.currently_selected_match = (obj.currently_selected_match + 1) || 0;
 
-                        if(num_matches) {
-                            var mod_index = (num_matches == 1) ? 0 : (obj.currently_selected_match + 1) % num_matches - 1;
-                            var selected = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(mod_index);
-                            // these steps mimic clicking on the pokemon/egg
-                            selected.parent().addClass('selected');
-                            selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
-                            selected.next().find('[data-shelter=adopt]').focus();
-                        } else {
-                            obj.currently_selected_match = undefined;
-                        }
+                    if(num_matches) {
+                        var mod_index = (num_matches == 1) ? 0 : (obj.currently_selected_match + 1) % num_matches - 1;
+                        var selected = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(mod_index);
+                        // these steps mimic clicking on the pokemon/egg
+                        selected.parent().addClass('selected');
+                        selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
+                        selected.next().find('[data-shelter=adopt]').focus();
+                    } else {
+                        obj.currently_selected_match = undefined;
+                    }
                 }
             }
         });
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray')
+        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
         let numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
-        this.jQuery('.numberDiv').removeClass('numberDiv').addClass(""+numberDiv+"");
+        this.jQuery('.numberDiv').removeClass('numberDiv').addClass(''+numberDiv+'');
     }
     removeTextField(byebye, key) {
         this.customArray = this.jQuery.grep(this.customArray, function(value) { //when textfield is removed, the value will be deleted from the localstorage
             return value != key;
         });
-        this.settings.findCustom = this.customArray.toString()
+        this.settings.findCustom = this.customArray.toString();
 
         this.jQuery(byebye).parent().remove();
 
@@ -188,16 +190,16 @@ class ShelterPage extends ShelterBase {
     }
     addTypeList(GLOBALS) {
         const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
-                                             'removeShelterTypeList', 'fieldTypes', 'typeArray');
+            'removeShelterTypeList', 'fieldTypes', 'typeArray');
         let numberTypes = this.jQuery('#shelterTypes>div').length;
         this.jQuery('#shelterTypes').append(theList);
-        this.jQuery('.typeNumber').removeClass('typeNumber').addClass(""+numberTypes+"");
+        this.jQuery('.typeNumber').removeClass('typeNumber').addClass(''+numberTypes+'');
     }
     removeTypeList(byebye, key) {
         this.typeArray = this.jQuery.grep(this.typeArray, function(value) {
             return value != key;
         });
-        this.settings.findType = this.typeArray.toString()
+        this.settings.findType = this.typeArray.toString();
 
         this.jQuery(byebye).parent().remove();
 
@@ -210,7 +212,7 @@ class ShelterPage extends ShelterBase {
     insertShelterFoundDiv(number, name, img) {
         document.querySelector('#sheltersuccess').
             insertAdjacentHTML('beforeend',
-                               '<div id="shelterfound">' + name + ((number !== 1) ? 's' : '') + ' found ' + img + '</div>')
+                '<div id="shelterfound">' + name + ((number !== 1) ? 's' : '') + ' found ' + img + '</div>');
     }
     insertShelterTypeFoundDiv(number, type, stage, names) {
         let stageNoun = '';
@@ -221,53 +223,53 @@ class ShelterPage extends ShelterBase {
         }
         document.querySelector('#sheltersuccess').
             insertAdjacentHTML('beforeend',
-                               '<div id="shelterfound">' + number + ' ' + type + ' type ' +
-                               stageNoun + ' found!' + (names.length > 0 ? '(' + names.toString() + ')' : '') + '</div>')
+                '<div id="shelterfound">' + number + ' ' + type + ' type ' +
+                               stageNoun + ' found!' + (names.length > 0 ? '(' + names.toString() + ')' : '') + '</div>');
     }
     
     searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
-        const key_index = SEARCH_DATA.indexOf(key)
-        const value = SEARCH_DATA[key_index + 1]
-        const selected = this.jQuery('img[title*="'+value+'"]')
+        const key_index = SEARCH_DATA.indexOf(key);
+        const value = SEARCH_DATA[key_index + 1];
+        const selected = this.jQuery('img[title*="'+value+'"]');
         if (selected.length) {
             let searchResult = SEARCH_DATA[key_index + 2]; //type of Pokémon found
-            let imgResult = selected.length + " " + searchResult; //amount + type found
+            let imgResult = selected.length + ' ' + searchResult; //amount + type found
             let imgFitResult = SEARCH_DATA[key_index + 3]; //image for type of Pokémon
             let shelterBigImg = selected.parent().prev().children('img.big');
             this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
-            this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult)
+            this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
         }
     }
 
-    searchForReadyToEvolveByLevel(GLOBALS, dexData) {
+    searchForReadyToEvolveByLevel(GLOBALS) {
         const obj = this;
-        let selected = this.jQuery("#shelterarea .tooltip_content")
+        let selected = this.jQuery('#shelterarea .tooltip_content');
         let readyBigImg = [];
         selected.each((idx, s) => {
-            let text = s.textContent.split(' ')
-            let name = text[0]
-            let level = parseInt(text[1].substring(4))
+            let text = s.textContent.split(' ');
+            let name = text[0];
+            let level = parseInt(text[1].substring(4));
 
             // get level that pokemon needs to be at to evolve
-            let evolve_level = undefined
+            let evolve_level = undefined;
             if(GLOBALS.EVOLVE_BY_LEVEL_LIST[name] !== undefined) {
-                evolve_level = parseInt(GLOBALS.EVOLVE_BY_LEVEL_LIST[name].split(' ')[1])
+                evolve_level = parseInt(GLOBALS.EVOLVE_BY_LEVEL_LIST[name].split(' ')[1]);
             }
 
             if(evolve_level !== undefined && level >= evolve_level) {
                 let shelterBigImg = obj.jQuery(s).prev().children('img.big');
-                readyBigImg.push(shelterBigImg)
+                readyBigImg.push(shelterBigImg);
             }
-        })
+        });
 
         for(let i = 0; i < readyBigImg.length; i++) {
             this.jQuery(readyBigImg[i]).addClass('shelterfoundme');
         }
 
-        let imgResult = readyBigImg.length + " " + "ready to evolve"
-        this.insertShelterFoundDiv(readyBigImg.length, imgResult, "")
+        let imgResult = readyBigImg.length + ' ' + 'ready to evolve';
+        this.insertShelterFoundDiv(readyBigImg.length, imgResult, '');
 
     }
 
@@ -281,7 +283,7 @@ class ShelterPage extends ShelterBase {
         const tooltip = {
             species: tooltip_elem.textContent.split(' ')[0],
             forme: ''
-        }
+        };
         let pokemon = tooltip['species'];
 
         if(GLOBALS.EVOLUTIONS_LEFT !== undefined && GLOBALS.EVOLUTIONS_LEFT !== null) {
@@ -289,15 +291,14 @@ class ShelterPage extends ShelterBase {
             // if can't find the pokemon directly, try looking for its form data
             if(!evolution_data[pokemon]) {
                 if(tooltip['forme']) {
-                    pokemon = pokemon + ' [' + tooltip['forme'] + ']'
+                    pokemon = pokemon + ' [' + tooltip['forme'] + ']';
                 }
             }
             if(!evolution_data[pokemon]) {
                 // Do not log error here. Repeated errors can (will) slow down the page
                 // console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
             } else {
-                const evolutions_left = evolution_data[pokemon].remaining
-                const evolution_tree_depth = evolution_data[pokemon].total
+                const evolutions_left = evolution_data[pokemon].remaining;
 
                 if(evolutions_left === 1) {
                     this.jQuery(pokemon_elem).children('img.big').addClass('oneevolutionleft');
@@ -316,7 +317,6 @@ class ShelterPage extends ShelterBase {
         
         let dexData = GLOBALS.DEX_DATA;
         // search whatever you want to find in the shelter & grid
-        let lengthEggs = 0;
 
         //sort in grid
         this.jQuery('#shelterarea').removeClass('qolshelterareagrid');
@@ -336,39 +336,38 @@ class ShelterPage extends ShelterBase {
         }
 
         //search values depending on settings
-        const shelterValueArray = [];
         //emptying the sheltersuccess div to avoid duplicates
-        document.querySelector('#sheltersuccess').innerHTML="";
+        document.querySelector('#sheltersuccess').innerHTML='';
         this.jQuery('#shelterarea>div>img').removeClass('shelterfoundme');
 
         if(this.settings.findShiny === true) {
-            this.searchForImgTitle(GLOBALS, 'findShiny')
+            this.searchForImgTitle(GLOBALS, 'findShiny');
         }
         if(this.settings.findAlbino === true) {
-            this.searchForImgTitle(GLOBALS, 'findAlbino')
+            this.searchForImgTitle(GLOBALS, 'findAlbino');
         }
         if(this.settings.findMelanistic === true) {
-            this.searchForImgTitle(GLOBALS, 'findMelanistic')
+            this.searchForImgTitle(GLOBALS, 'findMelanistic');
         }
         if(this.settings.findPrehistoric === true) {
-            this.searchForImgTitle(GLOBALS, 'findPrehistoric')
+            this.searchForImgTitle(GLOBALS, 'findPrehistoric');
         }
         if(this.settings.findDelta === true) {
-            this.searchForImgTitle(GLOBALS, 'findDelta')
+            this.searchForImgTitle(GLOBALS, 'findDelta');
         }
         if(this.settings.findMega === true) {
-            this.searchForImgTitle(GLOBALS, 'findMega')
+            this.searchForImgTitle(GLOBALS, 'findMega');
         }
         if(this.settings.findStarter === true) {
-            this.searchForImgTitle(GLOBALS, 'findStarter')
+            this.searchForImgTitle(GLOBALS, 'findStarter');
         }
         if(this.settings.findCustomSprite === true) {
-            this.searchForImgTitle(GLOBALS, 'findCustomSprite')
+            this.searchForImgTitle(GLOBALS, 'findCustomSprite');
         }
         if(this.settings.findNFE === true) {
             this.jQuery('#shelterarea>[data-stage=pokemon]').each(function() {
-                obj.highlightByHowFullyEvolved(GLOBALS, this)
-            })
+                obj.highlightByHowFullyEvolved(GLOBALS, this);
+            });
         } else {
             this.jQuery('.oneevolutionleft').each((k, v) => {
                 obj.jQuery(v).removeClass('oneevolutionleft');
@@ -379,39 +378,38 @@ class ShelterPage extends ShelterBase {
         }
 
         if(this.settings.findNewPokemon === true) {
-            let key = 'findNewPokemon'
-            let value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1]
-            let selected = this.jQuery("#shelterarea .tooltip_content:contains(" + value + ")")
+            let key = 'findNewPokemon';
+            let value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
+            let selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')');
             if (selected.length) {
                 let searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
                 let imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
-                let tooltipResult = selected.length+" "+searchResult;
-                let shelterImgSearch = selected
+                let tooltipResult = selected.length+' '+searchResult;
+                let shelterImgSearch = selected;
                 let shelterBigImg = shelterImgSearch.prev().children('img.big');
                 this.jQuery(shelterBigImg).addClass('shelterfoundme');
                 
-                this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult)
+                this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
             }
         }
 
         if(this.settings.findNewEgg === true) {
-            let key = 'findNewEgg'
-            let value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1]
-            let selected = this.jQuery("#shelterarea .tooltip_content:contains(" + value + ")").filter(function(){
+            let key = 'findNewEgg';
+            let value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
+            let selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')').filter(function(){
                 // .text() will include the text in the View/Adopt and Hide buttons, so there will be a space
-                return obj.jQuery(this).text().startsWith(value + " ");
+                return obj.jQuery(this).text().startsWith(value + ' ');
             });
 
             if (selected.length) {
                 let searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
                 let imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
-                let tooltipResult = selected.length + " " + searchResult;
                 if (selected.length >= 1) {
-                    let shelterImgSearch = selected
+                    let shelterImgSearch = selected;
                     let shelterBigImg = shelterImgSearch.prev().children('img.big');
                     this.jQuery(shelterBigImg).addClass('shelterfoundme');
                 }
-                this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult)
+                this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
             }
         }
 
@@ -422,9 +420,9 @@ class ShelterPage extends ShelterBase {
                              'Disabling this function until the checkbox is clicked again');
                 this.settings.findReadyToEvolve = false;
                 // uncheck checkbox
-                this.jQuery('[data-key=findReadyToEvolve]')[0].checked = false
+                this.jQuery('[data-key=findReadyToEvolve]')[0].checked = false;
             } else {
-                this.searchForReadyToEvolveByLevel(GLOBALS, dexData)
+                this.searchForReadyToEvolveByLevel(GLOBALS);
             }
         }
         
@@ -442,52 +440,52 @@ class ShelterPage extends ShelterBase {
 
         //loop to find all the custom search parameters
         let customSearchAmount = this.customArray.length;
-        const heartPng = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-        const eggPng = `<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">`;
+        const heartPng = '<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">';
+        const eggPng = '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">';
         for (let i = 0; i < customSearchAmount; i++) {
             let customValue = this.customArray[i];
-            if (customValue != "") {
+            if (customValue != '') {
                 //custom pokemon search
                 if (this.settings.customPokemon === true) {
-                    let genderMatches = []
-                    if (shelterValueArrayCustom.indexOf("[M]") > -1) {
-                        genderMatches.push("[M]")
+                    let genderMatches = [];
+                    if (shelterValueArrayCustom.indexOf('[M]') > -1) {
+                        genderMatches.push('[M]');
                     }
-                    if(shelterValueArrayCustom.indexOf("[F]") > -1) {
-                        genderMatches.push("[F]")
+                    if(shelterValueArrayCustom.indexOf('[F]') > -1) {
+                        genderMatches.push('[F]');
                     }
-                    if(shelterValueArrayCustom.indexOf("[N]") > -1) {
-                        genderMatches.push("[N]")
+                    if(shelterValueArrayCustom.indexOf('[N]') > -1) {
+                        genderMatches.push('[N]');
                     }
 
                     if(genderMatches.length > 0) {
                         for(let i = 0; i < genderMatches.length; i++) {
                             let genderMatch = genderMatches[i];
-                            let selected = this.jQuery("#shelterarea .tooltip_content:containsIN("+customValue+") img[title*='" + genderMatch + "']")
+                            let selected = this.jQuery('#shelterarea .tooltip_content:containsIN('+customValue+') img[title*=\'' + genderMatch + '\']');
                             if (selected.length) {
                                 let searchResult = customValue;
                                 let genderName = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
                                 let imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
-                                let tooltipResult = selected.length + ' ' + genderName + imgGender + " " + searchResult;
-                                let shelterImgSearch = selected
+                                let tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
+                                let shelterImgSearch = selected;
                                 let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
                                 this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
-                                this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng)
+                                this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                             }
                         }
                     }
 
                     //No genders
                     else if (shelterValueArrayCustom.length === 0) {
-                        let selected = this.jQuery('#shelterarea .tooltip_content:containsIN('+customValue+'):not(:containsIN("Egg"))')
+                        let selected = this.jQuery('#shelterarea .tooltip_content:containsIN('+customValue+'):not(:containsIN("Egg"))');
                         if (selected.length) {
                             let searchResult = customValue;
-                            let tooltipResult = selected.length + " " + searchResult;
-                            let shelterImgSearch = selected
+                            let tooltipResult = selected.length + ' ' + searchResult;
+                            let shelterImgSearch = selected;
                             let shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
                             this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng)
+                            this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                         }
                     }
                 }
@@ -497,24 +495,23 @@ class ShelterPage extends ShelterBase {
                     let selected = this.jQuery('#shelterarea .tooltip_content:containsIN('+customValue+'):contains("Egg")');
                     if (selected.length) {
                         let searchResult = customValue;
-                        let tooltipResult = selected.length + " " + searchResult;
+                        let tooltipResult = selected.length + ' ' + searchResult;
                         let shelterImgSearch = selected;
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                        this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng)
+                        this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
                     }
                 }
 
                 //imgSearch with Pokémon
                 if (this.settings.customPng === true) {
-                    let selected = this.jQuery('#shelterarea img.big[src*="'+customValue+'"]')
+                    let selected = this.jQuery('#shelterarea img.big[src*="'+customValue+'"]');
                     if (selected.length) {
-                        let searchResult = selected.parent().next().text().split('(')[0]
-                        let tooltipResult = selected.length+" "+searchResult+' (Custom img search)';
-                        let imgFitResult = `<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">`;
-                        let shelterImgSearch = selected
+                        let searchResult = selected.parent().next().text().split('(')[0];
+                        let tooltipResult = selected.length+' '+searchResult+' (Custom img search)';
+                        let shelterImgSearch = selected;
                         this.jQuery(shelterImgSearch).addClass('shelterfoundme');
-                        this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng)
+                        this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                     }
                 }
             }
@@ -539,16 +536,16 @@ class ShelterPage extends ShelterBase {
                     selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
                     selected.each(function() {
                         let searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
-                        let searchTypeOne = "";
-                        let searchTypeTwo = "";
+                        let searchTypeOne = '';
+                        let searchTypeTwo = '';
                         if(egg_pngs_to_types) {
                             let imgUrl = obj.jQuery(obj.jQuery(this).prev().find('img')[0]).attr('src').replace('https://pfq-static.com/img/', '');
                             searchTypeOne = egg_pngs_to_types[searchPokemon] &&
                                 egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ("" + egg_pngs_to_types[searchPokemon][imgUrl][0]);
+                                ('' + egg_pngs_to_types[searchPokemon][imgUrl][0]);
                             searchTypeTwo = egg_pngs_to_types[searchPokemon] &&
                                 egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ("" + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
+                                ('' + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
                         } else {
                             let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                             searchTypeOne = dexData[searchPokemonIndex + 1];
@@ -558,7 +555,7 @@ class ShelterPage extends ShelterBase {
                             typePokemonNames.push(searchPokemon);
                             pokemonElems.push(this);
                         }
-                    })
+                    });
 
                     for (let o = 0; o < pokemonElems.length; o++) {
                         let shelterImgSearch = this.jQuery(pokemonElems[o]);
@@ -566,12 +563,12 @@ class ShelterPage extends ShelterBase {
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
-                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames)
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
                 }
 
                 if (this.settings.findTypePokemon === true) {
                     typePokemonNames = [];
-                    selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")')
+                    selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
                     selected.each(function() {
                         let searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
                         let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
@@ -580,15 +577,15 @@ class ShelterPage extends ShelterBase {
                         if ((searchTypeOne === value) || (searchTypeTwo === value)) {
                             typePokemonNames.push(searchPokemon);
                         }
-                    })
+                    });
 
                     for (let o = 0; o < typePokemonNames.length; o++) {
-                        let shelterImgSearch = this.jQuery("#shelterarea .tooltip_content:containsIN('"+typePokemonNames[o]+" (')")
+                        let shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\''+typePokemonNames[o]+' (\')');
                         let shelterBigImg = shelterImgSearch.prev().children('img.big');
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
-                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames)
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
                 }
             }
         } // filteredTypeArray

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class LocalStorageManager {
     constructor(storage) {
         self.storage = storage;
@@ -42,8 +43,8 @@ class LocalStorageManager {
             globals.DEX_DATA = dex.split(',');
             this.updateLocalStorageDex($, document, globals.DEX_UPDATE_DATE, globals);
         }).catch((error) => {
-            console.error("Error occurred in loadDexIntoGlobalsFromWeb. " + 
-                          "Error message: " + error);
+            console.error('Error occurred in loadDexIntoGlobalsFromWeb. ' + 
+                          'Error message: ' + error);
         });
     }
     
@@ -52,7 +53,7 @@ class LocalStorageManager {
     }
     
     loadEvolutionTreeDepthList(GLOBALS) {
-        GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem("QoLEvolutionTreeDepth"));
+        GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem('QoLEvolutionTreeDepth'));
     }
 
     /* Call loadDexIntoGlobalsFromWeb if more than 30 days have passed since it was last loaded
@@ -62,51 +63,51 @@ class LocalStorageManager {
      */
     loadDexIntoGlobalsFromWebIfOld($, document, dexUtilities, globals) {
         // If it's more than 30 days old, update the dex
-        const THIRTY_DAYS_IN_MS = 30*24*3600*1000
+        const THIRTY_DAYS_IN_MS = 30*24*3600*1000;
         let dateAndDex = JSON.parse(self.storage.getItem('QoLPokedex'));
         if ((Date.now() - Date.parse(dateAndDex[0])) > THIRTY_DAYS_IN_MS) {
-            this.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals)
+            this.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals);
             return true;
         }
         return false;
     }
     updateLocalStorageDex($, document, updateDate, globals) {
-        let dateString = "";
+        let dateString = '';
         if(updateDate === undefined) {
             dateString = (new Date()).toUTCString();
         } else {
             dateString = updateDate;
         }
-        const datePlusDex = [dateString].concat(globals.DEX_DATA)
-        self.storage.setItem('QoLPokedex', JSON.stringify(datePlusDex))
-        $('.qolDate', document).val(dateString)
+        const datePlusDex = [dateString].concat(globals.DEX_DATA);
+        self.storage.setItem('QoLPokedex', JSON.stringify(datePlusDex));
+        $('.qolDate', document).val(dateString);
     }
 
     saveEvolveByLevelList(globals, parsed_families, dex_ids) {
         // load current evolve by level list
-        let evolveByLevelList = {}
+        let evolveByLevelList = {};
         if(self.storage.getItem('QoLEvolveByLevel') !== null) {
-            evolveByLevelList = JSON.parse(self.storage.getItem('QoLEvolveByLevel'))
+            evolveByLevelList = JSON.parse(self.storage.getItem('QoLEvolveByLevel'));
         }
 
         for(let pokemon in parsed_families) {
-            let evolutions = parsed_families[pokemon]
+            let evolutions = parsed_families[pokemon];
             for(let i = 0; i < evolutions.length; i++) {
-                let evo = evolutions[i]
+                let evo = evolutions[i];
                 if(!(evo.source in evolveByLevelList) && Array.isArray(evo.condition)) {
                     for(let j = 0; j < evo.condition.length; j++) {
-                        let cond = evo.condition[j]
-                        if(cond.condition === "Level") {
-                            evolveByLevelList[evo.source] = cond.condition + " " + cond.data
-                            evolveByLevelList[dex_ids[evo.source]] = cond.condition + " " + cond.data
+                        let cond = evo.condition[j];
+                        if(cond.condition === 'Level') {
+                            evolveByLevelList[evo.source] = cond.condition + ' ' + cond.data;
+                            evolveByLevelList[dex_ids[evo.source]] = cond.condition + ' ' + cond.data;
                         } // if
                     } // for
                 } // if
             } // for
         } // for pokemon
 
-        globals.EVOLVE_BY_LEVEL_LIST = evolveByLevelList
-        self.storage.setItem('QoLEvolveByLevel', JSON.stringify(evolveByLevelList))
+        globals.EVOLVE_BY_LEVEL_LIST = evolveByLevelList;
+        self.storage.setItem('QoLEvolveByLevel', JSON.stringify(evolveByLevelList));
     } // saveEvolveByLevelList
 
     saveEvolutionTreeDepths(globals, maxEvoTreeDepth) {
@@ -114,7 +115,7 @@ class LocalStorageManager {
         // for a pokemon and it's family
         // e.g. - GLOBALS.EVOLUTIONS_LEFT["019s2"] = { remaining: 4, total: 5 } // 019s2 = Super Saiyan Rattata
         
-        self.storage.setItem("QoLEvolutionTreeDepth", JSON.stringify(maxEvoTreeDepth));
+        self.storage.setItem('QoLEvolutionTreeDepth', JSON.stringify(maxEvoTreeDepth));
         globals.EVOLUTIONS_LEFT = maxEvoTreeDepth;
 
     } // saveEvolutionTreeDepths
@@ -148,11 +149,11 @@ class LocalStorageManager {
      * 
      */
     parseAndStoreDexNumbers(dex) {
-        let json = JSON.parse(dex)
+        let json = JSON.parse(dex);
         // load current list of processed dex IDs
-        let dexIDsCache = []
+        let dexIDsCache = [];
         if(self.storage.getItem('QoLDexIDsCache') !== null) {
-            dexIDsCache = JSON.parse(self.storage.getItem('QoLDexIDsCache'))
+            dexIDsCache = JSON.parse(self.storage.getItem('QoLDexIDsCache'));
         }
         
         let dexNumbers = [];
@@ -160,14 +161,14 @@ class LocalStorageManager {
         for(let r in json.regions) {
             for(let i = 0; i < json.regions[r].length; i++) {
                 if(dexIDsCache.indexOf(json.regions[r][i][0]) == -1) {
-                    dexNumbers.push(json.regions[r][i][0])
+                    dexNumbers.push(json.regions[r][i][0]);
                 }
             }
         }
         
         // Add the list of dexNumbers to the cache and write it back to local storage
-        dexIDsCache = dexIDsCache.concat(dexNumbers)
-        self.storage.setItem('QoLDexIDsCache', JSON.stringify(dexIDsCache))
+        dexIDsCache = dexIDsCache.concat(dexNumbers);
+        self.storage.setItem('QoLDexIDsCache', JSON.stringify(dexIDsCache));
         return dexNumbers;
     }
 }

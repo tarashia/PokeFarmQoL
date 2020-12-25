@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class DexUtilities {
     /* Load the main dex page.
      * Note: Testing this would essentially be testing jQuery, so no need to test
@@ -7,7 +8,7 @@ class DexUtilities {
      * - (anonymous) - A Promise that will be resolved when the page is loaded
      */
     static getMainDexPage($) {
-        return $.get('https://pokefarm.com/dex')
+        return $.get('https://pokefarm.com/dex');
     }
     /* Load the dex page for a pokemon.
      * Inputs:
@@ -33,25 +34,26 @@ class DexUtilities {
      *                 have been loaded
      */
     static loadDexPages($, dexNumbers, progressBar, progressSpan) {
-        let requests = []
-        progressBar.value = 0
-        progressSpan.textContent = "Loading Pokedex info. Please wait until this is complete..."
+        let requests = [];
+        progressBar.value = 0;
+        progressSpan.textContent = 'Loading Pokedex info. Please wait until this is complete...';
 
         for(let d = 0; d < dexNumbers.length; d++) {
             // if the dex number is 000, the user has not seen the pokemon,
             // so just increment the progress bar value
-            if(dexNumbers[d] === "000") {
-                progressBar.value = progressBar['value'] + 1
-                progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
+            if(dexNumbers[d] === '000') {
+                progressBar.value = progressBar['value'] + 1;
+                progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
             } else {
+                // eslint-disable-next-line no-unused-vars
                 let r = DexUtilities.getPokemonDexPage($, dexNumbers[d]).done((data, status, jqXHR) => {
-                    progressBar.value = progressBar.value + 1
-                    progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`
-                    return data
+                    progressBar.value = progressBar.value + 1;
+                    progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
+                    return data;
                 }).fail((error) => {
                     console.log(error);
-                })
-                requests.push(r)
+                });
+                requests.push(r);
             }
         }
 
@@ -71,29 +73,29 @@ class DexUtilities {
      *                 have been loaded
      */
     static loadFormPages($, ownerDocument, firstFormHTML, progressBar, progressSpan) {
-        let requests = []
+        let requests = [];
         for(let a = 0; a < firstFormHTML.length; a++) {
-            let data = firstFormHTML[a]
+            let data = firstFormHTML[a];
             // load data from pages for other forms
-            const form_links = $(data, ownerDocument).find('.formeregistration a')
+            const form_links = $(data, ownerDocument).find('.formeregistration a');
             if(form_links.length) {
-                progressBar['max'] = progressBar['max'] + form_links.length
+                progressBar['max'] = progressBar['max'] + form_links.length;
                 for(let i = 0; i < form_links.length; i++) {
                     let link = form_links.eq(i).attr('href');
                     let r = DexUtilities.getPokemonDexPage($, link.substring('/dex/'.length))
-                    .done((form_html) => {
-                        progressBar.value = progressBar['value'] + 1
-                        progressSpan.textContent = `Loaded ${progressBar['value']} of ${progressBar['max']} Pokemon`
-                        return form_html;
-                    }).fail((error) => {
-                        console.log(error);
-                    });
-                    requests.push(r)
+                        .done((form_html) => {
+                            progressBar.value = progressBar['value'] + 1;
+                            progressSpan.textContent = `Loaded ${progressBar['value']} of ${progressBar['max']} Pokemon`;
+                            return form_html;
+                        }).fail((error) => {
+                            console.log(error);
+                        });
+                    requests.push(r);
                 }
             }
         } // for
         
-        return $.when.apply(undefined, requests)
+        return $.when.apply(undefined, requests);
     } // loadFormPages
     /* Parses HTML from pokedex pages
      * Inputs:
@@ -106,8 +108,8 @@ class DexUtilities {
      *                pokemon's dex pages have been processed
      */  
     static parseEvolutionTrees($, ownerDocument, dexPageParser, evolutionTreeParser, args) {
-        const flat_families = {}
-        const dex_id_map = {}
+        const flat_families = {};
+        const dex_id_map = {};
 
         for(let a = 0; a < args.length; a++) {
             let data = $(args[a], ownerDocument);
@@ -134,16 +136,16 @@ class DexUtilities {
             } // if not in flat_families
         } // for a
 
-        return [flat_families, dex_id_map]
+        return [flat_families, dex_id_map];
     } // parseEvolutionTrees
     
     static buildEvolutionTreeDepthsList(parsed_families, dex_ids, form_data, form_map) {
         // store the maximum depth of the evolution tree for each pokemon
         // for highlighting each pokemon based on how fully evolved they are
         // https://github.com/jpgualdarrama/PokeFarmQoL/issues/11
-        let maxEvoTreeDepth = {}
+        let maxEvoTreeDepth = {};
         for(let pokemon in parsed_families) {
-            let evolutions = parsed_families[pokemon]
+            let evolutions = parsed_families[pokemon];
 
             // filter out "evolutions" that are really changes between forms of the
             // same pokemon
@@ -162,10 +164,10 @@ class DexUtilities {
             if(!(pokemon in maxEvoTreeDepth)) {
                 if(evolutions.length) {
                     // initialize new entries in the structure
-                    maxEvoTreeDepth[pokemon] = {'remaining': 0, 'total': 0}
-                    maxEvoTreeDepth[dex_ids[pokemon]] = {'remaining': 0, 'total': 0}
+                    maxEvoTreeDepth[pokemon] = {'remaining': 0, 'total': 0};
+                    maxEvoTreeDepth[dex_ids[pokemon]] = {'remaining': 0, 'total': 0};
 
-                    let sources_list = evolutions.map( el => el.source )
+                    let sources_list = evolutions.map( el => el.source );
 
                     // don't redo the processing if the root of the tree is already in the list
                     if(sources_list[0] in maxEvoTreeDepth && pokemon !== sources_list[0]) {
@@ -173,8 +175,7 @@ class DexUtilities {
                         continue;
                     }
 
-                    let evo_tree = {}
-                    let last_target = evolutions[evolutions.length-1].target
+                    let evo_tree = {};
 
                     for(let i = evolutions.length - 1; i >= 0; i--) {
                         let evolution = evolutions[i];
@@ -192,53 +193,53 @@ class DexUtilities {
                         }
                     }
 
-                    let final_tree = evo_tree[sources_list[0]]
+                    let final_tree = evo_tree[sources_list[0]];
                     let createPaths = function(stack, tree, paths) {
                         let name = Object.keys(tree)[0];
                         let children = tree[name];
                         let num_children = children.length;
 
                         // append this node to the path array
-                        stack.push(name)
+                        stack.push(name);
                         if(num_children === 0) {
                             // append all of its children
                             paths.push(stack.reverse().join('|'));
-                            stack.reverse()
+                            stack.reverse();
                         } else {
                             // otherwise try subtrees
                             for(let i = 0; i < num_children; i++) {
-                                createPaths(stack, children[i], paths)
+                                createPaths(stack, children[i], paths);
                             }
                         }
-                        stack.pop()
-                    }
+                        stack.pop();
+                    };
                     let parseEvolutionPaths = function(tree) {
-                        let paths = []
-                        createPaths([], tree, paths)
+                        let paths = [];
+                        createPaths([], tree, paths);
 
                         // get remaining number of evolutions in each path and total number
                         // of evolutions along each path
-                        let pokemon_path_data = {}
+                        let pokemon_path_data = {};
                         for(let p = 0; p < paths.length; p++) {
-                            let mons = paths[p].split('|')
+                            let mons = paths[p].split('|');
                             for(let m = 0; m < mons.length; m++) {
                                 // first or only appearance
                                 if(!(mons[m] in pokemon_path_data)) {
-                                    pokemon_path_data[mons[m]] = {'remaining': m, 'total': mons.length - 1}
+                                    pokemon_path_data[mons[m]] = {'remaining': m, 'total': mons.length - 1};
                                 }
                                 // pokemon has multiple evolution paths
                                 else {
-                                    const remaining = pokemon_path_data[mons[m]].remaining
-                                    const total = pokemon_path_data[mons[m]].total
-                                    pokemon_path_data[mons[m]].remaining = (remaining + m) / 2
-                                    pokemon_path_data[mons[m]].total = (total + mons.length - 1) / 2
+                                    const remaining = pokemon_path_data[mons[m]].remaining;
+                                    const total = pokemon_path_data[mons[m]].total;
+                                    pokemon_path_data[mons[m]].remaining = (remaining + m) / 2;
+                                    pokemon_path_data[mons[m]].total = (total + mons.length - 1) / 2;
                                 }
                             }
                         }
 
                         // return paths.map((p) => { return p.split('|').length })
                         return pokemon_path_data;
-                    }
+                    };
                     // - 1 because there is one less evolution then there are pokemon
                     let parsed_path_data = parseEvolutionPaths(final_tree);
                     for(let p in parsed_path_data) {
@@ -250,8 +251,8 @@ class DexUtilities {
                 } // if evolutions.length
                 // add pokemon that don't evolve
                 else {
-                    maxEvoTreeDepth[pokemon] = {'remaining': 0, 'total': 0}
-                    maxEvoTreeDepth[dex_ids[pokemon]] = maxEvoTreeDepth[pokemon]
+                    maxEvoTreeDepth[pokemon] = {'remaining': 0, 'total': 0};
+                    maxEvoTreeDepth[dex_ids[pokemon]] = maxEvoTreeDepth[pokemon];
                 }
             } // if not in maxEvoTreeDepth
         } // for pokemon in parsed_families
@@ -370,20 +371,20 @@ class DexUtilities {
         const regional_form_data = {};
 
         const REGIONAL_NAME_MARKERS = ['Kantonian',
-                                       'Johtoian', // unused
-                                       'Hoennian', // unused
-                                       'Sinnohian', // unused
-                                       'Unovan',
-                                       'Kalosian', // unused
-                                       'Alolan',
-                                       'Galarian'];
+            'Johtoian', // unused
+            'Hoennian', // unused
+            'Sinnohian', // unused
+            'Unovan',
+            'Kalosian', // unused
+            'Alolan',
+            'Galarian'];
 
         const all_species = Object.keys(form_map);
         let checked_species = {};
         for(let i = 0; i < all_species.length; i++) {
             let current = all_species[i];
             let base = (current.indexOf('[') > -1) ? current.substring(0, current.indexOf('[')).trim() : current;
-            if(!checked_species.hasOwnProperty(base)) {
+            if(!Object.prototype.hasOwnProperty.call(checked_species, base)) {
                 checked_species[base] = true;
 
                 let form_names = form_map[base].map((e) => e.name);

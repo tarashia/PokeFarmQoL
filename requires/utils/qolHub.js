@@ -2,6 +2,7 @@
  * for the QoL Hub.
  */
 
+// eslint-disable-next-line no-unused-vars
 class QoLHub {
     static build($, document, templates, globals, settings, settingsChange) {
         $('body', document).append(templates.qolHubHTML);
@@ -10,16 +11,16 @@ class QoLHub {
         let qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead', document).css('color');
         let qolHubCssBackground = $('.qolHubTable', document).css('background-color');
         let qolHubCssTextColor = $('.qolHubTable', document).css('color');
-        $('.qolHubHead', document).css({ "backgroundColor": "" + qolHubCssBackgroundHead + "", "color": "" + qolHubCssTextColorHead + "" });
-        $('.qolChangeLogHead', document).css({ "backgroundColor": "" + qolHubCssBackgroundHead + "", "color": "" + qolHubCssTextColorHead + "" });
-        $('.qolopencloselist.qolChangeLogContent', document).css({ "backgroundColor": "" + qolHubCssBackground + "", "color": "" + qolHubCssTextColor + "" });
+        $('.qolHubHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
+        $('.qolChangeLogHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
+        $('.qolopencloselist.qolChangeLogContent', document).css({ 'backgroundColor': '' + qolHubCssBackground + '', 'color': '' + qolHubCssTextColor + '' });
         $('.qolDate', document).text(globals.DEX_UPDATE_DATE);
 
         let customCss = settings.customCss;
 
         $('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolsetting" data-key="customCss"/></textarea>');
-        if (customCss === "") {
-            $('.textareahub textarea', document).val(`#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}`);
+        if (customCss === '') {
+            $('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
         } else {
             $('.textareahub textarea', document).val(customCss);
         }
@@ -29,7 +30,7 @@ class QoLHub {
                 e.preventDefault();
                 var s = this.selectionStart;
                 $(this).val(function (i, v) {
-                    return v.substring(0, s) + "\t" + v.substring(this.selectionEnd)
+                    return v.substring(0, s) + '\t' + v.substring(this.selectionEnd);
                 });
                 this.selectionEnd = s + 1;
             }
@@ -60,7 +61,7 @@ class QoLHub {
         // globals.DEX_DATA will contain the latest info as is read from local storage
         // this handler updates the local storage
         const progressSpan = $('span.qolDexUpdateProgress', document)[0];
-        progressSpan.textContent = "Loading..."
+        progressSpan.textContent = 'Loading...';
 
         let date = (new Date()).toUTCString();
         globals.DEX_UPDATE_DATE = date;
@@ -116,16 +117,16 @@ class QoLHub {
                         localStorageManager.saveEvolutionTreeDepths(globals, evolution_tree_depth_list);
                         localStorageManager.saveRegionalFormsList(globals, parsed_families, dex_ids, regional_form_map);
                         localStorageManager.saveEggTypesMap(globals, egg_pngs_types_map);
-                        progressSpan.textContent = "Complete!";
+                        progressSpan.textContent = 'Complete!';
                     }).fail((error) => {
                         console.log(error);
                     }); // loadFormPages
                 }).fail((error) => {
                     console.log(error);
-                }) // loadDexData
+                }); // loadDexData
             } // if dexNumbers.length > 0
             else {
-                progressSpan.textContent = "Complete!";
+                progressSpan.textContent = 'Complete!';
             }
         }).fail((error) => {
             console.log(error);

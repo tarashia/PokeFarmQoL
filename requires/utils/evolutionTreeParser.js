@@ -4,6 +4,7 @@
  * This classes complies with the practice of prepending an underscore on private items. This includes
  * "private" methods within this class, and the class itself.
  */
+// eslint-disable-next-line no-unused-vars
 class EvolutionTreeParser {
     
     /* _parseEvolutionLi
@@ -32,9 +33,9 @@ class EvolutionTreeParser {
 
         // if the targetElem has a link as a child, store the dex ID in the link
         if(targetElem.find('a').length) {
-            let link = targetElem.find('a')[0]['href']
-            let id = link.substring("/dex/".length)
-            dex_id_map[target] = id
+            let link = targetElem.find('a')[0]['href'];
+            let id = link.substring('/dex/'.length);
+            dex_id_map[target] = id;
         }
 
         let ret = {};
@@ -81,17 +82,17 @@ class EvolutionTreeParser {
      *              }
      */
     static _parseEvolutionUl(ul, dex_id_map) {
-        const lis = ul.children('li')
-        const num_parallel_evolutions = lis.length
+        const lis = ul.children('li');
+        const num_parallel_evolutions = lis.length;
 
-        let ret = {}
+        let ret = {};
         for(let i = 0; i < num_parallel_evolutions; i++) {
-            let nest = EvolutionTreeParser._parseEvolutionLi(lis.eq(i), dex_id_map)
+            let nest = EvolutionTreeParser._parseEvolutionLi(lis.eq(i), dex_id_map);
             for(let d in nest) {
-                ret[d] = nest[d]
+                ret[d] = nest[d];
             }
         }
-        return ret
+        return ret;
     }
     
     /* parseEvolutionTree
@@ -163,24 +164,23 @@ class EvolutionTreeParser {
      */
     static parseEvolutionTree(root, evotree, dex_id_map) {
         const uls = evotree.children('ul');
-        const tree = {}
+        const tree = {};
         const textContent = evotree.text();
 
-        const doesNotEvolveMarker = " is not known to evolve"
-        const markerIndex = textContent.indexOf(doesNotEvolveMarker)
+        const doesNotEvolveMarker = ' is not known to evolve';
+        const markerIndex = textContent.indexOf(doesNotEvolveMarker);
         if(markerIndex > -1) {
             // mimic the format of the output of flattenEvolutionFamily
-            let name = textContent.substring(0, markerIndex);
-            return {"members": ["Ditto"], "evolutions": []};
+            return {'members': ['Ditto'], 'evolutions': []};
         }
 
         // TODO: Pull this side effect out of this function
         if(evotree.children('span').length) {
-            let linkElem = evotree.children('span').children('a')
+            let linkElem = evotree.children('span').children('a');
             if(linkElem.length) {
-                let link = linkElem[0]['href']
-                let dex_id = link.substring("https://pokefarm.com/dex/".length)
-                dex_id_map[root] = dex_id
+                let link = linkElem[0]['href'];
+                let dex_id = link.substring('https://pokefarm.com/dex/'.length);
+                dex_id_map[root] = dex_id;
             }
         }
 
@@ -199,9 +199,9 @@ class EvolutionTreeParser {
          *            ]
          * }
          */
-        tree[root] = []
+        tree[root] = [];
         for(let i = 0; i < uls.length; i++) {
-            tree[root].push(EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dex_id_map))
+            tree[root].push(EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dex_id_map));
         }
 
         // flatten the tree
@@ -263,22 +263,22 @@ class EvolutionTreeParser {
         if(Array.isArray(family_obj)) {
             for(let i = 0; i < family_obj.length; i++) {
                 for(let key in family_obj[i]) {
-                    ret_obj.members.push(key)
+                    ret_obj.members.push(key);
                     ret_obj.evolutions.push({
                         'source': evo_src,
                         'target': key,
                         'condition': family_obj[i][key]['condition']
-                    })
+                    });
                     this._flattenEvolutionTree(family_obj[i][key]['evolutions'], ret_obj, key);
                 }
             }
         } else if(typeof family_obj === 'object') {
             for(let key in family_obj) {
-                ret_obj.members.push(key)
-                this._flattenEvolutionTree(family_obj[key], ret_obj, key)
+                ret_obj.members.push(key);
+                this._flattenEvolutionTree(family_obj[key], ret_obj, key);
             }
         }
-        return ret_obj
+        return ret_obj;
     }
 
     /* _parseEvolutionConditions
@@ -291,42 +291,40 @@ class EvolutionTreeParser {
      */
     static _parseEvolutionConditions(flattened) {
         for(let e = 0; e < flattened.evolutions.length; e++) {
-            let source = flattened.evolutions[e].source
-            let target = flattened.evolutions[e].target
-            let condition = flattened.evolutions[e].condition
-            let condText = condition.textContent
+            let condition = flattened.evolutions[e].condition;
+            let condText = condition.textContent;
             // for now, let's just parse for pokemon that evolve by level
             // TODO: Non-Level conditions
-            if(condText.indexOf("Level ") > -1) {
+            if(condText.indexOf('Level ') > -1) {
                 flattened.evolutions[e].condition = [];
-                let words = condText.split(" ")
-                let cond = "", clearCurrentCondition = false;
+                let words = condText.split(' ');
+                let cond = '', clearCurrentCondition = false;
 
                 for(let w = 0; w < words.length; w++) {
-                    clearCurrentCondition = false
-                    if(words[w] === "Level") {
-                        clearCurrentCondition = true
-                        flattened.evolutions[e].condition.push({'condition': words[w], 'data': words[w+1]})
+                    clearCurrentCondition = false;
+                    if(words[w] === 'Level') {
+                        clearCurrentCondition = true;
+                        flattened.evolutions[e].condition.push({'condition': words[w], 'data': words[w+1]});
                         w++;
-                    } else if(words[w] === "Happiness") {
-                        clearCurrentCondition = true
-                        flattened.evolutions[e].condition.push({'condition': words[w], 'data': ""})
+                    } else if(words[w] === 'Happiness') {
+                        clearCurrentCondition = true;
+                        flattened.evolutions[e].condition.push({'condition': words[w], 'data': ''});
                     } else { // catch-all for now
-                        clearCurrentCondition = false
-                        cond = cond + " " + words[w]
+                        clearCurrentCondition = false;
+                        cond = cond + ' ' + words[w];
                     }
 
                     if(clearCurrentCondition) {
-                        if(cond !== "") {
-                            flattened.evolutions[e].condition.push({'condition': cond.trim(), 'data': ""})
+                        if(cond !== '') {
+                            flattened.evolutions[e].condition.push({'condition': cond.trim(), 'data': ''});
                         }
-                        cond = ""
+                        cond = '';
                     }
                 } // for
 
                 // if there's any leftover conditions, add it into the list
-                if(cond !== "") {
-                    flattened.evolutions[e].condition.push({'condition': cond.trim(), 'data': ""})
+                if(cond !== '') {
+                    flattened.evolutions[e].condition.push({'condition': cond.trim(), 'data': ''});
                 }
             } // if level
             else {
