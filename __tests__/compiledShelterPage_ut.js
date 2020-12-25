@@ -48,29 +48,17 @@ const verifyAddType = function(dataKey, localStorageKey, addButtonID, removeButt
     expect($(`[data-key=${dataKey}]`).eq(1).val()).toBe("none");
 }
 
-const verifySelectingType = function(dataKey, localStorageKey, matchClass) {
-    $(`[data-key=${dataKey}]`).eq(0).prop('selectedIndex', 9); // Ground
+const verifySelectingType = function(dataKey, localStorageKey, matchClass, typeToAdd, numMatches) {
+    $(`[data-key=${dataKey}]`).eq(0).prop('selectedIndex', typeToAdd);
     $(`[data-key=${dataKey}]`).eq(0).trigger('input');
-    expect($(`.${matchClass}`).length).toBe(45); // just Ground
-    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe("8");
-    $(`[data-key=${dataKey}]`).eq(1).prop('selectedIndex', 5); // Grass
-    $(`[data-key=${dataKey}]`).eq(1).trigger('input');
-    expect($(`.${matchClass}`).length).toBe(55); // Ground or Grass
-    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe("8,4");
+    expect($(`.${matchClass}`).length).toBe(numMatches);
+    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe(`${typeToAdd-1}`);
 }
 
-const verifyRemoveType = function(dataKey, localStorageKey, removeButtonID, matchClass) {
+const verifyRemoveType = function(dataKey, localStorageKey, removeButtonID, matchClass, expectedNumber) {
     $(`#${removeButtonID}`).eq(0).trigger('click');
-    // check that the correct changes were applied
-    expect($(`[data-key=${dataKey}]`).length).toBe(1);
-    expect($(`[id=${removeButtonID}]`).length).toBe(1);
-    expect($(`[data-key=${dataKey}]`).eq(0).prop('selectedIndex')).toBe(5); // Grass
-    expect($(`.${matchClass}`).length).toBe(10); // just Ground
-    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe("4");
-    // click remove again
-    $(`#${removeButtonID}`).eq(0).trigger('click');
-    expect($(`[data-key=${dataKey}]`).length).toBe(0);
-    expect($(`[id=${removeButtonID}]`).length).toBe(0);
+    expect($(`[data-key=${dataKey}]`).length).toBe(expectedNumber);
+    expect($(`[id=${removeButtonID}]`).length).toBe(expectedNumber);
     expect($(`.${matchClass}`).length).toBe(0);
     expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe("");
 }
@@ -86,137 +74,16 @@ const verifyAddTextField = function(dataKey, localStorageKey, addButtonID, remov
     expect($(`[data-key=${dataKey}]`).eq(1).val()).toBe("");
 }
 
-const verifyRemoveTextField = function(dataKey, localStorageKey, removeButtonID) { 
+const verifyRemoveTextField = function(dataKey, localStorageKey, removeButtonID, expectedNumber, expectedValue) { 
     // test removing custom fields
     $(`#${removeButtonID}`).eq(0).trigger('click');
     // check that the correct changes were applied
-    expect($(`[data-key=${dataKey}]`).length).toBe(1);
-    expect($(`[id=${removeButtonID}]`).length).toBe(1);
-    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe("1/g/g.png/t=1569852763");
-    // click remove again
-    $(`#${removeButtonID}`).eq(0).trigger('click');
-    expect($(`[data-key=${dataKey}]`).length).toBe(0);
-    expect($(`[id=${removeButtonID}]`).length).toBe(0);
-    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe("");
+    expect($(`[data-key=${dataKey}]`).length).toBe(expectedNumber);
+    expect($(`[id=${removeButtonID}]`).length).toBe(expectedNumber);
+    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe(expectedValue);
 }
 
 describe("Test Shelter page", () => {
-    test.skip("Test that PFQoL compiles on Shelter page", () => {
-        const htmlpath = path.join(__dirname, './data/', 'shelter.html');
-        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
-        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/shelter";
-        document.documentElement.innerHTML = innerHTML;
-
-        // add pokemon to custom search list
-        // match Rattata, Bulbasaur, and Spiritomb Egg PNG
-        localStorage.setItem('QoLShelter', 
-               '{"findCustom":"Rattata,Bulbasaur,c/0/7.png/t=1478697860",'+
-               '"findType":"0,4,7",'+
-               '"findTypeEgg":true,'+
-               '"findTypePokemon":true,'+
-               '"findNewEgg":true,'+
-               '"findNewPokemon":true,'+
-               '"findShiny":true,'+
-               '"findAlbino":true,'+
-               '"findMelanistic":true,'+
-               '"findPrehistoric":true,'+
-               '"findDelta":true,'+
-               '"findMega":true,'+
-               '"findStarter":true,'+
-               '"findCustomSprite":true,'+
-               '"findReadyToEvolve":true,'+
-               '"findMale":true,'+
-               '"findFemale":true,'+
-               '"findNoGender":true,'+
-               '"findNFE":true,'+
-               '"customEgg":true,'+
-               '"customPokemon":true,'+
-               '"customPng":true,'+
-               '"shelterGrid":true}');
-        
-        pfqol.pfqol($);
-
-        // trigger '#shelteroptionsqol input' change event
-        // trigger '.qolsetting' change event
-        // trigger '.qolsetting' input event
-        $('[data-key="findMale"]').trigger('click');
-        // trigger '.customSearchOnClick' click event
-        $('.customSearchOnClick').eq(0).trigger('click');
-        // trigger '#addShelterTextfield' click event
-        $('#addShelterTextfield').trigger('click');
-        // // trigger '#removeShelterTextfield' click event
-        $('#removeShelterTextfield').trigger('click');
-        // // trigger '#addShelterTypeList' click event
-        $('#addShelterTypeList').trigger('click');
-        // // trigger '#removeShelterTypeList' click event
-        $('#removeShelterTypeList').trigger('click');
-        // trigger 'keyup.qol_shelter_shortcuts' keyup event
-        const keyevent = $.Event('keyup.qol_shelter_shortcuts');
-        keyevent.keyCode = 78;
-        $(window).trigger(keyevent);
-        $(window).trigger(keyevent);
-
-        // get coverage for findNFE = false branch in customSearch
-        localStorage.setItem('QoLShelter', 
-               '{"findCustom":"Rattata,Bulbasaur",'+
-               '"findType":"0,4,7",'+
-               '"findTypeEgg":true,'+
-               '"findTypePokemon":true,'+
-               '"findNewEgg":true,'+
-               '"findNewPokemon":true,'+
-               '"findShiny":true,'+
-               '"findAlbino":true,'+
-               '"findMelanistic":true,'+
-               '"findPrehistoric":true,'+
-               '"findDelta":true,'+
-               '"findMega":true,'+
-               '"findStarter":true,'+
-               '"findCustomSprite":true,'+
-               '"findReadyToEvolve":true,'+
-               '"findMale":true,'+
-               '"findFemale":true,'+
-               '"findNoGender":true,'+
-               '"findNFE":false,'+ // <-- false
-               '"customEgg":true,'+
-               '"customPokemon":true,'+
-               '"customPng":true,'+
-               '"shelterGrid":true}');
-        $('[data-key="findNFE"]').trigger('click');
-
-        // get coverage for no genders branch in custom pokemon part of customSearch
-        localStorage.setItem('QoLShelter', 
-               '{"findCustom":"Rattata,Bulbasaur",'+
-               '"findType":"0,4,7",'+
-               '"findTypeEgg":true,'+
-               '"findTypePokemon":true,'+
-               '"findNewEgg":true,'+
-               '"findNewPokemon":true,'+
-               '"findShiny":true,'+
-               '"findAlbino":true,'+
-               '"findMelanistic":true,'+
-               '"findPrehistoric":true,'+
-               '"findDelta":true,'+
-               '"findMega":true,'+
-               '"findStarter":true,'+
-               '"findCustomSprite":true,'+
-               '"findReadyToEvolve":true,'+
-               '"findMale":false,'+ // <-- false
-               '"findFemale":false,'+ // <-- false
-               '"findNoGender":false,'+ // <-- false
-               '"findNFE":false,'+ // <-- false
-               '"customEgg":true,'+
-               '"customPokemon":true,'+
-               '"customPng":true,'+
-               '"shelterGrid":true}');
-        // use '.customSearchOnClick' click as a roundabout way to reload the settings
-        $('.customSearchOnClick').eq(0).trigger('click');
-
-        // trigger MutationObserver observe
-        $('#shelterarea>div').eq(59).remove();
-        $('#shelterarea>div').eq(58).remove();
-    });
-
     test("Test Search controls on Shelter Page", () => {
         ////////////////////////////////////////
         // remove handlers that linger from the previous test
@@ -337,18 +204,22 @@ describe("Test Shelter page", () => {
         ////////////////////////////////////////
         // test adding type
         verifyAddType( 'findType', 'QoLShelter', 'addShelterTypeList', 'removeShelterTypeList');
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // test selecting a type from the list
+        $('[data-key=findTypeEgg]').trigger('click');
+        $('[data-key=findTypePokemon]').trigger('click');
+        verifySelectingType('findType', 'QoLShelter', 'shelterfoundme', 5, 3);
+        $('[data-key=findTypeEgg]').trigger('click');
+        $('[data-key=findTypePokemon]').trigger('click');
         verifyCheckbox('findTypeEgg', 'QoLShelter', 'shelterfoundme', QUANTITIES['findTypeEgg']);
         verifyCheckbox('findTypePokemon', 'QoLShelter', 'shelterfoundme', QUANTITIES['findTypePokemon']);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
-        // test selecting a type from the list
-        verifySelectingType('findType', 'QoLShelter', 'shelterfoundme');
-        ////////////////////////////////////////
-
-        ////////////////////////////////////////
         // test removing type
-        verifyRemoveType('findType', 'QoLShelter', 'removeShelterTypeList', 'shelterfoundme');
+        verifyRemoveType('findType', 'QoLShelter', 'removeShelterTypeList', 'shelterfoundme', 1);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -358,34 +229,43 @@ describe("Test Shelter page", () => {
 
         ////////////////////////////////////////
         // test changing a custom search field
-        // setup - enable the findCustomEgg, findCustomPokemon and gender
+        // setup - enable the customEgg, customPokemon and gender
         //         buttons so we can see the selected pokemon
-        $('[data-key=findCustomEgg]').trigger('click');
-        $('[data-key=findCustomPokemon]').trigger('click');
+        $('[data-key=customEgg]').trigger('click');
+        $('[data-key=customPokemon]').trigger('click');
         $('[data-key=findMale]').trigger('click');
         $('[data-key=findFemale]').trigger('click');
         $('[data-key=findNoGender]').trigger('click');
         // check search by name
-        $('[data-key=findCustom]').eq(0).val('Cofagrigus');
+        const NAME_TO_FIND = 'Bulbasaur'
+        $('[data-key=findCustom]').eq(0).val(NAME_TO_FIND);
         $('[data-key=findCustom]').eq(0).trigger('input');
-        expect($('.shelterfoundme').length).toBe(45); // just text
-        expect(JSON.parse(localStorage.getItem('QoLShelter')).fieldCustom).toBe("Cofagrigus");
-        // setup - disable buttons one by one
-        $('[data-key=findCustomEgg]').trigger('click');
+        expect($('.shelterfoundme').length).toBe(3); // just text
+        expect(JSON.parse(localStorage.getItem('QoLShelter')).findCustom).toBe(NAME_TO_FIND);
+        // check buttons work individually
+        $('[data-key=customEgg]').trigger('click'); // disable
+        expect($('.shelterfoundme').length).toBe(2);
+        $('[data-key=customPokemon]').trigger('click'); // disable
         expect($('.shelterfoundme').length).toBe(0);
-        $('[data-key=findCustomPokemon]').trigger('click');
+        $('[data-key=customPokemon]').trigger('click'); // enable
+        $('[data-key=findMale]').trigger('click'); // disable
+        expect($('.shelterfoundme').length).toBe(1); // just females
+        $('[data-key=findFemale]').trigger('click'); // disable
         expect($('.shelterfoundme').length).toBe(0);
-        $('[data-key=findMale]').trigger('click');
-        expect($('.shelterfoundme').length).toBe(0);
-        $('[data-key=findFemale]').trigger('click');
-        expect($('.shelterfoundme').length).toBe(0);
-        $('[data-key=findNoGender]').trigger('click');
+        $('[data-key=findMale]').trigger('click'); // enable
+        expect($('.shelterfoundme').length).toBe(1); // just males
+        $('[data-key=findMale]').trigger('click'); // disable
+        // check genderless
+        $('[data-key=findCustom]').eq(0).val('Pokémon');
+        $('[data-key=findCustom]').eq(0).trigger('input');        
+        expect($('.shelterfoundme').length).toBe(2);
+        $('[data-key=findNoGender]').trigger('click'); // disable
         expect($('.shelterfoundme').length).toBe(0);
         ////////////////////////////////////////
         
         ////////////////////////////////////////
         // test removing a custom search field
-        verifyRemoveTextField('findCustom', 'QoLShelter', 'removeShelterTextfield');
+        verifyRemoveTextField('findCustom', 'QoLShelter', 'removeShelterTextfield', 1, "");
         ////////////////////////////////////////
     });
 
