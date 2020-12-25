@@ -4,6 +4,25 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Jest single run current file",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "args": [
+        "--verbose",
+        "-i",
+        "--no-cache",
+        "${fileBasename}"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "preLaunchTask": "Compile",
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",,
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Jest single run all tests",
       "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
       "args": [
