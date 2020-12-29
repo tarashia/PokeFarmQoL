@@ -35,8 +35,9 @@ class FarmPage extends FarmBase {
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
-        if (externals && externals.DexPageParser)
+        if (externals && externals.DexPageParser) {
             this.DexPageParser = externals.DexPageParser;
+        }
         // if(externals) {
         //     for(let key in externals) {
         //         this[key] = externals[key];
@@ -90,6 +91,7 @@ class FarmPage extends FarmBase {
     clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
         this.jQuery('.evolvepkmnlist').show();
+        this.jQuery('.evolvepkmnlist').removeAttr('class');
         try {
             document.querySelector('.qolEvolveTypeList').remove();
         }
