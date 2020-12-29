@@ -1,7 +1,8 @@
+/* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
-const console = require('../__mocks__/console_suppress').console;
-const fs = require('fs')
-const path = require('path')
+// const console = require('../__mocks__/console_suppress').console;
+const fs = require('fs');
+const path = require('path');
 
 const pfqol = require('./compiled');
 
@@ -26,8 +27,8 @@ beforeAll(() => {
     );
 });
 
-describe("Test Daycare Page", () => {
-    test("Test controls on Daycare page", () => {
+describe('Test Daycare Page', () => {
+    test('Test controls on Daycare page', () => {
         /* Test HTML is crafted to have different amounts of pokemon for the cases listed below
          * - Ditto: Match everything that is not Undiscovered and not Ditto (12 should be matched)
          * - Undiscovered: Match nothing (2 Undiscovered in the HTML, 0 should be matched)
@@ -38,7 +39,7 @@ describe("Test Daycare Page", () => {
         const htmlpath = path.join(__dirname, './data/', 'daycare_with_dialog.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/daycare";
+        global.location.href = 'https://pokefarm.com/daycare';
         document.documentElement.innerHTML = innerHTML;
 
         localStorage.setItem('QoLDaycare', '{}');

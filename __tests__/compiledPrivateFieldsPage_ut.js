@@ -1,7 +1,9 @@
+/* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
+// eslint-disable-next-line no-unused-vars
 const console = require('../__mocks__/console_suppress').console;
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 const pfqol = require('./compiled');
 
@@ -26,15 +28,15 @@ beforeAll(() => {
     );
 });
 
-describe("Test Private Fields Page", () => {
-    test("Test Tooltip controls on Private Fields page", () => {
+describe('Test Private Fields Page', () => {
+    test('Test Tooltip controls on Private Fields page', () => {
         ////////////////////////////////////////
         // setup
         const NUM_POKEMON = 29;
         const htmlpath = path.join(__dirname, './data/', 'privateFields.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/fields";
+        global.location.href = 'https://pokefarm.com/fields';
         document.documentElement.innerHTML = innerHTML;
         localStorage.setItem('QoLPrivateFields',
             '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
@@ -132,7 +134,7 @@ describe("Test Private Fields Page", () => {
         ////////////////////////////////////////
     });
 
-    test("Test Search controls on Private Fields page", () => {
+    test('Test Search controls on Private Fields page', () => {
         ////////////////////////////////////////
         // remove handlers that linger from the previous test
         $(document).off('click', '#addPrivateFieldTypeSearch');
@@ -166,6 +168,7 @@ describe("Test Private Fields Page", () => {
         const NUM_STARTER = 7;
         const NUM_CS = 8;
         const NUM_HOLDING_ITEM = 9;
+        // eslint-disable-next-line no-unused-vars
         const NUM_NFE = 10;
         /* For testing natures, HTML has:
          * - 7 Mild nature
@@ -183,7 +186,7 @@ describe("Test Private Fields Page", () => {
         const htmlpath = path.join(__dirname, './data/', 'privateFieldsForSearchTests.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/fields";
+        global.location.href = 'https://pokefarm.com/fields';
         document.documentElement.innerHTML = innerHTML;
         localStorage.setItem('QoLPrivateFields',
             // '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
@@ -410,10 +413,10 @@ describe("Test Private Fields Page", () => {
         // check that the correct changes were applied
         expect($('[data-key=fieldType]').length).toBe(2);
         expect($('[id=removePrivateFieldTypeSearch]').length).toBe(2);
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe('');
         // null because it was never set to anything
         expect($('[data-key=fieldType]').eq(0).val()).toBe(null);
-        expect($('[data-key=fieldType]').eq(1).val()).toBe("none");
+        expect($('[data-key=fieldType]').eq(1).val()).toBe('none');
         ////////////////////////////////////////
         
         ////////////////////////////////////////
@@ -421,11 +424,11 @@ describe("Test Private Fields Page", () => {
         $('[data-key=fieldType]').eq(0).prop('selectedIndex', 9); // Ground
         $('[data-key=fieldType]').eq(0).trigger('input');
         expect($('.privatefoundme').length).toBe(45); // just Ground
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("8");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe('8');
         $('[data-key=fieldType]').eq(1).prop('selectedIndex', 5); // Grass
         $('[data-key=fieldType]').eq(1).trigger('input');
         expect($('.privatefoundme').length).toBe(55); // Ground or Grass
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("8,4");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe('8,4');
         ////////////////////////////////////////
         
         ////////////////////////////////////////
@@ -435,13 +438,13 @@ describe("Test Private Fields Page", () => {
         expect($('[id=removePrivateFieldTypeSearch]').length).toBe(1);
         expect($('[data-key=fieldType]').eq(0).prop('selectedIndex')).toBe(5); // Grass
         expect($('.privatefoundme').length).toBe(10); // just Ground
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("4");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe('4');
         // click remove again
         $('#removePrivateFieldTypeSearch').eq(0).trigger('click');
         expect($('[data-key=fieldType]').length).toBe(0);
         expect($('[id=removePrivateFieldTypeSearch]').length).toBe(0);
         expect($('.privatefoundme').length).toBe(0);
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe("");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe('');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -451,8 +454,8 @@ describe("Test Private Fields Page", () => {
         expect($('[id=removePrivateFieldNature]').length).toBe(2);
         // null because it was never set to anything
         expect($('[data-key=fieldNature]').eq(0).val()).toBe(null);
-        expect($('[data-key=fieldNature]').eq(1).val()).toBe("none");
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("");
+        expect($('[data-key=fieldNature]').eq(1).val()).toBe('none');
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe('');
         ////////////////////////////////////////
         
         ////////////////////////////////////////
@@ -460,11 +463,11 @@ describe("Test Private Fields Page", () => {
         $('[data-key=fieldNature]').eq(0).prop('selectedIndex', 2); // Mild
         $('[data-key=fieldNature]').eq(0).trigger('input');
         expect($('.privatefoundme').length).toBe(NUM_MILD); // just Mild
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("1");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe('1');
         $('[data-key=fieldNature]').eq(1).prop('selectedIndex', 5); // Bold
         $('[data-key=fieldNature]').eq(1).trigger('input');
         expect($('.privatefoundme').length).toBe(NUM_MILD+NUM_BOLD); // Mild or Bold
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("1,4");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe('1,4');
         ////////////////////////////////////////
         
         ////////////////////////////////////////
@@ -473,14 +476,14 @@ describe("Test Private Fields Page", () => {
         expect($('[data-key=fieldNature]').length).toBe(1);
         expect($('[id=removePrivateFieldNature]').length).toBe(1);
         expect($('[data-key=fieldNature]').eq(0).prop('selectedIndex')).toBe(5); // Bold
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("4");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe('4');
         expect($('.privatefoundme').length).toBe(NUM_BOLD); // just Bold
         // click remove again
         $('#removePrivateFieldNature').eq(0).trigger('click');
         expect($('[data-key=fieldNature]').length).toBe(0);
         expect($('[id=removePrivateFieldNature]').length).toBe(0);
         expect($('.privatefoundme').length).toBe(0);
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe("");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe('');
         ////////////////////////////////////////
         
         ////////////////////////////////////////
@@ -490,8 +493,8 @@ describe("Test Private Fields Page", () => {
         expect($('[id=removePrivateFieldEggGroup]').length).toBe(2);
         // null because it was never set to anything
         expect($('[data-key=fieldEggGroup]').eq(0).val()).toBe(null);
-        expect($('[data-key=fieldEggGroup]').eq(1).val()).toBe("none");
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("");
+        expect($('[data-key=fieldEggGroup]').eq(1).val()).toBe('none');
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe('');
         ////////////////////////////////////////
         
         ////////////////////////////////////////
@@ -499,11 +502,11 @@ describe("Test Private Fields Page", () => {
         $('[data-key=fieldEggGroup]').eq(0).prop('selectedIndex', 10); // Amorphous
         $('[data-key=fieldEggGroup]').eq(0).trigger('input');
         expect($('.privatefoundme').length).toBe(NUM_AMORPHOUS); // just Amorphous
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("9");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe('9');
         $('[data-key=fieldEggGroup]').eq(1).prop('selectedIndex', 2); // Monster
         $('[data-key=fieldEggGroup]').eq(1).trigger('input');
         expect($('.privatefoundme').length).toBe(NUM_AMORPHOUS+NUM_MONSTER); // Amorphous or Monster
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("9,1");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe('9,1');
         ////////////////////////////////////////
         
         ////////////////////////////////////////
@@ -513,13 +516,13 @@ describe("Test Private Fields Page", () => {
         expect($('[id=removePrivateFieldEggGroup]').length).toBe(1);
         expect($('[data-key=fieldEggGroup]').eq(0).prop('selectedIndex')).toBe(2); // Monster
         expect($('.privatefoundme').length).toBe(NUM_MONSTER); // just Monster
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("1");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe('1');
         // click remove again
         $('#removePrivateFieldEggGroup').eq(0).trigger('click');
         expect($('[data-key=fieldEggGroup]').length).toBe(0);
         expect($('[id=removePrivateFieldEggGroup]').length).toBe(0);
         expect($('.privatefoundme').length).toBe(0);
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe("");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe('');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -527,9 +530,9 @@ describe("Test Private Fields Page", () => {
         $('#addTextField').trigger('click');
         expect($('[data-key=fieldCustom]').length).toBe(2);
         expect($('[id=removeTextField]').length).toBe(2);
-        expect($('[data-key=fieldCustom]').eq(0).val()).toBe("");
-        expect($('[data-key=fieldCustom]').eq(1).val()).toBe("");
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("");
+        expect($('[data-key=fieldCustom]').eq(0).val()).toBe('');
+        expect($('[data-key=fieldCustom]').eq(1).val()).toBe('');
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe('');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -549,20 +552,20 @@ describe("Test Private Fields Page", () => {
         $('[data-key=fieldCustom]').eq(0).val('Cofagrigus');
         $('[data-key=fieldCustom]').eq(0).trigger('input');
         expect($('.privatefoundme').length).toBe(45); // just text
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("Cofagrigus");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe('Cofagrigus');
         // disable the customPokemon button
         $('[data-key=customPokemon]').trigger('click');
         expect($('[data-key=customPokemon]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).customPokemon).toBe(false);
         expect($('.privatefoundme').length).toBe(0);
-         // disable the gender buttons so all matches will be found
-         $('[data-key=fieldMale]').trigger('click');
-         expect($('[data-key=fieldMale]').prop('checked')).toBe(false);
-         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMale).toBe(false);
-         $('[data-key=fieldFemale]').trigger('click');
-         expect($('[data-key=fieldFemale]').prop('checked')).toBe(false);
-         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldFemale).toBe(false);
-         ////////////////////////////////////////
+        // disable the gender buttons so all matches will be found
+        $('[data-key=fieldMale]').trigger('click');
+        expect($('[data-key=fieldMale]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMale).toBe(false);
+        $('[data-key=fieldFemale]').trigger('click');
+        expect($('[data-key=fieldFemale]').prop('checked')).toBe(false);
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldFemale).toBe(false);
+        ////////////////////////////////////////
 
         ////////////////////////////////////////
         // test custom search by PNG URL
@@ -574,7 +577,7 @@ describe("Test Private Fields Page", () => {
         $('[data-key=fieldCustom]').eq(1).val('1/g/g.png/t=1569852763');
         $('[data-key=fieldCustom]').eq(1).trigger('input');
         expect($('.privatefoundme').length).toBe(10); // just PNG URL
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("Cofagrigus,1/g/g.png/t=1569852763");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe('Cofagrigus,1/g/g.png/t=1569852763');
         // disable the customPng button
         $('[data-key=customPng]').trigger('click');
         expect($('[data-key=customPng]').prop('checked')).toBe(false);
@@ -587,16 +590,16 @@ describe("Test Private Fields Page", () => {
         // check that the correct changes were applied
         expect($('[data-key=fieldCustom]').length).toBe(1);
         expect($('[id=removeTextField]').length).toBe(1);
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("1/g/g.png/t=1569852763");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe('1/g/g.png/t=1569852763');
         // click remove again
         $('#removeTextField').eq(0).trigger('click');
         expect($('[data-key=fieldCustom]').length).toBe(0);
         expect($('[id=removeTextField]').length).toBe(0);
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe("");
+        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustom).toBe('');
         ////////////////////////////////////////
     });
 
-    test("Test Release controls on Private Fields Release dialog", () => {
+    test('Test Release controls on Private Fields Release dialog', () => {
         ////////////////////////////////////////
         // setup
         /* HTML is setup to have:
@@ -618,7 +621,7 @@ describe("Test Private Fields Page", () => {
         const htmlpath = path.join(__dirname, './data/', 'privateFieldsWithReleaseDialog.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/fields";
+        global.location.href = 'https://pokefarm.com/fields';
         document.documentElement.innerHTML = innerHTML;
         localStorage.setItem('QoLPrivateFields',
             '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
@@ -727,7 +730,7 @@ describe("Test Private Fields Page", () => {
 
     });
 
-    test("Test Move controls on Private Fields Bulk Move dialog", () => {
+    test('Test Move controls on Private Fields Bulk Move dialog', () => {
         ////////////////////////////////////////
         // setup
         /* HTML is setup to have:
@@ -749,7 +752,7 @@ describe("Test Private Fields Page", () => {
         const htmlpath = path.join(__dirname, './data/', 'privateFieldsWithBulkMoveDialog.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/fields";
+        global.location.href = 'https://pokefarm.com/fields';
         document.documentElement.innerHTML = innerHTML;
         localStorage.setItem('QoLPrivateFields',
             '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
@@ -857,12 +860,12 @@ describe("Test Private Fields Page", () => {
         ////////////////////////////////////////
     });
 
-    test("Corner case test cases for coverage", () => {
+    test('Corner case test cases for coverage', () => {
 
         const htmlpath = path.join(__dirname, './data/', 'privateFieldsForSearchTests.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/fields";
+        global.location.href = 'https://pokefarm.com/fields';
         document.documentElement.innerHTML = innerHTML;
         localStorage.setItem('QoLPrivateFields',
             // '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +

@@ -1,16 +1,19 @@
 /* istanbul ignore file */
 // __tests__/testTools.js
 
-const path = require('path');
-const fs = require('fs');
+/* globals __dirname */
+import { join } from 'path';
+import { readFileSync, existsSync } from 'fs';
 const loadDexFile = function(dexID) {
-    const file = path.join(__dirname, "./data/dex/", dexID + ".html");
-    const html = fs.readFileSync(file, "utf8", 'r');
+    const file = join(__dirname, './data/dex/', dexID + '.html');
+    const html = readFileSync(file, 'utf8', 'r');
     return html;
-}
+};
 const dexPageExists = function(dexID) {
-    const file = path.join(__dirname, "./data/dex/", dexID + ".html");
-    return fs.existsSync(file);
-}
-exports.loadDexFile = loadDexFile;
-exports.dexPageExists = dexPageExists;
+    const file = join(__dirname, './data/dex/', dexID + '.html');
+    return existsSync(file);
+};
+const _loadDexFile = loadDexFile;
+export { _loadDexFile as loadDexFile };
+const _dexPageExists = dexPageExists;
+export { _dexPageExists as dexPageExists };

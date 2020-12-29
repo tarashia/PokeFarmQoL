@@ -1,7 +1,9 @@
+/* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
+// eslint-disable-next-line no-unused-vars
 const console = require('../__mocks__/console_suppress').console;
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 const pfqol = require('./compiled');
 
@@ -26,8 +28,8 @@ beforeAll(() => {
     );
 });
 
-describe("Test Multiuser Page", () => {
-    test("Test PFQoL controls on Multiuser page", () => {
+describe('Test Multiuser Page', () => {
+    test('Test PFQoL controls on Multiuser page', () => {
         /*
          * HTML has the following pokemon for testing:
          * - 1 that likes Any berry
@@ -39,7 +41,7 @@ describe("Test Multiuser Page", () => {
         const htmlpath = path.join(__dirname, './data/', 'multiuser.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/users/A,A,A,A,A,A,A,A,A,A";
+        global.location.href = 'https://pokefarm.com/users/A,A,A,A,A,A,A,A,A,A';
         document.documentElement.innerHTML = innerHTML;
 
         localStorage.setItem('QoLMultiuser',
@@ -52,9 +54,9 @@ describe("Test Multiuser Page", () => {
         $(window).trigger('load');
 
         // check that HTML was setup correctly
-        expect($('[data-key=hideDislike]').length).toBe(1)
-        expect($('[data-key=niceTable]').length).toBe(1)
-        expect($('[data-key=hideAll]').length).toBe(1)
+        expect($('[data-key=hideDislike]').length).toBe(1);
+        expect($('[data-key=niceTable]').length).toBe(1);
+        expect($('[data-key=hideAll]').length).toBe(1);
         
         // trigger MutationObserver observe
         $('#multiuser>div').eq(-1).remove();
@@ -67,7 +69,7 @@ describe("Test Multiuser Page", () => {
         expect($('[data-key=niceTable]').prop('checked')).toBe(false);
         expect($('[data-key=hideAll]').prop('checked')).toBe(false);
         expect(localStorage.getItem('QoLMultiuser'))
-            .toBe('{"hideDislike":true,"hideAll":false,"niceTable":false}')
+            .toBe('{"hideDislike":true,"hideAll":false,"niceTable":false}');
         // Any berry (check that all berries have the same class)
         expect($('[data-pid]').eq(0)
             .find('.action>.berrybuttons>[data-berry]').attr('class'))
@@ -103,7 +105,7 @@ describe("Test Multiuser Page", () => {
         expect($('[data-key=niceTable]').prop('checked')).toBe(true);
         expect($('[data-key=hideAll]').prop('checked')).toBe(false);
         expect(localStorage.getItem('QoLMultiuser'))
-            .toBe('{"hideDislike":false,"hideAll":false,"niceTable":true}')
+            .toBe('{"hideDislike":false,"hideAll":false,"niceTable":true}');
 
         // trigger hideAll section of partyModification
         $('[data-key=hideAll]').trigger('click');
@@ -111,7 +113,7 @@ describe("Test Multiuser Page", () => {
         expect($('[data-key=niceTable]').prop('checked')).toBe(false);
         expect($('[data-key=hideAll]').prop('checked')).toBe(true);
         expect(localStorage.getItem('QoLMultiuser'))
-            .toBe('{"hideDislike":false,"hideAll":true,"niceTable":false}')
+            .toBe('{"hideDislike":false,"hideAll":true,"niceTable":false}');
 
     });
 });

@@ -1,7 +1,9 @@
+/* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
+// eslint-disable-next-line no-unused-vars
 const console = require('../__mocks__/console_suppress').console;
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 const pfqol = require('./compiled');
 
@@ -26,12 +28,12 @@ beforeAll(() => {
     );
 });
 
-describe("Test Farm Page", () => {
-    test("Test 'Evolve controls on Farm page", () => {
+describe('Test Farm Page', () => {
+    test('Test \'Evolve controls on Farm page', () => {
         const htmlpath = path.join(__dirname, './data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/farm#tab=1";
+        global.location.href = 'https://pokefarm.com/farm#tab=1';
         document.documentElement.innerHTML = innerHTML;
 
         // load pokedex that's missing a few pokemon
@@ -40,7 +42,7 @@ describe("Test Farm Page", () => {
         localStorage.setItem('QoLPokedex', incompleteDex);
 
         localStorage.setItem('QoLFarm',
-                '{"TYPE_APPEND":' +
+            '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
                 '"WATER":".2",' +

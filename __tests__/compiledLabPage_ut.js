@@ -1,7 +1,9 @@
+/* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
+// eslint-disable-next-line no-unused-vars
 const console = require('../__mocks__/console_suppress').console;
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 const pfqol = require('./compiled');
 
@@ -26,20 +28,20 @@ beforeAll(() => {
     );
 });
 
-describe("Test Lab Page", () => {
-    test("Test PFQoL controls on Lab page", () => {
+describe('Test Lab Page', () => {
+    test('Test PFQoL controls on Lab page', () => {
         const htmlpath = path.join(__dirname, './data/', 'lab.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/lab";
+        global.location.href = 'https://pokefarm.com/lab';
         document.documentElement.innerHTML = innerHTML;
 
-        const CUSTOM_SEARCH_1 = "G" // Match Gastly
-        const CUSTOM_SEARCH_2 = "b/v/d.png/t=1478697860" // Drowzee
-        const CUSTOM_SEARCH_SETTING = true
-        const TYPE_SEARCH_1 = "13" // Ghost - Match Gastly and Spiritomb
-        const TYPE_SEARCH_2 = "9"  // Flying - Match Sprearow
-        const TYPE_SEARCH_SETTING = true
+        const CUSTOM_SEARCH_1 = 'G'; // Match Gastly
+        const CUSTOM_SEARCH_2 = 'b/v/d.png/t=1478697860'; // Drowzee
+        const CUSTOM_SEARCH_SETTING = true;
+        const TYPE_SEARCH_1 = '13'; // Ghost - Match Gastly and Spiritomb
+        const TYPE_SEARCH_2 = '9';  // Flying - Match Sprearow
+        const TYPE_SEARCH_SETTING = true;
         const settings = `{"findLabEgg":"${CUSTOM_SEARCH_1},${CUSTOM_SEARCH_2}",` +
             `"customEgg":${CUSTOM_SEARCH_SETTING},` +
             `"findLabType":"${TYPE_SEARCH_1},${TYPE_SEARCH_2}",` +
@@ -116,7 +118,7 @@ describe("Test Lab Page", () => {
         expect($('[data-key=findLabType]').length).toBe(3);
         expect($('[data-key=findLabType]').eq(0).val()).toBe(TYPE_SEARCH_1);
         expect($('[data-key=findLabType]').eq(1).val()).toBe(TYPE_SEARCH_2);
-        expect($('[data-key=findLabType]').eq(2).val()).toBe("none");
+        expect($('[data-key=findLabType]').eq(2).val()).toBe('none');
         expect($('[id=removeLabTypeList]').length).toBe(3);
         expect($('.labfoundme').length).toBe(3);
         // check that the rest stayed the same
@@ -137,8 +139,8 @@ describe("Test Lab Page", () => {
         expect($('[data-key=findLabType]').length).toBe(4);
         expect($('[data-key=findLabType]').eq(0).val()).toBe(TYPE_SEARCH_1);
         expect($('[data-key=findLabType]').eq(1).val()).toBe(TYPE_SEARCH_2);
-        expect($('[data-key=findLabType]').eq(2).val()).toBe("none");
-        expect($('[data-key=findLabType]').eq(3).val()).toBe("none");
+        expect($('[data-key=findLabType]').eq(2).val()).toBe('none');
+        expect($('[data-key=findLabType]').eq(3).val()).toBe('none');
         expect($('[id=removeLabTypeList]').length).toBe(4);
         expect($('.labfoundme').length).toBe(3);
         // check that the rest stayed the same
@@ -158,8 +160,8 @@ describe("Test Lab Page", () => {
         // check that the correct elements were changed
         expect($('[data-key=findLabType]').length).toBe(3);
         expect($('[data-key=findLabType]').eq(0).val()).toBe(TYPE_SEARCH_1);
-        expect($('[data-key=findLabType]').eq(1).val()).toBe("none");
-        expect($('[data-key=findLabType]').eq(2).val()).toBe("none");
+        expect($('[data-key=findLabType]').eq(1).val()).toBe('none');
+        expect($('[data-key=findLabType]').eq(2).val()).toBe('none');
         expect($('[id=removeLabTypeList]').length).toBe(3);
         expect($('.labfoundme').length).toBe(2);
         // check that the rest stayed the same

@@ -1,7 +1,8 @@
+/* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
-const console = require('../__mocks__/console_suppress').console;
-const fs = require('fs')
-const path = require('path')
+// const console = require('../__mocks__/console_suppress').console;
+const fs = require('fs');
+const path = require('path');
 
 const pfqol = require('./compiled');
 
@@ -26,50 +27,50 @@ beforeAll(() => {
     );
 });
 
-describe("Test Wishforge Page", () => {
-    test("Test PFQoL controls on Wishforge page with no ongoing constructions", () => {
+describe('Test Wishforge Page', () => {
+    test('Test PFQoL controls on Wishforge page with no ongoing constructions', () => {
         const htmlpath = path.join(__dirname, './data/', 'wishforge_no_ongoing_constructions.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/forge";
+        global.location.href = 'https://pokefarm.com/forge';
         document.documentElement.innerHTML = innerHTML;
 
         // grab the crafted badges HTML before it's changed so we can use it to mimic a mutation
-        const craftedBadgesDiv = $('#badges').next("div").clone();
+        const craftedBadgesDiv = $('#badges').next('div').clone();
         const craftedBadgesUl = craftedBadgesDiv.children().eq(0);
 
         pfqol.pfqol($);
-        expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
+        expect($('#badges').next('div').children().eq(0).children().length).toBe(1);
 
         // trigger MutationObserver
         // the real mutation that will trigger the observer will be when PFQ remakes the crafted
         // badges list, so let's mimic that
-        $('#badges').next("div").children().eq(0).remove();
-        $('#badges').next("div").prepend(`<ul class="badgelist"> ${craftedBadgesUl.html()} </ul>`);
+        $('#badges').next('div').children().eq(0).remove();
+        $('#badges').next('div').prepend(`<ul class="badgelist"> ${craftedBadgesUl.html()} </ul>`);
         // Testing MutationObservers doesn't work, so can't check it again
         // expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
 
         
     });
-    test("Test PFQoL controls on Wishforge page with ongoing constructions", () => {
+    test('Test PFQoL controls on Wishforge page with ongoing constructions', () => {
         const htmlpath = path.join(__dirname, './data/', 'wishforge_with_ongoing_constructions.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/forge";
+        global.location.href = 'https://pokefarm.com/forge';
         document.documentElement.innerHTML = innerHTML;
 
         // grab the crafted badges HTML before it's changed so we can use it to mimic a mutation
-        const craftedBadgesDiv = $('#badges').next("div").clone();
+        const craftedBadgesDiv = $('#badges').next('div').clone();
         const craftedBadgesUl = craftedBadgesDiv.children().eq(0);
 
         pfqol.pfqol($);
-        expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
+        expect($('#badges').next('div').children().eq(0).children().length).toBe(1);
 
         // trigger MutationObserver
         // the real mutation that will trigger the observer will be when PFQ remakes the crafted
         // badges list, so let's mimic that
-        $('#badges').next("div").children().eq(0).remove();
-        $('#badges').next("div").prepend(`<ul class="badgelist"> ${craftedBadgesUl.html()} </ul>`);
+        $('#badges').next('div').children().eq(0).remove();
+        $('#badges').next('div').prepend(`<ul class="badgelist"> ${craftedBadgesUl.html()} </ul>`);
         // Testing MutationObservers doesn't work, so can't check it again
         // expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
     });

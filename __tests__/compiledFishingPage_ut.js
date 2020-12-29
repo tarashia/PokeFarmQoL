@@ -1,7 +1,9 @@
+/* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
+// eslint-disable-next-line no-unused-vars
 const console = require('../__mocks__/console_suppress').console;
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 const pfqol = require('./compiled');
 
@@ -26,8 +28,8 @@ beforeAll(() => {
     );
 });
 
-describe("Test Fishing Page", () => {
-    test("Test PFQoL controls on Fishing page", () => {
+describe('Test Fishing Page', () => {
+    test('Test PFQoL controls on Fishing page', () => {
         /* Test HTML has unique numbers of each flavor to facilitate testing:
          * - 1 Any
          * - 2 Sour
@@ -48,7 +50,7 @@ describe("Test Fishing Page", () => {
         const htmlpath = path.join(__dirname, './data/', 'fishing.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/fishing";
+        global.location.href = 'https://pokefarm.com/fishing';
         document.documentElement.innerHTML = innerHTML;
 
         localStorage.setItem('QoLFishing', '{}');
@@ -75,10 +77,10 @@ describe("Test Fishing Page", () => {
 
         //////////////////////////////////////////////
         // check that the right number of pokemon are selected
-        $("#selectallfishcheckbox").trigger('click');
+        $('#selectallfishcheckbox').trigger('click');
         expect($('[name=masspkmn]:checked').length).toBe(TOTAL_BERRY);
         // and check that they are selected
-        $("#selectallfishcheckbox").trigger('click');
+        $('#selectallfishcheckbox').trigger('click');
         expect($('[name=masspkmn]:checked').length).toBe(0);
         //////////////////////////////////////////////
         
@@ -87,7 +89,7 @@ describe("Test Fishing Page", () => {
         $('#movefishselectanycheckbox').trigger('click');
         expect($('[name=masspkmn]:checked').length).toBe(ANY_BERRY);
         // and check that they are selected
-        $("#movefishselectanycheckbox").trigger('click');
+        $('#movefishselectanycheckbox').trigger('click');
         expect($('[name=masspkmn]:checked').length).toBe(0);
         //////////////////////////////////////////////
 
@@ -96,7 +98,7 @@ describe("Test Fishing Page", () => {
         $('#movefishselectsourcheckbox').trigger('click');
         expect($('[name=masspkmn]:checked').length).toBe(SOUR_BERRY);
         // and check that they are selected
-        $("#movefishselectsourcheckbox").trigger('click');
+        $('#movefishselectsourcheckbox').trigger('click');
         expect($('[name=masspkmn]:checked').length).toBe(0);
         //////////////////////////////////////////////
 

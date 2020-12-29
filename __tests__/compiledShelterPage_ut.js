@@ -1,7 +1,9 @@
+/* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
+// eslint-disable-next-line no-unused-vars
 const console = require('../__mocks__/console_suppress').console;
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 const pfqol = require('./compiled');
 
@@ -35,44 +37,44 @@ const verifyCheckbox = function(dataKey, localStorageKey, matchClass, matchCount
     expect($(`.${matchClass}`).length).toBe(0);
     expect($(`[data-key=${dataKey}]`).prop('checked')).toBe(false);
     expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe(false);
-}
+};
 
 const verifyAddType = function(dataKey, localStorageKey, addButtonID, removeButtonID) {
     $(`#${addButtonID}`).trigger('click');
     // check that the correct changes were applied
     expect($(`[data-key=${dataKey}]`).length).toBe(2);
     expect($(`[id=${removeButtonID}]`).length).toBe(2);
-    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe("");
+    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe('');
     // null because it was never set to anything
     expect($(`[data-key=${dataKey}]`).eq(0).val()).toBe(null);
-    expect($(`[data-key=${dataKey}]`).eq(1).val()).toBe("none");
-}
+    expect($(`[data-key=${dataKey}]`).eq(1).val()).toBe('none');
+};
 
 const verifySelectingType = function(dataKey, localStorageKey, matchClass, typeToAdd, numMatches) {
     $(`[data-key=${dataKey}]`).eq(0).prop('selectedIndex', typeToAdd);
     $(`[data-key=${dataKey}]`).eq(0).trigger('input');
     expect($(`.${matchClass}`).length).toBe(numMatches);
     expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe(`${typeToAdd-1}`);
-}
+};
 
 const verifyRemoveType = function(dataKey, localStorageKey, removeButtonID, matchClass, expectedNumber) {
     $(`#${removeButtonID}`).eq(0).trigger('click');
     expect($(`[data-key=${dataKey}]`).length).toBe(expectedNumber);
     expect($(`[id=${removeButtonID}]`).length).toBe(expectedNumber);
     expect($(`.${matchClass}`).length).toBe(0);
-    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe("");
-}
+    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe('');
+};
 
 const verifyAddTextField = function(dataKey, localStorageKey, addButtonID, removeButtonID) {
     $(`#${addButtonID}`).trigger('click');
     // check that the correct changes were applied
     expect($(`[data-key=${dataKey}]`).length).toBe(2);
     expect($(`[id=${removeButtonID}]`).length).toBe(2);
-    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe("");
+    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe('');
     // null because it was never set to anything
-    expect($(`[data-key=${dataKey}]`).eq(0).val()).toBe("");
-    expect($(`[data-key=${dataKey}]`).eq(1).val()).toBe("");
-}
+    expect($(`[data-key=${dataKey}]`).eq(0).val()).toBe('');
+    expect($(`[data-key=${dataKey}]`).eq(1).val()).toBe('');
+};
 
 const verifyRemoveTextField = function(dataKey, localStorageKey, removeButtonID, expectedNumber, expectedValue) { 
     // test removing custom fields
@@ -81,10 +83,10 @@ const verifyRemoveTextField = function(dataKey, localStorageKey, removeButtonID,
     expect($(`[data-key=${dataKey}]`).length).toBe(expectedNumber);
     expect($(`[id=${removeButtonID}]`).length).toBe(expectedNumber);
     expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe(expectedValue);
-}
+};
 
-describe("Test Shelter page", () => {
-    test("Test Search controls on Shelter Page", () => {
+describe('Test Shelter page', () => {
+    test('Test Search controls on Shelter Page', () => {
         ////////////////////////////////////////
         // remove handlers that linger from the previous test
         $(document).off('click', '#addShelterTypeList');
@@ -119,11 +121,11 @@ describe("Test Shelter page", () => {
         const htmlpath = path.join(__dirname, './data/', 'shelter.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/shelter";
+        global.location.href = 'https://pokefarm.com/shelter';
         document.documentElement.innerHTML = innerHTML;
 
         localStorage.setItem('QoLShelter', 
-               '{"findCustom":"",'+
+            '{"findCustom":"",'+
                '"findType":"",'+
                '"findTypeEgg":false,'+
                '"findTypePokemon":false,'+
@@ -237,7 +239,7 @@ describe("Test Shelter page", () => {
         $('[data-key=findFemale]').trigger('click');
         $('[data-key=findNoGender]').trigger('click');
         // check search by name
-        const NAME_TO_FIND = 'Bulbasaur'
+        const NAME_TO_FIND = 'Bulbasaur';
         $('[data-key=findCustom]').eq(0).val(NAME_TO_FIND);
         $('[data-key=findCustom]').eq(0).trigger('input');
         expect($('.shelterfoundme').length).toBe(3); // just text
@@ -265,21 +267,21 @@ describe("Test Shelter page", () => {
         
         ////////////////////////////////////////
         // test removing a custom search field
-        verifyRemoveTextField('findCustom', 'QoLShelter', 'removeShelterTextfield', 1, "");
+        verifyRemoveTextField('findCustom', 'QoLShelter', 'removeShelterTextfield', 1, '');
         ////////////////////////////////////////
     });
 
-    test("Test Sort controls on Shelter Page", () => {
+    test('Test Sort controls on Shelter Page', () => {
         ////////////////////////////////////////
         // setup
         const htmlpath = path.join(__dirname, './data/', 'shelter.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-        global.location.href = "https://pokefarm.com/shelter";
+        global.location.href = 'https://pokefarm.com/shelter';
         document.documentElement.innerHTML = innerHTML;
 
         localStorage.setItem('QoLShelter', 
-               '{"findCustom":"",'+
+            '{"findCustom":"",'+
                '"findType":"",'+
                '"findTypeEgg":false,'+
                '"findTypePokemon":false,'+
