@@ -29,6 +29,12 @@
         "curly": [
             "error",
             "all"
+        ],
+        "camelcase": [
+            {"properties": "always"},
+            {"ignoreDestructuring": false},
+            {"ignoreImports": false},
+            {"ignoreGlobals": false}
         ]
     }
 }
