@@ -874,7 +874,7 @@ class FarmPage extends FarmBase {
 
                     } else {
                         if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('errornotfound') === false) {
-                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">Error contact Bentomon!</h3><ul class="errornotfound qolChangeLogContent"></ul></li><br>');
+                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">Error contact ECEInTheHole!</h3><ul class="errornotfound qolChangeLogContent"></ul></li><br>');
                         }
 
                         if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.errornotfound>li:contains(' + evolvePokemonName + ')').length == 0) {
@@ -934,7 +934,7 @@ class FarmPage extends FarmBase {
 
                     } else {
                         if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('errornotfound') === false) {
-                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">Error contact Bentomon!</h3><ul class="errornotfound qolChangeLogContent"></ul></li><br>');
+                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">Error contact ECEInTheHole!</h3><ul class="errornotfound qolChangeLogContent"></ul></li><br>');
                         }
 
                         if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.errornotfound>li:contains(' + evolvePokemonName + ')').length == 0) {
@@ -993,7 +993,7 @@ class FarmPage extends FarmBase {
 
                     } else {
                         if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('errornotfound') === false) {
-                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">Error contact Bentomon!</h3><ul class="errornotfound qolChangeLogContent"></ul></li><br>');
+                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">Error contact ECEInTheHole!</h3><ul class="errornotfound qolChangeLogContent"></ul></li><br>');
                         }
 
                         if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.errornotfound>li:contains(' + evolvePokemonName + ')').length == 0) {
@@ -1052,7 +1052,7 @@ class FarmPage extends FarmBase {
 
                     } else {
                         if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('errornotfound') === false) {
-                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">Error contact Bentomon!</h3><ul class="errornotfound qolChangeLogContent"></ul></li><br>');
+                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">Error contact ECEInTheHole!</h3><ul class="errornotfound qolChangeLogContent"></ul></li><br>');
                         }
 
                         if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.errornotfound>li:contains(' + evolvePokemonName + ')').length == 0) {
