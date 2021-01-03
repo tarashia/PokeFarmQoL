@@ -36,6 +36,20 @@ function internalTrim(jObj) {
     }
 }
 
+function removeComments(jObj) {
+    for(let i = 0; i < jObj.length; i++) {
+        if(jObj[i].nodeType === Node.COMMENT_NODE) {
+            $(this).remove();
+            removeComments($(this).contents())
+        }
+    }
+    // $(jObj).contents().each(function() {
+    //     if(this.nodeType === Node.COMMENT_NODE) {
+    //         $(this).remove();
+    //     }
+    // });
+}
+
 function internalStringTrim(currentHTML) {
     // trim self
     const startsWithTextBeforeElement = /^([^>]*?)</s;
@@ -300,7 +314,7 @@ describe('Test Farm Page', () => {
         expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
     });
 
-    it.skip('Should sort on names when "Sort on name" is clicked', () => {
+    it('Should sort on names when "Sort on name" is clicked', () => {
         const htmlpath = path.join(__dirname, './data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -384,61 +398,62 @@ describe('Test Farm Page', () => {
         const expectedHTML = expectedObjects.filter('ul');
         // need to remove all the internal whitespace
         internalTrim(expectedHTML);
+        // remove comments
+        removeComments(expectedHTML);
 
         /* load pokedex that gas a few mods:
          * - Charmeleon has been removed
          * - Raticate [Alolan Forme] replaced Raticate
          *   - Type 1 modified to be 4 (Grass)
          *   - Type 2 modified to be 7 (Poison)
-         *   - Eggs set to 1 ("1 egg(s) entries exist")
-         *   - Egg Dex set to 1 ("1 egg seen")
-         *   - Pokemon set to 2 ("2 pokemon entries exist")
-         *   - Poke Dex set to 1 ("1 pokemon entry(ies) seen")
-         *   - Shiny Dex set to 0 ("0 shiny entry(ies) seen")
-         *   - Albino Dex set to 0 ("0 albino entry(ies) seen")
-         *   - Melanistic Dex set to 0 ("0 melanistic entry(ies) seen")
+         *   - Eggs set to 1 ("egg entry(ies) exist")
+         *   - Egg Dex set to 1 ("egg entry(ies) seen")
+         *   - Pokemon set to 2 ("pokemon entry(ies) exist")     ("evolveNewTotal")
+         *   - Poke Dex set to 1 ("pokemon entry(ies) seen")     ("evolveNewCheck")
+         *   - Shiny Dex set to 0 ("shiny entry(ies) seen")      ("evolveNewShinyCheck")
+         *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
+         *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
          * - Lycanroc's data has been modified
-         *   - Eggs set to 1
-         *   - Egg Dex set to 1
-         *   - Pokemon set to 3
-         *   - Poke Dex set to 1
-         *   - Shiny Dex set to 0
-         *   - Albino Dex set to 0
-         *   - Melanistic Dex set to 0
+         *   - Eggs set to 1 ("egg entry(ies) exist")
+         *   - Egg Dex set to 1 ("egg entry(ies) seen")
+         *   - Pokemon set to 3 ("pokemon entry(ies) exist")     ("evolveNewTotal")
+         *   - Poke Dex set to 1 ("pokemon entry(ies) seen")     ("evolveNewCheck")
+         *   - Shiny Dex set to 0 ("shiny entry(ies) seen")      ("evolveNewShinyCheck")
+         *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
+         *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
          * - Thievul's data has been modified
-         *   - Eggs set to 1
-         *   - Egg Dex set to 1
-         *   - Pokemon set to 1
-         *   - Poke Dex set to 0
-         *   - Shiny Dex set to 0
-         *   - Albino Dex set to 0
-         *   - Melanistic Dex set to 0
+         *   - Eggs set to 1 ("egg entry(ies) exist")
+         *   - Egg Dex set to 1 ("egg entry(ies) seen")
+         *   - Pokemon set to 1 ("pokemon entry(ies) exist")     ("evolveNewTotal")
+         *   - Poke Dex set to 0 ("pokemon entry(ies) seen")     ("evolveNewCheck")
+         *   - Shiny Dex set to 0 ("shiny entry(ies) seen")      ("evolveNewShinyCheck")
+         *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
+         *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
          *   Frosmoth's data has been modified
-         *   - Eggs set to 1
-         *   - Egg Dex set to 1
-         *   - Pokemon set to 2
-         *   - Poke Dex set to 1
-         *   - Shiny Dex set to 1
-         *   - Albino Dex set to 1
-         *   - Melanistic Dex set to 1
-         * - Phasmaleef [Forest Forme] has been removed
+         *   - Eggs set to 1 ("egg entry(ies) exist")
+         *   - Egg Dex set to 1 ("egg entry(ies) seen")
+         *   - Pokemon set to 2 ("pokemon entry(ies) exist")     ("evolveNewTotal")
+         *   - Poke Dex set to 1 ("pokemon entry(ies) seen")     ("evolveNewCheck")
+         *   - Shiny Dex set to 1 ("shiny entry(ies) seen")      ("evolveNewShinyCheck")
+         *   - Albino Dex set to 1 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
+         *   - Melan Dex set to 1 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
          * - Phasmaleef [Desert Forme] has been removed
          * - Quibbit [Toxic Forme]'s data has been modified
-         *   - Eggs set to 0
-         *   - Egg Dex set to 0
-         *   - Pokemon set to 2
-         *   - Poke Dex set to 1
-         *   - Shiny Dex set to 0
-         *   - Albino Dex set to 0
-         *   - Melanistic Dex set to 0
+         *   - Eggs set to 0 ("egg entry(ies) exist")
+         *   - Egg Dex set to 0 ("egg entry(ies) seen")
+         *   - Pokemon set to 2 ("pokemon entry(ies) exist")     ("evolveNewTotal")
+         *   - Poke Dex set to 1 ("pokemon entry(ies) seen")     ("evolveNewCheck")
+         *   - Shiny Dex set to 0 ("shiny entry(ies) seen")      ("evolveNewShinyCheck")
+         *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
+         *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
          * - Quibbit [Magma Forme]'s data has been modified
-         *   - Eggs set to 0
-         *   - Egg Dex set to 0
-         *   - Pokemon set to 1
-         *   - Poke Dex set to 0
-         *   - Shiny Dex set to 0
-         *   - Albino Dex set to 0
-         *   - Melanistic Dex set to 0
+         *   - Eggs set to 0 ("egg entry(ies) exist")
+         *   - Egg Dex set to 0 ("egg entry(ies) seen")
+         *   - Pokemon set to 1 ("pokemon entry(ies) exist")     ("evolveNewTotal")
+         *   - Poke Dex set to 0 ("pokemon entry(ies) seen")     ("evolveNewCheck")
+         *   - Shiny Dex set to 0 ("shiny entry(ies) seen")      ("evolveNewShinyCheck")
+         *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
+         *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
          */
         const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified.json');
         let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
@@ -495,6 +510,131 @@ describe('Test Farm Page', () => {
         // test the part of the '#qolevolvenew' click handler that works with pokemon
         // that have not been seen
         $('#qolevolvenew').trigger('click');
+
+        expect($('.qolEvolveNewList').length).toBe(1);
+        expect($('.evolvepkmnlist').length).toBe(1);
+        expect($('.qolEvolveNewList').css('display')).toBe('block');
+        expect($('.evolvepkmnlist').css('display')).toBe('none');
+        const actualHTML = $('#farmnews-evolutions .scrollable').children();
+        internalTrim(actualHTML);
+        /* "New" Categories and Expected Pokemon in each
+         * - New Pokédex entry (L741)
+         *   - Thievul
+         * - Possible Mega/Totem forme (L750)
+         *   - Frosmoth
+         * - New Shiny Pokédex entry (L761)
+         *   - Thievul
+         * - Possible Shiny Mega/Totem forme (L770)
+         *   - Frosmoth
+         * - New Albino Pokédex entry (L781)
+         *   - Thievul
+         * - Possible Albino Mega/Totem forme (L790)
+         *   - Frosmoth
+         * - New Melan Pokédex entry (L802)
+         *   - Thievul
+         * - Possible Melan Mega/Totem forme (L811)
+         *   - Frosmoth
+         * - New Pokédex entry (L827)
+         *   - Quibbit [Magma Forme]
+         * - Possible new Alolan entry (L836)
+         *   - Raticate [Alolan Forme]
+         * - Possible new forme/cloak entry (L848)
+         *   - Lycanroc
+         * - New Pokédex entry (L857)
+         *   - Phasmaleef [Desert Forme]
+         * - New Pokédex entry (L867)
+         *   - Charmeleon
+         * - Error (L877)
+         *   - Quibbit [Toxic Forme]
+         * - New Shiny Pokédex entry (L889)
+         *   - Quibbit [Magma Forme]
+         * - Possible new Shiny Alolan entry (L897)
+         *   - Raticate [Alolan Forme]
+         * - Possible new Shiny forme/cloak entry (L908)
+         *   - Lycanroc
+         * - New Shiny Pokédex entry (L917)
+         *   - Phasmaleef [Desert Forme]
+         * - New Shiny Pokédex entry (L927)
+         *   - Charmeleon
+         * - Error (L936)
+         *   - Quibbit [Toxic Forme]
+         * - New Albino Pokédex entry (L947)
+         *   - Quibbit [Magma Forme]
+         * - Possible new Albino Alolan entry (L956)
+         *   - Raticate [Alolan Forme]
+         * - Possible new Albino forme/cloak entry (L967)
+         *   - Lycanroc
+         * - New Albino Pokédex entry (L977)
+         *   - Phasmaleef [Desert Forme]
+         * - New Albino Pokédex entry (L986)
+         *   - Charmeleon
+         * - Error (L995)
+         *   - Quibbit [Toxic Forme]
+         * - New Melanistic Pokédex entry (L1006)
+         *   - Quibbit [Magma Forme]
+         * - Possible new Melanistic Alolan entry (L1015)
+         *   - Raticate [Alolan Forme]
+         * - Possible new Melanistic forme/cloak entry (L1026)
+         *   - Lycanroc
+         * - New Melanistic Pokédex entry (L1035)
+         *   - Phasmaleef [Desert Forme]
+         * - New Melanistic Pokédex entry (L1045)
+         *   - Charmeleon
+         * - Error (L1054)
+         *   - Quibbit [Toxic Forme]
+         */
+        /* New Categories summarized (which is how they'll appear in the HTML):
+         * - New Pokédex entry
+         *   - Thievul (L741)
+         *   - Quibbit [Magma Forme] (L827)
+         *   - Phasmaleef [Desert Forme] (L857)
+         *   - Charmeleon (L867)
+         * - Possible Mega/Totem forme (L750)
+         *   - Frosmoth
+         * - New Shiny Pokédex entry
+         *   - Thievul (L761)
+         *   - Quibbit [Magma Forme] (L889)
+         *   - Phasmaleef [Desert Forme] (L917)
+         *   - Charmeleon (L927)
+         * - Possible Shiny Mega/Totem forme (L770)
+         *   - Frosmoth
+         * - New Albino Pokédex entry
+         *   - Thievul (L781)
+         *   - Quibbit [Magma Forme] (L947)
+         *   - Phasmaleef [Desert Forme] (L977)
+         *   - Charmeleon (L986)
+         * - Possible Albino Mega/Totem forme (L790)
+         *   - Frosmoth
+         * - New Melan Pokédex entry
+         *   - Thievul (L802)
+         *   - Quibbit [Magma Forme] (L1006)
+         *   - Phasmaleef [Desert Forme] (L1035)
+         *   - Charmeleon (L1045)
+         * - Possible Melan Mega/Totem forme (L811)
+         *   - Frosmoth
+         * - Possible new Alolan entry (L836)
+         *   - Raticate [Alolan Forme]
+         * - Possible new forme/cloak entry (L848)
+         *   - Lycanroc
+         * - Error
+         *   - Quibbit [Toxic Forme] (L877)
+         *   - Quibbit [Toxic Forme] (L936)
+         *   - Quibbit [Toxic Forme] (L995)
+         *   - Quibbit [Toxic Forme] (L1054)
+         * - Possible new Shiny Alolan entry (L897)
+         *   - Raticate [Alolan Forme]
+         * - Possible new Shiny forme/cloak entry (L908)
+         *   - Lycanroc
+         * - Possible new Albino Alolan entry (L956)
+         *   - Raticate [Alolan Forme]
+         * - Possible new Albino forme/cloak entry (L967)
+         *   - Lycanroc
+         * - Possible new Melan Alolan entry (L1015)
+         *   - Raticate [Alolan Forme]
+         * - Possible new Melan forme/cloak entry (L1026)
+         *   - Lycanroc
+         */
+        expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
     });
 
 });
