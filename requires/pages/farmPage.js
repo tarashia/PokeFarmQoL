@@ -674,6 +674,7 @@ class FarmPage extends FarmBase {
                 var pokemonDexKeepSixthName = evolvePokemonNameSplit[5];
 
                 var evolvePokemonNameOne = pokemonDexKeepFirstName;
+                var evolvePokemonNameOneInDex = dexData.indexOf('"' + evolvePokemonName + '"') != -1;
                 var evolveNewCheckOne = dexData[dexData.indexOf('"' + evolvePokemonNameOne + '"') + 6];
                 var evolveNewTotalOne = dexData[dexData.indexOf('"' + evolvePokemonNameOne + '"') + 5];
 
@@ -735,7 +736,7 @@ class FarmPage extends FarmBase {
             }
 
             //prep done now the search
-            if (dexData.indexOf('"' + evolvePokemonName + '"') != -1) { //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
+            if (evolvePokemonNameOneInDex) { //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
                 if (pokemonIsNormal == true) { //normal Pokémon search
                     if (evolveNewCheckOne == 0) { //looks for Pokémon that you have 0 from. Those are always new.
                         if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('newpokedexentry') === false) {
