@@ -1,6 +1,6 @@
 /* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
-// const console = require('../__mocks__/console_suppress').console;
+const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
 
