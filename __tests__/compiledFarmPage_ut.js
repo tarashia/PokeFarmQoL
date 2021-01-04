@@ -39,15 +39,12 @@ function internalTrim(jObj) {
 function removeComments(jObj) {
     for(let i = 0; i < jObj.length; i++) {
         if(jObj[i].nodeType === Node.COMMENT_NODE) {
-            $(this).remove();
-            removeComments($(this).contents())
+            jObj.eq(i).remove();
         }
     }
-    // $(jObj).contents().each(function() {
-    //     if(this.nodeType === Node.COMMENT_NODE) {
-    //         $(this).remove();
-    //     }
-    // });
+
+    if(jObj.length)
+        removeComments(jObj.contents());
 }
 
 function internalStringTrim(currentHTML) {
