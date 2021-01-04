@@ -155,7 +155,7 @@ beforeAll(() => {
 });
 
 describe('Test Farm Page', () => {
-    it.skip('Should be setup correctly', () => {
+    it('Should be setup correctly', () => {
         const htmlpath = path.join(__dirname, './data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -170,7 +170,7 @@ describe('Test Farm Page', () => {
         expect($('.qolsortnew').length).toBe(1);
     });
 
-    it.skip('Should show normal list when "Normal list" is clicked', () => {
+    it('Should show normal list when "Normal list" is clicked', () => {
         const htmlpath = path.join(__dirname, './data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -241,7 +241,7 @@ describe('Test Farm Page', () => {
         expect(htmlBefore).toBe(htmlAfter);
     });
 
-    it.skip('Should sort on types when "Sort on types" is clicked', () => {
+    it('Should sort on types when "Sort on types" is clicked', () => {
         const htmlpath = path.join(__dirname, './data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
