@@ -31,17 +31,23 @@ OUTPUT="${ROOT}/__tests__/compiled.js"
 # try to mimic the web environment
 echo "" > "${OUTPUT}"
 echo "/* instanbul ignore next */" >> "${OUTPUT}"
-echo "const GM_getResourceText = require('../__mocks__/tampermonkey').GM_getResourceText" >> "${OUTPUT}"
+echo "// eslint-disable-next-line camelcase" >>  "${OUTPUT}"
+echo "const GM_getResourceText = require('../__mocks__/tampermonkey').GM_getResourceText;" >> "${OUTPUT}"
 echo "/* instanbul ignore next */" >> "${OUTPUT}"
-echo "const GM_xmlhttpRequest  = require('../__mocks__/tampermonkey').GM_xmlhttpRequest" >> "${OUTPUT}"
+echo "// eslint-disable-next-line camelcase" >>  "${OUTPUT}"
+echo "const GM_xmlhttpRequest  = require('../__mocks__/tampermonkey').GM_xmlhttpRequest;" >> "${OUTPUT}"
 echo "/* instanbul ignore next */" >> "${OUTPUT}"
-echo "const GM_addStyle        = require('../__mocks__/tampermonkey').GM_addStyle" >> "${OUTPUT}"
+echo "// eslint-disable-next-line camelcase" >>  "${OUTPUT}"
+echo "const GM_addStyle        = require('../__mocks__/tampermonkey').GM_addStyle;" >> "${OUTPUT}"
 echo "/* instanbul ignore next */" >> "${OUTPUT}"
-echo "const GM_info            = require('../__mocks__/tampermonkey').GM_info" >> "${OUTPUT}"
+echo "// eslint-disable-next-line camelcase" >>  "${OUTPUT}"
+echo "const GM_info            = require('../__mocks__/tampermonkey').GM_info;" >> "${OUTPUT}"
 
 for FILE in "${EXTERNALS[@]}"; do
    echo "/* istanbul ignore next */" >> "${OUTPUT}"
+   echo "/* eslint-disable */" >>  "${OUTPUT}"
    cat "$FILE" >> "${OUTPUT}"
+   echo "/* eslint-enable */" >>  "${OUTPUT}"
    echo "" >> "${OUTPUT}"
 done
 
