@@ -249,34 +249,34 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     enableTooltips() {
         this.jQuery('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
     }
-    highlightByHowFullyEvolved(GLOBALS, pokemon_elem) {
+    highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
         // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
         // will not exist. If this occurs. don't try highlighting anything until the
         // pokemon is "put down"
-        if (!this.jQuery(pokemon_elem).next().length) { return; }
+        if (!this.jQuery(pokemonElem).next().length) { return; }
 
-        const tooltip = Helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemon_elem).next()[0]);
+        const tooltip = Helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);
         let pokemon = tooltip['species'];
 
         const key = 'QoLEvolutionTreeDepth';
         if (localStorage.getItem(key) !== null) {
-            const evolution_data = JSON.parse(localStorage.getItem(key));
-            if (Object.keys(evolution_data).length > 0) {
+            const evolutionData = JSON.parse(localStorage.getItem(key));
+            if (Object.keys(evolutionData).length > 0) {
                 // if can't find the pokemon directly, try looking for its form data
-                if (!evolution_data[pokemon]) {
+                if (!evolutionData[pokemon]) {
                     if (tooltip['forme']) {
                         pokemon = pokemon + ' [' + tooltip['forme'] + ']';
                     }
                 }
-                if (!evolution_data[pokemon]) {
+                if (!evolutionData[pokemon]) {
                     console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
                 } else {
-                    const evolutions_left = evolution_data[pokemon].remaining;
+                    const evolutionsLeft = evolutionData[pokemon].remaining;
 
-                    if (evolutions_left === 1) {
-                        this.jQuery(pokemon_elem).children('img.big').addClass('oneevolutionleft');
-                    } else if (evolutions_left === 2) {
-                        this.jQuery(pokemon_elem).children('img.big').addClass('twoevolutionleft');
+                    if (evolutionsLeft === 1) {
+                        this.jQuery(pokemonElem).children('img.big').addClass('oneevolutionleft');
+                    } else if (evolutionsLeft === 2) {
+                        this.jQuery(pokemonElem).children('img.big').addClass('twoevolutionleft');
                     }
                 }
             } else {
@@ -289,8 +289,8 @@ class PrivateFieldsPage extends PrivateFieldsBase {
 
     searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
-        const key_index = SEARCH_DATA.indexOf(key);
-        const value = SEARCH_DATA[key_index + 1];
+        const keyIndex = SEARCH_DATA.indexOf(key);
+        const value = SEARCH_DATA[keyIndex + 1];
         const selected = this.jQuery('img[title*="' + value + '"]');
         if (selected.length) {
             // next line different from shelter
@@ -401,12 +401,12 @@ class PrivateFieldsPage extends PrivateFieldsBase {
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
             obj.jQuery('.fieldmon').each(function () {
                 let searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
-                const tooltip_data = Helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+                const tooltipData = Helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
 
-                let searchTypeOne = tooltip_data.types[0] + '';
-                let searchTypeTwo = (tooltip_data.types.length > 1) ? tooltip_data.types[1] + '' : '';
+                let searchTypeOne = tooltipData.types[0] + '';
+                let searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
 
-                let searchNature = GLOBALS.NATURE_LIST[tooltip_data.nature];
+                let searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
 
                 let searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
                     children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
@@ -457,8 +457,8 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             }
         }
     }
-    addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
-        const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name);
+    addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
+        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
         let number = this.jQuery(`#${divParent}>div`).length;
         this.jQuery(`#${divParent}`).append(theList);
         this.jQuery(`.${cls}`).removeClass(cls).addClass('' + number + '');

@@ -150,7 +150,7 @@ class LabPage extends LabBase {
 
         if (!(this.listArray.length == 1 && this.listArray[0] == '')) {
             if (this.settings.findTypeEgg === true) {
-                const egg_pngs_to_types = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
+                const eggPngsToTypes = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
                     JSON.parse(localStorage.getItem('QoLEggTypesMap')) || undefined;
                 let typesArrayNoEmptySpace = this.listArray.filter(v => v != '');
                 let typeSearchAmount = typesArrayNoEmptySpace.length;
@@ -164,14 +164,14 @@ class LabPage extends LabBase {
                         let searchTypeOne = '';
                         let searchTypeTwo = '';
 
-                        if (egg_pngs_to_types) {
+                        if (eggPngsToTypes) {
                             let imgUrl = obj.jQuery(this).next().attr('src').replace('https://pfq-static.com/img/', '');
-                            searchTypeOne = egg_pngs_to_types[searchPokemon] &&
-                                egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ('' + egg_pngs_to_types[searchPokemon][imgUrl][0]);
-                            searchTypeTwo = egg_pngs_to_types[searchPokemon] &&
-                                egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ('' + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
+                            searchTypeOne = eggPngsToTypes[searchPokemon] &&
+                                eggPngsToTypes[searchPokemon][imgUrl] &&
+                                ('' + eggPngsToTypes[searchPokemon][imgUrl][0]);
+                            searchTypeTwo = eggPngsToTypes[searchPokemon] &&
+                                eggPngsToTypes[searchPokemon][imgUrl] &&
+                                ('' + (eggPngsToTypes[searchPokemon][imgUrl][1] || -1));
                         } else {
                             let searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
                             searchTypeOne = dexData[searchPokemonIndex + 1];
@@ -214,7 +214,9 @@ class LabPage extends LabBase {
                 for (let i = 0; i < customSearchAmount; i++) {
                     let value = this.searchArray[i];
                     // skip falsy values (including empty strings)
-                    if(!value) continue;
+                    if(!value) { 
+                        continue; 
+                    }
 
                     if (this.jQuery('#egglist>div>h3:containsIN(' + value + ')').length) {
                         let searchResult = value;

@@ -83,40 +83,36 @@ class QoLHub {
                 progressBar['max'] = limit;
                 dexUtilities.loadDexPages($, dexNumbers, progressBar, progressSpan).done((...data) => {
                     const dexPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
-                    dexUtilities.loadFormPages($, virtualDocument, dexPagesHTML, progressBar, progressSpan).done((...formData) => {
-                        const formPagesHTML = formData.map(d => (Array.isArray(d) ? d[0] : d));
+                    dexUtilities.loadFormPages($, virtualDocument, dexPagesHTML, progressBar, progressSpan).done((...data) => {
+                        const formPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
 
                         // Combine the arrays of HTML into one array
                         let allPagesHTML = dexPagesHTML.concat(formPagesHTML);
 
                         // Parse evolution data
-                        const parsed_families_and_dex_ids = dexUtilities.parseEvolutionTrees($, virtualDocument, dexPageParser, evolutionTreeParser, allPagesHTML);
-                        const parsed_families = parsed_families_and_dex_ids[0];
-                        const dex_ids = parsed_families_and_dex_ids[1];
-
+                        const [parsedFamilies, dexIDs] = dexUtilities.parseEvolutionTrees($, virtualDocument, dexPageParser, evolutionTreeParser, allPagesHTML);
+                        
                         // Parse form data
-                        const parsed_forms_and_map = dexUtilities.parseFormData($, virtualDocument, dexPageParser, allPagesHTML);
-                        const form_data = parsed_forms_and_map[0];
-                        const form_map = parsed_forms_and_map[1];
-
+                        const [formData, formMap] = dexUtilities.parseFormData($, virtualDocument, dexPageParser, allPagesHTML);
+                        
                         // Build evolution tree depths
-                        const evolution_tree_depth_list = dexUtilities.buildEvolutionTreeDepthsList(parsed_families, dex_ids, form_data, form_map);
+                        const evolutionTreeDepthList = dexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
 
                         // Collect regional form data
-                        const regional_form_map = dexUtilities.buildRegionalFormsMap(form_map);
+                        const regionalFormMap = dexUtilities.buildRegionalFormsMap(formMap);
 
                         // Collect list of base names to make it easier down the line
-                        const base_names = dexUtilities.parseBaseNames($, virtualDocument, dexPageParser, allPagesHTML);
+                        const baseNames = dexUtilities.parseBaseNames($, virtualDocument, dexPageParser, allPagesHTML);
                         // Collect list of egg pngs
-                        const egg_pngs = dexUtilities.parseEggsPngsList($, virtualDocument, dexPageParser, allPagesHTML);
+                        const eggPngs = dexUtilities.parseEggsPngsList($, virtualDocument, dexPageParser, allPagesHTML);
                         // Collect list of types
                         const types = dexUtilities.parseTypesList($, virtualDocument, dexPageParser, globals, allPagesHTML);
-                        const egg_pngs_types_map = dexUtilities.buildEggPngsTypesMap(base_names, egg_pngs, types);
+                        const eggPngsTypeMap = dexUtilities.buildEggPngsTypesMap(baseNames, eggPngs, types);
 
-                        localStorageManager.saveEvolveByLevelList(globals, parsed_families, dex_ids);
-                        localStorageManager.saveEvolutionTreeDepths(globals, evolution_tree_depth_list);
-                        localStorageManager.saveRegionalFormsList(globals, parsed_families, dex_ids, regional_form_map);
-                        localStorageManager.saveEggTypesMap(globals, egg_pngs_types_map);
+                        localStorageManager.saveEvolveByLevelList(globals, parsedFamilies, dexIDs);
+                        localStorageManager.saveEvolutionTreeDepths(globals, evolutionTreeDepthList);
+                        localStorageManager.saveRegionalFormsList(globals, parsedFamilies, dexIDs, regionalFormMap);
+                        localStorageManager.saveEggTypesMap(globals, eggPngsTypeMap);
                         progressSpan.textContent = 'Complete!';
                     }).fail((error) => {
                         console.log(error);

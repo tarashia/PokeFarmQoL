@@ -298,8 +298,8 @@ class PublicFieldsPage extends PublicFieldsBase {
     }
     searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
-        const key_index = SEARCH_DATA.indexOf(key);
-        const value = SEARCH_DATA[key_index + 1];
+        const keyIndex = SEARCH_DATA.indexOf(key);
+        const value = SEARCH_DATA[keyIndex + 1];
         const selected = this.jQuery('img[title*="'+value+'"]');
         if (selected.length) {
             // next line different from shelter
@@ -496,12 +496,12 @@ class PublicFieldsPage extends PublicFieldsBase {
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
             this.jQuery('.fieldmon').each(function() {
                 let searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
-                const tooltip_data = Helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+                const tooltipData = Helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
 
-                let searchTypeOne = tooltip_data.types[0] + '';
-                let searchTypeTwo = (tooltip_data.types.length > 1) ? tooltip_data.types[1] + '': '';
+                let searchTypeOne = tooltipData.types[0] + '';
+                let searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '': '';
 
-                let searchNature = GLOBALS.NATURE_LIST[tooltip_data.nature];
+                let searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
 
                 let searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
                     children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
@@ -552,8 +552,8 @@ class PublicFieldsPage extends PublicFieldsBase {
             }
         }
     } // customSearch
-    addSelectSearch(cls, name, data_key, options, id, divParent, array_name) {
-        const theList = Helpers.selectSearchDiv(cls, name, data_key, options, id, divParent, array_name);
+    addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
+        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
         let number = this.jQuery(`#${divParent}>div`).length;
         this.jQuery(`#${divParent}`).append(theList);
         this.jQuery(`.${cls}`).removeClass(cls).addClass(''+number+'');

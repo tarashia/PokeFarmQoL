@@ -51,9 +51,9 @@ class ShelterPage extends ShelterBase {
         }
         
         // used to keep track of the currently selected match
-        // matches can be selected via a shortcut key, specified via this.select_next_match_key
-        this.select_next_match_key = 78; // 'n'
-        this.currently_selected_match = undefined;
+        // matches can be selected via a shortcut key, specified via this.selectNextMatchKey
+        this.selectNextMatchKey = 78; // 'n'
+        this.currentlySelectedMatch = undefined;
     }
 
     setupHTML(GLOBALS) {
@@ -145,24 +145,24 @@ class ShelterPage extends ShelterBase {
         this.jQuery(window).on('keyup.qol_shelter_shortcuts', function (a) {
             if (0 == obj.jQuery(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
-                case obj.select_next_match_key:
-                    var num_matches = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
+                case obj.selectNextMatchKey:
+                    var numMatches = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
 
                     // remove all existing locks
                     obj.jQuery('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
 
                     // default is undefined, so set the value to either 0 or 1+current
-                    obj.currently_selected_match = (obj.currently_selected_match + 1) || 0;
+                    obj.currentlySelectedMatch = (obj.currentlySelectedMatch + 1) || 0;
 
-                    if(num_matches) {
-                        var mod_index = (num_matches == 1) ? 0 : (obj.currently_selected_match + 1) % num_matches - 1;
-                        var selected = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(mod_index);
+                    if(numMatches) {
+                        var modIndex = (numMatches == 1) ? 0 : (obj.currentlySelectedMatch + 1) % numMatches - 1;
+                        var selected = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(modIndex);
                         // these steps mimic clicking on the pokemon/egg
                         selected.parent().addClass('selected');
                         selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
                         selected.next().find('[data-shelter=adopt]').focus();
                     } else {
-                        obj.currently_selected_match = undefined;
+                        obj.currentlySelectedMatch = undefined;
                     }
                 }
             }
@@ -229,13 +229,13 @@ class ShelterPage extends ShelterBase {
     
     searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
-        const key_index = SEARCH_DATA.indexOf(key);
-        const value = SEARCH_DATA[key_index + 1];
+        const keyIndex = SEARCH_DATA.indexOf(key);
+        const value = SEARCH_DATA[keyIndex + 1];
         const selected = this.jQuery('img[title*="'+value+'"]');
         if (selected.length) {
-            let searchResult = SEARCH_DATA[key_index + 2]; //type of Pokémon found
+            let searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
             let imgResult = selected.length + ' ' + searchResult; //amount + type found
-            let imgFitResult = SEARCH_DATA[key_index + 3]; //image for type of Pokémon
+            let imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
             let shelterBigImg = selected.parent().prev().children('img.big');
             this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
@@ -253,12 +253,12 @@ class ShelterPage extends ShelterBase {
             let level = parseInt(text[1].substring(4));
 
             // get level that pokemon needs to be at to evolve
-            let evolve_level = undefined;
+            let evolveLevel = undefined;
             if(GLOBALS.EVOLVE_BY_LEVEL_LIST[name] !== undefined) {
-                evolve_level = parseInt(GLOBALS.EVOLVE_BY_LEVEL_LIST[name].split(' ')[1]);
+                evolveLevel = parseInt(GLOBALS.EVOLVE_BY_LEVEL_LIST[name].split(' ')[1]);
             }
 
-            if(evolve_level !== undefined && level >= evolve_level) {
+            if(evolveLevel !== undefined && level >= evolveLevel) {
                 let shelterBigImg = obj.jQuery(s).prev().children('img.big');
                 readyBigImg.push(shelterBigImg);
             }
@@ -273,37 +273,37 @@ class ShelterPage extends ShelterBase {
 
     }
 
-    highlightByHowFullyEvolved(GLOBALS, pokemon_elem) {
+    highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
         // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
         // will not exist. If this occurs. don't try highlighting anything until the
         // pokemon is "put down"
-        if(!this.jQuery(pokemon_elem).next().length) { return; }
+        if(!this.jQuery(pokemonElem).next().length) { return; }
 
-        const tooltip_elem = this.jQuery(pokemon_elem).next()[0];
+        const tooltipElem = this.jQuery(pokemonElem).next()[0];
         const tooltip = {
-            species: tooltip_elem.textContent.split(' ')[0],
+            species: tooltipElem.textContent.split(' ')[0],
             forme: ''
         };
         let pokemon = tooltip['species'];
 
         if(GLOBALS.EVOLUTIONS_LEFT !== undefined && GLOBALS.EVOLUTIONS_LEFT !== null) {
-            const evolution_data = GLOBALS.EVOLUTIONS_LEFT;
+            const evolutionData = GLOBALS.EVOLUTIONS_LEFT;
             // if can't find the pokemon directly, try looking for its form data
-            if(!evolution_data[pokemon]) {
+            if(!evolutionData[pokemon]) {
                 if(tooltip['forme']) {
                     pokemon = pokemon + ' [' + tooltip['forme'] + ']';
                 }
             }
-            if(!evolution_data[pokemon]) {
+            if(!evolutionData[pokemon]) {
                 // Do not log error here. Repeated errors can (will) slow down the page
                 // console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
             } else {
-                const evolutions_left = evolution_data[pokemon].remaining;
+                const evolutionsLeft = evolutionData[pokemon].remaining;
 
-                if(evolutions_left === 1) {
-                    this.jQuery(pokemon_elem).children('img.big').addClass('oneevolutionleft');
-                } else if(evolutions_left === 2) {
-                    this.jQuery(pokemon_elem).children('img.big').addClass('twoevolutionleft');
+                if(evolutionsLeft === 1) {
+                    this.jQuery(pokemonElem).children('img.big').addClass('oneevolutionleft');
+                } else if(evolutionsLeft === 2) {
+                    this.jQuery(pokemonElem).children('img.big').addClass('twoevolutionleft');
                 }
             }
         } else {
@@ -522,7 +522,7 @@ class ShelterPage extends ShelterBase {
         const filteredTypeArray = this.typeArray.filter(v=>v!='');
 
         if (filteredTypeArray.length > 0) {
-            const egg_pngs_to_types = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
+            const eggPngsToTypes = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
                   JSON.parse(localStorage.getItem('QoLEggTypesMap')) || undefined;
             for (let i = 0; i < filteredTypeArray.length; i++) {
                 let value = filteredTypeArray[i];
@@ -538,14 +538,14 @@ class ShelterPage extends ShelterBase {
                         let searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
                         let searchTypeOne = '';
                         let searchTypeTwo = '';
-                        if(egg_pngs_to_types) {
+                        if(eggPngsToTypes) {
                             let imgUrl = obj.jQuery(obj.jQuery(this).prev().find('img')[0]).attr('src').replace('https://pfq-static.com/img/', '');
-                            searchTypeOne = egg_pngs_to_types[searchPokemon] &&
-                                egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ('' + egg_pngs_to_types[searchPokemon][imgUrl][0]);
-                            searchTypeTwo = egg_pngs_to_types[searchPokemon] &&
-                                egg_pngs_to_types[searchPokemon][imgUrl] &&
-                                ('' + (egg_pngs_to_types[searchPokemon][imgUrl][1] || -1));
+                            searchTypeOne = eggPngsToTypes[searchPokemon] &&
+                                eggPngsToTypes[searchPokemon][imgUrl] &&
+                                ('' + eggPngsToTypes[searchPokemon][imgUrl][0]);
+                            searchTypeTwo = eggPngsToTypes[searchPokemon] &&
+                                eggPngsToTypes[searchPokemon][imgUrl] &&
+                                ('' + (eggPngsToTypes[searchPokemon][imgUrl][1] || -1));
                         } else {
                             let searchPokemonIndex = dexData.indexOf('"'+searchPokemon+'"');
                             searchTypeOne = dexData[searchPokemonIndex + 1];
