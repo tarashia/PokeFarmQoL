@@ -199,8 +199,11 @@ let Helpers = (function Helpers() {
             }
             return ret;
         } // parseFieldPokemonToolTip
-
     };
 
     return API;
 })();
+
+if (module) {
+    module.exports.Helpers = Helpers;
+}
