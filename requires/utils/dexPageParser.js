@@ -22,28 +22,30 @@ class DexPageParser {
         // into the panel of a single pokemon. See Lunupine and Lunupine [Mega Forme Q] as an example, contrasted with
         // Venusaur and Venusaur [Mega Forme]. This means that exclusives will never have any links in the form panel
         // and thus will never get into this if statement
-        const name_header = html.find('#dexinfo>h3').eq(0);
-        const form_i = name_header.children('i.small');
+        const nameHeader = html.find('#dexinfo>h3').eq(0);
+        const formI = nameHeader.children('i.small');
 
         // https://stackoverflow.com/questions/3442394/using-text-to-retrieve-only-text-not-nested-in-child-tags
         // get text but not children's text
-        let name_text = name_header.clone().children().remove().end().text();
-        let name_splits = name_text.split(' ');
-        let base_pokemon_number = name_splits[0].replace('#','').replace(':','');
+        let nameText = nameHeader.clone().children().remove().end().text();
+        let nameSplits = nameText.split(' ');
+        let basePokemonNumber = nameSplits[0].replace('#','').replace(':','');
         // just in case the name is more than one word, join the remaining elements back together
-        name_splits.splice(0, 1);
-        let base_pokemon_name = name_splits.join(' ').trim();
-        let pokemon_name = (form_i.length) ?
-            base_pokemon_name + ' ' + form_i.text() :
-            base_pokemon_name;
+        nameSplits.splice(0, 1);
+        let basePokemonName = nameSplits.join(' ').trim();
+        let pokemonName = (formI.length) ?
+            basePokemonName + ' ' + formI.text() :
+            basePokemonName;
 
         return {
             // dex number of the base pokemon
-            base_number: base_pokemon_number,
+            // eslint-disable-next-line camelcase
+            base_number: basePokemonNumber,
             // name of the base pokemon
-            base_name: base_pokemon_name,
+            // eslint-disable-next-line camelcase
+            base_name: basePokemonName,
             // name of the form
-            name: pokemon_name
+            name: pokemonName
         };
     }
 
@@ -55,16 +57,16 @@ class DexPageParser {
      *                 Example:
      *                 {
      *                   shortlink: "/shortlinks/save/dex/003-M",
-     *                   shortlink_number: "003-M"
+     *                   shortlinkNumber: "003-M"
      *                 }
      */
     static getInfoFromDexPageFooter(html) {
-        let current_link = html.find('#footbar>span>a[href^="/shortlinks"]').attr('href');
-        let current_number = current_link.substr(current_link.indexOf('/dex/')+5);
+        let currentLink = html.find('#footbar>span>a[href^="/shortlinks"]').attr('href');
+        let currentNumber = currentLink.substr(currentLink.indexOf('/dex/')+5);
 
         return {
-            shortlink: current_link,
-            shortlink_number: current_number
+            shortlink: currentLink,
+            shortlinkNumber: currentNumber
         };
     }
 
@@ -79,7 +81,7 @@ class DexPageParser {
      *                  7 // Poison
      *                 ]
      */
-    static parseTypesFromDexPage(html, type_list) {
+    static parseTypesFromDexPage(html, typeList) {
         let typeImgs = html.find('.dexdetails>li>img');
         let typeUrls = typeImgs.map((idx, img) => {
             return img.src;
@@ -88,7 +90,7 @@ class DexPageParser {
             url.substring(url.indexOf('types/')+'types/'.length,
                 url.indexOf('.png')));
         types = types.map((idx, type) => type.charAt(0).toUpperCase() + type.substring(1));
-        types = types.map((idx, type) => type_list.indexOf(type)); // GLOBALS.TYPE_LIST.indexOf(type));
+        types = types.map((idx, type) => typeList.indexOf(type)); // GLOBALS.TYPE_LIST.indexOf(type));
         return types.toArray();
     }
 
@@ -96,14 +98,14 @@ class DexPageParser {
      * Inputs:
      * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
      * Outputs:
-     * - egg_url - Partial UTL to the png of the egg from the dex page.
+     * - eggUrl - Partial UTL to the png of the egg from the dex page.
      *             'https://pfq-static.com/img/' is removed from the URL since it is always the same
      */
     static parseEggPngFromDexPage(html) {
-        let egg_url = (html.find('.eggspr').find('img')
+        let eggUrl = (html.find('.eggspr').find('img')
             .attr('src') || '')
             .replace('https://pfq-static.com/img/', '');
-        return egg_url;
+        return eggUrl;
     }
 
     /* Parse the evolution tree from a dex page
@@ -112,10 +114,10 @@ class DexPageParser {
      * Outputs:
      * - flattened - See EvolutionTreeParser.parseEvolutionTree for description
      */
-    static parseEvolutionTreeFromDexPage(evolutionTreeParser, html, dex_id_map) {
+    static parseEvolutionTreeFromDexPage(evolutionTreeParser, html, dexIDMap) {
         const rootName = DexPageParser.getInfoFromDexPageHeader(html).name;
         const tree = html.find('.evolutiontree').eq(0);
-        const flattened = evolutionTreeParser.parseEvolutionTree(rootName, tree, dex_id_map);
+        const flattened = evolutionTreeParser.parseEvolutionTree(rootName, tree, dexIDMap);
         return flattened;
     }    
 } // DexPageParser

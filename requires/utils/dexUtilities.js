@@ -77,16 +77,16 @@ class DexUtilities {
         for(let a = 0; a < firstFormHTML.length; a++) {
             let data = firstFormHTML[a];
             // load data from pages for other forms
-            const form_links = $(data, ownerDocument).find('.formeregistration a');
-            if(form_links.length) {
-                progressBar['max'] = progressBar['max'] + form_links.length;
-                for(let i = 0; i < form_links.length; i++) {
-                    let link = form_links.eq(i).attr('href');
+            const formLinks = $(data, ownerDocument).find('.formeregistration a');
+            if(formLinks.length) {
+                progressBar['max'] = progressBar['max'] + formLinks.length;
+                for(let i = 0; i < formLinks.length; i++) {
+                    let link = formLinks.eq(i).attr('href');
                     let r = DexUtilities.getPokemonDexPage($, link.substring('/dex/'.length))
-                        .done((form_html) => {
+                        .done((formHTML) => {
                             progressBar.value = progressBar['value'] + 1;
                             progressSpan.textContent = `Loaded ${progressBar['value']} of ${progressBar['max']} Pokemon`;
-                            return form_html;
+                            return formHTML;
                         }).fail((error) => {
                             console.log(error);
                         });
@@ -108,8 +108,8 @@ class DexUtilities {
      *                pokemon's dex pages have been processed
      */  
     static parseEvolutionTrees($, ownerDocument, dexPageParser, evolutionTreeParser, args) {
-        const flat_families = {};
-        const dex_id_map = {};
+        const flatFamilies = {};
+        const dexIDMap = {};
 
         for(let a = 0; a < args.length; a++) {
             let data = $(args[a], ownerDocument);
@@ -117,45 +117,45 @@ class DexUtilities {
 
             // the evolution tree won't have the dex ID for the form of the pokemon that we're currently using
             // use the footbar to get the full pokedex number for the current form
-            const full_id_number = dexPageParser.getInfoFromDexPageFooter(data).shortlink_number;
+            const fullIDNumber = dexPageParser.getInfoFromDexPageFooter(data).shortlinkNumber;
 
-            // if the root name is already in in the flat files, but the root of the tree is not in the dex_id_map
-            if((!(rootName in flat_families)) || (!(rootName in dex_id_map))) {
-                dex_id_map[rootName] = full_id_number;
+            // if the root name is already in in the flat files, but the root of the tree is not in the dexIDMap
+            if((!(rootName in flatFamilies)) || (!(rootName in dexIDMap))) {
+                dexIDMap[rootName] = fullIDNumber;
 
-                let flattened = dexPageParser.parseEvolutionTreeFromDexPage(evolutionTreeParser, data, dex_id_map);
+                let flattened = dexPageParser.parseEvolutionTreeFromDexPage(evolutionTreeParser, data, dexIDMap);
 
                 // copy the data into the global object to prevent loading data multiple times
                 if(flattened.evolutions.length) {
                     for(let i = 0; i < flattened.members.length; i++) {
-                        flat_families[flattened.members[i]] = flattened.evolutions;
+                        flatFamilies[flattened.members[i]] = flattened.evolutions;
                     }
                 } else {
-                    flat_families[rootName] = flattened.evolutions;
+                    flatFamilies[rootName] = flattened.evolutions;
                 }
-            } // if not in flat_families
+            } // if not in flatFamilies
         } // for a
 
-        return [flat_families, dex_id_map];
+        return [flatFamilies, dexIDMap];
     } // parseEvolutionTrees
     
-    static buildEvolutionTreeDepthsList(parsed_families, dex_ids, form_data, form_map) {
+    static buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap) {
         // store the maximum depth of the evolution tree for each pokemon
         // for highlighting each pokemon based on how fully evolved they are
         // https://github.com/jpgualdarrama/PokeFarmQoL/issues/11
         let maxEvoTreeDepth = {};
-        for(let pokemon in parsed_families) {
-            let evolutions = parsed_families[pokemon];
+        for(let pokemon in parsedFamilies) {
+            let evolutions = parsedFamilies[pokemon];
 
             // filter out "evolutions" that are really changes between forms of the
             // same pokemon
             for(let i = evolutions.length - 1; i>= 0; i--) {
-                if(form_map[evolutions[i].source] === undefined) {
+                if(formMap[evolutions[i].source] === undefined) {
                     console.error(`Could not find form data for ${evolutions[i].source}`);
                 } else {
-                    if(form_map[evolutions[i].target] === undefined) {
+                    if(formMap[evolutions[i].target] === undefined) {
                         console.error(`Could not find form data for ${evolutions[i].target}`);
-                    } else if(JSON.stringify(form_map[evolutions[i].source]) === JSON.stringify(form_map[evolutions[i].target])) {
+                    } else if(JSON.stringify(formMap[evolutions[i].source]) === JSON.stringify(formMap[evolutions[i].target])) {
                         evolutions.splice(i, 1);
                     }
                 }
@@ -165,49 +165,49 @@ class DexUtilities {
                 if(evolutions.length) {
                     // initialize new entries in the structure
                     maxEvoTreeDepth[pokemon] = {'remaining': 0, 'total': 0};
-                    maxEvoTreeDepth[dex_ids[pokemon]] = {'remaining': 0, 'total': 0};
+                    maxEvoTreeDepth[dexIDs[pokemon]] = {'remaining': 0, 'total': 0};
 
-                    let sources_list = evolutions.map( el => el.source );
+                    let sourcesList = evolutions.map( el => el.source );
 
                     // don't redo the processing if the root of the tree is already in the list
-                    if(sources_list[0] in maxEvoTreeDepth && pokemon !== sources_list[0]) {
+                    if(sourcesList[0] in maxEvoTreeDepth && pokemon !== sourcesList[0]) {
                         // data for all evolutions is added when the first pokemon is added
                         continue;
                     }
 
-                    let evo_tree = {};
+                    let evoTree = {};
 
                     for(let i = evolutions.length - 1; i >= 0; i--) {
                         let evolution = evolutions[i];
                         let source = evolution.source;
                         let target = evolution.target;
 
-                        if(sources_list.indexOf(target) == -1) {
-                            evo_tree[target] = {[target]: []};
+                        if(sourcesList.indexOf(target) == -1) {
+                            evoTree[target] = {[target]: []};
                         }
 
-                        if(!(source in evo_tree)) {
-                            evo_tree[source] = {[source]: [evo_tree[target]]};
+                        if(!(source in evoTree)) {
+                            evoTree[source] = {[source]: [evoTree[target]]};
                         } else {
-                            evo_tree[source][source].push(evo_tree[target]);
+                            evoTree[source][source].push(evoTree[target]);
                         }
                     }
 
-                    let final_tree = evo_tree[sources_list[0]];
+                    let finalTree = evoTree[sourcesList[0]];
                     let createPaths = function(stack, tree, paths) {
                         let name = Object.keys(tree)[0];
                         let children = tree[name];
-                        let num_children = children.length;
+                        let numChildren = children.length;
 
                         // append this node to the path array
                         stack.push(name);
-                        if(num_children === 0) {
+                        if(numChildren === 0) {
                             // append all of its children
                             paths.push(stack.reverse().join('|'));
                             stack.reverse();
                         } else {
                             // otherwise try subtrees
-                            for(let i = 0; i < num_children; i++) {
+                            for(let i = 0; i < numChildren; i++) {
                                 createPaths(stack, children[i], paths);
                             }
                         }
@@ -219,96 +219,98 @@ class DexUtilities {
 
                         // get remaining number of evolutions in each path and total number
                         // of evolutions along each path
-                        let pokemon_path_data = {};
+                        let pokemonPathData = {};
                         for(let p = 0; p < paths.length; p++) {
                             let mons = paths[p].split('|');
                             for(let m = 0; m < mons.length; m++) {
                                 // first or only appearance
-                                if(!(mons[m] in pokemon_path_data)) {
-                                    pokemon_path_data[mons[m]] = {'remaining': m, 'total': mons.length - 1};
+                                if(!(mons[m] in pokemonPathData)) {
+                                    pokemonPathData[mons[m]] = {'remaining': m, 'total': mons.length - 1};
                                 }
                                 // pokemon has multiple evolution paths
                                 else {
-                                    const remaining = pokemon_path_data[mons[m]].remaining;
-                                    const total = pokemon_path_data[mons[m]].total;
-                                    pokemon_path_data[mons[m]].remaining = (remaining + m) / 2;
-                                    pokemon_path_data[mons[m]].total = (total + mons.length - 1) / 2;
+                                    const remaining = pokemonPathData[mons[m]].remaining;
+                                    const total = pokemonPathData[mons[m]].total;
+                                    pokemonPathData[mons[m]].remaining = (remaining + m) / 2;
+                                    pokemonPathData[mons[m]].total = (total + mons.length - 1) / 2;
                                 }
                             }
                         }
 
                         // return paths.map((p) => { return p.split('|').length })
-                        return pokemon_path_data;
+                        return pokemonPathData;
                     };
                     // - 1 because there is one less evolution then there are pokemon
-                    let parsed_path_data = parseEvolutionPaths(final_tree);
-                    for(let p in parsed_path_data) {
-                        maxEvoTreeDepth[p] = parsed_path_data[p];
-                        maxEvoTreeDepth[dex_ids[p]] = parsed_path_data[p];
+                    let parsedPathData = parseEvolutionPaths(finalTree);
+                    for(let p in parsedPathData) {
+                        maxEvoTreeDepth[p] = parsedPathData[p];
+                        maxEvoTreeDepth[dexIDs[p]] = parsedPathData[p];
                     }
-                    // maxEvoTreeDepth[pokemon] = Math.max(...parseEvolutionPaths(final_tree)) - 1;
-                    // maxEvoTreeDepth[dex_ids[pokemon]] = maxEvoTreeDepth[pokemon]
+                    // maxEvoTreeDepth[pokemon] = Math.max(...parseEvolutionPaths(finalTree)) - 1;
+                    // maxEvoTreeDepth[dexIDs[pokemon]] = maxEvoTreeDepth[pokemon]
                 } // if evolutions.length
                 // add pokemon that don't evolve
                 else {
                     maxEvoTreeDepth[pokemon] = {'remaining': 0, 'total': 0};
-                    maxEvoTreeDepth[dex_ids[pokemon]] = maxEvoTreeDepth[pokemon];
+                    maxEvoTreeDepth[dexIDs[pokemon]] = maxEvoTreeDepth[pokemon];
                 }
             } // if not in maxEvoTreeDepth
-        } // for pokemon in parsed_families
+        } // for pokemon in parsedFamilies
         
         return maxEvoTreeDepth;
 
     } // buildEvolutionTreeDepthsList
 
     static parseFormData($, ownerDocument, dexPageParser, args) {
-        const form_data = {};
-        const form_map = {};
+        const formData = {};
+        const formMap = {};
 
         // because the evolution tree for all the members of a single family will have the same text,
         // use the text as a key in families
         // use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
         for(let a = 0; a < args.length; a++) {
             let data = $(args[a], ownerDocument);
-            const header_info = dexPageParser.getInfoFromDexPageHeader(data);
-            const footer_info = dexPageParser.getInfoFromDexPageFooter(data);
+            const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
+            const footerInfo = dexPageParser.getInfoFromDexPageFooter(data);
 
             // use the footbar to get the full pokedex number for the current form
-            let current_number = footer_info.shortlink_number;
+            let currentNumber = footerInfo.shortlinkNumber;
 
-            (form_data[header_info.name] = form_data[header_info.name] || []).push({
+            (formData[headerInfo.name] = formData[headerInfo.name] || []).push({
                 // dex number of the base pokemon
-                base_number: header_info.base_number,
+                // eslint-disable-next-line camelcase
+                base_number: headerInfo.base_number,
                 // name of the base pokemon
-                base_name: header_info.base_name,
+                // eslint-disable-next-line camelcase
+                base_name: headerInfo.base_name,
                 // dex number of the form
-                number: current_number,
+                number: currentNumber,
                 // name of the form
-                name: header_info.name
+                name: headerInfo.name
             });
         } // for a
 
         // reorganize forms to all be under the base
-        for(let name in form_data) {
-            for(let i = 0; i < form_data[name].length; i++) {
-                (form_map[form_data[name][i].base_name] = form_map[form_data[name][i].base_name] || []).push({
-                    name: form_data[name][i].name,
-                    number: form_data[name][i].number
+        for(let name in formData) {
+            for(let i = 0; i < formData[name].length; i++) {
+                (formMap[formData[name][i].base_name] = formMap[formData[name][i].base_name] || []).push({
+                    name: formData[name][i].name,
+                    number: formData[name][i].number
                 });
             } // i
         } // name
 
         // duplicate data from base pokemon into entries for each form
-        for(let name in form_data) {
-            for(let i = 0; i < form_data[name].length; i++) {
-                if(form_data[name][i].base_name !== form_data[name][i].name) {
-                    // form_map[form_data[name][i].number] = form_map[form_data[name][i].base_name];
-                    form_map[form_data[name][i].name] = form_map[form_data[name][i].base_name];
+        for(let name in formData) {
+            for(let i = 0; i < formData[name].length; i++) {
+                if(formData[name][i].base_name !== formData[name][i].name) {
+                    // formMap[formData[name][i].number] = formMap[formData[name][i].base_name];
+                    formMap[formData[name][i].name] = formMap[formData[name][i].base_name];
                 }
             }
         }
 
-        return [form_data, form_map];
+        return [formData, formMap];
     } // parseFormData
 
     /* base_names = {
@@ -321,8 +323,8 @@ class DexUtilities {
         const list = {};
         for(let a = 0; a <args.length; a++) {
             let data = $(args[a], ownerDocument);
-            const header_info = dexPageParser.getInfoFromDexPageHeader(data);
-            list[header_info.name] = header_info.base_name;
+            const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
+            list[headerInfo.name] = headerInfo.base_name;
         }
         return list;
     }
@@ -336,12 +338,12 @@ class DexUtilities {
         const list = {};
         for(let a = 0; a <args.length; a++) {
             let data = $(args[a], ownerDocument);
-            const header_info = dexPageParser.getInfoFromDexPageHeader(data);
-            const name = header_info.name;
-            const egg_url = dexPageParser.parseEggPngFromDexPage(data);
+            const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
+            const name = headerInfo.name;
+            const eggUrl = dexPageParser.parseEggPngFromDexPage(data);
 
-            if(egg_url) {
-                list[name] = egg_url;
+            if(eggUrl) {
+                list[name] = eggUrl;
             }
         }
         return list;
@@ -358,8 +360,8 @@ class DexUtilities {
         const list = {};
         for(let a = 0; a < args.length; a++) {
             let data = $(args[a], ownerDocument);
-            const header_info = dexPageParser.getInfoFromDexPageHeader(data);
-            const name = header_info.name;
+            const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
+            const name = headerInfo.name;
             const types = dexPageParser.parseTypesFromDexPage(data, globals.TYPE_LIST);
 
             list[name] = types;
@@ -367,8 +369,8 @@ class DexUtilities {
         return list;
     }
 
-    static buildRegionalFormsMap(form_map) {
-        const regional_form_data = {};
+    static buildRegionalFormsMap(formMap) {
+        const regionalFormData = {};
 
         const REGIONAL_NAME_MARKERS = ['Kantonian',
             'Johtoian', // unused
@@ -379,35 +381,35 @@ class DexUtilities {
             'Alolan',
             'Galarian'];
 
-        const all_species = Object.keys(form_map);
-        let checked_species = {};
-        for(let i = 0; i < all_species.length; i++) {
-            let current = all_species[i];
+        const allSpecies = Object.keys(formMap);
+        let checkedSpecies = {};
+        for(let i = 0; i < allSpecies.length; i++) {
+            let current = allSpecies[i];
             let base = (current.indexOf('[') > -1) ? current.substring(0, current.indexOf('[')).trim() : current;
-            if(!Object.prototype.hasOwnProperty.call(checked_species, base)) {
-                checked_species[base] = true;
+            if(!Object.prototype.hasOwnProperty.call(checkedSpecies, base)) {
+                checkedSpecies[base] = true;
 
-                let form_names = form_map[base].map((e) => e.name);
+                let formNames = formMap[base].map((e) => e.name);
 
                 // if any of the names have one of the regional markers,
                 // add the regional names to the list
-                let forms_with_markers = form_names.filter((n) => {
+                let formWithMarkers = formNames.filter((n) => {
                     return REGIONAL_NAME_MARKERS.filter((r) => n.indexOf(`${r}`) > -1).length > 0;
                 });
 
                 // filter out megas/totems
                 // these are filtered out this way to allow for Galarian Zen Mode Darmanitan
-                forms_with_markers = forms_with_markers.filter((n) => n.indexOf('Mega Forme') == -1);
-                forms_with_markers = forms_with_markers.filter((n) => n.indexOf('Totem Forme') == -1);
+                formWithMarkers = formWithMarkers.filter((n) => n.indexOf('Mega Forme') == -1);
+                formWithMarkers = formWithMarkers.filter((n) => n.indexOf('Totem Forme') == -1);
 
-                if(forms_with_markers && forms_with_markers.length) {
-                    (regional_form_data[base] = regional_form_data[base] || []).push(base);
-                    regional_form_data[base] = regional_form_data[base].concat(forms_with_markers);
+                if(formWithMarkers && formWithMarkers.length) {
+                    (regionalFormData[base] = regionalFormData[base] || []).push(base);
+                    regionalFormData[base] = regionalFormData[base].concat(formWithMarkers);
                 }
             }
         }
 
-        return regional_form_data;
+        return regionalFormData;
     }
 
     /* egg_pngs_types_map = {
@@ -417,12 +419,12 @@ class DexUtilities {
           }
        }
     */
-    static buildEggPngsTypesMap(base_names_list, egg_pngs_list, types_list) {
+    static buildEggPngsTypesMap(baseNamesList, eggPngsList, typesList) {
         const map = {};
-        for(let name in egg_pngs_list) {
-            const base = base_names_list[name];
-            const png = egg_pngs_list[name];
-            const types = types_list[name];
+        for(let name in eggPngsList) {
+            const base = baseNamesList[name];
+            const png = eggPngsList[name];
+            const types = typesList[name];
             (map[base] = map[base] || {})[png] = types;
         }
 

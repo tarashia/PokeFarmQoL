@@ -26,7 +26,7 @@ class EvolutionTreeParser {
      *                          }, ...
      *              }
      */
-    static _parseEvolutionLi(li, dex_id_map) {
+    static _parseEvolutionLi(li, dexIDMap) {
         let condition = li.children('.condition');
         let targetElem = li.find('.name').eq(0);
         let target = targetElem.text().trim();
@@ -35,7 +35,7 @@ class EvolutionTreeParser {
         if(targetElem.find('a').length) {
             let link = targetElem.find('a')[0]['href'];
             let id = link.substring('/dex/'.length);
-            dex_id_map[target] = id;
+            dexIDMap[target] = id;
         }
 
         let ret = {};
@@ -46,7 +46,7 @@ class EvolutionTreeParser {
         const uls = li.children('ul');
         if(uls.length) {
             for(let i = 0; i < uls.length; i++) {
-                let nest = EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dex_id_map);
+                let nest = EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dexIDMap);
                 ret[target]['evolutions'].push(nest);
             }
             return ret;
@@ -81,13 +81,13 @@ class EvolutionTreeParser {
      *                             }, ...
      *              }
      */
-    static _parseEvolutionUl(ul, dex_id_map) {
+    static _parseEvolutionUl(ul, dexIDMap) {
         const lis = ul.children('li');
-        const num_parallel_evolutions = lis.length;
+        const numParallelEvolutions = lis.length;
 
         let ret = {};
-        for(let i = 0; i < num_parallel_evolutions; i++) {
-            let nest = EvolutionTreeParser._parseEvolutionLi(lis.eq(i), dex_id_map);
+        for(let i = 0; i < numParallelEvolutions; i++) {
+            let nest = EvolutionTreeParser._parseEvolutionLi(lis.eq(i), dexIDMap);
             for(let d in nest) {
                 ret[d] = nest[d];
             }
@@ -162,7 +162,7 @@ class EvolutionTreeParser {
      *           ]
      *          }
      */
-    static parseEvolutionTree(root, evotree, dex_id_map) {
+    static parseEvolutionTree(root, evotree, dexIDMap) {
         const uls = evotree.children('ul');
         const tree = {};
         const textContent = evotree.text();
@@ -179,8 +179,8 @@ class EvolutionTreeParser {
             let linkElem = evotree.children('span').children('a');
             if(linkElem.length) {
                 let link = linkElem[0]['href'];
-                let dex_id = link.substring('https://pokefarm.com/dex/'.length);
-                dex_id_map[root] = dex_id;
+                let dexID = link.substring('https://pokefarm.com/dex/'.length);
+                dexIDMap[root] = dexID;
             }
         }
 
@@ -201,7 +201,7 @@ class EvolutionTreeParser {
          */
         tree[root] = [];
         for(let i = 0; i < uls.length; i++) {
-            tree[root].push(EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dex_id_map));
+            tree[root].push(EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dexIDMap));
         }
 
         // flatten the tree
@@ -254,31 +254,31 @@ class EvolutionTreeParser {
      *             data parsed during the current recursion
      * - 
      */
-    static _flattenEvolutionTree(family_obj, ret_obj, evo_src) {
-        ret_obj = ret_obj || {
+    static _flattenEvolutionTree(familyObj, retObj, evoSrc) {
+        retObj = retObj || {
             'members': [],
             'evolutions': []
         };
 
-        if(Array.isArray(family_obj)) {
-            for(let i = 0; i < family_obj.length; i++) {
-                for(let key in family_obj[i]) {
-                    ret_obj.members.push(key);
-                    ret_obj.evolutions.push({
-                        'source': evo_src,
+        if(Array.isArray(familyObj)) {
+            for(let i = 0; i < familyObj.length; i++) {
+                for(let key in familyObj[i]) {
+                    retObj.members.push(key);
+                    retObj.evolutions.push({
+                        'source': evoSrc,
                         'target': key,
-                        'condition': family_obj[i][key]['condition']
+                        'condition': familyObj[i][key]['condition']
                     });
-                    this._flattenEvolutionTree(family_obj[i][key]['evolutions'], ret_obj, key);
+                    this._flattenEvolutionTree(familyObj[i][key]['evolutions'], retObj, key);
                 }
             }
-        } else if(typeof family_obj === 'object') {
-            for(let key in family_obj) {
-                ret_obj.members.push(key);
-                this._flattenEvolutionTree(family_obj[key], ret_obj, key);
+        } else if(typeof familyObj === 'object') {
+            for(let key in familyObj) {
+                retObj.members.push(key);
+                this._flattenEvolutionTree(familyObj[key], retObj, key);
             }
         }
-        return ret_obj;
+        return retObj;
     }
 
     /* _parseEvolutionConditions

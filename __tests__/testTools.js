@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 // __tests__/testTools.js
 
-/* globals __dirname */
 import { join } from 'path';
 import { readFileSync, existsSync } from 'fs';
 const loadDexFile = function(dexID) {
