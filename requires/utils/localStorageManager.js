@@ -172,3 +172,7 @@ class LocalStorageManager {
         return dexNumbers;
     }
 }
+
+if (module) {
+    module.exports.LocalStorageManager = LocalStorageManager;
+}
