@@ -1,12 +1,12 @@
+const DexUtilities = require('../__mocks__/dexUtilities').dexUtilities;
+const EvolutionTreeParser = require('../requires/utils/evolutionTreeParser').EvolutionTreeParser;
+const DexPageParser = require('../requires/utils/dexPageParser').DexPageParser;
+const LocalStorageManager = require('../requires/utils/localStorageManager').LocalStorageManager;
+const QoLHub = require('../requires/utils/qolHub').QoLHub;
+const localStorageManager = new LocalStorageManager(localStorage);
+const jQuery = require('../__mocks__/jquery').jQuery;
 const fs = require('fs');
 const path = require('path');
-const jQuery = require('../__mocks__/jquery').jQuery;
-const DexUtilities = require('../__mocks__/dexUtilities').dexUtilities;
-const EvolutionTreeParser = require('../requires/utils/evolutionTreeParser');
-const DexPageParser = require('../requires/utils/dexPageParser');
-const LocalStorageManager = require('../requires/utils/localStorageManager');
-const QoLHub = require('../requires/utils/qolHub');
-const localStorageManager = new LocalStorageManager(localStorage);
 
 const ownerDocument = document.implementation.createHTMLDocument('virtual');
 

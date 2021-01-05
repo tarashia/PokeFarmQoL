@@ -1,7 +1,10 @@
-const DexPageParser = require('../requires/utils/dexPageParser.js');
-const EvolutionTreeParser = require('../requires/utils/evolutionTreeParser.js');
+const DPParser = require('../requires/utils/dexPageParser.js');
+const ETParser = require('../requires/utils/evolutionTreeParser.js');
 const jQuery = require('../node_modules/jquery/dist/jquery.min.js');
 const testTools = require('./testTools');
+
+const DexPageParser = DPParser.DexPageParser;
+const EvolutionTreeParser = ETParser.EvolutionTreeParser;
 
 const ownerDocument = document.implementation.createHTMLDocument('virtual');
 
@@ -48,7 +51,6 @@ describe('Parse the footer from a dex page', () => {
         };
 
         expect(DexPageParser.getInfoFromDexPageFooter(input)).toEqual(output);
-
     });
 });
 

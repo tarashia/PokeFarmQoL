@@ -121,3 +121,7 @@ class DexPageParser {
         return flattened;
     }    
 } // DexPageParser
+
+if (module) {
+    module.exports.DexPageParser = DexPageParser;
+}

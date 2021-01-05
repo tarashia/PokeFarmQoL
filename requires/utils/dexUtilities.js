@@ -432,3 +432,7 @@ class DexUtilities {
     }
 
 } // DexUtilities
+
+if (module) {
+    module.exports.DexUtilities = DexUtilities;
+}

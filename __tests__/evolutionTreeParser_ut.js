@@ -1,4 +1,4 @@
-const EvolutionTreeParser = require('../requires/utils/evolutionTreeParser.js');
+const EvolutionTreeParser = require('../requires/utils/evolutionTreeParser.js').EvolutionTreeParser;
 const jQuery = require('../node_modules/jquery/dist/jquery.min.js');
 const fs = require('fs');
 const path = require('path');
