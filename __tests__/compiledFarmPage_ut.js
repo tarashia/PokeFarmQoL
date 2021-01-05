@@ -1,4 +1,3 @@
-/* globals __dirname global */
 const $ = require('../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
 const console = require('../__mocks__/console_suppress').console;
@@ -26,8 +25,9 @@ function internalTrim(jObj) {
                     jObj.eq(i).html(newHTML);
                 }
             }
-            else
+            else {
                 jObj.eq(i).html(currentHTML.replace(/\s{1,}/g, ' ').trim());
+            }
         }
     }
     // trim children
@@ -43,8 +43,9 @@ function removeComments(jObj) {
         }
     }
 
-    if(jObj.length)
+    if(jObj.length) {
         removeComments(jObj.contents());
+    }
 }
 
 function internalStringTrim(currentHTML) {
@@ -83,8 +84,9 @@ function internalStringTrim(currentHTML) {
             lastIndex = currentHTML.length;
         }
 
-        if (!newHTML)
+        if (!newHTML) {
             return currentHTML.replace(/\s{1,}/g, ' ').trim();
+        }
         else {
             newHTML += currentHTML.substring(lastIndex);
             return newHTML.replace(/\s{1,}/g, ' ').trim();
@@ -98,12 +100,12 @@ $.fn.equivalent = function (compareTo) {
     if (!compareTo || this.length != compareTo.length) {
         return false;
     }
-    for (var i = 0; i < this.length; ++i) {
+    for (let i = 0; i < this.length; ++i) {
         if (!$(this[i]).children().equivalent($(compareTo[i]).children())) {
             return false;
         }
     }
-    for (var i = 0; i < this.length; ++i) {
+    for (let i = 0; i < this.length; ++i) {
         // use a "fuzzy" equivalency by removing extraneous whitespace that
         // doesn't actually affect the structure of the HTML
         let actual = $(this[i]);
@@ -115,19 +117,19 @@ $.fn.equivalent = function (compareTo) {
         }
     }
     return true;
-}
+};
 
 // extend jQuery with recursive node equality function
 $.fn.equals = function (compareTo) {
     if (!compareTo || this.length != compareTo.length) {
         return false;
     }
-    for (var i = 0; i < this.length; ++i) {
+    for (let i = 0; i < this.length; ++i) {
         if (this[i] !== compareTo[i]) {
             return false;
         }
     }
-    for (var i = 0; i < this.length; ++i) {
+    for (let i = 0; i < this.length; ++i) {
         if (!$(this[i]).children().equals($(compareTo[i]).children())) {
             return false;
         }

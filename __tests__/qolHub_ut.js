@@ -1,4 +1,3 @@
-/* globals __dirname */
 const fs = require('fs');
 const path = require('path');
 const jQuery = require('../__mocks__/jquery').jQuery;

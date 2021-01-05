@@ -46,7 +46,7 @@
 // @grant        GM_info
 // ==/UserScript==
 
-/* globals jQuery compareVersions module GM_getResourceText GM_addStyle GM_xmlhttpRequest GM_info 
+/* globals jQuery compareVersions GM_getResourceText GM_addStyle GM_xmlhttpRequest GM_info 
         Globals Helpers LocalStorageManager DexUtilities DexPageParser
         EvolutionTreeParser DaycarePage FarmPage LabPage PublicFieldsPage
         PrivateFieldsPage  ShelterPage FishingPage MultiuserPage DexPage 
@@ -250,6 +250,7 @@ const pfqol = function ($) {
                         onload: function (data) {
                             let match = atob(data.response.content).match(/\/\/\s+@version\s+([^\n]+)/);
                             version = match[1];
+                            // eslint-disable-next-line camelcase
                             if (compareVersions(GM_info.script.version, version) < 0) {
                                 document.querySelector('li[data-name*=\'QoL\']').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubUpdateLinkHTML);
                             }
@@ -425,7 +426,9 @@ const pfqol = function ($) {
     }));
 };
 
-if (module)
-{module.exports.pfqol = pfqol;}
-else
-{pfqol(jQuery);}
+if (module) {
+    module.exports.pfqol = pfqol;
+}
+else {
+    pfqol(jQuery);
+}

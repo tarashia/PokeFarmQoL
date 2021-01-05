@@ -44,7 +44,7 @@ describe('Parse the footer from a dex page', () => {
         const output = {
             shortlink: '/shortlinks/save/dex/003-M',
             // eslint-disable-next-line camelcase
-            shortlink_number: '003-M'
+            shortlinkNumber: '003-M'
         };
 
         expect(DexPageParser.getInfoFromDexPageFooter(input)).toEqual(output);

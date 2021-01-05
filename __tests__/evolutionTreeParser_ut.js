@@ -1,4 +1,3 @@
-/* globals __dirname */
 const EvolutionTreeParser = require('../requires/utils/evolutionTreeParser.js');
 const jQuery = require('../node_modules/jquery/dist/jquery.min.js');
 const fs = require('fs');

@@ -1,11 +1,10 @@
-/* globals __dirname */
 const fs = require('fs');
 const path = require('path');
 const LocalStorageManager = require('../requires/utils/localStorageManager.js');
 const DexUtilities = require('../__mocks__/dexUtilities').dexUtilities;
 const jQuery = require('jquery').jQuery;
 
-const localStorageManager = new LocalStorageManager(localStorage);
+const localStorageManager = new LocalStorageManager.LocalStorageManager(localStorage);
 const ownerDocument = document.implementation.createHTMLDocument('virtual');
 
 describe('Test loadDexIntoGlobalsFromStorage', () => {

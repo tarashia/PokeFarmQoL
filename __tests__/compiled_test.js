@@ -1,7 +1,8 @@
 const jQuery = require('../__mocks__/jquery_files').jQuery;
+// eslint-disable-next-line no-unused-vars
 const console = require('../__mocks__/console_suppress').console;
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 const pfqol = require('./compiled');
 
@@ -26,18 +27,18 @@ beforeAll(() => {
     );
 });
 
-describe("Test that PFQoL compiles", () => {
-    test("Test QoL Hub controls", () => {
+describe('Test that PFQoL compiles', () => {
+    test('Test QoL Hub controls', () => {
         const htmlpath = path.join(__dirname, './data/', 'party.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         document.documentElement.innerHTML = innerHTML;
-        global.location.href = "https://pokefarm.com/party";
+        global.location.href = 'https://pokefarm.com/party';
 
         // set non-default Shelter settings to facilitate the resetPageSettings test
         localStorage.setItem('QoLShelter', JSON.stringify({
-            findCustom: "",
-            findType: "",
+            findCustom: '',
+            findType: '',
             findTypeEgg: false, // non-default
             findTypePokemon: true, // non-default
             findNewEgg: false, // non-default
@@ -96,8 +97,8 @@ describe("Test that PFQoL compiles", () => {
         // TEST 3
         // check that clicking resetPageSettings will 
         const defaultShelterSettings = {
-            findCustom: "",
-            findType: "",
+            findCustom: '',
+            findType: '',
             findTypeEgg: true,
             findTypePokemon: false,
             findNewEgg: true,
@@ -134,11 +135,11 @@ describe("Test that PFQoL compiles", () => {
         ////////////////////////////////////////
         // test keydown handler for #qolcustomcss
         let keyevent = jQuery.Event('keydown');
-        keyevent.keyCode = 9 // tab
+        keyevent.keyCode = 9; // tab
         jQuery('#qolcustomcss').trigger(keyevent);
         keyevent = jQuery.Event('keydown');
         keyevent.keyCode = 0;
-        keyevent.which = 9 // tab
+        keyevent.which = 9; // tab
         jQuery('#qolcustomcss').trigger(keyevent);
         ////////////////////////////////////////
 
@@ -156,7 +157,7 @@ describe("Test that PFQoL compiles", () => {
         jQuery('#clearCachedDex').eq(0).trigger('click');
         expect(localStorage.getItem('QoLEvolveByLevel')).toBeNull();
         expect(localStorage.getItem('QoLDexIDsCache')).toBeNull();
-        expect(localStorage.getItem("QoLEvolutionTreeDepth")).toBeNull();
+        expect(localStorage.getItem('QoLEvolutionTreeDepth')).toBeNull();
         expect(localStorage.getItem('QoLRegionalFormsList')).toBeNull();
         ////////////////////////////////////////
 
