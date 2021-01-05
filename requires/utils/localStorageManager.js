@@ -83,15 +83,15 @@ class LocalStorageManager {
         $('.qolDate', document).val(dateString);
     }
 
-    saveEvolveByLevelList(globals, parsed_families, dex_ids) {
+    saveEvolveByLevelList(globals, parsedFamilies, dexIDs) {
         // load current evolve by level list
         let evolveByLevelList = {};
         if(self.storage.getItem('QoLEvolveByLevel') !== null) {
             evolveByLevelList = JSON.parse(self.storage.getItem('QoLEvolveByLevel'));
         }
 
-        for(let pokemon in parsed_families) {
-            let evolutions = parsed_families[pokemon];
+        for(let pokemon in parsedFamilies) {
+            let evolutions = parsedFamilies[pokemon];
             for(let i = 0; i < evolutions.length; i++) {
                 let evo = evolutions[i];
                 if(!(evo.source in evolveByLevelList) && Array.isArray(evo.condition)) {
@@ -99,7 +99,7 @@ class LocalStorageManager {
                         let cond = evo.condition[j];
                         if(cond.condition === 'Level') {
                             evolveByLevelList[evo.source] = cond.condition + ' ' + cond.data;
-                            evolveByLevelList[dex_ids[evo.source]] = cond.condition + ' ' + cond.data;
+                            evolveByLevelList[dexIDs[evo.source]] = cond.condition + ' ' + cond.data;
                         } // if
                     } // for
                 } // if
@@ -120,12 +120,12 @@ class LocalStorageManager {
 
     } // saveEvolutionTreeDepths
 
-    saveRegionalFormsList(globals, parsed_families, dex_ids, regional_form_map) {
+    saveRegionalFormsList(globals, parsedFamilies, dexIDs, regionalFormMap) {
         // GLOBALS.REGIONAL_FORMS_LIST maps base pokemon species names to the list
         // of regional forms, including the base name.
         // e.g. - GLOBALS.REGIONAL_FORMS_LIST[Rattata] = ["Rattata", "Rattata [Alolan Forme]"]
         const key = 'QoLRegionalFormsList';
-        const list = regional_form_map;
+        const list = regionalFormMap;
 
         self.storage.setItem(key, JSON.stringify(list));
         globals.REGIONAL_FORMS_LIST = list;
