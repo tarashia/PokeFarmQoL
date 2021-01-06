@@ -1,0 +1,1003 @@
+<html lang="en-GB" class="mq5 mq45 mq4 mq35 mq3">
+
+<head>
+    <title>[10] Fishing - PokéFarm Q</title>
+    <link rel="shortcut icon"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACuklEQVQ4T42RfyzUcRjH31+uO1KI/ChNTWk1xh9XylgjbcLK2sju/JEh8zurJmJ11syyWk1/RFezJXdMSi2prEQsEy2Llh91X+SG636Tu+vcp933dhqXrc+fz/N+vz7P87ypkJz9wmNhsekEBKsfMVlqlB21omVVtr5ru0sJRCXkMq8UBvxiEHawgwEGKBVqGPUmmIv2HApu7i5ggw0TTAyMAweUictBlYrOkUJePhahAwsszMpkkHyegofLdmzx9GHE07M/MKei4Re8Dd4enjDCCEdwUCm+BapYdIac52XDgN+QK1TofzGAyJAD8N0VABAWmBEoIyZGh9He24OQOC42u7uBDRaui2v+AiYV0yipKMeMZg7rHR3RPdhnc5PQQC6UGjUOh4UjJyEVdS+bzIB8khKdBF5JJry9vHA6gQ9uYLCN2VroHx7EvaZ6KFVqcIOCLACNdh60dAK3BZVrGlc3MgUXsKhbtKzQ1vkal/LOYl+A5Wfj0hKaXz1DdHgkXDc6Y3h8BA2tLdi7czdOxhwHy94eA0ODKLx2xTLBm/fdaKoSMma1VoOaxjpIpidRXlDMiB88bUZ6Ih9dH3qxwckJB4O5jDYmg28BVNypwmTHAFPU6fUwERManz9BfNRRKFRKdH/sQ8qJJIxPSDAi+Ya4iCOM1jeSawuw7lr7qGEZYF7BDFsDkEc6+3rRcKN6xZ2sAEJMeNzehrQEPj59Hcac/CeiwyMYbWxGMqii+lzS3tOF0qyCFfFZAZucXSBubYFMIYd2QYss3im4u7rBHGd2WRFN5QpTiXlvqWwW1YKr/x1jlqAQQ2OjtVRSZTyJPRSFm/eF2OrhibTE5OU4/0Uzxyd8KMKXsRGalk6FUr58n5pA/z0ZOoMecqUSKo0aHDYbo/R3G7//Dj9oF+Zph3WcDlo6dRFvMfMHy6BAri7k3dAAAAAASUVORK5CYII=">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <meta name="description"
+        content="Collect eggs, hatch them and care for the Pokémon that emerge in this free-to-play online game!">
+    <link rel="stylesheet" href="//pfq-static.com/skins/user/k/C/P/buildup/index/sally.css/t=1578857784">
+    <link rel="stylesheet" href="//pfq-static.com/skins/user/k/C/P/buildup/fishing/boxselect.css/t=1485612639">
+    <link rel="stylesheet" href="//pfq-static.com/skins/user/k/C/P/buildup/fishing/fishing.css/t=1484831462">
+    <link rel="stylesheet"
+        href="//pfq-static.com/skins/user/k/C/P/buildup/fields/fieldselection.dialog.css/t=1526482400">
+    <link rel="manifest" href="/manifest.json">
+    <style id="1b54a1e6-94d3-44ba-80e6-a5d8a80088e7">
+        /* Pokefarm QoL style sheet */
+
+        /* Announcement bar */
+
+        #announcements li[data-name="QoL"] {
+            cursor: pointer;
+        }
+
+        /* Shelter Page */
+
+        /* tooltip */
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+            /* If you want dots under the hoverable text */
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 500px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            padding: 5px 0;
+            border-radius: 6px;
+
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: 0px;
+
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* shelter notification wrap */
+        #sheltersuccess {
+            text-align: center;
+        }
+
+        /* shelter notification */
+        #shelterfound {
+            padding-top: 20px;
+        }
+
+        /* shelter Pokemon/egg found background */
+        .publicfoundme,
+        .privatefoundme,
+        .shelterfoundme,
+        .daycarefoundme {
+            box-shadow: 0px 0px 25px 15px #d5e265;
+            background-color: #d5e265;
+            border-radius: 100%;
+        }
+
+        /*shelterSort */
+
+        /* shelter grid sort */
+        .qolshelterareagrid {
+            min-height: 350px;
+            display: flex !important;
+            flex-direction: row;
+            flex-flow: row wrap;
+            display: grid !important;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(5, 70px);
+        }
+
+        .qolshelterareagridmq2 {
+            min-height: 175px;
+            grid-template-rows: repeat(5, 35px);
+        }
+
+        .qoltooltipgrid {
+            position: absolute !important;
+            bottom: 0;
+            transform: translate(0, 100%);
+        }
+
+        .qolpokemongrid {
+            position: static !important;
+            flex: 1 1 16%;
+            display: inline-block !important;
+            display: inline-flex !important;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* fields */
+        /* Field settings div */
+        #fieldorder {
+            margin: 16px auto;
+            padding: 4px;
+            border: 1px solid #9ec690;
+            border-radius: 4px;
+            max-width: 600px;
+            position: relative;
+        }
+
+        #fieldsearch {
+            margin: 16px auto;
+            padding: 4px;
+            border: 1px solid #9ec690;
+            border-radius: 4px;
+            max-width: 600px;
+            position: relative;
+        }
+
+        /* sort by berry */
+        .qolAnyBerry {
+            left: 0% !important;
+            top: 45% !important;
+            margin: -10px !important;
+            transition: none !important;
+        }
+
+        .qolAnyBerry>img.big {
+            animation: none !important;
+            padding: 25px !important;
+        }
+
+        .qolSourBerry {
+            left: 0% !important;
+            top: 45% !important;
+            margin: -10px !important;
+            transition: none !important;
+        }
+
+        .qolSourBerry>img.big {
+            animation: none !important;
+            padding: 25px !important;
+        }
+
+        .qolSpicyBerry {
+            left: 20% !important;
+            top: 45% !important;
+            margin: -10px !important;
+            transition: none !important;
+        }
+
+        .qolSpicyBerry>img.big {
+            animation: none !important;
+            padding: 25px !important;
+        }
+
+        .qolDryBerry {
+            left: 40% !important;
+            top: 45% !important;
+            margin: -10px !important;
+            transition: none !important;
+        }
+
+        .qolDryBerry>img.big {
+            animation: none !important;
+            padding: 25px !important;
+        }
+
+        .qolSweetBerry {
+            left: 60% !important;
+            top: 45% !important;
+            margin: -10px !important;
+            transition: none !important;
+        }
+
+        .qolSweetBerry>img.big {
+            animation: none !important;
+            padding: 25px !important;
+        }
+
+        .qolBitterBerry {
+            left: 80% !important;
+            top: 45% !important;
+            margin: -10px !important;
+            transition: none !important;
+        }
+
+        .qolBitterBerry>img.big {
+            animation: none !important;
+            padding: 25px !important;
+        }
+
+        /* sort in middle */
+        .qolSortMiddle {
+            left: 40% !important;
+            top: 35% !important;
+            margin: -10px !important;
+            transition: none !important;
+        }
+
+        .qolSortMiddle>img.big {
+            animation: none !important;
+            padding: 40px !important;
+        }
+
+
+        /* field sort in grid */
+        .qolGridField {
+            min-height: 345px;
+            display: flex !important;
+            flex-flow: row wrap;
+            display: grid;
+            grid-template-columns: repeat(8, 12.5%);
+            grid-template-rows: repeat(5, 69px);
+            padding-top: 0% !important;
+        }
+
+        .mq25 .qolGridField {
+            min-height: 180px;
+            grid-template-rows: repeat(5, 36px);
+        }
+
+        .qolGridPokeSize {
+            margin: 0 !important;
+            position: static !important;
+            flex: 1 1 12.5%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .qolGridPokeImg {
+            max-width: 75px;
+            max-height: 70px;
+            animation: none !important;
+        }
+
+        /* QoL Settings Hub */
+        .qolHubSuperHead:first-child {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .qolHubHead {
+            border-bottom: 1px solid #9ec690;
+            text-align: center;
+            padding: 4px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .qolAllSettings {
+            width: 315px;
+            height: 100%;
+            border: 1px solid #9ec690;
+            border-top: none;
+            vertical-align: top;
+        }
+
+        .qolChangeLog {
+            width: 315px;
+            height: 100%;
+            border: 1px solid #9ec690;
+            border-top: none;
+        }
+
+        .qolAllSettings>ul {
+            list-style-type: none;
+            padding: 0px;
+            vertical-align: top;
+        }
+
+        .qolHubTable {
+            border-spacing: 0px 0px;
+            border-collapse: collapse;
+        }
+
+        .qolChangeLogList {
+            color: #004000;
+            text-align: left;
+            padding: 4px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .qolChangeLogContent {
+            list-style-type: disc;
+            display: none;
+        }
+
+        .expandlist {
+            font-size: 16px;
+            text-align: center;
+            list-style-type: none;
+        }
+
+        .slidermenu {
+            cursor: pointer;
+        }
+
+        .qolChangeLogHead {
+            border: 1px solid #9ec690;
+            margin: 0px;
+        }
+
+        .closeHub {
+            text-align: right;
+            margin: 0px 10px 0px 0px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* qol party clicking mod */
+        /* settings menu */
+        #qolpartymod {
+            text-align: center;
+        }
+
+        .qolpartyclickhide {
+            display: none !important;
+        }
+
+        .qolpartyclickwidth {
+            width: 100% !important;
+        }
+
+        .qolpartyclickblock {
+            display: inline-block !important;
+        }
+
+        .qolpartyclickalot {
+            position: absolute !important;
+            background-color: transparent !important;
+            border: none !important;
+            left: 300px !important;
+            top: 500px !important;
+        }
+
+        .qolpartyclickz {
+            z-index: 100 !important;
+        }
+
+        .qolpartyclicknav {
+            position: absolute !important;
+            left: 300px !important;
+            top: 500px !important;
+        }
+
+        .qolpartyclickpartywidth {
+            width: 300px !important;
+        }
+
+        .qolpartyclickpartydivwidth {
+            width: 211px !important;
+        }
+
+        .qolpartyclickborderone {
+            border-top-right-radius: 6px !important;
+        }
+
+        .qolpartyclickbordertwo {
+            border-top-right-radius: 0px !important;
+            border-top-width: 0px !important;
+        }
+
+        .qolpartyclickborderthree {
+            border-bottom-left-radius: 0px !important;
+        }
+
+        .qolpartyclickborderfour {
+            border-bottom-left-radius: 6px !important;
+        }
+
+        .qolpartyclickborderfive {
+            border-right-width: 1px !important;
+        }
+
+        .qolpartyclickul {
+            height: 35px !important;
+            overflow: hidden !important;
+        }
+
+        .qolpartyclicklilabel {
+            width: 5px !important;
+            padding: 2px !important;
+        }
+
+        /* hide dislike */
+        .qolpartyclicktextalign {
+            text-align: center !important;
+        }
+
+        /* lab */
+        /* lab notification wrap */
+        #labsuccess {
+            text-align: center;
+        }
+
+        /* lab notification div */
+        #labfound {
+            padding-top: 20px;
+        }
+
+        /* lab <p> bold */
+        .boldp {
+            font-weight: bold;
+        }
+
+        .collapsible {
+            cursor: pointer;
+            padding: 4px;
+            width: 100%;
+            text-align: left;
+            max-width: 600px;
+            position: relative;
+            border-radius: 6px;
+        }
+
+        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+        .active,
+        .collapsible:hover {
+            background-color: #ccc;
+        }
+
+        /* Style the collapsible content. Note: hidden by default */
+        .collapsible_content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+        }
+
+        /* evolutions left highlighting */
+        .oneevolutionleft {
+            box-shadow: 0px 0px 25px 15px #f36971;
+            /* light red */
+            background-color: #f36971;
+            border-radius: 100%;
+        }
+
+        .twoevolutionleft {
+            box-shadow: 0px 0px 25px 15px #6a6df2;
+            /* light blue */
+            background-color: #6a6df2;
+            border-radius: 100%;
+        }
+
+        /* wishforge page */
+        .badgelist>table>tbody>tr>td>.itemtooltip {
+            position: relative;
+            margin-top: -28px;
+        }
+
+        .badgelist>table>tbody>tr>td>p {
+            margin-block-start: 0;
+            margin-block-end: 0;
+        }
+    </style>
+    <style type="text/css"></style>
+</head>
+
+<body><svg class="svg_icon_definitions">
+        <defs>
+            <path d="M0,-30 L10,-40 0,-50 0,-45 C-25,-45 -40,-25 -40,0 -35,-20 -20,-35 0,-35 Z" id="svg_loading_arrow">
+            </path>
+            <g id="svg_loading_arrows" class="svgicon">
+                <use xlink:href="#svg_loading_arrow"></use>
+                <use xlink:href="#svg_loading_arrow" transform="rotate(180)"></use>
+            </g>
+            <polygon id="svg_usermark_1" points="4,0.5 2.34,5.93 6.85,2.57 1.15,2.57 5.76,5.93" transform="scale(2)">
+            </polygon>
+            <circle id="svg_usermark_2" cx="8" cy="8" r="4"></circle>
+            <polygon id="svg_usermark_3" points="8,3 12,11 4,11"></polygon>
+            <path id="svg_usermark_4" d="M8,12 C5,8 2,8 2,4 A3,3 0 1 1 8,4 A3,3 0 1 1 14,4 C14,8 11,8 8,12 Z"></path>
+            <path id="svg_usermark_5"
+                d="M8,8 A3,3 0 0 0 2,8 A3,3 0 0 0 8,8 A3,3 0 0 0 8,2 A3,3 0 0 0 8,8 A3,3 0 0 0 14,8 A3,3 0 0 0 8,8 L10,14 H6 Z">
+            </path>
+            <path id="svg_usermark_6" d="M8,3 L12,8 L8,13 L4,8 Z"></path>
+            <path id="svg_usermark_7" d="M8,2 L2,8 A3,3 0 0 0 8,8 L10,14 H6 L8,8 A3,3 0 0 0 14,8 Z"></path>
+        </defs>
+    </svg>
+    <div id="core" class="" data-user="kCP"><a href="#top" id="toplink">Top</a>
+        <div id="header">
+            <div id="head-avatar">
+                <div class="profilepic" data-tooltip=""><img src="/img/unknown_trainer.png"
+                        style="width:48px;height:48px" class="avatar" alt="ECEInTheHole's Avatar"></div>
+                <div class="tooltip_content"><a href="/user/~me">Profile</a><a href="/fields">My Fields</a><a
+                        href="/farm#tab=5.5">Edit Avatar</a><a href="/outfit">Edit Trainer</a>
+                    <hr><a href="#" id="logout">Log out</a></div>
+            </div>
+            <div id="head-left">
+                <ul>
+                    <li><b id="globaluserlink"><img
+                                src="https://pfq-static.com/img/zophan/hypermode-12.png/t=1469304491"
+                                title="Hypermode"><a href="/user/ECEInTheHole" class="userlink0">ECEInTheHole</a></b>
+                    </li>
+                </ul>
+                <ul>
+                    <li><a href="/user/~clickback">Clickback</a></li>
+                    <li><a href="https://pokefarm.wiki/" target="_blank"><b>Help</b></a></li>
+                </ul>
+            </div>
+            <div id="head-middle">
+                <ul>
+                    <li><a href="/online">284 users online</a> (<a href="/user/~online">Open 10</a>)</li>
+                </ul>
+                <ul>
+                    <li><a href="/cr" id="c_credits"><img src="//pfq-static.com/img/zophan/credits.png"
+                                class="currencyicon" title="Credits">1,154,018</a></li>
+                    <li><a href="/gp" id="c_gold"><img src="//pfq-static.com/img/zophan/gold.png" class="currencyicon"
+                                title="Gold Poké">766</a></li>
+                    <li><a href="/zc" id="c_zophan"><img src="//pfq-static.com/img/zophan/zophan.png"
+                                class="currencyicon" title="Zophan Canisters">3,740</a><a href="#"
+                            id="viewcurrencies">View all</a></li>
+                </ul>
+            </div>
+            <div id="head-right">
+                <ul>
+                    <li>Server time:<span id="servertimeclock" data-timestamp="1605785231162"
+                            data-icon="sun">19/Nov/2020 11:27:16</span><span data-tooltip=""><img
+                                src="https://pfq-static.com/img/navbar/sun_sun.png/t=1479382029" data-icon="sun"
+                                alt="Day"><img src="https://pfq-static.com/img/navbar/sun_dawn.png/t=1508750786"
+                                data-icon="dawn" alt="Twilight"><img
+                                src="https://pfq-static.com/img/navbar/moon_moon.png/t=1479382037" data-icon="moon"
+                                alt="Night"></span>
+                        <div class="tooltip_content"><b>Daytime</b><br>Sunset at 16:07</div>
+                    </li>
+                </ul>
+                <ul>
+                    <li><a href="/pm">PMs</a></li>
+                    <li><a href="/forum">Forums</a> (<a href="/forum/subs">Subs</a>)</li>
+                </ul>
+            </div>
+            <div id="head-social">
+                <div id="notifs"><a href="#" data-count="10"><img
+                            src="https://pfq-static.com/img/notifications/niet.png/t=1525535053"
+                            alt="Notifications"><span id="busystatus_indicator" class="busy">−</span></a>
+                    <div>
+                        <div id="notifications">
+                            <p><b>Forum Subscriptions</b></p>
+                            <ul class="small">
+                                <li data-id="sub-193472-5612550"
+                                    data-href="/forum/thread/193472/Quality-of-Life-changes-UserScript/post/5612550"><a
+                                        href="/user/Vaporeon26" class="userlink0">Vaporeon26</a> posted in <a
+                                        href="/forum/thread/193472/Quality-of-Life-changes-UserScript/post/5612550">Quality
+                                        of Life changes [UserScript]</a></li>
+                            </ul>
+                            <p><b>Wishforge</b></p>
+                            <ul class="small">
+                                <li data-id="gems-ghost" data-href="/forge">You have enough Ghost Gems for your next <a
+                                        href="/forge">badge upgrade</a></li>
+                            </ul>
+                            <p><b>Dojo</b></p>
+                            <ul class="small">
+                                <li data-id="train-hb97Q" data-href="/dojo/training"><a href="/summary/hb97Q">Snom</a>
+                                    has found <a href="/dojo/training">6 Training Bags</a></li>
+                                <li data-id="train-hyp4x" data-href="/dojo/training"><a href="/summary/hyp4x">Mr.
+                                        Mime</a> has found <a href="/dojo/training">6 Training Bags</a></li>
+                                <li data-id="train-hbXwB" data-href="/dojo/training"><a href="/summary/hbXwB">Mr.
+                                        Mime</a> has found <a href="/dojo/training">6 Training Bags</a></li>
+                                <li data-id="train-hJ8_t" data-href="/dojo/training"><a
+                                        href="/summary/hJ8_t">Sizzlipede</a> has found <a href="/dojo/training">6
+                                        Training Bags</a></li>
+                                <li data-id="train-hJXGw" data-href="/dojo/training"><a
+                                        href="/summary/hJXGw">Sizzlipede</a> has found <a href="/dojo/training">6
+                                        Training Bags</a></li>
+                                <li data-id="train-hbPfy" data-href="/dojo/training"><a href="/summary/hbPfy">Snom</a>
+                                    has found <a href="/dojo/training">6 Training Bags</a></li>
+                            </ul>
+                            <p><b>Miscellaneous</b></p>
+                            <ul class="small">
+                                <li data-id="daycarereminder" data-href="/daycare">The <a href="/daycare">DayCare</a>
+                                    has 18 Eggs for you</li>
+                                <li data-id="misc-scour" data-href="/scour">3 Pokémon returned from <a
+                                        href="/scour">Scour Missions</a></li>
+                            </ul>
+                        </div>
+                        <div id="busystatus"><label><input type="checkbox" id="busystatus_cb" checked=""> Set "busy"
+                                status</label></div><audio src="/audio/absol.mp3" type="audio/mpeg"
+                            id="notification_sound"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="navigation">
+            <ul id="navbtns">
+                <li><a href="/lab"><img src="https://pfq-static.com/img/navbar/lab.png/t=1430540370"
+                            alt="Lab"><span>Lab</span></a></li>
+                <li><a href="/party"><img src="https://pfq-static.com/img/navbar/party.png/t=1430540365"
+                            alt="Party"><span>Party</span></a></li>
+                <li><a href="/farm"><img src="https://pfq-static.com/img/navbar/farm.png/t=1430540358"
+                            alt="Farm"><span>Farm</span></a></li>
+                <li><a href="/shelter"><img src="https://pfq-static.com/img/navbar/shelter.png/t=1430540353"
+                            alt="Shelter"><span>Shelter</span></a></li>
+                <li><a href="/marketboard"><img src="https://pfq-static.com/img/navbar/shop.png/t=1430540347"
+                            alt="Market"><span>Market</span></a></li>
+                <li><a href="/daycare"><img src="https://pfq-static.com/img/navbar/daycare.png/t=1430540343"
+                            alt="Daycare"><span>Daycare</span></a></li>
+                <li><a href="/dex"><img src="https://pfq-static.com/img/navbar/dex.png/t=1430540337"
+                            alt="Pokédex"><span>Pokédex</span></a></li>
+            </ul>
+            <ul id="navbookmark">
+                <li><a href="/fields"><span>Fields</span></a></li>
+                <li><a href="/scour"><span>Scours</span></a></li>
+                <li><a href="/forge"><span>Wishforge</span></a></li>
+                <li><a href="/garden"><span>Garden</span></a></li>
+                <li><a href="/shinyhunt"><span>Shinies</span></a></li>
+                <li><a href="/trade"><span>Trades</span></a></li>
+                <li><a href="#" id="morenavoptions"><span>More...</span></a></li>
+            </ul>
+        </div>
+        <div id="announcement-box">
+            <div id="announcements">
+                <ul>
+                    <li><a href="/news"><img src="https://pfq-static.com/img/characters/announce.png/t=1426303376"
+                                alt="News"> News</a></li>
+                    <li data-name="Today's Interactions"><a href="/interactions" title="Today's Interactions"><img
+                                src="https://pfq-static.com/img/zophan/ip.png/t=1475759779" alt="Today's Interactions">
+                            78,876</a></li>
+                    <li data-name="Egg Timer"><a href="/expboost/eggtimer" title="Egg Timer"><img
+                                src="https://pfq-static.com/img/misc/incubator.png/t=1510140073" alt="Egg Timer">
+                            Lv.10</a></li>
+                    <li data-name="Hypermode"><a href="/hypermode" title="Hypermode"><img
+                                src="https://pfq-static.com/img/zophan/hypermode-24.png/t=1469304491" alt="Hypermode">
+                            10mo</a></li>
+                    <li data-name="Übercharm"><a href="/ubercharm" title="Übercharm"><img
+                                src="https://pfq-static.com/img/items/ubercharm.png/t=1407360675" alt="Übercharm">
+                            26d</a></li>
+                    <li data-name="Albino Radar"><a href="/albinohunt" title="Albino Radar"><img
+                                src="https://pfq-static.com/img/items/albinoradar.png/t=1420049886" alt="Albino Radar">
+                            12h</a></li>
+                    <li data-name="Contest Sign-Up" style="display: none;"><a href="/contest/contest"
+                            title="Contest Sign-Up"><img src="https://pfq-static.com/img/misc/tiara.png/t=1507220038"
+                                alt="Contest Sign-Up"> Sign-up (2d)</a></li>
+                    <li data-name="Shiny Charm" style="display: none;"><a href="/shinyhunt" title="Shiny Charm"><img
+                                src="https://pfq-static.com/img/items/shinycharm.png/t=1420029618" alt="Shiny Charm">
+                            OFF</a></li>
+                    <li data-name="Lucky Egg" style="display: none;"><a href="/expboost/luckyegg" title="Lucky Egg"><img
+                                src="https://pfq-static.com/img/items/luckyegg.png/t=1478085269" alt="Lucky Egg">
+                            OFF</a></li>
+                    <li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png"
+                                alt="QoL Settings">QoL</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="/chat" class="borderless" title="Discord (Chat)"><svg viewBox="45 45 160 160"
+                                class="discord">
+                                <rect class="box" x="45" y="45" width="160" height="160" rx="16"></rect>
+                                <path class="mask"
+                                    d="M142.8 120.1c-5.7 0-10.2 4.9-10.2 11s4.6 11 10.2 11c5.7 0 10.2-4.9 10.2-11s-4.6-11-10.2-11zM106.3 120.1c-5.7 0-10.2 4.9-10.2 11s4.6 11 10.2 11c5.7 0 10.2-4.9 10.2-11 .1-6.1-4.5-11-10.2-11z M152.8 166.4s-3.6-4.3-6.6-8c13.1-3.7 18.1-11.8 18.1-11.8-4.1 2.7-8 4.6-11.5 5.9-5 2.1-9.8 3.4-14.5 4.3-9.6 1.8-18.4 1.3-25.9-.1-5.7-1.1-10.6-2.6-14.7-4.3-2.3-.9-4.8-2-7.3-3.4-.3-.2-.6-.3-.9-.5-.2-.1-.3-.2-.4-.2-1.8-1-2.8-1.7-2.8-1.7s4.8 7.9 17.5 11.7c-3 3.8-6.7 8.2-6.7 8.2-22.1-.7-30.5-15.1-30.5-15.1 0-31.9 14.4-57.8 14.4-57.8 14.4-10.7 28-10.4 28-10.4l1 1.2c-18 5.1-26.2 13-26.2 13s2.2-1.2 5.9-2.8c10.7-4.7 19.2-5.9 22.7-6.3.6-.1 1.1-.2 1.7-.2 6.1-.8 13-1 20.2-.2 9.5 1.1 19.7 3.9 30.1 9.5 0 0-7.9-7.5-24.9-12.6l1.4-1.6s13.7-.3 28 10.4c0 0 14.4 25.9 14.4 57.8 0-.1-8.4 14.3-30.5 15z">
+                                </path>
+                            </svg></a></li>
+                    <li><a href="https://facebook.com/PokeFarmQ" target="_blank" rel="noopener" class="borderless"
+                            title="Facebook"><svg viewBox="0 0 267 267" class="facebook">
+                                <rect class="box" x="0" y="0" width="267" height="267" rx="26.7"></rect>
+                                <path class="f"
+                                    d="M182.4 262.3v-99.8h33.5l5-38.9h-38.5V98.8c0-11.3 3.1-18.9 19.3-18.9l20.6 0V45c-3.6-0.5-15.8-1.5-30-1.5 -29.7 0-50 18.1-50 51.4v28.7h-33.6v38.9h33.6v99.8H182.4z">
+                                </path>
+                            </svg></a></li>
+                    <li><a href="https://twitter.com/SystemSalamence" target="_blank" rel="noopener" class="borderless"
+                            title="Twitter"><svg viewBox="0 0 400 400" class="twitter">
+                                <rect class="box" x="0" y="0" width="400" height="400" rx="40"></rect>
+                                <path class="bird"
+                                    d="M153.6,301.6c94.3,0,145.9-78.2,145.9-145.9c0-2.2,0-4.4-0.1-6.6c10-7.2,18.7-16.3,25.6-26.6c-9.2,4.1-19.1,6.8-29.5,8.1c10.6-6.3,18.7-16.4,22.6-28.4c-9.9,5.9-20.9,10.1-32.6,12.4c-9.4-10-22.7-16.2-37.4-16.2c-28.3,0-51.3,23-51.3,51.3c0,4,0.5,7.9,1.3,11.7c-42.6-2.1-80.4-22.6-105.7-53.6c-4.4,7.6-6.9,16.4-6.9,25.8c0,17.8,9.1,33.5,22.8,42.7c-8.4-0.3-16.3-2.6-23.2-6.4c0,0.2,0,0.4,0,0.7c0,24.8,17.7,45.6,41.1,50.3c-4.3,1.2-8.8,1.8-13.5,1.8c-3.3,0-6.5-0.3-9.6-0.9c6.5,20.4,25.5,35.2,47.9,35.6c-17.6,13.8-39.7,22-63.7,22c-4.1,0-8.2-0.2-12.2-0.7C97.7,293.1,124.7,301.6,153.6,301.6">
+                                </path>
+                            </svg></a></li>
+                </ul>
+                <div id="annscrollleft" style="display: none;"></div>
+                <div id="annscrollright" style="display: none;"></div>
+            </div>
+            <div id="counters">
+                <ul id="counterlist">
+                    <li
+                        style="background-image:url('https://pfq-static.com/img/characters/counters/niet-0.png/t=1485171365')">
+                        <div class="counter_item" data-tooltip="">
+                            <div style="height: 6px" class="m"></div>
+                            <div style="height: 34px"></div><span>63M</span>
+                        </div>
+                        <div class="tooltip_content"><img
+                                src="https://pfq-static.com/img/characters/counters/niet-0.png/t=1485171365">
+                            <h3>Niet</h3>
+                            <p>63,487,118 / 75,000,000<br>Interactions</p>
+                            <p class="q"><i>"So close! Finish it!"</i></p>
+                        </div>
+                    </li>
+                    <li
+                        style="background-image:url('https://pfq-static.com/img/characters/counters/garthic-0.png/t=1485171365')">
+                        <div class="counter_item" data-tooltip="">
+                            <div style="height: 37px" class="m"></div>
+                            <div style="height: 3px"></div><span>26M</span>
+                        </div>
+                        <div class="tooltip_content"><img
+                                src="https://pfq-static.com/img/characters/counters/garthic-0.png/t=1485171365">
+                            <h3>Garthic</h3>
+                            <p>26,805,098 / 400,000,000<br>Interaction Points</p>
+                            <p class="q"><i>"Oh. It's... It's pretty much empty. How is it almost empty? Where is
+                                    everyone?"</i></p>
+                        </div>
+                    </li>
+                    <li
+                        style="background-image:url('https://pfq-static.com/img/characters/counters/bacent-0.png/t=1485171365')">
+                        <div class="counter_item" data-tooltip="">
+                            <div style="height: 21px" class="m"></div>
+                            <div style="height: 19px"></div><span>192k</span>
+                        </div>
+                        <div class="tooltip_content"><img
+                                src="https://pfq-static.com/img/characters/counters/bacent-0.png/t=1485171365">
+                            <h3>Uzumi</h3>
+                            <p>192,296 / 400,000<br>Scour Missions</p>
+                            <p class="q"><i>"Let's fill this counter in the speed of zoom!"</i></p>
+                        </div>
+                    </li>
+                    <li style="background-image:url('https://pfq-static.com/img/characters/counters/ravyne-1.png/t=1485171365')"
+                        class="active">
+                        <div class="counter_item" data-tooltip="">
+                            <div style="height: 0px" class="m"></div>
+                            <div style="height: 40px"></div><span>×3</span>
+                        </div>
+                        <div class="tooltip_content"><img
+                                src="https://pfq-static.com/img/characters/counters/ravyne-1.png/t=1485171365">
+                            <h3>Ravyne</h3>
+                            <p>×3 Gems</p>
+                            <p class="q"><i>"</i>R'lyeh wgah'nagl fht-<i> I mean... um... </i>Nicesparkle gems, please
+                                duplicate!<i>"</i></p>
+                        </div>
+                    </li>
+                    <li
+                        style="background-image:url('https://pfq-static.com/img/characters/counters/seka-0.png/t=1485171365')">
+                        <div class="counter_item" data-tooltip="">
+                            <div style="height: 30px" class="m"></div>
+                            <div style="height: 10px"></div><span>60M</span>
+                        </div>
+                        <div class="tooltip_content"><img
+                                src="https://pfq-static.com/img/characters/counters/seka-0.png/t=1485171365">
+                            <h3>Dusky Peculiar</h3>
+                            <p>60,083,016 / 250,000,000<br>Credits spent</p>
+                            <p class="q"><i>"Huh? Where'd all the Credits go? Quick! We need to start spending
+                                    more!"</i></p>
+                        </div>
+                    </li>
+                    <li
+                        style="background-image:url('https://pfq-static.com/img/characters/counters/marie-0.png/t=1485171365')">
+                        <div class="counter_item" data-tooltip="">
+                            <div style="height: 20px" class="m"></div>
+                            <div style="height: 20px"></div><span>102k</span>
+                        </div>
+                        <div class="tooltip_content"><img
+                                src="https://pfq-static.com/img/characters/counters/marie-0.png/t=1485171365">
+                            <h3>Shazi</h3>
+                            <p>102,250 / 200,000<br>Shelter adoptions</p>
+                            <p class="q"><i>"Getting close guys, you can do it!"</i></p>
+                        </div>
+                    </li>
+                    <li
+                        style="background-image:url('https://pfq-static.com/img/characters/counters/ledah-0.png/t=1485171365')">
+                        <div class="counter_item" data-tooltip="">
+                            <div style="height: 15px" class="m"></div>
+                            <div style="height: 25px"></div><span>629k</span>
+                        </div>
+                        <div class="tooltip_content"><img
+                                src="https://pfq-static.com/img/characters/counters/ledah-0.png/t=1485171365">
+                            <h3>Persephone</h3>
+                            <p>629,935 / 1,000,000<br>GP spent</p>
+                            <p class="q"><i>"We've still got some serious spending to do, keep it up peeps!"</i></p>
+                        </div>
+                    </li>
+                    <li
+                        style="background-image:url('https://pfq-static.com/img/characters/counters/sei-0.png/t=1485171365')">
+                        <div class="counter_item" data-tooltip="">
+                            <div style="height: 0px" class="m"></div>
+                            <div style="height: 40px"></div><span>3777</span>
+                        </div>
+                        <div class="tooltip_content"><img
+                                src="https://pfq-static.com/img/characters/counters/sei-0.png/t=1485171365">
+                            <h3>Sei</h3>
+                            <p>Target reached<br>- bonus tomorrow!</p>
+                            <p class="q"><i>"Oh... He brought Connie and Elta too. Let's just say the bad guys ain't
+                                    goin' anywhere."</i></p>
+                        </div>
+                    </li>
+                </ul>
+                <ul id="dailybonus">
+                    <li><a href="/potd">PotD</a>: Oranguru</li>
+                    <li><a href="/vwave">V~Wave</a>: Psychic</li>
+                    <li><a href="/user/~pkrs">Pokérus</a>: 2min left</li>
+                </ul>
+            </div>
+        </div><a href="#" id="headertoggler"><span class="time">[11:27:16]</span><span class="notices">10
+                Notifications</span></a>
+        <div id="morestuffhtml">
+            <p><a href="/farm#tab=5.3">Edit Bookmarks</a></p>
+            <ul class="morestufflinks">
+                <li class="f12"><a href="/fields">Fields</a></li>
+                <li><a href="/scour">Scours</a></li>
+                <li class="f12"><a href="/forge">Wishforge</a></li>
+                <li><a href="/garden">Garden</a></li>
+                <li class="f12"><a href="/shinyhunt">Shinies</a></li>
+                <li><a href="/trade">Trades</a></li>
+                <li class="f12"><a href="/interactions">Interactions</a></li>
+                <li><a href="/boxes">Boxes</a></li>
+                <li class="f12"><a href="/albinohunt">Albinos</a></li>
+                <li><a href="/summons">Summons</a></li>
+                <li class="f12"><a href="/supplier">Supplier</a></li>
+                <li></li>
+            </ul>
+        </div>
+        <div id="content">
+            <h1>Fishing</h1>
+            <div id="fishing" data-mutex="5fb6568f2a782">
+                <div class="panel">
+                    <h3>Fishing Hut</h3>
+                    <div>
+                        <p>Welcome to the Fishing Hut, home to all your fishing needs!</p>
+                        <p>When you go fishing, cast your line into the water and sit patiently. Something is sure to
+                            bite, so be ready to reel it in! That's just half of it though, after that you'll need to
+                            catch it using a Fishing Poké Ball, or else it might get away. Successful captures will be
+                            sent back here for you to pick up when you're done fishing, so you can get right back to
+                            casting.</p>
+                    </div>
+                    <h3>Captured Pokémon</h3>
+                    <div>
+                        <form action="/fishing/collect" id="caughtfishcontainer" class="bulkpokemonlist">
+                            <p>Welcome back! Did you have a good time? You caught <span class="fishcount">1</span>
+                                Pokémon, now you can choose which ones to add to your Farm, and which to release to the
+                                Shelter.</p>
+                            <p class="small">You can drag over multiple Pokémon to select them all at once.</p>
+                            <label><input type="checkbox" data-showflavour=""> Show flavour preferences</label>
+                            <ul>
+                                <!-- Add different numbers of each flavor-->
+                                <!-- 1 Any -->
+                                <li data-flavour="Any"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <!-- 2 Sour -->
+                                <li data-flavour="Sour"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Sour"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <!-- 3 Spicy -->
+                                <li data-flavour="Spicy"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Spicy"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Spicy"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <!-- 4 Dry -->
+                                <li data-flavour="Dry"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Dry"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Dry"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Dry"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <!-- 5 Sweet -->
+                                <li data-flavour="Sweet"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Sweet"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Sweet"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Sweet"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Sweet"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <!-- 6 Bitter -->
+                                <li data-flavour="Bitter"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Bitter"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Bitter"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Bitter"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Bitter"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                                <li data-flavour="Bitter"><label><input type="checkbox" name="masspkmn"
+                                            value="2303529"><span class="pkmnicon"><img
+                                                src="https://pfq-static.com/img/pkmn/u/g/z.png/t=1500183305"></span><span
+                                            class="icons"><img
+                                                src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"></span></label>
+                                </li>
+                            </ul>
+                            <p><input type="submit" value="Adopt"> <button type="button"
+                                    data-action="release">Release</button></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footbar"><span>© PokéFarm 2009-2020 (<a href="/copy">Full details</a>)</span><span><a
+                    href="https://pokefarm.com/support">Contact</a> | <a href="/forum/thread/274596/Rules">Rules</a> |
+                <a href="/privacy-policy">Privacy</a> | <a href="https://pokefarm.wiki/"
+                    target="_blank">Wiki</a></span><span><a href="/shortlinks/save/fishing">Get shortlink for this
+                    page</a></span></div>
+    </div>
+    <script type="text/javascript" src="//pfq-static.com/js/index/sally.min.js/t=1605621938"></script>
+    <script type="text/javascript" src="//pfq-static.com/js/fishing/boxselect.min.js/t=1493804884"></script>
+    <script type="text/javascript" src="//pfq-static.com/js/fishing/fishing.min.js/t=1485968908"></script>
+    <script type="text/javascript" src="//pfq-static.com/js/fields/fieldselection.dialog.min.js/t=1526468014"></script>
+</body>
+
+</html>
