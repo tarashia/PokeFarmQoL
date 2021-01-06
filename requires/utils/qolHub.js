@@ -70,7 +70,7 @@ class QoLHub {
 
         // this will update the globals.EVOLVE_BY_LEVEL_LIST
         // and local storage
-        const virtualDocument = document;//.implementation.createHTMLDocument('virtual');
+        const virtualDocument = document.implementation.createHTMLDocument('virtual');
         dexUtilities.getMainDexPage($).done((data) => {
             let html = $.parseHTML(data);
             let dex = $(html[html.length - 1], virtualDocument).find('#dexdata').html();
