@@ -56,9 +56,12 @@ describe('Handle update dex click', () => {
         const globals = {
             TYPE_LIST: ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy']
         };
-        const file = path.join(__dirname, './data/', 'qolHubHTML.html');
-        const html = fs.readFileSync(file, 'utf-8', 'r');
-        const context = jQuery(html, ownerDocument);
-        QoLHub.handleUpdateDexClick(jQuery, context, DexUtilities, localStorageManager, DexPageParser, EvolutionTreeParser, globals);
+        const htmlpath = path.join(__dirname, './data/', 'qolHubHTML.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = 'https://pokefarm.com/party';
+        document.documentElement.innerHTML = innerHTML;
+        const ownerDocument = document; //.implementation.createHTMLDocument('virtual');;
+        QoLHub.handleUpdateDexClick(jQuery, ownerDocument, DexUtilities, localStorageManager, DexPageParser, EvolutionTreeParser, globals);
     });
 });
