@@ -792,7 +792,7 @@ class FarmPage extends FarmBase {
                             document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">Possible Albino Mega/Totem forme</h3><ul class="newpossiblealbinopokedexentry qolChangeLogContent"></ul></li><br>');
                         }
 
-                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.newalbinopokedexentry>li:contains(' + evolvePokemonName + ')').length == 0) {
+                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.newpossiblealbinopokedexentry>li:contains(' + evolvePokemonName + ')').length == 0) {
                             obj.jQuery(this).clone().appendTo('.newpossiblealbinopokedexentry');
                         }
 
@@ -800,12 +800,12 @@ class FarmPage extends FarmBase {
                     // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
                 } else if (pokemonIsMelanistic == true) { //melanistic pokemon search
                     if (evolveNewMelaCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('newamelanisticpokedexentry') === false) {
-                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">New Melanistic Pokédex entry</h3><ul class="newamelanisticpokedexentry qolChangeLogContent"></ul></li><br>');
+                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('newmelanisticpokedexentry') === false) {
+                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">New Melanistic Pokédex entry</h3><ul class="newmelanisticpokedexentry qolChangeLogContent"></ul></li><br>');
                         }
 
-                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.newamelanisticpokedexentry>li:contains(' + evolvePokemonName + ')').length == 0) {
-                            obj.jQuery(this).clone().appendTo('.newamelanisticpokedexentry');
+                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.newmelanisticpokedexentry>li:contains(' + evolvePokemonName + ')').length == 0) {
+                            obj.jQuery(this).clone().appendTo('.newmelanisticpokedexentry');
                         }
 
                     } else if (evolveNewTotal > evolveNewMelaCheck && evolveNewMelaCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
@@ -1004,12 +1004,12 @@ class FarmPage extends FarmBase {
 
                 } else if (pokemonIsMelanistic == true) {
                     if (evolveNewMelaCheckTwo == 0 || evolveNewMelaCheckThree == 0 || evolveNewMelaCheckFour == 0 || evolveNewMelaCheckFive == 0 || evolveNewMelaCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('newamelanisticpokedexentry') === false) {
-                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">New Melanistic Pokédex entry</h3><ul class="newamelanisticpokedexentry qolChangeLogContent"></ul></li><br>');
+                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('newmelanisticpokedexentry') === false) {
+                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">New Melanistic Pokédex entry</h3><ul class="newmelanisticpokedexentry qolChangeLogContent"></ul></li><br>');
                         }
 
-                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.newamelanisticpokedexentry>li:contains(' + evolvePokemonName + ')').length == 0) {
-                            obj.jQuery(this).clone().appendTo('.newamelanisticpokedexentry');
+                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.newmelanisticpokedexentry>li:contains(' + evolvePokemonName + ')').length == 0) {
+                            obj.jQuery(this).clone().appendTo('.newmelanisticpokedexentry');
                         }
                     } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
                         if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
@@ -1033,22 +1033,22 @@ class FarmPage extends FarmBase {
                             }
 
                         } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('possiblemelanalolan') === false) {
-                                document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">New Melanistic Pokédex entry</h3><ul class="possiblemelanalolan qolChangeLogContent"></ul></li><br>');
+                            if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('newmelanisticpokedexentry') === false) {
+                                document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">New Melanistic Pokédex entry</h3><ul class="newmelanisticpokedexentry qolChangeLogContent"></ul></li><br>');
                             }
 
-                            if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.possiblemelanalolan>li:contains(' + evolvePokemonName + ')').length == 0) {
-                                obj.jQuery(this).clone().appendTo('.possiblemelanalolan');
+                            if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.newmelanisticpokedexentry>li:contains(' + evolvePokemonName + ')').length == 0) {
+                                obj.jQuery(this).clone().appendTo('.newmelanisticpokedexentry');
                             }
                         }
 
                     } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('possiblemelanalolan') === false) {
-                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">New Melanistic Pokédex entry</h3><ul class="possiblemelanalolan qolChangeLogContent"></ul></li><br>');
+                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass('newmelanisticpokedexentry') === false) {
+                            document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">New Melanistic Pokédex entry</h3><ul class="newmelanisticpokedexentry qolChangeLogContent"></ul></li><br>');
                         }
 
-                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.possiblemelanalolan>li:contains(' + evolvePokemonName + ')').length == 0) {
-                            obj.jQuery(this).clone().appendTo('.possiblemelanalolan');
+                        if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.newmelanisticpokedexentry>li:contains(' + evolvePokemonName + ')').length == 0) {
+                            obj.jQuery(this).clone().appendTo('.newmelanisticpokedexentry');
                         }
 
                     } else {
