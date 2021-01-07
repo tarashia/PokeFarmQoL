@@ -2,8 +2,13 @@
 name: PokeFarmQoL verification workflow
 
 on:
-  [pull_request]
-
+  pull_request:
+    branches: 
+      - master
+  push:
+    branches:
+      - .*
+    
 jobs:
   test:
     runs-on: ubuntu-latest
