@@ -9,7 +9,6 @@
 // @match        https://pokefarm.com/*
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
-// @require      https://cdn.rawgit.com/omichelsen/compare-versions/v3.1.0/index.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/resources.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/helpers.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/globals.js
@@ -36,7 +35,7 @@
 // @grant        GM_info
 // ==/UserScript==
 
-/* globals jQuery compareVersions GM_addStyle GM_xmlhttpRequest GM_info 
+/* globals jQuery GM_addStyle GM_xmlhttpRequest GM_info 
         Globals Resources Helpers LocalStorageManager DexUtilities DexPageParser
         EvolutionTreeParser DaycarePage FarmPage LabPage PublicFieldsPage
         PrivateFieldsPage  ShelterPage FishingPage MultiuserPage DexPage 
@@ -232,22 +231,6 @@ const pfqol = function ($) {
         const fn = { // all the functions for the script
             /** background stuff */
             backwork: { // background stuff
-                checkForUpdate() {
-                    let version = '';
-                    GM_xmlhttpRequest({
-                        method: 'GET',
-                        url: 'https://api.github.com/repos/jpgualdarrama/PokeFarmQoL/contents/Poke-Farm-QoL.user.js',
-                        responseType: 'json',
-                        onload: function (data) {
-                            const match = atob(data.response.content).match(/\/\/\s+@version\s+([^\n]+)/);
-                            version = match[1];
-                            // eslint-disable-next-line camelcase
-                            if (compareVersions(GM_info.script.version, version) < 0) {
-                                document.querySelector('li[data-name*=\'QoL\']').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubUpdateLinkHTML);
-                            }
-                        }
-                    });
-                },
                 instantiatePages() {
                     PAGES.instantiatePages();
                 },
@@ -330,7 +313,6 @@ const pfqol = function ($) {
                     return {
                         'creating Page handlers': fn.backwork.instantiatePages,
                         'loading Settings': fn.backwork.loadSettings,
-                        'checking for update': fn.backwork.checkForUpdate,
                         'setting up HTML': fn.backwork.setupHTML,
                         'populating Settings': fn.backwork.populateSettingsPage,
                         'setting up CSS': fn.backwork.setupCSS,
