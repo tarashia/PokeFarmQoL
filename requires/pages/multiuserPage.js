@@ -39,9 +39,9 @@ class MultiuserPage extends MultiuserBase {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.partyModHTML);
     }
     setupCSS() {
-        let menuBackground = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
+        const menuBackground = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
         this.jQuery('#qolpartymod').css('background-color', '' + menuBackground + '');
-        let menuColor = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
+        const menuColor = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
         this.jQuery('#qolpartymod').css('color', '' + menuColor + '');
     }
     setupObserver() {

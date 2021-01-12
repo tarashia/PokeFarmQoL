@@ -27,13 +27,13 @@ class DexPageParser {
 
         // https://stackoverflow.com/questions/3442394/using-text-to-retrieve-only-text-not-nested-in-child-tags
         // get text but not children's text
-        let nameText = nameHeader.clone().children().remove().end().text();
-        let nameSplits = nameText.split(' ');
-        let basePokemonNumber = nameSplits[0].replace('#','').replace(':','');
+        const nameText = nameHeader.clone().children().remove().end().text();
+        const nameSplits = nameText.split(' ');
+        const basePokemonNumber = nameSplits[0].replace('#','').replace(':','');
         // just in case the name is more than one word, join the remaining elements back together
         nameSplits.splice(0, 1);
-        let basePokemonName = nameSplits.join(' ').trim();
-        let pokemonName = (formI.length) ?
+        const basePokemonName = nameSplits.join(' ').trim();
+        const pokemonName = (formI.length) ?
             basePokemonName + ' ' + formI.text() :
             basePokemonName;
 
@@ -61,8 +61,8 @@ class DexPageParser {
      *                 }
      */
     static getInfoFromDexPageFooter(html) {
-        let currentLink = html.find('#footbar>span>a[href^="/shortlinks"]').attr('href');
-        let currentNumber = currentLink.substr(currentLink.indexOf('/dex/')+5);
+        const currentLink = html.find('#footbar>span>a[href^="/shortlinks"]').attr('href');
+        const currentNumber = currentLink.substr(currentLink.indexOf('/dex/')+5);
 
         return {
             shortlink: currentLink,
@@ -82,8 +82,8 @@ class DexPageParser {
      *                 ]
      */
     static parseTypesFromDexPage(html, typeList) {
-        let typeImgs = html.find('.dexdetails>li>img');
-        let typeUrls = typeImgs.map((idx, img) => {
+        const typeImgs = html.find('.dexdetails>li>img');
+        const typeUrls = typeImgs.map((idx, img) => {
             return img.src;
         });
         let types = typeUrls.map((idx, url) =>
@@ -102,7 +102,7 @@ class DexPageParser {
      *             'https://pfq-static.com/img/' is removed from the URL since it is always the same
      */
     static parseEggPngFromDexPage(html) {
-        let eggUrl = (html.find('.eggspr').find('img')
+        const eggUrl = (html.find('.eggspr').find('img')
             .attr('src') || '')
             .replace('https://pfq-static.com/img/', '');
         return eggUrl;

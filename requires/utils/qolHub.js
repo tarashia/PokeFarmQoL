@@ -7,16 +7,16 @@ class QoLHub {
     static build($, document, templates, globals, settings, settingsChange) {
         $('body', document).append(templates.qolHubHTML);
         $('#core', document).addClass('scrolllock');
-        let qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead', document).css('background-color');
-        let qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead', document).css('color');
-        let qolHubCssBackground = $('.qolHubTable', document).css('background-color');
-        let qolHubCssTextColor = $('.qolHubTable', document).css('color');
+        const qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead', document).css('background-color');
+        const qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead', document).css('color');
+        const qolHubCssBackground = $('.qolHubTable', document).css('background-color');
+        const qolHubCssTextColor = $('.qolHubTable', document).css('color');
         $('.qolHubHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
         $('.qolChangeLogHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
         $('.qolopencloselist.qolChangeLogContent', document).css({ 'backgroundColor': '' + qolHubCssBackground + '', 'color': '' + qolHubCssTextColor + '' });
         $('.qolDate', document).text(globals.DEX_UPDATE_DATE);
 
-        let customCss = settings.customCss;
+        const customCss = settings.customCss;
 
         $('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolsetting" data-key="customCss"/></textarea>');
         if (customCss === '') {
@@ -28,7 +28,7 @@ class QoLHub {
         $('#qolcustomcss', document).on('keydown', function (e) {
             if (e.keyCode == 9 || e.which == 9) {
                 e.preventDefault();
-                var s = this.selectionStart;
+                const s = this.selectionStart;
                 $(this).val(function (i, v) {
                     return v.substring(0, s) + '\t' + v.substring(this.selectionEnd);
                 });
@@ -63,7 +63,7 @@ class QoLHub {
         const progressSpan = $('span.qolDexUpdateProgress', document)[0];
         progressSpan.textContent = 'Loading...';
 
-        let date = (new Date()).toUTCString();
+        const date = (new Date()).toUTCString();
         globals.DEX_UPDATE_DATE = date;
         $('.qolDate', document).text(globals.DEX_UPDATE_DATE);
         localStorageManager.updateLocalStorageDex($, document, date, globals);
@@ -72,8 +72,8 @@ class QoLHub {
         // and local storage
         const virtualDocument = document.implementation.createHTMLDocument('virtual');
         dexUtilities.getMainDexPage($).done((data) => {
-            let html = $.parseHTML(data);
-            let dex = $(html[html.length - 1], virtualDocument).find('#dexdata').html();
+            const html = $.parseHTML(data);
+            const dex = $(html[html.length - 1], virtualDocument).find('#dexdata').html();
             const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
 
             if (dexNumbers.length > 0) {
@@ -87,7 +87,7 @@ class QoLHub {
                         const formPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
 
                         // Combine the arrays of HTML into one array
-                        let allPagesHTML = dexPagesHTML.concat(formPagesHTML);
+                        const allPagesHTML = dexPagesHTML.concat(formPagesHTML);
 
                         // Parse evolution data
                         const [parsedFamilies, dexIDs] = dexUtilities.parseEvolutionTrees($, virtualDocument, dexPageParser, evolutionTreeParser, allPagesHTML);

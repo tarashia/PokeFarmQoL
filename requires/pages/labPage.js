@@ -48,7 +48,7 @@ class LabPage extends LabBase {
     }
     setupCSS() {
         //lab css
-        let labSuccessCss = this.jQuery('#labpage>div').css('background-color');
+        const labSuccessCss = this.jQuery('#labpage>div').css('background-color');
         this.jQuery('#labsuccess').css('background-color', labSuccessCss);
     }
     setupObserver() {
@@ -104,7 +104,7 @@ class LabPage extends LabBase {
     }
     addTextField() {
         const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-        let numberDiv = this.jQuery('#searchkeys>div').length;
+        const numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
         this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
     }
@@ -118,14 +118,14 @@ class LabPage extends LabBase {
         this.jQuery(byebye).parent().remove();
 
         for (let i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
-            let rightDiv = i + 1;
+            const rightDiv = i + 1;
             this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
     addTypeList(GLOBALS) {
         const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'listArray');
-        let numberTypes = this.jQuery('#labTypes>div').length;
+        const numberTypes = this.jQuery('#labTypes>div').length;
         this.jQuery('#labTypes').append(theType);
         this.jQuery('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
     }
@@ -138,13 +138,13 @@ class LabPage extends LabBase {
         this.jQuery(byebye).parent().remove();
 
         for (let i = 0; i < this.jQuery('#labTypes>div').length; i++) {
-            let rightDiv = i + 1;
+            const rightDiv = i + 1;
             this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
     customSearch(GLOBALS) {
         const obj = this;
-        let dexData = GLOBALS.DEX_DATA;
+        const dexData = GLOBALS.DEX_DATA;
         document.querySelector('#labsuccess').innerHTML = '';
         obj.jQuery('#egglist>div>img').removeClass('labfoundme');
 
@@ -152,20 +152,20 @@ class LabPage extends LabBase {
             if (this.settings.findTypeEgg === true) {
                 const eggPngsToTypes = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
                     JSON.parse(localStorage.getItem('QoLEggTypesMap')) || undefined;
-                let typesArrayNoEmptySpace = this.listArray.filter(v => v != '');
-                let typeSearchAmount = typesArrayNoEmptySpace.length;
+                const typesArrayNoEmptySpace = this.listArray.filter(v => v != '');
+                const typeSearchAmount = typesArrayNoEmptySpace.length;
                 for (let i = 0; i < typeSearchAmount; i++) {
-                    let value = typesArrayNoEmptySpace[i];
-                    let amountOfTypesFound = [];
-                    let typePokemonNames = [];
+                    const value = typesArrayNoEmptySpace[i];
+                    const amountOfTypesFound = [];
+                    const typePokemonNames = [];
 
                     obj.jQuery('#egglist>div>h3').each(function () {
-                        let searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
                         let searchTypeOne = '';
                         let searchTypeTwo = '';
 
                         if (eggPngsToTypes) {
-                            let imgUrl = obj.jQuery(this).next().attr('src').replace('https://pfq-static.com/img/', '');
+                            const imgUrl = obj.jQuery(this).next().attr('src').replace('https://pfq-static.com/img/', '');
                             searchTypeOne = eggPngsToTypes[searchPokemon] &&
                                 eggPngsToTypes[searchPokemon][imgUrl] &&
                                 ('' + eggPngsToTypes[searchPokemon][imgUrl][0]);
@@ -173,7 +173,7 @@ class LabPage extends LabBase {
                                 eggPngsToTypes[searchPokemon][imgUrl] &&
                                 ('' + (eggPngsToTypes[searchPokemon][imgUrl][1] || -1));
                         } else {
-                            let searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                            const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
                             searchTypeOne = dexData[searchPokemonIndex + 1];
                             searchTypeTwo = dexData[searchPokemonIndex + 2];
                         }
@@ -188,13 +188,13 @@ class LabPage extends LabBase {
                         }
                     }); // each
 
-                    let foundType = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+                    const foundType = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
 
-                    let typeImgStandOutLength = typePokemonNames.length;
+                    const typeImgStandOutLength = typePokemonNames.length;
                     for (let o = 0; o < typeImgStandOutLength; o++) {
-                        let value = typePokemonNames[o];
-                        let shelterImgSearch = this.jQuery('#egglist>div>h3:containsIN(' + value + ')');
-                        let shelterBigImg = shelterImgSearch.next();
+                        const value = typePokemonNames[o];
+                        const shelterImgSearch = this.jQuery('#egglist>div>h3:containsIN(' + value + ')');
+                        const shelterBigImg = shelterImgSearch.next();
                         obj.jQuery(shelterBigImg).addClass('labfoundme');
                     }
 
@@ -208,21 +208,21 @@ class LabPage extends LabBase {
         } // else
 
         if (!(this.searchArray.length == 1 && this.searchArray[0] == '')) {
-            let customSearchAmount = this.searchArray.length;
+            const customSearchAmount = this.searchArray.length;
 
             if (this.settings.customEgg === true) {
                 for (let i = 0; i < customSearchAmount; i++) {
-                    let value = this.searchArray[i];
+                    const value = this.searchArray[i];
                     // skip falsy values (including empty strings)
                     if(!value) { 
                         continue; 
                     }
 
                     if (this.jQuery('#egglist>div>h3:containsIN(' + value + ')').length) {
-                        let searchResult = value;
+                        const searchResult = value;
 
-                        let shelterImgSearch = this.jQuery('#egglist>div>h3:containsIN(' + value + ')');
-                        let shelterBigImg = shelterImgSearch.next();
+                        const shelterImgSearch = this.jQuery('#egglist>div>h3:containsIN(' + value + ')');
+                        const shelterBigImg = shelterImgSearch.next();
                         obj.jQuery(shelterBigImg).addClass('labfoundme');
 
                         if (this.jQuery('#egglist>div>h3:containsIN(' + value + ')').length > 1) {
@@ -233,9 +233,9 @@ class LabPage extends LabBase {
                     } // if
 
                     if (obj.jQuery('#egglist>div img[src*="' + value + '"]').length) {
-                        let searchResult = obj.jQuery('#egglist>div img[src*="' + value + '"]').prev().text();
+                        const searchResult = obj.jQuery('#egglist>div img[src*="' + value + '"]').prev().text();
 
-                        let shelterImgSearch = obj.jQuery('#egglist>div img[src*="' + value + '"]');
+                        const shelterImgSearch = obj.jQuery('#egglist>div img[src*="' + value + '"]');
                         obj.jQuery(shelterImgSearch).addClass('labfoundme');
 
                         if (obj.jQuery('#egglist>div img[src*="' + value + '"]').length > 1) {

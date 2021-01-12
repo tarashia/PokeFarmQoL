@@ -10,16 +10,7 @@
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
 // @require      https://cdn.rawgit.com/omichelsen/compare-versions/v3.1.0/index.js
-// @resource     qolHubHTML            https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/qolHubHTML.html
-// @resource     shelterOptionsHTML    https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/shelterOptionsHTML.html
-// @resource     evolveFastHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/evolveFastHTML.html
-// @resource     labOptionsHTML         https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/labOptionsHTML.html
-// @resource     fieldSortHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/fieldSortHTML.html
-// @resource     publicFieldTooltipModHTML  https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/publicFieldTooltipModHTML.html
-// @resource     privateFieldTooltipModHTML  https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/privateFieldTooltipModHTML.html
-// @resource     fieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/fieldSearchHTML.html
-// @resource     privateFieldSearchHTML        https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/templates/privateFieldSearchHTML.html
-// @resource     QoLCSS                 https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/resources/css/pfqol.css
+// @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/resources.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/helpers.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/globals.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/evolutionTreeParser.js
@@ -40,14 +31,13 @@
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/pages/wishforgePage.js
 // @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @connect      github.com
-// @grant        GM_getResourceText
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
 // @grant        GM_info
 // ==/UserScript==
 
-/* globals jQuery compareVersions GM_getResourceText GM_addStyle GM_xmlhttpRequest GM_info 
-        Globals Helpers LocalStorageManager DexUtilities DexPageParser
+/* globals jQuery compareVersions GM_addStyle GM_xmlhttpRequest GM_info 
+        Globals Resources Helpers LocalStorageManager DexUtilities DexPageParser
         EvolutionTreeParser DaycarePage FarmPage LabPage PublicFieldsPage
         PrivateFieldsPage  ShelterPage FishingPage MultiuserPage DexPage 
         WishforgePage QoLHub */
@@ -78,7 +68,8 @@ const pfqol = function ($) {
 
     const GLOBALS = Globals;
     const HELPERS = Helpers;
-    GLOBALS.fillTemplates(GM_getResourceText);
+    const RESOURCES = Resources;
+    GLOBALS.fillTemplates(RESOURCES);
     GLOBALS.fillOptionsLists(HELPERS);
 
     // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
@@ -104,7 +95,7 @@ const pfqol = function ($) {
         const PAGES = {
             instantiatePages: function () {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key];
+                    const pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true) {
                         PAGES.pages[key].object = new PAGES.pages[key].class($, GLOBALS, {
                             DexPageParser: DexPageParser
@@ -114,7 +105,7 @@ const pfqol = function ($) {
             },
             loadSettings: function () {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key];
+                    const pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.loadSettings();
                     }
@@ -122,7 +113,7 @@ const pfqol = function ($) {
             },
             saveSettings: function () {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key];
+                    const pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.saveSettings();
                     }
@@ -130,7 +121,7 @@ const pfqol = function ($) {
             },
             populateSettings: function () {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key];
+                    const pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.populateSettings();
                     }
@@ -145,7 +136,7 @@ const pfqol = function ($) {
             },
             setupHTML: function (GLOBALS) {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key];
+                    const pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupHTML(GLOBALS);
                         fn.backwork.populateSettingsPage();
@@ -154,7 +145,7 @@ const pfqol = function ($) {
             },
             setupCSS: function () {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key];
+                    const pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupCSS();
                     }
@@ -162,7 +153,7 @@ const pfqol = function ($) {
             },
             setupObservers: function () {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key];
+                    const pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupObserver();
                     }
@@ -170,7 +161,7 @@ const pfqol = function ($) {
             },
             setupHandlers: function (GLOBALS) {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key];
+                    const pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.setupHandlers(GLOBALS);
                     }
@@ -178,7 +169,7 @@ const pfqol = function ($) {
             },
             settingsChange: function () {
                 for (const key of Object.keys(PAGES.pages)) {
-                    let pg = PAGES.pages[key];
+                    const pg = PAGES.pages[key];
                     if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                         pg.object.settingsChange();
                     }
@@ -248,7 +239,7 @@ const pfqol = function ($) {
                         url: 'https://api.github.com/repos/jpgualdarrama/PokeFarmQoL/contents/Poke-Farm-QoL.user.js',
                         responseType: 'json',
                         onload: function (data) {
-                            let match = atob(data.response.content).match(/\/\/\s+@version\s+([^\n]+)/);
+                            const match = atob(data.response.content).match(/\/\/\s+@version\s+([^\n]+)/);
                             version = match[1];
                             // eslint-disable-next-line camelcase
                             if (compareVersions(GM_info.script.version, version) < 0) {
@@ -266,14 +257,14 @@ const pfqol = function ($) {
                         fn.backwork.saveSettings();
                     } else {
                         try {
-                            let countScriptSettings = Object.keys(USER_SETTINGS).length;
-                            let localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                            let countLocalStorageSettings = Object.keys(localStorageString).length;
+                            const countScriptSettings = Object.keys(USER_SETTINGS).length;
+                            const localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                            const countLocalStorageSettings = Object.keys(localStorageString).length;
                             // adds new objects (settings) to the local storage
                             if (countLocalStorageSettings < countScriptSettings) {
-                                let defaultsSetting = USER_SETTINGS;
-                                let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                let newSetting = $.extend(true, {}, defaultsSetting, userSetting);
+                                const defaultsSetting = USER_SETTINGS;
+                                const userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
+                                const newSetting = $.extend(true, {}, defaultsSetting, userSetting);
 
                                 USER_SETTINGS = newSetting;
                                 fn.backwork.saveSettings();
@@ -298,9 +289,9 @@ const pfqol = function ($) {
                     localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(USER_SETTINGS));
                 }, // saveSettings
                 populateSettingsPage() { // checks all settings checkboxes that are true in the settings
-                    for (let key in USER_SETTINGS) {
+                    for (const key in USER_SETTINGS) {
                         if (Object.hasOwnProperty.call(USER_SETTINGS, key)) {
-                            let value = USER_SETTINGS[key];
+                            const value = USER_SETTINGS[key];
                             if (typeof value === 'boolean') {
                                 HELPERS.toggleSetting(key, value);
                             }
@@ -321,11 +312,11 @@ const pfqol = function ($) {
                     PAGES.setupHTML(GLOBALS);
                 },
                 setupCSS() { // All the CSS changes are added here
-                    GM_addStyle(GM_getResourceText('QoLCSS'));
+                    GM_addStyle(RESOURCES.css());
                     PAGES.setupCSS();
 
                     //custom user css
-                    let customUserCss = USER_SETTINGS.customCss;
+                    const customUserCss = USER_SETTINGS.customCss;
                     //document.querySelector('head').append();
                     $('head').append('<style type="text/css">' + customUserCss + '</style>');
                 },
@@ -349,8 +340,8 @@ const pfqol = function ($) {
                 },
                 init() { // Starts all the functions.
                     console.log('Starting up ..');
-                    let startup = fn.backwork.startup();
-                    for (let message in startup) {
+                    const startup = fn.backwork.startup();
+                    for (const message in startup) {
                         if (Object.hasOwnProperty.call(startup, message)) {
                             console.log(message);
                             startup[message](GLOBALS);

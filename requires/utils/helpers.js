@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-let Helpers = (function Helpers() {
+const Helpers = (function Helpers() {
     /* public stuff */
     const API = {
         buildOptionsString(arr) {
@@ -13,7 +13,7 @@ let Helpers = (function Helpers() {
         toggleSetting(key, set) {
             // update values for checkboxes
             if (typeof set === 'boolean') {
-                let element = document.querySelector(`.qolsetting[data-key="${key}"]`);
+                const element = document.querySelector(`.qolsetting[data-key="${key}"]`);
                 if (element && element.type === 'checkbox') {
                     element.checked = set;
                 }
@@ -21,10 +21,10 @@ let Helpers = (function Helpers() {
         }, // toggleSetting
 
         setupFieldArrayHTML($, arr, id, div, cls) {
-            let n = arr.length;
+            const n = arr.length;
             for(let i = 0; i < n; i++) {
-                let rightDiv = i + 1;
-                let rightValue = arr[i];
+                const rightDiv = i + 1;
+                const rightValue = arr[i];
                 $(`#${id}`).append(div);
                 $(`.${cls}`).removeClass(cls).addClass(''+rightDiv+'').find('.qolsetting').val(rightValue);
             }
@@ -35,13 +35,13 @@ let Helpers = (function Helpers() {
                 API.saveSettings(KEY);
             } else {
                 try {
-                    let countScriptSettings = Object.keys(obj).length;
-                    let localStorageString = JSON.parse(localStorage.getItem(KEY));
-                    let countLocalStorageSettings = Object.keys(localStorageString).length;
+                    const countScriptSettings = Object.keys(obj).length;
+                    const localStorageString = JSON.parse(localStorage.getItem(KEY));
+                    const countLocalStorageSettings = Object.keys(localStorageString).length;
                     if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
-                        let defaultsSetting = DEFAULT;
-                        let userSetting = JSON.parse(localStorage.getItem(KEY));
-                        let newSetting = $.extend(true,{}, defaultsSetting, userSetting);
+                        const defaultsSetting = DEFAULT;
+                        const userSetting = JSON.parse(localStorage.getItem(KEY));
+                        const newSetting = $.extend(true,{}, defaultsSetting, userSetting);
 
                         obj = newSetting;
                         API.saveSettings(KEY, obj);
@@ -92,8 +92,8 @@ let Helpers = (function Helpers() {
             // species
             let species = '';
             if(dataElements[index].textContent) {
-                let tc = dataElements[index].textContent;
-                let tcSplit = tc.trim().split(':  ');
+                const tc = dataElements[index].textContent;
+                const tcSplit = tc.trim().split(':  ');
                 if(tcSplit.length == 1) {
                     console.error('Helpers.parseFieldPokemonTooltip - species text does not contain \':  \'');
                 }
@@ -124,7 +124,7 @@ let Helpers = (function Helpers() {
             // level
             let level = -1;
             if(dataElements[index].textContent) {
-                let tcSplit = dataElements[index].textContent.split(' ');
+                const tcSplit = dataElements[index].textContent.split(' ');
                 if(tcSplit.length > 1) {
                     level = parseInt(tcSplit[1]);
                 }
@@ -142,7 +142,7 @@ let Helpers = (function Helpers() {
             // happiness
             let happiness = -1;
             if(dataElements[index].textContent) {
-                let tcSplit = dataElements[index].textContent.split(' ');
+                const tcSplit = dataElements[index].textContent.split(' ');
                 if(tcSplit.length > 1) {
                     happiness = tcSplit[1].trim();
                     happiness = (happiness == 'MAX') ? 100 : parseInt(happiness.substring(0, happiness.length-1));
@@ -155,7 +155,7 @@ let Helpers = (function Helpers() {
             // nature
             let nature = -1;
             if(dataElements[index].textContent) {
-                let tcSplit = dataElements[index].textContent.split(' ');
+                const tcSplit = dataElements[index].textContent.split(' ');
                 if(tcSplit.length > 1) {
                     nature = tcSplit[1].replace('(', '').trim();
                     nature = GLOBALS.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))

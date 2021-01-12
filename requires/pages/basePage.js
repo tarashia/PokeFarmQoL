@@ -28,11 +28,11 @@ class Page {
         if(obj === undefined) {
             obj = this.settings;
         }
-        for (let key in obj) {
+        for (const key in obj) {
             if (!Object.prototype.hasOwnProperty.call(obj, key)) {
                 continue;
             }
-            let value = obj[key];
+            const value = obj[key];
             if (typeof value === 'object') {
                 this.populateSettings(obj[key]);
             }
@@ -59,7 +59,7 @@ class Page {
             else if (typeof this.settings[element] === 'string') {
                 if (arrayName !== undefined && arrayName !== '') {
                     if (textElement === 'none') {
-                        let tempIndex = typeClass - 1;
+                        const tempIndex = typeClass - 1;
                         this[arrayName].splice(tempIndex, tempIndex);
                         this.settings[element] = this[arrayName].toString();
                     } else {

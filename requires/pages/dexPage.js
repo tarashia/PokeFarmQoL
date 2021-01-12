@@ -31,7 +31,7 @@ class DexPage extends DexBase {
 
     setupHandlers() {
         const obj = this;
-        var h = obj.jQuery.parseJSON(obj.jQuery('#dexdata').html());
+        let h = obj.jQuery.parseJSON(obj.jQuery('#dexdata').html());
         const type2 = obj.jQuery('.filter-type-2');
         const l = obj.jQuery('.filter-type-2 .types');
         const c = l.children();
@@ -40,10 +40,10 @@ class DexPage extends DexBase {
 
         type2.on('mousedown.dextfilter touchstart.dextfilter', function (event) {
             event.preventDefault();
-            var leftedge = typesSpan.offset().left;
-            var width = typesSpan.width();
-            var rightedge = leftedge + width;
-            var xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
+            const leftedge = typesSpan.offset().left;
+            const width = typesSpan.width();
+            const rightedge = leftedge + width;
+            let xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
             if (xLocation >= leftedge & xLocation < rightedge) {
                 xLocation -= leftedge;
                 xLocation = Math.floor(xLocation / width * c.length);

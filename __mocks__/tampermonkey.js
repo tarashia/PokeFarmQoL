@@ -1,16 +1,19 @@
+/* eslint-disable camelcase */
 const fs = require('fs');
 const path = require('path');
 
+// eslint-disable-next-line camelcase
 const GM_getResourceText = jest.fn((resourceName) => {
-    let filepath = "";
+    let filepath = '';
     if(resourceName === 'QoLCSS')
-        filepath = path.join(__dirname, "../__tests__/data/", "pfqol.css");
+    {filepath = path.join(__dirname, '../__tests__/data/', 'pfqol.css');}
     else
-        filepath = path.join(__dirname, "../__tests__/data/", resourceName + ".html");
+    {filepath = path.join(__dirname, '../__tests__/data/', resourceName + '.html');}
     const text = fs.readFileSync(filepath, 'utf8', 'r');
     return text;
 });
 
+// eslint-disable-next-line no-unused-vars
 const GM_xmlhttpRequest = jest.fn((details) => {
 
 });

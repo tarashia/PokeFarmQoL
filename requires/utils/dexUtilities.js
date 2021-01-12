@@ -34,7 +34,7 @@ class DexUtilities {
      *                 have been loaded
      */
     static loadDexPages($, dexNumbers, progressBar, progressSpan) {
-        let requests = [];
+        const requests = [];
         progressBar.value = 0;
         progressSpan.textContent = 'Loading Pokedex info. Please wait until this is complete...';
 
@@ -46,7 +46,7 @@ class DexUtilities {
                 progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
             } else {
                 // eslint-disable-next-line no-unused-vars
-                let r = DexUtilities.getPokemonDexPage($, dexNumbers[d]).done((data, status, jqXHR) => {
+                const r = DexUtilities.getPokemonDexPage($, dexNumbers[d]).done((data, status, jqXHR) => {
                     progressBar.value = progressBar.value + 1;
                     progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
                     return data;
@@ -73,16 +73,16 @@ class DexUtilities {
      *                 have been loaded
      */
     static loadFormPages($, ownerDocument, firstFormHTML, progressBar, progressSpan) {
-        let requests = [];
+        const requests = [];
         for(let a = 0; a < firstFormHTML.length; a++) {
-            let data = firstFormHTML[a];
+            const data = firstFormHTML[a];
             // load data from pages for other forms
             const formLinks = $(data, ownerDocument).find('.formeregistration a');
             if(formLinks.length) {
                 progressBar['max'] = progressBar['max'] + formLinks.length;
                 for(let i = 0; i < formLinks.length; i++) {
-                    let link = formLinks.eq(i).attr('href');
-                    let r = DexUtilities.getPokemonDexPage($, link.substring('/dex/'.length))
+                    const link = formLinks.eq(i).attr('href');
+                    const r = DexUtilities.getPokemonDexPage($, link.substring('/dex/'.length))
                         .done((formHTML) => {
                             progressBar.value = progressBar['value'] + 1;
                             progressSpan.textContent = `Loaded ${progressBar['value']} of ${progressBar['max']} Pokemon`;
@@ -112,7 +112,7 @@ class DexUtilities {
         const dexIDMap = {};
 
         for(let a = 0; a < args.length; a++) {
-            let data = $(args[a], ownerDocument);
+            const data = $(args[a], ownerDocument);
             const rootName = dexPageParser.getInfoFromDexPageHeader(data).name;
 
             // the evolution tree won't have the dex ID for the form of the pokemon that we're currently using
@@ -123,7 +123,7 @@ class DexUtilities {
             if((!(rootName in flatFamilies)) || (!(rootName in dexIDMap))) {
                 dexIDMap[rootName] = fullIDNumber;
 
-                let flattened = dexPageParser.parseEvolutionTreeFromDexPage(evolutionTreeParser, data, dexIDMap);
+                const flattened = dexPageParser.parseEvolutionTreeFromDexPage(evolutionTreeParser, data, dexIDMap);
 
                 // copy the data into the global object to prevent loading data multiple times
                 if(flattened.evolutions.length) {
@@ -143,9 +143,9 @@ class DexUtilities {
         // store the maximum depth of the evolution tree for each pokemon
         // for highlighting each pokemon based on how fully evolved they are
         // https://github.com/jpgualdarrama/PokeFarmQoL/issues/11
-        let maxEvoTreeDepth = {};
-        for(let pokemon in parsedFamilies) {
-            let evolutions = parsedFamilies[pokemon];
+        const maxEvoTreeDepth = {};
+        for(const pokemon in parsedFamilies) {
+            const evolutions = parsedFamilies[pokemon];
 
             // filter out "evolutions" that are really changes between forms of the
             // same pokemon
@@ -167,7 +167,7 @@ class DexUtilities {
                     maxEvoTreeDepth[pokemon] = {'remaining': 0, 'total': 0};
                     maxEvoTreeDepth[dexIDs[pokemon]] = {'remaining': 0, 'total': 0};
 
-                    let sourcesList = evolutions.map( el => el.source );
+                    const sourcesList = evolutions.map( el => el.source );
 
                     // don't redo the processing if the root of the tree is already in the list
                     if(sourcesList[0] in maxEvoTreeDepth && pokemon !== sourcesList[0]) {
@@ -175,12 +175,12 @@ class DexUtilities {
                         continue;
                     }
 
-                    let evoTree = {};
+                    const evoTree = {};
 
                     for(let i = evolutions.length - 1; i >= 0; i--) {
-                        let evolution = evolutions[i];
-                        let source = evolution.source;
-                        let target = evolution.target;
+                        const evolution = evolutions[i];
+                        const source = evolution.source;
+                        const target = evolution.target;
 
                         if(sourcesList.indexOf(target) == -1) {
                             evoTree[target] = {[target]: []};
@@ -193,11 +193,11 @@ class DexUtilities {
                         }
                     }
 
-                    let finalTree = evoTree[sourcesList[0]];
-                    let createPaths = function(stack, tree, paths) {
-                        let name = Object.keys(tree)[0];
-                        let children = tree[name];
-                        let numChildren = children.length;
+                    const finalTree = evoTree[sourcesList[0]];
+                    const createPaths = function(stack, tree, paths) {
+                        const name = Object.keys(tree)[0];
+                        const children = tree[name];
+                        const numChildren = children.length;
 
                         // append this node to the path array
                         stack.push(name);
@@ -213,15 +213,15 @@ class DexUtilities {
                         }
                         stack.pop();
                     };
-                    let parseEvolutionPaths = function(tree) {
-                        let paths = [];
+                    const parseEvolutionPaths = function(tree) {
+                        const paths = [];
                         createPaths([], tree, paths);
 
                         // get remaining number of evolutions in each path and total number
                         // of evolutions along each path
-                        let pokemonPathData = {};
+                        const pokemonPathData = {};
                         for(let p = 0; p < paths.length; p++) {
-                            let mons = paths[p].split('|');
+                            const mons = paths[p].split('|');
                             for(let m = 0; m < mons.length; m++) {
                                 // first or only appearance
                                 if(!(mons[m] in pokemonPathData)) {
@@ -241,8 +241,8 @@ class DexUtilities {
                         return pokemonPathData;
                     };
                     // - 1 because there is one less evolution then there are pokemon
-                    let parsedPathData = parseEvolutionPaths(finalTree);
-                    for(let p in parsedPathData) {
+                    const parsedPathData = parseEvolutionPaths(finalTree);
+                    for(const p in parsedPathData) {
                         maxEvoTreeDepth[p] = parsedPathData[p];
                         maxEvoTreeDepth[dexIDs[p]] = parsedPathData[p];
                     }
@@ -269,12 +269,12 @@ class DexUtilities {
         // use the text as a key in families
         // use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
         for(let a = 0; a < args.length; a++) {
-            let data = $(args[a], ownerDocument);
+            const data = $(args[a], ownerDocument);
             const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
             const footerInfo = dexPageParser.getInfoFromDexPageFooter(data);
 
             // use the footbar to get the full pokedex number for the current form
-            let currentNumber = footerInfo.shortlinkNumber;
+            const currentNumber = footerInfo.shortlinkNumber;
 
             (formData[headerInfo.name] = formData[headerInfo.name] || []).push({
                 // dex number of the base pokemon
@@ -291,7 +291,7 @@ class DexUtilities {
         } // for a
 
         // reorganize forms to all be under the base
-        for(let name in formData) {
+        for(const name in formData) {
             for(let i = 0; i < formData[name].length; i++) {
                 (formMap[formData[name][i].base_name] = formMap[formData[name][i].base_name] || []).push({
                     name: formData[name][i].name,
@@ -301,7 +301,7 @@ class DexUtilities {
         } // name
 
         // duplicate data from base pokemon into entries for each form
-        for(let name in formData) {
+        for(const name in formData) {
             for(let i = 0; i < formData[name].length; i++) {
                 if(formData[name][i].base_name !== formData[name][i].name) {
                     // formMap[formData[name][i].number] = formMap[formData[name][i].base_name];
@@ -322,7 +322,7 @@ class DexUtilities {
     static parseBaseNames($, ownerDocument, dexPageParser, args) {
         const list = {};
         for(let a = 0; a <args.length; a++) {
-            let data = $(args[a], ownerDocument);
+            const data = $(args[a], ownerDocument);
             const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
             list[headerInfo.name] = headerInfo.base_name;
         }
@@ -337,7 +337,7 @@ class DexUtilities {
     static parseEggsPngsList($, ownerDocument, dexPageParser, args) {
         const list = {};
         for(let a = 0; a <args.length; a++) {
-            let data = $(args[a], ownerDocument);
+            const data = $(args[a], ownerDocument);
             const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
             const name = headerInfo.name;
             const eggUrl = dexPageParser.parseEggPngFromDexPage(data);
@@ -359,7 +359,7 @@ class DexUtilities {
     static parseTypesList($, ownerDocument, dexPageParser, globals, args) {
         const list = {};
         for(let a = 0; a < args.length; a++) {
-            let data = $(args[a], ownerDocument);
+            const data = $(args[a], ownerDocument);
             const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
             const name = headerInfo.name;
             const types = dexPageParser.parseTypesFromDexPage(data, globals.TYPE_LIST);
@@ -382,14 +382,14 @@ class DexUtilities {
             'Galarian'];
 
         const allSpecies = Object.keys(formMap);
-        let checkedSpecies = {};
+        const checkedSpecies = {};
         for(let i = 0; i < allSpecies.length; i++) {
-            let current = allSpecies[i];
-            let base = (current.indexOf('[') > -1) ? current.substring(0, current.indexOf('[')).trim() : current;
+            const current = allSpecies[i];
+            const base = (current.indexOf('[') > -1) ? current.substring(0, current.indexOf('[')).trim() : current;
             if(!Object.prototype.hasOwnProperty.call(checkedSpecies, base)) {
                 checkedSpecies[base] = true;
 
-                let formNames = formMap[base].map((e) => e.name);
+                const formNames = formMap[base].map((e) => e.name);
 
                 // if any of the names have one of the regional markers,
                 // add the regional names to the list
@@ -421,7 +421,7 @@ class DexUtilities {
     */
     static buildEggPngsTypesMap(baseNamesList, eggPngsList, typesList) {
         const map = {};
-        for(let name in eggPngsList) {
+        for(const name in eggPngsList) {
             const base = baseNamesList[name];
             const png = eggPngsList[name];
             const types = typesList[name];

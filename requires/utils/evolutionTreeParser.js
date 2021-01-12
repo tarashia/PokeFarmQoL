@@ -27,18 +27,18 @@ class EvolutionTreeParser {
      *              }
      */
     static _parseEvolutionLi(li, dexIDMap) {
-        let condition = li.children('.condition');
-        let targetElem = li.find('.name').eq(0);
-        let target = targetElem.text().trim();
+        const condition = li.children('.condition');
+        const targetElem = li.find('.name').eq(0);
+        const target = targetElem.text().trim();
 
         // if the targetElem has a link as a child, store the dex ID in the link
         if(targetElem.find('a').length) {
-            let link = targetElem.find('a')[0]['href'];
-            let id = link.substring('/dex/'.length);
+            const link = targetElem.find('a')[0]['href'];
+            const id = link.substring('/dex/'.length);
             dexIDMap[target] = id;
         }
 
-        let ret = {};
+        const ret = {};
         ret[target] = {
             'condition': condition[0],
             'evolutions': []
@@ -46,7 +46,7 @@ class EvolutionTreeParser {
         const uls = li.children('ul');
         if(uls.length) {
             for(let i = 0; i < uls.length; i++) {
-                let nest = EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dexIDMap);
+                const nest = EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dexIDMap);
                 ret[target]['evolutions'].push(nest);
             }
             return ret;
@@ -85,10 +85,10 @@ class EvolutionTreeParser {
         const lis = ul.children('li');
         const numParallelEvolutions = lis.length;
 
-        let ret = {};
+        const ret = {};
         for(let i = 0; i < numParallelEvolutions; i++) {
-            let nest = EvolutionTreeParser._parseEvolutionLi(lis.eq(i), dexIDMap);
-            for(let d in nest) {
+            const nest = EvolutionTreeParser._parseEvolutionLi(lis.eq(i), dexIDMap);
+            for(const d in nest) {
                 ret[d] = nest[d];
             }
         }
@@ -176,10 +176,10 @@ class EvolutionTreeParser {
 
         // TODO: Pull this side effect out of this function
         if(evotree.children('span').length) {
-            let linkElem = evotree.children('span').children('a');
+            const linkElem = evotree.children('span').children('a');
             if(linkElem.length) {
-                let link = linkElem[0]['href'];
-                let dexID = link.substring('https://pokefarm.com/dex/'.length);
+                const link = linkElem[0]['href'];
+                const dexID = link.substring('https://pokefarm.com/dex/'.length);
                 dexIDMap[root] = dexID;
             }
         }
@@ -205,7 +205,7 @@ class EvolutionTreeParser {
         }
 
         // flatten the tree
-        let flat = EvolutionTreeParser._flattenEvolutionTree(tree);
+        const flat = EvolutionTreeParser._flattenEvolutionTree(tree);
 
         // parse the evolution conditions
         EvolutionTreeParser._parseEvolutionConditions(flat);
@@ -262,7 +262,7 @@ class EvolutionTreeParser {
 
         if(Array.isArray(familyObj)) {
             for(let i = 0; i < familyObj.length; i++) {
-                for(let key in familyObj[i]) {
+                for(const key in familyObj[i]) {
                     retObj.members.push(key);
                     retObj.evolutions.push({
                         'source': evoSrc,
@@ -273,7 +273,7 @@ class EvolutionTreeParser {
                 }
             }
         } else if(typeof familyObj === 'object') {
-            for(let key in familyObj) {
+            for(const key in familyObj) {
                 retObj.members.push(key);
                 this._flattenEvolutionTree(familyObj[key], retObj, key);
             }
@@ -291,13 +291,13 @@ class EvolutionTreeParser {
      */
     static _parseEvolutionConditions(flattened) {
         for(let e = 0; e < flattened.evolutions.length; e++) {
-            let condition = flattened.evolutions[e].condition;
-            let condText = condition.textContent;
+            const condition = flattened.evolutions[e].condition;
+            const condText = condition.textContent;
             // for now, let's just parse for pokemon that evolve by level
             // TODO: Non-Level conditions
             if(condText.indexOf('Level ') > -1) {
                 flattened.evolutions[e].condition = [];
-                let words = condText.split(' ');
+                const words = condText.split(' ');
                 let cond = '', clearCurrentCondition = false;
 
                 for(let w = 0; w < words.length; w++) {

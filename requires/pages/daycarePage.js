@@ -7,7 +7,7 @@ class DaycarePage extends DaycareBase {
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
-                let fsPokemon = document.querySelector('#fs_pokemon');
+                const fsPokemon = document.querySelector('#fs_pokemon');
                 if (fsPokemon !== null &&
                     obj.jQuery.contains(fsPokemon, mutation.target)) {
                     obj.customSearch(GLOBALS);
@@ -56,20 +56,20 @@ class DaycarePage extends DaycareBase {
             const fieldmons = document.querySelectorAll('.fieldmon');
             if (fieldmons !== null) {
                 for (let m = 0; m < fieldmons.length; m++) {
-                    let mon = fieldmons[m];
-                    let searchPokemonBigImg = obj.jQuery(mon)[0].childNodes[0];
-                    let searchPokemon = searchPokemonBigImg.alt;
+                    const mon = fieldmons[m];
+                    const searchPokemonBigImg = obj.jQuery(mon)[0].childNodes[0];
+                    const searchPokemon = searchPokemonBigImg.alt;
 
-                    let tooltip = obj.jQuery(mon).next();
-                    let fieldmontip = tooltip[0].querySelector('.fieldmontip');
-                    let speciesDiv = obj.jQuery(fieldmontip).children(':contains(Species)')[0];
-                    let eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0];
-                    let searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
+                    const tooltip = obj.jQuery(mon).next();
+                    const fieldmontip = tooltip[0].querySelector('.fieldmontip');
+                    const speciesDiv = obj.jQuery(fieldmontip).children(':contains(Species)')[0];
+                    const eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0];
+                    const searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
 
                     // There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
                     // The gender title can be "[M], [F], [N]"
-                    let searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
-                    let searchEggGroups = obj.jQuery(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
+                    const searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
+                    const searchEggGroups = obj.jQuery(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
 
                     // Match Ditto in Daycare to anything that can breed
                     if (gender === 'd' && eggGroup1 === 'Ditto' &&
@@ -82,9 +82,9 @@ class DaycarePage extends DaycareBase {
                     }
                     // Match correct gender
                     else {
-                        let genderCorrect = (gender === 'f' && searchGender === 'm') ||
+                        const genderCorrect = (gender === 'f' && searchGender === 'm') ||
                             (gender === 'm' && searchGender === 'f');
-                        let group1Correct = searchEggGroups.reduce((res, curr) => { res = res || (eggGroup1 === curr); return res; }, false);
+                        const group1Correct = searchEggGroups.reduce((res, curr) => { res = res || (eggGroup1 === curr); return res; }, false);
                         let group2Correct = false;
                         if (eggGroup2 !== null) {
                             group2Correct = searchEggGroups.reduce((res, curr) => { res = res || (eggGroup2 === curr); return res; }, false);

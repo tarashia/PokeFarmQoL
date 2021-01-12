@@ -4,10 +4,10 @@ const FarmBase = Page;
 // eslint-disable-next-line no-unused-vars
 class FarmPage extends FarmBase {
     DEFAULT_SETTINGS(GLOBALS) {
-        let d = { TYPE_APPEND: {} };
+        const d = { TYPE_APPEND: {} };
         // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
         for (let i = 0; i < GLOBALS.TYPE_LIST.length; i++) {
-            let type = GLOBALS.TYPE_LIST[i];
+            const type = GLOBALS.TYPE_LIST[i];
             d.TYPE_APPEND[type.toUpperCase()] = '.' + i;
         }
         d.TYPE_APPEND['NONE'] = '.' + GLOBALS.TYPE_LIST.length;
@@ -50,6 +50,7 @@ class FarmPage extends FarmBase {
                 obj.easyQuickEvolve();
             });
         });
+
     }
     setupHTML() {
         const obj = this;
@@ -116,12 +117,12 @@ class FarmPage extends FarmBase {
     easyEvolveTypeList(GLOBALS) {
         const obj = this;
         obj.checkForValidDexData(GLOBALS);
-        let dexData = GLOBALS.DEX_DATA;
+        const dexData = GLOBALS.DEX_DATA;
 
         if (!GLOBALS.REGIONAL_FORMS_LIST && localStorage.getItem('QoLRegionalFormsList')) {
             GLOBALS.REGIONAL_FORMS_LIST = JSON.parse(localStorage.getItem('QoLRegionalFormsList'));
         }
-        let regionalFormList = GLOBALS.REGIONAL_FORMS_LIST;
+        const regionalFormList = GLOBALS.REGIONAL_FORMS_LIST;
 
         if (!regionalFormList) {
             window.alert('Message from QoL script:\nUnable to load list of regional forms. ' +
@@ -132,18 +133,18 @@ class FarmPage extends FarmBase {
 
         this.clearSortedEvolveLists();
 
-        let typeBackground = obj.jQuery('.panel>h3').css('background-color');
+        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
         obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
         document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
 
-        let typeBorder = obj.jQuery('.panel>h3').css('border');
-        let typeColor = obj.jQuery('.panel>h3').css('color');
+        const typeBorder = obj.jQuery('.panel>h3').css('border');
+        const typeColor = obj.jQuery('.panel>h3').css('color');
         obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
         obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
         obj.jQuery('.expandlist').css('color', '' + typeColor + '');
 
-        let typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        let typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
+        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
+        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
         obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
         obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
 
@@ -165,13 +166,13 @@ class FarmPage extends FarmBase {
             let inDex = false;
             // load the pokemon's species and set the pokemon's name to the species name for the rest of this loop
             loadSummaryPage($, evoUrl, (data) => {
-                let html = obj.jQuery.parseHTML(data);
+                const html = obj.jQuery.parseHTML(data);
                 // first find the right element in html to read from
-                let htmlIndex = findDivCoreIndex($, html);
+                const htmlIndex = findDivCoreIndex($, html);
                 if (!logErrorIfIndexNegativeOne(htmlIndex, `Unable to find species name on ${evoUrl}.`)) {
-                    let links = Array.from(html[htmlIndex].querySelectorAll('#pkmnspecdata>p>a'));
+                    const links = Array.from(html[htmlIndex].querySelectorAll('#pkmnspecdata>p>a'));
                     // find the link that to the species page
-                    let speciesIndex = links.findIndex((lnk) => lnk.getAttribute('href').match(/\/dex\/.*/));
+                    const speciesIndex = links.findIndex((lnk) => lnk.getAttribute('href').match(/\/dex\/.*/));
                     // if the link is found, load the types
                     if (!logErrorIfIndexNegativeOne(speciesIndex,
                         `Unable to determine species of pokemon from ${evoUrl}.`)) {
@@ -191,8 +192,8 @@ class FarmPage extends FarmBase {
         const loadEvolutionOriginDexNumber = function ($, evoUrl) {
             let dexNumber = '';
             loadSummaryPage($, evoUrl, (data) => {
-                let html = obj.jQuery.parseHTML(data);
-                let htmlIndex = findDivCoreIndex($, html);
+                const html = obj.jQuery.parseHTML(data);
+                const htmlIndex = findDivCoreIndex($, html);
                 if (!logErrorIfIndexNegativeOne(htmlIndex,
                     `Unable to find find dex number in summary page ${evoUrl}.`)) {
                     dexNumber = getDexNumberFromSummaryData(html[htmlIndex]);
@@ -202,7 +203,7 @@ class FarmPage extends FarmBase {
         };
 
         const loadDataFromEvolutionOriginDexPage = function ($, dexPageParser, typeList, number, name) {
-            let evolutions = {};
+            const evolutions = {};
             let status = false;
             let types = [];
             loadDexPage($, number, name, (data) => {
@@ -210,15 +211,15 @@ class FarmPage extends FarmBase {
                 // evolveTypePrevOne and evolveTypePrevTwo are correct
                 let html = $.parseHTML(data);
                 // first find the right element in html to read from
-                let htmlIndex = findDivCoreIndex($, html);
+                const htmlIndex = findDivCoreIndex($, html);
                 if (!logErrorIfIndexNegativeOne(htmlIndex, `Unable to find evolutions for ${name}.`)) {
                     html = html[htmlIndex];
                     // Get the evolutions from the dex page
-                    let evosSpans = html.querySelectorAll('.evolutiontree>ul>li>.name');
+                    const evosSpans = html.querySelectorAll('.evolutiontree>ul>li>.name');
                     evosSpans.forEach((e) => {
                         if (e.querySelector('a')) {
-                            let evoNumber = e.querySelector('a').attributes['href'].value.substr(5);
-                            let evoName = e.textContent;
+                            const evoNumber = e.querySelector('a').attributes['href'].value.substr(5);
+                            const evoName = e.textContent;
                             evolutions[evoNumber] = evoName;
                             evolutions[evoName] = evoNumber;
                         } else {
@@ -243,8 +244,8 @@ class FarmPage extends FarmBase {
             let types = [];
             // Load dex page for the match
             loadDexPage($, number, name, (data) => {
-                let html = obj.jQuery.parseHTML(data);
-                let htmlIndex = findDivCoreIndex($, html);
+                const html = obj.jQuery.parseHTML(data);
+                const htmlIndex = findDivCoreIndex($, html);
                 if (!logErrorIfIndexNegativeOne(htmlIndex,
                     `Unable to find dex details on dex page for pokedex number ${number}`)) {
                     types = getTypesFromDexPage(dexPageParser, typeList, $(html[htmlIndex])).map((t) => '' + t);
@@ -299,7 +300,7 @@ class FarmPage extends FarmBase {
         };
 
         const loadDexPage = function ($, dexNumber, name, success) {
-            let url = 'https://pokefarm.com/dex/' + dexNumber;
+            const url = 'https://pokefarm.com/dex/' + dexNumber;
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -314,8 +315,8 @@ class FarmPage extends FarmBase {
         };
 
         const getTypesFromSummaryData = function (html) {
-            let typeImgs = Array.from(html.querySelectorAll('.type>img'));
-            let typeUrls = typeImgs.map((e) => e['src']);
+            const typeImgs = Array.from(html.querySelectorAll('.type>img'));
+            const typeUrls = typeImgs.map((e) => e['src']);
             let types = typeUrls.map((url) =>
                 url.substring(url.indexOf('types/') + 'types/'.length,
                     url.indexOf('.png')));
@@ -346,24 +347,24 @@ class FarmPage extends FarmBase {
 
         const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
             if (evoString.includes('title="[DELTA')) {
-                let deltaType = evoString.match('DELTA-(.*)]">');
+                const deltaType = evoString.match('DELTA-(.*)]">');
                 $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
             }
         };
 
         obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
             // getting the <li> element from the pokemon & the pokemon evolved name
-            let getEvolveString = obj.jQuery(this).html();
+            const getEvolveString = obj.jQuery(this).html();
             let previousPokemon = getEvolutionOrigin(getEvolveString);
-            let evolvePokemon = getEvolutionDestination(getEvolveString);
-            let evoUrl = getEvolutionURL(getEvolveString);
+            const evolvePokemon = getEvolutionDestination(getEvolveString);
+            const evoUrl = getEvolutionURL(getEvolveString);
 
             // Handle unicode characters
             previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
 
             let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1;
             let evolveInDex = dexData.indexOf('"' + evolvePokemon + '"') != -1;
-            let hasRegionalForms = regionalFormList && Object.prototype.hasOwnProperty.call(regionalFormList, previousPokemon);
+            const hasRegionalForms = regionalFormList && Object.prototype.hasOwnProperty.call(regionalFormList, previousPokemon);
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
@@ -386,7 +387,7 @@ class FarmPage extends FarmBase {
 
             // Step 1.a
             if (!previousInDex || hasRegionalForms) {
-                let data = loadEvolutionOriginTypes(obj.jQuery, evoUrl);
+                const data = loadEvolutionOriginTypes(obj.jQuery, evoUrl);
                 if (data.status) {
                     previousInDex = data.status;
                     previousPokemon = data.species;
@@ -415,10 +416,10 @@ class FarmPage extends FarmBase {
                 // Step 2.c
                 else {
                     // Get the dex number for previousPokemon
-                    let dexNumber = loadEvolutionOriginDexNumber(obj.jQuery, evoUrl);
+                    const dexNumber = loadEvolutionOriginDexNumber(obj.jQuery, evoUrl);
 
                     // Load the dex page for previousPokemon
-                    let dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
+                    const dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
                     let evolutions = {};
                     if (dexInfo.status) {
                         evolveInDex = dexInfo.status;
@@ -427,7 +428,7 @@ class FarmPage extends FarmBase {
                     }
 
                     if (evolveInDex && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
-                        let info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
+                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
                         if (info.status) {
                             evolveInDex = info.status;
                             evolveTypes = info.types;
@@ -475,8 +476,8 @@ class FarmPage extends FarmBase {
         }); // each
 
         obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
-            let amountOfEvolves = obj.jQuery(this).children().children().length;
-            let evolveTypeName = obj.jQuery(this).children('.slidermenu').html();
+            const amountOfEvolves = obj.jQuery(this).children().children().length;
+            const evolveTypeName = obj.jQuery(this).children('.slidermenu').html();
 
             // hide the types with no evolutions
             if (amountOfEvolves === 0) {
@@ -499,7 +500,7 @@ class FarmPage extends FarmBase {
         let errorOccurred = false;
         this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index) {
             // getting the <li> element from the pokemon & the pokemon evolved name
-            let getEvolveString = obj.jQuery(this).html();
+            const getEvolveString = obj.jQuery(this).html();
             if (getEvolveString === undefined || getEvolveString === '') {
                 console.error(`Unable to parse html from <li> at index ${index}`);
                 errorOccurred = true;
@@ -515,7 +516,7 @@ class FarmPage extends FarmBase {
                     let whitespace = beforeEvolvePokemon.match(/\s{2,}/g);
                     while (whitespace) {
                         for (let i = whitespace.length - 1; i >= 0; i--) {
-                            let match = whitespace[i];
+                            const match = whitespace[i];
                             beforeEvolvePokemon = beforeEvolvePokemon.replace(match, ' ');
                         }
                         whitespace = beforeEvolvePokemon.match(/\s{2,}/g);
@@ -532,13 +533,13 @@ class FarmPage extends FarmBase {
                         let whitespace = evolvePokemon.match(/\s{2,}/g);
                         while (whitespace) {
                             for (let i = whitespace.length - 1; i >= 0; i--) {
-                                let match = whitespace[i];
+                                const match = whitespace[i];
                                 evolvePokemon = evolvePokemon.replace(match, ' ');
                             }
                             whitespace = evolvePokemon.match(/\s{2,}/g);
                         }
                         // Replace all spaces with a character that is not part of any Pokemon's name, but is valid in a CSS selector
-                        let evolvePokemonClass = evolvePokemon.replace(/ /g, '_').replace('[', '').replace(']', '').replace(/\./g, '');
+                        const evolvePokemonClass = evolvePokemon.replace(/ /g, '_').replace('[', '').replace(']', '').replace(/\./g, '');
                         if (evolvePokemonClass === undefined || evolvePokemonClass === '') {
                             console.error(`Unable to create valid CSS class for pokemon-evolving-to from <li> at index ${index}`);
                             errorOccurred = true;
@@ -562,23 +563,23 @@ class FarmPage extends FarmBase {
         }
 
         obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li').each(function (index) {
-            let amountOfEvolves = obj.jQuery(this).children().children().length;
+            const amountOfEvolves = obj.jQuery(this).children().children().length;
             if (amountOfEvolves === 0) {
                 console.error(`Found 0 evolutions for <li> at ${index} of evolve name list`);
                 errorOccurred = true;
             } else {
-                let getEvolveString = obj.jQuery(this).children().children().html();
+                const getEvolveString = obj.jQuery(this).children().children().html();
                 if (getEvolveString === undefined || getEvolveString === '') {
                     console.error(`Unable to parse evolve string from <li> at ${index} from evolve name list`);
                     errorOccurred = true;
                 } else {
-                    let beforeEvolvePokemon = obj.jQuery(this).children().children().children().children().first().text(); // .split(' ').join('');
+                    const beforeEvolvePokemon = obj.jQuery(this).children().children().children().children().first().text(); // .split(' ').join('');
 
                     if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
                         console.error(`Unable to parse pokemon-evolving-from from <li> at ${index} from evolve name list`);
                         errorOccurred = true;
                     } else {
-                        let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 'into</span> '.length);
+                        const evolvePokemon = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 'into</span> '.length);
                         if (evolvePokemon === undefined || evolvePokemon === '') {
                             console.error(`Unable to parse pokemon-evolving-to from <li> at ${index} from evolve name list`);
                             errorOccurred = true;
@@ -598,21 +599,21 @@ class FarmPage extends FarmBase {
         }
 
         //layout of the created html
-        let typeBackground = obj.jQuery('.panel>h3').css('background-color');
-        let typeBorder = obj.jQuery('.panel>h3').css('border');
-        let typeColor = obj.jQuery('.panel>h3').css('color');
+        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
+        const typeBorder = obj.jQuery('.panel>h3').css('border');
+        const typeColor = obj.jQuery('.panel>h3').css('color');
         obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
         obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
         obj.jQuery('.expandlist').css('color', '' + typeColor + '');
 
-        let typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        let typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
+        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
+        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
         obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
         obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
     }
     easyEvolveNewList(GLOBALS) {
         const obj = this;
-        let dexData = GLOBALS.DEX_DATA;
+        const dexData = GLOBALS.DEX_DATA;
 
         this.clearSortedEvolveLists();
 
@@ -632,21 +633,21 @@ class FarmPage extends FarmBase {
         };
 
         const createListElements = (jQuery, cls, header, name, elem) => {
-            if(jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass(cls) === false) {
-                let html = '<li class="expandlist">' + 
-                `<h3 class="slidermenu">${header}</h3>` + 
-                `<ul class="${cls} qolChangeLogContent"></ul></li><br>`;
+            if (jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass(cls) === false) {
+                const html = '<li class="expandlist">' +
+                    `<h3 class="slidermenu">${header}</h3>` +
+                    `<ul class="${cls} qolChangeLogContent"></ul></li><br>`;
                 document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', html);
             }
 
-            if(jQuery(`#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.${cls}>li:contains(${name})`).length == 0) {
+            if (jQuery(`#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.${cls}>li:contains(${name})`).length == 0) {
                 jQuery(elem).clone().appendTo(`.${cls}`);
             }
         };
-        
+
         this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () { //the actual search
             // getting the <li> element from the pokemon & the pokemon evolved name
-            let getEvolveString = obj.jQuery(this).html();
+            const getEvolveString = obj.jQuery(this).html();
 
             // every pokemon is a normal unless shiny, albino or melanistic pokemon is found
             let pokemonIsNormal = true;
@@ -674,7 +675,7 @@ class FarmPage extends FarmBase {
             let whitespace = evolvePokemonName.match(/\s{2,}/g);
             while (whitespace) {
                 for (let i = whitespace.length - 1; i >= 0; i--) {
-                    let match = whitespace[i];
+                    const match = whitespace[i];
                     evolvePokemonName = evolvePokemonName.replace(match, ' ');
                 }
                 whitespace = evolvePokemonName.match(/\s{2,}/g);
@@ -857,15 +858,15 @@ class FarmPage extends FarmBase {
         obj.jQuery('.evolvepkmnlist').hide();
 
         //layout
-        let typeBackground = obj.jQuery('.panel>h3').css('background-color');
-        let typeBorder = obj.jQuery('.panel>h3').css('border');
-        let typeColor = obj.jQuery('.panel>h3').css('color');
+        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
+        const typeBorder = obj.jQuery('.panel>h3').css('border');
+        const typeColor = obj.jQuery('.panel>h3').css('color');
         obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
         obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
         obj.jQuery('.expandlist').css('color', '' + typeColor + '');
 
-        let typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        let typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
+        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
+        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
         obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
         obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
     }

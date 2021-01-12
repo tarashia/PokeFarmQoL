@@ -16,7 +16,7 @@ class LocalStorageManager {
             return false;
         }
 
-        let dateAndDex = JSON.parse(self.storage.getItem('QoLPokedex'));
+        const dateAndDex = JSON.parse(self.storage.getItem('QoLPokedex'));
         // if QoLPokedex only contains date
         if((dateAndDex.length === 1) ||
            // or if the dex part of the array is empty
@@ -26,7 +26,7 @@ class LocalStorageManager {
         }
 
         globals.DEX_UPDATE_DATE = dateAndDex[0];
-        let dex = dateAndDex.slice(1);
+        const dex = dateAndDex.slice(1);
         globals.DEX_DATA = dex;
         return true;
     }
@@ -38,8 +38,8 @@ class LocalStorageManager {
     loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals) {
         dexUtilities.getMainDexPage($).done((data) => {
             globals.DEX_UPDATE_DATE = (new Date()).toUTCString();
-            let html = $.parseHTML(data);
-            let dex = $(html[html.length-1], document).find('#dexdata').html();
+            const html = $.parseHTML(data);
+            const dex = $(html[html.length-1], document).find('#dexdata').html();
             globals.DEX_DATA = dex.split(',');
             this.updateLocalStorageDex($, document, globals.DEX_UPDATE_DATE, globals);
         }).catch((error) => {
@@ -64,7 +64,7 @@ class LocalStorageManager {
     loadDexIntoGlobalsFromWebIfOld($, document, dexUtilities, globals) {
         // If it's more than 30 days old, update the dex
         const THIRTY_DAYS_IN_MS = 30*24*3600*1000;
-        let dateAndDex = JSON.parse(self.storage.getItem('QoLPokedex'));
+        const dateAndDex = JSON.parse(self.storage.getItem('QoLPokedex'));
         if ((Date.now() - Date.parse(dateAndDex[0])) > THIRTY_DAYS_IN_MS) {
             this.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals);
             return true;
@@ -90,13 +90,13 @@ class LocalStorageManager {
             evolveByLevelList = JSON.parse(self.storage.getItem('QoLEvolveByLevel'));
         }
 
-        for(let pokemon in parsedFamilies) {
-            let evolutions = parsedFamilies[pokemon];
+        for(const pokemon in parsedFamilies) {
+            const evolutions = parsedFamilies[pokemon];
             for(let i = 0; i < evolutions.length; i++) {
-                let evo = evolutions[i];
+                const evo = evolutions[i];
                 if(!(evo.source in evolveByLevelList) && Array.isArray(evo.condition)) {
                     for(let j = 0; j < evo.condition.length; j++) {
-                        let cond = evo.condition[j];
+                        const cond = evo.condition[j];
                         if(cond.condition === 'Level') {
                             evolveByLevelList[evo.source] = cond.condition + ' ' + cond.data;
                             evolveByLevelList[dexIDs[evo.source]] = cond.condition + ' ' + cond.data;
@@ -149,16 +149,16 @@ class LocalStorageManager {
      * 
      */
     parseAndStoreDexNumbers(dex) {
-        let json = JSON.parse(dex);
+        const json = JSON.parse(dex);
         // load current list of processed dex IDs
         let dexIDsCache = [];
         if(self.storage.getItem('QoLDexIDsCache') !== null) {
             dexIDsCache = JSON.parse(self.storage.getItem('QoLDexIDsCache'));
         }
         
-        let dexNumbers = [];
+        const dexNumbers = [];
         // get the list of pokedex numbers that haven't been processed before
-        for(let r in json.regions) {
+        for(const r in json.regions) {
             for(let i = 0; i < json.regions[r].length; i++) {
                 if(dexIDsCache.indexOf(json.regions[r][i][0]) == -1) {
                     dexNumbers.push(json.regions[r][i][0]);

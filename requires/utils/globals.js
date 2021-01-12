@@ -1,16 +1,16 @@
 // eslint-disable-next-line no-unused-vars
 class Globals {
     // eslint-disable-next-line camelcase
-    static fillTemplates(GM_getResourceText) {
-        Globals.TEMPLATES.shelterOptionsHTML         = GM_getResourceText('shelterOptionsHTML');
-        Globals.TEMPLATES.fieldSortHTML              = GM_getResourceText('fieldSortHTML');
-        Globals.TEMPLATES.fieldSearchHTML            = GM_getResourceText('fieldSearchHTML');
-        Globals.TEMPLATES.privateFieldSearchHTML     = GM_getResourceText('privateFieldSearchHTML');
-        Globals.TEMPLATES.qolHubHTML                 = GM_getResourceText('qolHubHTML');
-        Globals.TEMPLATES.evolveFastHTML             = GM_getResourceText('evolveFastHTML');
-        Globals.TEMPLATES.labOptionsHTML             = GM_getResourceText('labOptionsHTML');
-        Globals.TEMPLATES.publicFieldTooltipModHTML  = GM_getResourceText('publicFieldTooltipModHTML');
-        Globals.TEMPLATES.privateFieldTooltipModHTML = GM_getResourceText('privateFieldTooltipModHTML');
+    static fillTemplates(TEMPLATES) {
+        Globals.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
+        Globals.TEMPLATES.fieldSortHTML              = TEMPLATES.fieldSortHTML();
+        Globals.TEMPLATES.fieldSearchHTML            = TEMPLATES.fieldSearchHTML();
+        Globals.TEMPLATES.privateFieldSearchHTML     = TEMPLATES.privateFieldSearchHTML();
+        Globals.TEMPLATES.qolHubHTML                 = TEMPLATES.qolHubHTML();
+        Globals.TEMPLATES.evolveFastHTML             = TEMPLATES.evolveFastHTML();
+        Globals.TEMPLATES.labOptionsHTML             = TEMPLATES.labOptionsHTML();
+        Globals.TEMPLATES.publicFieldTooltipModHTML  = TEMPLATES.publicFieldTooltipModHTML();
+        Globals.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
     }
     static fillOptionsLists(helpers) {
         Globals.TYPE_OPTIONS = helpers.buildOptionsString(Globals.TYPE_LIST);

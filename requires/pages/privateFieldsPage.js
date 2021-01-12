@@ -76,8 +76,8 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     }
     setupCSS() {
         // same as public fields
-        let fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
-        let fieldOrderCssBorder = this.jQuery('#field_field').css('border');
+        const fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
+        const fieldOrderCssBorder = this.jQuery('#field_field').css('border');
         this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
         this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
@@ -198,7 +198,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
 
         this.jQuery('.collapsible').on('click', function () {
             this.classList.toggle('active');
-            var content = this.nextElementSibling;
+            const content = this.nextElementSibling;
             if (content.style.display === 'block') {
                 content.style.display = 'none';
             } else {
@@ -294,7 +294,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
         const selected = this.jQuery('img[title*="' + value + '"]');
         if (selected.length) {
             // next line different from shelter
-            let bigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+            const bigImg = selected.parent().parent().parent().parent().prev().children('img.big');
             this.jQuery(bigImg).addClass('privatefoundme');
 
             // this.insertFoundDiv(selected.length, imgResult, imgFitResult)
@@ -302,17 +302,17 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     }
 
     searchForCustomPokemon(value, male, female, nogender) {
-        let genderMatches = [];
+        const genderMatches = [];
         if (male) { genderMatches.push('[M]'); }
         if (female) { genderMatches.push('[F]'); }
         if (nogender) { genderMatches.push('[N]'); }
 
         if (genderMatches.length > 0) {
             for (let i = 0; i < genderMatches.length; i++) {
-                let genderMatch = genderMatches[i];
-                let selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
+                const genderMatch = genderMatches[i];
+                const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
                     this.jQuery(shelterBigImg).addClass('privatefoundme');
                 }
             }
@@ -320,31 +320,31 @@ class PrivateFieldsPage extends PrivateFieldsBase {
 
         //No genders
         else {
-            let selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ')');
+            const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ')');
             if (selected.length) {
-                let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
                 this.jQuery(shelterBigImg).addClass('privatefoundme');
             }
         }
 
     }
     searchForCustomEgg(value) {
-        let selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
+        const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
         if (selected.length) {
-            let shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
             this.jQuery(shelterBigImg).addClass('privatefoundme');
         }
     }
     searchForCustomPng(value) {
-        let selected = this.jQuery('#field_field img[src*="' + value + '"]');
+        const selected = this.jQuery('#field_field img[src*="' + value + '"]');
         if (selected.length) {
-            let shelterImgSearch = selected;
+            const shelterImgSearch = selected;
             this.jQuery(shelterImgSearch).addClass('privatefoundme');
         }
     }
     customSearch(GLOBALS) {
         const obj = this;
-        let bigImgs = document.querySelectorAll('.privatefoundme');
+        const bigImgs = document.querySelectorAll('.privatefoundme');
         if (bigImgs !== null) {
             bigImgs.forEach((b) => { obj.jQuery(b).removeClass('privatefoundme'); });
         }
@@ -375,9 +375,9 @@ class PrivateFieldsPage extends PrivateFieldsBase {
         }
         if (this.settings.fieldItem === true) {
             // pokemon that hold items will have HTML that matches the following selector
-            let items = obj.jQuery('.tooltip_content .item>div>.tooltip_item');
+            const items = obj.jQuery('.tooltip_content .item>div>.tooltip_item');
             if (items.length) {
-                let itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big');
+                const itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big');
                 obj.jQuery(itemBigImgs).addClass('privatefoundme');
             }
         }
@@ -400,15 +400,15 @@ class PrivateFieldsPage extends PrivateFieldsBase {
         //loop to find all the types
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
             obj.jQuery('.fieldmon').each(function () {
-                let searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
+                const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
                 const tooltipData = Helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
 
-                let searchTypeOne = tooltipData.types[0] + '';
-                let searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
+                const searchTypeOne = tooltipData.types[0] + '';
+                const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
 
-                let searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
+                const searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
 
-                let searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
+                const searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
                     children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
 
                 for (let i = 0; i < filteredTypeArray.length; i++) {
@@ -424,7 +424,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
                 }
 
                 for (let i = 0; i < filteredEggGroupArray.length; i++) {
-                    let value = GLOBALS.EGG_GROUP_LIST[filteredEggGroupArray[i]];
+                    const value = GLOBALS.EGG_GROUP_LIST[filteredEggGroupArray[i]];
                     if (searchEggGroup === value ||
                         searchEggGroup.indexOf(value + '/') > -1 ||
                         searchEggGroup.indexOf('/' + value) > -1) {
@@ -436,7 +436,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
 
         // custom search
         for (let i = 0; i < this.customArray.length; i++) {
-            let value = this.customArray[i];
+            const value = this.customArray[i];
             if (value != '') {
                 //custom pokemon search
                 if (this.settings.customPokemon === true) {
@@ -459,7 +459,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     }
     addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
         const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
-        let number = this.jQuery(`#${divParent}>div`).length;
+        const number = this.jQuery(`#${divParent}>div`).length;
         this.jQuery(`#${divParent}`).append(theList);
         this.jQuery(`.${cls}`).removeClass(cls).addClass('' + number + '');
     }
@@ -470,7 +470,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
         this.jQuery(byebye).parent().remove();
 
         for (let i = 0; i < this.jQuery(`#${divParent}>div`).length; i++) {
-            let rightDiv = i + 1;
+            const rightDiv = i + 1;
             this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
 
@@ -478,7 +478,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     }
     addTextField() {
         const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-        let numberDiv = this.jQuery('#searchkeys>div').length;
+        const numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
         this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
     }
@@ -492,7 +492,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
 
         let i;
         for (i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
-            let rightDiv = i + 1;
+            const rightDiv = i + 1;
             this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
@@ -507,32 +507,32 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             });
 
             this.jQuery('#selectallfieldanycheckbox').click(function () {
-                let selectAny = obj.jQuery('.icons:contains("Any")').prev().prev().prev('input');
+                const selectAny = obj.jQuery('.icons:contains("Any")').prev().prev().prev('input');
                 obj.jQuery(selectAny).not(this).prop('checked', this.checked);
             });
 
             this.jQuery('#selectallfieldsourcheckbox').click(function () {
-                let selectSour = obj.jQuery('.icons:contains("Sour")').prev().prev().prev('input');
+                const selectSour = obj.jQuery('.icons:contains("Sour")').prev().prev().prev('input');
                 obj.jQuery(selectSour).not(this).prop('checked', this.checked);
             });
 
             this.jQuery('#selectallfieldspicycheckbox').click(function () {
-                let selectSpicy = obj.jQuery('.icons:contains("Spicy")').prev().prev().prev('input');
+                const selectSpicy = obj.jQuery('.icons:contains("Spicy")').prev().prev().prev('input');
                 obj.jQuery(selectSpicy).not(this).prop('checked', this.checked);
             });
 
             this.jQuery('#selectallfielddrycheckbox').click(function () {
-                let selectDry = obj.jQuery('.icons:contains("Dry")').prev().prev().prev('input');
+                const selectDry = obj.jQuery('.icons:contains("Dry")').prev().prev().prev('input');
                 obj.jQuery(selectDry).not(this).prop('checked', this.checked);
             });
 
             this.jQuery('#selectallfieldsweetcheckbox').click(function () {
-                let selectSweet = obj.jQuery('.icons:contains("Sweet")').prev().prev().prev('input');
+                const selectSweet = obj.jQuery('.icons:contains("Sweet")').prev().prev().prev('input');
                 obj.jQuery(selectSweet).not(this).prop('checked', this.checked);
             });
 
             this.jQuery('#selectallfieldbittercheckbox').click(function () {
-                let selectBitter = obj.jQuery('.icons:contains("Bitter")').prev().prev().prev('input');
+                const selectBitter = obj.jQuery('.icons:contains("Bitter")').prev().prev().prev('input');
                 obj.jQuery(selectBitter).not(this).prop('checked', this.checked);
             });
         } // if
@@ -548,32 +548,32 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             });
 
             obj.jQuery('#movefieldselectanycheckbox').click(function () {
-                let selectAny = obj.jQuery('.icons:contains("Any")').prev().prev().prev('input');
+                const selectAny = obj.jQuery('.icons:contains("Any")').prev().prev().prev('input');
                 obj.jQuery(selectAny).not(this).prop('checked', this.checked);
             });
 
             obj.jQuery('#movefieldselectsourcheckbox').click(function () {
-                let selectSour = obj.jQuery('.icons:contains("Sour")').prev().prev().prev('input');
+                const selectSour = obj.jQuery('.icons:contains("Sour")').prev().prev().prev('input');
                 obj.jQuery(selectSour).not(this).prop('checked', this.checked);
             });
 
             obj.jQuery('#movefieldselectspicycheckbox').click(function () {
-                let selectSpicy = obj.jQuery('.icons:contains("Spicy")').prev().prev().prev('input');
+                const selectSpicy = obj.jQuery('.icons:contains("Spicy")').prev().prev().prev('input');
                 obj.jQuery(selectSpicy).not(this).prop('checked', this.checked);
             });
 
             obj.jQuery('#movefieldselectdrycheckbox').click(function () {
-                let selectDry = obj.jQuery('.icons:contains("Dry")').prev().prev().prev('input');
+                const selectDry = obj.jQuery('.icons:contains("Dry")').prev().prev().prev('input');
                 obj.jQuery(selectDry).not(this).prop('checked', this.checked);
             });
 
             obj.jQuery('#movefieldselectsweetcheckbox').click(function () {
-                let selectSweet = obj.jQuery('.icons:contains("Sweet")').prev().prev().prev('input');
+                const selectSweet = obj.jQuery('.icons:contains("Sweet")').prev().prev().prev('input');
                 obj.jQuery(selectSweet).not(this).prop('checked', this.checked);
             });
 
             obj.jQuery('#movefieldselectbittercheckbox').click(function () {
-                let selectBitter = obj.jQuery('.icons:contains("Bitter")').prev().prev().prev('input');
+                const selectBitter = obj.jQuery('.icons:contains("Bitter")').prev().prev().prev('input');
                 obj.jQuery(selectBitter).not(this).prop('checked', this.checked);
             });
         } // if
