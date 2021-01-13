@@ -8,7 +8,6 @@
 // @version      1.6.8
 // @match        https://pokefarm.com/*
 // @require      http://code.jquery.com/jquery-3.3.1.min.js
-// @require      https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.min.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/resources.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/helpers.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/globals.js
