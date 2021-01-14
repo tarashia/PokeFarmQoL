@@ -27,9 +27,9 @@ beforeAll(() => {
     );
 });
 
-const expectTooltipsExist = function(numTooltipEnableMods,  numTooltipNoBerry, 
-    numTooltipBerry,  tooltipEnableModsChecked, 
-    tooltipNoBerryChecked,  tooltipNoBerryDisabled,
+const expectTooltipsExist = function (numTooltipEnableMods, numTooltipNoBerry,
+    numTooltipBerry, tooltipEnableModsChecked,
+    tooltipNoBerryChecked, tooltipNoBerryDisabled,
     tooltipBerryChecked, tooltipBerryDisabled) {
     expect($('[data-key=tooltipEnableMods]').length).toBe(numTooltipEnableMods);
     expect($('[data-key=tooltipNoBerry]').length).toBe(numTooltipNoBerry);
@@ -40,8 +40,8 @@ const expectTooltipsExist = function(numTooltipEnableMods,  numTooltipNoBerry,
     expect($('[data-key=tooltipBerry]').prop('checked')).toBe(tooltipBerryChecked);
     expect($('[data-key=tooltipBerry]').prop('disabled')).toBe(tooltipBerryDisabled);
 };
-const setupTooltipValues = function(tooltipEnableModsChecked, 
-    tooltipNoBerryChecked,  tooltipNoBerryDisabled,
+const setupTooltipValues = function (tooltipEnableModsChecked,
+    tooltipNoBerryChecked, tooltipNoBerryDisabled,
     tooltipBerryChecked, tooltipBerryDisabled) {
     if ($('[data-key=tooltipEnableMods]').prop('checked') === !tooltipEnableModsChecked) {
         $('[data-key=tooltipEnableMods]').trigger('click');
@@ -59,7 +59,7 @@ const setupTooltipValues = function(tooltipEnableModsChecked,
     expect($('[data-key=tooltipBerry]').prop('disabled')).toBe(tooltipBerryDisabled);
 };
 
-const checkLocalSettings = function(tooltipEnableModsChecked, 
+const checkLocalSettings = function (tooltipEnableModsChecked,
     tooltipNoBerryChecked, tooltipBerryChecked) {
     expect(localStorage.getItem('QoLPublicFields'))
         .toEqual(expect.stringContaining(`"tooltipEnableMods":${tooltipEnableModsChecked}`));
@@ -69,7 +69,7 @@ const checkLocalSettings = function(tooltipEnableModsChecked,
         .toEqual(expect.stringContaining(`"tooltipBerry":${tooltipBerryChecked}`));
 };
 
-const checkFieldmonClasses = function(numCormyr, numNotHungry, numGoAway) {
+const checkFieldmonClasses = function (numCormyr, numNotHungry, numGoAway) {
     expect($('.cormyr').length).toBe(numCormyr);
     expect($('.nothungry').length).toBe(numNotHungry);
     expect($('.goaway').length).toBe(numGoAway);
@@ -163,7 +163,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(0);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         //  3. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = false, no berry selected
         setupTooltipValues(true, true, false, false, false);
@@ -171,7 +171,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(0);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         //  5. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = true , no berry selected
         setupTooltipValues(true, false, false, true, false);
@@ -187,7 +187,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         //  9. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = true , no berry selected
         setupTooltipValues(true, true, false, true, false);
@@ -196,7 +196,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // 11. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = false, no berry selected
         setupTooltipValues(true, true, false, false, false);
@@ -205,7 +205,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // 13. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = true , no berry selected
         setupTooltipValues(true, false, false, true, false);
@@ -214,7 +214,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
-    
+
         ////////////////////////////////////////
         // 15. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false, no berry selected
         setupTooltipValues(true, false, false, false, false);
@@ -306,7 +306,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(0);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         //  4. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = false,    berry selected
         setupTooltipValues(true, true, false, false, false);
@@ -314,7 +314,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         //  6. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = true ,    berry selected
         setupTooltipValues(true, false, false, true, false);
@@ -330,7 +330,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // 10. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = true ,    berry selected
         setupTooltipValues(true, true, false, true, false);
@@ -339,7 +339,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // 12. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = false,    berry selected
         setupTooltipValues(true, true, false, false, false);
@@ -348,7 +348,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // 14. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = true ,    berry selected
         setupTooltipValues(true, false, false, true, false);
@@ -357,7 +357,7 @@ describe('Test Public Fields Page', () => {
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
-    
+
         ////////////////////////////////////////
         // 16. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false,    berry selected
         setupTooltipValues(true, false, false, false, false);
@@ -386,7 +386,7 @@ describe('Test Public Fields Page', () => {
         $(document).off('click', '#removeFieldEggGroup');
         $(document).off('click', '#addTextField');
         $(document).off('click', '#removeTextField');
-        
+
         // setup HTML
         /* HTML is setup to have the following:
          * - 1 Shinys
@@ -470,35 +470,35 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldAlbino]').length).toBe(1);
         expect($('[data-key=fieldAlbino]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldAlbino).toBe(false);
-        
+
         expect($('[data-key=fieldMelanistic]').length).toBe(1);
         expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldMelanistic).toBe(false);
-        
+
         expect($('[data-key=fieldPrehistoric]').length).toBe(1);
         expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldPrehistoric).toBe(false);
-        
+
         expect($('[data-key=fieldDelta]').length).toBe(1);
         expect($('[data-key=fieldDelta]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldDelta).toBe(false);
-        
+
         expect($('[data-key=fieldMega]').length).toBe(1);
         expect($('[data-key=fieldMega]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldMega).toBe(false);
-        
+
         expect($('[data-key=fieldStarter]').length).toBe(1);
         expect($('[data-key=fieldStarter]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldStarter).toBe(false);
-        
+
         expect($('[data-key=fieldCustomSprite]').length).toBe(1);
         expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldCustomSprite).toBe(false);
-        
+
         expect($('[data-key=fieldItem]').length).toBe(1);
         expect($('[data-key=fieldItem]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldItem).toBe(false);
-        
+
         // check that HTML was setup correctly
         expect($('input').filter('#addFieldTypeSearch').length).toBe(1);
         expect($('[data-key=fieldType][array-name=typeArray]').length).toBe(1);
@@ -522,13 +522,13 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldCustom][array-name=customArray]').length).toBe(1);
         expect($('input').filter('#removeTextField').length).toBe(1);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // Execute load handlers
         $(window).trigger('load');
         $('.field', document).trigger('load');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test selecting shiny pokemon
         $('[data-key=fieldShiny]').trigger('click');
@@ -540,7 +540,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldShiny]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldShiny).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldAlbino]').trigger('click');
         expect($('[data-key=fieldAlbino]').prop('checked')).toBe(true);
@@ -551,7 +551,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldAlbino]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldAlbino).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldMelanistic]').trigger('click');
         expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(true);
@@ -562,7 +562,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldMelanistic).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldPrehistoric]').trigger('click');
         expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(true);
@@ -573,7 +573,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldPrehistoric).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldDelta]').trigger('click');
         expect($('[data-key=fieldDelta]').prop('checked')).toBe(true);
@@ -584,7 +584,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldDelta]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldDelta).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldMega]').trigger('click');
         expect($('[data-key=fieldMega]').prop('checked')).toBe(true);
@@ -595,7 +595,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldMega]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldMega).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldStarter]').trigger('click');
         expect($('[data-key=fieldStarter]').prop('checked')).toBe(true);
@@ -606,7 +606,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldStarter]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldStarter).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldCustomSprite]').trigger('click');
         expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(true);
@@ -617,7 +617,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustomSprite).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldItem]').trigger('click');
         expect($('[data-key=fieldItem]').prop('checked')).toBe(true);
@@ -628,7 +628,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldItem]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldItem).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#addFieldTypeSearch').trigger('click');
         // check that the correct changes were applied
@@ -639,7 +639,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldType]').eq(0).val()).toBe(null);
         expect($('[data-key=fieldType]').eq(1).val()).toBe('none');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test selecting a type from the list
         $('[data-key=fieldType]').eq(0).prop('selectedIndex', 9); // Ground
@@ -651,7 +651,7 @@ describe('Test Public Fields Page', () => {
         expect($('.publicfoundme').length).toBe(55); // Ground or Grass
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldType).toBe('8,4');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#removeFieldTypeSearch').eq(0).trigger('click');
         // check that the correct changes were applied
@@ -678,7 +678,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldNature]').eq(1).val()).toBe('none');
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldNature).toBe('');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test selecting a nature from the list
         $('[data-key=fieldNature]').eq(0).prop('selectedIndex', 2); // Mild
@@ -687,10 +687,10 @@ describe('Test Public Fields Page', () => {
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldNature).toBe('1');
         $('[data-key=fieldNature]').eq(1).prop('selectedIndex', 5); // Bold
         $('[data-key=fieldNature]').eq(1).trigger('input');
-        expect($('.publicfoundme').length).toBe(NUM_MILD+NUM_BOLD); // Mild or Bold
+        expect($('.publicfoundme').length).toBe(NUM_MILD + NUM_BOLD); // Mild or Bold
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldNature).toBe('1,4');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#removeFieldNature').eq(0).trigger('click');
         // check that the correct changes were applied
@@ -706,7 +706,7 @@ describe('Test Public Fields Page', () => {
         expect($('.publicfoundme').length).toBe(0);
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldNature).toBe('');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#addFieldEggGroupSearch').trigger('click');
         // check that the correct changes were applied
@@ -717,7 +717,7 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldEggGroup]').eq(1).val()).toBe('none');
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldEggGroup).toBe('');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test selecting an egg group from the list
         $('[data-key=fieldEggGroup]').eq(0).prop('selectedIndex', 10); // Amorphous
@@ -726,10 +726,10 @@ describe('Test Public Fields Page', () => {
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldEggGroup).toBe('9');
         $('[data-key=fieldEggGroup]').eq(1).prop('selectedIndex', 2); // Monster
         $('[data-key=fieldEggGroup]').eq(1).trigger('input');
-        expect($('.publicfoundme').length).toBe(NUM_AMORPHOUS+NUM_MONSTER); // Amorphous or Monster
+        expect($('.publicfoundme').length).toBe(NUM_AMORPHOUS + NUM_MONSTER); // Amorphous or Monster
         expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldEggGroup).toBe('9,1');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#removeFieldEggGroup').trigger('click');
         // check that the correct changes were applied
@@ -854,8 +854,7 @@ describe('Test Public Fields Page', () => {
             '"fieldCustomPng":true,' +
             '"fieldItem":true,' +
             '"tooltipEnableMods":true,' +
-            '"tooltipNoBerry":true,'/*+
-                             '"tooltipBerry":true}'*/);
+            '"tooltipNoBerry":true}');
         pfqol.pfqol($);
 
     });
@@ -896,7 +895,7 @@ describe('Test Public Fields Page', () => {
             '"tooltipEnableMods":true,' +
             '"tooltipNoBerry":true,' +
             '"tooltipBerry":true,' +
-            '"fdsa":true');
+            '"fdsa":true}');
         pfqol.pfqol($);
 
     });
