@@ -36,13 +36,13 @@ class LocalStorageManager {
      * - globals - reference to the GLOBALS settings object
      */
     loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals) {
-        dexUtilities.getMainDexPage($).done((data) => {
+        dexUtilities.getMainDexPage($).then((data) => {
             globals.DEX_UPDATE_DATE = (new Date()).toUTCString();
             const html = $.parseHTML(data);
             const dex = $(html[html.length-1], document).find('#dexdata').html();
             globals.DEX_DATA = dex.split(',');
             this.updateLocalStorageDex($, document, globals.DEX_UPDATE_DATE, globals);
-        }).catch((error) => {
+        }, (error) => {
             console.error('Error occurred in loadDexIntoGlobalsFromWeb. ' + 
                           'Error message: ' + error);
         });

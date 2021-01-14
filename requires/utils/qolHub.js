@@ -71,7 +71,7 @@ class QoLHub {
         // this will update the globals.EVOLVE_BY_LEVEL_LIST
         // and local storage
         const virtualDocument = document.implementation.createHTMLDocument('virtual');
-        dexUtilities.getMainDexPage($).done((data) => {
+        dexUtilities.getMainDexPage($).then((data) => {
             const html = $.parseHTML(data);
             const dex = $(html[html.length - 1], virtualDocument).find('#dexdata').html();
             const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
@@ -124,7 +124,7 @@ class QoLHub {
             else {
                 progressSpan.textContent = 'Complete!';
             }
-        }).fail((error) => {
+        }, (error) => {
             console.log(error);
         });// getMainDexPage
     } // handleUpdateDexClick
