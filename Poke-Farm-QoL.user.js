@@ -7,7 +7,7 @@
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.6.8
 // @match        https://pokefarm.com/*
-// @require      http://code.jquery.com/jquery-3.3.1.min.js
+// @require      http://code.jquery.com/jquery-1.11.2.min.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/resources.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/helpers.js
 // @require      https://raw.githubusercontent.com/jpgualdarrama/PokeFarmQoL/master/requires/utils/globals.js
