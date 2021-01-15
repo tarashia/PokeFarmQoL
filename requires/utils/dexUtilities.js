@@ -46,18 +46,19 @@ class DexUtilities {
                 progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
             } else {
                 // eslint-disable-next-line no-unused-vars
-                const r = DexUtilities.getPokemonDexPage($, dexNumbers[d]).done((data, status, jqXHR) => {
+                const r = DexUtilities.getPokemonDexPage($, dexNumbers[d]).then((data, status, jqXHR) => {
                     progressBar.value = progressBar.value + 1;
                     progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
                     return data;
-                }).fail((error) => {
+                }, (error) => {
                     console.log(error);
                 });
                 requests.push(r);
             }
         }
 
-        return $.when.apply(undefined, requests);
+        // return $.when.apply(undefined, requests);
+        return Promise.all(requests);
     } // loadDexPages
     /* Loads the dex pages for the forms of a pokemon
      * Inputs:
@@ -83,11 +84,11 @@ class DexUtilities {
                 for(let i = 0; i < formLinks.length; i++) {
                     const link = formLinks.eq(i).attr('href');
                     const r = DexUtilities.getPokemonDexPage($, link.substring('/dex/'.length))
-                        .done((formHTML) => {
+                        .then((formHTML) => {
                             progressBar.value = progressBar['value'] + 1;
                             progressSpan.textContent = `Loaded ${progressBar['value']} of ${progressBar['max']} Pokemon`;
                             return formHTML;
-                        }).fail((error) => {
+                        }, (error) => {
                             console.log(error);
                         });
                     requests.push(r);
@@ -95,7 +96,7 @@ class DexUtilities {
             }
         } // for
         
-        return $.when.apply(undefined, requests);
+        return Promise.all(requests);
     } // loadFormPages
     /* Parses HTML from pokedex pages
      * Inputs:

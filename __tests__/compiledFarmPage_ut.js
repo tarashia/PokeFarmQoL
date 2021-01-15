@@ -17,11 +17,11 @@ function internalTrim(jObj) {
             let textBetweenTags;
             if (re.test(currentHTML)) {
                 while ((textBetweenTags = re.exec(currentHTML)) !== null) {
-                    let [tagAndText, justText] = textBetweenTags;
-                    let htmlBeforeText = currentHTML.substring(0, textBetweenTags.index + 1);
-                    let textTrimmed = justText.replace(/\s{1,}/g, ' ').trim();
-                    let htmlAfterText = currentHTML.substring(textBetweenTags.index + tagAndText.length - 1);
-                    let newHTML = (htmlBeforeText + textTrimmed + htmlAfterText).trim();
+                    const [tagAndText, justText] = textBetweenTags;
+                    const htmlBeforeText = currentHTML.substring(0, textBetweenTags.index + 1);
+                    const textTrimmed = justText.replace(/\s{1,}/g, ' ').trim();
+                    const htmlAfterText = currentHTML.substring(textBetweenTags.index + tagAndText.length - 1);
+                    const newHTML = (htmlBeforeText + textTrimmed + htmlAfterText).trim();
                     jObj.eq(i).html(newHTML);
                 }
             }
@@ -60,16 +60,16 @@ function internalStringTrim(currentHTML) {
         // before elements
         if (((textBetweenTags = startsWithTextBeforeElement.exec(currentHTML)) !== null) &&
             textBetweenTags[1] !== '') {
-            let justText = textBetweenTags[1];
-            let textTrimmed = justText.replace(/\s{1,}/g, ' ').trim();
+            const justText = textBetweenTags[1];
+            const textTrimmed = justText.replace(/\s{1,}/g, ' ').trim();
             newHTML += currentHTML.substring(lastIndex, textBetweenTags.index);
             newHTML += `${textTrimmed}<`;
             lastIndex = textBetweenTags[0].length;
         }
         // between elements
         while ((textBetweenTags = hasTextBetweenElements.exec(currentHTML)) !== null) {
-            let justText = textBetweenTags[1];
-            let textTrimmed = justText.replace(/\s{1,}/g, ' ').trim();
+            const justText = textBetweenTags[1];
+            const textTrimmed = justText.replace(/\s{1,}/g, ' ').trim();
             newHTML += currentHTML.substring(lastIndex, textBetweenTags.index);
             newHTML += `>${textTrimmed}<`;
             lastIndex = hasTextBetweenElements.lastIndex;
@@ -77,8 +77,8 @@ function internalStringTrim(currentHTML) {
         // after elements
         if (((textBetweenTags = endsWithTextAfterElement.exec(currentHTML)) !== null) &&
             textBetweenTags[1] !== '') {
-            let justText = textBetweenTags[1];
-            let textTrimmed = justText.replace(/\s{1,}/g, ' ').trim();
+            const justText = textBetweenTags[1];
+            const textTrimmed = justText.replace(/\s{1,}/g, ' ').trim();
             newHTML += currentHTML.substring(lastIndex, textBetweenTags.index);
             newHTML += `>${textTrimmed}`;
             lastIndex = currentHTML.length;
@@ -108,10 +108,10 @@ $.fn.equivalent = function (compareTo) {
     for (let i = 0; i < this.length; ++i) {
         // use a "fuzzy" equivalency by removing extraneous whitespace that
         // doesn't actually affect the structure of the HTML
-        let actual = $(this[i]);
-        let expected = $(compareTo[i]);
-        let actualHTML = internalStringTrim(actual.html());
-        let expectedHTML = internalStringTrim(expected.html());
+        const actual = $(this[i]);
+        const expected = $(compareTo[i]);
+        const actualHTML = internalStringTrim(actual.html());
+        const expectedHTML = internalStringTrim(expected.html());
         if (actualHTML !== expectedHTML) {
             return false;
         }

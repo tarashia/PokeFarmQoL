@@ -36,7 +36,7 @@ class LocalStorageManager {
      * - globals - reference to the GLOBALS settings object
      */
     loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals) {
-        dexUtilities.getMainDexPage($).then((data) => {
+        return dexUtilities.getMainDexPage($).then((data) => {
             globals.DEX_UPDATE_DATE = (new Date()).toUTCString();
             const html = $.parseHTML(data);
             const dex = $(html[html.length-1], document).find('#dexdata').html();
@@ -66,10 +66,9 @@ class LocalStorageManager {
         const THIRTY_DAYS_IN_MS = 30*24*3600*1000;
         const dateAndDex = JSON.parse(self.storage.getItem('QoLPokedex'));
         if ((Date.now() - Date.parse(dateAndDex[0])) > THIRTY_DAYS_IN_MS) {
-            this.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals);
-            return true;
+            return this.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals);
         }
-        return false;
+        return Promise.resolve(false);
     }
     updateLocalStorageDex($, document, updateDate, globals) {
         let dateString = '';

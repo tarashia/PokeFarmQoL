@@ -7,9 +7,10 @@ class DaycarePage extends DaycareBase {
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
-                const fsPokemon = document.querySelector('#fs_pokemon');
-                if (fsPokemon !== null &&
-                    obj.jQuery.contains(fsPokemon, mutation.target)) {
+                // const fsPokemon = document.querySelector('#fs_pokemon');
+                const fsPokemon = obj.jQuery('#fs_pokemon');
+                if (fsPokemon.length > 0 &&
+                    obj.jQuery.contains(fsPokemon[0], mutation.target)) {
                     obj.customSearch(GLOBALS);
                 }
             });

@@ -51,9 +51,10 @@ describe('Test loadDexIntoGlobalsFromWeb', () => {
         const date = (new Date()).toUTCString();
         const dex = parsed.slice(1);
         const globals = {};
-        localStorageManager.loadDexIntoGlobalsFromWeb(jQuery, ownerDocument, DexUtilities, globals);
-        expect(globals.DEX_UPDATE_DATE).toBe(date);
-        expect(globals.DEX_DATA).toStrictEqual(dex);
+        localStorageManager.loadDexIntoGlobalsFromWeb(jQuery, ownerDocument, DexUtilities, globals).then(() => {
+            expect(globals.DEX_UPDATE_DATE).toBe(date);
+            expect(globals.DEX_DATA).toStrictEqual(dex);
+        });
     });
 });
 
@@ -61,28 +62,28 @@ describe('Test loadDexIntoGlobalsFromWebIfOld', () => {
     test('Should set globals.DEX_UPDATE_DATE and globals.DEX_DATA when current dex is too old', () => {
         const filepath = path.join(__dirname, './data', 'dex.json');
         const json = fs.readFileSync(filepath, 'utf8', 'r');
-        let parsed = JSON.parse(json);
+        const parsed = JSON.parse(json);
         const date = (new Date(1111, 1, 1)).toUTCString();
         const dex = parsed.slice(1);
         const globals = {};
         parsed[0] = date;
         localStorage.setItem('QoLPokedex', JSON.stringify(parsed));
-        const result = localStorageManager.loadDexIntoGlobalsFromWebIfOld(jQuery, ownerDocument, DexUtilities, globals);
-        expect(result).toBe(true);
-        // expect(globals.DEX_UPDATE_DATE).toBe((new Date()).toUTCString());
-        const expected1 = new Date();
-        const expected2 = new Date();
-        expected2.setSeconds(expected1.getSeconds()-1);
-        expect((expected1.toUTCString() === globals.DEX_UPDATE_DATE) || 
-               (expected2.toUTCString() === globals.DEX_UPDATE_DATE)).toBeTruthy();
-        expect(globals.DEX_DATA).toStrictEqual(dex);
+        localStorageManager.loadDexIntoGlobalsFromWebIfOld(jQuery, ownerDocument, DexUtilities, globals).then(data => {
+            expect(data).not.toBe(false);
+            const expected1 = new Date();
+            const expected2 = new Date();
+            expected2.setSeconds(expected1.getSeconds() - 1);
+            expect((expected1.toUTCString() === globals.DEX_UPDATE_DATE) ||
+                (expected2.toUTCString() === globals.DEX_UPDATE_DATE)).toBeTruthy();
+            expect(globals.DEX_DATA).toStrictEqual(dex);
+        });
     });
     test('Should not update globals.DEX_UPDATE_DATE and globals.DEX_DATA when current dex is new enough', () => {
         const filepath = path.join(__dirname, './data', 'dex.json');
         const json = fs.readFileSync(filepath, 'utf8', 'r');
-        let parsed = JSON.parse(json);
+        const parsed = JSON.parse(json);
         // get date that is less than 30 days ago
-        let date = new Date();
+        const date = new Date();
         date.setDate(date.getDate() - 1);
         const globals = {
             DEX_UPDATE_DATE: date.toUTCString(),
@@ -90,8 +91,9 @@ describe('Test loadDexIntoGlobalsFromWebIfOld', () => {
         };
         parsed[0] = date.toUTCString();
         localStorage.setItem('QoLPokedex', JSON.stringify(parsed));
-        const result = localStorageManager.loadDexIntoGlobalsFromWebIfOld(jQuery, ownerDocument, DexUtilities, globals);
-        expect(result).toBe(false);
+        localStorageManager.loadDexIntoGlobalsFromWebIfOld(jQuery, ownerDocument, DexUtilities, globals).then(data => {
+            expect(data).toBe(false);
+        });
     });
 });
 
@@ -115,9 +117,9 @@ describe('Test loadEvolutionTreeDepthList', () => {
     test('Should load evolution tree depth list into globals', () => {
         const globals = {};
         const expected = {
-            '001': { remaining: 2, total: 2},
-            '002': { remaining: 1, total: 2},
-            '003':  { remaining: 0, total: 2}
+            '001': { remaining: 2, total: 2 },
+            '002': { remaining: 1, total: 2 },
+            '003': { remaining: 0, total: 2 }
         };
         const json = JSON.stringify(expected);
         localStorage.setItem('QoLEvolutionTreeDepth', json);
@@ -174,14 +176,18 @@ describe('Test saveEvolveByLevelList', () => {
             'Ivysaur': 'Level 32'
         };
         const charmanderFamily = [
-            {'source': 'Charmander', 'target': 'Charmeleon', 'condition': [
-                {'condition': 'Level', 'data': '16'},
-            ]},
-            {'source': 'Charmeleon', 'target': 'Charizard', 'condition':  [
-                {'condition': 'Level', 'data': '36'},
-            ]},
-            {'source': 'Charizard', 'target': 'Charizard [Mega Forme X]', 'condition': 'Charizardite X'},
-            {'source': 'Charizard', 'target': 'Charizard [Mega Forme Y]', 'condition': 'Charizardite Y'},
+            {
+                'source': 'Charmander', 'target': 'Charmeleon', 'condition': [
+                    { 'condition': 'Level', 'data': '16' },
+                ]
+            },
+            {
+                'source': 'Charmeleon', 'target': 'Charizard', 'condition': [
+                    { 'condition': 'Level', 'data': '36' },
+                ]
+            },
+            { 'source': 'Charizard', 'target': 'Charizard [Mega Forme X]', 'condition': 'Charizardite X' },
+            { 'source': 'Charizard', 'target': 'Charizard [Mega Forme Y]', 'condition': 'Charizardite Y' },
         ];
         const parsedFamilies = {
             'Charmander': charmanderFamily,

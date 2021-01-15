@@ -7,13 +7,23 @@ class QoLHub {
     static build($, document, templates, globals, settings, settingsChange) {
         $('body', document).append(templates.qolHubHTML);
         $('#core', document).addClass('scrolllock');
-        const qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead', document).css('background-color');
-        const qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead', document).css('color');
-        const qolHubCssBackground = $('.qolHubTable', document).css('background-color');
-        const qolHubCssTextColor = $('.qolHubTable', document).css('color');
-        $('.qolHubHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
-        $('.qolChangeLogHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
-        $('.qolopencloselist.qolChangeLogContent', document).css({ 'backgroundColor': '' + qolHubCssBackground + '', 'color': '' + qolHubCssTextColor + '' });
+        // const qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead', document).css('background-color');
+        const qolHubCssBackgroundHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.backgroundColor;
+        // const qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead', document).css('color');
+        const qolHubCssTextColorHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.color;
+        // const qolHubCssBackground = $('.qolHubTable', document).css('background-color');
+        const qolHubCssBackground = document.querySelector('.qolHubTable').style.backgroundColor;
+        // const qolHubCssTextColor = $('.qolHubTable', document).css('color');
+        const qolHubCssTextColor = document.querySelector('.qolHubTable').style.color;
+        // $('.qolHubHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
+        document.querySelector('.qolHubHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
+        document.querySelector('.qolHubHead').style.color = '' + qolHubCssTextColorHead + '';
+        // $('.qolChangeLogHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
+        document.querySelector('.qolChangeLogHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
+        document.querySelector('.qolChangeLogHead').style.color = '' + qolHubCssTextColorHead + '';
+        // $('.qolopencloselist.qolChangeLogContent', document).css({ 'backgroundColor': '' + qolHubCssBackground + '', 'color': '' + qolHubCssTextColor + '' });
+        document.querySelector('.qolopencloselist.qolChangeLogContent').style.backgroundColor = '' + qolHubCssBackground + '';
+        document.querySelector('.qolopencloselist.qolChangeLogContent').style.color = '' + qolHubCssTextColor + '';
         $('.qolDate', document).text(globals.DEX_UPDATE_DATE);
 
         const customCss = settings.customCss;
@@ -81,9 +91,9 @@ class QoLHub {
                 const limit = dexNumbers.length;
                 const progressBar = $('progress.qolDexUpdateProgress', document)[0];
                 progressBar['max'] = limit;
-                dexUtilities.loadDexPages($, dexNumbers, progressBar, progressSpan).done((...data) => {
+                dexUtilities.loadDexPages($, dexNumbers, progressBar, progressSpan).then((data) => {
                     const dexPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
-                    dexUtilities.loadFormPages($, virtualDocument, dexPagesHTML, progressBar, progressSpan).done((...data) => {
+                    dexUtilities.loadFormPages($, virtualDocument, dexPagesHTML, progressBar, progressSpan).then((data) => {
                         const formPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
 
                         // Combine the arrays of HTML into one array
@@ -114,10 +124,10 @@ class QoLHub {
                         localStorageManager.saveRegionalFormsList(globals, parsedFamilies, dexIDs, regionalFormMap);
                         localStorageManager.saveEggTypesMap(globals, eggPngsTypeMap);
                         progressSpan.textContent = 'Complete!';
-                    }).fail((error) => {
+                    }, (error) => {
                         console.log(error);
                     }); // loadFormPages
-                }).fail((error) => {
+                }, (error) => {
                     console.log(error);
                 }); // loadDexData
             } // if dexNumbers.length > 0

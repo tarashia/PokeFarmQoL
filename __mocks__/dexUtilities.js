@@ -5,6 +5,7 @@ const testTools = require('../__tests__/testTools');
 
 const du = jest.requireActual('../requires/utils/dexUtilities').DexUtilities;
 
+// eslint-disable-next-line no-unused-vars
 const getMainDexPage = jest.fn(($) => {
     const file = path.join(__dirname, '../__tests__/data/', 'dex.html');
     const html = fs.readFileSync(file, 'utf8', 'r');

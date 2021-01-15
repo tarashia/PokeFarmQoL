@@ -26,11 +26,11 @@ describe('Load the dex pages for the pokemon whose dex numbers are in the dexNum
             'textContent': '',
         };
 
-        DexUtilities.loadDexPages(jQuery, dexNumbers, progressBar, progressSpan).done(() => {
+        DexUtilities.loadDexPages(jQuery, dexNumbers, progressBar, progressSpan).then(() => {
             expect(progressBar.value).toBe(4);
             expect(progressSpan.textContent).toBe('Loaded 4 of 4 Pokemon');
             expect(jQuery.get.mock.calls.length).toBe(4);
-        }).fail(() => {
+        }, () => {
             fail();
         });
     });
@@ -45,12 +45,11 @@ describe('Load the dex pages for the pokemon whose dex numbers are in the dexNum
         };
 
         const prom = DexUtilities.loadDexPages(jQuery, dexNumbers, progressBar, progressSpan);
-        prom.done(() => {
+        prom.then(() => {
             expect(progressBar.value).toBe(4);
             expect(progressSpan.textContent).toBe('Loaded 4 of 4 Pokemon');
             expect(jQuery.get.mock.calls.length).toBe(3);
-        });
-        prom.fail(() => {
+        }, () => {
             fail();
         });
     });
@@ -70,11 +69,11 @@ describe('Loads the dex pages for the forms of a pokemon', () => {
             'textContent': '',
         };
 
-        DexUtilities.loadFormPages(jQuery, ownerDocument, input, progressBar, progressSpan).done(() => {
+        DexUtilities.loadFormPages(jQuery, ownerDocument, input, progressBar, progressSpan).then(() => {
             expect(progressBar.value).toBe(2);
             expect(progressSpan.textContent).toBe('Loaded 2 of 2 Pokemon');
             expect(jQuery.get.mock.calls.length).toBe(2);
-        }).fail(() => {
+        }, () => {
             fail();
         });
     });
