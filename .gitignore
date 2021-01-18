@@ -7,4 +7,9 @@ node_modules
 # compiled JS for testing
 __tests__/compiled.js
 __tests__/tests_that_have_expects.txt
+
+# notes
+notes.txt
+
+# config
 .env
