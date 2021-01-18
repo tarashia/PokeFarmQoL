@@ -39,6 +39,9 @@
         ],
         "prefer-const": [
             "error"
+        ],
+        "no-trailing-spaces": [
+            "error"
         ]
     }
 }
