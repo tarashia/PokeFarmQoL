@@ -4,7 +4,8 @@ echo "Compiling code into one js file..."
 # Order from Poke-Farm-QoL.user.js
 ROOT="."
 
-declare -a INPUT=("${ROOT}/requires/utils/resources.js"
+declare -a INPUT=("${ROOT}/requires/utils/header.txt"
+                  "${ROOT}/requires/utils/resources.js"
                   "${ROOT}/requires/utils/helpers.js"
                   "${ROOT}/requires/utils/globals.js"
                   "${ROOT}/requires/utils/evolutionTreeParser.js"
