@@ -1,11 +1,13 @@
 {
-    "name": "PokeFarmQoL",
+    "name": "pokefarm-qol",
     "version": "1.0.0",
     "description": "Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pokéfarm experience even more!",
     "main": "Poke-Farm-QoL.user.js",
     "scripts": {
-        "pretest": "bash ./__tests__/scripts/compile.sh",
-        "test": "jest"
+        "pretest": "bash ./__tests__/scripts/compile_test.sh",
+        "test": "jest",
+        "sanctioned": "bash ./__tests__/scripts/compile_build_sanctioned.sh",
+        "user": "bash ./__tests__/scripts/compile_build_user.sh"
     },
     "repository": {
         "type": "git",
@@ -44,6 +46,7 @@
         ]
     },
     "dependencies": {
+        "dotenv": "^8.2.0",
         "jquery": "^1.11.2",
         "jsdom": "^16.4.0"
     }
