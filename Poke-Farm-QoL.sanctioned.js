@@ -16,7 +16,6 @@
 /**
  * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
  */
-// eslint-disable-next-line no-unused-vars
 class Resources {
     static css() {
         return `/* Pokefarm QoL style sheet */
@@ -1419,7 +1418,6 @@ class Resources {
       </div>`;
     }
 }
-// eslint-disable-next-line no-unused-vars
 const Helpers = (function Helpers() {
     /* public stuff */
     const API = {
@@ -1628,9 +1626,7 @@ const Helpers = (function Helpers() {
 if (module) {
     module.exports.Helpers = Helpers;
 }
-// eslint-disable-next-line no-unused-vars
 class Globals {
-    // eslint-disable-next-line camelcase
     static fillTemplates(TEMPLATES) {
         Globals.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
         Globals.TEMPLATES.fieldSortHTML              = TEMPLATES.fieldSortHTML();
@@ -1765,7 +1761,6 @@ class Globals {
  * This classes complies with the practice of prepending an underscore on private items. This includes
  * "private" methods within this class, and the class itself.
  */
-// eslint-disable-next-line no-unused-vars
 class EvolutionTreeParser {
     
     /* _parseEvolutionLi
@@ -2102,7 +2097,6 @@ if (module) {
    Functions which process multiple text pages are in DexUtilities.
 */
 
-// eslint-disable-next-line no-unused-vars
 class DexPageParser {
     /* Parse the header from a dex page
      * Inputs:
@@ -2139,10 +2133,8 @@ class DexPageParser {
 
         return {
             // dex number of the base pokemon
-            // eslint-disable-next-line camelcase
             base_number: basePokemonNumber,
             // name of the base pokemon
-            // eslint-disable-next-line camelcase
             base_name: basePokemonName,
             // name of the form
             name: pokemonName
@@ -2219,13 +2211,12 @@ class DexPageParser {
         const tree = html.find('.evolutiontree').eq(0);
         const flattened = evolutionTreeParser.parseEvolutionTree(rootName, tree, dexIDMap);
         return flattened;
-    }    
+    }
 } // DexPageParser
 
 if (module) {
     module.exports.DexPageParser = DexPageParser;
 }
-// eslint-disable-next-line no-unused-vars
 class LocalStorageManager {
     constructor(storage) {
         self.storage = storage;
@@ -2270,15 +2261,15 @@ class LocalStorageManager {
             globals.DEX_DATA = dex.split(',');
             this.updateLocalStorageDex($, document, globals.DEX_UPDATE_DATE, globals);
         }, (error) => {
-            console.error('Error occurred in loadDexIntoGlobalsFromWeb. ' + 
+            console.error('Error occurred in loadDexIntoGlobalsFromWeb. ' +
                           'Error message: ' + error);
         });
     }
-    
+
     loadEvolveByLevelList(GLOBALS) {
         GLOBALS.EVOLVE_BY_LEVEL_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'));
     }
-    
+
     loadEvolutionTreeDepthList(GLOBALS) {
         GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem('QoLEvolutionTreeDepth'));
     }
@@ -2340,7 +2331,7 @@ class LocalStorageManager {
         // GLOBALS.EVOLUTIONS_LEFT stores the number of remaining evolutions and the total number of evolutions
         // for a pokemon and it's family
         // e.g. - GLOBALS.EVOLUTIONS_LEFT["019s2"] = { remaining: 4, total: 5 } // 019s2 = Super Saiyan Rattata
-        
+
         self.storage.setItem('QoLEvolutionTreeDepth', JSON.stringify(maxEvoTreeDepth));
         globals.EVOLUTIONS_LEFT = maxEvoTreeDepth;
 
@@ -2372,7 +2363,7 @@ class LocalStorageManager {
     }
 
     /* parseAndStoreDexNumbers
-     * 
+     *
      */
     parseAndStoreDexNumbers(dex) {
         const json = JSON.parse(dex);
@@ -2381,7 +2372,7 @@ class LocalStorageManager {
         if(self.storage.getItem('QoLDexIDsCache') !== null) {
             dexIDsCache = JSON.parse(self.storage.getItem('QoLDexIDsCache'));
         }
-        
+
         const dexNumbers = [];
         // get the list of pokedex numbers that haven't been processed before
         for(const r in json.regions) {
@@ -2391,7 +2382,7 @@ class LocalStorageManager {
                 }
             }
         }
-        
+
         // Add the list of dexNumbers to the cache and write it back to local storage
         dexIDsCache = dexIDsCache.concat(dexNumbers);
         self.storage.setItem('QoLDexIDsCache', JSON.stringify(dexIDsCache));
@@ -2402,7 +2393,6 @@ class LocalStorageManager {
 if (module) {
     module.exports.LocalStorageManager = LocalStorageManager;
 }
-// eslint-disable-next-line no-unused-vars
 class DexUtilities {
     /* Load the main dex page.
      * Note: Testing this would essentially be testing jQuery, so no need to test
@@ -2429,7 +2419,7 @@ class DexUtilities {
      * - $ - reference to jQuery
      * - dexNumbers - an array containing dex IDs
      *                Example: ["001", "002", "003", "004"];
-     * - progressBar - a <progress> tag that will show how many of the IDs in 
+     * - progressBar - a <progress> tag that will show how many of the IDs in
      *                 'dexNumbers' have been loaded
      * - progressSpan - a <span> tag that will contain text about the progress
      *                  of loading the dex pages
@@ -2449,7 +2439,6 @@ class DexUtilities {
                 progressBar.value = progressBar['value'] + 1;
                 progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
             } else {
-                // eslint-disable-next-line no-unused-vars
                 const r = DexUtilities.getPokemonDexPage($, dexNumbers[d]).then((data, status, jqXHR) => {
                     progressBar.value = progressBar.value + 1;
                     progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
@@ -2469,7 +2458,7 @@ class DexUtilities {
      * - $ - reference to jQuery
      * - firstFormHTML - An array containing the HTML for the dex pages for a set of pokemon.
      *                   The HTML in this array will be parsed to find the forms of a pokemon
-     * - progressBar - a <progress> tag that will show how many of the IDs in 
+     * - progressBar - a <progress> tag that will show how many of the IDs in
      *                 'dexNumbers' have been loaded
      * - progressSpan - a <span> tag that will contain text about the progress
      *                  of loading the dex pages
@@ -2499,7 +2488,7 @@ class DexUtilities {
                 }
             }
         } // for
-        
+
         return Promise.all(requests);
     } // loadFormPages
     /* Parses HTML from pokedex pages
@@ -2511,7 +2500,7 @@ class DexUtilities {
      * - flat_families - See DexPageParser.parseEvolutionTreeFromDexPage for details
      * - dex_id_map - object mapping dex IDs to pokemon's names. Used to track which
      *                pokemon's dex pages have been processed
-     */  
+     */
     static parseEvolutionTrees($, ownerDocument, dexPageParser, evolutionTreeParser, args) {
         const flatFamilies = {};
         const dexIDMap = {};
@@ -2543,7 +2532,7 @@ class DexUtilities {
 
         return [flatFamilies, dexIDMap];
     } // parseEvolutionTrees
-    
+
     static buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap) {
         // store the maximum depth of the evolution tree for each pokemon
         // for highlighting each pokemon based on how fully evolved they are
@@ -2661,7 +2650,7 @@ class DexUtilities {
                 }
             } // if not in maxEvoTreeDepth
         } // for pokemon in parsedFamilies
-        
+
         return maxEvoTreeDepth;
 
     } // buildEvolutionTreeDepthsList
@@ -2683,10 +2672,8 @@ class DexUtilities {
 
             (formData[headerInfo.name] = formData[headerInfo.name] || []).push({
                 // dex number of the base pokemon
-                // eslint-disable-next-line camelcase
                 base_number: headerInfo.base_number,
                 // name of the base pokemon
-                // eslint-disable-next-line camelcase
                 base_name: headerInfo.base_name,
                 // dex number of the form
                 number: currentNumber,
@@ -2841,11 +2828,10 @@ class DexUtilities {
 if (module) {
     module.exports.DexUtilities = DexUtilities;
 }
-/* This class handles creating, removing, and handling the DOM object actions 
+/* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
 
-// eslint-disable-next-line no-unused-vars
 class QoLHub {
     static build($, document, templates, globals, settings, settingsChange) {
         $('body', document).append(templates.qolHubHTML);
@@ -2944,10 +2930,10 @@ class QoLHub {
 
                         // Parse evolution data
                         const [parsedFamilies, dexIDs] = dexUtilities.parseEvolutionTrees($, virtualDocument, dexPageParser, evolutionTreeParser, allPagesHTML);
-                        
+
                         // Parse form data
                         const [formData, formMap] = dexUtilities.parseFormData($, virtualDocument, dexPageParser, allPagesHTML);
-                        
+
                         // Build evolution tree depths
                         const evolutionTreeDepthList = dexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
 
@@ -2986,8 +2972,7 @@ class QoLHub {
 if (module) {
     module.exports.QoLHub = QoLHub;
 }
-/* global Helpers */
-// eslint-disable-next-line no-unused-vars
+
 class Page {
     constructor(jQuery, ssk, ds, url) {
         this.jQuery = jQuery;
@@ -3075,10 +3060,9 @@ class Page {
     setupObserver() { /* empty */ }
     setupHandlers() { /* empty */ }
 } // Page
-/* globals Page Helpers */
+
 const ShelterBase = Page;
 
-// eslint-disable-next-line no-unused-vars
 class ShelterPage extends ShelterBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLShelter', {
@@ -3110,7 +3094,6 @@ class ShelterPage extends ShelterBase {
         this.typeArray = [];
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.customSearch(GLOBALS);
             });
@@ -3669,10 +3652,9 @@ class ShelterPage extends ShelterBase {
         } // filteredTypeArray
     } // customSearch
 }
-/* globals Page Helpers */
+
 const PrivateFieldsBase = Page;
 
-// eslint-disable-next-line no-unused-vars
 class PrivateFieldsPage extends PrivateFieldsBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLPrivateFields', {
@@ -3710,7 +3692,6 @@ class PrivateFieldsPage extends PrivateFieldsBase {
         this.eggGroupArray = [];
         const obj = this;
         this.observer = new MutationObserver((mutations) => {
-            // eslint-disable-next-line no-unused-vars
             mutations.forEach((mutation) => {
                 obj.customSearch(GLOBALS);
                 obj.handleTooltipSettings();
@@ -4169,7 +4150,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     }
     releaseEnableReleaseAll() {
         const obj = this;
-        if (this.settings.releaseSelectAll === true && 
+        if (this.settings.releaseSelectAll === true &&
             !this.jQuery('#selectallfield').length) {
             const checkboxes = '<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all  </label><label id="selectallfieldany"><input id="selectallfieldanycheckbox" type="checkbox">Select Any  </label><label id="selectallfieldsour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour  </label><label id="selectallfieldspicy"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label><label id="selectallfielddry"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry  </label><label id="selectallfieldsweet"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet  </label><label id="selectallfieldbitter"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter  </label>';
             this.jQuery('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
@@ -4210,7 +4191,7 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     } // releaseAll
     moveEnableReleaseAll() {
         const obj = this;
-        if (this.settings.releaseSelectAll === true && 
+        if (this.settings.releaseSelectAll === true &&
             !this.jQuery('#movefieldselectall').length) {
             const checkboxes = '<label id="movefieldselectall"><input id="movefieldselectallcheckbox" type="checkbox">Select all  </label><label id="movefieldselectany"><input id="movefieldselectanycheckbox" type="checkbox">Select Any  </label><label id="movefieldselectsour"><input id="movefieldselectsourcheckbox" type="checkbox">Select Sour  </label><label id="movefieldselectspicy"><input id="movefieldselectspicycheckbox" type="checkbox">Select Spicy</label><label id="movefieldselectdry"><input id="movefieldselectdrycheckbox" type="checkbox">Select Dry  </label><label id="movefieldselectsweet"><input id="movefieldselectsweetcheckbox" type="checkbox">Select Sweet  </label><label id="movefieldselectbitter"><input id="movefieldselectbittercheckbox" type="checkbox">Select Bitter  </label>';
             obj.jQuery('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
@@ -4250,10 +4231,9 @@ class PrivateFieldsPage extends PrivateFieldsBase {
         } // if
     } // moveEnableReleaseAll
 }
-/* globals Page Helpers */
+
 const PublicFieldsBase = Page;
 
-// eslint-disable-next-line no-unused-vars
 class PublicFieldsPage extends PublicFieldsBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLPublicFields', {
@@ -4293,7 +4273,6 @@ class PublicFieldsPage extends PublicFieldsBase {
         this.eggGroupArray = [];
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
-            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function(mutation) {
                 obj.customSearch(GLOBALS);
                 obj.handleTooltipSettings();
@@ -4844,10 +4823,9 @@ class PublicFieldsPage extends PublicFieldsBase {
         }
     }
 }
-/* globals Page Helpers */
+
 const LabBase = Page;
 
-// eslint-disable-next-line no-unused-vars
 class LabPage extends LabBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLLab', {
@@ -4860,7 +4838,6 @@ class LabPage extends LabBase {
         this.listArray = [];
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.customSearch(GLOBALS);
             });
@@ -5060,8 +5037,8 @@ class LabPage extends LabBase {
                 for (let i = 0; i < customSearchAmount; i++) {
                     const value = this.searchArray[i];
                     // skip falsy values (including empty strings)
-                    if(!value) { 
-                        continue; 
+                    if(!value) {
+                        continue;
                     }
 
                     if (this.jQuery('#egglist>div>h3:containsIN(' + value + ')').length) {
@@ -5095,10 +5072,8 @@ class LabPage extends LabBase {
         } // else
     } // customSearch
 }
-// eslint-disable-next-line no-undef
 const FishingBase = Page;
 
-// eslint-disable-next-line no-unused-vars
 class FishingPage extends FishingBase {
     constructor(jQuery) {
         super(jQuery, 'QoLFishing', {}, 'fishing');
@@ -5139,10 +5114,9 @@ class FishingPage extends FishingBase {
         });
     }
 }
-/* globals Page */
+
 const MultiuserBase = Page;
 
-// eslint-disable-next-line no-unused-vars
 class MultiuserPage extends MultiuserBase {
     constructor(jQuery) {
         super(jQuery, 'QoLMultiuser', {
@@ -5152,7 +5126,6 @@ class MultiuserPage extends MultiuserBase {
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.partyModification();
             });
@@ -5388,10 +5361,9 @@ class MultiuserPage extends MultiuserBase {
         }
     }
 }
-/* globals Page */
+
 const FarmBase = Page;
 
-// eslint-disable-next-line no-unused-vars
 class FarmPage extends FarmBase {
     DEFAULT_SETTINGS(GLOBALS) {
         const d = { TYPE_APPEND: {} };
@@ -5435,7 +5407,6 @@ class FarmPage extends FarmBase {
         // }
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.easyQuickEvolve();
             });
@@ -5682,7 +5653,6 @@ class FarmPage extends FarmBase {
                 url: 'https://pokefarm.com' + urlSuffix,
                 async: false,
                 success: success,
-                // eslint-disable-next-line no-unused-vars
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.error(`Unable to load the summary page ${urlSuffix}.`);
                 },
@@ -5696,7 +5666,6 @@ class FarmPage extends FarmBase {
                 url: url,
                 async: false,
                 success: success,
-                // eslint-disable-next-line no-unused-vars
                 error: function (jqXHR, textStatus, errorThrown) {
                     const msg = `Unable to load the Pokedex page for ${name} (${url}).`;
                     console.error(msg);
@@ -6266,9 +6235,8 @@ class FarmPage extends FarmBase {
         }
     }
 }
-/* globals Page */
+
 const DaycareBase = Page;
-// eslint-disable-next-line no-unused-vars
 class DaycarePage extends DaycareBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLDaycare', {}, 'daycare');
@@ -6369,16 +6337,14 @@ class DaycarePage extends DaycareBase {
         } // if
     } // customSearch
 }
-/* globals Page */
+
 const DexBase = Page;
 
-// eslint-disable-next-line no-unused-vars
 class DexPage extends DexBase {
     constructor(jQuery) {
         super(jQuery, 'QoLDexPage', {}, '/dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.applyTypeFilters();
             });
@@ -6478,10 +6444,9 @@ class DexPage extends DexBase {
         }
     }
 }
-/* globals Page */
+
 const WishforgeBase = Page;
-    
-// eslint-disable-next-line no-unused-vars
+
 class WishforgePage extends WishforgeBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLWishforge', {}, 'forge');
@@ -6585,7 +6550,7 @@ class WishforgePage extends WishforgeBase {
             obj.jQuery(children[i]).remove();
         }
     }
-    
+
     setupObserver() {
         const obj = this;
         const target = obj.jQuery('#badges').next('div')[0];
@@ -6594,16 +6559,15 @@ class WishforgePage extends WishforgeBase {
         });
     }
 }
-/* globals jQuery GM_addStyle
-        Globals Resources Helpers LocalStorageManager DexUtilities DexPageParser
-        EvolutionTreeParser DaycarePage FarmPage LabPage PublicFieldsPage
-        PrivateFieldsPage  ShelterPage FishingPage MultiuserPage DexPage 
-        WishforgePage QoLHub */
+
+
+
+
+
 const pfqol = function ($) {
     'use strict';
     // :contains to case insensitive
     $.extend($.expr[':'], {
-        // eslint-disable-next-line no-unused-vars
         'containsIN': function (elem, i, match, array) {
             return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
         }
