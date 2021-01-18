@@ -1,0 +1,35 @@
+**Path to Sanctioned**
+- [X] Remove '@resource' dependencies
+    - Moved all data from '@resource' dependencies into resources.js file
+    - Load data from resources.js when needed
+- [X] Downgrade to jQuery 1.11.2
+    - Changed installed version of jQuery in npm
+    - Modified code to use Promises instead of $.Deferred objects, since they didn't exist
+- [X] Remove '@require' dependencies
+    - Create compile_build.sh script to compile into single Poke-Farm-QoL.user.js file
+    - Move top level code to pfqol.js
+- [ ] Setup framework for managing multiple scripts
+    - Add ability to run tests on different UUT files
+      - Added .env handling and a UUT env so I can specify which file to run on
+    - Create build scripts for each version
+      - test
+      - user
+      - sanctioned
+    - Workflow from now on
+      - Decide if code will be sanctioned-only, user-only, or both
+        - If the code will be:
+          - in sanctioned and in user         | common/foo.js
+          - in sanctioned and not in user     | sanctioned/foo.js
+          - not in sanctioned and in user     | user/foo.js
+          - not in sanctioned and not in user | no need to write code :P
+      - Add code in the appropriate file(s)
+      - Add tests for new code
+        - **How will tests be organized?**
+      - Run existing and new tests
+- [ ] Make it easy to build sanctioned and "extended" versions of script
+    - Take the more problematic features out of sanctioned version
+      - Loading pokedex data from the QoL hub
+      - Using pokedex data in shelter and lab
+        - Highlighting ready to evolve mons in shelter
+        - Distinguishing regional forms
+      - Hard code the regional forms list in the farm page
