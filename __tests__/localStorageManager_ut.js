@@ -132,8 +132,8 @@ describe('Test updateLocalStorageDex', () => {
     test('Should update local storage with dex and specified date', () => {
         const filepath = path.join(__dirname, './data', 'dex.json');
         const json = fs.readFileSync(filepath, 'utf8', 'r');
-        let parsed = JSON.parse(json);
-        let date = new Date();
+        const parsed = JSON.parse(json);
+        const date = new Date();
         date.setDate(date.getDate() - 1);
         const dex = parsed.slice(1);
         const globals = {
@@ -150,7 +150,7 @@ describe('Test updateLocalStorageDex', () => {
         // updateLocalStorageDex($, document, updateDate, globals)
         const filepath = path.join(__dirname, './data', 'dex.json');
         const json = fs.readFileSync(filepath, 'utf8', 'r');
-        let parsed = JSON.parse(json);
+        const parsed = JSON.parse(json);
         const dex = parsed.slice(1);
         const globals = {
             DEX_DATA: dex
