@@ -1,4 +1,4 @@
-/* This class handles creating, removing, and handling the DOM object actions 
+/* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
 
@@ -101,10 +101,10 @@ class QoLHub {
 
                         // Parse evolution data
                         const [parsedFamilies, dexIDs] = dexUtilities.parseEvolutionTrees($, virtualDocument, dexPageParser, evolutionTreeParser, allPagesHTML);
-                        
+
                         // Parse form data
                         const [formData, formMap] = dexUtilities.parseFormData($, virtualDocument, dexPageParser, allPagesHTML);
-                        
+
                         // Build evolution tree depths
                         const evolutionTreeDepthList = dexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
 

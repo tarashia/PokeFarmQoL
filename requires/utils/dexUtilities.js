@@ -25,7 +25,7 @@ class DexUtilities {
      * - $ - reference to jQuery
      * - dexNumbers - an array containing dex IDs
      *                Example: ["001", "002", "003", "004"];
-     * - progressBar - a <progress> tag that will show how many of the IDs in 
+     * - progressBar - a <progress> tag that will show how many of the IDs in
      *                 'dexNumbers' have been loaded
      * - progressSpan - a <span> tag that will contain text about the progress
      *                  of loading the dex pages
@@ -65,7 +65,7 @@ class DexUtilities {
      * - $ - reference to jQuery
      * - firstFormHTML - An array containing the HTML for the dex pages for a set of pokemon.
      *                   The HTML in this array will be parsed to find the forms of a pokemon
-     * - progressBar - a <progress> tag that will show how many of the IDs in 
+     * - progressBar - a <progress> tag that will show how many of the IDs in
      *                 'dexNumbers' have been loaded
      * - progressSpan - a <span> tag that will contain text about the progress
      *                  of loading the dex pages
@@ -95,7 +95,7 @@ class DexUtilities {
                 }
             }
         } // for
-        
+
         return Promise.all(requests);
     } // loadFormPages
     /* Parses HTML from pokedex pages
@@ -107,7 +107,7 @@ class DexUtilities {
      * - flat_families - See DexPageParser.parseEvolutionTreeFromDexPage for details
      * - dex_id_map - object mapping dex IDs to pokemon's names. Used to track which
      *                pokemon's dex pages have been processed
-     */  
+     */
     static parseEvolutionTrees($, ownerDocument, dexPageParser, evolutionTreeParser, args) {
         const flatFamilies = {};
         const dexIDMap = {};
@@ -139,7 +139,7 @@ class DexUtilities {
 
         return [flatFamilies, dexIDMap];
     } // parseEvolutionTrees
-    
+
     static buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap) {
         // store the maximum depth of the evolution tree for each pokemon
         // for highlighting each pokemon based on how fully evolved they are
@@ -257,7 +257,7 @@ class DexUtilities {
                 }
             } // if not in maxEvoTreeDepth
         } // for pokemon in parsedFamilies
-        
+
         return maxEvoTreeDepth;
 
     } // buildEvolutionTreeDepthsList

@@ -119,7 +119,7 @@ class DexPageParser {
         const tree = html.find('.evolutiontree').eq(0);
         const flattened = evolutionTreeParser.parseEvolutionTree(rootName, tree, dexIDMap);
         return flattened;
-    }    
+    }
 } // DexPageParser
 
 if (module) {

@@ -214,8 +214,8 @@ class LabPage extends LabBase {
                 for (let i = 0; i < customSearchAmount; i++) {
                     const value = this.searchArray[i];
                     // skip falsy values (including empty strings)
-                    if(!value) { 
-                        continue; 
+                    if(!value) {
+                        continue;
                     }
 
                     if (this.jQuery('#egglist>div>h3:containsIN(' + value + ')').length) {

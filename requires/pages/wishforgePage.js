@@ -1,6 +1,6 @@
 /* globals Page */
 const WishforgeBase = Page;
-    
+
 // eslint-disable-next-line no-unused-vars
 class WishforgePage extends WishforgeBase {
     constructor(jQuery, GLOBALS) {
@@ -105,7 +105,7 @@ class WishforgePage extends WishforgeBase {
             obj.jQuery(children[i]).remove();
         }
     }
-    
+
     setupObserver() {
         const obj = this;
         const target = obj.jQuery('#badges').next('div')[0];

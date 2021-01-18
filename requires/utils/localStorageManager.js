@@ -43,15 +43,15 @@ class LocalStorageManager {
             globals.DEX_DATA = dex.split(',');
             this.updateLocalStorageDex($, document, globals.DEX_UPDATE_DATE, globals);
         }, (error) => {
-            console.error('Error occurred in loadDexIntoGlobalsFromWeb. ' + 
+            console.error('Error occurred in loadDexIntoGlobalsFromWeb. ' +
                           'Error message: ' + error);
         });
     }
-    
+
     loadEvolveByLevelList(GLOBALS) {
         GLOBALS.EVOLVE_BY_LEVEL_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'));
     }
-    
+
     loadEvolutionTreeDepthList(GLOBALS) {
         GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem('QoLEvolutionTreeDepth'));
     }
@@ -113,7 +113,7 @@ class LocalStorageManager {
         // GLOBALS.EVOLUTIONS_LEFT stores the number of remaining evolutions and the total number of evolutions
         // for a pokemon and it's family
         // e.g. - GLOBALS.EVOLUTIONS_LEFT["019s2"] = { remaining: 4, total: 5 } // 019s2 = Super Saiyan Rattata
-        
+
         self.storage.setItem('QoLEvolutionTreeDepth', JSON.stringify(maxEvoTreeDepth));
         globals.EVOLUTIONS_LEFT = maxEvoTreeDepth;
 
@@ -145,7 +145,7 @@ class LocalStorageManager {
     }
 
     /* parseAndStoreDexNumbers
-     * 
+     *
      */
     parseAndStoreDexNumbers(dex) {
         const json = JSON.parse(dex);
@@ -154,7 +154,7 @@ class LocalStorageManager {
         if(self.storage.getItem('QoLDexIDsCache') !== null) {
             dexIDsCache = JSON.parse(self.storage.getItem('QoLDexIDsCache'));
         }
-        
+
         const dexNumbers = [];
         // get the list of pokedex numbers that haven't been processed before
         for(const r in json.regions) {
@@ -164,7 +164,7 @@ class LocalStorageManager {
                 }
             }
         }
-        
+
         // Add the list of dexNumbers to the cache and write it back to local storage
         dexIDsCache = dexIDsCache.concat(dexNumbers);
         self.storage.setItem('QoLDexIDsCache', JSON.stringify(dexIDsCache));

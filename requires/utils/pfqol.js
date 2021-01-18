@@ -1,7 +1,7 @@
 /* globals jQuery GM_addStyle
         Globals Resources Helpers LocalStorageManager DexUtilities DexPageParser
         EvolutionTreeParser DaycarePage FarmPage LabPage PublicFieldsPage
-        PrivateFieldsPage  ShelterPage FishingPage MultiuserPage DexPage 
+        PrivateFieldsPage  ShelterPage FishingPage MultiuserPage DexPage
         WishforgePage QoLHub */
 const pfqol = function ($) {
     'use strict';
