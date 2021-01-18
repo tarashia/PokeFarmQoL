@@ -2,6 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "bashdb",
+      "request": "launch",
+      "name": "Bash-Debug (select script from list of sh files)",
+      "cwd": "${workspaceFolder}",
+      "program": "${command:SelectScriptName}",
+      "args": [],
+      "terminalKind": "integrated"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Jest single run current file",
@@ -17,6 +26,25 @@
       "preLaunchTask": "Compile",
       "skipFiles": [
         "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest single run all compiled tests",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "args": [
+        "--verbose",
+        "-i",
+        "--no-cache",
+        "compiled.+.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "preLaunchTask": "Compile",
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",,
         "<node_internals>/**/*.js"
       ]
     },

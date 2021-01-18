@@ -6,7 +6,7 @@
         {
             "label": "Compile",
             "type": "shell",
-            "command": "./__tests__/scripts/compile.sh"
+            "command": "./__tests__/scripts/compile_test.sh"
         }
     ]
 }
