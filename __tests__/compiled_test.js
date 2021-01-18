@@ -3,8 +3,10 @@ const jQuery = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
-const pfqol = require('./compiled');
+const UUT = process.env.UUT;
+const pfqol = require(UUT);
 
 const oldWindowLocation = window.location;
 
@@ -76,11 +78,11 @@ describe('Test that PFQoL compiles', () => {
         ////////////////////////////////////////
         // TEST 2
         // check that clicking a checkbox changes a setting
-        let settingsList = ['enableDaycare'];
+        const settingsList = ['enableDaycare'];
         let expectedSettingValue;
         let settings;
         for (let i = 0; i < settingsList.length; i++) {
-            let key = settingsList[i];
+            const key = settingsList[i];
             settings = JSON.parse(localStorage.getItem('QoLSettings'));
             if (settings[key] === true) {
                 expectedSettingValue = false;

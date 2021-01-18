@@ -3,8 +3,10 @@ const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
-const pfqol = require('./compiled');
+const UUT = process.env.UUT;
+const pfqol = require(UUT);
 
 const oldWindowLocation = window.location;
 
@@ -119,10 +121,9 @@ describe('Test Dex Page', () => {
 
         const types2Span = $('.filter-type-2 .types');
         const type2 = $('.filter-type-2');
-        let event;
 
         // mimic touch event
-        event = $.Event('touchstart.dextfilter');
+        const event = $.Event('touchstart.dextfilter');
         event.originalEvent = {
             touches: [{
                 pageX: 160
