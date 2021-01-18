@@ -3,9 +3,7 @@ echo "Compiling code into one js file..."
 
 # Order from Poke-Farm-QoL.user.js
 ROOT="."
-TOP_LEVEL="${ROOT}/Poke-Farm-QoL.user.js"
-declare -a EXTERNALS=("${ROOT}/node_modules/jquery/dist/jquery.min.js"
-                     )
+
 declare -a INPUT=("${ROOT}/requires/utils/resources.js"
                   "${ROOT}/requires/utils/helpers.js"
                   "${ROOT}/requires/utils/globals.js"
@@ -25,32 +23,10 @@ declare -a INPUT=("${ROOT}/requires/utils/resources.js"
                   "${ROOT}/requires/pages/daycarePage.js"
                   "${ROOT}/requires/pages/dexPage.js"
                   "${ROOT}/requires/pages/wishforgePage.js"
-                  "${TOP_LEVEL}"
+                  "${ROOT}/requires/utils/pfqol.js"
                   )
-OUTPUT="${ROOT}/__tests__/compiled.js"
-
-# try to mimic the web environment
-echo "" > "${OUTPUT}"
-echo "/* instanbul ignore next */" >> "${OUTPUT}"
-echo "// eslint-disable-next-line camelcase" >>  "${OUTPUT}"
-echo "const GM_getResourceText = require('../__mocks__/tampermonkey').GM_getResourceText;" >> "${OUTPUT}"
-echo "/* instanbul ignore next */" >> "${OUTPUT}"
-echo "// eslint-disable-next-line camelcase" >>  "${OUTPUT}"
-echo "const GM_xmlhttpRequest  = require('../__mocks__/tampermonkey').GM_xmlhttpRequest;" >> "${OUTPUT}"
-echo "/* instanbul ignore next */" >> "${OUTPUT}"
-echo "// eslint-disable-next-line camelcase" >>  "${OUTPUT}"
-echo "const GM_addStyle        = require('../__mocks__/tampermonkey').GM_addStyle;" >> "${OUTPUT}"
-echo "/* instanbul ignore next */" >> "${OUTPUT}"
-echo "// eslint-disable-next-line camelcase" >>  "${OUTPUT}"
-echo "const GM_info            = require('../__mocks__/tampermonkey').GM_info;" >> "${OUTPUT}"
-
-for FILE in "${EXTERNALS[@]}"; do
-   echo "/* istanbul ignore next */" >> "${OUTPUT}"
-   echo "/* eslint-disable */" >>  "${OUTPUT}"
-   cat "$FILE" >> "${OUTPUT}"
-   echo "/* eslint-enable */" >>  "${OUTPUT}"
-   echo "" >> "${OUTPUT}"
-done
+OUTPUT="${ROOT}/Poke-Farm-QoL.user.js"
+rm -f "${OUTPUT}"
 
 for FILE in "${INPUT[@]}"; do
    cat "$FILE" >> "${OUTPUT}"
