@@ -34,4 +34,6 @@ for FILE in "${INPUT[@]}"; do
    echo "" >> "${OUTPUT}"
 done
 
+./__tests__/scripts/remove_eslint_comments.sh "${OUTPUT}" "/tmp/output.txt"
+
 echo "Compilation complete!: ${OUTPUT}"
