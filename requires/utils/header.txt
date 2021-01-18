@@ -10,6 +10,4 @@
 // @match        https://pokefarm.com/*
 // @connect      github.com
 // @grant        GM_addStyle
-// @grant        GM_xmlhttpRequest
-// @grant        GM_info
 // ==/UserScript==

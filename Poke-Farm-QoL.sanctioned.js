@@ -10,8 +10,6 @@
 // @match        https://pokefarm.com/*
 // @connect      github.com
 // @grant        GM_addStyle
-// @grant        GM_xmlhttpRequest
-// @grant        GM_info
 // ==/UserScript==
 /**
  * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
