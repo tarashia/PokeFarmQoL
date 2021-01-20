@@ -1,5 +1,5 @@
-const DPParser = require('../requires/common/dexPageParser.js');
-const ETParser = require('../requires/common/evolutionTreeParser.js');
+const DPParser = require('../requires/user/dexPageParser.js');
+const ETParser = require('../requires/user/evolutionTreeParser.js');
 const jQuery = require('../node_modules/jquery/dist/jquery.min.js');
 const testTools = require('./testTools');
 
