@@ -1624,22 +1624,22 @@ const Helpers = (function Helpers() {
 if (module) {
     module.exports.Helpers = Helpers;
 }
-class Globals {
+class GlobalsBase {
     static fillTemplates(TEMPLATES) {
-        Globals.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
-        Globals.TEMPLATES.fieldSortHTML              = TEMPLATES.fieldSortHTML();
-        Globals.TEMPLATES.fieldSearchHTML            = TEMPLATES.fieldSearchHTML();
-        Globals.TEMPLATES.privateFieldSearchHTML     = TEMPLATES.privateFieldSearchHTML();
-        Globals.TEMPLATES.qolHubHTML                 = TEMPLATES.qolHubHTML();
-        Globals.TEMPLATES.evolveFastHTML             = TEMPLATES.evolveFastHTML();
-        Globals.TEMPLATES.labOptionsHTML             = TEMPLATES.labOptionsHTML();
-        Globals.TEMPLATES.publicFieldTooltipModHTML  = TEMPLATES.publicFieldTooltipModHTML();
-        Globals.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
+        GlobalsBase.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
+        GlobalsBase.TEMPLATES.fieldSortHTML              = TEMPLATES.fieldSortHTML();
+        GlobalsBase.TEMPLATES.fieldSearchHTML            = TEMPLATES.fieldSearchHTML();
+        GlobalsBase.TEMPLATES.privateFieldSearchHTML     = TEMPLATES.privateFieldSearchHTML();
+        GlobalsBase.TEMPLATES.qolHubHTML                 = TEMPLATES.qolHubHTML();
+        GlobalsBase.TEMPLATES.evolveFastHTML             = TEMPLATES.evolveFastHTML();
+        GlobalsBase.TEMPLATES.labOptionsHTML             = TEMPLATES.labOptionsHTML();
+        GlobalsBase.TEMPLATES.publicFieldTooltipModHTML  = TEMPLATES.publicFieldTooltipModHTML();
+        GlobalsBase.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
     }
     static fillOptionsLists(helpers) {
-        Globals.TYPE_OPTIONS = helpers.buildOptionsString(Globals.TYPE_LIST);
-        Globals.NATURE_OPTIONS = helpers.buildOptionsString(Globals.NATURE_LIST);
-        Globals.EGG_GROUP_OPTIONS = helpers.buildOptionsString(Globals.EGG_GROUP_LIST);
+        GlobalsBase.TYPE_OPTIONS = helpers.buildOptionsString(GlobalsBase.TYPE_LIST);
+        GlobalsBase.NATURE_OPTIONS = helpers.buildOptionsString(GlobalsBase.NATURE_LIST);
+        GlobalsBase.EGG_GROUP_OPTIONS = helpers.buildOptionsString(GlobalsBase.EGG_GROUP_LIST);
     }
     static TEMPLATES = { // all the new/changed HTML for the userscript
         qolHubLinkHTML        : '<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>',
@@ -1753,8 +1753,17 @@ class Globals {
     static EVOLVE_BY_LEVEL_LIST = null;
     static EVOLUTIONS_LEFT = null;
 }
+
+class Globals extends GlobalsBase {
+    // filled in by LocalStorageManager
+    static DEX_DATA = null;
+    static DEX_UPDATE_DATE = null;
+    static EVOLVE_BY_LEVEL_LIST = null;
+    static EVOLUTIONS_LEFT = null;
+}
+/* eslint-disable no-trailing-spaces */
 /* EvolutionTreeParser class
- * This purely static class provides functions for parsing the evolution div of a dex page. 
+ * This purely static class provides functions for parsing the evolution div of a dex page.
  * This class should only be used by the DexPageParser class.
  * This classes complies with the practice of prepending an underscore on private items. This includes
  * "private" methods within this class, and the class itself.
