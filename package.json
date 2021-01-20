@@ -4,10 +4,10 @@
     "description": "Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pokéfarm experience even more!",
     "main": "Poke-Farm-QoL.user.js",
     "scripts": {
-        "pretest": "bash ./__tests__/scripts/compile_test.sh",
+        "pretest": "bash ./scripts/compile_test.sh",
         "test": "jest",
-        "sanctioned": "bash ./__tests__/scripts/compile_build_sanctioned.sh",
-        "user": "bash ./__tests__/scripts/compile_build_user.sh"
+        "sanctioned": "bash ./scripts/compile_build_sanctioned.sh",
+        "user": "bash ./scripts/compile_build_user.sh"
     },
     "repository": {
         "type": "git",
