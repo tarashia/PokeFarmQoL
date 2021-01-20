@@ -33,3 +33,43 @@
         - Highlighting ready to evolve mons in shelter
         - Distinguishing regional forms
       - Hard code the regional forms list in the farm page
+
+**Moving existing code to common/sanctioned/user structure**
+- [X] basePage.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] daycarePage.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] dexPage.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] dexPageParser.js
+  - Only in user. Only needed for parsing ajax responses containing dex data.
+    Restricting this to user version only.
+- [X] dexUtilities.js
+  - Only in user. Only needed for parsing ajax responses containing dex data.
+    Restricting this to user version only.
+- [X] evolutionTreeParser.js
+  - Only in user. Only needed for parsing ajax responses containing dex data.
+    Restricting this to user version only.
+- [ ] farmPage.js
+- [X] fishingPage.js
+  - Only in common. Nothing special for sanctioned/user
+- [ ] globals.js
+- [X] header.txt
+  - Headers for user and sanctioned versions are different. Moved to user and sanctioned folders
+- [X] helpers.js
+  - Only in common. Nothing special for sanctioned/user
+- [ ] labPage.js
+- [X] localStorageManager.js
+  - Only in user. Only needed storing the dex data parsed from ajax responses.
+    Restricting this to user version only.
+- [X] multiuserPage.js
+  - Only in common. Nothing special for sanctioned/user
+- [ ] pfqol.js
+- [ ] privateFieldsPage.js
+- [ ] publicFieldsPage.js
+- [ ] qolHub.js
+- [X] resources.js
+  - Only in common. Resources that aren't needed for user/sanctioned are okay to have.
+- [ ] shelterPage.js
+- [X] wishforgePage.js
+  - Only in common. Nothing special for sanctioned/user
