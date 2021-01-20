@@ -68,7 +68,7 @@ describe('Test Daycare Page', () => {
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // expect($('.daycarefoundme').length).toBe(0);
-        
+
         // test Male non-Undiscovered in Daycare
         // test pokemon with 2 egg groups
         $('#pkmnadd').attr('data-gender', 'm');
@@ -86,7 +86,7 @@ describe('Test Daycare Page', () => {
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // expect($('.daycarefoundme').length).toBe(4);
-        
+
         // test Genderless non_Undiscovered in Daycare
         $('#pkmnadd').attr('data-gender', 'n');
         $('#pkmnadd').attr('data-egggroup', '3'); // Field
@@ -94,6 +94,6 @@ describe('Test Daycare Page', () => {
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // expect($('.daycarefoundme').length).toBe(1);
-        
+
     });
 });
