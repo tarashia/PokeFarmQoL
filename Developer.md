@@ -51,14 +51,34 @@
   - Only in user. Only needed for parsing ajax responses containing dex data.
     Restricting this to user version only.
 - [ ] farmPage.js
+  - common/farmPage.js
+    - contains most of the features for the page
+    - `class FarmPageBase extends Page`
+  - user/farmPage.js
+    - contains features that need the parsed dex data.
+    - `class FarmPage extends FarmPageBase`
 - [X] fishingPage.js
   - Only in common. Nothing special for sanctioned/user
-- [ ] globals.js
+- [X] globals.js
+  - common/globals.js
+    - contains most of the features for the page
+    - `class GlobalsBase`
+  - user/globals.js
+    - contains features that need the parsed dex data.
+    - `class Globals extends GlobalsBase`
+  - sanctioned/globals.js
+    - empty `Globals` class
+    - `class Globals extends GlobalsBase {}`
 - [X] header.txt
   - Headers for user and sanctioned versions are different. Moved to user and sanctioned folders
 - [X] helpers.js
   - Only in common. Nothing special for sanctioned/user
 - [ ] labPage.js
+    - contains most of the features for the page
+    - `class LabPageBase extends Page`
+  - user/labPage.js
+    - contains features that need the parsed dex data.
+    - `class LabPage extends LabPageBase`
 - [X] localStorageManager.js
   - Only in user. Only needed storing the dex data parsed from ajax responses.
     Restricting this to user version only.
@@ -66,10 +86,34 @@
   - Only in common. Nothing special for sanctioned/user
 - [ ] pfqol.js
 - [ ] privateFieldsPage.js
+  - common/privateFieldsPage.js
+    - contains most of the features for the page
+    - `class PrivateFieldsPageBase extends Page`
+  - user/privateFieldsPage.js
+    - contains features that need the parsed dex data.
+    - `class PrivateFieldsPage extends PrivateFieldsPageBase`
 - [ ] publicFieldsPage.js
+  - common/publicFieldsPage.js
+    - contains most of the features for the page
+    - `class PublicFieldsPageBase extends Page`
+  - user/publicFieldsPage.js
+    - contains features that need the parsed dex data.
+    - `class PublicFieldsPage extends PublicFieldsPageBase`
 - [ ] qolHub.js
+  - common/qolHub.js
+    - contains most of the features for the page
+    - `class QoLHubBase`
+  - user/qolHub.js
+    - contains features that need the parsed dex data.
+    - `class QoLHub extends QoLHubBase`
 - [X] resources.js
   - Only in common. Resources that aren't needed for user/sanctioned are okay to have.
 - [ ] shelterPage.js
+  - common/shelterPage.js
+    - contains most of the features for the page
+    - `class ShelterPageBase extends Page`
+  - user/shelterPage.js
+    - contains features that need the parsed dex data.
+    - `class ShelterPage extends ShelterPageBase`
 - [X] wishforgePage.js
   - Only in common. Nothing special for sanctioned/user
