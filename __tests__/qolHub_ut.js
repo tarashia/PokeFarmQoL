@@ -1,8 +1,8 @@
 const DexUtilities = require('../__mocks__/dexUtilities').dexUtilities;
-const EvolutionTreeParser = require('../requires/utils/evolutionTreeParser').EvolutionTreeParser;
-const DexPageParser = require('../requires/utils/dexPageParser').DexPageParser;
-const LocalStorageManager = require('../requires/utils/localStorageManager').LocalStorageManager;
-const QoLHub = require('../requires/utils/qolHub').QoLHub;
+const EvolutionTreeParser = require('../requires/common/evolutionTreeParser').EvolutionTreeParser;
+const DexPageParser = require('../requires/common/dexPageParser').DexPageParser;
+const LocalStorageManager = require('../requires/common/localStorageManager').LocalStorageManager;
+const QoLHub = require('../requires/common/qolHub').QoLHub;
 const localStorageManager = new LocalStorageManager(localStorage);
 const jQuery = require('../__mocks__/jquery').jQuery;
 const fs = require('fs');

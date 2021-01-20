@@ -1,5 +1,6 @@
+/* eslint-disable no-trailing-spaces */
 /* EvolutionTreeParser class
- * This purely static class provides functions for parsing the evolution div of a dex page. 
+ * This purely static class provides functions for parsing the evolution div of a dex page.
  * This class should only be used by the DexPageParser class.
  * This classes complies with the practice of prepending an underscore on private items. This includes
  * "private" methods within this class, and the class itself.
