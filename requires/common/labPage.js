@@ -11,11 +11,11 @@ class LabPageBase extends Page {
         this.searchArray = [];
         this.typeArray = [];
         this.globals = GLOBALS;
-        const customSearch = this.customSearch;
+        const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
-                customSearch();
+                obj.customSearch();
             });
         });
     }
@@ -141,7 +141,6 @@ class LabPageBase extends Page {
         const obj = this;
         const enabled = ((this.settings.findTypeEgg === true) &&
             (!(this.typeArray.length == 1 && this.typeArray[0] == '')));
-        const getTypesForEgg = obj.getTypesForEgg;
         if (enabled) {
             const typesArrayNoEmptySpace = this.typeArray.filter(v => v != '');
             for (let i = 0; i < typesArrayNoEmptySpace.length; i++) {
@@ -151,7 +150,7 @@ class LabPageBase extends Page {
 
                 jQuery('#egglist>div>h3').each(function () {
                     const searchPokemon = jQuery(this).text().split(' ')[0];
-                    const [searchTypeOne, searchTypeTwo] = getTypesForEgg(searchPokemon);
+                    const [searchTypeOne, searchTypeTwo] = obj.getTypesForEgg(searchPokemon);
                     if (searchTypeOne === value) {
                         amountOfTypesFound.push('found');
                         typePokemonNames.push(searchPokemon);
