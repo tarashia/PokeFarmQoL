@@ -1,23 +1,23 @@
 // eslint-disable-next-line no-unused-vars
 class GlobalsBase {
     // eslint-disable-next-line camelcase
-    static fillTemplates(TEMPLATES) {
-        GlobalsBase.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
-        GlobalsBase.TEMPLATES.fieldSortHTML              = TEMPLATES.fieldSortHTML();
-        GlobalsBase.TEMPLATES.fieldSearchHTML            = TEMPLATES.fieldSearchHTML();
-        GlobalsBase.TEMPLATES.privateFieldSearchHTML     = TEMPLATES.privateFieldSearchHTML();
-        GlobalsBase.TEMPLATES.qolHubHTML                 = TEMPLATES.qolHubHTML();
-        GlobalsBase.TEMPLATES.evolveFastHTML             = TEMPLATES.evolveFastHTML();
-        GlobalsBase.TEMPLATES.labOptionsHTML             = TEMPLATES.labOptionsHTML();
-        GlobalsBase.TEMPLATES.publicFieldTooltipModHTML  = TEMPLATES.publicFieldTooltipModHTML();
-        GlobalsBase.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
+    fillTemplates(TEMPLATES) {
+        this.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
+        this.TEMPLATES.fieldSortHTML              = TEMPLATES.fieldSortHTML();
+        this.TEMPLATES.fieldSearchHTML            = TEMPLATES.fieldSearchHTML();
+        this.TEMPLATES.privateFieldSearchHTML     = TEMPLATES.privateFieldSearchHTML();
+        this.TEMPLATES.qolHubHTML                 = TEMPLATES.qolHubHTML();
+        this.TEMPLATES.evolveFastHTML             = TEMPLATES.evolveFastHTML();
+        this.TEMPLATES.labOptionsHTML             = TEMPLATES.labOptionsHTML();
+        this.TEMPLATES.publicFieldTooltipModHTML  = TEMPLATES.publicFieldTooltipModHTML();
+        this.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
     }
-    static fillOptionsLists(helpers) {
-        GlobalsBase.TYPE_OPTIONS = helpers.buildOptionsString(GlobalsBase.TYPE_LIST);
-        GlobalsBase.NATURE_OPTIONS = helpers.buildOptionsString(GlobalsBase.NATURE_LIST);
-        GlobalsBase.EGG_GROUP_OPTIONS = helpers.buildOptionsString(GlobalsBase.EGG_GROUP_LIST);
+    fillOptionsLists(helpers) {
+        this.TYPE_OPTIONS = helpers.buildOptionsString(this.TYPE_LIST);
+        this.NATURE_OPTIONS = helpers.buildOptionsString(this.NATURE_LIST);
+        this.EGG_GROUP_OPTIONS = helpers.buildOptionsString(this.EGG_GROUP_LIST);
     }
-    static TEMPLATES = { // all the new/changed HTML for the userscript
+    TEMPLATES = { // all the new/changed HTML for the userscript
         qolHubLinkHTML        : '<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>',
         qolHubUpdateLinkHTML  : '<li data-name="QoLupdate"><a href="https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js" target="_blank"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>',
         massReleaseSelectHTML : '<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label>' +
@@ -40,14 +40,14 @@ class GlobalsBase {
         privateFieldTooltipModHTML  : null
     };
 
-    static SETTINGS_SAVE_KEY = 'QoLSettings';
+    SETTINGS_SAVE_KEY = 'QoLSettings';
     // Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
     // Don't change the order without looking for where this array is used
-    static TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
-    static NATURE_LIST = ['Lonely', 'Mild', 'Hasty', 'Gentle', 'Bold', 'Modest', 'Timid', 'Calm',
+    TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
+    NATURE_LIST = ['Lonely', 'Mild', 'Hasty', 'Gentle', 'Bold', 'Modest', 'Timid', 'Calm',
         'Impish', 'Adamant', 'Jolly', 'Careful', 'Relaxed', 'Brave', 'Quiet', 'Sassy',
         'Lax', 'Naughty', 'Rash', 'Naïve', 'Hardy', 'Docile', 'Serious', 'Bashful', 'Quirky'];
-    static EGG_GROUP_LIST = [
+    EGG_GROUP_LIST = [
         'Undiscovered', // 0
         'Monster', // 1
         'Dragon', // 2
@@ -64,7 +64,7 @@ class GlobalsBase {
         'Flying', // 13 <-- This skip is correct
         'Ditto', // 15
     ];
-    static EGG_GROUP_ID_TO_NAME = [
+    EGG_GROUP_ID_TO_NAME = [
         'Undiscovered', // 0
         'Monster', // 1
         'Dragon', // 2
@@ -82,7 +82,7 @@ class GlobalsBase {
         'ERROR', // 14
         'Ditto', // 15
     ];
-    static SHELTER_TYPE_TABLE = [
+    SHELTER_TYPE_TABLE = [
         '0', 'Normal', '<img src="//pfq-static.com/img/types/normal.png/t=1262702646">',
         '1', 'Fire', '<img src="//pfq-static.com/img/types/fire.png/t=1262702645">',
         '2', 'Water', '<img src="//pfq-static.com/img/types/water.png/t=1262702646">',
@@ -102,7 +102,7 @@ class GlobalsBase {
         '16', 'Steel', '<img src="//pfq-static.com/img/types/steel.png/t=1262702646">',
         '17', 'Fairy', '<img src="//pfq-static.com/img/types/fairy.png/t=1374419124">',
     ];
-    static SHELTER_SEARCH_DATA = [
+    SHELTER_SEARCH_DATA = [
         'findNewEgg', 'Egg', 'new egg', '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
         'findNewPokemon', 'Pokémon', 'new Pokémon', '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
         'findShiny', 'SHINY', 'Shiny', '<img src="//pfq-static.com/img/pkmn/shiny.png/t=1400179603">',
@@ -119,13 +119,7 @@ class GlobalsBase {
     ];
 
     // filled in by fillOptionsLists
-    static TYPE_OPTIONS = null;
-    static NATURE_OPTIONS = null;
-    static EGG_GROUP_OPTIONS = null;
-
-    // filled in by LocalStorageManager
-    static DEX_DATA = null;
-    static DEX_UPDATE_DATE = null;
-    static EVOLVE_BY_LEVEL_LIST = null;
-    static EVOLUTIONS_LEFT = null;
+    TYPE_OPTIONS = null;
+    NATURE_OPTIONS = null;
+    EGG_GROUP_OPTIONS = null;
 }

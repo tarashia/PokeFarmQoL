@@ -2,8 +2,8 @@
 // eslint-disable-next-line no-unused-vars
 class Globals extends GlobalsBase {
     // filled in by LocalStorageManager
-    static DEX_DATA = null;
-    static DEX_UPDATE_DATE = null;
-    static EVOLVE_BY_LEVEL_LIST = null;
-    static EVOLUTIONS_LEFT = null;
+    DEX_DATA = null;
+    DEX_UPDATE_DATE = null;
+    EVOLVE_BY_LEVEL_LIST = null;
+    EVOLUTIONS_LEFT = null;
 }

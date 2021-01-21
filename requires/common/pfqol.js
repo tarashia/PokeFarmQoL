@@ -28,7 +28,7 @@ const pfqol = function ($) {
     };
     let USER_SETTINGS = DEFAULT_USER_SETTINGS;
 
-    const GLOBALS = Globals;
+    const GLOBALS = new Globals();
     const HELPERS = Helpers;
     const RESOURCES = Resources;
     GLOBALS.fillTemplates(RESOURCES);
