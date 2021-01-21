@@ -73,7 +73,7 @@
   - Headers for user and sanctioned versions are different. Moved to user and sanctioned folders
 - [X] helpers.js
   - Only in common. Nothing special for sanctioned/user
-- [ ] labPage.js
+- [X] labPage.js
   - common/labPage.js
     - contains most of the features for the page
     - `class LabPageBase extends Page`
