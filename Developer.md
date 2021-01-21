@@ -74,11 +74,15 @@
 - [X] helpers.js
   - Only in common. Nothing special for sanctioned/user
 - [ ] labPage.js
+  - common/labPage.js
     - contains most of the features for the page
     - `class LabPageBase extends Page`
   - user/labPage.js
     - contains features that need the parsed dex data.
     - `class LabPage extends LabPageBase`
+  - sanctioned/labPage.js
+    - empty `LabPage` class
+    - `class LabPage extends LabPageBase {}`
 - [X] localStorageManager.js
   - Only in user. Only needed storing the dex data parsed from ajax responses.
     Restricting this to user version only.
