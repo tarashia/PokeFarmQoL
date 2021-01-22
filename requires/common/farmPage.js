@@ -1,8 +1,6 @@
 /* globals Page */
-const FarmBase = Page;
-
 // eslint-disable-next-line no-unused-vars
-class FarmPage extends FarmBase {
+class FarmPageBase extends Page {
     DEFAULT_SETTINGS(GLOBALS) {
         const d = { TYPE_APPEND: {} };
         // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
@@ -29,7 +27,6 @@ class FarmPage extends FarmBase {
         };
         return d;
     }
-
     constructor(jQuery, GLOBALS, externals) {
         super(jQuery, 'QoLFarm', {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
@@ -38,11 +35,6 @@ class FarmPage extends FarmBase {
         if (externals && externals.DexPageParser) {
             this.DexPageParser = externals.DexPageParser;
         }
-        // if(externals) {
-        //     for(let key in externals) {
-        //         this[key] = externals[key];
-        //     }
-        // }
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -50,7 +42,6 @@ class FarmPage extends FarmBase {
                 obj.easyQuickEvolve();
             });
         });
-
     }
     setupHTML() {
         const obj = this;
@@ -88,7 +79,6 @@ class FarmPage extends FarmBase {
             obj.easyEvolveNewList(GLOBALS);
         }));
     }
-
     clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
         this.jQuery('.evolvepkmnlist').show();
@@ -118,18 +108,6 @@ class FarmPage extends FarmBase {
         const obj = this;
         obj.checkForValidDexData(GLOBALS);
         const dexData = GLOBALS.DEX_DATA;
-
-        if (!GLOBALS.REGIONAL_FORMS_LIST && localStorage.getItem('QoLRegionalFormsList')) {
-            GLOBALS.REGIONAL_FORMS_LIST = JSON.parse(localStorage.getItem('QoLRegionalFormsList'));
-        }
-        const regionalFormList = GLOBALS.REGIONAL_FORMS_LIST;
-
-        if (!regionalFormList) {
-            window.alert('Message from QoL script:\nUnable to load list of regional forms. ' +
-                'The list will be sorted by types, but there may be mistakes. ' +
-                'Please clear and reload your pokedex data by clicking the "Clear Cached Dex" ' +
-                'and then clicking the "Update Pokedex" button in the QoL Hub.');
-        }
 
         this.clearSortedEvolveLists();
 
@@ -362,94 +340,46 @@ class FarmPage extends FarmBase {
             // Handle unicode characters
             previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
 
-            let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1;
-            let evolveInDex = dexData.indexOf('"' + evolvePokemon + '"') != -1;
-            const hasRegionalForms = regionalFormList && Object.prototype.hasOwnProperty.call(regionalFormList, previousPokemon);
+            const previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1;
+            const evolveInDex = dexData.indexOf('"' + evolvePokemon + '"') != -1;
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
             /* Procedure
-             * 1. Load types for the evolution origin
-             *    a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
-             *    b. If it is in the dex and if it does not have regional forms, load the types from the dex data
-             * 2. If step 1.a or 1.b succeeded, load types for the evolution destination
+             * 1. Handling evolution origin:
+             *    a. If the evolution origin is in the dex, load the types from the dex
+             *    b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
+             * 2. If the evolution destination is not in the dex:
              *    a. If the destination pokemon is in the dex, load the types from the dex
              *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
-             *    c. Else, load the destination pokemon's types by:
-             *       i. Getting the origin pokemon's dex number from its summary page
-             *       ii. Loading the list of the origin pokemon's evolutions from its dex page
-             *       iii. Finding the dex number for the destination pokemon from the list
-             *       iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
+             *    c. Else, mark the type as '18' (not a valid type)
              * 3. Use types to apply HTML classes to the list item that contains the current evolution
              *    a. Use the evolution origin's and destination's types as HTML classes
              *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
              */
 
-            // Step 1.a
-            if (!previousInDex || hasRegionalForms) {
-                const data = loadEvolutionOriginTypes(obj.jQuery, evoUrl);
-                if (data.status) {
-                    previousInDex = data.status;
-                    previousPokemon = data.species;
-                    evolveTypesPrevious = data.types;
-                }
-            }
-            // Step 1.b
-            else {
+            if (previousInDex) {
+                // Step 1.a
                 evolveTypesPrevious = [1, 2].map((i) => dexData[dexData.indexOf('"' + previousPokemon + '"') + i]);
             }
-
-            // don't try to load types for evolution endpoint if steps 1.a and 1.b failed
-            if (!previousInDex) {
-                const msg = `Unable to find load types for evolution origin (${evolvePokemon}) in pokedex data, or unable to load it from PokeFarm Dex page`;
-                console.error(msg);
-                return; // 'continue' for .each()
+            else {
+                // Step 1.b
+                evolveTypesPrevious = [18, -1];
             }
 
-            // will only get here if 1.a or 1.b succeeded
-            if (!evolveInDex) {
+            if (evolveInDex) {
+                // Step 2.a
+                evolveTypes = [1, 2].map((i) => dexData[dexData.indexOf('"' + evolvePokemon + '"') + i]);
+            }
+            else {
                 // Step 2.b
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
                     evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
-                    evolveInDex = true;
                 }
                 // Step 2.c
                 else {
-                    // Get the dex number for previousPokemon
-                    const dexNumber = loadEvolutionOriginDexNumber(obj.jQuery, evoUrl);
-
-                    // Load the dex page for previousPokemon
-                    const dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
-                    let evolutions = {};
-                    if (dexInfo.status) {
-                        evolveInDex = dexInfo.status;
-                        evolutions = dexInfo.evolutions;
-                        evolveTypesPrevious = dexInfo.types;
-                    }
-
-                    if (evolveInDex && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
-                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
-                        if (info.status) {
-                            evolveInDex = info.status;
-                            evolveTypes = info.types;
-                            addToKnownExceptions(evolvePokemon, evolveTypes[0],
-                                evolveTypes.length > 1 && evolveTypes[1]);
-                        }
-                    } else {
-                        const msg = `An error occurred when processing ${evolvePokemon}`;
-                        console.error(msg);
-                    }
-                } // else ( if(evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) )
-            }
-            // Step 2.a
-            else {
-                evolveTypes = [1, 2].map((i) => dexData[dexData.indexOf('"' + evolvePokemon + '"') + i]);
-            }
-
-            if (!evolveInDex) {
-                const msg = `Unable to find pokemon evolving to (${evolvePokemon}) in pokedex data, or unable to load it from PokeFarm Dex page`;
-                console.error(msg);
-                return; // 'continue' for .each()
+                    evolveTypes = [18, -1];
+                }
             }
 
             // the evolveTypes and evolveTypesPrevious entries can begin with a '.'
