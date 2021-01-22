@@ -50,7 +50,7 @@
 - [X] evolutionTreeParser.js
   - Only in user. Only needed for parsing ajax responses containing dex data.
     Restricting this to user version only.
-- [ ] farmPage.js
+- [X] farmPage.js
   - common/farmPage.js
     - contains most of the features for the page
     - `class FarmPageBase extends Page`
