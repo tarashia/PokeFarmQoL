@@ -1625,23 +1625,23 @@ if (module) {
     module.exports.Helpers = Helpers;
 }
 class GlobalsBase {
-    static fillTemplates(TEMPLATES) {
-        GlobalsBase.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
-        GlobalsBase.TEMPLATES.fieldSortHTML              = TEMPLATES.fieldSortHTML();
-        GlobalsBase.TEMPLATES.fieldSearchHTML            = TEMPLATES.fieldSearchHTML();
-        GlobalsBase.TEMPLATES.privateFieldSearchHTML     = TEMPLATES.privateFieldSearchHTML();
-        GlobalsBase.TEMPLATES.qolHubHTML                 = TEMPLATES.qolHubHTML();
-        GlobalsBase.TEMPLATES.evolveFastHTML             = TEMPLATES.evolveFastHTML();
-        GlobalsBase.TEMPLATES.labOptionsHTML             = TEMPLATES.labOptionsHTML();
-        GlobalsBase.TEMPLATES.publicFieldTooltipModHTML  = TEMPLATES.publicFieldTooltipModHTML();
-        GlobalsBase.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
+    fillTemplates(TEMPLATES) {
+        this.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
+        this.TEMPLATES.fieldSortHTML              = TEMPLATES.fieldSortHTML();
+        this.TEMPLATES.fieldSearchHTML            = TEMPLATES.fieldSearchHTML();
+        this.TEMPLATES.privateFieldSearchHTML     = TEMPLATES.privateFieldSearchHTML();
+        this.TEMPLATES.qolHubHTML                 = TEMPLATES.qolHubHTML();
+        this.TEMPLATES.evolveFastHTML             = TEMPLATES.evolveFastHTML();
+        this.TEMPLATES.labOptionsHTML             = TEMPLATES.labOptionsHTML();
+        this.TEMPLATES.publicFieldTooltipModHTML  = TEMPLATES.publicFieldTooltipModHTML();
+        this.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
     }
-    static fillOptionsLists(helpers) {
-        GlobalsBase.TYPE_OPTIONS = helpers.buildOptionsString(GlobalsBase.TYPE_LIST);
-        GlobalsBase.NATURE_OPTIONS = helpers.buildOptionsString(GlobalsBase.NATURE_LIST);
-        GlobalsBase.EGG_GROUP_OPTIONS = helpers.buildOptionsString(GlobalsBase.EGG_GROUP_LIST);
+    fillOptionsLists(helpers) {
+        this.TYPE_OPTIONS = helpers.buildOptionsString(this.TYPE_LIST);
+        this.NATURE_OPTIONS = helpers.buildOptionsString(this.NATURE_LIST);
+        this.EGG_GROUP_OPTIONS = helpers.buildOptionsString(this.EGG_GROUP_LIST);
     }
-    static TEMPLATES = { // all the new/changed HTML for the userscript
+    TEMPLATES = { // all the new/changed HTML for the userscript
         qolHubLinkHTML        : '<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>',
         qolHubUpdateLinkHTML  : '<li data-name="QoLupdate"><a href="https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js" target="_blank"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>',
         massReleaseSelectHTML : '<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label>' +
@@ -1664,14 +1664,14 @@ class GlobalsBase {
         privateFieldTooltipModHTML  : null
     };
 
-    static SETTINGS_SAVE_KEY = 'QoLSettings';
+    SETTINGS_SAVE_KEY = 'QoLSettings';
     // Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
     // Don't change the order without looking for where this array is used
-    static TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
-    static NATURE_LIST = ['Lonely', 'Mild', 'Hasty', 'Gentle', 'Bold', 'Modest', 'Timid', 'Calm',
+    TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
+    NATURE_LIST = ['Lonely', 'Mild', 'Hasty', 'Gentle', 'Bold', 'Modest', 'Timid', 'Calm',
         'Impish', 'Adamant', 'Jolly', 'Careful', 'Relaxed', 'Brave', 'Quiet', 'Sassy',
         'Lax', 'Naughty', 'Rash', 'Naïve', 'Hardy', 'Docile', 'Serious', 'Bashful', 'Quirky'];
-    static EGG_GROUP_LIST = [
+    EGG_GROUP_LIST = [
         'Undiscovered', // 0
         'Monster', // 1
         'Dragon', // 2
@@ -1688,7 +1688,7 @@ class GlobalsBase {
         'Flying', // 13 <-- This skip is correct
         'Ditto', // 15
     ];
-    static EGG_GROUP_ID_TO_NAME = [
+    EGG_GROUP_ID_TO_NAME = [
         'Undiscovered', // 0
         'Monster', // 1
         'Dragon', // 2
@@ -1706,7 +1706,7 @@ class GlobalsBase {
         'ERROR', // 14
         'Ditto', // 15
     ];
-    static SHELTER_TYPE_TABLE = [
+    SHELTER_TYPE_TABLE = [
         '0', 'Normal', '<img src="//pfq-static.com/img/types/normal.png/t=1262702646">',
         '1', 'Fire', '<img src="//pfq-static.com/img/types/fire.png/t=1262702645">',
         '2', 'Water', '<img src="//pfq-static.com/img/types/water.png/t=1262702646">',
@@ -1726,7 +1726,7 @@ class GlobalsBase {
         '16', 'Steel', '<img src="//pfq-static.com/img/types/steel.png/t=1262702646">',
         '17', 'Fairy', '<img src="//pfq-static.com/img/types/fairy.png/t=1374419124">',
     ];
-    static SHELTER_SEARCH_DATA = [
+    SHELTER_SEARCH_DATA = [
         'findNewEgg', 'Egg', 'new egg', '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
         'findNewPokemon', 'Pokémon', 'new Pokémon', '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
         'findShiny', 'SHINY', 'Shiny', '<img src="//pfq-static.com/img/pkmn/shiny.png/t=1400179603">',
@@ -1743,15 +1743,9 @@ class GlobalsBase {
     ];
 
     // filled in by fillOptionsLists
-    static TYPE_OPTIONS = null;
-    static NATURE_OPTIONS = null;
-    static EGG_GROUP_OPTIONS = null;
-
-    // filled in by LocalStorageManager
-    static DEX_DATA = null;
-    static DEX_UPDATE_DATE = null;
-    static EVOLVE_BY_LEVEL_LIST = null;
-    static EVOLUTIONS_LEFT = null;
+    TYPE_OPTIONS = null;
+    NATURE_OPTIONS = null;
+    EGG_GROUP_OPTIONS = null;
 }
 
 class Globals extends GlobalsBase {
@@ -3763,10 +3757,10 @@ class LabPageBase extends Page {
         this.searchArray = [];
         this.typeArray = [];
         this.globals = GLOBALS;
-        const customSearch = this.customSearch;
+        const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
-                customSearch();
+                obj.customSearch();
             });
         });
     }
@@ -3892,7 +3886,6 @@ class LabPageBase extends Page {
         const obj = this;
         const enabled = ((this.settings.findTypeEgg === true) &&
             (!(this.typeArray.length == 1 && this.typeArray[0] == '')));
-        const getTypesForEgg = obj.getTypesForEgg;
         if (enabled) {
             const typesArrayNoEmptySpace = this.typeArray.filter(v => v != '');
             for (let i = 0; i < typesArrayNoEmptySpace.length; i++) {
@@ -3902,7 +3895,7 @@ class LabPageBase extends Page {
 
                 jQuery('#egglist>div>h3').each(function () {
                     const searchPokemon = jQuery(this).text().split(' ')[0];
-                    const [searchTypeOne, searchTypeTwo] = getTypesForEgg(searchPokemon);
+                    const [searchTypeOne, searchTypeTwo] = obj.getTypesForEgg(searchPokemon);
                     if (searchTypeOne === value) {
                         amountOfTypesFound.push('found');
                         typePokemonNames.push(searchPokemon);
@@ -4267,9 +4260,7 @@ class MultiuserPage extends MultiuserBase {
     }
 }
 
-const FarmBase = Page;
-
-class FarmPage extends FarmBase {
+class FarmPageBase extends Page {
     DEFAULT_SETTINGS(GLOBALS) {
         const d = { TYPE_APPEND: {} };
         // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
@@ -4296,7 +4287,6 @@ class FarmPage extends FarmBase {
         };
         return d;
     }
-
     constructor(jQuery, GLOBALS, externals) {
         super(jQuery, 'QoLFarm', {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
@@ -4305,18 +4295,12 @@ class FarmPage extends FarmBase {
         if (externals && externals.DexPageParser) {
             this.DexPageParser = externals.DexPageParser;
         }
-        // if(externals) {
-        //     for(let key in externals) {
-        //         this[key] = externals[key];
-        //     }
-        // }
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 obj.easyQuickEvolve();
             });
         });
-
     }
     setupHTML() {
         const obj = this;
@@ -4354,7 +4338,6 @@ class FarmPage extends FarmBase {
             obj.easyEvolveNewList(GLOBALS);
         }));
     }
-
     clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
         this.jQuery('.evolvepkmnlist').show();
@@ -4384,18 +4367,6 @@ class FarmPage extends FarmBase {
         const obj = this;
         obj.checkForValidDexData(GLOBALS);
         const dexData = GLOBALS.DEX_DATA;
-
-        if (!GLOBALS.REGIONAL_FORMS_LIST && localStorage.getItem('QoLRegionalFormsList')) {
-            GLOBALS.REGIONAL_FORMS_LIST = JSON.parse(localStorage.getItem('QoLRegionalFormsList'));
-        }
-        const regionalFormList = GLOBALS.REGIONAL_FORMS_LIST;
-
-        if (!regionalFormList) {
-            window.alert('Message from QoL script:\nUnable to load list of regional forms. ' +
-                'The list will be sorted by types, but there may be mistakes. ' +
-                'Please clear and reload your pokedex data by clicking the "Clear Cached Dex" ' +
-                'and then clicking the "Update Pokedex" button in the QoL Hub.');
-        }
 
         this.clearSortedEvolveLists();
 
@@ -4626,94 +4597,46 @@ class FarmPage extends FarmBase {
             // Handle unicode characters
             previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
 
-            let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1;
-            let evolveInDex = dexData.indexOf('"' + evolvePokemon + '"') != -1;
-            const hasRegionalForms = regionalFormList && Object.prototype.hasOwnProperty.call(regionalFormList, previousPokemon);
+            const previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1;
+            const evolveInDex = dexData.indexOf('"' + evolvePokemon + '"') != -1;
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
             /* Procedure
-             * 1. Load types for the evolution origin
-             *    a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
-             *    b. If it is in the dex and if it does not have regional forms, load the types from the dex data
-             * 2. If step 1.a or 1.b succeeded, load types for the evolution destination
+             * 1. Handling evolution origin:
+             *    a. If the evolution origin is in the dex, load the types from the dex
+             *    b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
+             * 2. If the evolution destination is not in the dex:
              *    a. If the destination pokemon is in the dex, load the types from the dex
              *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
-             *    c. Else, load the destination pokemon's types by:
-             *       i. Getting the origin pokemon's dex number from its summary page
-             *       ii. Loading the list of the origin pokemon's evolutions from its dex page
-             *       iii. Finding the dex number for the destination pokemon from the list
-             *       iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
+             *    c. Else, mark the type as '18' (not a valid type)
              * 3. Use types to apply HTML classes to the list item that contains the current evolution
              *    a. Use the evolution origin's and destination's types as HTML classes
              *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
              */
 
-            // Step 1.a
-            if (!previousInDex || hasRegionalForms) {
-                const data = loadEvolutionOriginTypes(obj.jQuery, evoUrl);
-                if (data.status) {
-                    previousInDex = data.status;
-                    previousPokemon = data.species;
-                    evolveTypesPrevious = data.types;
-                }
-            }
-            // Step 1.b
-            else {
+            if (previousInDex) {
+                // Step 1.a
                 evolveTypesPrevious = [1, 2].map((i) => dexData[dexData.indexOf('"' + previousPokemon + '"') + i]);
             }
-
-            // don't try to load types for evolution endpoint if steps 1.a and 1.b failed
-            if (!previousInDex) {
-                const msg = `Unable to find load types for evolution origin (${evolvePokemon}) in pokedex data, or unable to load it from PokeFarm Dex page`;
-                console.error(msg);
-                return; // 'continue' for .each()
+            else {
+                // Step 1.b
+                evolveTypesPrevious = [18, -1];
             }
 
-            // will only get here if 1.a or 1.b succeeded
-            if (!evolveInDex) {
+            if (evolveInDex) {
+                // Step 2.a
+                evolveTypes = [1, 2].map((i) => dexData[dexData.indexOf('"' + evolvePokemon + '"') + i]);
+            }
+            else {
                 // Step 2.b
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
                     evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
-                    evolveInDex = true;
                 }
                 // Step 2.c
                 else {
-                    // Get the dex number for previousPokemon
-                    const dexNumber = loadEvolutionOriginDexNumber(obj.jQuery, evoUrl);
-
-                    // Load the dex page for previousPokemon
-                    const dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
-                    let evolutions = {};
-                    if (dexInfo.status) {
-                        evolveInDex = dexInfo.status;
-                        evolutions = dexInfo.evolutions;
-                        evolveTypesPrevious = dexInfo.types;
-                    }
-
-                    if (evolveInDex && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
-                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
-                        if (info.status) {
-                            evolveInDex = info.status;
-                            evolveTypes = info.types;
-                            addToKnownExceptions(evolvePokemon, evolveTypes[0],
-                                evolveTypes.length > 1 && evolveTypes[1]);
-                        }
-                    } else {
-                        const msg = `An error occurred when processing ${evolvePokemon}`;
-                        console.error(msg);
-                    }
-                } // else ( if(evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) )
-            }
-            // Step 2.a
-            else {
-                evolveTypes = [1, 2].map((i) => dexData[dexData.indexOf('"' + evolvePokemon + '"') + i]);
-            }
-
-            if (!evolveInDex) {
-                const msg = `Unable to find pokemon evolving to (${evolvePokemon}) in pokedex data, or unable to load it from PokeFarm Dex page`;
-                console.error(msg);
-                return; // 'continue' for .each()
+                    evolveTypes = [18, -1];
+                }
             }
 
             // the evolveTypes and evolveTypesPrevious entries can begin with a '.'
@@ -5141,6 +5064,8 @@ class FarmPage extends FarmBase {
     }
 }
 
+class FarmPage extends FarmPageBase {}
+
 const DaycareBase = Page;
 class DaycarePage extends DaycareBase {
     constructor(jQuery, GLOBALS) {
@@ -5493,7 +5418,7 @@ const pfqol = function ($) {
     };
     let USER_SETTINGS = DEFAULT_USER_SETTINGS;
 
-    const GLOBALS = Globals;
+    const GLOBALS = new Globals();
     const HELPERS = Helpers;
     const RESOURCES = Resources;
     GLOBALS.fillTemplates(RESOURCES);
