@@ -22,6 +22,7 @@ declare -a INPUT=("${ROOT}/requires/sanctioned/header.txt"
                   "${ROOT}/requires/common/daycarePage.js"
                   "${ROOT}/requires/common/dexPage.js"
                   "${ROOT}/requires/common/wishforgePage.js"
+                  "${ROOT}/requires/common/pagesManager.js"
                   "${ROOT}/requires/common/pfqol.js"
                   )
 OUTPUT="${ROOT}/Poke-Farm-QoL.sanctioned.js"

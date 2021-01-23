@@ -54,7 +54,8 @@ describe('Test Daycare Page', () => {
         // test Ditto in Daycare
         $('#pkmnadd').attr('data-gender', 'd');
         $('#pkmnadd').attr('data-egggroup', '15');
-        pfqol.pfqol($);
+        const test = new pfqol($);
+        // pfqol.pfqol($);
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // this expect won't work, because the MutationObserver is triggered asynchronously,

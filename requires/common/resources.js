@@ -3,7 +3,7 @@
  */
 // eslint-disable-next-line no-unused-vars
 class Resources {
-    static css() {
+    css() {
         return `/* Pokefarm QoL style sheet */
 
         /* Announcement bar */
@@ -455,7 +455,7 @@ class Resources {
         }`;
     }
 
-    static fieldSearchHTML() {
+    fieldSearchHTML() {
         return `<div id ="fieldsearch">
             <h4>Advanced Field search</h4>
             <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
@@ -617,7 +617,7 @@ class Resources {
         </div>`;
     }
 
-    static fieldSortHTML() {
+    fieldSortHTML() {
         return `<div id="fieldorder">
         <label>
           <input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"/>
@@ -638,7 +638,7 @@ class Resources {
       </div>`;
     }
 
-    static labOptionsHTML() {
+    labOptionsHTML() {
         return `<div id="labCustomSearch" class="center">
         <p class='boldp'>Egg type search</p>
         <p>Select which egg types you would like to find in the lab. You can select multiple!</p>
@@ -658,7 +658,7 @@ class Resources {
     </div>`;
     }
 
-    static evolveFastHTML() {
+    evolveFastHTML() {
         return `<ul class="qolEvolveTypeList"><li class="expandlist"><h3 class="slidermenu">Normal</h3>
 		    <ul class="normal 0 qolChangeLogContent"></ul></li><br>
             <li class="expandlist"><h3 class="slidermenu">Fire</h3>
@@ -718,7 +718,7 @@ class Resources {
             </ul>`;
     }
 
-    static privateFieldSearchHTML() {
+    privateFieldSearchHTML() {
         return `<div id ="fieldsearch">
         <h4>Advanced Field search</h4>
         <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
@@ -893,7 +893,7 @@ class Resources {
       </div>`;
     }
 
-    static shelterOptionsHTML() {
+    shelterOptionsHTML() {
         return `<div id ="shelteroptionsqol">
         <p> Check the boxes of Pokemon you wish to find in the shelter! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemon you selected! Use the letter 'n' key to select and cycle through the Pokemon matched by the script.</p>
         <table>
@@ -1102,7 +1102,7 @@ class Resources {
       </div>`;
     }
 
-    static qolHubHTML() {
+    qolHubHTML() {
         return `<div class="dialog">
         <div>
           <div>
@@ -1342,7 +1342,7 @@ class Resources {
       </div>`;
     }
 
-    static publicFieldTooltipModHTML() {
+    publicFieldTooltipModHTML() {
         return `<div id=tooltipenable>
         <button type="button" class="collapsible"><b>Tooltip Settings</b></button>
         <div class="collapsible_content">
@@ -1376,7 +1376,7 @@ class Resources {
       </div>`;
     }
 
-    static privateFieldTooltipModHTML() {
+    privateFieldTooltipModHTML() {
         return `<div id=tooltipenable>
         <button type="button" class="collapsible"><b>Tooltip Settings</b></button>
         <div class="collapsible_content">

@@ -107,6 +107,10 @@
   - common/qolHub.js
     - contains most of the features for the page
     - `class QoLHubBase`
+    - Remove LocalStorageManager param from handleUpdateDexClick
+    - Remove DexUtilities
+    - Remove DexPageParser
+    - Remove EvolutionTreeParser
   - user/qolHub.js
     - contains features that need the parsed dex data.
     - `class QoLHub extends QoLHubBase`
