@@ -18,47 +18,46 @@ class PFQoL {
         this.PAGES = new PagesManager(this.jQuery, this.GLOBALS);
         this.QOLHUB = new QoLHub(this.jQuery, this.GLOBALS, this.PAGES);
         this.GLOBALS.fillTemplates(this.RESOURCES);
-        this.GLOBALS.fillOptionsLists(this.HELPERS);
+        this.GLOBALS.fillOptionsLists();
 
         this.init();
     }
-    instantiatePages() {
-        this.PAGES.instantiatePages(this.QOLHUB);
+    instantiatePages(obj) {
+        obj.PAGES.instantiatePages(obj.QOLHUB);
     }
-    loadSettings() { // initial settings on first run and setting the variable settings key
-        this.QOLHUB.loadSettings();
-        this.PAGES.loadSettings(this.QOLHUB);
+    loadSettings(obj) { // initial settings on first run and setting the variable settings key
+        obj.QOLHUB.loadSettings();
+        obj.PAGES.loadSettings(obj.QOLHUB);
     } // loadSettings
     saveSettings() { // Save changed settings
         this.QOLHUB.saveSettings();
         this.PAGES.saveSettings(this.QOLHUB);
     } // saveSettings
-    populateSettingsPage() { // checks all settings checkboxes that are true in the settings
-        this.QOLHUB.populateSettings();
-        this.PAGES.populateSettings(this.QOLHUB);
+    populateSettingsPage(obj) { // checks all settings checkboxes that are true in the settings
+        obj.QOLHUB.populateSettings();
+        obj.PAGES.populateSettings(obj.QOLHUB);
     }
-    setupHTML() { // injects the HTML changes from GLOBALS.TEMPLATES into the site
+    setupHTML(obj) { // injects the HTML changes from GLOBALS.TEMPLATES into the site
         // Header link to Userscript settings
         document.querySelector('li[data-name*=\'Lucky Egg\']')
-            .insertAdjacentHTML('afterend', this.GLOBALS.TEMPLATES.qolHubLinkHTML);
-        this.PAGES.setupHTML(this.GLOBALS, this.QOLHUB);
+            .insertAdjacentHTML('afterend', obj.GLOBALS.TEMPLATES.qolHubLinkHTML);
+        obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
     }
-    setupCSS() { // All the CSS changes are added here
-        GM_addStyle(this.RESOURCES.css());
-        this.PAGES.setupCSS(this.QOLHUB);
-        this.QOLHUB.setupCSS();
+    setupCSS(obj) { // All the CSS changes are added here
+        GM_addStyle(obj.RESOURCES.css());
+        obj.PAGES.setupCSS(obj.QOLHUB);
+        obj.QOLHUB.setupCSS();
     }
-    setupObservers() { // all the Observers that needs to run
-        this.PAGES.setupObservers(this.QOLHUB);
+    setupObservers(obj) { // all the Observers that needs to run
+        obj.PAGES.setupObservers(obj.QOLHUB);
     }
-    setupHandlers() { // all the event handlers
-        const obj = this;
-        this.jQuery(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
-            this.QOLHUB.build(document);
+    setupHandlers(obj) { // all the event handlers
+        obj.jQuery(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
+            obj.QOLHUB.build(document);
             obj.populateSettingsPage();
         }));
-        this.QOLHUB.setupHandlers();
-        this.PAGES.setupHandlers(this.GLOBALS, this.QOLHUB);
+        obj.QOLHUB.setupHandlers();
+        obj.PAGES.setupHandlers(obj.GLOBALS, obj.QOLHUB);
     }
     startup() { // All the functions that are run to start the script on Pokéfarm
         return {
@@ -77,7 +76,7 @@ class PFQoL {
         for (const message in startup) {
             if (Object.hasOwnProperty.call(startup, message)) {
                 console.log(message);
-                startup[message](this.GLOBALS);
+                startup[message](this, this.GLOBALS);
             }
         }
     }

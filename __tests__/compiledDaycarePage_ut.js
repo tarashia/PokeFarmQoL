@@ -54,7 +54,7 @@ describe('Test Daycare Page', () => {
         // test Ditto in Daycare
         $('#pkmnadd').attr('data-gender', 'd');
         $('#pkmnadd').attr('data-egggroup', '15');
-        const test = new pfqol($);
+        new pfqol.pfqol($);
         // pfqol.pfqol($);
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
@@ -65,7 +65,7 @@ describe('Test Daycare Page', () => {
         // test Undiscovered in Daycare
         $('#pkmnadd').attr('data-gender', 'f');
         $('#pkmnadd').attr('data-egggroup', '0');
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // expect($('.daycarefoundme').length).toBe(0);
@@ -74,7 +74,7 @@ describe('Test Daycare Page', () => {
         // test pokemon with 2 egg groups
         $('#pkmnadd').attr('data-gender', 'm');
         $('#pkmnadd').attr('data-egggroup', '201'); // Mineral+Amorphous
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // expect($('.daycarefoundme').length).toBe(5);
@@ -83,7 +83,7 @@ describe('Test Daycare Page', () => {
         // test pokemon with 1 egg group
         $('#pkmnadd').attr('data-gender', 'f');
         $('#pkmnadd').attr('data-egggroup', '3'); // Field
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // expect($('.daycarefoundme').length).toBe(4);
@@ -91,7 +91,7 @@ describe('Test Daycare Page', () => {
         // test Genderless non_Undiscovered in Daycare
         $('#pkmnadd').attr('data-gender', 'n');
         $('#pkmnadd').attr('data-egggroup', '3'); // Field
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         // add a dummy element to trigger customSearch
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // expect($('.daycarefoundme').length).toBe(1);
