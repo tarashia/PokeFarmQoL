@@ -104,9 +104,9 @@ class PagesManager {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.setupHTML(GLOBALS);
-                this.populateSettings();
             }
         }
+        this.populateSettings(QOLHUB);
     }
     setupCSS(QOLHUB) {
         for (const key of Object.keys(this.pages)) {
