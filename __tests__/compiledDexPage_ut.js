@@ -39,7 +39,7 @@ describe('Test Dex Page', () => {
 
         localStorage.setItem('QoLDex', '{}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         // trigger MutationObserver
         $('#regionslist .region-entries li.entry').eq(0).remove();
@@ -117,7 +117,7 @@ describe('Test Dex Page', () => {
 
         localStorage.setItem('QoLDex', '{}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         const types2Span = $('.filter-type-2 .types');
         const type2 = $('.filter-type-2');
