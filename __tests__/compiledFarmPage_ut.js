@@ -166,7 +166,7 @@ describe('Test Farm Page', () => {
         global.location.href = 'https://pokefarm.com/farm#tab=1';
         document.documentElement.innerHTML = innerHTML;
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         expect($('.qolsortnormal').length).toBe(1);
         expect($('.qolsorttype').length).toBe(1);
@@ -226,7 +226,7 @@ describe('Test Farm Page', () => {
             '"Lycanroc [Midnight Forme]":[".12"],' +
             '"Lycanroc [Midday Forme]":[".12"]}}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         const htmlBefore = $('#farmnews-evolutions .scrollable').html();
 
@@ -303,7 +303,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             // trigger '#qolchangesletype' click handler
             $('#qolchangesletype').trigger('click');
@@ -376,7 +376,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             // trigger '#qolsortevolvename' click handler
             $('#qolsortevolvename').trigger('click');
@@ -509,7 +509,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
 
@@ -752,7 +752,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
 
@@ -983,7 +983,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
 
@@ -1205,7 +1205,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
 
@@ -1401,7 +1401,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
 
@@ -1571,7 +1571,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
 
@@ -1666,7 +1666,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
 
@@ -1761,7 +1761,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
 
@@ -1856,7 +1856,7 @@ describe('Test Farm Page', () => {
                 '"Lycanroc [Midnight Forme]":[".12"],' +
                 '"Lycanroc [Midday Forme]":[".12"]}}');
 
-            pfqol.pfqol($);
+            new pfqol.pfqol($);
 
             expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
 
