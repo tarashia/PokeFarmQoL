@@ -3,7 +3,7 @@
  */
 /* globals Helpers */
 // eslint-disable-next-line no-unused-vars
-class QoLHub {
+class QoLHubBase {
     static DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
         customCss: '',
         enableDaycare: true,
@@ -17,12 +17,17 @@ class QoLHub {
         dexFilterEnable: true,
         condenseWishforge: true
     };
-    constructor(jQuery, GLOBALS, PAGES) {
+    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
         this.jQuery = jQuery;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
-        this.USER_SETTINGS = QoLHub.DEFAULT_USER_SETTINGS;
+        if(SETTINGS) {
+            this.USER_SETTINGS = SETTINGS;
+        }
+        else {
+            this.USER_SETTINGS = QoLHubBase.DEFAULT_USER_SETTINGS;
+        }
     }
     setupCSS() {
         //custom user css
@@ -52,7 +57,7 @@ class QoLHub {
         }));
 
         obj.jQuery(document).on('click', '.closeHub', (function () { //close QoL hub
-            QoLHub.close(document);
+            obj.close(document);
         }));
 
         obj.jQuery(document).on('click', '#resetPageSettings', (function () {
@@ -163,7 +168,6 @@ class QoLHub {
         document.querySelector('.qolChangeLogHead').style.color = '' + qolHubCssTextColorHead + '';
         document.querySelector('.qolopencloselist.qolChangeLogContent').style.backgroundColor = '' + qolHubCssBackground + '';
         document.querySelector('.qolopencloselist.qolChangeLogContent').style.color = '' + qolHubCssTextColor + '';
-        this.jQuery('.qolDate', document).text(this.GLOBALS.DEX_UPDATE_DATE);
 
         const customCss = this.USER_SETTINGS.customCss;
 
@@ -178,83 +182,8 @@ class QoLHub {
         this.jQuery('.dialog', document).remove();
         this.jQuery('#core', document).removeClass('scrolllock');
     }
-    handleUpdateDexClick(document, dexUtilities, localStorageManager, dexPageParser, evolutionTreeParser, globals) {
-        const obj = this;
-        // Manually update GLOBALS.DEX_DATA
-        localStorageManager.loadDexIntoGlobalsFromWeb(obj.jQuery, document, dexUtilities, globals);
-
-        // globals.DEX_DATA will contain the latest info as is read from local storage
-        // this handler updates the local storage
-        const progressSpan = obj.jQuery('span.qolDexUpdateProgress', document)[0];
-        progressSpan.textContent = 'Loading...';
-
-        const date = (new Date()).toUTCString();
-        globals.DEX_UPDATE_DATE = date;
-        obj.jQuery('.qolDate', document).text(globals.DEX_UPDATE_DATE);
-        localStorageManager.updateLocalStorageDex(obj.jQuery, document, date, globals);
-
-        // this will update the globals.EVOLVE_BY_LEVEL_LIST
-        // and local storage
-        const virtualDocument = document.implementation.createHTMLDocument('virtual');
-        dexUtilities.getMainDexPage(obj.jQuery).then((data) => {
-            const html = obj.jQuery.parseHTML(data);
-            const dex = obj.jQuery(html[html.length - 1], virtualDocument).find('#dexdata').html();
-            const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
-
-            if (dexNumbers.length > 0) {
-                // update the progress bar in the hub
-                const limit = dexNumbers.length;
-                const progressBar = obj.jQuery('progress.qolDexUpdateProgress', document)[0];
-                progressBar['max'] = limit;
-                dexUtilities.loadDexPages(obj.jQuery, dexNumbers, progressBar, progressSpan).then((data) => {
-                    const dexPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
-                    dexUtilities.loadFormPages(obj.jQuery, virtualDocument, dexPagesHTML, progressBar, progressSpan).then((data) => {
-                        const formPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
-
-                        // Combine the arrays of HTML into one array
-                        const allPagesHTML = dexPagesHTML.concat(formPagesHTML);
-
-                        // Parse evolution data
-                        const [parsedFamilies, dexIDs] = dexUtilities.parseEvolutionTrees(obj.jQuery, virtualDocument, dexPageParser, evolutionTreeParser, allPagesHTML);
-
-                        // Parse form data
-                        const [formData, formMap] = dexUtilities.parseFormData(obj.jQuery, virtualDocument, dexPageParser, allPagesHTML);
-
-                        // Build evolution tree depths
-                        const evolutionTreeDepthList = dexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
-
-                        // Collect regional form data
-                        const regionalFormMap = dexUtilities.buildRegionalFormsMap(formMap);
-
-                        // Collect list of base names to make it easier down the line
-                        const baseNames = dexUtilities.parseBaseNames(obj.jQuery, virtualDocument, dexPageParser, allPagesHTML);
-                        // Collect list of egg pngs
-                        const eggPngs = dexUtilities.parseEggsPngsList(obj.jQuery, virtualDocument, dexPageParser, allPagesHTML);
-                        // Collect list of types
-                        const types = dexUtilities.parseTypesList(obj.jQuery, virtualDocument, dexPageParser, globals, allPagesHTML);
-                        const eggPngsTypeMap = dexUtilities.buildEggPngsTypesMap(baseNames, eggPngs, types);
-
-                        localStorageManager.saveEvolveByLevelList(globals, parsedFamilies, dexIDs);
-                        localStorageManager.saveEvolutionTreeDepths(globals, evolutionTreeDepthList);
-                        localStorageManager.saveRegionalFormsList(globals, parsedFamilies, dexIDs, regionalFormMap);
-                        localStorageManager.saveEggTypesMap(globals, eggPngsTypeMap);
-                        progressSpan.textContent = 'Complete!';
-                    }, (error) => {
-                        console.log(error);
-                    }); // loadFormPages
-                }, (error) => {
-                    console.log(error);
-                }); // loadDexData
-            } // if dexNumbers.length > 0
-            else {
-                progressSpan.textContent = 'Complete!';
-            }
-        }, (error) => {
-            console.log(error);
-        });// getMainDexPage
-    }
-} // QoLHub
+} // QoLHubBase
 
 if (module) {
-    module.exports.QoLHub = QoLHub;
+    module.exports.QoLHubBase = QoLHubBase;
 }
