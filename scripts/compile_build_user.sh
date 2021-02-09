@@ -29,6 +29,7 @@ declare -a INPUT=("${ROOT}/requires/user/header.txt"
                   "${ROOT}/requires/common/wishforgePage.js"
                   "${ROOT}/requires/common/pagesManager.js"
                   "${ROOT}/requires/common/pfqol.js"
+                  "${ROOT}/requires/user/pfqol.js"
                   )
 OUTPUT="${ROOT}/Poke-Farm-QoL.user.js"
 rm -f "${OUTPUT}"

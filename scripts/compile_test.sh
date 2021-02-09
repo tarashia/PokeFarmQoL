@@ -30,6 +30,7 @@ declare -a INPUT=("${ROOT}/requires/user/header.txt"
                   "${ROOT}/requires/common/wishforgePage.js"
                   "${ROOT}/requires/common/pagesManager.js"
                   "${ROOT}/requires/common/pfqol.js"
+                  "${ROOT}/requires/user/pfqol.js"
                   )
 OUTPUT="${ROOT}/__tests__/compiled.js"
 
