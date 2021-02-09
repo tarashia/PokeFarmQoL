@@ -1,7 +1,8 @@
-/* globals jQuery GM_addStyle
+/* globals GM_addStyle
         Globals Resources Helpers QoLHub PagesManager */
 'use strict';
-class PFQoL {
+// eslint-disable-next-line no-unused-vars
+class PFQoLBase {
     constructor($) {
         // :contains to case insensitive
         $.extend($.expr[':'], {
@@ -80,12 +81,4 @@ class PFQoL {
             }
         }
     }
-}
-
-
-
-if (module) {
-    module.exports.pfqol = PFQoL;
-} else {
-    new PFQoL(jQuery);
 }
