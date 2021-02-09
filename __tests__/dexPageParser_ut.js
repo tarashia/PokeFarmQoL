@@ -26,7 +26,7 @@ describe('Parse the header from a dex page', () => {
     test('Should parse the header successfully when a pokemon does not have a form', () => {
         const html = testTools.loadDexFile('004');
         const input = jQuery(html, ownerDocument);
-        
+
         const output = {
             // eslint-disable-next-line camelcase
             base_number: '004',
@@ -88,7 +88,7 @@ describe('Parse egg png link from dex page', () => {
         const output = '';
 
         expect(DexPageParser.parseEggPngFromDexPage(input)).toEqual(output);
-        
+
     });
 });
 

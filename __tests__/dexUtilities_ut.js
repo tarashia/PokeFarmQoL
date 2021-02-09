@@ -112,7 +112,7 @@ describe('Parses HTML from pokedex pages', () => {
         const [actualFlatFamilies, actualDexIDMap] = DexUtilities.parseEvolutionTrees(jQuery, ownerDocument, DexPageParser, EvolutionTreeParser, input);
         expect(actualFlatFamilies).toEqual(expectedFlatFamilies);
         expect(actualDexIDMap).toEqual(expectedDexIDMap);
-        
+
     });
 });
 
@@ -167,7 +167,7 @@ describe('Parse form data from dex HTML', () => {
             ],
             'Ditto': [{ 'name': 'Ditto', 'number': '142' }],
         };
-        
+
         const [actualFormData, actualFormMap] = DexUtilities.parseFormData(jQuery, ownerDocument, DexPageParser, input);
 
         expect(actualFormData).toStrictEqual(expectedFormData);
@@ -204,7 +204,7 @@ describe('Parse egg pngs from dex html', () => {
             'Ditto': 'pkmn/e/h/x.png/t=1478697860'
         };
         const actual = DexUtilities.parseEggsPngsList(jQuery, ownerDocument, DexPageParser, input);
-        
+
         expect(actual).toStrictEqual(expected);
     });
 });
@@ -376,7 +376,7 @@ describe('Build list of evolution tree depths', () => {
             'Raichu [Alolan Forme]': { remaining: 0, total: 1},
             'Raichu [Mega Forme Q]': { remaining: 0, total: 0}
         };
-        
+
         const actual = DexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
 
         expect(actual).toStrictEqual(expected);
@@ -394,7 +394,7 @@ describe('Build list of evolution tree depths', () => {
                 {'name': 'Venusaur', 'number': '003'},
                 {'name': 'Venusaur [Mega Forme]', 'number': '003-M'}
             ],
-            
+
             'Pikachu': [{'name': 'Pikachu', 'number': '026'}],
             'Raichu': [
                 {'name': 'Raichu', 'number': '027'},
@@ -413,7 +413,7 @@ describe('Build list of evolution tree depths', () => {
             ],
             'Ditto': [{ 'name': 'Ditto', 'number': '142' }],
         };
-        
+
         DexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
         expect(console.error.mock.calls.length).toBe(4); // once for each Bulbasaur family member in parsedFamilies
     });
@@ -430,7 +430,7 @@ describe('Build list of evolution tree depths', () => {
             //     {'name': 'Venusaur', 'number': '003'},
             //     {'name': 'Venusaur [Mega Forme]', 'number': '003-M'}
             // ],
-            
+
             'Pikachu': [{'name': 'Pikachu', 'number': '026'}],
             'Raichu': [
                 {'name': 'Raichu', 'number': '027'},
@@ -449,7 +449,7 @@ describe('Build list of evolution tree depths', () => {
             ],
             'Ditto': [{ 'name': 'Ditto', 'number': '142' }],
         };
-        
+
         DexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
         expect(console.error.mock.calls.length).toBe(4); // once for each Bulbasaur family member in parsedFamilies
     });
@@ -472,7 +472,7 @@ describe('Build regional forms list', () => {
         };
         const expected = {};
 
-        const actual = DexUtilities.buildRegionalFormsMap(formMap);     
+        const actual = DexUtilities.buildRegionalFormsMap(formMap);
 
         expect(actual).toStrictEqual(expected);
     });
@@ -500,7 +500,7 @@ describe('Build regional forms list', () => {
             'Raticate': ['Raticate', 'Raticate [Alolan Forme]']
         };
 
-        const actual = DexUtilities.buildRegionalFormsMap(formMap);     
+        const actual = DexUtilities.buildRegionalFormsMap(formMap);
 
         expect(actual).toStrictEqual(expected);
     });

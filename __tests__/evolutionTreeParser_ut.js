@@ -46,7 +46,7 @@ describe('Parses the contents of an <ul> element from the evolution tree div of 
             }
         };
 
-        expect(EvolutionTreeParser._parseEvolutionUl(ul, dexIDMap)).toEqual(output);        
+        expect(EvolutionTreeParser._parseEvolutionUl(ul, dexIDMap)).toEqual(output);
     });
     test('Should parse <ul> contents with nested evolutions', () => {
 
@@ -84,7 +84,7 @@ describe('Parses the contents of an <ul> element from the evolution tree div of 
                         }
                     }
                 ]
-            },            
+            },
             'Flareon': {
                 'condition': jQuery('<span class="condition">Fire Stone</span>')[0],
                 'evolutions': [
@@ -97,7 +97,7 @@ describe('Parses the contents of an <ul> element from the evolution tree div of 
                         }
                     }
                 ]
-            },            
+            },
             'Umbreon': {
                 'condition': jQuery('<span class="condition">Happiness during Nighttime</span>')[0],
                 'evolutions': [
@@ -110,7 +110,7 @@ describe('Parses the contents of an <ul> element from the evolution tree div of 
                         }
                     }
                 ]
-            },            
+            },
             'Espeon': {
                 'condition': jQuery('<span class="condition">Happiness during Daytime</span>')[0],
                 'evolutions': [
@@ -123,7 +123,7 @@ describe('Parses the contents of an <ul> element from the evolution tree div of 
                         }
                     }
                 ]
-            },            
+            },
             'Leafeon': {
                 'condition': jQuery('<span class="condition">In Grass-type Field</span>')[0],
                 'evolutions': [
@@ -136,7 +136,7 @@ describe('Parses the contents of an <ul> element from the evolution tree div of 
                         }
                     }
                 ]
-            },            
+            },
             'Glaceon': {
                 'condition': jQuery('<span class="condition">In Ice-type Field</span>')[0],
                 'evolutions': [
@@ -149,7 +149,7 @@ describe('Parses the contents of an <ul> element from the evolution tree div of 
                         }
                     }
                 ]
-            },            
+            },
             'Sylveon': {
                 'condition': jQuery('<span class="condition">Affection</span>')[0],
                 'evolutions': [
@@ -162,10 +162,10 @@ describe('Parses the contents of an <ul> element from the evolution tree div of 
                         }
                     }
                 ]
-            },            
+            },
         };
 
-        expect(EvolutionTreeParser._parseEvolutionUl(ul, dexIDMap)).toEqual(output);        
+        expect(EvolutionTreeParser._parseEvolutionUl(ul, dexIDMap)).toEqual(output);
     });
 });
 
@@ -269,9 +269,9 @@ describe('Parse the HTML in the conditions list from the flattened object.', () 
         const input = {
             'members': ['MockPokemon1', 'MockPokemon2', 'MockPokemon3'],
             'evolutions': [
-                {'source': 'MockPokemon1', 'target': 'MockPokemon2', 
+                {'source': 'MockPokemon1', 'target': 'MockPokemon2',
                     'condition': jQuery('<span class="condition">Level 20 Happiness</span>')[0]},
-                {'source': 'MockPokemon2', 'target': 'MockPokemon3', 
+                {'source': 'MockPokemon2', 'target': 'MockPokemon3',
                     'condition': jQuery('<span class="condition">Happiness</span>')[0]},
             ]
         };
@@ -307,7 +307,7 @@ describe('Parse the HTML in the conditions list from the flattened object.', () 
                 }
             ]
         };
-            
+
         const output = {
             'members': [
                 'MockPokemon1',
