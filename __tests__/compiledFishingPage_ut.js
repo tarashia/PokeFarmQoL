@@ -55,7 +55,7 @@ describe('Test Fishing Page', () => {
         document.documentElement.innerHTML = innerHTML;
 
         localStorage.setItem('QoLFishing', '{}');
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         // check that setup is correct
         expect($('[name=masspkmn]').length).toBe(TOTAL_BERRY);
@@ -84,7 +84,7 @@ describe('Test Fishing Page', () => {
         $('#selectallfishcheckbox').trigger('click');
         expect($('[name=masspkmn]:checked').length).toBe(0);
         //////////////////////////////////////////////
-        
+
         //////////////////////////////////////////////
         // check that the right number of pokemon are selected
         $('#movefishselectanycheckbox').trigger('click');
