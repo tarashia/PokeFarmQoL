@@ -1,8 +1,6 @@
-const DexUtilities = require('../__mocks__/dexUtilities').dexUtilities;
-const EvolutionTreeParser = require('../requires/user/evolutionTreeParser').EvolutionTreeParser;
-const DexPageParser = require('../requires/user/dexPageParser').DexPageParser;
 const LocalStorageManager = require('../requires/user/localStorageManager').LocalStorageManager;
-const QoLHub = require('../requires/common/qolHub').QoLHub;
+const QoLHubBase = require('../requires/common/qolHub').QoLHubBase;
+const QoLHub = require('../requires/user/qolHub').QoLHub;
 const localStorageManager = new LocalStorageManager(localStorage);
 const jQuery = require('../__mocks__/jquery').jQuery;
 const fs = require('fs');
@@ -18,15 +16,12 @@ describe('Build and close QoL Hub', () => {
             qolHubHTML: qolHubHTML
         };
         const globals = {
-            DEX_UPDATE_DATE: 'Fri, 30 Oct 2020 22:10:03 GMT'
+            DEX_UPDATE_DATE: 'Fri, 30 Oct 2020 22:10:03 GMT',
+            TEMPLATES: templates,
         };
-        const variables = {
-            userSettings: {
-                customCss: ''
-            }
-        };
-        QoLHub.build(jQuery, ownerDocument, templates, globals, variables);
-        QoLHub.close(jQuery, ownerDocument);
+        const qol = new QoLHub(jQuery, globals);
+        qol.build(ownerDocument);
+        qol.close(ownerDocument);
         expect(jQuery('.dialog', ownerDocument).length).toBe(0);
         expect(jQuery('#core', ownerDocument).hasClass('scrolllock')).toBe(false);
     });
@@ -37,15 +32,17 @@ describe('Build and close QoL Hub', () => {
             qolHubHTML: qolHubHTML
         };
         const globals = {
-            DEX_UPDATE_DATE: 'Fri, 30 Oct 2020 22:10:03 GMT'
+            DEX_UPDATE_DATE: 'Fri, 30 Oct 2020 22:10:03 GMT',
+            TEMPLATES: templates,
         };
         const variables = {
             userSettings: {
                 customCss: 'css'
             }
         };
-        QoLHub.build(jQuery, ownerDocument, templates, globals, variables);
-        QoLHub.close(jQuery, ownerDocument);
+        const qol = new QoLHub(jQuery, globals, null, variables.userSettings);
+        qol.build(ownerDocument);
+        qol.close(ownerDocument);
         expect(jQuery('.dialog', ownerDocument).length).toBe(0);
         expect(jQuery('#core', ownerDocument).hasClass('scrolllock')).toBe(false);
     });
@@ -62,6 +59,7 @@ describe('Handle update dex click', () => {
         global.location.href = 'https://pokefarm.com/party';
         document.documentElement.innerHTML = innerHTML;
         const ownerDocument = document; //.implementation.createHTMLDocument('virtual');;
-        QoLHub.handleUpdateDexClick(jQuery, ownerDocument, DexUtilities, localStorageManager, DexPageParser, EvolutionTreeParser, globals);
+        const qol = new QoLHub(jQuery, globals, null, null, localStorageManager);
+        qol.handleUpdateDexClick(ownerDocument);
     });
 });
