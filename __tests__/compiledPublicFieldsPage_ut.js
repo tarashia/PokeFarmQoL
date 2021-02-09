@@ -141,7 +141,7 @@ describe('Test Public Fields Page', () => {
             '"tooltipNoBerry":true,' +
             '"tooltipBerry":true}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         $(window).trigger('load');
 
@@ -283,7 +283,7 @@ describe('Test Public Fields Page', () => {
             '"tooltipNoBerry":true,' +
             '"tooltipBerry":true}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         $(window).trigger('load');
 
@@ -459,7 +459,7 @@ describe('Test Public Fields Page', () => {
             '"tooltipNoBerry":false,' +
             '"tooltipBerry":false}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -857,7 +857,7 @@ describe('Test Public Fields Page', () => {
             '"fieldItem":true,' +
             '"tooltipEnableMods":true,' +
             '"tooltipNoBerry":true}');
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
     });
 
@@ -898,7 +898,7 @@ describe('Test Public Fields Page', () => {
             '"tooltipNoBerry":true,' +
             '"tooltipBerry":true,' +
             '"fdsa":true}');
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
     });
 });

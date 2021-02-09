@@ -77,7 +77,7 @@ const verifyAddTextField = function(dataKey, localStorageKey, addButtonID, remov
     expect($(`[data-key=${dataKey}]`).eq(1).val()).toBe('');
 };
 
-const verifyRemoveTextField = function(dataKey, localStorageKey, removeButtonID, expectedNumber, expectedValue) { 
+const verifyRemoveTextField = function(dataKey, localStorageKey, removeButtonID, expectedNumber, expectedValue) {
     // test removing custom fields
     $(`#${removeButtonID}`).eq(0).trigger('click');
     // check that the correct changes were applied
@@ -125,7 +125,7 @@ describe('Test Shelter page', () => {
         global.location.href = 'https://pokefarm.com/shelter';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLShelter', 
+        localStorage.setItem('QoLShelter',
             '{"findCustom":"",'+
                '"findType":"",'+
                '"findTypeEgg":false,'+
@@ -149,15 +149,15 @@ describe('Test Shelter page', () => {
                '"customPokemon":false,'+
                '"customPng":false,'+
                '"shelterGrid":false}');
-        
-        pfqol.pfqol($);
+
+        new pfqol.pfqol($);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         // check that settings were loaded correctly
         const checkboxDataKeys = ['findNewEgg', 'findNewPokemon', 'findShiny', 'findAlbino',
-            'findMelanistic', 'findPrehistoric', 'findDelta', 'findMega', 
-            'findStarter', 'findCustomSprite', 
+            'findMelanistic', 'findPrehistoric', 'findDelta', 'findMega',
+            'findStarter', 'findCustomSprite',
             // @TODO Need to setup the dex data to be able to use these
             // 'findReadyToEvolve',  'findNFE',
             // Handled later
@@ -193,7 +193,7 @@ describe('Test Shelter page', () => {
         for(let i = 0; i < listSearchFields.length; i++) {
             expect($('input').filter(`#${listSearchFields[i].addButtonID}`).length).toBe(1);
             expect($(`[data-key=${listSearchFields[i].dataKey}][array-name=${listSearchFields[i].listName}]`).length).toBe(1);
-            expect($('input').filter(`#${listSearchFields[i].removeButtonID}`).length).toBe(1);    
+            expect($('input').filter(`#${listSearchFields[i].removeButtonID}`).length).toBe(1);
         }
         ////////////////////////////////////////
 
@@ -203,7 +203,7 @@ describe('Test Shelter page', () => {
             verifyCheckbox(checkboxDataKeys[i], 'QoLShelter', 'shelterfoundme', QUANTITIES[checkboxDataKeys[i]]);
         }
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test adding type
         verifyAddType( 'findType', 'QoLShelter', 'addShelterTypeList', 'removeShelterTypeList');
@@ -260,12 +260,12 @@ describe('Test Shelter page', () => {
         $('[data-key=findMale]').trigger('click'); // disable
         // check genderless
         $('[data-key=findCustom]').eq(0).val('Pokémon');
-        $('[data-key=findCustom]').eq(0).trigger('input');        
+        $('[data-key=findCustom]').eq(0).trigger('input');
         expect($('.shelterfoundme').length).toBe(2);
         $('[data-key=findNoGender]').trigger('click'); // disable
         expect($('.shelterfoundme').length).toBe(0);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test removing a custom search field
         verifyRemoveTextField('findCustom', 'QoLShelter', 'removeShelterTextfield', 1, '');
@@ -281,7 +281,7 @@ describe('Test Shelter page', () => {
         global.location.href = 'https://pokefarm.com/shelter';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLShelter', 
+        localStorage.setItem('QoLShelter',
             '{"findCustom":"",'+
                '"findType":"",'+
                '"findTypeEgg":false,'+
@@ -305,10 +305,10 @@ describe('Test Shelter page', () => {
                '"customPokemon":false,'+
                '"customPng":false,'+
                '"shelterGrid":false}');
-        
-        pfqol.pfqol($);
+
+        new pfqol.pfqol($);
         ////////////////////////////////////////
-               
+
         ////////////////////////////////////////
         // check that data is setup correctly
         expect($('[data-key=shelterGrid]').length).toBe(1);

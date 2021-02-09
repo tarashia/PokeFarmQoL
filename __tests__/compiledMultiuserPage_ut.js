@@ -49,7 +49,7 @@ describe('Test Multiuser Page', () => {
             '{"hideDislike":false,' +
             '"hideAll":false,' +
             '"niceTable":false}');
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         // trigger 'window' load handler
         $(window).trigger('load');
@@ -58,7 +58,7 @@ describe('Test Multiuser Page', () => {
         expect($('[data-key=hideDislike]').length).toBe(1);
         expect($('[data-key=niceTable]').length).toBe(1);
         expect($('[data-key=hideAll]').length).toBe(1);
-        
+
         // trigger MutationObserver observe
         $('#multiuser>div').eq(-1).remove();
 

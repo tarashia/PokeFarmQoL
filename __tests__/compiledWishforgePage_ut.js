@@ -41,7 +41,7 @@ describe('Test Wishforge Page', () => {
         const craftedBadgesDiv = $('#badges').next('div').clone();
         const craftedBadgesUl = craftedBadgesDiv.children().eq(0);
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         expect($('#badges').next('div').children().eq(0).children().length).toBe(1);
 
         // trigger MutationObserver
@@ -52,7 +52,7 @@ describe('Test Wishforge Page', () => {
         // Testing MutationObservers doesn't work, so can't check it again
         // expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
 
-        
+
     });
     test('Test PFQoL controls on Wishforge page with ongoing constructions', () => {
         const htmlpath = path.join(__dirname, './data/', 'wishforge_with_ongoing_constructions.html');
@@ -65,7 +65,7 @@ describe('Test Wishforge Page', () => {
         const craftedBadgesDiv = $('#badges').next('div').clone();
         const craftedBadgesUl = craftedBadgesDiv.children().eq(0);
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         expect($('#badges').next('div').children().eq(0).children().length).toBe(1);
 
         // trigger MutationObserver

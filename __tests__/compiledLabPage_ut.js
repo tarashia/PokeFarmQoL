@@ -49,7 +49,7 @@ describe('Test Lab Page', () => {
             `"findTypeEgg":${TYPE_SEARCH_SETTING}}`;
         localStorage.setItem('QoLLab', settings);
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         // trigger 'window' load handler
         $(window).trigger('load');
 

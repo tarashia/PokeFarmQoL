@@ -67,7 +67,7 @@ describe('Test Private Fields Page', () => {
             '"tooltipNoBerry":true,' +
             '"tooltipBerry":true}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         $(window).trigger('load');
 
@@ -84,7 +84,7 @@ describe('Test Private Fields Page', () => {
         // check that the correct changes were applied
         // check that the rest stayed the same
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // check "Enable QoL Tooltip Settings" button
         // click button to disable tooltip modifications
@@ -146,7 +146,7 @@ describe('Test Private Fields Page', () => {
         $(document).off('click', '#removePrivateFieldEggGroup');
         $(document).off('click', '#addTextField');
         $(document).off('click', '#removeTextField');
-        
+
         // setup HTML
         /* HTML is setup to have the following:
          * - 1 Shinys
@@ -221,7 +221,7 @@ describe('Test Private Fields Page', () => {
             '"tooltipNoBerry":false,' +
             '"tooltipBerry":false}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -234,39 +234,39 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldAlbino]').length).toBe(1);
         expect($('[data-key=fieldAlbino]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldAlbino).toBe(false);
-        
+
         expect($('[data-key=fieldMelanistic]').length).toBe(1);
         expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldMelanistic).toBe(false);
-        
+
         expect($('[data-key=fieldPrehistoric]').length).toBe(1);
         expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldPrehistoric).toBe(false);
-        
+
         expect($('[data-key=fieldDelta]').length).toBe(1);
         expect($('[data-key=fieldDelta]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldDelta).toBe(false);
-        
+
         expect($('[data-key=fieldMega]').length).toBe(1);
         expect($('[data-key=fieldMega]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldMega).toBe(false);
-        
+
         expect($('[data-key=fieldStarter]').length).toBe(1);
         expect($('[data-key=fieldStarter]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldStarter).toBe(false);
-        
+
         expect($('[data-key=fieldCustomSprite]').length).toBe(1);
         expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldCustomSprite).toBe(false);
-        
+
         expect($('[data-key=fieldItem]').length).toBe(1);
         expect($('[data-key=fieldItem]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldItem).toBe(false);
-        
+
         expect($('[data-key=fieldNFE]').length).toBe(1);
         expect($('[data-key=fieldNFE]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldNFE).toBe(false);
-        
+
         // check that HTML was setup correctly
         expect($('input').filter('#addPrivateFieldTypeSearch').length).toBe(1);
         expect($('[data-key=fieldType][array-name=typeArray]').length).toBe(1);
@@ -290,13 +290,13 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldCustom][array-name=customArray]').length).toBe(1);
         expect($('input').filter('#removeTextField').length).toBe(1);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // Execute load handlers
         $(window).trigger('load');
         $('.field', document).trigger('load');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test selecting shiny pokemon
         $('[data-key=fieldShiny]').trigger('click');
@@ -308,7 +308,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldShiny]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldShiny).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldAlbino]').trigger('click');
         expect($('[data-key=fieldAlbino]').prop('checked')).toBe(true);
@@ -319,7 +319,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldAlbino]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldAlbino).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldMelanistic]').trigger('click');
         expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(true);
@@ -330,7 +330,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMelanistic).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldPrehistoric]').trigger('click');
         expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(true);
@@ -341,7 +341,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldPrehistoric).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldDelta]').trigger('click');
         expect($('[data-key=fieldDelta]').prop('checked')).toBe(true);
@@ -352,7 +352,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldDelta]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldDelta).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldMega]').trigger('click');
         expect($('[data-key=fieldMega]').prop('checked')).toBe(true);
@@ -363,7 +363,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldMega]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldMega).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldStarter]').trigger('click');
         expect($('[data-key=fieldStarter]').prop('checked')).toBe(true);
@@ -374,7 +374,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldStarter]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldStarter).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldCustomSprite]').trigger('click');
         expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(true);
@@ -385,7 +385,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldCustomSprite).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldItem]').trigger('click');
         expect($('[data-key=fieldItem]').prop('checked')).toBe(true);
@@ -396,7 +396,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldItem]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldItem).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('[data-key=fieldNFE]').trigger('click');
         expect($('[data-key=fieldNFE]').prop('checked')).toBe(true);
@@ -408,7 +408,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldNFE]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNFE).toBe(false);
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#addPrivateFieldTypeSearch').trigger('click');
         // check that the correct changes were applied
@@ -419,7 +419,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldType]').eq(0).val()).toBe(null);
         expect($('[data-key=fieldType]').eq(1).val()).toBe('none');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test selecting a type from the list
         $('[data-key=fieldType]').eq(0).prop('selectedIndex', 9); // Ground
@@ -431,7 +431,7 @@ describe('Test Private Fields Page', () => {
         expect($('.privatefoundme').length).toBe(55); // Ground or Grass
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldType).toBe('8,4');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#removePrivateFieldTypeSearch').eq(0).trigger('click');
         // check that the correct changes were applied
@@ -458,7 +458,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldNature]').eq(1).val()).toBe('none');
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe('');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test selecting a nature from the list
         $('[data-key=fieldNature]').eq(0).prop('selectedIndex', 2); // Mild
@@ -470,7 +470,7 @@ describe('Test Private Fields Page', () => {
         expect($('.privatefoundme').length).toBe(NUM_MILD+NUM_BOLD); // Mild or Bold
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe('1,4');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#removePrivateFieldNature').eq(0).trigger('click');
         // check that the correct changes were applied
@@ -486,7 +486,7 @@ describe('Test Private Fields Page', () => {
         expect($('.privatefoundme').length).toBe(0);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNature).toBe('');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#addPrivateFieldEggGroupSearch').trigger('click');
         // check that the correct changes were applied
@@ -497,7 +497,7 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldEggGroup]').eq(1).val()).toBe('none');
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe('');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         // test selecting an egg group from the list
         $('[data-key=fieldEggGroup]').eq(0).prop('selectedIndex', 10); // Amorphous
@@ -509,7 +509,7 @@ describe('Test Private Fields Page', () => {
         expect($('.privatefoundme').length).toBe(NUM_AMORPHOUS+NUM_MONSTER); // Amorphous or Monster
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldEggGroup).toBe('9,1');
         ////////////////////////////////////////
-        
+
         ////////////////////////////////////////
         $('#removePrivateFieldEggGroup').trigger('click');
         // check that the correct changes were applied
@@ -652,7 +652,7 @@ describe('Test Private Fields Page', () => {
             '"tooltipNoBerry":true,' +
             '"tooltipBerry":true}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -783,7 +783,7 @@ describe('Test Private Fields Page', () => {
             '"tooltipNoBerry":true,' +
             '"tooltipBerry":true}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -900,7 +900,7 @@ describe('Test Private Fields Page', () => {
             '"tooltipNoBerry":false,' +
             '"tooltipBerry":false}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         ////////////////////////////////////////
         // trigger MutationObserver observe
@@ -937,7 +937,7 @@ describe('Test Private Fields Page', () => {
             '"tooltipEnableMods":true,' +
             '"tooltipNoBerry":true,' +
             '"tooltipBerry":true}');
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
 
         // use 'fieldShiny' click as a roundabout way to reload the settings
         $('[data-key=fieldShiny]').trigger('click');
@@ -971,5 +971,5 @@ describe('Test Private Fields Page', () => {
             '"tooltipNoBerry":true,' +
             '"tooltipBerry":true}');
         $('[data-key="fieldNFE"]').trigger('click');
-    });  
+    });
 });
