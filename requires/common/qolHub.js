@@ -65,25 +65,6 @@ class QoLHubBase {
             obj.clearPageSettings(page);
         }));
 
-        obj.jQuery(document).on('click', '#updateDex', (function () {
-            obj.handleUpdateDexClick(document);
-        }));
-
-        // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
-        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
-            obj.jQuery('#clearCachedDex').next().remove();
-        }));
-
-        // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
-        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
-            obj.jQuery('#clearCachedDex').next().remove();
-            localStorage.removeItem('QoLEvolveByLevel');
-            localStorage.removeItem('QoLDexIDsCache');
-            localStorage.removeItem('QoLEvolutionTreeDepth');
-            localStorage.removeItem('QoLRegionalFormsList');
-            obj.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
-        }));
-
         obj.jQuery(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
             obj.jQuery(this).next().slideToggle();
         }));

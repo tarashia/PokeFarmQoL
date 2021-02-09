@@ -6,7 +6,30 @@
 class QoLHub extends QoLHubBase {
     constructor(jQuery, GLOBALS, PAGES, SETTINGS, localStorageManager) {
         super(jQuery, GLOBALS, PAGES, SETTINGS);
-        this.LOCAL_STORAGE = localStorageManager;
+        this.localStorageManager = localStorageManager;
+    }
+    setupHandlers() {
+        super.setupHandlers();
+        const obj = this;
+
+        obj.jQuery(document).on('click', '#updateDex', (function () {
+            obj.handleUpdateDexClick(document);
+        }));
+
+        // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
+        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
+            obj.jQuery('#clearCachedDex').next().remove();
+        }));
+
+        // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
+        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
+            obj.jQuery('#clearCachedDex').next().remove();
+            localStorage.removeItem('QoLEvolveByLevel');
+            localStorage.removeItem('QoLDexIDsCache');
+            localStorage.removeItem('QoLEvolutionTreeDepth');
+            localStorage.removeItem('QoLRegionalFormsList');
+            obj.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
+        }));
     }
     build(document) {
         super.build(document);
