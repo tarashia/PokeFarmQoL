@@ -27,14 +27,11 @@ class FarmPageBase extends Page {
         };
         return d;
     }
-    constructor(jQuery, GLOBALS, externals) {
+    constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLFarm', {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
-        if (externals && externals.DexPageParser) {
-            this.DexPageParser = externals.DexPageParser;
-        }
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -129,113 +126,6 @@ class FarmPageBase extends Page {
         /*
           Nested helper function
         */
-        const findDivCoreIndex = function ($, html) {
-            for (let j = 0; j < html.length; j++) {
-                if ($(html[j]).is('div#core')) {
-                    return j;
-                }
-            }
-            return -1;
-        };
-
-        const loadEvolutionOriginTypes = function ($, evoUrl) {
-            let species = '';
-            let types = [];
-            let inDex = false;
-            // load the pokemon's species and set the pokemon's name to the species name for the rest of this loop
-            loadSummaryPage($, evoUrl, (data) => {
-                const html = obj.jQuery.parseHTML(data);
-                // first find the right element in html to read from
-                const htmlIndex = findDivCoreIndex($, html);
-                if (!logErrorIfIndexNegativeOne(htmlIndex, `Unable to find species name on ${evoUrl}.`)) {
-                    const links = Array.from(html[htmlIndex].querySelectorAll('#pkmnspecdata>p>a'));
-                    // find the link that to the species page
-                    const speciesIndex = links.findIndex((lnk) => lnk.getAttribute('href').match(/\/dex\/.*/));
-                    // if the link is found, load the types
-                    if (!logErrorIfIndexNegativeOne(speciesIndex,
-                        `Unable to determine species of pokemon from ${evoUrl}.`)) {
-                        species = links[speciesIndex].text;
-                        types = getTypesFromSummaryData(html[htmlIndex]).map((t) => '' + t);
-                        inDex = true;
-                    } // speciesIndex > -1
-                } // htmlIndex > -1
-            }); // load
-            return {
-                status: inDex,
-                types: types,
-                species: species
-            };
-        };
-
-        const loadEvolutionOriginDexNumber = function ($, evoUrl) {
-            let dexNumber = '';
-            loadSummaryPage($, evoUrl, (data) => {
-                const html = obj.jQuery.parseHTML(data);
-                const htmlIndex = findDivCoreIndex($, html);
-                if (!logErrorIfIndexNegativeOne(htmlIndex,
-                    `Unable to find find dex number in summary page ${evoUrl}.`)) {
-                    dexNumber = getDexNumberFromSummaryData(html[htmlIndex]);
-                }
-            });
-            return dexNumber;
-        };
-
-        const loadDataFromEvolutionOriginDexPage = function ($, dexPageParser, typeList, number, name) {
-            const evolutions = {};
-            let status = false;
-            let types = [];
-            loadDexPage($, number, name, (data) => {
-                // Kill two birds with one stone: 1) get the evolutions, and 2) check that
-                // evolveTypePrevOne and evolveTypePrevTwo are correct
-                let html = $.parseHTML(data);
-                // first find the right element in html to read from
-                const htmlIndex = findDivCoreIndex($, html);
-                if (!logErrorIfIndexNegativeOne(htmlIndex, `Unable to find evolutions for ${name}.`)) {
-                    html = html[htmlIndex];
-                    // Get the evolutions from the dex page
-                    const evosSpans = html.querySelectorAll('.evolutiontree>ul>li>.name');
-                    evosSpans.forEach((e) => {
-                        if (e.querySelector('a')) {
-                            const evoNumber = e.querySelector('a').attributes['href'].value.substr(5);
-                            const evoName = e.textContent;
-                            evolutions[evoNumber] = evoName;
-                            evolutions[evoName] = evoNumber;
-                        } else {
-                            console.log('bang');
-                        }
-                    });
-                    status = true;
-
-                    // Get the types
-                    types = getTypesFromDexPage(dexPageParser, typeList, $(html)).map((t) => '' + t);
-                } // htmlIndex > -1
-            }); // loadDexPage
-            return {
-                status: status,
-                evolutions: evolutions,
-                types: types
-            };
-        };
-
-        const loadDataFromEvolutionDestinationDexPage = function ($, dexPageParser, typeList, number, name) {
-            let status = false;
-            let types = [];
-            // Load dex page for the match
-            loadDexPage($, number, name, (data) => {
-                const html = obj.jQuery.parseHTML(data);
-                const htmlIndex = findDivCoreIndex($, html);
-                if (!logErrorIfIndexNegativeOne(htmlIndex,
-                    `Unable to find dex details on dex page for pokedex number ${number}`)) {
-                    types = getTypesFromDexPage(dexPageParser, typeList, $(html[htmlIndex])).map((t) => '' + t);
-                    status = true;
-                }
-            });
-            return {
-                status: status,
-                types: types
-            };
-        };
-
         const getEvolutionOrigin = function (evoString) {
             const summary = '/summary/';
             const originStart = evoString.indexOf(summary) + summary.length + 7;
@@ -246,81 +136,6 @@ class FarmPageBase extends Page {
         const getEvolutionDestination = function (evoString) {
             const destStart = evoString.indexOf('into</span> ') + 12;
             return evoString.substr(destStart);
-        };
-
-        const getEvolutionURL = function (evoString) {
-            const href = 'href="';
-            const urlStart = evoString.indexOf(href) + href.length;
-            const urlLength = '/summary/AAAAA'.length;
-            return evoString.substr(urlStart, urlLength);
-        };
-
-        const logErrorIfIndexNegativeOne = function (index, msg) {
-            if (index === -1) {
-                console.error(msg);
-                return true;
-            }
-            return false;
-        };
-
-        const loadSummaryPage = function ($, urlSuffix, success) {
-            // urlSuffix is the part of the url after https://pokefarm.com/
-            $.ajax({
-                type: 'GET',
-                url: 'https://pokefarm.com' + urlSuffix,
-                async: false,
-                success: success,
-                // eslint-disable-next-line no-unused-vars
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error(`Unable to load the summary page ${urlSuffix}.`);
-                },
-            });
-        };
-
-        const loadDexPage = function ($, dexNumber, name, success) {
-            const url = 'https://pokefarm.com/dex/' + dexNumber;
-            $.ajax({
-                type: 'GET',
-                url: url,
-                async: false,
-                success: success,
-                // eslint-disable-next-line no-unused-vars
-                error: function (jqXHR, textStatus, errorThrown) {
-                    const msg = `Unable to load the Pokedex page for ${name} (${url}).`;
-                    console.error(msg);
-                },
-            });
-        };
-
-        const getTypesFromSummaryData = function (html) {
-            const typeImgs = Array.from(html.querySelectorAll('.type>img'));
-            const typeUrls = typeImgs.map((e) => e['src']);
-            let types = typeUrls.map((url) =>
-                url.substring(url.indexOf('types/') + 'types/'.length,
-                    url.indexOf('.png')));
-            types = types.map((type) => type.charAt(0).toUpperCase() + type.substring(1));
-            types = types.map((type) => GLOBALS.TYPE_LIST.indexOf(type));
-            return types;
-        };
-
-        const getTypesFromDexPage = function (DexPageParser, typeList, html) {
-            return DexPageParser.parseTypesFromDexPage(html, typeList);
-        };
-
-        const getDexNumberFromSummaryData = function (html) {
-            const link = html.querySelector('#pkmnspecdata>p>a');
-            return link.getAttribute('href').substring('/dex/'.length);
-        };
-
-        const addToKnownExceptions = function (name, type1, type2) {
-            // add the exception to the known exceptions list
-            obj.settings.KNOWN_EXCEPTIONS[name] = [type1];
-
-            if (type2) {
-                obj.settings.KNOWN_EXCEPTIONS[name].push(type2);
-            }
-
-            obj.saveSettings();
         };
 
         const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
@@ -335,7 +150,6 @@ class FarmPageBase extends Page {
             const getEvolveString = obj.jQuery(this).html();
             let previousPokemon = getEvolutionOrigin(getEvolveString);
             const evolvePokemon = getEvolutionDestination(getEvolveString);
-            const evoUrl = getEvolutionURL(getEvolveString);
 
             // Handle unicode characters
             previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
