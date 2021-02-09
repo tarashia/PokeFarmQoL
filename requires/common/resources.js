@@ -2,7 +2,7 @@
  * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
  */
 // eslint-disable-next-line no-unused-vars
-class Resources {
+class ResourcesBase {
     css() {
         return `/* Pokefarm QoL style sheet */
 
@@ -960,40 +960,6 @@ class Resources {
             </tr>
           </tbody>
         </table>
-        <h4>Search on evolutions</h4>
-        <span>Highlight pokemon based on evolution data. Make sure to use the <i>Update Pokedex</i> button in the QoL Hub to load evolution data.</span>
-        <div class="tooltip">Note
-          <span class="tooltiptext">
-            Currently, these buttons may not highlight pokemon with multiple forms correctly. This is due to the form of a pokemon not being readily available in the text on the shelter page before clicking "Adopt" on the pokemon.
-            <br>
-            There is a work-around for this, but it has not been implemented yet.
-          </span>
-        </div>
-        <table>
-          <tbody>
-            <tr>
-          <td colspan="2">
-            <label>
-              <input type="checkbox" class="qolsetting" data-key="findReadyToEvolve"/>Ready to Evolve (by Level)
-            </label>
-          </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <label>
-                  <input type="checkbox" class="qolsetting" data-key="findNFE"/>
-                  <div class="tooltip">Evolutions Left
-                    <span class="tooltiptext">
-                      Pokemon with one evolution left are highlighted in red
-                      <br>
-                      Pokemon with two evolutions left are highlighted in blue
-                    </span>
-                  </div>
-                </label>
-              </td>
-            </tr>
-          </tbody>
-        </table>
         <h4>Search on type</h4>
         <p>Select which types of Pokemon and/or eggs you wish to find</p>
         <table>
@@ -1273,23 +1239,6 @@ class Resources {
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="2" class="qolDexUpdate">
-                          <h3 class="qolHubHead">Pokedex Settings</h3>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" class="qolDexUpdate">
-                          <input type='button' value="Update Pokedex" id="updateDex">
-                          <span>Date last updated:<span class="qolDate">""</span></span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" class="qolDexUpdate">
-                          <progress class="qolDexUpdateProgress" value="100" max="100"> 100% </progress>
-                          <span class="qolDexUpdateProgress">Complete!</span>
-                        </td>
-                      </tr>
-                      <tr>
                         <td colspan="2" class="qolAllSettings">
                           <h3 class="qolHubHead">Css Settings</h3>
                         </td>
@@ -1325,10 +1274,6 @@ class Resources {
                             <option value="PublicFields">Public Fields</option>
                             <option value="Shelter">Shelter</option>
                           </select>
-                          <input type='button' value="Reset Page Settings" id="resetPageSettings">
-                          <br><br>
-                          <span>Having issues with the "Update Pokedex" button or the Ready-to-Evolve feature in the Shelter? Use this button to erase the cached pokedex info, then use the <b>Update Pokedex</b> button to reload the pokedex.</span>
-                          <input type='button' value="Clear Cached Dex" id="clearCachedDex">
                         </td>
                       </tr>
                     </tbody>
