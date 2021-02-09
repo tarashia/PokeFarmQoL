@@ -55,7 +55,7 @@ class PFQoLBase {
     setupHandlers(obj) { // all the event handlers
         obj.jQuery(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
             obj.QOLHUB.build(document);
-            obj.populateSettingsPage();
+            obj.populateSettingsPage(obj);
         }));
         obj.QOLHUB.setupHandlers();
         obj.PAGES.setupHandlers(obj.GLOBALS, obj.QOLHUB);
