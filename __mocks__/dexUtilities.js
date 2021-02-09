@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const testTools = require('../__tests__/testTools');
 
-const du = jest.requireActual('../requires/utils/dexUtilities').DexUtilities;
+const du = jest.requireActual('../requires/user/dexUtilities').DexUtilities;
 
 // eslint-disable-next-line no-unused-vars
 const getMainDexPage = jest.fn(($) => {
@@ -18,7 +18,7 @@ const getPokemonDexPage = jest.fn(($, id) => {
         const html = testTools.loadDexFile(id);
         return Promise.resolve(html);
         // return $.Deferred().resolve(html);
-    } else if(id == '214|') { 
+    } else if(id == '214|') {
         const html = testTools.loadDexFile('214%7C');
         return Promise.resolve(html);
         // return $.Deferred().resolve(html);
