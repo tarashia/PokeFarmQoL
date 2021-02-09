@@ -1,4 +1,4 @@
-/* globals FarmPageBase */
+/* globals FarmPageBase DexPageParser */
 // eslint-disable-next-line no-unused-vars
 class FarmPage extends FarmPageBase {
     constructor(jQuery, GLOBALS, externals) {
@@ -92,7 +92,7 @@ class FarmPage extends FarmPageBase {
             return dexNumber;
         };
 
-        const loadDataFromEvolutionOriginDexPage = function ($, dexPageParser, typeList, number, name) {
+        const loadDataFromEvolutionOriginDexPage = function ($, typeList, number, name) {
             const evolutions = {};
             let status = false;
             let types = [];
@@ -119,7 +119,7 @@ class FarmPage extends FarmPageBase {
                     status = true;
 
                     // Get the types
-                    types = getTypesFromDexPage(dexPageParser, typeList, $(html)).map((t) => '' + t);
+                    types = getTypesFromDexPage(typeList, $(html)).map((t) => '' + t);
                 } // htmlIndex > -1
             }); // loadDexPage
             return {
@@ -129,7 +129,7 @@ class FarmPage extends FarmPageBase {
             };
         };
 
-        const loadDataFromEvolutionDestinationDexPage = function ($, dexPageParser, typeList, number, name) {
+        const loadDataFromEvolutionDestinationDexPage = function ($, typeList, number, name) {
             let status = false;
             let types = [];
             // Load dex page for the match
@@ -138,7 +138,7 @@ class FarmPage extends FarmPageBase {
                 const htmlIndex = findDivCoreIndex($, html);
                 if (!logErrorIfIndexNegativeOne(htmlIndex,
                     `Unable to find dex details on dex page for pokedex number ${number}`)) {
-                    types = getTypesFromDexPage(dexPageParser, typeList, $(html[htmlIndex])).map((t) => '' + t);
+                    types = getTypesFromDexPage(typeList, $(html[htmlIndex])).map((t) => '' + t);
                     status = true;
                 }
             });
@@ -215,7 +215,7 @@ class FarmPage extends FarmPageBase {
             return types;
         };
 
-        const getTypesFromDexPage = function (DexPageParser, typeList, html) {
+        const getTypesFromDexPage = function (typeList, html) {
             return DexPageParser.parseTypesFromDexPage(html, typeList);
         };
 
@@ -309,7 +309,7 @@ class FarmPage extends FarmPageBase {
                     const dexNumber = loadEvolutionOriginDexNumber(obj.jQuery, evoUrl);
 
                     // Load the dex page for previousPokemon
-                    const dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
+                    const dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
                     let evolutions = {};
                     if (dexInfo.status) {
                         evolveInDex = dexInfo.status;
@@ -318,7 +318,7 @@ class FarmPage extends FarmPageBase {
                     }
 
                     if (evolveInDex && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
-                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
+                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
                         if (info.status) {
                             evolveInDex = info.status;
                             evolveTypes = info.types;
