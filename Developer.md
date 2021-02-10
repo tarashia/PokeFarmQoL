@@ -96,13 +96,11 @@
   - user/privateFieldsPage.js
     - contains features that need the parsed dex data.
     - `class PrivateFieldsPage extends PrivateFieldsPageBase`
-- [ ] publicFieldsPage.js
+- [X] publicFieldsPage.js
   - common/publicFieldsPage.js
-    - contains most of the features for the page
-    - `class PublicFieldsPageBase extends Page`
-  - user/publicFieldsPage.js
-    - contains features that need the parsed dex data.
-    - `class PublicFieldsPage extends PublicFieldsPageBase`
+    - contains ~~most~~ **all** of the features for the page
+    - `class PublicFieldsPage extends Page`
+    - No need to make subclasses right now. There are no functions that need dex data
 - [X] qolHub.js
   - common/qolHub.js
     - contains most of the features for the page
