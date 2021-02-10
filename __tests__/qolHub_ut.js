@@ -1,4 +1,3 @@
-const LocalStorageManager = require('../requires/user/localStorageManager').LocalStorageManager;
 const QoLHubBase = require('../requires/common/qolHub').QoLHubBase;
 const QoLHub = require('../requires/user/qolHub').QoLHub;
 const jQuery = require('../__mocks__/jquery').jQuery;
