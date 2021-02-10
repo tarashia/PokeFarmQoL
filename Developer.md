@@ -114,12 +114,19 @@
     - `class QoLHub extends QoLHubBase`
 - [X] resources.js
   - Only in common. Resources that aren't needed for user/sanctioned are okay to have.
-- [ ] shelterPage.js
+- [X] shelterPage.js
   - common/shelterPage.js
     - contains most of the features for the page
     - `class ShelterPageBase extends Page`
+    - Changes:
+      - Remove 'ready to evolve' settings and code
+      - Remove 'not fully evolved' settings and code
+      - Remove GLOBALS.EGGS_PNG_TO_TYPES_LIST usage
+      - Remove GLOBALS.EVOLVE_BY_LEVEL_LIST usage
+      - Remove GLOBALS.EVOLUTIONS_LEFT usage
   - user/shelterPage.js
     - contains features that need the parsed dex data.
     - `class ShelterPage extends ShelterPageBase`
 - [X] wishforgePage.js
   - Only in common. Nothing special for sanctioned/user
+- [ ] Check if GLOBALS.DEX_DATA should be in common/ or in user/
