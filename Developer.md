@@ -88,8 +88,8 @@
     Restricting this to user version only.
 - [X] multiuserPage.js
   - Only in common. Nothing special for sanctioned/user
-- [ ] pfqol.js
-- [ ] privateFieldsPage.js
+- [X] pfqol.js
+- [X] privateFieldsPage.js
   - common/privateFieldsPage.js
     - contains most of the features for the page
     - `class PrivateFieldsPageBase extends Page`
@@ -103,7 +103,7 @@
   - user/publicFieldsPage.js
     - contains features that need the parsed dex data.
     - `class PublicFieldsPage extends PublicFieldsPageBase`
-- [ ] qolHub.js
+- [X] qolHub.js
   - common/qolHub.js
     - contains most of the features for the page
     - `class QoLHubBase`
