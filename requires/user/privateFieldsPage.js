@@ -49,6 +49,13 @@ class PrivateFieldsPage extends PrivateFieldsPageBase {
             obj.jQuery('.fieldmon').each(function () {
                 obj.highlightByHowFullyEvolved(GLOBALS, this);
             });
+        } else {
+            obj.jQuery('.oneevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('oneevolutionleft');
+            });
+            obj.jQuery('.twoevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('twoevolutionleft');
+            });
         }
     }
 }

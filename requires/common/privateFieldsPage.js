@@ -328,13 +328,6 @@ class PrivateFieldsPageBase extends Page {
                 const itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big');
                 obj.jQuery(itemBigImgs).addClass('privatefoundme');
             }
-        } else {
-            obj.jQuery('.oneevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('oneevolutionleft');
-            });
-            obj.jQuery('.twoevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('twoevolutionleft');
-            });
         }
         const filteredTypeArray = this.typeArray.filter(v => v != '');
         const filteredNatureArray = this.natureArray.filter(v => v != '');
