@@ -1,8 +1,6 @@
 /* globals Page Helpers */
-const PrivateFieldsBase = Page;
-
 // eslint-disable-next-line no-unused-vars
-class PrivateFieldsPage extends PrivateFieldsBase {
+class PrivateFieldsPageBase extends Page {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLPrivateFields', {
             fieldCustom: '',
@@ -22,7 +20,6 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             fieldFemale: true,
             fieldNoGender: true,
             fieldItem: true,
-            fieldNFE: false,
             customItem: true, // unused
             customEgg: true,
             customPokemon: true,
@@ -218,14 +215,6 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             obj.saveSettings();
         });
     }
-    // specific
-    /*
-    insertFoundDiv(number, name, img) {
-        document.querySelector('#sheltersuccess').
-            insertAdjacentHTML('beforeend',
-                               '<div id="shelterfound">' + name + ((number > 1) ? 's' : '') + ' found ' + img + '</div>')
-    }
-    */
     handleTooltipSettings() {
         const obj = this;
         if (obj.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
@@ -249,44 +238,6 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     enableTooltips() {
         this.jQuery('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
     }
-    highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
-        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
-        // will not exist. If this occurs. don't try highlighting anything until the
-        // pokemon is "put down"
-        if (!this.jQuery(pokemonElem).next().length) { return; }
-
-        const tooltip = Helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);
-        let pokemon = tooltip['species'];
-
-        const key = 'QoLEvolutionTreeDepth';
-        if (localStorage.getItem(key) !== null) {
-            const evolutionData = JSON.parse(localStorage.getItem(key));
-            if (Object.keys(evolutionData).length > 0) {
-                // if can't find the pokemon directly, try looking for its form data
-                if (!evolutionData[pokemon]) {
-                    if (tooltip['forme']) {
-                        pokemon = pokemon + ' [' + tooltip['forme'] + ']';
-                    }
-                }
-                if (!evolutionData[pokemon]) {
-                    console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
-                } else {
-                    const evolutionsLeft = evolutionData[pokemon].remaining;
-
-                    if (evolutionsLeft === 1) {
-                        this.jQuery(pokemonElem).children('img.big').addClass('oneevolutionleft');
-                    } else if (evolutionsLeft === 2) {
-                        this.jQuery(pokemonElem).children('img.big').addClass('twoevolutionleft');
-                    }
-                }
-            } else {
-                console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
-            }
-        } else {
-            console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
-        }
-    }
-
     searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
@@ -296,11 +247,8 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             // next line different from shelter
             const bigImg = selected.parent().parent().parent().parent().prev().children('img.big');
             this.jQuery(bigImg).addClass('privatefoundme');
-
-            // this.insertFoundDiv(selected.length, imgResult, imgFitResult)
         }
     }
-
     searchForCustomPokemon(value, male, female, nogender) {
         const genderMatches = [];
         if (male) { genderMatches.push('[M]'); }
@@ -380,11 +328,6 @@ class PrivateFieldsPage extends PrivateFieldsBase {
                 const itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big');
                 obj.jQuery(itemBigImgs).addClass('privatefoundme');
             }
-        }
-        if (this.settings.fieldNFE === true) {
-            obj.jQuery('.fieldmon').each(function () {
-                obj.highlightByHowFullyEvolved(GLOBALS, this);
-            });
         } else {
             obj.jQuery('.oneevolutionleft').each((k, v) => {
                 obj.jQuery(v).removeClass('oneevolutionleft');

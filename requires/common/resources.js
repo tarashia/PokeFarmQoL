@@ -776,18 +776,6 @@ class ResourcesBase {
                   <input type="checkbox" class="qolsetting" data-key="fieldItem"/>Holds Item
                 </label>
               </td>
-              <td>
-                <label>
-                  <input type="checkbox" class="qolsetting" data-key="fieldNFE"/>
-                  <div class="tooltip">Evolutions Left
-                    <span class="tooltiptext">
-                      Pokemon with one evolution left are highlighted in red
-                      <br>
-                      Pokemon with two evolutions left are highlighted in blue
-                    </span>
-                  </div>
-                </label>
-              </td>
             </tr>
           </tbody>
         </table>
