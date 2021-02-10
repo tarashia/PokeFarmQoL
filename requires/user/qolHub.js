@@ -1,12 +1,11 @@
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
-/* globals QoLHubBase DexUtilities DexPageParser EvolutionTreeParser */
+/* globals QoLHubBase DexUtilities DexPageParser EvolutionTreeParser LocalStorageManager */
 // eslint-disable-next-line no-unused-vars
 class QoLHub extends QoLHubBase {
-    constructor(jQuery, GLOBALS, PAGES, SETTINGS, localStorageManager) {
+    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
         super(jQuery, GLOBALS, PAGES, SETTINGS);
-        this.localStorageManager = localStorageManager;
     }
     setupHandlers() {
         super.setupHandlers();
@@ -37,26 +36,27 @@ class QoLHub extends QoLHubBase {
     }
     handleUpdateDexClick(document) {
         const obj = this;
+        const localStorageManager = new LocalStorageManager(localStorage);
         // Manually update GLOBALS.DEX_DATA
-        obj.localStorageManager.loadDexIntoGlobalsFromWeb(obj.jQuery, document, DexUtilities, obj.globals);
+        localStorageManager.loadDexIntoGlobalsFromWeb(obj.jQuery, document, DexUtilities, obj.GLOBALS);
 
-        // obj.globals.DEX_DATA will contain the latest info as is read from local storage
+        // obj.GLOBALS.DEX_DATA will contain the latest info as is read from local storage
         // this handler updates the local storage
         const progressSpan = obj.jQuery('span.qolDexUpdateProgress', document)[0];
         progressSpan.textContent = 'Loading...';
 
         const date = (new Date()).toUTCString();
-        obj.globals.DEX_UPDATE_DATE = date;
-        obj.jQuery('.qolDate', document).text(obj.globals.DEX_UPDATE_DATE);
-        obj.localStorageManager.updateLocalStorageDex(obj.jQuery, document, date, obj.globals);
+        obj.GLOBALS.DEX_UPDATE_DATE = date;
+        obj.jQuery('.qolDate', document).text(obj.GLOBALS.DEX_UPDATE_DATE);
+        localStorageManager.updateLocalStorageDex(obj.jQuery, document, date, obj.GLOBALS);
 
-        // this will update the obj.globals.EVOLVE_BY_LEVEL_LIST
+        // this will update the obj.GLOBALS.EVOLVE_BY_LEVEL_LIST
         // and local storage
         const virtualDocument = document.implementation.createHTMLDocument('virtual');
         DexUtilities.getMainDexPage(obj.jQuery).then((data) => {
             const html = obj.jQuery.parseHTML(data);
             const dex = obj.jQuery(html[html.length - 1], virtualDocument).find('#dexdata').html();
-            const dexNumbers = obj.localStorageManager.parseAndStoreDexNumbers(dex);
+            const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
 
             if (dexNumbers.length > 0) {
                 // update the progress bar in the hub
@@ -88,13 +88,13 @@ class QoLHub extends QoLHubBase {
                         // Collect list of egg pngs
                         const eggPngs = DexUtilities.parseEggsPngsList(obj.jQuery, virtualDocument, DexPageParser, allPagesHTML);
                         // Collect list of types
-                        const types = DexUtilities.parseTypesList(obj.jQuery, virtualDocument, DexPageParser, obj.globals, allPagesHTML);
+                        const types = DexUtilities.parseTypesList(obj.jQuery, virtualDocument, DexPageParser, obj.GLOBALS, allPagesHTML);
                         const eggPngsTypeMap = DexUtilities.buildEggPngsTypesMap(baseNames, eggPngs, types);
 
-                        obj.localStorageManager.saveEvolveByLevelList(obj.globals, parsedFamilies, dexIDs);
-                        obj.localStorageManager.saveEvolutionTreeDepths(obj.globals, evolutionTreeDepthList);
-                        obj.localStorageManager.saveRegionalFormsList(obj.globals, parsedFamilies, dexIDs, regionalFormMap);
-                        obj.localStorageManager.saveEggTypesMap(obj.globals, eggPngsTypeMap);
+                        localStorageManager.saveEvolveByLevelList(obj.GLOBALS, parsedFamilies, dexIDs);
+                        localStorageManager.saveEvolutionTreeDepths(obj.GLOBALS, evolutionTreeDepthList);
+                        localStorageManager.saveRegionalFormsList(obj.GLOBALS, parsedFamilies, dexIDs, regionalFormMap);
+                        localStorageManager.saveEggTypesMap(obj.GLOBALS, eggPngsTypeMap);
                         progressSpan.textContent = 'Complete!';
                     }, (error) => {
                         console.log(error);

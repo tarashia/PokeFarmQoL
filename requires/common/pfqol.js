@@ -1,5 +1,5 @@
-/* globals GM_addStyle
-        Globals Resources Helpers QoLHub PagesManager */
+/* globals GM_addStyle QoLHub
+        Globals Resources Helpers PagesManager */
 'use strict';
 // eslint-disable-next-line no-unused-vars
 class PFQoLBase {
