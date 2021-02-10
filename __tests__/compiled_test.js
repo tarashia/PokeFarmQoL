@@ -64,7 +64,7 @@ describe('Test that PFQoL compiles', () => {
             shelterGrid: true,
         }));
 
-        pfqol.pfqol(jQuery);
+        new pfqol.pfqol(jQuery);
 
         ////////////////////////////////////////
         // TEST 1
@@ -97,7 +97,7 @@ describe('Test that PFQoL compiles', () => {
 
         ////////////////////////////////////////
         // TEST 3
-        // check that clicking resetPageSettings will 
+        // check that clicking resetPageSettings will
         const defaultShelterSettings = {
             findCustom: '',
             findType: '',
@@ -164,7 +164,7 @@ describe('Test that PFQoL compiles', () => {
         ////////////////////////////////////////
 
         ////////////////////////////////////////
-        // TEST 
+        // TEST
         // check that clicking the close button removes the HTML for the dialog
         jQuery('.closeHub').eq(0).trigger('click');
         lastChild = jQuery('body').children().eq(-1);

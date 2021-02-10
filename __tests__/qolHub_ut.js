@@ -1,7 +1,6 @@
 const LocalStorageManager = require('../requires/user/localStorageManager').LocalStorageManager;
 const QoLHubBase = require('../requires/common/qolHub').QoLHubBase;
 const QoLHub = require('../requires/user/qolHub').QoLHub;
-const localStorageManager = new LocalStorageManager(localStorage);
 const jQuery = require('../__mocks__/jquery').jQuery;
 const fs = require('fs');
 const path = require('path');
@@ -59,7 +58,7 @@ describe('Handle update dex click', () => {
         global.location.href = 'https://pokefarm.com/party';
         document.documentElement.innerHTML = innerHTML;
         const ownerDocument = document; //.implementation.createHTMLDocument('virtual');;
-        const qol = new QoLHub(jQuery, globals, null, null, localStorageManager);
+        const qol = new QoLHub(jQuery, globals, null, null);
         qol.handleUpdateDexClick(ownerDocument);
     });
 });
