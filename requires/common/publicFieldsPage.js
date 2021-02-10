@@ -105,7 +105,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         this.jQuery('.collapsible').css('background-color', ''+fieldOrderCssColor+'');
         this.jQuery('.collapsible').css('border', ''+fieldOrderCssBorder+'');
         this.jQuery('.collapsible_content').css('background-color', ''+fieldOrderCssColor+'');
-        
+
         // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
         // settings as most of the text on the site, manually set the text color for
         // '.collapsible' to match the text around it
@@ -527,7 +527,7 @@ class PublicFieldsPage extends PublicFieldsBase {
                     }
                 }
             }); // each
-        } // end            
+        } // end
 
         // custom search
         for (let i = 0; i < this.customArray.length; i++) {
