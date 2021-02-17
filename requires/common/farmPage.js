@@ -90,20 +90,12 @@ class FarmPageBase extends Page {
             document.querySelector('.qolEvolveNewList').remove();
         }
     }
-    checkForValidDexData(GLOBALS) {
-        if (GLOBALS.DEX_DATA === undefined) {
-            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub');
-        } else if (GLOBALS.DEX_DATA === null) {
-            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub');
-        }
-    }
     easyEvolveNormalList(GLOBALS) {
         this.clearSortedEvolveLists();
         this.checkForValidDexData(GLOBALS);
     }
     easyEvolveTypeList(GLOBALS) {
         const obj = this;
-        obj.checkForValidDexData(GLOBALS);
         const dexData = GLOBALS.DEX_DATA;
 
         this.clearSortedEvolveLists();

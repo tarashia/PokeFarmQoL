@@ -4,6 +4,13 @@ class FarmPage extends FarmPageBase {
     constructor(jQuery, GLOBALS, externals) {
         super(jQuery, GLOBALS, externals);
     }
+    checkForValidDexData(GLOBALS) {
+        if (GLOBALS.DEX_DATA === undefined) {
+            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub');
+        } else if (GLOBALS.DEX_DATA === null) {
+            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub');
+        }
+    }
     easyEvolveTypeList(GLOBALS) {
         const obj = this;
         obj.checkForValidDexData(GLOBALS);
