@@ -27,6 +27,7 @@
         "@babel/plugin-syntax-class-properties": "^7.12.1",
         "@babel/preset-env": "^7.12.1",
         "@types/jest": "^26.0.20",
+        "app-root-path": "^3.0.0",
         "babel-plugin-transform-class-properties": "^6.24.1",
         "bufferutil": "^4.0.2",
         "canvas": "^2.6.1",
