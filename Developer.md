@@ -129,4 +129,4 @@
     - `class ShelterPage extends ShelterPageBase`
 - [X] wishforgePage.js
   - Only in common. Nothing special for sanctioned/user
-- [ ] Check if GLOBALS.DEX_DATA should be in common/ or in user/
+- [X] Check if GLOBALS.DEX_DATA should be in common/ or in user/
