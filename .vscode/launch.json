@@ -4,17 +4,36 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Jest single run all compiled tests",
+      "name": "Jest single run all user tests",
       "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
       "args": [
         "--verbose",
         "-i",
         "--no-cache",
-        "compiled.+.js"
+        "${workspaceFolder}/__tests__/user/compiled.+.js"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "preLaunchTask": "Compile",
+      "preLaunchTask": "Compile_User_Build",
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest single run all sanctioned tests",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "args": [
+        "--verbose",
+        "-i",
+        "--no-cache",
+        "${workspaceFolder}/__tests__/sanctioned/compiled.+.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "preLaunchTask": "Compile_Sanctioned_Build",
       "skipFiles": [
         "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**/*.js"
@@ -60,7 +79,7 @@
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "preLaunchTask": "Compile",
+      "preLaunchTask": "Compile_Test_Build",
       "skipFiles": [
         "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**/*.js"

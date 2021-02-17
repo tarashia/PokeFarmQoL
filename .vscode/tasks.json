@@ -4,9 +4,19 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compile",
+            "label": "Compile_Test_Build",
             "type": "shell",
             "command": "npm run pretest"
-        }
+        },
+        {
+            "label": "Compile_User_Build",
+            "type": "shell",
+            "command": "npm run user"
+        },
+        {
+            "label": "Compile_Sanctioned_Build",
+            "type": "shell",
+            "command": "npm run sanctioned"
+        },
     ]
 }
