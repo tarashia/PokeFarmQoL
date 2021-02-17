@@ -16,7 +16,7 @@
       "internalConsoleOptions": "neverOpen",
       "preLaunchTask": "Compile",
       "skipFiles": [
-        "${workspaceFolder}/node_modules/**/*.js",,
+        "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**/*.js"
       ]
     },
@@ -34,7 +34,7 @@
       "internalConsoleOptions": "neverOpen",
       "preLaunchTask": "Compile",
       "skipFiles": [
-        "${workspaceFolder}/node_modules/**/*.js",,
+        "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**/*.js"
       ]
     },
