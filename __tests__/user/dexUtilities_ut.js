@@ -2,8 +2,8 @@
 const DexUtilities = require('../requires/user/dexUtilities.js').DexUtilities;
 const DexPageParser = require('../requires/user/dexPageParser.js').DexPageParser;
 const EvolutionTreeParser = require('../requires/user/evolutionTreeParser.js').EvolutionTreeParser;
-const jQuery = require('../__mocks__/jquery').jQuery;
-const console = require('../__mocks__/console').console;
+const jQuery = require('../../__mocks__/jquery').jQuery;
+const console = require('../../__mocks__/console').console;
 const testTools = require('./testTools');
 
 const ownerDocument = document.implementation.createHTMLDocument('virtual');

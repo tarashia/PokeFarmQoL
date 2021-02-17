@@ -1,9 +1,10 @@
-const $ = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
-const console = require('../__mocks__/console_suppress').console;
+const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
-const pfqol = require('./compiled');
+const appRoot = require('app-root-path');
+const pfqol = require(appRoot + '/__tests__/compiled');
 const oldWindowLocation = window.location;
 
 beforeAll(() => {
@@ -30,7 +31,7 @@ describe('Test Private Fields Page', () => {
         ////////////////////////////////////////
         // setup
         const NUM_POKEMON = 29;
-        const htmlpath = path.join(__dirname, './data/', 'privateFields.html');
+        const htmlpath = path.join(__dirname, '../data/', 'privateFields.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields';
@@ -180,7 +181,7 @@ describe('Test Private Fields Page', () => {
         const NUM_AMORPHOUS = 45;
         const NUM_MONSTER = 10;
 
-        const htmlpath = path.join(__dirname, './data/', 'privateFieldsForSearchTests.html');
+        const htmlpath = path.join(__dirname, '../data/', 'privateFieldsForSearchTests.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields';
@@ -615,7 +616,7 @@ describe('Test Private Fields Page', () => {
         const NUM_SWEET = 6;
         const NUM_BITTER = 9;
         const NUM_POKEMON = 29;
-        const htmlpath = path.join(__dirname, './data/', 'privateFieldsWithReleaseDialog.html');
+        const htmlpath = path.join(__dirname, '../data/', 'privateFieldsWithReleaseDialog.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields';
@@ -746,7 +747,7 @@ describe('Test Private Fields Page', () => {
         const NUM_SWEET = 6;
         const NUM_BITTER = 9;
         const NUM_POKEMON = 29;
-        const htmlpath = path.join(__dirname, './data/', 'privateFieldsWithBulkMoveDialog.html');
+        const htmlpath = path.join(__dirname, '../data/', 'privateFieldsWithBulkMoveDialog.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields';
@@ -859,7 +860,7 @@ describe('Test Private Fields Page', () => {
 
     test('Corner case test cases for coverage', () => {
 
-        const htmlpath = path.join(__dirname, './data/', 'privateFieldsForSearchTests.html');
+        const htmlpath = path.join(__dirname, '../data/', 'privateFieldsForSearchTests.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields';

@@ -1,9 +1,10 @@
-const $ = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
-const console = require('../__mocks__/console_suppress').console;
+const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
-const pfqol = require('./compiled');
+const appRoot = require('app-root-path');
+const pfqol = require(appRoot + '/__tests__/compiled');
 const oldWindowLocation = window.location;
 
 beforeAll(() => {
@@ -27,7 +28,7 @@ beforeAll(() => {
 
 describe('Test Wishforge Page', () => {
     test('Test PFQoL controls on Wishforge page with no ongoing constructions', () => {
-        const htmlpath = path.join(__dirname, './data/', 'wishforge_no_ongoing_constructions.html');
+        const htmlpath = path.join(__dirname, '../data/', 'wishforge_no_ongoing_constructions.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/forge';
@@ -51,7 +52,7 @@ describe('Test Wishforge Page', () => {
 
     });
     test('Test PFQoL controls on Wishforge page with ongoing constructions', () => {
-        const htmlpath = path.join(__dirname, './data/', 'wishforge_with_ongoing_constructions.html');
+        const htmlpath = path.join(__dirname, '../data/', 'wishforge_with_ongoing_constructions.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/forge';

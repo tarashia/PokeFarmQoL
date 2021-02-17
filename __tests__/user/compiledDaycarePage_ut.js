@@ -3,12 +3,13 @@ const dom = new JSDOM();
 window.document = dom.window.document;
 // global.window = dom.window;
 
-const $ = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
-const console = require('../__mocks__/console_suppress').console;
+const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
-const pfqol = require('./compiled');
+const appRoot = require('app-root-path');
+const pfqol = require(appRoot + '/__tests__/compiled');
 const oldWindowLocation = window.location;
 
 beforeAll(() => {
@@ -39,7 +40,7 @@ describe('Test Daycare Page', () => {
          * - Female w/ 1 Egg Groups: Match Males in same Egg Group (4 Field)
          * - Genderless: Match only Ditto (1 Ditto)
          */
-        const htmlpath = path.join(__dirname, './data/', 'daycare_with_dialog.html');
+        const htmlpath = path.join(__dirname, '../data/', 'daycare_with_dialog.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/daycare';

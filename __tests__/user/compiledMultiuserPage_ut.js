@@ -1,9 +1,10 @@
-const $ = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
-const console = require('../__mocks__/console_suppress').console;
+const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
-const pfqol = require('./compiled');
+const appRoot = require('app-root-path');
+const pfqol = require(appRoot + '/__tests__/compiled');
 const oldWindowLocation = window.location;
 
 beforeAll(() => {
@@ -35,7 +36,7 @@ describe('Test Multiuser Page', () => {
          * - 1 that is an Egg
          * - 2 other eggs to make it a full party
          */
-        const htmlpath = path.join(__dirname, './data/', 'multiuser.html');
+        const htmlpath = path.join(__dirname, '../data/', 'multiuser.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/users/A,A,A,A,A,A,A,A,A,A';

@@ -1,9 +1,10 @@
-const $ = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
-const console = require('../__mocks__/console_suppress').console;
+const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
-const pfqol = require('./compiled');
+const appRoot = require('app-root-path');
+const pfqol = require(appRoot + '/__tests__/compiled');
 const oldWindowLocation = window.location;
 
 beforeAll(() => {
@@ -102,7 +103,7 @@ describe('Test Public Fields Page', () => {
         ////////////////////////////////////////
         // setup
         const NUM_POKEMON = 28;
-        const htmlpath = path.join(__dirname, './data/', 'publicFieldsForTooltipTestsNoBerrySelected.html');
+        const htmlpath = path.join(__dirname, '../data/', 'publicFieldsForTooltipTestsNoBerrySelected.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';
@@ -244,7 +245,7 @@ describe('Test Public Fields Page', () => {
         const NUM_CORMYR = 7; // like Sour + Any
         const NUM_NOT_HUNGRY = 0;
         const NUM_GO_AWAY = 3; // dislike Sour
-        const htmlpath = path.join(__dirname, './data/', 'publicFieldsForTooltipTestsBerrySelected.html');
+        const htmlpath = path.join(__dirname, '../data/', 'publicFieldsForTooltipTestsBerrySelected.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';
@@ -419,7 +420,7 @@ describe('Test Public Fields Page', () => {
          */
         const NUM_AMORPHOUS = 45;
         const NUM_MONSTER = 10;
-        const htmlpath = path.join(__dirname, './data/', 'publicFieldsForSearchTests.html');
+        const htmlpath = path.join(__dirname, '../data/', 'publicFieldsForSearchTests.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';
@@ -819,7 +820,7 @@ describe('Test Public Fields Page', () => {
     });
 
     test('Test loadSettings when local storage has less settings', () => {
-        const htmlpath = path.join(__dirname, './data/', 'publicFields.html');
+        const htmlpath = path.join(__dirname, '../data/', 'publicFields.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';
@@ -858,7 +859,7 @@ describe('Test Public Fields Page', () => {
     });
 
     test('Test loadSettings when local storage has more settings', () => {
-        const htmlpath = path.join(__dirname, './data/', 'publicFields.html');
+        const htmlpath = path.join(__dirname, '../data/', 'publicFields.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';

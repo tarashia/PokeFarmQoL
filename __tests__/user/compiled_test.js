@@ -1,9 +1,10 @@
-const jQuery = require('../__mocks__/jquery_files').jQuery;
+const jQuery = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
-const console = require('../__mocks__/console_suppress').console;
+const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
-const pfqol = require('./compiled');
+const appRoot = require('app-root-path');
+const pfqol = require(appRoot + '/__tests__/compiled');
 const oldWindowLocation = window.location;
 
 beforeAll(() => {
@@ -27,7 +28,7 @@ beforeAll(() => {
 
 describe('Test that PFQoL compiles', () => {
     test('Test QoL Hub controls', () => {
-        const htmlpath = path.join(__dirname, './data/', 'party.html');
+        const htmlpath = path.join(__dirname, '../data/', 'party.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         document.documentElement.innerHTML = innerHTML;

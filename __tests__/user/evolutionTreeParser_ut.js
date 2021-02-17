@@ -32,7 +32,7 @@ describe('Parse contents of an <li> element from the evolution tree div of a dex
 
 describe('Parses the contents of an <ul> element from the evolution tree div of a dex page', () => {
     test('Should parse <ul> contents with no nested evolutions', () => {
-        const file = path.join(__dirname, './data/', 'ul_no_nested_evolutions.html');
+        const file = path.join(__dirname, '../data/', 'ul_no_nested_evolutions.html');
         const html = fs.readFileSync(file, 'utf8', 'r');
         const ul = jQuery(html);
         const dexIDMap = {
@@ -50,7 +50,7 @@ describe('Parses the contents of an <ul> element from the evolution tree div of 
     });
     test('Should parse <ul> contents with nested evolutions', () => {
 
-        const file = path.join(__dirname, './data/', 'ul_nested_evolutions.html');
+        const file = path.join(__dirname, '../data/', 'ul_nested_evolutions.html');
         const html = fs.readFileSync(file, 'utf8', 'r');
         const ul = jQuery(html);
         const dexIDMap = {
@@ -173,7 +173,7 @@ describe('Parses the content of an evolution tree of a dex page', () => {
     test('Should parse evolution tree containing no evolutions', () => {
         const root = 'Ditto';
 
-        const file = path.join(__dirname, './data/', 'parseEvolutionTree_noEvolutions.html');
+        const file = path.join(__dirname, '../data/', 'parseEvolutionTree_noEvolutions.html');
         const html = fs.readFileSync(file, 'utf8', 'r');
         const evotree = jQuery(html);
         const dexIDMap = {};
@@ -186,7 +186,7 @@ describe('Parses the content of an evolution tree of a dex page', () => {
     });
     test('Should parse evolution tree containing evolutions from one of the evolution\'s pages', () => {
         const root = 'Bulbasaur';
-        const file = path.join(__dirname, './data/', 'parseEvolutionTree_evolutionsNotFromRoot.html');
+        const file = path.join(__dirname, '../data/', 'parseEvolutionTree_evolutionsNotFromRoot.html');
         const html = fs.readFileSync(file, 'utf8', 'r');
         const evotree = jQuery(html);
         const dexIDMap = {};
@@ -208,7 +208,7 @@ describe('Parses the content of an evolution tree of a dex page', () => {
     });
     test('Should parse evolution tree containing evolutions from the base pokemon\'s page', () => {
         const root = 'Eevee';
-        const file = path.join(__dirname, './data/', 'parseEvolutionTree_evolutions.html');
+        const file = path.join(__dirname, '../data/', 'parseEvolutionTree_evolutions.html');
         const html = fs.readFileSync(file, 'utf8', 'r');
         const evotree = jQuery(html);
         const dexIDMap = {};

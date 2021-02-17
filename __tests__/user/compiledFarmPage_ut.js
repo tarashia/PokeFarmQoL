@@ -1,9 +1,10 @@
-const $ = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
-const console = require('../__mocks__/console_suppress').console;
+const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
-const pfqol = require('./compiled');
+const appRoot = require('app-root-path');
+const pfqol = require(appRoot + '/__tests__/compiled');
 const oldWindowLocation = window.location;
 
 function internalTrim(jObj) {
@@ -156,7 +157,7 @@ beforeAll(() => {
 
 describe('Test Farm Page', () => {
     it('Should be setup correctly', () => {
-        const htmlpath = path.join(__dirname, './data/', 'farm.html');
+        const htmlpath = path.join(__dirname, '../data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/farm#tab=1';
@@ -171,14 +172,14 @@ describe('Test Farm Page', () => {
     });
 
     it('Should show normal list when "Normal list" is clicked', () => {
-        const htmlpath = path.join(__dirname, './data/', 'farm.html');
+        const htmlpath = path.join(__dirname, '../data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/farm#tab=1';
         document.documentElement.innerHTML = innerHTML;
 
         // load pokedex
-        const dexPath = path.join(__dirname, './data/', 'dex.json');
+        const dexPath = path.join(__dirname, '../data/', 'dex.json');
         const dex = fs.readFileSync(dexPath, 'utf8', 'r');
 
         localStorage.setItem('QoLPokedex', dex);
@@ -243,18 +244,18 @@ describe('Test Farm Page', () => {
 
     describe('Test "Sort on Types"', () => {
         it('Should sort on types when "Sort on types" is clicked', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farm.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnType.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnType.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
 
             // load pokedex
-            const dexPath = path.join(__dirname, './data/', 'dex.json');
+            const dexPath = path.join(__dirname, '../data/', 'dex.json');
             const dex = fs.readFileSync(dexPath, 'utf8', 'r');
             localStorage.setItem('QoLPokedex', dex);
 
@@ -315,20 +316,20 @@ describe('Test Farm Page', () => {
 
     describe('Test "Sort on Name"', () => {
         it('Should sort on names when "Sort on name" is clicked', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farm.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnName.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnName.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
             internalTrim(expectedHTML);
 
             // load pokedex
-            const dexPath = path.join(__dirname, './data/', 'dex.json');
+            const dexPath = path.join(__dirname, '../data/', 'dex.json');
             const dex = fs.readFileSync(dexPath, 'utf8', 'r');
             localStorage.setItem('QoLPokedex', dex);
 
@@ -389,13 +390,13 @@ describe('Test Farm Page', () => {
 
     describe('Test "Sort on New"', () => {
         it('Should only show new pokemon when "New dex entry" is clicked', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farm.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnNew.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnNew.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
@@ -457,7 +458,7 @@ describe('Test Farm Page', () => {
              *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
              *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
              */
-            const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified.json');
+            const incompleteDexPath = path.join(__dirname, '../data/', 'dex_modified.json');
             let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
             // use today as the date to avoid reloading the dex from the "web" (a file in this case)
             incompleteDex = JSON.parse(incompleteDex);
@@ -640,13 +641,13 @@ describe('Test Farm Page', () => {
         });
 
         it('Test when normal pokemon with multiple words in its name is not in the dex', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farm.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnNew2.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnNew2.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
@@ -700,7 +701,7 @@ describe('Test Farm Page', () => {
              *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
              *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
              */
-            const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified2.json');
+            const incompleteDexPath = path.join(__dirname, '../data/', 'dex_modified2.json');
             let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
             // use today as the date to avoid reloading the dex from the "web" (a file in this case)
             incompleteDex = JSON.parse(incompleteDex);
@@ -871,13 +872,13 @@ describe('Test Farm Page', () => {
         });
 
         it('Test when normal pokemon with multiple words and [ in its name is not in the dex', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farm.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnNew3.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnNew3.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
@@ -931,7 +932,7 @@ describe('Test Farm Page', () => {
              *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
              *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
              */
-            const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified3.json');
+            const incompleteDexPath = path.join(__dirname, '../data/', 'dex_modified3.json');
             let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
             // use today as the date to avoid reloading the dex from the "web" (a file in this case)
             incompleteDex = JSON.parse(incompleteDex);
@@ -1102,13 +1103,13 @@ describe('Test Farm Page', () => {
         });
 
         it('Test when normal pokemon with a regular name is not in the dex', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farm.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnNew4.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnNew4.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
@@ -1153,7 +1154,7 @@ describe('Test Farm Page', () => {
              *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
              *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
              */
-            const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified4.json');
+            const incompleteDexPath = path.join(__dirname, '../data/', 'dex_modified4.json');
             let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
             // use today as the date to avoid reloading the dex from the "web" (a file in this case)
             incompleteDex = JSON.parse(incompleteDex);
@@ -1308,13 +1309,13 @@ describe('Test Farm Page', () => {
         });
 
         it('Test when melanistic pokemon with a regular name is not in the dex', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farm.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnNew5.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnNew5.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
@@ -1349,7 +1350,7 @@ describe('Test Farm Page', () => {
              *   - Albino Dex set to 0 ("albino entry(ies) seen")    ("evolveNewAlbinoCheck")
              *   - Melan Dex set to 0 ("melanistic entry(ies) seen") ("evolveNewMelaCheck")
              */
-            const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified5.json');
+            const incompleteDexPath = path.join(__dirname, '../data/', 'dex_modified5.json');
             let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
             // use today as the date to avoid reloading the dex from the "web" (a file in this case)
             incompleteDex = JSON.parse(incompleteDex);
@@ -1504,13 +1505,13 @@ describe('Test Farm Page', () => {
         });
 
         it('Test the error case where a normal pokemon with a name that doens\'t meet any criteria is found in the dex', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farmWithFakeNormalPokemon.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeNormalPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnNewErrorNormal.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnNewErrorNormal.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
@@ -1519,7 +1520,7 @@ describe('Test Farm Page', () => {
             removeComments(expectedHTML);
 
             // load pokedex that has a fake pokemon in it named "ABC XYZ"
-            const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified6.json');
+            const incompleteDexPath = path.join(__dirname, '../data/', 'dex_modified6.json');
             let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
             // use today as the date to avoid reloading the dex from the "web" (a file in this case)
             incompleteDex = JSON.parse(incompleteDex);
@@ -1599,13 +1600,13 @@ describe('Test Farm Page', () => {
         });
 
         it('Test the error case where a shiny pokemon with a name that doens\'t meet any criteria is found in the dex', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farmWithFakeShinyPokemon.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeShinyPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnNewErrorShiny.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnNewErrorShiny.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
@@ -1614,7 +1615,7 @@ describe('Test Farm Page', () => {
             removeComments(expectedHTML);
 
             // load pokedex that has a fake pokemon in it named "ABC XYZ"
-            const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified6.json');
+            const incompleteDexPath = path.join(__dirname, '../data/', 'dex_modified6.json');
             let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
             // use today as the date to avoid reloading the dex from the "web" (a file in this case)
             incompleteDex = JSON.parse(incompleteDex);
@@ -1694,13 +1695,13 @@ describe('Test Farm Page', () => {
         });
 
         it('Test the error case where an albino pokemon with a name that doens\'t meet any criteria is found in the dex', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farmWithFakeAlbinoPokemon.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeAlbinoPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnNewErrorAlbino.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnNewErrorAlbino.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
@@ -1709,7 +1710,7 @@ describe('Test Farm Page', () => {
             removeComments(expectedHTML);
 
             // load pokedex that has a fake pokemon in it named "ABC XYZ"
-            const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified6.json');
+            const incompleteDexPath = path.join(__dirname, '../data/', 'dex_modified6.json');
             let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
             // use today as the date to avoid reloading the dex from the "web" (a file in this case)
             incompleteDex = JSON.parse(incompleteDex);
@@ -1789,13 +1790,13 @@ describe('Test Farm Page', () => {
         });
 
         it('Test the error case where a melanistic pokemon with a name that doens\'t meet any criteria is found in the dex', () => {
-            const htmlpath = path.join(__dirname, './data/', 'farmWithFakeMelanisticPokemon.html');
+            const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeMelanisticPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
-            const expectedPath = path.join(__dirname, './data/', 'farmListSortedOnNewErrorMelanistic.html');
+            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnNewErrorMelanistic.html');
             const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
             const expectedHTML = expectedObjects.filter('ul');
             // need to remove all the internal whitespace
@@ -1804,7 +1805,7 @@ describe('Test Farm Page', () => {
             removeComments(expectedHTML);
 
             // load pokedex that has a fake pokemon in it named "ABC XYZ"
-            const incompleteDexPath = path.join(__dirname, './data/', 'dex_modified6.json');
+            const incompleteDexPath = path.join(__dirname, '../data/', 'dex_modified6.json');
             let incompleteDex = fs.readFileSync(incompleteDexPath, 'utf8', 'r');
             // use today as the date to avoid reloading the dex from the "web" (a file in this case)
             incompleteDex = JSON.parse(incompleteDex);

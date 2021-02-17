@@ -1,9 +1,10 @@
-const $ = require('../__mocks__/jquery_files').jQuery;
+const $ = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
-const console = require('../__mocks__/console_suppress').console;
+const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
-const pfqol = require('./compiled');
+const appRoot = require('app-root-path');
+const pfqol = require(appRoot + '/__tests__/compiled');
 const oldWindowLocation = window.location;
 
 beforeAll(() => {
@@ -44,7 +45,7 @@ describe('Test Fishing Page', () => {
         const BITTER_BERRY = 6;
         const TOTAL_BERRY  = ANY_BERRY + SOUR_BERRY + SPICY_BERRY + DRY_BERRY + SWEET_BERRY + BITTER_BERRY;
 
-        const htmlpath = path.join(__dirname, './data/', 'fishing.html');
+        const htmlpath = path.join(__dirname, '../data/', 'fishing.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fishing';

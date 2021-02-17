@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const LocalStorageManager = require('../requires/user/localStorageManager.js');
-const DexUtilities = require('../__mocks__/dexUtilities').dexUtilities;
+const DexUtilities = require('../../__mocks__/dexUtilities').dexUtilities;
 const jQuery = require('jquery').jQuery;
 
 const localStorageManager = new LocalStorageManager.LocalStorageManager(localStorage);
