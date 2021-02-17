@@ -3,11 +3,7 @@ const $ = require('../__mocks__/jquery_files').jQuery;
 const console = require('../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
-require('dotenv').config();
-
-const UUT = process.env.UUT;
-const pfqol = require(UUT);
-
+const pfqol = require('./compiled');
 const oldWindowLocation = window.location;
 
 function internalTrim(jObj) {
