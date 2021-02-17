@@ -14,8 +14,8 @@
 /**
  * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
  */
-class Resources {
-    static css() {
+class ResourcesBase {
+    css() {
         return `/* Pokefarm QoL style sheet */
 
         /* Announcement bar */
@@ -467,7 +467,7 @@ class Resources {
         }`;
     }
 
-    static fieldSearchHTML() {
+    fieldSearchHTML() {
         return `<div id ="fieldsearch">
             <h4>Advanced Field search</h4>
             <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
@@ -629,7 +629,7 @@ class Resources {
         </div>`;
     }
 
-    static fieldSortHTML() {
+    fieldSortHTML() {
         return `<div id="fieldorder">
         <label>
           <input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"/>
@@ -650,7 +650,7 @@ class Resources {
       </div>`;
     }
 
-    static labOptionsHTML() {
+    labOptionsHTML() {
         return `<div id="labCustomSearch" class="center">
         <p class='boldp'>Egg type search</p>
         <p>Select which egg types you would like to find in the lab. You can select multiple!</p>
@@ -670,7 +670,7 @@ class Resources {
     </div>`;
     }
 
-    static evolveFastHTML() {
+    evolveFastHTML() {
         return `<ul class="qolEvolveTypeList"><li class="expandlist"><h3 class="slidermenu">Normal</h3>
 		    <ul class="normal 0 qolChangeLogContent"></ul></li><br>
             <li class="expandlist"><h3 class="slidermenu">Fire</h3>
@@ -730,7 +730,7 @@ class Resources {
             </ul>`;
     }
 
-    static privateFieldSearchHTML() {
+    privateFieldSearchHTML() {
         return `<div id ="fieldsearch">
         <h4>Advanced Field search</h4>
         <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
@@ -786,18 +786,6 @@ class Resources {
               <td>
                 <label>
                   <input type="checkbox" class="qolsetting" data-key="fieldItem"/>Holds Item
-                </label>
-              </td>
-              <td>
-                <label>
-                  <input type="checkbox" class="qolsetting" data-key="fieldNFE"/>
-                  <div class="tooltip">Evolutions Left
-                    <span class="tooltiptext">
-                      Pokemon with one evolution left are highlighted in red
-                      <br>
-                      Pokemon with two evolutions left are highlighted in blue
-                    </span>
-                  </div>
                 </label>
               </td>
             </tr>
@@ -905,7 +893,471 @@ class Resources {
       </div>`;
     }
 
-    static shelterOptionsHTML() {
+    shelterOptionsHTML() {
+        return `<div id ="shelteroptionsqol">
+        <p> Check the boxes of Pokemon you wish to find in the shelter! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemon you selected! Use the letter 'n' key to select and cycle through the Pokemon matched by the script.</p>
+        <table>
+          <tbody>
+            <tr>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findNewEgg"/>New Egg
+            </label>
+          </td>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findNewPokemon"/>New Pokemon
+            </label>
+          </td>
+            </tr>
+            <tr>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findShiny"/>Shiny
+            </label>
+          </td>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findAlbino"/>Albino
+            </label>
+          </td>
+            </tr>
+            <tr>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findMelanistic"/>Melanistic
+            </label>
+          </td>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findPrehistoric"/>Prehistoric
+            </label>
+          </td>
+            </tr>
+            <tr>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findDelta"/>Delta
+            </label>
+          </td>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findMega"/>Mega
+            </label>
+          </td>
+            </tr>
+            <tr>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findStarter"/>Starter
+            </label>
+          </td>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findCustomSprite"/>Custom Sprite
+            </label>
+          </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Search on type</h4>
+        <p>Select which types of Pokemon and/or eggs you wish to find</p>
+        <table>
+          <tbody>
+            <tr>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findTypeEgg"/>Egg types
+            </label>
+          </td>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findTypePokemon"/>Pokemon types
+            </label>
+          </td>
+            </tr>
+          </tbody>
+        </table>
+        <input type='button' value='Add typesearch' id='addShelterTypeList'>
+        <div id="shelterTypes">
+          <div class='0'></div>
+        </div>
+        <h4>Custom Search</h4>
+        <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
+        <div class="tooltip">Custom Search Help
+          <span class="tooltiptext">
+            Custom search by Pokemon name
+            <br>
+            <br>
+            Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.
+            <br>
+            <br>
+            Custom search by image code
+            <br>
+            <br>
+            Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. You paste it's Img code in the search bar:
+            <br>
+            //pfq-static.com/img/pkmn/1/g/g.png/t=1474027727
+            <br>
+            and now it will show you when a Bulbasaur is found! Copy paste the complete link (starting from //) or you won't find anything.
+            <br>
+            <br>
+            <a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a>
+            <br>
+            <br>
+            More info on finding Pokemon with their img code:
+            <br>
+            <br>
+            <a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a>
+          </span>
+        </div>
+      
+        <table>
+          <tbody>
+            <tr>
+              <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="customEgg"/>Custom Egg
+            </label>
+              </td>
+              <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="customPokemon"/>Custom Pokemon
+            </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="customPng"/>By img code
+            </label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Search on Gender</h4>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findMale"/>Male
+            </label>
+              </td>
+              <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findFemale"/>Female
+            </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findNoGender"/>Genderless
+            </label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      
+        <h4>Search Keys</h4>
+        <input type='button' value='Add searchfield' id='addShelterTextfield'>
+        <div id="searchkeys">
+          <div class='0'></div>
+        </div>
+      </div>`;
+    }
+
+    qolHubHTML() {
+        return `<div class="dialog">
+        <div>
+          <div>
+            <div>
+              <h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3>
+              <div>
+                <p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p>
+                <div>
+                  <table class="qolHubTable">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <h3 class="qolHubHead">Settings</h3>
+                        </td>
+                        <td>
+                          <h3 class="qolHubHead">Change log</h3>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="qolAllSettings">
+                          <ul>
+                            <li>
+                              <label>
+                                <input type='checkbox' class='qolsetting' data-key='enableDaycare'/>
+                                <span>
+                                  Highlight Breeding Matches
+                                </span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolsetting" data-key="shelterEnable"/>
+                                <span>
+                                  Advanced Shelter Search
+                                </span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolsetting" data-key="fishingEnable"/>
+                                <span>
+                                  Release/Fishing select all
+                                </span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolsetting" data-key="publicFieldEnable"/>
+                                <span>
+                                  Sort & Search Fields (Public View)
+                                </span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolsetting" data-key="privateFieldEnable"/>
+                                <span>
+                                  Search Fields (Private View)
+                                </span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolsetting" data-key="partyMod"/>
+                                <span>
+                                  Party click mod
+                                </span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolsetting" data-key="easyEvolve"/>
+                                <span>
+                                  Easy evolving
+                                </span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolsetting" data-key="labNotifier"/>
+                                <span>
+                                  Lab Notifier
+                                </span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolsetting" data-key="dexFilterEnable"/>
+                                <span>
+                                  Multiple Types Filtering
+                                </span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolsetting" data-key="condenseWishforge"/>
+                                <span>
+                                  Smaller Crafted Badges List
+                                </span>
+                              </label>
+                            </li>
+                          </ul>
+                        </td>
+                        <td class="qolChangeLog">
+                          <ul class="qolChangeLogList">
+                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.3.6 - **/02/2020</h3>
+                              <ul class="qolopencloselist qolChangeLogContent">
+                                <li>Code reorganization to make it easier to add new features</li><br>
+                              </ul>
+                            </li>
+                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.3.5 - 11/02/2019</h3>
+                              <ul class="qolopencloselist qolChangeLogContent">
+                                <li>Custom Css: The script broke a lot of the custom css/skin you can create in your profile. If the script broke your custom css you can add that custom css in the QoL Hub and it works!</li><br>
+                                <li>Shelter/lab search: Pokemon/Eggs that are found are now also highlighted.</li><br>
+                                <li>Release/move mass Pokemon: Added a "select on berry" function!</li><br>
+                                <li>Moved select all & select berry checkboxes to the bottom at the move all/release all Pokemon dialogs</li><br>
+                                <li>Evolvelist fix: Alolan Forme Pokemon should now be placed in the right category!</li><br>
+                                <li>Evolvelist additions: Can now sort pokemons that can evolve on names.</li><br>
+                                <li>Evolvelist additions: Can now sort on Pokemon you don't have in your Pokedex. This included Shinies, albinos & melanistic pokemon. Also shows possible Alolan & mega/totem evolves, if you didn't complete a Pokemon 100%.</li><br>
+                                <li>Evolvelist addition: There is a counter showing how many Pokemons per category that can evolve, except for missing dex entries search.</li><br>
+                                <li>Evolvelist addition: When a pokemon evolves using the Quick evo button the Pokemon gets deleted from the list.</li><br>
+                                <li>Fixed a display bug when releasing a Pokemon in your party</li><br>
+                                <li>Fixed a bug with the party clicker modification sometimes breaking (probably fixed)</li><br>
+                              </ul>
+                            </li>
+                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.3.0 - 26/01/2019</h3>
+                              <ul class="qolopencloselist qolChangeLogContent">
+                                <li>Advanced Shelter Search: Added feature to search Pokemon and/or eggs on their types!</li><br>
+                                <li>Advanced Shelter Search: Custom search isn't case sensitive anymore, capital letters or not doesn't matter anymore!</li><br>
+                                <li>Lab Notifier: New feature! You can now 'search' the lab eggs so you're sure not to miss an egg that you really want to have (for example a ditto egg in the lab) or you can search the lab on Pokemon types, for typeraces for example.</li><br>
+                              </ul>
+                            </li>
+                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.2.0 - 18/01/2019</h3>
+                              <ul class="qolopencloselist qolChangeLogContent">
+                                <li>Oh yeah baby, I have an awesome function for you! Now in the farm evolve list all the Pokemons that can evolve will be categorized on types!! No more endless searching which Pokemon has which type. Standard setting is based on my Pokedex data. Open the Pokedex one time to update your own data. Happy wishforge hunting :)</li><br>
+                                <li>NOTE: Known issues with the new feature: Quick evolve doesn't function & clicking on a pokemon closes the selected type list. To evolve your Pokemons: 'Right-click' > 'open on new tab' and then evolve. I'm looking for a fix.</li><br>
+                                <li>Shelter search: now when you adopted a new egg you won't get notified in the shelter when you find this egg. Before it would still notify you found a new egg because it wasn't hatched yet. When you find multiple new eggs you still have to watch out that you don't adopt the 'new' egg that you just adopted and haven't hatched yet. This was a pain in the ass to test with adoption limits etc. Please let me know if you have any issues.</li><br>
+                                <li>New: added party click modifications menu to change the css on the mass party click list. For now there are 3 options: 'only hide disliked berries', 'show party in a table & hide disliked berries' & 'hide everything mass click super fast'.</li><br>
+                              </ul>
+                            </li>
+                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.1.5 - 12/01/2019</h3>
+                              <ul class="qolopencloselist qolChangeLogContent">
+                                <li>Shelter Search has been upgraded, you can now search multiple custom pokemons at once! Beware, having to many pokemons to search for can be a bit laggy. I rewrote the code, in my tests everything worked but if you encounter a bug let me know.</li><br>
+                                <li>Added a 'sort to grid' option in the shelter.</li><br>
+                                <li>QoL menus: All the added menus are now respecting your site skin colors!</li><br>
+                                <li>Fixed a few bugs in the fields section. Private view works now after selecting an option, Pokemon click counter now updates on keypresses & berry like/dislike colors are now fixed. Hopefully fixed the 'align to grid' option.</li><br>
+                                <li>Fixed auto update, didn't process the script versions right.</li><br>
+                              </ul>
+                            </li>
+                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.1.0 - 11/01/2019</h3>
+                              <ul class="qolopencloselist qolChangeLogContent">
+                                <li>Added various field sorter features on the fields page. For now you can sort Pokemons on berries, in the middle or in a grid.</li><br>
+                                <li>Added Pokemon click counter on fields. Especially handy for fields that only have 1 type of Pokemon in a field.</li><br>
+                                <li>Userscript has it's own settings page now and removed itself from the farm tab. Altogether with a change log. Yeeey</li><br>
+                                <li>Moved the shelter search menu for better access and view.</li><br>
+                                <li>Changed some code around to make it easier to implement new features. Like how the user settings are safed and stuff.</li><br>
+                              </ul>
+                            </li>
+                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.0.0 - 08/01/2019</h3>
+                              <ul class="qolopencloselist qolChangeLogContent">
+                                <li>complete script rewrite, now using jQuery.</li></br>
+                                <li>Advanced Shelter Search rewritten. Can now search on Pokemon with Custom Sprites and on Pokemon name instead of only with image code.</li></br>
+                                <li>Select All checkbox added on field mass release & fishing.</li></br>
+                                <li>Userscript prompts the user when there is an update available for the script.</li></br>
+                              </ul>
+                            </li>
+                          </ul>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="qolAllSettings">
+                          <h3 class="qolHubHead">Css Settings</h3>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <span>Add your custom css! not all custom css works if you add a site-skin to Pokefarm because the script overrides those css changes, add your custom skin here instead! If you have an error in your css you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom css is being loaded after the page loads, so it's possible that there will be a short delay before your css changes apply. To change the css of the script refer to it's stylesheet and change what you want to change here in the textarea.<br><a href="https://github.com/KaizokuBento/PokeFarmQoL/blob/master/resources/css/pfqol.css" target="_blank">Qol Userscript StyleSheet</a></span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="qolAllSettings">
+                          <div class='textareahub'></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="qolAllSettings">
+                          <h3 class="qolHubHead">Debugging Corner</h3>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="qolAllSettings">
+                          <span>Use these controls to reset the settings for a particular page back to its defaults</span><br>
+                          <span><b>Page Select</b></span>
+                          <!-- Option values correspond to keys in the PAGES object in the main script -->
+                          <select name='Page Select' class="qolHubResetSettingsSelect" data-key="resetPageSettings">
+                            <option value="None">None</option>
+                            <option value="Daycare">Daycare</option>
+                            <option value="Farm">Farm</option>
+                            <option value="Fishing">Fishing</option>
+                            <option value="Lab">Lab</option>
+                            <option value="Multiuser">Multiuser</option>
+                            <option value="PrivateFields">Private Fields</option>
+                            <option value="PublicFields">Public Fields</option>
+                            <option value="Shelter">Shelter</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <p class='closeHub'>Close</p>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    publicFieldTooltipModHTML() {
+        return `<div id=tooltipenable>
+        <button type="button" class="collapsible"><b>Tooltip Settings</b></button>
+        <div class="collapsible_content">
+          <span> The "Enable tooltip" settings force the tooltip on or off. To revert back to Pokefarm's default tooltip settings, uncheck "Enable QoL Tooltip Changes" and refresh the page.</span>
+          <hr>
+          <table>
+            <tr>
+              <td>
+                <label>
+                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipEnableMods"/>
+                  Enable QoL Tooltip Settings
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>
+                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipNoBerry"/>
+                  Hide tooltip<br>(No berry selected)
+                </label>
+              </td>
+              <td>
+                <label>
+                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipBerry"/>
+                  Hide tooltip<br>(Berry selected)
+                </label>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>`;
+    }
+
+    privateFieldTooltipModHTML() {
+        return `<div id=tooltipenable>
+        <button type="button" class="collapsible"><b>Tooltip Settings</b></button>
+        <div class="collapsible_content">
+          <span> The "Enable tooltip" settings force the tooltip on or off. To revert back to Pokefarm's default tooltip settings, uncheck "Enable QoL Tooltip Changes" and refresh the page.</span>
+          <hr>
+          <table>
+            <tr>
+              <td>
+                <label>
+                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipEnableMods"/>
+                  Enable QoL Tooltip Settings
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>
+                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipNoBerry"/>
+                  Hide tooltip
+                </label>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>`;
+    }
+}
+/**
+ * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
+ */
+
+class Resources extends ResourcesBase {
+    constructor() {
+        super();
+    }
+    shelterOptionsHTML() {
         return `<div id ="shelteroptionsqol">
         <p> Check the boxes of Pokemon you wish to find in the shelter! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemon you selected! Use the letter 'n' key to select and cycle through the Pokemon matched by the script.</p>
         <table>
@@ -1114,7 +1566,7 @@ class Resources {
       </div>`;
     }
 
-    static qolHubHTML() {
+    qolHubHTML() {
         return `<div class="dialog">
         <div>
           <div>
@@ -1354,276 +1806,379 @@ class Resources {
       </div>`;
     }
 
-    static publicFieldTooltipModHTML() {
-        return `<div id=tooltipenable>
-        <button type="button" class="collapsible"><b>Tooltip Settings</b></button>
-        <div class="collapsible_content">
-          <span> The "Enable tooltip" settings force the tooltip on or off. To revert back to Pokefarm's default tooltip settings, uncheck "Enable QoL Tooltip Changes" and refresh the page.</span>
-          <hr>
-          <table>
-            <tr>
-              <td>
-                <label>
-                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipEnableMods"/>
-                  Enable QoL Tooltip Settings
-                </label>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>
-                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipNoBerry"/>
-                  Hide tooltip<br>(No berry selected)
-                </label>
-              </td>
-              <td>
-                <label>
-                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipBerry"/>
-                  Hide tooltip<br>(Berry selected)
-                </label>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>`;
-    }
-
-    static privateFieldTooltipModHTML() {
-        return `<div id=tooltipenable>
-        <button type="button" class="collapsible"><b>Tooltip Settings</b></button>
-        <div class="collapsible_content">
-          <span> The "Enable tooltip" settings force the tooltip on or off. To revert back to Pokefarm's default tooltip settings, uncheck "Enable QoL Tooltip Changes" and refresh the page.</span>
-          <hr>
-          <table>
-            <tr>
-              <td>
-                <label>
-                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipEnableMods"/>
-                  Enable QoL Tooltip Settings
-                </label>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label>
-                  <input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipNoBerry"/>
-                  Hide tooltip
-                </label>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>`;
+    privateFieldSearchHTML() {
+        return `<div id ="fieldsearch">
+      <h4>Advanced Field search</h4>
+      <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldShiny"/>Shiny
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldAlbino"/>Albino
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldMelanistic"/>Melanistic
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldPrehistoric"/>Prehistoric
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldDelta"/>Delta
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldMega"/>Mega
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldStarter"/>Starter
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldCustomSprite"/>Custom Sprite
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldItem"/>Holds Item
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldNFE"/>
+                <div class="tooltip">Evolutions Left
+                  <span class="tooltiptext">
+                    Pokemon with one evolution left are highlighted in red
+                    <br>
+                    Pokemon with two evolutions left are highlighted in blue
+                  </span>
+                </div>
+              </label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>Search on type</h4>
+      <p>Select which types of Pokemon you wish to find</p>
+      <input type='button' value='Add type' id='addPrivateFieldTypeSearch'>
+      <div id="fieldTypes">
+        <div class='0'></div>
+      </div>
+      <h4>Search on nature</h4>
+      <p>Select which natures of Pokemon you wish to find</p>
+      <input type='button' value='Add nature' id='addPrivateFieldNatureSearch'>
+      <div id="natureTypes">
+        <div class='0'></div>
+      </div>
+      <h4>Search on egg group</h4>
+      <p>Select which egg groups you wish to find</p>
+      <input type='button' value='Add egg group' id='addPrivateFieldEggGroupSearch'>
+      <div id="eggGroupTypes">
+        <div class='0'></div>
+      </div>
+      <h4>Custom Search</h4>
+      <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
+      <div class="tooltip">Custom Search Help
+        <span class="tooltiptext">
+          Custom search by Pokemon name
+          <br>
+          <br>
+          Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.
+          <br>
+          <br>
+          Custom search by image code
+          <br>
+          <br>
+          Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. You paste it's Img code in the search bar:
+          <br>
+          //pfq-static.com/img/pkmn/1/g/g.png/t=1474027727
+          <br>
+          and now it will show you when a Bulbasaur is found! Copy paste the complete link (starting from //) or you won't find anything.
+          <br>
+          <br>
+          <a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a>
+          <br>
+          <br>
+          More info on finding Pokemon with their img code:
+          <br>
+          <br>
+          <a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a>
+        </span>
+      </div>
+    
+      <table>
+        <tbody>
+          <tr>
+            <td>
+          <label>
+            <input type="checkbox" class="qolsetting" data-key="customEgg"/>Custom Egg
+          </label>
+            </td>
+            <td>
+          <label>
+            <input type="checkbox" class="qolsetting" data-key="customPokemon"/>Custom Pokemon
+          </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+          <label>
+            <input type="checkbox" class="qolsetting" data-key="customPng"/>By img code
+          </label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>Search on gender</h4>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldMale"/>Male
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldFemale"/>Female
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="checkbox" class="qolsetting" data-key="fieldNoGender"/>Genderless
+              </label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <h4>Search Keys</h4>
+      <input type='button' value='Add searchfield' id='addTextField'>
+      <div id="searchkeys">
+        <div class='0'></div>
+      </div>
+    </div>`;
     }
 }
-const Helpers = (function Helpers() {
-    /* public stuff */
-    const API = {
-        buildOptionsString(arr) {
-            let str = '<option value="none">None</option> ';
-            for(let i = 0; i < arr.length; i++) {
-                str += `<option value="${i}">${arr[i]}</option> `;
+class Helpers {
+    static buildOptionsString(arr) {
+        let str = '<option value="none">None</option> ';
+        for (let i = 0; i < arr.length; i++) {
+            str += `<option value="${i}">${arr[i]}</option> `;
+        }
+        return str;
+    }
+    static toggleSetting(key, set) {
+        // update values for checkboxes
+        if (typeof set === 'boolean') {
+            const element = document.querySelector(`.qolsetting[data-key="${key}"]`);
+            if (element && element.type === 'checkbox') {
+                element.checked = set;
             }
-            return str;
-        },
+        }
+    } // toggleSetting
+    static setupFieldArrayHTML($, arr, id, div, cls) {
+        const n = arr.length;
+        for (let i = 0; i < n; i++) {
+            const rightDiv = i + 1;
+            const rightValue = arr[i];
+            $(`#${id}`).append(div);
+            $(`.${cls}`).removeClass(cls).addClass('' + rightDiv + '').find('.qolsetting').val(rightValue);
+        }
+    }
+    static loadSettings($, KEY, DEFAULT, obj) {
+        if (localStorage.getItem(KEY) === null) {
+            this.saveSettings(KEY);
+        } else {
+            try {
+                const countScriptSettings = Object.keys(obj).length;
+                const localStorageString = JSON.parse(localStorage.getItem(KEY));
+                const countLocalStorageSettings = Object.keys(localStorageString).length;
+                if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
+                    const defaultsSetting = DEFAULT;
+                    const userSetting = JSON.parse(localStorage.getItem(KEY));
+                    const newSetting = $.extend(true, {}, defaultsSetting, userSetting);
 
-        toggleSetting(key, set) {
-            // update values for checkboxes
-            if (typeof set === 'boolean') {
-                const element = document.querySelector(`.qolsetting[data-key="${key}"]`);
-                if (element && element.type === 'checkbox') {
-                    element.checked = set;
+                    obj = newSetting;
+                    this.saveSettings(KEY, obj);
+                }
+                if (countLocalStorageSettings > countScriptSettings) {
+                    this.saveSettings(KEY, obj);
                 }
             }
-        }, // toggleSetting
-
-        setupFieldArrayHTML($, arr, id, div, cls) {
-            const n = arr.length;
-            for(let i = 0; i < n; i++) {
-                const rightDiv = i + 1;
-                const rightValue = arr[i];
-                $(`#${id}`).append(div);
-                $(`.${cls}`).removeClass(cls).addClass(''+rightDiv+'').find('.qolsetting').val(rightValue);
+            catch (err) {
+                this.saveSettings(KEY, obj);
             }
-        },
-
-        loadSettings($, KEY, DEFAULT, obj) {
-            if (localStorage.getItem(KEY) === null) {
-                API.saveSettings(KEY);
-            } else {
-                try {
-                    const countScriptSettings = Object.keys(obj).length;
-                    const localStorageString = JSON.parse(localStorage.getItem(KEY));
-                    const countLocalStorageSettings = Object.keys(localStorageString).length;
-                    if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
-                        const defaultsSetting = DEFAULT;
-                        const userSetting = JSON.parse(localStorage.getItem(KEY));
-                        const newSetting = $.extend(true,{}, defaultsSetting, userSetting);
-
-                        obj = newSetting;
-                        API.saveSettings(KEY, obj);
-                    }
-                    if (countLocalStorageSettings > countScriptSettings) {
-                        API.saveSettings(KEY, obj);
-                    }
-                }
-                catch(err) {
-                    API.saveSettings(KEY, obj);
-                }
-                if (localStorage.getItem(KEY) != obj) {
-                    obj = JSON.parse(localStorage.getItem(KEY));
-                }
+            if (localStorage.getItem(KEY) != obj) {
+                obj = JSON.parse(localStorage.getItem(KEY));
             }
+        }
 
-            return obj;
-        },
-        saveSettings(key, obj) {
-            localStorage.setItem(key, JSON.stringify(obj));
-        },
+        return obj;
+    }
+    static saveSettings(key, obj) {
+        localStorage.setItem(key, JSON.stringify(obj));
+    }
+    static textSearchDiv(cls, dataKey, id, arrayName) {
+        return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${dataKey}" ` +
+            `array-name='${arrayName}'` +
+            `/></label><input type='button' value='Remove' id='${id}'></div>`;
+    }
+    static selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
+        return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
+            `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
+    }
+    static parseFieldPokemonTooltip($, GLOBALS, tooltip) {
+        const dataElements = $(tooltip).children(0).children();
+        let index = 1;
+        // nickname
+        const nickname = dataElements[index].textContent;
+        if (!nickname) {
+            console.error(`Helpers.parseFieldPokemonTooltip - nickname '${nickname}' (is not a valid name)`);
+        }
+        index++;
 
-        textSearchDiv(cls, dataKey, id, arrayName) {
-            return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${dataKey}" ` +
-                `array-name='${arrayName}'` +
-                `/></label><input type='button' value='Remove' id='${id}'></div>`;
-        },
+        // Issue #59 - Pokefarm added a new h3 element after the nickname
+        // that contains no data
+        index++;
 
-        selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
-            return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
-                `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
-        },
-
-        parseFieldPokemonTooltip($, GLOBALS, tooltip) {
-            const dataElements = $(tooltip).children(0).children();
-            let index = 1;
-            // nickname
-            const nickname = dataElements[index].textContent;
-            if(!nickname) {
-                console.error(`Helpers.parseFieldPokemonTooltip - nickname '${nickname}' (is not a valid name)`);
-            }
-            index++;
-
-            // Issue #59 - Pokefarm added a new h3 element after the nickname
-            // that contains no data
-            index++;
-
-            // species
-            let species = '';
-            if(dataElements[index].textContent) {
-                const tc = dataElements[index].textContent;
-                const tcSplit = tc.trim().split(':  ');
-                if(tcSplit.length == 1) {
-                    console.error('Helpers.parseFieldPokemonTooltip - species text does not contain \':  \'');
-                }
-                else {
-                    species = tcSplit[1];
-                }
-            }
-            index++;
-
-            // dataElements[3] will be a forme if the pokemon has a forme
-            let forme = '';
-            if(dataElements[index].textContent &&
-               dataElements[index].textContent.startsWith('Forme')) {
-                forme = dataElements[index].textContent.substr('Forme: '.length);
-                index++;
-            }
-
-            // types
-            const typeElements = $(dataElements[index]).children().slice(1,);
-            const typeUrls = typeElements.map(idx => typeElements[idx]['src']);
-            let types = typeUrls.map(idx =>
-                typeUrls[idx].substring(typeUrls[idx].indexOf('types/')+'types/'.length,
-                    typeUrls[idx].indexOf('.png')));
-            types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1));
-            types = types.map(idx => GLOBALS.TYPE_LIST.indexOf(types[idx]));
-            index++;
-
-            // level
-            let level = -1;
-            if(dataElements[index].textContent) {
-                const tcSplit = dataElements[index].textContent.split(' ');
-                if(tcSplit.length > 1) {
-                    level = parseInt(tcSplit[1]);
-                }
-            } else {
-                console.error('Helpers.parseFieldPokemonToolTip - could not load level because text was empty');
-            }
-            index++;
-
-            // if the pokemon's happiness is less than max, skip the next index, since it will be a progress bar
-            if(!dataElements[index].textContent ||
-               !dataElements[index].textContent.startsWith('Happiness')) {
-                index++;
-            }
-
-            // happiness
-            let happiness = -1;
-            if(dataElements[index].textContent) {
-                const tcSplit = dataElements[index].textContent.split(' ');
-                if(tcSplit.length > 1) {
-                    happiness = tcSplit[1].trim();
-                    happiness = (happiness == 'MAX') ? 100 : parseInt(happiness.substring(0, happiness.length-1));
-                }
-            } else {
-                console.error('Helpers.parseFieldPokemonToolTip - could not load happiness because text was empty');
-            }
-            index++;
-
-            // nature
-            let nature = -1;
-            if(dataElements[index].textContent) {
-                const tcSplit = dataElements[index].textContent.split(' ');
-                if(tcSplit.length > 1) {
-                    nature = tcSplit[1].replace('(', '').trim();
-                    nature = GLOBALS.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
-                }
-            } else {
-                console.error('Helpers.parseFieldPokemonToolTip - could not load nature because text was empty');
-            }
-            index++;
-
-            // held item
-            let item = '';
-            if(dataElements[index].textContent !== 'Item: None') {
-                item = dataElements[index].textContent.substring(dataElements[8].textContent.indexOf(' ')+1);
-            } else {
-                item = 'None';
-            }
-            index++;
-
-            // egg groups
-            let eggGroups = [];
-            if(dataElements[index].textContent) {
-                eggGroups = dataElements[index].textContent.substring('Egg Group: '.length).split('/');
+        // species
+        let species = '';
+        if (dataElements[index].textContent) {
+            const tc = dataElements[index].textContent;
+            const tcSplit = tc.trim().split(':  ');
+            if (tcSplit.length == 1) {
+                console.error('Helpers.parseFieldPokemonTooltip - species text does not contain \':  \'');
             }
             else {
-                console.error('Helpers.parseFieldPokemonToolTip - could not load egg groups because text was empty');
+                species = tcSplit[1];
             }
+        }
+        index++;
+
+        // dataElements[3] will be a forme if the pokemon has a forme
+        let forme = '';
+        if (dataElements[index].textContent &&
+            dataElements[index].textContent.startsWith('Forme')) {
+            forme = dataElements[index].textContent.substr('Forme: '.length);
             index++;
+        }
 
-            const ret = {
-                'nickname': nickname,
-                'species': species,
-                'types': types,
-                'level': level,
-                'happiness_percent': happiness,
-                'nature': nature,
-                'item': item,
-                'eggGroups': eggGroups,
-            };
-            if(forme !== '') {
-                ret.forme = forme;
+        // types
+        const typeElements = $(dataElements[index]).children().slice(1,);
+        const typeUrls = typeElements.map(idx => typeElements[idx]['src']);
+        let types = typeUrls.map(idx =>
+            typeUrls[idx].substring(typeUrls[idx].indexOf('types/') + 'types/'.length,
+                typeUrls[idx].indexOf('.png')));
+        types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1));
+        types = types.map(idx => GLOBALS.TYPE_LIST.indexOf(types[idx]));
+        index++;
+
+        // level
+        let level = -1;
+        if (dataElements[index].textContent) {
+            const tcSplit = dataElements[index].textContent.split(' ');
+            if (tcSplit.length > 1) {
+                level = parseInt(tcSplit[1]);
             }
-            return ret;
-        } // parseFieldPokemonToolTip
-    };
+        } else {
+            console.error('Helpers.parseFieldPokemonToolTip - could not load level because text was empty');
+        }
+        index++;
 
-    return API;
-})();
+        // if the pokemon's happiness is less than max, skip the next index, since it will be a progress bar
+        if (!dataElements[index].textContent ||
+            !dataElements[index].textContent.startsWith('Happiness')) {
+            index++;
+        }
+
+        // happiness
+        let happiness = -1;
+        if (dataElements[index].textContent) {
+            const tcSplit = dataElements[index].textContent.split(' ');
+            if (tcSplit.length > 1) {
+                happiness = tcSplit[1].trim();
+                happiness = (happiness == 'MAX') ? 100 : parseInt(happiness.substring(0, happiness.length - 1));
+            }
+        } else {
+            console.error('Helpers.parseFieldPokemonToolTip - could not load happiness because text was empty');
+        }
+        index++;
+
+        // nature
+        let nature = -1;
+        if (dataElements[index].textContent) {
+            const tcSplit = dataElements[index].textContent.split(' ');
+            if (tcSplit.length > 1) {
+                nature = tcSplit[1].replace('(', '').trim();
+                nature = GLOBALS.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
+            }
+        } else {
+            console.error('Helpers.parseFieldPokemonToolTip - could not load nature because text was empty');
+        }
+        index++;
+
+        // held item
+        let item = '';
+        if (dataElements[index].textContent !== 'Item: None') {
+            item = dataElements[index].textContent.substring(dataElements[8].textContent.indexOf(' ') + 1);
+        } else {
+            item = 'None';
+        }
+        index++;
+
+        // egg groups
+        let eggGroups = [];
+        if (dataElements[index].textContent) {
+            eggGroups = dataElements[index].textContent.substring('Egg Group: '.length).split('/');
+        }
+        else {
+            console.error('Helpers.parseFieldPokemonToolTip - could not load egg groups because text was empty');
+        }
+        index++;
+
+        const ret = {
+            'nickname': nickname,
+            'species': species,
+            'types': types,
+            'level': level,
+            'happiness_percent': happiness,
+            'nature': nature,
+            'item': item,
+            'eggGroups': eggGroups,
+        };
+        if (forme !== '') {
+            ret.forme = forme;
+        }
+        return ret;
+    } // parseFieldPokemonToolTip
+}
 
 if (module) {
     module.exports.Helpers = Helpers;
 }
+
 class GlobalsBase {
     fillTemplates(TEMPLATES) {
         this.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
@@ -1636,10 +2191,10 @@ class GlobalsBase {
         this.TEMPLATES.publicFieldTooltipModHTML  = TEMPLATES.publicFieldTooltipModHTML();
         this.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
     }
-    fillOptionsLists(helpers) {
-        this.TYPE_OPTIONS = helpers.buildOptionsString(this.TYPE_LIST);
-        this.NATURE_OPTIONS = helpers.buildOptionsString(this.NATURE_LIST);
-        this.EGG_GROUP_OPTIONS = helpers.buildOptionsString(this.EGG_GROUP_LIST);
+    fillOptionsLists() {
+        this.TYPE_OPTIONS = Helpers.buildOptionsString(this.TYPE_LIST);
+        this.NATURE_OPTIONS = Helpers.buildOptionsString(this.NATURE_LIST);
+        this.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(this.EGG_GROUP_LIST);
     }
     TEMPLATES = { // all the new/changed HTML for the userscript
         qolHubLinkHTML        : '<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>',
@@ -1746,6 +2301,1175 @@ class GlobalsBase {
     TYPE_OPTIONS = null;
     NATURE_OPTIONS = null;
     EGG_GROUP_OPTIONS = null;
+
+    // a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+    DEX_DATA = '{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
+    '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
+    '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
+    '["002","Ivysaur",4,7,0,0,1,1,1,1,0],' +
+    '["003","Venusaur",4,7,0,0,2,2,1,1,0],' +
+    '["004","Charmander",1,-1,1,1,1,1,1,1,0],' +
+    '["005","Charmeleon",1,-1,0,0,1,1,1,1,0],' +
+    '["006","Charizard",1,9,0,0,3,3,3,3,0],' +
+    '["007","Squirtle",2,-1,1,1,1,1,1,0,0],' +
+    '["008","Wartortle",2,-1,0,0,1,1,1,0,0],' +
+    '["009","Blastoise",2,-1,0,0,2,2,2,0,0],' +
+    '["010","Caterpie",11,-1,1,1,1,1,1,1,0],' +
+    '["011","Metapod",11,-1,0,0,1,1,1,1,0],' +
+    '["012","Butterfree",11,9,0,0,1,1,1,1,0],' +
+    '["013","Weedle",11,7,1,1,1,1,0,1,0],' +
+    '["014","Kakuna",11,7,0,0,1,1,0,1,0],' +
+    '["015","Beedrill",11,7,0,0,2,2,0,1,0],' +
+    '["016","Pidgey",0,9,1,1,1,1,1,1,0],' +
+    '["017","Pidgeotto",0,9,0,0,1,1,1,1,0],' +
+    '["018","Pidgeot",0,9,0,0,2,2,2,2,0],' +
+    '["019","Rattata",0,-1,2,2,2,2,1,1,0],' +
+    '["020r7","Raticate",15,0,0,0,3,3,2,2,0],' +
+    '["021","Spearow",0,9,1,1,1,1,0,1,0],' +
+    '["022","Fearow",0,9,0,0,1,1,0,1,0],' +
+    '["023","Ekans",7,-1,1,1,1,1,1,1,0],' +
+    '["024","Arbok",7,-1,0,0,1,1,1,1,0],' +
+    '["025","Pichu",3,-1,1,1,1,1,1,1,0],' +
+    '["026","Pikachu",3,-1,0,0,1,1,1,1,0],' +
+    '["027","Raichu",3,-1,0,0,2,2,2,2,0],' +
+    '["028","Sandshrew",8,-1,2,2,2,2,2,2,0],' +
+    '["029r7","Sandslash",5,16,0,0,2,2,2,2,0],' +
+    '["030","Nidoran",7,-1,1,1,1,1,1,1,0],' +
+    '["031","Nidorina",7,-1,0,0,1,1,1,1,0],' +
+    '["032","Nidoqueen",7,8,0,0,1,1,1,1,0],' +
+    '["033","Nidorino",7,-1,0,0,1,1,1,1,0],' +
+    '["034","Nidoking",7,8,0,0,1,1,1,1,0],' +
+    '["035","Cleffa",17,-1,1,1,1,1,1,1,0],' +
+    '["036","Clefairy",17,-1,0,0,1,1,1,1,0],' +
+    '["037","Clefable",17,-1,0,0,1,1,1,1,0],' +
+    '["038","Vulpix",1,-1,2,2,2,2,2,2,0],' +
+    '["039r7","Ninetales",5,17,0,0,2,2,2,2,0],' +
+    '["040","Igglybuff",0,17,1,1,1,1,1,1,0],' +
+    '["041","Jigglypuff",0,17,0,0,1,1,1,1,0],' +
+    '["042","Wigglytuff",0,17,0,0,1,1,1,1,0],' +
+    '["043","Zubat",7,9,1,1,1,1,0,1,0],' +
+    '["044","Golbat",7,9,0,0,1,1,0,1,0],' +
+    '["045","Crobat",7,9,0,0,1,1,0,1,0],' +
+    '["046","Oddish",4,7,1,1,1,1,0,0,0],' +
+    '["047","Gloom",4,7,0,0,1,1,0,0,0],' +
+    '["048","Vileplume",4,7,0,0,1,1,0,0,0],' +
+    '["049","Bellossom",4,-1,0,0,1,1,0,0,0],' +
+    '["050","Paras",11,4,1,1,1,1,0,1,0],' +
+    '["051","Parasect",11,4,0,0,1,1,0,0,0],' +
+    '["052","Venonat",11,7,1,1,1,1,0,1,0],' +
+    '["053","Venomoth",11,7,0,0,1,1,0,0,0],' +
+    '["054","Diglett",8,-1,2,2,2,2,2,2,0],' +
+    '["055","Dugtrio",8,-1,0,0,2,2,2,2,0],' +
+    '["056r8","Meowth",16,-1,3,3,3,3,2,2,0],' +
+    '["057","Persian",0,-1,0,0,2,2,1,1,0],' +
+    '["058","Psyduck",2,-1,1,1,1,1,1,1,0],' +
+    '["059","Golduck",2,-1,0,0,1,1,1,1,0],' +
+    '["060","Mankey",6,-1,1,1,1,1,1,1,1],' +
+    '["061","Primeape",6,-1,0,0,1,1,1,1,1],' +
+    '["062","Growlithe",1,-1,1,1,1,1,1,1,0],' +
+    '["063","Arcanine",1,-1,0,0,1,1,1,1,0],' +
+    '["064","Poliwag",2,-1,1,1,1,1,1,1,0],' +
+    '["065","Poliwhirl",2,-1,0,0,1,1,1,1,0],' +
+    '["066","Poliwrath",2,6,0,0,1,1,1,1,0],' +
+    '["067","Politoed",2,-1,0,0,1,1,1,1,0],' +
+    '["068","Abra",10,-1,1,1,1,1,1,1,0],' +
+    '["069","Kadabra",10,-1,0,0,1,1,1,1,0],' +
+    '["070-M","Alakazam",10,-1,0,0,2,2,2,2,0],' +
+    '["071","Machop",6,-1,1,1,1,1,1,1,0],' +
+    '["072","Machoke",6,-1,0,0,1,1,1,1,0],' +
+    '["073","Machamp",6,-1,0,0,1,1,1,1,0],' +
+    '["074","Bellsprout",4,7,1,1,1,1,0,0,0],' +
+    '["075","Weepinbell",4,7,0,0,1,1,0,0,0],' +
+    '["076","Victreebell",4,7,0,0,1,1,0,0,0],' +
+    '["077","Tentacool",2,7,1,1,1,1,0,0,0],' +
+    '["078","Tentacruel",2,7,0,0,1,1,0,0,0],' +
+    '["079r7","Geodude",12,3,2,2,2,2,2,2,0],' +
+    '["080r7","Graveler",12,3,0,0,2,2,2,2,0],' +
+    '["081r7","Golem",12,3,0,0,2,2,2,2,0],' +
+    '["082","Ponyta",1,-1,2,2,2,2,1,1,0],' +
+    '["083r8","Rapidash",10,17,0,0,2,2,1,1,0],' +
+    '["084","Slowpoke",2,10,2,2,2,2,0,0,0],' +
+    '["085","Slowbro",2,10,0,0,3,3,1,0,0],' +
+    '["086","Slowking",2,10,0,0,2,2,0,0,0],' +
+    '["087","Magnemite",3,16,1,1,1,1,1,1,0],' +
+    '["088","Magneton",3,16,0,0,1,1,1,1,0],' +
+    '["089","Magnezone",3,16,0,0,1,1,1,1,0],' +
+    '["090r8","Farfetch\'d",6,-1,2,2,2,2,1,1,0],' +
+    '["091","Doduo",0,9,1,1,1,1,0,0,0],' +
+    '["092","Dodrio",0,9,0,0,1,1,0,0,0],' +
+    '["093","Seel",2,-1,1,1,1,1,1,1,0],' +
+    '["094","Dewgong",2,5,0,0,1,1,1,1,0],' +
+    '["095","Grimer",7,-1,2,2,2,2,1,1,0],' +
+    '["096","Muk",7,-1,0,0,2,2,1,1,0],' +
+    '["097","Shellder",2,-1,1,1,1,1,1,1,0],' +
+    '["098","Cloyster",2,5,0,0,1,1,1,1,0],' +
+    '["099","Gastly",13,7,1,1,1,1,1,1,0],' +
+    '["100","Haunter",13,7,0,0,1,1,1,1,0],' +
+    '["101","Gengar",13,7,0,0,2,2,2,2,0],' +
+    '["102","Onix",12,8,1,1,1,1,1,1,0],' +
+    '["103","Steelix",16,8,0,0,2,2,2,2,0],' +
+    '["104","Drowzee",10,-1,1,1,1,1,0,0,0],' +
+    '["105","Hypno",10,-1,0,0,1,1,0,0,0],' +
+    '["106","Krabby",2,-1,1,1,1,1,0,0,0],' +
+    '["107","Kingler",2,-1,0,0,1,1,0,0,0],' +
+    '["108","Voltorb",3,-1,1,1,1,1,1,1,0],' +
+    '["109","Electrode",3,-1,0,0,1,1,1,1,0],' +
+    '["110","Exeggcute",4,10,1,1,1,1,1,1,0],' +
+    '["111","Exeggutor",4,10,0,0,2,2,2,2,0],' +
+    '["112","Cubone",8,-1,1,1,1,1,1,1,0],' +
+    '["113t7","Marowak",1,13,0,0,3,3,3,3,0],' +
+    '["114","Lickitung",0,-1,1,1,1,1,0,0,0],' +
+    '["115","Lickilicky",0,-1,0,0,1,1,0,0,0],' +
+    '["116","Koffing",7,-1,1,1,1,1,0,0,0],' +
+    '["117","Weezing",7,-1,0,0,2,2,0,0,0],' +
+    '["118","Rhyhorn",8,12,1,1,1,1,1,1,0],' +
+    '["119","Rhydon",8,12,0,0,1,1,1,1,0],' +
+    '["120","Rhyperior",8,12,0,0,1,1,1,1,0],' +
+    '["121","Tangela",4,-1,1,1,1,1,0,0,0],' +
+    '["122","Tangrowth",4,-1,0,0,1,1,0,0,0],' +
+    '["123","Kangaskhan",0,-1,1,1,2,2,0,0,0],' +
+    '["124","Horsea",2,-1,1,1,1,1,1,1,0],' +
+    '["125","Seadra",2,-1,0,0,1,1,1,1,0],' +
+    '["126","Kingdra",2,14,0,0,1,1,1,1,0],' +
+    '["127","Goldeen",2,-1,1,1,1,1,0,0,0],' +
+    '["128","Seaking",2,-1,0,0,1,1,0,0,0],' +
+    '["129","Staryu",2,-1,1,1,1,1,0,0,0],' +
+    '["130","Starmie",2,10,0,0,1,1,0,0,0],' +
+    '["131","Mime Jr.",10,17,1,1,1,1,1,1,1],' +
+    '["132","Mr. Mime",10,17,2,2,2,2,2,2,1],' +
+    '["133","Scyther",11,9,1,1,1,1,1,1,0],' +
+    '["134","Scizor",11,16,0,0,2,2,2,2,0],' +
+    '["135","Smoochum",5,10,1,1,1,1,1,1,1],' +
+    '["136","Jynx",5,10,0,0,1,1,1,1,1],' +
+    '["137","Pinsir",11,-1,1,1,2,2,0,0,0],' +
+    '["138","Tauros",0,-1,1,1,1,1,0,0,0],' +
+    '["139","Magikarp",2,-1,1,1,1,1,1,1,0],' +
+    '["140-M","Gyarados",2,15,0,0,2,2,2,2,0],' +
+    '["141","Lapras",2,5,1,1,1,1,1,1,0],' +
+    '["142","Ditto",0,-1,1,1,1,1,0,0,0],' +
+    '["143","Eevee",0,-1,1,1,1,1,1,1,0],' +
+    '["144","Vaporeon",2,-1,0,0,1,1,1,1,0],' +
+    '["145","Jolteon",3,-1,0,0,1,1,1,1,0],' +
+    '["146","Flareon",1,-1,0,0,1,1,1,1,0],' +
+    '["147","Espeon",10,-1,0,0,1,1,1,1,0],' +
+    '["148","Umbreon",15,-1,0,0,1,1,1,1,0],' +
+    '["149","Leafeon",4,-1,0,0,1,1,1,1,0],' +
+    '["150","Glaceon",5,-1,0,0,1,1,1,1,0],' +
+    '["151","Sylveon",17,-1,0,0,1,1,1,1,0],' +
+    '["152","Omanyte",12,2,1,1,1,1,1,1,0],' +
+    '["153","Omastar",12,2,0,0,1,1,1,1,0],' +
+    '["154","Kabuto",12,2,1,1,1,1,1,1,0],' +
+    '["155","Kabutops",12,2,0,0,1,1,1,1,0],' +
+    '["156","Aerodactyl",12,9,1,1,2,2,2,2,0],' +
+    '["157","Munchlax",0,-1,1,1,1,1,0,0,0],' +
+    '["158","Snorlax",0,-1,1,1,1,1,0,0,0],' +
+    '["159","Articuno",5,9,1,1,1,1,0,0,0],' +
+    '["160","Zapdos",3,9,1,1,1,1,0,0,0],' +
+    '["161","Moltres",1,9,1,1,1,1,0,0,0],' +
+    '["162","Dratini",14,-1,1,1,1,1,1,1,0],' +
+    '["163","Dragonair",14,-1,0,0,1,1,1,1,0],' +
+    '["164","Dragonite",14,9,0,0,1,1,1,1,0],' +
+    '["165-Y","Mewtwo",10,-1,1,1,3,3,0,0,0],' +
+    '["166","Mew",10,-1,1,1,1,1,0,0,0]],' +
+    '"2":[["167","Chikorita",4,-1,1,1,1,1,0,0,0],' +
+    '["168","Bayleef",4,-1,0,0,1,1,0,0,0],' +
+    '["169","Meganium",4,-1,0,0,1,1,0,0,0],' +
+    '["170","Cyndaquil",1,-1,1,1,1,1,1,1,0],' +
+    '["171","Quilava",1,-1,0,0,1,1,1,1,0],' +
+    '["172","Typhlosion",1,-1,0,0,1,1,1,1,0],' +
+    '["173","Totodile",2,-1,1,1,1,1,1,0,0],' +
+    '["174","Croconaw",2,-1,0,0,1,1,1,0,0],' +
+    '["175","Feraligator",2,-1,0,0,1,1,1,0,0],' +
+    '["176","Sentret",0,-1,1,1,1,1,0,1,0],' +
+    '["177","Furret",0,-1,0,0,1,1,0,1,0],' +
+    '["178","Hoothoot",0,9,1,1,1,1,0,0,0],' +
+    '["179","Noctowl",0,9,0,0,1,1,0,0,0],' +
+    '["180","Ledyba",11,9,1,1,1,1,0,1,0],' +
+    '["181","Ledian",11,9,0,0,1,1,0,0,0],' +
+    '["182","Spinarak",11,7,1,1,1,1,0,1,0],' +
+    '["183","Ariados",11,7,0,0,1,1,0,0,0],' +
+    '["184","Chinchou",2,3,1,1,1,1,1,1,0],' +
+    '["185","Lanturn",2,3,0,0,1,1,1,1,0],' +
+    '["186","Togepi",17,-1,1,1,1,1,1,1,0],' +
+    '["187","Togetic",17,9,0,0,1,1,1,1,0],' +
+    '["188","Togekiss",17,9,0,0,1,1,1,1,0],' +
+    '["189","Natu",10,9,1,1,1,1,0,0,0],' +
+    '["190","Xatu",10,9,0,0,1,1,0,0,0],' +
+    '["191","Mareep",3,-1,1,1,1,1,1,1,0],' +
+    '["192","Flaaffy",3,-1,0,0,1,1,1,1,0],' +
+    '["193-M","Ampharos",3,14,0,0,2,2,2,2,0],' +
+    '["194","Azurill",0,17,1,1,1,1,1,1,0],' +
+    '["195","Marill",2,17,1,1,1,1,1,1,0],' +
+    '["196","Azumarill",2,17,0,0,1,1,1,1,0],' +
+    '["197","Bonsly",12,-1,1,1,1,1,1,1,0],' +
+    '["198","Sudowoodo",12,-1,1,1,1,1,1,1,0],' +
+    '["199","Hoppip",4,9,1,1,1,1,1,0,0],' +
+    '["200","Skiploom",4,9,0,0,1,1,1,0,0],' +
+    '["201","Jumpluff",4,9,0,0,1,1,1,0,0],' +
+    '["202","Aipom",0,-1,1,1,1,1,0,0,0],' +
+    '["203","Ambipom",0,-1,0,0,1,1,0,0,0],' +
+    '["204","Sunkern",4,-1,1,1,1,1,0,0,0],' +
+    '["205","Sunflora",4,-1,0,0,1,1,0,0,0],' +
+    '["206","Yanma",11,9,1,1,1,1,0,0,0],' +
+    '["207","Yanmega",11,9,0,0,1,1,0,0,0],' +
+    '["208","Wooper",2,8,1,1,1,1,1,1,0],' +
+    '["209","Quagsire",2,8,0,0,1,1,1,1,0],' +
+    '["210","Murkrow",15,9,1,1,1,1,1,1,0],' +
+    '["211","Honchkrow",15,9,0,0,1,1,1,1,0],' +
+    '["212","Misdreavus",13,-1,1,1,1,1,1,1,0],' +
+    '["213","Mismagius",13,-1,0,0,1,1,1,1,0],' +
+    '["214h","Unown",10,-1,28,28,28,28,0,0,0],' +
+    '["215","Girafarig",0,10,1,1,1,1,0,0,0],' +
+    '["216","Pineco",11,-1,1,1,1,1,1,1,0],' +
+    '["217","Forretress",11,16,0,0,1,1,1,1,0],' +
+    '["218","Dunsparce",0,-1,1,1,1,1,0,0,0],' +
+    '["219","Gligar",8,9,1,1,1,1,1,1,0],' +
+    '["220","Gliscor",8,9,0,0,1,1,1,1,0],' +
+    '["221","Snubbull",17,-1,1,1,1,1,1,1,0],' +
+    '["222","Granbull",17,-1,0,0,1,1,1,1,0],' +
+    '["223","Qwilfish",2,7,1,1,1,1,0,0,0],' +
+    '["224","Shuckle",11,12,1,1,1,1,1,1,0],' +
+    '["225-M","Heracross",11,6,1,1,2,2,2,2,0],' +
+    '["226","Sneasel",15,5,1,1,1,1,1,1,0],' +
+    '["227","Weavile",15,5,0,0,1,1,1,1,0],' +
+    '["228","Teddiursa",0,-1,1,1,1,1,0,0,0],' +
+    '["229","Ursaring",0,-1,0,0,1,1,0,0,0],' +
+    '["230","Slugma",1,-1,1,1,1,1,1,1,0],' +
+    '["231","Magcargo",1,12,0,0,1,1,1,1,0],' +
+    '["232","Swinub",5,8,1,1,1,1,1,1,0],' +
+    '["233","Piloswine",5,8,0,0,1,1,1,1,0],' +
+    '["234","Mamoswine",5,8,0,0,1,1,1,1,0],' +
+    '["235","Corsola",2,12,2,2,2,2,1,1,0],' +
+    '["236","Remoraid",2,-1,1,1,1,1,0,0,0],' +
+    '["237","Octillery",2,-1,0,0,1,1,0,0,0],' +
+    '["238","Delibird",5,9,1,1,1,1,1,1,0],' +
+    '["239","Skarmory",16,9,1,1,1,1,1,1,0],' +
+    '["240","Houndour",15,1,1,1,1,1,1,1,0],' +
+    '["241-M","Houndoom",15,1,0,0,2,2,2,2,0],' +
+    '["242","Phanpy",8,-1,1,1,1,1,1,1,0],' +
+    '["243","Donphan",8,-1,0,0,1,1,1,1,0],' +
+    '["244","Stantler",0,-1,1,1,1,1,0,0,0],' +
+    '["245","Smeargle",0,-1,1,1,1,1,0,0,0],' +
+    '["246","Tyrogue",6,-1,1,1,1,1,1,1,0],' +
+    '["247","Hitmonlee",6,-1,0,0,1,1,1,1,0],' +
+    '["248","Hitmonchan",6,-1,0,0,1,1,1,1,0],' +
+    '["249","Hitmontop",6,-1,0,0,1,1,1,1,0],' +
+    '["250","Elekid",3,-1,1,1,1,1,1,1,0],' +
+    '["251","Electabuzz",3,-1,0,0,1,1,1,1,0],' +
+    '["252","Electivire",3,-1,0,0,1,1,1,1,0],' +
+    '["253","Magby",1,-1,1,1,1,1,1,1,1],' +
+    '["254","Magmar",1,-1,0,0,1,1,1,1,1],' +
+    '["255","Magmortar",1,-1,0,0,1,1,1,1,1],' +
+    '["256","Miltank",0,-1,1,1,1,1,0,0,0],' +
+    '["257","Raikou",3,-1,1,1,1,1,0,0,0],' +
+    '["258","Entei",1,-1,1,1,1,1,0,0,0],' +
+    '["259","Suicune",2,-1,1,1,1,1,0,0,0],' +
+    '["260","Larvitar",12,8,1,1,1,1,1,1,0],' +
+    '["261","Pupitar",12,8,0,0,1,1,1,1,0],' +
+    '["262-M","Tyranitar",12,15,0,0,2,2,2,2,0],' +
+    '["263","Lugia",10,9,1,1,1,1,0,0,0],' +
+    '["264","Ho-oh",1,9,1,1,1,1,0,0,0],' +
+    '["265","Celebi",10,4,1,1,1,1,0,0,0]],'+
+    '"3":[["266","Treecko",4,-1,1,1,1,1,1,1,0],' +
+    '["267","Grovyle",4,-1,0,0,1,1,1,1,0],' +
+    '["268","Sceptile",4,-1,0,0,2,2,2,2,0],' +
+    '["269","Torchic",1,-1,1,1,1,1,1,1,0],' +
+    '["270","Combusken",1,6,0,0,1,1,1,1,0],' +
+    '["271-M","Blaziken",1,6,0,0,2,2,2,2,0],' +
+    '["272","Mudkip",2,-1,1,1,1,1,1,1,0],' +
+    '["273","Marshtomp",2,8,0,0,1,1,1,1,0],' +
+    '["274","Swampert",2,8,0,0,2,2,2,2,0],' +
+    '["275","Poochyena",15,-1,1,1,1,1,1,1,0],' +
+    '["276","Mightyena",15,-1,0,0,1,1,1,1,0],' +
+    '["277","Zigzagoon",0,-1,2,2,2,2,1,2,0],' +
+    '["278","Linoone",0,-1,0,0,2,2,1,1,0],' +
+    '["279","Wurmple",11,-1,1,1,1,1,0,0,0],' +
+    '["280","Silcoon",11,-1,0,0,1,1,0,0,0],' +
+    '["281","Beautifly",11,9,0,0,1,1,0,0,0],' +
+    '["282","Cascoon",11,-1,0,0,1,1,0,0,0],' +
+    '["283","Dustox",11,7,0,0,1,1,0,0,0],' +
+    '["284","Lotad",2,4,1,1,1,1,0,0,0],' +
+    '["285","Lombre",2,4,0,0,1,1,0,0,0],' +
+    '["286","Ludicolo",2,4,0,0,1,1,0,0,0],' +
+    '["287","Seedot",4,-1,1,1,1,1,1,1,0],' +
+    '["288","Nuzleaf",4,15,0,0,1,1,1,1,0],' +
+    '["289","Shiftry",4,15,0,0,1,1,1,1,0],' +
+    '["290","Taillow",0,9,1,1,1,1,0,1,0],' +
+    '["291","Swellow",0,9,0,0,1,1,0,0,0],' +
+    '["292","Wingull",2,9,1,1,1,1,0,0,0],' +
+    '["293","Pelipper",2,9,0,0,1,1,0,0,0],' +
+    '["294","Ralts",10,17,1,1,1,1,1,1,0],' +
+    '["295","Kirlia",10,17,0,0,1,1,1,1,0],' +
+    '["296-M","Gardevoir",10,17,0,0,2,2,2,2,0],' +
+    '["297","Gallade",10,6,0,0,2,2,2,2,0],' +
+    '["298","Surskit",11,2,1,1,1,1,0,0,0],' +
+    '["299","Masquerain",11,9,0,0,1,1,0,0,0],' +
+    '["300","Shroomish",4,-1,1,1,1,1,1,1,0],' +
+    '["301","Breloom",4,6,0,0,1,1,1,1,0],' +
+    '["302","Slakoth",0,-1,1,1,1,1,0,0,0],' +
+    '["303","Vigoroth",0,-1,0,0,1,1,0,0,0],' +
+    '["304","Slaking",0,-1,0,0,1,1,0,0,0],' +
+    '["305","Nincada",11,8,1,1,1,1,1,1,0],' +
+    '["306","Ninjask",11,9,0,0,1,1,1,1,0],' +
+    '["307","Shedinja",11,13,0,0,1,1,1,1,0],' +
+    '["308","Whismur",0,-1,1,1,1,1,0,0,0],' +
+    '["309","Loudred",0,-1,0,0,1,1,0,0,0],' +
+    '["310","Exploud",0,-1,0,0,1,1,0,0,0],' +
+    '["311","Makuhita",6,-1,1,1,1,1,1,1,0],' +
+    '["312","Hariyama",6,-1,0,0,1,1,1,1,0],' +
+    '["313","Nosepass",12,-1,1,1,1,1,1,1,0],' +
+    '["314","Probopass",12,16,0,0,1,1,1,1,0],' +
+    '["315","Skitty",0,-1,1,1,1,1,1,0,0],' +
+    '["316","Delcatty",0,-1,0,0,1,1,1,0,0],' +
+    '["317","Sableye",15,13,1,1,2,2,2,2,0],' +
+    '["318","Mawile",16,17,1,1,2,2,2,2,0],' +
+    '["319","Aron",16,12,1,1,1,1,1,1,0],' +
+    '["320","Lairon",16,12,0,0,1,1,1,1,0],' +
+    '["321-M","Aggron",16,-1,0,0,2,2,2,2,0],' +
+    '["322","Meditite",6,10,1,1,1,1,1,1,0],' +
+    '["323-M","Medicham",6,10,0,0,2,2,2,2,0],' +
+    '["324","Electrike",3,-1,1,1,1,1,1,1,0],' +
+    '["325","Manectric",3,-1,0,0,2,2,2,2,0],' +
+    '["326","Plusle",3,-1,1,1,1,1,1,1,0],' +
+    '["327","Minun",3,-1,1,1,1,1,1,1,0],' +
+    '["328","Volbeat",11,-1,1,1,1,1,0,1,0],' +
+    '["329","Illumise",11,-1,1,1,1,1,0,1,0],' +
+    '["330","Gulpin",7,-1,1,1,1,1,0,0,0],' +
+    '["331","Swalot",7,-1,0,0,1,1,0,0,0],' +
+    '["332","Carvanha",2,15,1,1,1,1,1,1,0],' +
+    '["333","Sharpedo",2,15,0,0,2,2,2,2,0],' +
+    '["334","Wailmer",2,-1,1,1,1,1,1,0,0],' +
+    '["335","Wailord",2,-1,0,0,1,1,1,0,0],' +
+    '["336","Numel",1,8,1,1,1,1,1,1,0],' +
+    '["337-M","Camerupt",1,8,0,0,2,2,2,2,0],' +
+    '["338","Torkoal",1,-1,1,1,1,1,1,1,0],' +
+    '["339","Spoink",10,-1,1,1,1,1,0,0,0],' +
+    '["340","Grumpig",10,-1,0,0,1,1,0,0,0],' +
+    '["341","Spinda",0,-1,1,1,1,1,0,0,0],' +
+    '["342","Trapinch",8,-1,1,1,1,1,1,1,0],' +
+    '["343","Vibrava",8,14,0,0,1,1,1,1,0],' +
+    '["344","Flygon",8,14,0,0,1,1,1,1,0],' +
+    '["345","Cacnea",4,-1,1,1,1,1,1,1,0],' +
+    '["346","Cacturne",4,15,0,0,1,1,1,1,0],' +
+    '["347","Swablu",0,9,1,1,1,1,1,1,0],' +
+    '["348","Altaria",14,9,0,0,2,2,2,2,0],' +
+    '["349","Zangoose",0,-1,1,1,1,1,0,0,0],' +
+    '["350","Seviper",7,-1,1,1,1,1,0,0,0],' +
+    '["351","Lunatone",12,10,1,1,1,1,1,1,0],' +
+    '["352","Solrock",12,10,1,1,1,1,1,1,0],' +
+    '["353","Barboach",2,8,1,1,1,1,1,1,0],' +
+    '["354","Whiscash",2,8,0,0,1,1,1,1,0],' +
+    '["355","Corphish",2,-1,1,1,1,1,1,1,0],' +
+    '["356","Crawdaunt",2,15,0,0,1,1,1,1,0],' +
+    '["357","Baltoy",8,10,1,1,1,1,1,1,0],' +
+    '["358","Claydol",8,10,0,0,1,1,1,1,0],' +
+    '["359","Lileep",12,4,1,1,1,1,1,1,0],' +
+    '["360","Cradily",12,4,0,0,1,1,1,1,0],' +
+    '["361","Anorith",12,11,1,1,1,1,1,1,0],' +
+    '["362","Armaldo",12,11,0,0,1,1,1,1,0],' +
+    '["363","Feebas",2,-1,1,1,1,1,0,0,0],' +
+    '["364","Milotic",2,-1,0,0,1,1,0,0,0],' +
+    '["365s","Castform",1,-1,1,1,4,4,0,0,0],' +
+    '["366","Kecleon",0,-1,1,1,1,1,0,0,0],' +
+    '["367","Shuppet",13,-1,1,1,1,1,1,1,0],' +
+    '["368-M","Banette",13,-1,0,0,2,2,2,2,0],' +
+    '["369","Duskull",13,-1,1,1,1,1,1,1,1],' +
+    '["370","Dusclops",13,-1,0,0,1,1,1,1,1],' +
+    '["371","Dusknoir",13,-1,0,0,1,1,1,1,1],' +
+    '["372","Tropius",4,9,1,1,1,1,0,0,0],' +
+    '["373","Chingling",10,-1,1,1,1,1,0,0,0],' +
+    '["374","Chimecho",10,-1,1,1,1,1,0,0,0],' +
+    '["375-M","Absol",15,-1,1,1,2,2,2,2,0],' +
+    '["376","Wynaut",10,-1,1,1,1,1,0,0,0],' +
+    '["377","Wobbuffet",10,-1,1,1,1,1,0,0,0],' +
+    '["378","Snorunt",5,-1,1,1,1,1,1,1,0],' +
+    '["379","Glalie",5,-1,0,0,2,2,2,2,0],' +
+    '["380","Froslass",5,13,0,0,1,1,1,1,0],' +
+    '["381","Spheal",5,2,1,1,1,1,1,1,0],' +
+    '["382","Sealeo",5,2,0,0,1,1,1,1,0],' +
+    '["383","Walrein",5,2,0,0,1,1,1,1,0],' +
+    '["384","Clamperl",2,-1,1,1,1,1,0,0,0],' +
+    '["385","Huntail",2,-1,0,0,1,1,0,0,0],' +
+    '["386","Gorebyss",2,-1,0,0,1,1,0,0,0],' +
+    '["387","Relicanth",2,12,1,1,1,1,1,1,0],' +
+    '["388","Luvdisc",2,-1,1,1,1,1,0,0,0],' +
+    '["389","Bagon",14,-1,1,1,1,1,1,1,0],' +
+    '["390","Shelgon",14,-1,0,0,1,1,1,1,0],' +
+    '["391-M","Salamence",14,9,0,0,2,2,2,2,0],' +
+    '["392","Beldum",16,10,1,1,1,1,1,1,0],' +
+    '["393","Metang",16,10,0,0,1,1,1,1,0],' +
+    '["394-M","Metagross",16,10,0,0,2,2,2,2,0],' +
+    '["395","Regirock",12,-1,1,1,1,1,0,0,0],' +
+    '["396","Regice",5,-1,1,1,1,1,0,0,0],' +
+    '["397","Registeel",16,-1,1,1,1,1,0,0,0],' +
+    '["398","Latias",14,10,1,1,2,2,0,0,0],' +
+    '["399-M","Latios",14,10,1,1,2,2,0,0,0],' +
+    '["400","Kyogre",2,-1,1,1,2,2,0,0,0],' +
+    '["401","Groudon",8,-1,1,1,2,2,0,0,0],' +
+    '["402","Rayquaza",14,9,1,1,2,2,0,0,0],' +
+    '["403","Jirachi",16,10,1,1,1,1,0,0,0],' +
+    '["404a","Deoxys",10,-1,1,1,4,4,0,0,0]],' +
+    '"4":[["405","Turtwig",4,-1,1,1,1,1,1,1,0],' +
+    '["406","Grotle",4,-1,0,0,1,1,1,1,0],' +
+    '["407","Torterra",4,8,0,0,1,1,1,1,0],' +
+    '["408","Chimchar",1,-1,1,1,1,1,1,1,0],' +
+    '["409","Monferno",1,6,0,0,1,1,1,1,0],' +
+    '["410","Infernape",1,6,0,0,1,1,1,1,0],' +
+    '["411","Piplup",2,-1,1,1,1,1,1,1,0],' +
+    '["412","Prinplup",2,-1,0,0,1,1,1,1,0],' +
+    '["413","Empoleon",2,16,0,0,1,1,1,1,0],' +
+    '["414","Starly",0,9,1,1,1,1,0,1,0],' +
+    '["415","Staravia",0,9,0,0,1,1,0,1,0],' +
+    '["416","Staraptor",0,9,0,0,1,1,0,1,0],' +
+    '["417","Bidoof",0,-1,1,1,1,1,0,0,0],' +
+    '["418","Bibarel",0,2,0,0,1,1,0,0,0],' +
+    '["419","Kricketot",11,-1,1,1,1,1,0,0,0],' +
+    '["420","Kricketune",11,-1,0,0,1,1,0,0,0],' +
+    '["421","Shinx",3,-1,1,1,1,1,1,1,0],' +
+    '["422","Luxio",3,-1,0,0,1,1,1,1,0],' +
+    '["423","Luxray",3,-1,0,0,1,1,1,1,0],' +
+    '["424","Budew",4,7,1,1,1,1,0,0,0],' +
+    '["425","Roselia",4,7,1,1,1,1,0,0,0],' +
+    '["426","Roserade",4,7,0,0,1,1,0,0,0],' +
+    '["427","Cranidos",12,-1,1,1,1,1,1,1,0],' +
+    '["428","Rampardos",12,-1,0,0,1,1,1,1,0],' +
+    '["429","Shieldon",12,16,1,1,1,1,1,1,0],' +
+    '["430","Bastiodon",12,16,0,0,1,1,1,1,0],' +
+    '["431b","Burmy",11,-1,1,1,3,3,3,3,0],' +
+    '["432c","Wormadam",11,8,0,0,3,3,3,3,0],' +
+    '["433","Mothim",11,9,0,0,1,1,1,1,0],' +
+    '["434","Combee",11,9,1,1,1,1,0,0,0],' +
+    '["435","Vespiquen",11,9,0,0,1,1,1,0,0],' +
+    '["436","Pachirisu",3,-1,1,1,1,1,1,1,0],' +
+    '["437","Buizel",2,-1,1,1,1,1,0,0,0],' +
+    '["438","Floatzel",2,-1,0,0,1,1,0,0,0],' +
+    '["439","Cherubi",4,-1,1,1,1,1,0,0,0],' +
+    '["440","Cherrim",4,-1,0,0,2,2,0,0,0],' +
+    '["441b","Shellos",2,-1,1,1,2,2,2,2,0],' +
+    '["442b","Gastrodon",2,8,0,0,2,2,2,2,0],' +
+    '["443","Drifloon",13,9,1,1,1,1,1,1,0],' +
+    '["444","Drifblim",13,9,0,0,1,1,1,1,0],' +
+    '["445","Buneary",0,-1,1,1,1,1,1,1,0],' +
+    '["446-M","Lopunny",0,6,0,0,2,2,2,2,0],' +
+    '["447","Glameow",0,-1,1,1,1,1,1,1,0],' +
+    '["448","Purugly",0,-1,0,0,1,1,1,1,0],' +
+    '["449","Stunky",7,15,1,1,1,1,1,1,0],' +
+    '["450","Skuntank",7,15,0,0,1,1,1,1,0],' +
+    '["451","Bronzor",16,10,1,1,1,1,1,1,0],' +
+    '["452","Bronzong",16,10,0,0,1,1,1,1,0],' +
+    '["453","Happiny",0,-1,1,1,1,1,0,0,0],' +
+    '["454","Chansey",0,-1,1,1,1,1,0,0,0],' +
+    '["455","Blissey",0,-1,0,0,1,1,0,0,0],' +
+    '["456","Chatot",0,9,1,1,1,1,0,0,0],' +
+    '["457","Spiritomb",13,15,1,1,1,1,1,1,0],' +
+    '["458","Gible",14,8,1,1,1,1,1,1,0],' +
+    '["459","Gabite",14,8,0,0,1,1,1,1,0],' +
+    '["460","Garchomp",14,8,0,0,2,2,2,2,0],' +
+    '["461","Riolu",6,-1,1,1,1,1,1,1,0],' +
+    '["462-M","Lucario",6,16,0,0,2,2,2,2,0],' +
+    '["463","Hippopotas",8,-1,1,1,1,1,1,1,0],' +
+    '["464","Hippowdon",8,-1,0,0,1,1,1,1,0],' +
+    '["465","Skorupi",7,11,1,1,1,1,1,1,0],' +
+    '["466","Drapion",7,15,0,0,1,1,1,1,0],' +
+    '["467","Croagunk",7,6,1,1,1,1,1,1,0],' +
+    '["468","Toxicroak",7,6,0,0,1,1,1,1,0],' +
+    '["469","Carnivine",4,-1,1,1,1,1,0,0,0],' +
+    '["470","Finneon",2,-1,1,1,1,1,0,0,0],' +
+    '["471","Lumineon",2,-1,0,0,1,1,0,0,0],' +
+    '["472","Mantyke",2,9,1,1,1,1,0,0,0],' +
+    '["473","Mantine",2,9,1,1,1,1,0,0,0],' +
+    '["474","Snover",5,4,1,1,1,1,1,1,0],' +
+    '["475","Abomasnow",5,4,0,0,2,2,2,2,0],' +
+    '["476","Porygon",0,-1,1,1,1,1,0,0,0],' +
+    '["477","Porygon2",0,-1,0,0,1,1,0,0,0],' +
+    '["478","Porygon-Z",0,-1,0,0,1,1,0,0,0],' +
+    '["479e","Rotom",3,2,1,1,6,6,6,6,0],' +
+    '["480","Uxie",10,-1,1,1,1,1,0,0,0],' +
+    '["481","Mesprit",10,-1,1,1,1,1,0,0,0],' +
+    '["482","Azelf",10,-1,1,1,1,1,0,0,0],' +
+    '["483","Dialga",16,14,1,1,1,1,0,0,0],' +
+    '["484","Palkia",2,14,1,1,1,1,0,0,0],' +
+    '["485","Heatran",1,16,1,1,1,1,0,0,0],' +
+    '["486","Regigigas",0,-1,1,1,1,1,0,0,0],' +
+    '["487b","Giratina",13,14,1,1,2,2,0,0,0],' +
+    '["488","Cresselia",10,-1,1,1,1,1,0,0,0],' +
+    '["489","Phione",2,-1,1,1,1,1,0,0,0],' +
+    '["490","Manaphy",2,-1,1,1,1,1,0,0,0],' +
+    '["491","Darkrai",15,-1,1,1,1,1,0,0,0],' +
+    '["492s","Shaymin",4,9,1,1,2,2,0,0,0],' +
+    '["493j","Arceus",8,-1,1,1,18,18,0,0,0]],' +
+    '"5":[["494","Victini",10,1,1,1,1,1,0,0,0],' +
+    '["495","Snivy",4,-1,1,1,1,1,0,0,0],' +
+    '["496","Servine",4,-1,0,0,1,1,0,0,0],' +
+    '["497","Serperior",4,-1,0,0,1,1,0,0,0],' +
+    '["498","Tepig",1,-1,1,1,1,1,1,1,0],' +
+    '["499","Pignite",1,6,0,0,1,1,1,1,0],' +
+    '["500","Emboar",1,6,0,0,1,1,1,1,0],' +
+    '["501","Oshawott",2,-1,1,1,1,1,0,0,0],' +
+    '["502","Dewott",2,-1,0,0,1,1,0,0,0],' +
+    '["503","Samurott",2,-1,0,0,1,1,0,0,0],' +
+    '["504","Patrat",0,-1,1,1,1,1,0,0,0],' +
+    '["505","Watchog",0,-1,0,0,1,1,0,0,0],' +
+    '["506","Lillipup",0,-1,1,1,1,1,0,0,0],' +
+    '["507","Herdier",0,-1,0,0,1,1,0,0,0],' +
+    '["508","Stoutland",0,-1,0,0,1,1,0,0,0],' +
+    '["509","Purrloin",15,-1,1,1,1,1,1,1,0],' +
+    '["510","Liepard",15,-1,0,0,1,1,1,1,0],' +
+    '["511","Pansage",4,-1,1,1,1,1,0,0,0],' +
+    '["512","Simisage",4,-1,0,0,1,1,0,0,0],' +
+    '["513","Pansear",1,-1,1,1,1,1,1,1,0],' +
+    '["514","Simisear",1,-1,0,0,1,1,1,1,0],' +
+    '["515","Panpour",2,-1,1,1,1,1,0,0,0],' +
+    '["516","Simipour",2,-1,0,0,1,1,0,0,0],' +
+    '["517","Munna",10,-1,1,1,1,1,0,0,0],' +
+    '["518","Musharna",10,-1,0,0,1,1,0,0,0],' +
+    '["519","Pidove",0,9,1,1,1,1,1,0,0],' +
+    '["520","Tranquill",0,9,0,0,1,1,1,0,0],' +
+    '["521","Unfezant",0,9,0,0,1,1,1,0,0],' +
+    '["522","Blitzle",3,-1,1,1,1,1,1,1,0],' +
+    '["523","Zebstrika",3,-1,0,0,1,1,1,1,0],' +
+    '["524","Roggenrola",12,-1,1,1,1,1,1,1,0],' +
+    '["525","Boldore",12,-1,0,0,1,1,1,1,0],' +
+    '["526","Gigalith",12,-1,0,0,1,1,1,1,0],' +
+    '["527","Woobat",10,9,1,1,1,1,0,0,0],' +
+    '["528","Swoobat",10,9,0,0,1,1,0,0,0],' +
+    '["529","Drilbur",8,-1,1,1,1,1,1,1,0],' +
+    '["530","Excadrill",8,16,0,0,1,1,1,1,0],' +
+    '["531-M","Audino",0,17,1,1,2,2,0,0,0],' +
+    '["532","Timburr",6,-1,1,1,1,1,1,1,0],' +
+    '["533","Gurdurr",6,-1,0,0,1,1,1,1,0],' +
+    '["534","Conkeldurr",6,-1,0,0,1,1,1,1,0],' +
+    '["535","Tympole",2,-1,1,1,1,1,1,1,0],' +
+    '["536","Palpitoad",2,8,0,0,1,1,1,1,0],' +
+    '["537","Seismitoad",2,8,0,0,1,1,1,1,0],' +
+    '["538","Throh",6,-1,1,1,1,1,1,1,0],' +
+    '["539","Sawk",6,-1,1,1,1,1,1,1,0],' +
+    '["540","Sewaddle",11,4,1,1,1,1,0,0,0],' +
+    '["541","Swadloon",11,4,0,0,1,1,0,0,0],' +
+    '["542","Leavanny",11,4,0,0,1,1,0,0,0],' +
+    '["543","Venipede",11,7,1,1,1,1,0,0,0],' +
+    '["544","Whirlipede",11,7,0,0,1,1,0,0,0],' +
+    '["545","Scolipede",11,7,0,0,1,1,0,0,0],' +
+    '["546","Cottonee",4,17,1,1,1,1,1,1,0],' +
+    '["547","Whimsicott",4,17,0,0,1,1,1,1,0],' +
+    '["548","Petilil",4,-1,1,1,1,1,0,0,0],' +
+    '["549","Lilligant",4,-1,0,0,1,1,0,0,0],' +
+    '["550b","Basculin",2,-1,1,1,2,2,0,0,0],' +
+    '["551","Sandile",8,15,1,1,1,1,1,1,0],' +
+    '["552","Krokorok",8,15,0,0,1,1,1,1,0],' +
+    '["553","Krookodile",8,15,0,0,1,1,1,1,0],' +
+    '["554r8","Darumaka",5,-1,2,2,2,2,2,2,0],' +
+    '["555","Darmanitan",1,-1,0,0,4,4,4,4,0],' +
+    '["556","Maractus",4,-1,1,1,1,1,0,0,0],' +
+    '["557","Dwebble",11,12,1,1,1,1,1,1,0],' +
+    '["558","Crustle",11,12,0,0,1,1,1,1,0],' +
+    '["559","Scraggy",15,6,1,1,1,1,1,1,0],' +
+    '["560","Scrafty",15,6,0,0,1,1,1,1,0],' +
+    '["561","Sigilyph",10,9,1,1,1,1,0,0,0],' +
+    '["562r8","Yamask",8,13,2,2,2,2,2,2,0],' +
+    '["563","Cofagrigus",13,-1,0,0,1,1,1,1,0],' +
+    '["564","Tirtouga",2,12,1,1,1,1,1,1,0],' +
+    '["565","Carracosta",2,12,0,0,1,1,1,1,0],' +
+    '["566","Archen",12,9,1,1,1,1,1,1,0],' +
+    '["567","Archeops",12,9,0,0,1,1,1,1,0],' +
+    '["568","Trubbish",7,-1,1,1,1,1,0,0,0],' +
+    '["569","Garbodor",7,-1,0,0,1,1,0,0,0],' +
+    '["570","Zorua",15,-1,1,1,1,1,1,1,0],' +
+    '["571","Zoroark",15,-1,0,0,1,1,1,1,0],' +
+    '["572","Minccino",0,-1,1,1,1,1,0,0,0],' +
+    '["573","Cinccino",0,-1,0,0,1,1,0,0,0],' +
+    '["574","Gothita",10,-1,1,1,1,1,0,1,0],' +
+    '["575","Gothorita",10,-1,0,0,1,1,0,0,0],' +
+    '["576","Gothitelle",10,-1,0,0,1,1,0,0,0],' +
+    '["577","Solosis",10,-1,1,1,1,1,0,0,0],' +
+    '["578","Duosion",10,-1,0,0,1,1,0,0,0],' +
+    '["579","Reuniclus",10,-1,0,0,1,1,0,0,0],' +
+    '["580","Ducklett",2,9,1,1,1,1,0,0,0],' +
+    '["581","Swanna",2,9,0,0,1,1,0,0,0],' +
+    '["582","Vanillite",5,-1,1,1,1,1,1,1,0],' +
+    '["583","Vanillish",5,-1,0,0,1,1,1,1,0],' +
+    '["584","Vanilluxe",5,-1,0,0,1,1,1,1,0],' +
+    '["585","Deerling",0,4,1,1,1,1,0,0,0],' +
+    '["586","Sawsbuck",0,4,0,0,1,1,0,0,0],' +
+    '["587","Emolga",3,9,1,1,1,1,1,1,0],' +
+    '["588","Karrablast",11,-1,1,1,1,1,1,1,0],' +
+    '["589","Escavalier",11,16,0,0,1,1,1,1,0],' +
+    '["590","Foongus",4,7,1,1,1,1,0,0,0],' +
+    '["591","Amoonguss",4,7,0,0,1,1,0,0,0],' +
+    '["592","Frillish",2,13,1,1,1,1,1,1,0],' +
+    '["593","Jellicent",2,13,0,0,1,1,1,1,0],' +
+    '["594","Alomomola",2,-1,1,1,1,1,0,0,0],' +
+    '["595","Joltik",11,3,1,1,1,1,1,1,0],' +
+    '["596","Galvantula",11,3,0,0,1,1,1,1,0],' +
+    '["597","Ferroseed",4,16,1,1,1,1,1,1,0],' +
+    '["598","Ferrothorn",4,16,0,0,1,1,1,1,0],' +
+    '["599","Klink",16,-1,1,1,1,1,1,1,0],' +
+    '["600","Klang",16,-1,0,0,1,1,1,1,0],' +
+    '["601","Klinklang",16,-1,0,0,1,1,1,1,0],' +
+    '["602","Tynamo",3,-1,1,1,1,1,1,1,0],' +
+    '["603","Eelektrik",3,-1,0,0,1,1,1,1,0],' +
+    '["604","Eelektross",3,-1,0,0,1,1,1,1,0],' +
+    '["605","Elgyem",10,-1,1,1,1,1,0,0,0],' +
+    '["606","Beheeyem",10,-1,0,0,1,1,0,0,0],' +
+    '["607","Litwick",13,1,1,1,1,1,1,1,0],' +
+    '["608","Lampent",13,1,0,0,1,1,1,1,0],' +
+    '["609","Chandelure",13,1,0,0,1,1,1,1,0],' +
+    '["610","Axew",14,-1,1,1,1,1,1,1,0],' +
+    '["611","Fraxure",14,-1,0,0,1,1,1,1,0],' +
+    '["612","Haxorus",14,-1,0,0,1,1,1,1,0],' +
+    '["613","Cubchoo",5,-1,1,1,1,1,1,1,0],' +
+    '["614","Beartic",5,-1,0,0,1,1,1,1,0],' +
+    '["615","Cryogonal",5,-1,1,1,1,1,1,1,0],' +
+    '["616","Shelmet",11,-1,1,1,1,1,0,0,0],' +
+    '["617","Accelgor",11,-1,0,0,1,1,0,0,0],' +
+    '["618r8","Stunfisk",8,16,2,2,2,2,2,2,0],' +
+    '["619","Mienfoo",6,-1,1,1,1,1,1,1,0],' +
+    '["620","Mienshao",6,-1,0,0,1,1,1,1,0],' +
+    '["621","Druddigon",14,-1,1,1,1,1,1,1,0],' +
+    '["622","Golett",8,13,1,1,1,1,1,1,0],' +
+    '["623","Golurk",8,13,0,0,1,1,1,1,0],' +
+    '["624","Pawniard",15,16,1,1,1,1,1,1,0],' +
+    '["625","Bisharp",15,16,0,0,1,1,1,1,0],' +
+    '["626","Bouffalant",0,-1,1,1,1,1,0,0,0],' +
+    '["627","Rufflet",0,9,1,1,1,1,0,0,0],' +
+    '["628","Braviary",0,9,0,0,1,1,0,0,0],' +
+    '["629","Vullaby",15,9,1,1,1,1,1,1,0],' +
+    '["630","Mandibuzz",15,9,0,0,1,1,1,1,0],' +
+    '["631","Heatmor",1,-1,1,1,1,1,1,1,0],' +
+    '["632","Durant",11,16,1,1,1,1,1,1,0],' +
+    '["633","Deino",15,14,1,1,1,1,1,1,0],' +
+    '["634","Zweilous",15,14,0,0,1,1,1,1,0],' +
+    '["635","Hydreigon",15,14,0,0,1,1,1,1,0],' +
+    '["636","Larvesta",11,1,1,1,1,1,1,1,0],' +
+    '["637","Volcarona",11,1,0,0,1,1,1,1,0],' +
+    '["638","Cobalion",16,6,1,1,1,1,0,0,0],' +
+    '["639","Terrakion",12,6,1,1,1,1,0,0,0],' +
+    '["640","Virizion",4,6,1,1,1,1,0,0,0],' +
+    '["641","Tornadus",9,-1,1,1,2,2,0,0,0],' +
+    '["642","Thundurus",3,9,1,1,2,2,0,0,0],' +
+    '["643","Reshiram",14,1,1,1,1,1,0,0,0],' +
+    '["644","Zekrom",14,3,1,1,1,1,0,0,0],' +
+    '["645","Landorus",8,9,1,1,2,2,0,0,0],' +
+    '["646z","Kyurem",14,5,1,1,3,3,0,0,0],' +
+    '["647","Keldeo",2,6,1,1,2,2,0,0,0],' +
+    '["648","Meloetta",0,10,1,1,2,2,0,0,0],' +
+    '["649c","Genesect",11,16,1,1,5,5,0,0,0]],' +
+    '"6":[["650","Chespin",4,-1,1,1,1,1,1,1,0],' +
+    '["651","Quilladin",4,-1,0,0,1,1,1,1,0],' +
+    '["652","Chesnaught",4,6,0,0,1,1,1,1,0],' +
+    '["653","Fennekin",1,-1,1,1,1,1,1,1,0],' +
+    '["654","Braixen",1,-1,0,0,1,1,1,1,0],' +
+    '["655","Delphox",1,10,0,0,1,1,1,1,0],' +
+    '["656","Froakie",2,-1,1,1,1,1,1,1,0],' +
+    '["657","Frogadier",2,-1,0,0,1,1,1,1,0],' +
+    '["658","Greninja",2,15,0,0,1,1,1,1,0],' +
+    '["659","Bunnelby",0,-1,1,1,1,1,1,1,0],' +
+    '["660","Diggersby",0,8,0,0,1,1,1,1,0],' +
+    '["661","Fletchling",0,9,1,1,1,1,1,1,0],' +
+    '["662","Fletchinder",1,9,0,0,1,1,1,1,0],' +
+    '["663","Talonflame",1,9,0,0,1,1,1,1,0],' +
+    '["664","Scatterbug",11,-1,1,1,1,1,0,1,0],' +
+    '["665","Spewpa",11,-1,0,0,1,1,0,0,0],' +
+    '["666","Vivillon",11,9,0,0,1,1,0,0,0],' +
+    '["667","Litleo",1,0,1,1,1,1,1,1,0],' +
+    '["668","Pyroar",1,0,0,0,1,1,1,1,0],' +
+    '["669","Flab\u00e9b\u00e9",17,-1,1,1,1,1,1,1,0],' +
+    '["670","Floette",17,-1,0,0,1,1,1,1,0],' +
+    '["671","Florges",17,-1,0,0,1,1,1,1,0],' +
+    '["672","Skiddo",4,-1,1,1,1,1,0,0,0],' +
+    '["673","Gogoat",4,-1,0,0,1,1,0,0,0],' +
+    '["674","Pancham",6,-1,1,1,1,1,1,1,0],' +
+    '["675","Pangoro",6,15,0,0,1,1,1,1,0],' +
+    '["676","Furfrou",0,-1,1,1,1,1,0,0,0],' +
+    '["677","Espurr",10,-1,1,1,1,1,0,0,0],' +
+    '["678","Meowstic",10,-1,0,0,1,1,0,0,0],' +
+    '["679","Honedge",16,13,1,1,1,1,1,1,0],' +
+    '["680","Doublade",16,13,0,0,1,1,1,1,0],' +
+    '["681","Aegislash",16,13,0,0,2,2,2,2,0],' +
+    '["682","Spritzee",17,-1,1,1,1,1,1,1,0],' +
+    '["683","Aromatisse",17,-1,0,0,1,1,1,1,0],' +
+    '["684","Swirlix",17,-1,1,1,1,1,1,1,0],' +
+    '["685","Slurpuff",17,-1,0,0,1,1,1,1,0],' +
+    '["686","Inkay",15,10,1,1,1,1,1,1,0],' +
+    '["687","Malamar",15,10,0,0,1,1,1,1,0],' +
+    '["688","Binacle",12,2,1,1,1,1,1,1,0],' +
+    '["689","Barbaracle",12,2,0,0,1,1,1,1,0],' +
+    '["690","Skrelp",7,2,1,1,1,1,1,1,0],' +
+    '["691","Dragalge",7,14,0,0,1,1,1,1,0],' +
+    '["692","Clauncher",2,-1,1,1,1,1,0,0,0],' +
+    '["693","Clawitzer",2,-1,0,0,1,1,0,0,0],' +
+    '["694","Helioptile",3,0,1,1,1,1,1,1,0],' +
+    '["695","Heliolisk",3,0,0,0,1,1,1,1,0],' +
+    '["696","Tyrunt",12,14,1,1,1,1,1,1,0],' +
+    '["697","Tyrantrum",12,14,0,0,1,1,1,1,0],' +
+    '["698","Amaura",12,5,1,1,1,1,1,1,0],' +
+    '["699","Aurorus",12,5,0,0,1,1,1,1,0],' +
+    '["700","Hawlucha",6,9,1,1,1,1,1,1,0],' +
+    '["701","Dedenne",3,17,1,1,1,1,1,1,0],' +
+    '["702","Carbink",12,17,1,1,1,1,1,1,0],' +
+    '["703","Goomy",14,-1,1,1,1,1,1,1,0],' +
+    '["704","Sliggoo",14,-1,0,0,1,1,1,1,0],' +
+    '["705","Goodra",14,-1,0,0,1,1,1,1,0],' +
+    '["706","Klefki",16,17,1,1,1,1,1,1,1],' +
+    '["707","Phantump",13,4,1,1,1,1,1,1,0],' +
+    '["708","Trevenant",13,4,0,0,1,1,1,1,0],' +
+    '["709s3","Pumpkaboo",13,4,1,1,4,4,4,4,0],' +
+    '["710s3","Gourgeist",13,4,0,0,4,4,4,4,0],' +
+    '["711","Bergmite",5,-1,1,1,1,1,1,1,0],' +
+    '["712","Avalugg",5,-1,0,0,1,1,1,1,0],' +
+    '["713","Noibat",9,14,1,1,1,1,1,1,0],' +
+    '["714","Noivern",9,14,0,0,1,1,1,1,0],' +
+    '["715","Xerneas",17,-1,1,1,1,1,0,0,0],' +
+    '["716","Yveltal",15,9,1,1,1,1,0,0,0],' +
+    '["717c","Zygarde",14,8,1,1,4,4,0,0,0],' +
+    '["718","Diancie",12,17,1,1,2,2,0,0,0],' +
+    '["719","Hoopa",10,13,1,1,2,2,0,0,0],' +
+    '["720","Volcanion",1,2,1,1,1,1,0,0,0]],' +
+    '"7":[["721","Rowlet",4,9,1,1,1,1,1,1,0],' +
+    '["722","Dartrix",4,9,0,0,1,1,1,1,0],' +
+    '["723","Decidueye",4,13,0,0,1,1,1,1,0],' +
+    '["724","Litten",1,-1,1,1,1,1,1,1,0],' +
+    '["725","Torracat",1,-1,0,0,1,1,1,1,0],' +
+    '["726","Incineroar",1,15,0,0,1,1,1,1,0],' +
+    '["727","Popplio",2,-1,1,1,1,1,1,1,0],' +
+    '["728","Brionne",2,-1,0,0,1,1,1,1,0],' +
+    '["729","Primarina",2,17,0,0,1,1,1,1,0],' +
+    '["730","Pikipek",0,9,1,1,1,1,0,0,0],' +
+    '["731","Trumbeak",0,9,0,0,1,1,0,0,0],' +
+    '["732","Toucannon",0,9,0,0,1,1,0,0,0],' +
+    '["733","Yungoos",0,-1,1,1,1,1,0,0,0],' +
+    '["734","Gumshoos",0,-1,0,0,2,2,0,0,0],' +
+    '["735","Grubbin",11,-1,1,1,1,1,1,1,0],' +
+    '["736","Charjabug",11,3,0,0,1,1,1,1,0],' +
+    '["737t","Vikavolt",11,3,0,0,2,2,2,2,0],' +
+    '["738","Crabrawler",6,-1,1,1,1,1,1,1,0],' +
+    '["739","Crabominable",6,5,0,0,1,1,1,1,0],' +
+    '["740d","Oricorio",13,9,1,1,4,4,0,0,0],' +
+    '["741","Cutiefly",11,17,1,1,1,1,1,1,0],' +
+    '["742","Ribombee",11,17,0,0,2,2,2,2,0],' +
+    '["743","Rockruff",12,-1,1,1,1,1,1,1,0],' +
+    '["744c","Lycanroc",12,-1,0,0,3,3,3,3,0],' +
+    '["745t","Wishiwashi",2,-1,1,1,3,3,0,0,0],' +
+    '["746","Mareanie",7,2,1,1,1,1,0,0,0],' +
+    '["747","Toxapex",7,2,0,0,1,1,0,0,0],' +
+    '["748","Mudbray",8,-1,1,1,1,1,1,1,0],' +
+    '["749","Mudsdale",8,-1,0,0,1,1,1,1,0],' +
+    '["750","Dewpider",2,11,1,1,1,1,0,0,0],' +
+    '["751","Araquanid",2,11,0,0,2,2,0,0,0],' +
+    '["752","Fomantis",4,-1,1,1,1,1,0,0,0],' +
+    '["753","Lurantis",4,-1,0,0,2,2,0,0,0],' +
+    '["754","Morelull",4,17,1,1,1,1,1,1,0],' +
+    '["755","Shiinotic",4,17,0,0,1,1,1,1,0],' +
+    '["756","Salandit",7,1,1,1,1,1,1,1,0],' +
+    '["757","Salazzle",7,1,0,0,2,2,2,2,0],' +
+    '["758","Stufful",0,6,1,1,1,1,1,1,0],' +
+    '["759","Bewear",0,6,0,0,1,1,1,1,0],' +
+    '["760","Bounsweet",4,-1,1,1,1,1,0,0,0],' +
+    '["761","Steenee",4,-1,0,0,1,1,0,0,0],' +
+    '["762","Tsareena",4,-1,0,0,1,1,0,0,0],' +
+    '["763","Comfey",17,-1,1,1,1,1,1,1,0],' +
+    '["764","Oranguru",0,10,1,1,1,1,0,1,0],' +
+    '["765","Passimian",6,-1,1,1,1,1,1,1,0],' +
+    '["766","Wimpod",11,2,1,1,1,1,0,0,0],' +
+    '["767","Golisopod",11,2,0,0,1,1,0,0,0],' +
+    '["768","Sandygast",13,8,1,1,1,1,1,1,0],' +
+    '["769","Palossand",13,8,0,0,1,1,1,1,0],' +
+    '["770","Pyukumuku",2,-1,1,1,1,1,0,0,0],' +
+    '["771","Type: Null",0,-1,1,1,1,1,0,0,0],' +
+    '["772q","Silvally",17,-1,0,0,18,18,0,0,0],' +
+    '["773","Minior",12,9,1,1,2,2,2,2,0],' +
+    '["774","Komala",0,-1,1,1,1,1,0,0,0],' +
+    '["775","Turtonator",1,14,1,1,1,1,1,1,0],' +
+    '["776","Togedemaru",3,16,1,1,2,2,2,2,0],' +
+    '["777","Mimikyu",13,17,1,1,2,2,2,2,0],' +
+    '["778","Bruxish",2,10,1,1,1,1,0,0,0],' +
+    '["779","Drampa",0,14,1,1,1,1,1,1,0],' +
+    '["780","Dhelmise",13,4,1,1,1,1,1,1,0],' +
+    '["781","Jangmo-o",14,-1,1,1,1,1,1,1,0],' +
+    '["782","Hakamo-o",14,6,0,0,1,1,1,1,0],' +
+    '["783","Kommo-o",14,6,0,0,2,2,2,2,0],' +
+    '["784","Tapu Koko",3,17,1,1,1,1,0,0,0],' +
+    '["785","Tapu Lele",10,17,1,1,1,1,0,0,0],' +
+    '["786","Tapu Bulu",4,17,1,1,1,1,0,0,0],' +
+    '["787","Tapu Fini",2,17,1,1,1,1,0,0,0],' +
+    '["788","Cosmog",10,-1,1,1,1,1,0,0,0],' +
+    '["789","Cosmoem",10,-1,0,0,1,1,0,0,0],' +
+    '["790","Solgaleo",10,16,0,0,1,1,0,0,0],' +
+    '["791","Lunala",10,13,0,0,1,1,0,0,0],' +
+    '["792","Nihilego",12,7,1,1,1,1,0,0,0],' +
+    '["793","Buzzwole",11,6,1,1,1,1,0,0,0],' +
+    '["794","Pheromosa",11,6,1,1,1,1,0,0,0],' +
+    '["795","Xurkitree",3,-1,1,1,1,1,0,0,0],' +
+    '["796","Celesteela",16,9,1,1,1,1,0,0,0],' +
+    '["797","Kartana",4,16,1,1,1,1,0,0,0],' +
+    '["798","Guzzlord",15,14,1,1,1,1,0,0,0],' +
+    '["799","Poipole",7,-1,1,1,1,1,0,0,0],' +
+    '["800","Naganadel",7,14,0,0,1,1,0,0,0],' +
+    '["801","Stakataka",12,16,1,1,1,1,0,0,0],' +
+    '["802","Blacephalon",1,13,1,1,1,1,0,0,0],' +
+    '["803s","Necrozma",10,16,1,1,4,4,0,0,0],' +
+    '["804","Magearna",16,17,1,1,1,1,0,0,0],' +
+    '["805","Marshadow",6,13,1,1,1,1,0,0,0],' +
+    '["806","Zeraora",3,-1,1,1,1,1,0,0,0],' +
+    '["807","Meltan",16,-1,1,1,1,1,0,1,0],' +
+    '["808","Melmetal",16,-1,0,0,1,1,0,0,0]],' +
+    '"8":[["809","Grookey",4,-1,1,1,1,1,0,0,0],' +
+    '["810","Thwackey",4,-1,0,0,1,1,0,0,0],' +
+    '["811","Rillaboom",4,-1,0,0,1,1,0,0,0],' +
+    '["812","Scorbunny",1,-1,1,1,1,1,1,1,0],' +
+    '["813","Raboot",1,-1,0,0,1,1,1,1,0],' +
+    '["814","Cinderace",1,-1,0,0,1,1,1,1,0],' +
+    '["815","Sobble",2,-1,1,1,1,1,0,0,0],' +
+    '["816","Drizzile",2,-1,0,0,1,1,0,0,0],' +
+    '["817","Inteleon",2,-1,0,0,1,1,0,0,0],' +
+    '["818","Skwovet",0,-1,1,1,1,1,0,0,0],' +
+    '["819","Greedent",0,-1,0,0,1,1,0,0,0],' +
+    '["820","Rookidee",9,-1,1,1,1,1,1,1,0],' +
+    '["821","Corvisquire",9,-1,0,0,1,1,1,1,0],' +
+    '["822","Corviknight",9,16,0,0,1,1,1,1,0],' +
+    '["823","Blipbug",11,-1,1,1,1,1,0,0,0],' +
+    '["824","Dottler",11,10,0,0,1,1,0,0,0],' +
+    '["825","Orbeetle",11,10,0,0,1,1,0,0,0],' +
+    '["826","Nickit",15,-1,1,1,1,1,1,1,0],' +
+    '["827","Thievul",15,-1,0,0,1,1,1,1,0],' +
+    '["828","Gossifleur",4,-1,1,1,1,1,0,0,0],' +
+    '["829","Eldegoss",4,-1,0,0,1,1,0,0,0],' +
+    '["830","Wooloo",0,-1,1,1,1,1,0,0,0],' +
+    '["831","Dubwool",0,-1,0,0,1,1,0,0,0],' +
+    '["832","Chewtle",2,-1,1,1,1,1,1,1,0],' +
+    '["833","Drednaw",2,12,0,0,1,1,1,1,0],' +
+    '["834","Yamper",3,-1,1,1,1,1,1,1,0],' +
+    '["835","Boltund",3,-1,0,0,1,1,1,1,0],' +
+    '["836","Rolycoly",12,-1,1,1,1,1,1,1,0],' +
+    '["837","Carkol",12,1,0,0,1,1,1,1,0],' +
+    '["838","Coalossal",12,1,0,0,1,1,1,1,0],' +
+    '["839","Applin",4,14,1,1,1,1,1,1,0],' +
+    '["840","Flapple",4,14,0,0,1,1,1,1,0],' +
+    '["841","Appletun",4,14,0,0,1,1,1,1,0],' +
+    '["842","Silicobra",8,-1,1,1,1,1,1,1,0],' +
+    '["843","Sandaconda",8,-1,0,0,1,1,1,1,0],' +
+    '["844c","Cramorant",9,2,1,1,3,3,0,0,0],' +
+    '["845","Arrokuda",2,-1,1,1,1,1,0,0,0],' +
+    '["846","Barraskewda",2,-1,0,0,1,1,0,0,0],' +
+    '["847","Toxel",3,7,1,1,1,1,1,1,0],' +
+    '["848","Toxtricity",3,7,0,0,2,2,2,2,0],' +
+    '["849","Sizzlipede",1,11,1,1,1,1,1,1,0],' +
+    '["850","Centiskorch",1,11,0,0,1,1,1,1,0],' +
+    '["851","Clobbopus",6,-1,1,1,1,1,1,1,0],' +
+    '["852","Grapploct",6,-1,0,0,1,1,1,1,0],' +
+    '["853","Sinistea",13,-1,1,1,1,1,1,1,0],' +
+    '["854","Polteageist",13,-1,0,0,1,1,1,1,0],' +
+    '["855","Hatenna",10,-1,1,1,1,1,1,1,0],' +
+    '["856","Hattrem",10,-1,0,0,1,1,1,1,0],' +
+    '["857","Hatterene",10,17,0,0,1,1,1,1,0],' +
+    '["858","Impidimp",15,17,1,1,1,1,1,1,0],' +
+    '["859","Morgrem",15,17,0,0,1,1,1,1,0],' +
+    '["860","Grimmsnarl",15,17,0,0,1,1,1,1,0],' +
+    '["861","Obstagoon",15,0,0,0,1,1,1,1,0],' +
+    '["862","Perrserker",16,-1,0,0,1,1,1,1,0],' +
+    '["863","Cursola",13,-1,0,0,1,1,1,1,0],' +
+    '["864","Sirfetch\'d",6,-1,0,0,1,1,1,1,0],' +
+    '["865","Mr. Rime",5,10,0,0,1,1,1,1,0],' +
+    '["866","Runerigus",8,13,0,0,1,1,1,1,0],' +
+    '["867","Milcery",17,-1,1,1,1,1,1,1,0],' +
+    '["868","Alcremie",17,-1,0,0,1,1,1,1,0],' +
+    '["869","Falinks",6,-1,1,1,1,1,1,1,1],' +
+    '["870","Pincurchin",3,-1,1,1,1,1,1,1,0],' +
+    '["871","Snom",5,11,1,1,1,1,1,1,0],' +
+    '["872","Frosmoth",5,11,0,0,1,1,1,1,0],' +
+    '["873","Stonjourner",12,-1,1,1,1,1,1,1,0],' +
+    '["874","Eiscue",5,-1,1,1,2,2,2,2,0],' +
+    '["875","Indeedee",10,0,1,1,2,2,0,0,0],' +
+    '["876","Morpeko",3,15,1,1,2,2,2,2,0],' +
+    '["877","Cufant",16,-1,1,1,1,1,1,1,0],' +
+    '["878","Copperajah",16,-1,0,0,1,1,1,1,0],' +
+    '["879","Dracozolt",3,14,1,1,1,1,1,1,0],' +
+    '["880","Arctozolt",3,5,1,1,1,1,1,1,0],' +
+    '["881","Dracovish",2,14,1,1,1,1,1,1,0],' +
+    '["882","Arctovish",2,5,1,1,1,1,1,1,0],' +
+    '["883","Duraludon",16,14,1,1,1,1,1,1,0],' +
+    '["884","Dreepy",14,13,1,1,1,1,1,1,0],' +
+    '["885","Drakloak",14,13,0,0,1,1,1,1,0],' +
+    '["886","Dragapult",14,13,0,0,1,1,1,1,0],' +
+    '["887","Zacian",17,-1,1,1,2,2,0,0,0],' +
+    '["888","Zamazenta",6,-1,1,1,2,2,0,0,0],' +
+    '["889","Eternatus",7,14,1,1,1,1,0,0,0]],' +
+    '"97":[["000a1","Lunupine",15,-1,1,1,1,1,0,0,0],' +
+    '["000-L","Lunupine/Mega Forme Q",15,17,0,0,1,1,0,0,0],' +
+    '["000a2","Blophin",2,-1,1,1,1,1,0,0,0],' +
+    '["000a3","Inflale",2,-1,0,0,1,1,0,0,0],' +
+    '["000a4","Orkit",2,-1,1,1,1,1,0,0,0],' +
+    '["000a6","Orcalot",2,16,0,0,1,1,0,0,0],' +
+    '["000a7","Faemue\u00f1o",17,9,1,1,1,1,0,0,0],' +
+    '["000a8","Faemilar\u00edn",17,9,0,0,1,1,0,0,0],' +
+    '["000a9","Faem\u00edsimo",17,9,0,0,1,1,0,0,0],' +
+    '["000aa","Wagell",7,17,1,1,1,1,0,0,0],' +
+    '["000ab","Wanamangora",7,17,0,0,1,1,0,0,0],' +
+    '["000ac","Gosold",0,9,1,1,1,1,0,0,0],' +
+    '["000ad","Goldesem",10,9,0,0,1,1,0,0,0],' +
+    '["000ae","Impyre",15,-1,1,1,1,1,0,0,0],' +
+    '["000af","Baflammet",15,1,0,0,1,1,0,0,0],' +
+    '["000ag","Searene",14,2,1,1,1,1,0,0,0],' +
+    '["000ah","Solynx",1,-1,1,1,1,1,0,0,0],' +
+    '["000-S","Solynx/Mega Forme Q",1,3,0,0,1,1,0,0,0],' +
+    '["000ai","Ardik",5,-1,1,1,1,1,0,0,0],' +
+    '["000aj","Sibex",5,-1,0,0,1,1,0,0,0],' +
+    '["000ak","Boxaby",12,6,1,1,1,1,0,0,0],' +
+    '["000al","Kangspar",12,6,0,0,1,1,0,0,0],' +
+    '["000-X","Kangspar/Mega Forme Q",12,6,0,0,1,1,0,0,0],' +
+    '["000am","Bunbori",5,17,1,1,1,1,0,0,0],' +
+    '["000-B","Bunbori/Mega Forme Q",5,17,0,0,1,1,0,0,0],' +
+    '["000an","Taiveret",4,-1,1,1,1,1,0,0,0],' +
+    '["000ao","Taipaeus",4,-1,0,0,1,1,0,0,0],' +
+    '["000ap","Taimorpha",4,6,0,0,1,1,0,0,0],' +
+    '["000aq","Flarbat",1,9,1,1,1,1,0,0,0],' +
+    '["000ar","Flarotis",1,17,0,0,1,1,0,0,0],' +
+    '["000as","Flaroptera",1,17,0,0,1,1,0,0,0],' +
+    '["000at","Hydrark",2,-1,1,1,1,1,0,0,0],' +
+    '["000au","Hydrinus",2,-1,0,0,1,1,0,0,0],' +
+    '["000av","Hydrinifor",2,16,0,0,1,1,0,0,0],' +
+    '["000aw","Gragon",13,14,1,1,1,1,0,0,0],' +
+    '["000ay","Greegon",13,14,0,0,1,1,0,0,0],' +
+    '["000az","Avaragon",13,14,0,0,1,1,0,0,0],' +
+    '["000b0","Kinaster",15,1,1,1,1,1,0,0,0],' +
+    '["000b1","Luckoo",4,9,1,1,1,1,0,0,0],' +
+    '["000b2","Peckoo",4,9,0,0,1,1,0,0,0],' +
+    '["000b3","Peekoo",4,10,0,0,1,1,0,0,0],' +
+    '["000b4","Arasprit",8,-1,1,1,1,1,0,0,0],' +
+    '["000b5","Arthreux",8,11,0,0,1,1,0,0,0],' +
+    '["000b6","Quetzephyr",3,9,1,1,1,1,0,0,0],' +
+    '["000b7","Quetzaptyl",3,9,0,0,1,1,0,0,0],' +
+    '["000b8","Pixrine",12,17,1,1,1,1,0,0,0],' +
+    '["000b9","Kitsunari",10,-1,1,1,1,1,0,0,0],' +
+    '["000ba","Kitsubuki",10,13,0,0,1,1,0,0,0],' +
+    '["000bb","Kryptik",12,13,1,1,1,1,0,0,0],' +
+    '["000bc","Bandicoon",0,15,1,1,1,1,0,0,0],' +
+    '["000bd","Phastix",11,-1,1,1,1,1,0,0,0],' +
+    '["000be","Phasmaleef/Forest Forme",11,-1,0,0,1,1,0,0,0],' +
+    '["000bf","Phasmaleef/Desert Forme",11,-1,0,0,1,1,0,0,0],' +
+    '["000bg","Pasovan",0,-1,1,1,1,1,0,0,0],' +
+    '["000bh","Glaquine",5,-1,1,1,1,1,0,0,0],' +
+    '["000bi","Cavallost",5,-1,0,0,1,1,0,0,0],' +
+    '["000bk","Minibbit",16,-1,1,1,1,1,0,0,0],' +
+    '["000bl","Metabbit",16,-1,0,0,1,1,0,0,0],' +
+    '["000bm","Terabbit",16,-1,0,0,1,1,0,0,0],' +
+    '["000bn","Tillink",8,-1,1,1,1,1,0,0,0],' +
+    '["000bo","Terrink",8,-1,0,0,1,1,0,0,0],' +
+    '["000bp","Bezerell",2,15,1,1,1,1,0,0,0],' +
+    '["000bq","Bezermuur",2,15,0,0,1,1,0,0,0],' +
+    '["000br","Bezermuut",2,15,0,0,1,1,0,0,0],' +
+    '["000bt","Ayeren",0,10,1,1,1,1,0,0,0],' +
+    '["000bu","Aytheraye",0,13,0,0,1,1,0,0,0],' +
+    '["000bv","Skeleco",2,13,1,1,1,1,0,0,0],' +
+    '["000bw","Phantiidae",2,13,0,0,1,1,0,0,0],' +
+    '["000bx","Klaatupillar",11,-1,1,1,1,1,0,0,0],' +
+    '["000by","Charaxalis",11,-1,0,0,1,1,0,0,0],' +
+    '["000bz","Incantasius",11,10,0,0,1,1,0,0,0],' +
+    '["000c0","Maravol",11,7,1,1,1,1,0,1,0],' +
+    '["000cm","Kyutopi",10,17,1,1,1,1,0,0,0],' +
+    '["000cn","Konatus",10,17,0,0,1,1,0,0,0],' +
+    '["000co","Kenyip",8,-1,1,1,1,1,0,0,0],' +
+    '["000cp","Arfrica",8,6,0,0,1,1,0,0,0],' +
+    '["000cq","Kalahowli",8,6,0,0,1,1,0,0,0],' +
+    '["000cr","Petripeep",12,-1,1,1,1,1,0,0,0],' +
+    '["000cs","Chirock",12,14,0,0,1,1,0,0,0],' +
+    '["000ct","Toxitrice",12,14,0,0,1,1,0,0,0],' +
+    '["000cu","Serpetone",12,7,0,0,1,1,0,0,0],' +
+    '["000cv","Toxilisk",12,7,0,0,1,1,0,0,0],' +
+    '["000cw","Gumairy",4,17,1,1,1,1,0,0,0],' +
+    '["000cx","Eucylph",4,17,0,0,1,1,0,0,0],' +
+    '["000cy","Puppod",7,0,1,1,1,1,0,0,0],' +
+    '["000cz","Slugdog",7,0,0,0,1,1,0,0,0],' +
+    '["000d0","Rokiwi",4,-1,1,1,1,1,0,0,0],' +
+    '["000d1","Brushiwi",4,15,0,0,1,1,0,0,0],' +
+    '["000d2","Alicalf",5,12,1,1,1,1,0,0,0],' +
+    '["000d3","Cetacorn",5,12,0,0,1,1,0,0,0],' +
+    '["000d4","Valkind",17,6,1,1,1,1,0,0,0],' +
+    '["000d5","Frayja",17,6,0,0,1,1,0,0,0],' +
+    '["000d6","Croaket",15,-1,1,1,1,1,0,0,0],' +
+    '["000d7","Quibbit/Toxic Forme",15,7,0,0,1,1,0,0,0],' +
+    '["000d8","Quibbit/Charged Forme",15,3,0,0,1,1,0,0,0],' +
+    '["000d9","Quibbit/Herbal Forme",15,4,0,0,1,1,0,0,0],' +
+    '["000da","Quibbit/Magma Forme",15,1,0,0,1,1,0,0,0],' +
+    '["000db","Quibbit/Fae Forme",15,17,0,0,1,1,0,0,0],' +
+    '["000de","Slypin",10,15,1,1,1,1,0,0,0],' +
+    '["000df","Haredini",10,15,0,0,1,1,0,0,0],' +
+    '["000dg","Selkrub",11,7,1,1,1,1,0,0,0],' +
+    '["000dh","Aqrabion",11,7,0,0,1,1,0,0,0],' +
+    '["000di","Skargas",11,7,0,0,1,1,0,0,0],' +
+    '["000dj","Kawotor",2,0,1,1,1,1,0,0,0],' +
+    '["000dk","Lutriva",2,6,0,0,1,1,0,0,0],' +
+    '["000dl","Selutian",2,5,0,0,1,1,0,0,0],' +
+    '["000dm","Kitwurm",11,-1,1,1,1,1,0,0,0],' +
+    '["000dn","Purrpa",11,-1,0,0,1,1,0,0,0],' +
+    '["000do","Moffkat",11,17,0,0,1,1,0,0,0],' +
+    '["000dp","Pepyre",4,1,1,1,1,1,0,0,0],' +
+    '["000dq","Skarasear",4,1,0,0,1,1,0,0,0],' +
+    '["000dr","Aphreyd",11,-1,1,1,1,1,0,0,0],' +
+    '["000ds","Scavady",11,-1,0,0,1,1,0,0,0],' +
+    '["000dt","Mantidra",11,14,0,0,1,1,0,0,0],' +
+    '["000du","Caimaw",16,-1,1,1,1,1,0,0,0],' +
+    '["000dv","Caimangle",16,-1,0,0,1,1,0,0,0],' +
+    '["000dw","Valimp",17,15,1,1,1,1,0,0,0],' +
+    '["000dx","Valladox",17,15,0,0,1,1,0,0,0],' +
+    '["000dy","Valenoir",17,15,0,0,1,1,0,0,0],' +
+    '["000dz","Frusky",5,-1,1,1,1,1,1,1,0],' +
+    '["000f0","Glacifur",5,-1,0,0,1,1,1,1,0],' +
+    '["000f1","Skyrie",9,-1,1,1,1,1,0,0,0],' +
+    '["000f2","Grymphony",9,-1,0,0,1,1,0,0,0],' +
+    '["000f3","Shinorin",14,6,1,1,1,1,0,0,0],' +
+    '["000f4","Shinorin/Incandescent",14,1,0,0,1,1,0,0,0],' +
+    '["000f5","Sikannos",0,1,1,1,1,1,0,0,0],' +
+    '["000f6","Sikannos/Unfettered",13,1,0,0,1,1,0,0,0],' +
+    '["000f7","Goschief",17,-1,1,1,1,1,0,0,0],' +
+    '["000f8","Havonk",17,15,0,0,1,1,0,0,0],' +
+    '["000f9","Mocknock",13,16,1,1,1,1,0,0,0],' +
+    '["000fa","Portalgeist",13,16,0,0,1,1,0,0,0]],' +
+    '"98":[["012-Q","Butterfree/Mega Forme Q",11,10,0,0,1,1,1,1,0],' +
+    '["024-Q","Arbok/Mega Forme Q",7,15,0,0,1,1,1,1,0],' +
+    '["027-Q","Raichu/Mega Forme Q",3,6,0,0,1,1,0,0,0],' +
+    '["039-Q","Ninetales/Mega Forme Q",1,10,0,0,1,1,1,1,0],' +
+    '["057-Q","Persian/Mega Forme Q",0,13,0,0,1,1,0,0,0],' +
+    '["063-Q","Arcanine/Mega Forme Q",1,14,0,0,1,1,1,1,0],' +
+    '["083-Q","Rapidash/Mega Forme Q",1,9,0,0,1,1,1,1,0],' +
+    '["090-Q","Farfetch\'d/Mega Forme Q",0,9,0,0,1,1,0,0,0],' +
+    '["094-Q","Dewgong/Mega Forme Q",2,5,0,0,1,1,1,1,0],' +
+    '["113-Q","Marowak/Alolan Mega Forme Q",1,13,0,0,1,1,1,1,0],' +
+    '["136-Q","Jynx/Mega Forme Q",5,10,0,0,1,1,1,1,1],' +
+    '["141-Q","Lapras/Mega Forme Q",2,5,0,0,1,1,1,1,0],' +
+    '["144-Q","Vaporeon/Mega Forme Q",2,-1,0,0,1,1,1,0,0],' +
+    '["145-Q","Jolteon/Mega Forme Q",3,-1,0,0,1,1,0,0,0],' +
+    '["146-Q","Flareon/Mega Forme Q",1,-1,0,0,1,1,1,0,0],' +
+    '["147-Q","Espeon/Mega Forme Q",10,-1,0,0,1,1,0,1,0],' +
+    '["148-Q","Umbreon/Mega Forme Q",15,-1,0,0,1,1,1,0,0],' +
+    '["149-Q","Leafeon/Mega Forme Q",4,-1,0,0,1,1,0,0,0],' +
+    '["150-Q","Glaceon/Mega Forme Q",5,-1,0,0,1,1,0,0,0],' +
+    '["151-Q","Sylveon/Mega Forme Q",17,-1,0,0,1,1,0,1,0],' +
+    '["164-Q","Dragonite/Mega Forme Q",14,9,0,0,1,1,0,0,0],' +
+    '["166-Q","Mew/Mega Forme Q",10,-1,0,0,1,1,0,0,0],' +
+    '["177-Q","Furret/Mega Forme Q",0,14,0,0,1,1,0,1,0],' +
+    '["201-Q","Jumpluff/Mega Forme Q",4,17,0,0,1,1,0,0,0],' +
+    '["215-Q","Girafarig/Mega Forme Q",0,10,0,0,1,1,0,0,0],' +
+    '["218-Q","Dunsparce/Mega Forme Q",0,14,0,0,1,1,1,0,0],' +
+    '["227-Q","Weavile/Mega Forme Q",15,5,0,0,1,1,1,0,0],' +
+    '["239-Q","Skarmory/Mega Forme Q",16,14,0,0,1,1,1,0,0],' +
+    '["263-Q","Lugia/Mega Forme Q",10,9,0,0,1,1,0,0,0],' +
+    '["264-Q","Ho-oh/Mega Forme Q",1,9,0,0,1,1,0,0,0],' +
+    '["265-Q","Celebi/Mega Forme Q",10,4,0,0,1,1,0,0,0],' +
+    '["276-Q","Mightyena/Mega Forme Q",15,-1,0,0,1,1,1,1,0],' +
+    '["301-Q","Breloom/Mega Forme Q",4,6,0,0,1,1,1,1,0],' +
+    '["325-Q","Manectric/Mega Forme Q",3,1,0,0,1,1,1,1,0],' +
+    '["335-Q","Wailord/Mega Forme Q",2,9,0,0,1,1,0,0,0],' +
+    '["344-Q","Flygon/Mega Forme Q",8,14,0,0,1,1,1,1,0],' +
+    '["349-Q","Zangoose/Mega Forme Q",0,15,0,0,1,1,0,0,0],' +
+    '["350-Q","Seviper/Mega Forme Q",7,2,0,0,1,1,1,0,0],' +
+    '["364-Q","Milotic/Mega Forme Q",2,17,0,0,1,1,0,0,0],' +
+    '["380-Q","Froslass/Mega Forme Q",5,13,0,0,1,1,1,1,0],' +
+    '["403-Q","Jirachi/Mega Forme Q",16,10,0,0,1,1,0,0,0],' +
+    '["423-Q","Luxray/Mega Forme Q",3,15,0,0,1,1,1,1,0],' +
+    '["438-Q","Floatzel/Mega Forme Q",2,-1,0,0,1,1,0,0,0],' +
+    '["471-Q","Lumineon/Mega Forme Q",2,17,0,0,1,1,0,0,0],' +
+    '["487-Q","Giratina/Mega Forme Q",13,14,0,0,1,1,0,0,0],' +
+    '["490-Q","Manaphy/Mega Forme Q",2,17,0,0,1,1,0,0,0],' +
+    '["510-Q","Liepard/Mega Forme Q",15,-1,0,0,1,1,1,1,0],' +
+    '["545-Q","Scolipede/Mega Forme Q",11,7,0,0,1,1,0,0,0],' +
+    '["560-Q","Scrafty/Mega Forme Q",15,6,0,0,1,1,1,1,0],' +
+    '["571-Q","Zoroark/Mega Forme Q",15,-1,0,0,1,1,1,1,0],' +
+    '["609-Q","Chandelure/Mega Forme Q",13,1,0,0,1,1,1,1,0],' +
+    '["612-Q","Haxorus/Mega Forme Q",14,16,0,0,1,1,1,1,0],' +
+    '["621-Q","Druddigon/Mega Forme Q",14,12,0,0,1,1,0,1,0],' +
+    '["668-Q","Pyroar/Mega Forme Q",1,0,0,0,1,1,1,1,0],' +
+    '["673-Q","Gogoat/Mega Forme Q",4,-1,0,0,1,1,0,0,0],' +
+    '["695-Q","Heliolisk/Mega Forme Q",3,1,0,0,1,1,1,1,0],' +
+    '["700-Q","Hawlucha/Mega Forme Q",6,9,0,0,1,1,1,1,0],' +
+    '["705-Q","Goodra/Mega Forme Q",14,7,0,0,1,1,1,1,0],' +
+    '["714-Q","Noivern/Mega Forme Q",9,14,0,0,1,1,0,1,0]],' +
+    '"99":[["019s1","Saiyan Rattata",0,6,1,1,1,1,0,0,0],' +
+    '["019s2","Super-Saiyan Rattata",0,6,0,0,1,1,0,0,0],' +
+    '["020s1","Super-Saiyan Raticate",0,6,0,0,1,1,0,0,0],' +
+    '["020s2","Super-Saiyan 2 Raticate",0,6,0,0,1,1,0,0,0],' +
+    '["020-S","Super-Saiyan 3 Raticate",0,6,0,0,1,1,0,0,0],' +
+    '["020-T","Super-Saiyan 4 Raticate",0,6,0,0,1,1,0,0,0],' +
+    '["025f","Flying Pichu",3,-1,1,1,1,1,0,0,0],' +
+    '["025s","Surfing Pichu",3,-1,1,1,1,1,0,0,0],' +
+    '["026f","Flying Pikachu",3,-1,0,0,1,1,0,0,0],' +
+    '["026s","Surfing Pikachu",3,-1,0,0,1,1,0,0,0],' +
+    '["026w","Snowboarding Pikachu",3,-1,0,0,1,1,0,0,0],' +
+    '["027f","Flying Raichu",3,9,0,0,1,1,0,0,0],' +
+    '["027s","Surfing Raichu",3,2,0,0,1,1,0,0,0],' +
+    '["027w","Snowboarding Raichu",3,5,0,0,1,1,0,0,0],' +
+    '["029t","Sandslash/Totem Forme Q",8,-1,0,0,1,1,1,1,0],' +
+    '["035s","Shooting Star Cleffa",17,-1,1,1,1,1,0,0,0],' +
+    '["036s","Shooting Star Clefairy",17,-1,0,0,1,1,0,0,0],' +
+    '["037s","Shooting Star Clefable",17,-1,0,0,1,1,0,0,0],' +
+    '["038a","Koroku",1,5,1,1,1,1,0,0,0],' +
+    '["039-A","Kyukori",1,5,0,0,1,1,0,0,0],' +
+    '["040g","Guild Igglybuff",0,17,1,1,1,1,0,0,0],' +
+    '["041g","Guild Jigglypuff",0,17,0,0,1,1,0,0,0],' +
+    '["042g","Guild Wigglytuff",0,17,0,0,1,1,0,0,0],' +
+    '["062x","Apocalyptic Growlithe",1,-1,1,1,1,1,0,0,0],' +
+    '["063x","Apocalyptic Arcanine",1,1,0,0,1,1,0,0,0],' +
+    '["084s","Snowpoke",5,10,1,1,1,1,0,0,0],' +
+    '["085s","Snowbro",5,10,0,0,1,1,0,0,0],' +
+    '["086s","Snowking",5,10,0,0,1,1,0,0,0],' +
+    '["108ds","Death Star Voltorb",3,-1,1,1,1,1,0,0,0],' +
+    '["109ds","Death Star Electrode",3,-1,0,0,1,1,0,0,0],' +
+    '["189e","Early Bird Natu",10,9,1,1,1,1,0,0,0],' +
+    '["190e","Early Bird Xatu",10,9,0,0,1,1,0,0,0],' +
+    '["219v","Gligar/Vampire",8,9,1,1,1,1,0,0,0],' +
+    '["220v","Gliscor/Vampire",8,9,0,0,1,1,0,0,0],' +
+    '["225s","Scaracross",11,13,1,1,1,1,1,0,0],' +
+    '["230bm","Blue Moon Slugma",2,-1,1,1,1,1,0,0,0],' +
+    '["231bm","Blue Moon Magcargo",2,12,0,0,1,1,0,0,0],' +
+    '["240c","Houndour/Orthrus",1,14,1,1,1,1,0,0,0],' +
+    '["240i","Frosdour",15,5,1,1,1,1,1,0,0],' +
+    '["241c","Houndoom/Cerberus",1,14,0,0,1,1,0,0,0],' +
+    '["241i","Chilldoom",15,5,0,0,1,1,1,0,0],' +
+    '["243t","Donphan/Totem Forme Q",8,-1,0,0,1,1,1,1,0],' +
+    '["263xd","XD001",10,9,1,1,1,1,0,0,0],' +
+    '["275x","Apocalyptic Poochyena",15,13,1,1,1,1,0,0,0],' +
+    '["276x","Apocalyptic Mightyena",15,13,0,0,1,1,0,0,0],' +
+    '["294b","Snoralts",5,17,1,1,1,1,0,0,0],' +
+    '["295b","Snolia",5,17,0,0,1,1,0,0,0],' +
+    '["296b","Frosvoir",5,13,0,0,1,1,0,0,0],' +
+    '["297b","Glaillade",5,6,0,0,1,1,0,0,0],' +
+    '["300x","Apocalyptic Shroomish",4,7,1,1,1,1,0,0,0],' +
+    '["301x","Apocalyptic Breloom",4,7,0,0,1,1,0,0,0],' +
+    '["336i","Numel/Arctic",5,8,1,1,1,1,0,0,0],' +
+    '["337i","Camerupt/Arctic",5,8,0,0,1,1,0,0,0],' +
+    '["354t","Whiscash/Totem Forme Q",2,8,0,0,1,1,1,1,0],' +
+    '["402f","Ryukuza",14,9,1,1,1,1,0,0,0],' +
+    '["402m","Magquaza",14,13,1,1,1,1,0,0,0],' +
+    '["405s","Seasonal Turtwig",4,-1,1,1,1,1,0,0,0],' +
+    '["406s","Seasonal Grotle",4,-1,0,0,1,1,0,0,0],' +
+    '["407s","Seasonal Torterra",4,-1,0,0,1,1,0,0,0],' +
+    '["421f","Shinxel",3,2,1,1,1,1,1,0,0],' +
+    '["422f","Fluxio",3,2,0,0,1,1,1,0,0],' +
+    '["423f","Fluxray",3,2,0,0,1,1,1,0,0],' +
+    '["423-F","Fluxray/Mega Forme Q",3,2,0,0,1,1,1,0,0],' +
+    '["434s","Snow Combee",11,5,1,1,1,1,0,0,0],' +
+    '["435s","Snow Vespiquen",11,5,0,0,1,1,0,0,0],' +
+    '["435t","Snow Vespiquen/Totem Forme Q",11,5,0,0,1,1,0,0,0],' +
+    '["450t","Skuntank/Totem Forme Q",7,15,0,0,1,1,1,1,0],' +
+    '["483p","Dialga/Primal Forme Q",16,14,0,0,1,1,0,0,0],' +
+    '["484p","Palkia/Primal Forme Q",2,14,0,0,1,1,0,0,0],' +
+    '["509h","Purrloin/Hallowe\'en Witch",15,-1,1,1,1,1,0,0,0],' +
+    '["510h","Liepard/Hallowe\'en Witch",15,-1,0,0,1,1,0,0,0],' +
+    '["556t","Maractus/Totem Forme Q",4,-1,0,0,1,1,0,0,0],' +
+    '["622x","Apocalyptic Golett",12,16,1,1,1,1,0,0,0],' +
+    '["623x","Apocalyptic Golurk",12,16,0,0,1,1,0,0,0],' +
+    '["628t","Braviary/Totem Forme Q",0,9,0,0,1,1,0,0,0],' +
+    '["630t","Mandibuzz/Totem Forme Q",15,9,0,0,1,1,1,1,0],' +
+    '["667g","Glileo",1,7,1,1,1,1,0,0,0],' +
+    '["668g","Pyriscor",1,7,0,0,1,1,0,0,0],' +
+    '["682p","Spritzkrow",17,15,1,1,1,1,0,0,0],' +
+    '["683p","Aromakrow",17,15,0,0,1,1,0,0,0],' +
+    '["713b","Noismog",10,14,1,1,1,1,0,0,0],' +
+    '["713c","Noismoem",10,14,0,0,1,1,0,0,0],' +
+    '["714b","Solgavern",16,14,0,0,1,1,0,0,0],' +
+    '["714c","Lunavern",13,14,0,0,1,1,0,0,0],' +
+    '["726b","Incineroar/Feral",1,3,0,0,1,1,0,0,0],' +
+    '["740q","Oricorio/Pointe Style",4,9,0,0,1,1,0,0,0]]}}';
 }
 
 class Globals extends GlobalsBase {
@@ -2833,126 +4557,267 @@ if (module) {
  * for the QoL Hub.
  */
 
-class QoLHub {
-    static build($, document, templates, globals, settings, settingsChange) {
-        $('body', document).append(templates.qolHubHTML);
-        $('#core', document).addClass('scrolllock');
-        // const qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead', document).css('background-color');
-        const qolHubCssBackgroundHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.backgroundColor;
-        // const qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead', document).css('color');
-        const qolHubCssTextColorHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.color;
-        // const qolHubCssBackground = $('.qolHubTable', document).css('background-color');
-        const qolHubCssBackground = document.querySelector('.qolHubTable').style.backgroundColor;
-        // const qolHubCssTextColor = $('.qolHubTable', document).css('color');
-        const qolHubCssTextColor = document.querySelector('.qolHubTable').style.color;
-        // $('.qolHubHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
-        document.querySelector('.qolHubHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
-        document.querySelector('.qolHubHead').style.color = '' + qolHubCssTextColorHead + '';
-        // $('.qolChangeLogHead', document).css({ 'backgroundColor': '' + qolHubCssBackgroundHead + '', 'color': '' + qolHubCssTextColorHead + '' });
-        document.querySelector('.qolChangeLogHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
-        document.querySelector('.qolChangeLogHead').style.color = '' + qolHubCssTextColorHead + '';
-        // $('.qolopencloselist.qolChangeLogContent', document).css({ 'backgroundColor': '' + qolHubCssBackground + '', 'color': '' + qolHubCssTextColor + '' });
-        document.querySelector('.qolopencloselist.qolChangeLogContent').style.backgroundColor = '' + qolHubCssBackground + '';
-        document.querySelector('.qolopencloselist.qolChangeLogContent').style.color = '' + qolHubCssTextColor + '';
-        $('.qolDate', document).text(globals.DEX_UPDATE_DATE);
-
-        const customCss = settings.customCss;
-
-        $('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolsetting" data-key="customCss"/></textarea>');
-        if (customCss === '') {
-            $('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
-        } else {
-            $('.textareahub textarea', document).val(customCss);
+class QoLHubBase {
+    static DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
+        customCss: '',
+        enableDaycare: true,
+        shelterEnable: true,
+        fishingEnable: true,
+        publicFieldEnable: true,
+        privateFieldEnable: true,
+        partyMod: true,
+        easyEvolve: true,
+        labNotifier: true,
+        dexFilterEnable: true,
+        condenseWishforge: true
+    };
+    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
+        this.jQuery = jQuery;
+        this.GLOBALS = GLOBALS;
+        this.PAGES = PAGES;
+        this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
+        if(SETTINGS) {
+            this.USER_SETTINGS = SETTINGS;
         }
-
-        $('#qolcustomcss', document).on('keydown', function (e) {
+        else {
+            this.USER_SETTINGS = QoLHubBase.DEFAULT_USER_SETTINGS;
+        }
+    }
+    setupCSS() {
+        //custom user css
+        const customUserCss = this.USER_SETTINGS.customCss;
+        //document.querySelector('head').append();
+        this.jQuery('head').append('<style type="text/css">' + customUserCss + '</style>');
+    }
+    setupHandlers() {
+        const obj = this;
+        obj.jQuery('#qolcustomcss', document).on('keydown', function (e) {
             if (e.keyCode == 9 || e.which == 9) {
                 e.preventDefault();
                 const s = this.selectionStart;
-                $(this).val(function (i, v) {
+                obj.jQuery(this).val(function (i, v) {
                     return v.substring(0, s) + '\t' + v.substring(this.selectionEnd);
                 });
                 this.selectionEnd = s + 1;
             }
         });
 
-        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
-            settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'),
+        obj.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+            obj.settingsChange(this.getAttribute('data-key'),
+                obj.jQuery(this).val(),
+                obj.jQuery(this).parent().parent().attr('class'),
+                obj.jQuery(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
         }));
 
-        $(document).on('click', '.closeHub', (function () { //close QoL hub
-            QoLHub.close($, document);
+        obj.jQuery(document).on('click', '.closeHub', (function () { //close QoL hub
+            obj.close(document);
+        }));
+
+        obj.jQuery(document).on('click', '#resetPageSettings', (function () {
+            const page = obj.jQuery(this).parent().find('select').val();
+            obj.clearPageSettings(page);
+        }));
+
+        obj.jQuery(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
+            obj.jQuery(this).next().slideToggle();
         }));
     }
+    loadSettings() {
+        if (localStorage.getItem(this.SETTINGS_SAVE_KEY) === null) {
+            this.saveSettings();
+        } else {
+            try {
+                const countScriptSettings = Object.keys(this.USER_SETTINGS).length;
+                const localStorageString = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+                const countLocalStorageSettings = Object.keys(localStorageString).length;
+                // adds new objects (settings) to the local storage
+                if (countLocalStorageSettings < countScriptSettings) {
+                    const defaultsSetting = this.USER_SETTINGS;
+                    const userSetting = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+                    const newSetting = this.jQuery.extend(true, {}, defaultsSetting, userSetting);
 
-    static close($, document) {
-        $('.dialog', document).remove();
-        $('#core', document).removeClass('scrolllock');
+                    this.USER_SETTINGS = newSetting;
+                    this.saveSettings();
+                }
+                // removes objects from the local storage if they don't exist anymore. Not yet possible..
+                if (countLocalStorageSettings > countScriptSettings) {
+                    //let defaultsSetting = QOLHUB.USER_SETTINGS;
+                    //let userSetting = JSON.parse(localStorage.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                    this.saveSettings();
+                }
+            }
+            catch (err) {
+                this.saveSettings();
+            }
+            if (localStorage.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
+                this.USER_SETTINGS = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+            }
+        }
     }
+    saveSettings() {
+        localStorage.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
+    }
+    populateSettings() {
+        for (const key in this.USER_SETTINGS) {
+            if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
+                const value = this.USER_SETTINGS[key];
+                if (typeof value === 'boolean') {
+                    Helpers.toggleSetting(key, value);
+                }
+                else if (typeof value === 'string') {
+                    Helpers.toggleSetting(key, value);
+                }
+            }
+        }
+    }
+    settingsChange(element, textElement) {
+        if (JSON.stringify(this.USER_SETTINGS).indexOf(element) >= 0) { // userscript settings
+            if (this.USER_SETTINGS[element] === false) {
+                this.USER_SETTINGS[element] = true;
+            } else if (this.USER_SETTINGS[element] === true) {
+                this.USER_SETTINGS[element] = false;
+            } else if (typeof this.USER_SETTINGS[element] === 'string') {
+                this.USER_SETTINGS[element] = textElement;
+            }
+            this.saveSettings();
+            return true;
+        }
+        return false;
+    }
+    clearPageSettings(pageName) {
+        if (pageName !== 'None') { // "None" matches option in HTML
+            this.PAGES.clearPageSettings(pageName);
+        }
+    }
+    build(document) {
+        this.jQuery('body', document).append(this.GLOBALS.TEMPLATES.qolHubHTML);
+        this.jQuery('#core', document).addClass('scrolllock');
+        const qolHubCssBackgroundHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.backgroundColor;
+        const qolHubCssTextColorHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.color;
+        const qolHubCssBackground = document.querySelector('.qolHubTable').style.backgroundColor;
+        const qolHubCssTextColor = document.querySelector('.qolHubTable').style.color;
+        document.querySelector('.qolHubHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
+        document.querySelector('.qolHubHead').style.color = '' + qolHubCssTextColorHead + '';
+        document.querySelector('.qolChangeLogHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
+        document.querySelector('.qolChangeLogHead').style.color = '' + qolHubCssTextColorHead + '';
+        document.querySelector('.qolopencloselist.qolChangeLogContent').style.backgroundColor = '' + qolHubCssBackground + '';
+        document.querySelector('.qolopencloselist.qolChangeLogContent').style.color = '' + qolHubCssTextColor + '';
 
-    static handleUpdateDexClick($, document, dexUtilities, localStorageManager, dexPageParser, evolutionTreeParser, globals) {
+        const customCss = this.USER_SETTINGS.customCss;
+
+        this.jQuery('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolsetting" data-key="customCss"/></textarea>');
+        if (customCss === '') {
+            this.jQuery('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
+        } else {
+            this.jQuery('.textareahub textarea', document).val(customCss);
+        }
+    }
+    close(document) {
+        this.jQuery('.dialog', document).remove();
+        this.jQuery('#core', document).removeClass('scrolllock');
+    }
+} // QoLHubBase
+
+if (module) {
+    module.exports.QoLHubBase = QoLHubBase;
+}
+/* This class handles creating, removing, and handling the DOM object actions
+ * for the QoL Hub.
+ */
+
+class QoLHub extends QoLHubBase {
+    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
+        super(jQuery, GLOBALS, PAGES, SETTINGS);
+    }
+    setupHandlers() {
+        super.setupHandlers();
+        const obj = this;
+
+        obj.jQuery(document).on('click', '#updateDex', (function () {
+            obj.handleUpdateDexClick(document);
+        }));
+
+        // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
+        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
+            obj.jQuery('#clearCachedDex').next().remove();
+        }));
+
+        // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
+        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
+            obj.jQuery('#clearCachedDex').next().remove();
+            localStorage.removeItem('QoLEvolveByLevel');
+            localStorage.removeItem('QoLDexIDsCache');
+            localStorage.removeItem('QoLEvolutionTreeDepth');
+            localStorage.removeItem('QoLRegionalFormsList');
+            obj.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
+        }));
+    }
+    build(document) {
+        super.build(document);
+        this.jQuery('.qolDate', document).text(this.GLOBALS.DEX_UPDATE_DATE);
+    }
+    handleUpdateDexClick(document) {
+        const obj = this;
+        const localStorageManager = new LocalStorageManager(localStorage);
         // Manually update GLOBALS.DEX_DATA
-        localStorageManager.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals);
+        localStorageManager.loadDexIntoGlobalsFromWeb(obj.jQuery, document, DexUtilities, obj.GLOBALS);
 
-        // globals.DEX_DATA will contain the latest info as is read from local storage
+        // obj.GLOBALS.DEX_DATA will contain the latest info as is read from local storage
         // this handler updates the local storage
-        const progressSpan = $('span.qolDexUpdateProgress', document)[0];
+        const progressSpan = obj.jQuery('span.qolDexUpdateProgress', document)[0];
         progressSpan.textContent = 'Loading...';
 
         const date = (new Date()).toUTCString();
-        globals.DEX_UPDATE_DATE = date;
-        $('.qolDate', document).text(globals.DEX_UPDATE_DATE);
-        localStorageManager.updateLocalStorageDex($, document, date, globals);
+        obj.GLOBALS.DEX_UPDATE_DATE = date;
+        obj.jQuery('.qolDate', document).text(obj.GLOBALS.DEX_UPDATE_DATE);
+        localStorageManager.updateLocalStorageDex(obj.jQuery, document, date, obj.GLOBALS);
 
-        // this will update the globals.EVOLVE_BY_LEVEL_LIST
+        // this will update the obj.GLOBALS.EVOLVE_BY_LEVEL_LIST
         // and local storage
         const virtualDocument = document.implementation.createHTMLDocument('virtual');
-        dexUtilities.getMainDexPage($).then((data) => {
-            const html = $.parseHTML(data);
-            const dex = $(html[html.length - 1], virtualDocument).find('#dexdata').html();
+        DexUtilities.getMainDexPage(obj.jQuery).then((data) => {
+            const html = obj.jQuery.parseHTML(data);
+            const dex = obj.jQuery(html[html.length - 1], virtualDocument).find('#dexdata').html();
             const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
 
             if (dexNumbers.length > 0) {
                 // update the progress bar in the hub
                 const limit = dexNumbers.length;
-                const progressBar = $('progress.qolDexUpdateProgress', document)[0];
+                const progressBar = obj.jQuery('progress.qolDexUpdateProgress', document)[0];
                 progressBar['max'] = limit;
-                dexUtilities.loadDexPages($, dexNumbers, progressBar, progressSpan).then((data) => {
+                DexUtilities.loadDexPages(obj.jQuery, dexNumbers, progressBar, progressSpan).then((data) => {
                     const dexPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
-                    dexUtilities.loadFormPages($, virtualDocument, dexPagesHTML, progressBar, progressSpan).then((data) => {
+                    DexUtilities.loadFormPages(obj.jQuery, virtualDocument, dexPagesHTML, progressBar, progressSpan).then((data) => {
                         const formPagesHTML = data.map(d => (Array.isArray(d) ? d[0] : d));
 
                         // Combine the arrays of HTML into one array
                         const allPagesHTML = dexPagesHTML.concat(formPagesHTML);
 
                         // Parse evolution data
-                        const [parsedFamilies, dexIDs] = dexUtilities.parseEvolutionTrees($, virtualDocument, dexPageParser, evolutionTreeParser, allPagesHTML);
+                        const [parsedFamilies, dexIDs] = DexUtilities.parseEvolutionTrees(obj.jQuery, virtualDocument, DexPageParser, EvolutionTreeParser, allPagesHTML);
 
                         // Parse form data
-                        const [formData, formMap] = dexUtilities.parseFormData($, virtualDocument, dexPageParser, allPagesHTML);
+                        const [formData, formMap] = DexUtilities.parseFormData(obj.jQuery, virtualDocument, DexPageParser, allPagesHTML);
 
                         // Build evolution tree depths
-                        const evolutionTreeDepthList = dexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
+                        const evolutionTreeDepthList = DexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
 
                         // Collect regional form data
-                        const regionalFormMap = dexUtilities.buildRegionalFormsMap(formMap);
+                        const regionalFormMap = DexUtilities.buildRegionalFormsMap(formMap);
 
                         // Collect list of base names to make it easier down the line
-                        const baseNames = dexUtilities.parseBaseNames($, virtualDocument, dexPageParser, allPagesHTML);
+                        const baseNames = DexUtilities.parseBaseNames(obj.jQuery, virtualDocument, DexPageParser, allPagesHTML);
                         // Collect list of egg pngs
-                        const eggPngs = dexUtilities.parseEggsPngsList($, virtualDocument, dexPageParser, allPagesHTML);
+                        const eggPngs = DexUtilities.parseEggsPngsList(obj.jQuery, virtualDocument, DexPageParser, allPagesHTML);
                         // Collect list of types
-                        const types = dexUtilities.parseTypesList($, virtualDocument, dexPageParser, globals, allPagesHTML);
-                        const eggPngsTypeMap = dexUtilities.buildEggPngsTypesMap(baseNames, eggPngs, types);
+                        const types = DexUtilities.parseTypesList(obj.jQuery, virtualDocument, DexPageParser, obj.GLOBALS, allPagesHTML);
+                        const eggPngsTypeMap = DexUtilities.buildEggPngsTypesMap(baseNames, eggPngs, types);
 
-                        localStorageManager.saveEvolveByLevelList(globals, parsedFamilies, dexIDs);
-                        localStorageManager.saveEvolutionTreeDepths(globals, evolutionTreeDepthList);
-                        localStorageManager.saveRegionalFormsList(globals, parsedFamilies, dexIDs, regionalFormMap);
-                        localStorageManager.saveEggTypesMap(globals, eggPngsTypeMap);
+                        localStorageManager.saveEvolveByLevelList(obj.GLOBALS, parsedFamilies, dexIDs);
+                        localStorageManager.saveEvolutionTreeDepths(obj.GLOBALS, evolutionTreeDepthList);
+                        localStorageManager.saveRegionalFormsList(obj.GLOBALS, parsedFamilies, dexIDs, regionalFormMap);
+                        localStorageManager.saveEggTypesMap(obj.GLOBALS, eggPngsTypeMap);
                         progressSpan.textContent = 'Complete!';
                     }, (error) => {
                         console.log(error);
@@ -2967,7 +4832,7 @@ class QoLHub {
         }, (error) => {
             console.log(error);
         });// getMainDexPage
-    } // handleUpdateDexClick
+    }
 } // QoLHub
 
 if (module) {
@@ -3062,9 +4927,7 @@ class Page {
     setupHandlers() { /* empty */ }
 } // Page
 
-const ShelterBase = Page;
-
-class ShelterPage extends ShelterBase {
+class ShelterPageBase extends Page {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLShelter', {
             findCustom: '',
@@ -3081,11 +4944,9 @@ class ShelterPage extends ShelterBase {
             findMega: true,
             findStarter: true,
             findCustomSprite: true,
-            findReadyToEvolve: false,
             findMale: true,
             findFemale: true,
             findNoGender: true,
-            findNFE: false,
             customEgg: true,
             customPokemon: true,
             customPng: false,
@@ -3099,17 +4960,6 @@ class ShelterPage extends ShelterBase {
                 obj.customSearch(GLOBALS);
             });
         });
-
-        // when the page is loaded, check to see if the data needed for finding eggs by type is loaded (if it's needed)
-        if (this.onPage(window) &&
-            this.settings.findTypeEgg &&
-            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem('QoLEggTypesMap')))) {
-            window.alert('Message from QoL script:\nUnable to load list of pokemon eggs and their types, ' +
-                'which is used to distinguish eggs with the same name but different types (Vulpix and ' +
-                'Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. ' +
-                'Please clear and reload your pokedex data by clicking the "Clear Cached Dex" ' +
-                'and then clicking the "Update Pokedex" button in the QoL Hub to load list of eggs and types.');
-        }
 
         // used to keep track of the currently selected match
         // matches can be selected via a shortcut key, specified via this.selectNextMatchKey
@@ -3304,75 +5154,6 @@ class ShelterPage extends ShelterBase {
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
         }
     }
-
-    searchForReadyToEvolveByLevel(GLOBALS) {
-        const obj = this;
-        const selected = this.jQuery('#shelterarea .tooltip_content');
-        const readyBigImg = [];
-        selected.each((idx, s) => {
-            const text = s.textContent.split(' ');
-            const name = text[0];
-            const level = parseInt(text[1].substring(4));
-
-            // get level that pokemon needs to be at to evolve
-            let evolveLevel = undefined;
-            if (GLOBALS.EVOLVE_BY_LEVEL_LIST[name] !== undefined) {
-                evolveLevel = parseInt(GLOBALS.EVOLVE_BY_LEVEL_LIST[name].split(' ')[1]);
-            }
-
-            if (evolveLevel !== undefined && level >= evolveLevel) {
-                const shelterBigImg = obj.jQuery(s).prev().children('img.big');
-                readyBigImg.push(shelterBigImg);
-            }
-        });
-
-        for (let i = 0; i < readyBigImg.length; i++) {
-            this.jQuery(readyBigImg[i]).addClass('shelterfoundme');
-        }
-
-        const imgResult = readyBigImg.length + ' ' + 'ready to evolve';
-        this.insertShelterFoundDiv(readyBigImg.length, imgResult, '');
-
-    }
-
-    highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
-        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
-        // will not exist. If this occurs. don't try highlighting anything until the
-        // pokemon is "put down"
-        if (!this.jQuery(pokemonElem).next().length) { return; }
-
-        const tooltipElem = this.jQuery(pokemonElem).next()[0];
-        const tooltip = {
-            species: tooltipElem.textContent.split(' ')[0],
-            forme: ''
-        };
-        let pokemon = tooltip['species'];
-
-        if (GLOBALS.EVOLUTIONS_LEFT !== undefined && GLOBALS.EVOLUTIONS_LEFT !== null) {
-            const evolutionData = GLOBALS.EVOLUTIONS_LEFT;
-            // if can't find the pokemon directly, try looking for its form data
-            if (!evolutionData[pokemon]) {
-                if (tooltip['forme']) {
-                    pokemon = pokemon + ' [' + tooltip['forme'] + ']';
-                }
-            }
-            if (!evolutionData[pokemon]) {
-                // Do not log error here. Repeated errors can (will) slow down the page
-                // console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
-            } else {
-                const evolutionsLeft = evolutionData[pokemon].remaining;
-
-                if (evolutionsLeft === 1) {
-                    this.jQuery(pokemonElem).children('img.big').addClass('oneevolutionleft');
-                } else if (evolutionsLeft === 2) {
-                    this.jQuery(pokemonElem).children('img.big').addClass('twoevolutionleft');
-                }
-            }
-        } else {
-            console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
-        }
-    }
-
     customSearch(GLOBALS) {
         const obj = this;
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
@@ -3426,18 +5207,6 @@ class ShelterPage extends ShelterBase {
         if (this.settings.findCustomSprite === true) {
             this.searchForImgTitle(GLOBALS, 'findCustomSprite');
         }
-        if (this.settings.findNFE === true) {
-            this.jQuery('#shelterarea>[data-stage=pokemon]').each(function () {
-                obj.highlightByHowFullyEvolved(GLOBALS, this);
-            });
-        } else {
-            this.jQuery('.oneevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('oneevolutionleft');
-            });
-            this.jQuery('.twoevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('twoevolutionleft');
-            });
-        }
 
         if (this.settings.findNewPokemon === true) {
             const key = 'findNewPokemon';
@@ -3472,19 +5241,6 @@ class ShelterPage extends ShelterBase {
                     this.jQuery(shelterBigImg).addClass('shelterfoundme');
                 }
                 this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
-            }
-        }
-
-        if (this.settings.findReadyToEvolve === true) {
-            if (GLOBALS.EVOLVE_BY_LEVEL_LIST === null) {
-                window.alert('Unable to load list of pokemon that can evolve by level. Please try updating dex ' +
-                    'by clicking "Update Pokedex" in the QoL Hub. If the problem persists, please post in the thread.\n\n' +
-                    'Disabling this function until the checkbox is clicked again');
-                this.settings.findReadyToEvolve = false;
-                // uncheck checkbox
-                this.jQuery('[data-key=findReadyToEvolve]')[0].checked = false;
-            } else {
-                this.searchForReadyToEvolveByLevel(GLOBALS);
             }
         }
 
@@ -3584,6 +5340,185 @@ class ShelterPage extends ShelterBase {
         const filteredTypeArray = this.typeArray.filter(v => v != '');
 
         if (filteredTypeArray.length > 0) {
+            for (let i = 0; i < filteredTypeArray.length; i++) {
+                const value = filteredTypeArray[i];
+                const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
+
+                let typePokemonNames = [];
+                let selected = undefined;
+                if (this.settings.findTypeEgg === true) {
+                    const pokemonElems = [];
+                    typePokemonNames = [];
+                    selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
+                    selected.each(function () {
+                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                        let searchTypeOne = '';
+                        let searchTypeTwo = '';
+
+                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                        searchTypeOne = dexData[searchPokemonIndex + 1];
+                        searchTypeTwo = dexData[searchPokemonIndex + 2];
+
+                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                            typePokemonNames.push(searchPokemon);
+                            pokemonElems.push(this);
+                        }
+                    });
+
+                    for (let o = 0; o < pokemonElems.length; o++) {
+                        const shelterImgSearch = this.jQuery(pokemonElems[o]);
+                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    }
+
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
+                }
+
+                if (this.settings.findTypePokemon === true) {
+                    typePokemonNames = [];
+                    selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
+                    selected.each(function () {
+                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                        const searchTypeOne = dexData[searchPokemonIndex + 1];
+                        const searchTypeTwo = dexData[searchPokemonIndex + 2];
+                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                            typePokemonNames.push(searchPokemon);
+                        }
+                    });
+
+                    for (let o = 0; o < typePokemonNames.length; o++) {
+                        const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
+                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    }
+
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
+                }
+            }
+        } // filteredTypeArray
+    } // customSearch
+}
+
+class ShelterPage extends ShelterPageBase {
+    constructor(jQuery, GLOBALS) {
+        super(jQuery, GLOBALS);
+        this.settings.findReadyToEvolve = false;
+        this.settings.findNFE = false;
+
+        // when the page is loaded, check to see if the data needed for finding eggs by type is loaded (if it's needed)
+        if (this.onPage(window) &&
+            this.settings.findTypeEgg &&
+            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem('QoLEggTypesMap')))) {
+            window.alert('Message from QoL script:\nUnable to load list of pokemon eggs and their types, ' +
+                'which is used to distinguish eggs with the same name but different types (Vulpix and ' +
+                'Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. ' +
+                'Please clear and reload your pokedex data by clicking the "Clear Cached Dex" ' +
+                'and then clicking the "Update Pokedex" button in the QoL Hub to load list of eggs and types.');
+        }
+    }
+    searchForReadyToEvolveByLevel(GLOBALS) {
+        const obj = this;
+        const selected = this.jQuery('#shelterarea .tooltip_content');
+        const readyBigImg = [];
+        selected.each((idx, s) => {
+            const text = s.textContent.split(' ');
+            const name = text[0];
+            const level = parseInt(text[1].substring(4));
+
+            // get level that pokemon needs to be at to evolve
+            let evolveLevel = undefined;
+            if (GLOBALS.EVOLVE_BY_LEVEL_LIST[name] !== undefined) {
+                evolveLevel = parseInt(GLOBALS.EVOLVE_BY_LEVEL_LIST[name].split(' ')[1]);
+            }
+
+            if (evolveLevel !== undefined && level >= evolveLevel) {
+                const shelterBigImg = obj.jQuery(s).prev().children('img.big');
+                readyBigImg.push(shelterBigImg);
+            }
+        });
+
+        for (let i = 0; i < readyBigImg.length; i++) {
+            this.jQuery(readyBigImg[i]).addClass('shelterfoundme');
+        }
+
+        const imgResult = readyBigImg.length + ' ' + 'ready to evolve';
+        this.insertShelterFoundDiv(readyBigImg.length, imgResult, '');
+    }
+    highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
+        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
+        // will not exist. If this occurs. don't try highlighting anything until the
+        // pokemon is "put down"
+        if (!this.jQuery(pokemonElem).next().length) { return; }
+
+        const tooltipElem = this.jQuery(pokemonElem).next()[0];
+        const tooltip = {
+            species: tooltipElem.textContent.split(' ')[0],
+            forme: ''
+        };
+        let pokemon = tooltip['species'];
+
+        if (GLOBALS.EVOLUTIONS_LEFT !== undefined && GLOBALS.EVOLUTIONS_LEFT !== null) {
+            const evolutionData = GLOBALS.EVOLUTIONS_LEFT;
+            // if can't find the pokemon directly, try looking for its form data
+            if (!evolutionData[pokemon]) {
+                if (tooltip['forme']) {
+                    pokemon = pokemon + ' [' + tooltip['forme'] + ']';
+                }
+            }
+            if (!evolutionData[pokemon]) {
+                // Do not log error here. Repeated errors can (will) slow down the page
+                // console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
+            } else {
+                const evolutionsLeft = evolutionData[pokemon].remaining;
+
+                if (evolutionsLeft === 1) {
+                    this.jQuery(pokemonElem).children('img.big').addClass('oneevolutionleft');
+                } else if (evolutionsLeft === 2) {
+                    this.jQuery(pokemonElem).children('img.big').addClass('twoevolutionleft');
+                }
+            }
+        } else {
+            console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
+        }
+    }
+    customSearch(GLOBALS) {
+        super.customSearch(GLOBALS);
+        const obj = this;
+
+        const dexData = GLOBALS.DEX_DATA;
+        // search whatever you want to find in the shelter & grid
+
+        if (this.settings.findNFE === true) {
+            this.jQuery('#shelterarea>[data-stage=pokemon]').each(function () {
+                obj.highlightByHowFullyEvolved(GLOBALS, this);
+            });
+        } else {
+            this.jQuery('.oneevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('oneevolutionleft');
+            });
+            this.jQuery('.twoevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('twoevolutionleft');
+            });
+        }
+
+        if (this.settings.findReadyToEvolve === true) {
+            if (GLOBALS.EVOLVE_BY_LEVEL_LIST === null) {
+                window.alert('Unable to load list of pokemon that can evolve by level. Please try updating dex ' +
+                    'by clicking "Update Pokedex" in the QoL Hub. If the problem persists, please post in the thread.\n\n' +
+                    'Disabling this function until the checkbox is clicked again');
+                this.settings.findReadyToEvolve = false;
+                // uncheck checkbox
+                this.jQuery('[data-key=findReadyToEvolve]')[0].checked = false;
+            } else {
+                this.searchForReadyToEvolveByLevel(GLOBALS);
+            }
+        }
+
+        //loop to find all the types
+        const filteredTypeArray = this.typeArray.filter(v => v != '');
+
+        if (filteredTypeArray.length > 0) {
             const eggPngsToTypes = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
                 JSON.parse(localStorage.getItem('QoLEggTypesMap')) || undefined;
             for (let i = 0; i < filteredTypeArray.length; i++) {
@@ -3654,9 +5589,7 @@ class ShelterPage extends ShelterBase {
     } // customSearch
 }
 
-const PrivateFieldsBase = Page;
-
-class PrivateFieldsPage extends PrivateFieldsBase {
+class PrivateFieldsPageBase extends Page {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLPrivateFields', {
             fieldCustom: '',
@@ -3676,7 +5609,6 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             fieldFemale: true,
             fieldNoGender: true,
             fieldItem: true,
-            fieldNFE: false,
             customItem: true, // unused
             customEgg: true,
             customPokemon: true,
@@ -3871,14 +5803,6 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             obj.saveSettings();
         });
     }
-    // specific
-    /*
-    insertFoundDiv(number, name, img) {
-        document.querySelector('#sheltersuccess').
-            insertAdjacentHTML('beforeend',
-                               '<div id="shelterfound">' + name + ((number > 1) ? 's' : '') + ' found ' + img + '</div>')
-    }
-    */
     handleTooltipSettings() {
         const obj = this;
         if (obj.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
@@ -3902,44 +5826,6 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     enableTooltips() {
         this.jQuery('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
     }
-    highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
-        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
-        // will not exist. If this occurs. don't try highlighting anything until the
-        // pokemon is "put down"
-        if (!this.jQuery(pokemonElem).next().length) { return; }
-
-        const tooltip = Helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);
-        let pokemon = tooltip['species'];
-
-        const key = 'QoLEvolutionTreeDepth';
-        if (localStorage.getItem(key) !== null) {
-            const evolutionData = JSON.parse(localStorage.getItem(key));
-            if (Object.keys(evolutionData).length > 0) {
-                // if can't find the pokemon directly, try looking for its form data
-                if (!evolutionData[pokemon]) {
-                    if (tooltip['forme']) {
-                        pokemon = pokemon + ' [' + tooltip['forme'] + ']';
-                    }
-                }
-                if (!evolutionData[pokemon]) {
-                    console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
-                } else {
-                    const evolutionsLeft = evolutionData[pokemon].remaining;
-
-                    if (evolutionsLeft === 1) {
-                        this.jQuery(pokemonElem).children('img.big').addClass('oneevolutionleft');
-                    } else if (evolutionsLeft === 2) {
-                        this.jQuery(pokemonElem).children('img.big').addClass('twoevolutionleft');
-                    }
-                }
-            } else {
-                console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
-            }
-        } else {
-            console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
-        }
-    }
-
     searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
@@ -3949,11 +5835,8 @@ class PrivateFieldsPage extends PrivateFieldsBase {
             // next line different from shelter
             const bigImg = selected.parent().parent().parent().parent().prev().children('img.big');
             this.jQuery(bigImg).addClass('privatefoundme');
-
-            // this.insertFoundDiv(selected.length, imgResult, imgFitResult)
         }
     }
-
     searchForCustomPokemon(value, male, female, nogender) {
         const genderMatches = [];
         if (male) { genderMatches.push('[M]'); }
@@ -4033,18 +5916,6 @@ class PrivateFieldsPage extends PrivateFieldsBase {
                 const itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big');
                 obj.jQuery(itemBigImgs).addClass('privatefoundme');
             }
-        }
-        if (this.settings.fieldNFE === true) {
-            obj.jQuery('.fieldmon').each(function () {
-                obj.highlightByHowFullyEvolved(GLOBALS, this);
-            });
-        } else {
-            obj.jQuery('.oneevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('oneevolutionleft');
-            });
-            obj.jQuery('.twoevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('twoevolutionleft');
-            });
         }
         const filteredTypeArray = this.typeArray.filter(v => v != '');
         const filteredNatureArray = this.natureArray.filter(v => v != '');
@@ -4233,6 +6104,66 @@ class PrivateFieldsPage extends PrivateFieldsBase {
     } // moveEnableReleaseAll
 }
 
+class PrivateFieldsPage extends PrivateFieldsPageBase {
+    constructor(jQuery, GLOBALS) {
+        super(jQuery, GLOBALS);
+        this.settings.fieldNFE = false;
+    }
+    highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
+        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
+        // will not exist. If this occurs. don't try highlighting anything until the
+        // pokemon is "put down"
+        if (!this.jQuery(pokemonElem).next().length) { return; }
+
+        const tooltip = Helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);
+        let pokemon = tooltip['species'];
+
+        const key = 'QoLEvolutionTreeDepth';
+        if (localStorage.getItem(key) !== null) {
+            const evolutionData = JSON.parse(localStorage.getItem(key));
+            if (Object.keys(evolutionData).length > 0) {
+                // if can't find the pokemon directly, try looking for its form data
+                if (!evolutionData[pokemon]) {
+                    if (tooltip['forme']) {
+                        pokemon = pokemon + ' [' + tooltip['forme'] + ']';
+                    }
+                }
+                if (!evolutionData[pokemon]) {
+                    console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
+                } else {
+                    const evolutionsLeft = evolutionData[pokemon].remaining;
+
+                    if (evolutionsLeft === 1) {
+                        this.jQuery(pokemonElem).children('img.big').addClass('oneevolutionleft');
+                    } else if (evolutionsLeft === 2) {
+                        this.jQuery(pokemonElem).children('img.big').addClass('twoevolutionleft');
+                    }
+                }
+            } else {
+                console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
+            }
+        } else {
+            console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
+        }
+    }
+    customSearch(GLOBALS) {
+        super.customSearch(GLOBALS);
+        const obj = this;
+        if (this.settings.fieldNFE === true) {
+            obj.jQuery('.fieldmon').each(function () {
+                obj.highlightByHowFullyEvolved(GLOBALS, this);
+            });
+        } else {
+            obj.jQuery('.oneevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('oneevolutionleft');
+            });
+            obj.jQuery('.twoevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('twoevolutionleft');
+            });
+        }
+    }
+}
+
 const PublicFieldsBase = Page;
 
 class PublicFieldsPage extends PublicFieldsBase {
@@ -4337,7 +6268,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         this.jQuery('.collapsible').css('background-color', ''+fieldOrderCssColor+'');
         this.jQuery('.collapsible').css('border', ''+fieldOrderCssBorder+'');
         this.jQuery('.collapsible_content').css('background-color', ''+fieldOrderCssColor+'');
-        
+
         // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
         // settings as most of the text on the site, manually set the text color for
         // '.collapsible' to match the text around it
@@ -4759,7 +6690,7 @@ class PublicFieldsPage extends PublicFieldsBase {
                     }
                 }
             }); // each
-        } // end            
+        } // end
 
         // custom search
         for (let i = 0; i < this.customArray.length; i++) {
@@ -5404,14 +7335,11 @@ class FarmPageBase extends Page {
         };
         return d;
     }
-    constructor(jQuery, GLOBALS, externals) {
+    constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLFarm', {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
-        if (externals && externals.DexPageParser) {
-            this.DexPageParser = externals.DexPageParser;
-        }
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -5469,20 +7397,12 @@ class FarmPageBase extends Page {
             document.querySelector('.qolEvolveNewList').remove();
         }
     }
-    checkForValidDexData(GLOBALS) {
-        if (GLOBALS.DEX_DATA === undefined) {
-            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub');
-        } else if (GLOBALS.DEX_DATA === null) {
-            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub');
-        }
-    }
     easyEvolveNormalList(GLOBALS) {
         this.clearSortedEvolveLists();
         this.checkForValidDexData(GLOBALS);
     }
     easyEvolveTypeList(GLOBALS) {
         const obj = this;
-        obj.checkForValidDexData(GLOBALS);
         const dexData = GLOBALS.DEX_DATA;
 
         this.clearSortedEvolveLists();
@@ -5505,113 +7425,6 @@ class FarmPageBase extends Page {
         /*
           Nested helper function
         */
-        const findDivCoreIndex = function ($, html) {
-            for (let j = 0; j < html.length; j++) {
-                if ($(html[j]).is('div#core')) {
-                    return j;
-                }
-            }
-            return -1;
-        };
-
-        const loadEvolutionOriginTypes = function ($, evoUrl) {
-            let species = '';
-            let types = [];
-            let inDex = false;
-            // load the pokemon's species and set the pokemon's name to the species name for the rest of this loop
-            loadSummaryPage($, evoUrl, (data) => {
-                const html = obj.jQuery.parseHTML(data);
-                // first find the right element in html to read from
-                const htmlIndex = findDivCoreIndex($, html);
-                if (!logErrorIfIndexNegativeOne(htmlIndex, `Unable to find species name on ${evoUrl}.`)) {
-                    const links = Array.from(html[htmlIndex].querySelectorAll('#pkmnspecdata>p>a'));
-                    // find the link that to the species page
-                    const speciesIndex = links.findIndex((lnk) => lnk.getAttribute('href').match(/\/dex\/.*/));
-                    // if the link is found, load the types
-                    if (!logErrorIfIndexNegativeOne(speciesIndex,
-                        `Unable to determine species of pokemon from ${evoUrl}.`)) {
-                        species = links[speciesIndex].text;
-                        types = getTypesFromSummaryData(html[htmlIndex]).map((t) => '' + t);
-                        inDex = true;
-                    } // speciesIndex > -1
-                } // htmlIndex > -1
-            }); // load
-            return {
-                status: inDex,
-                types: types,
-                species: species
-            };
-        };
-
-        const loadEvolutionOriginDexNumber = function ($, evoUrl) {
-            let dexNumber = '';
-            loadSummaryPage($, evoUrl, (data) => {
-                const html = obj.jQuery.parseHTML(data);
-                const htmlIndex = findDivCoreIndex($, html);
-                if (!logErrorIfIndexNegativeOne(htmlIndex,
-                    `Unable to find find dex number in summary page ${evoUrl}.`)) {
-                    dexNumber = getDexNumberFromSummaryData(html[htmlIndex]);
-                }
-            });
-            return dexNumber;
-        };
-
-        const loadDataFromEvolutionOriginDexPage = function ($, dexPageParser, typeList, number, name) {
-            const evolutions = {};
-            let status = false;
-            let types = [];
-            loadDexPage($, number, name, (data) => {
-                // Kill two birds with one stone: 1) get the evolutions, and 2) check that
-                // evolveTypePrevOne and evolveTypePrevTwo are correct
-                let html = $.parseHTML(data);
-                // first find the right element in html to read from
-                const htmlIndex = findDivCoreIndex($, html);
-                if (!logErrorIfIndexNegativeOne(htmlIndex, `Unable to find evolutions for ${name}.`)) {
-                    html = html[htmlIndex];
-                    // Get the evolutions from the dex page
-                    const evosSpans = html.querySelectorAll('.evolutiontree>ul>li>.name');
-                    evosSpans.forEach((e) => {
-                        if (e.querySelector('a')) {
-                            const evoNumber = e.querySelector('a').attributes['href'].value.substr(5);
-                            const evoName = e.textContent;
-                            evolutions[evoNumber] = evoName;
-                            evolutions[evoName] = evoNumber;
-                        } else {
-                            console.log('bang');
-                        }
-                    });
-                    status = true;
-
-                    // Get the types
-                    types = getTypesFromDexPage(dexPageParser, typeList, $(html)).map((t) => '' + t);
-                } // htmlIndex > -1
-            }); // loadDexPage
-            return {
-                status: status,
-                evolutions: evolutions,
-                types: types
-            };
-        };
-
-        const loadDataFromEvolutionDestinationDexPage = function ($, dexPageParser, typeList, number, name) {
-            let status = false;
-            let types = [];
-            // Load dex page for the match
-            loadDexPage($, number, name, (data) => {
-                const html = obj.jQuery.parseHTML(data);
-                const htmlIndex = findDivCoreIndex($, html);
-                if (!logErrorIfIndexNegativeOne(htmlIndex,
-                    `Unable to find dex details on dex page for pokedex number ${number}`)) {
-                    types = getTypesFromDexPage(dexPageParser, typeList, $(html[htmlIndex])).map((t) => '' + t);
-                    status = true;
-                }
-            });
-            return {
-                status: status,
-                types: types
-            };
-        };
-
         const getEvolutionOrigin = function (evoString) {
             const summary = '/summary/';
             const originStart = evoString.indexOf(summary) + summary.length + 7;
@@ -5622,79 +7435,6 @@ class FarmPageBase extends Page {
         const getEvolutionDestination = function (evoString) {
             const destStart = evoString.indexOf('into</span> ') + 12;
             return evoString.substr(destStart);
-        };
-
-        const getEvolutionURL = function (evoString) {
-            const href = 'href="';
-            const urlStart = evoString.indexOf(href) + href.length;
-            const urlLength = '/summary/AAAAA'.length;
-            return evoString.substr(urlStart, urlLength);
-        };
-
-        const logErrorIfIndexNegativeOne = function (index, msg) {
-            if (index === -1) {
-                console.error(msg);
-                return true;
-            }
-            return false;
-        };
-
-        const loadSummaryPage = function ($, urlSuffix, success) {
-            // urlSuffix is the part of the url after https://pokefarm.com/
-            $.ajax({
-                type: 'GET',
-                url: 'https://pokefarm.com' + urlSuffix,
-                async: false,
-                success: success,
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error(`Unable to load the summary page ${urlSuffix}.`);
-                },
-            });
-        };
-
-        const loadDexPage = function ($, dexNumber, name, success) {
-            const url = 'https://pokefarm.com/dex/' + dexNumber;
-            $.ajax({
-                type: 'GET',
-                url: url,
-                async: false,
-                success: success,
-                error: function (jqXHR, textStatus, errorThrown) {
-                    const msg = `Unable to load the Pokedex page for ${name} (${url}).`;
-                    console.error(msg);
-                },
-            });
-        };
-
-        const getTypesFromSummaryData = function (html) {
-            const typeImgs = Array.from(html.querySelectorAll('.type>img'));
-            const typeUrls = typeImgs.map((e) => e['src']);
-            let types = typeUrls.map((url) =>
-                url.substring(url.indexOf('types/') + 'types/'.length,
-                    url.indexOf('.png')));
-            types = types.map((type) => type.charAt(0).toUpperCase() + type.substring(1));
-            types = types.map((type) => GLOBALS.TYPE_LIST.indexOf(type));
-            return types;
-        };
-
-        const getTypesFromDexPage = function (DexPageParser, typeList, html) {
-            return DexPageParser.parseTypesFromDexPage(html, typeList);
-        };
-
-        const getDexNumberFromSummaryData = function (html) {
-            const link = html.querySelector('#pkmnspecdata>p>a');
-            return link.getAttribute('href').substring('/dex/'.length);
-        };
-
-        const addToKnownExceptions = function (name, type1, type2) {
-            // add the exception to the known exceptions list
-            obj.settings.KNOWN_EXCEPTIONS[name] = [type1];
-
-            if (type2) {
-                obj.settings.KNOWN_EXCEPTIONS[name].push(type2);
-            }
-
-            obj.saveSettings();
         };
 
         const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
@@ -5709,7 +7449,6 @@ class FarmPageBase extends Page {
             const getEvolveString = obj.jQuery(this).html();
             let previousPokemon = getEvolutionOrigin(getEvolveString);
             const evolvePokemon = getEvolutionDestination(getEvolveString);
-            const evoUrl = getEvolutionURL(getEvolveString);
 
             // Handle unicode characters
             previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
@@ -6185,6 +7924,13 @@ class FarmPage extends FarmPageBase {
     constructor(jQuery, GLOBALS, externals) {
         super(jQuery, GLOBALS, externals);
     }
+    checkForValidDexData(GLOBALS) {
+        if (GLOBALS.DEX_DATA === undefined) {
+            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub');
+        } else if (GLOBALS.DEX_DATA === null) {
+            window.alert('Pokedex data is not currently loaded. Please load by pressing "Update Pokedex" in the QoL Hub');
+        }
+    }
     easyEvolveTypeList(GLOBALS) {
         const obj = this;
         obj.checkForValidDexData(GLOBALS);
@@ -6273,7 +8019,7 @@ class FarmPage extends FarmPageBase {
             return dexNumber;
         };
 
-        const loadDataFromEvolutionOriginDexPage = function ($, dexPageParser, typeList, number, name) {
+        const loadDataFromEvolutionOriginDexPage = function ($, typeList, number, name) {
             const evolutions = {};
             let status = false;
             let types = [];
@@ -6300,7 +8046,7 @@ class FarmPage extends FarmPageBase {
                     status = true;
 
                     // Get the types
-                    types = getTypesFromDexPage(dexPageParser, typeList, $(html)).map((t) => '' + t);
+                    types = getTypesFromDexPage(typeList, $(html)).map((t) => '' + t);
                 } // htmlIndex > -1
             }); // loadDexPage
             return {
@@ -6310,7 +8056,7 @@ class FarmPage extends FarmPageBase {
             };
         };
 
-        const loadDataFromEvolutionDestinationDexPage = function ($, dexPageParser, typeList, number, name) {
+        const loadDataFromEvolutionDestinationDexPage = function ($, typeList, number, name) {
             let status = false;
             let types = [];
             // Load dex page for the match
@@ -6319,7 +8065,7 @@ class FarmPage extends FarmPageBase {
                 const htmlIndex = findDivCoreIndex($, html);
                 if (!logErrorIfIndexNegativeOne(htmlIndex,
                     `Unable to find dex details on dex page for pokedex number ${number}`)) {
-                    types = getTypesFromDexPage(dexPageParser, typeList, $(html[htmlIndex])).map((t) => '' + t);
+                    types = getTypesFromDexPage(typeList, $(html[htmlIndex])).map((t) => '' + t);
                     status = true;
                 }
             });
@@ -6394,7 +8140,7 @@ class FarmPage extends FarmPageBase {
             return types;
         };
 
-        const getTypesFromDexPage = function (DexPageParser, typeList, html) {
+        const getTypesFromDexPage = function (typeList, html) {
             return DexPageParser.parseTypesFromDexPage(html, typeList);
         };
 
@@ -6488,7 +8234,7 @@ class FarmPage extends FarmPageBase {
                     const dexNumber = loadEvolutionOriginDexNumber(obj.jQuery, evoUrl);
 
                     // Load the dex page for previousPokemon
-                    const dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
+                    const dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
                     let evolutions = {};
                     if (dexInfo.status) {
                         evolveInDex = dexInfo.status;
@@ -6497,7 +8243,7 @@ class FarmPage extends FarmPageBase {
                     }
 
                     if (evolveInDex && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
-                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, obj.DexPageParser, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
+                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
                         if (info.status) {
                             evolveInDex = info.status;
                             evolveTypes = info.types;
@@ -6884,373 +8630,246 @@ class WishforgePage extends WishforgeBase {
         });
     }
 }
-
-
-
-
-
-const pfqol = function ($) {
-    'use strict';
-    // :contains to case insensitive
-    $.extend($.expr[':'], {
-        'containsIN': function (elem, i, match, array) {
-            return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
-        }
-    });
-
-    const DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
-        customCss: '',
-        enableDaycare: true,
-        shelterEnable: true,
-        fishingEnable: true,
-        publicFieldEnable: true,
-        privateFieldEnable: true,
-        partyMod: true,
-        easyEvolve: true,
-        labNotifier: true,
-        dexFilterEnable: true,
-        condenseWishforge: true
-    };
-    let USER_SETTINGS = DEFAULT_USER_SETTINGS;
-
-    const GLOBALS = new Globals();
-    const HELPERS = Helpers;
-    const RESOURCES = Resources;
-    GLOBALS.fillTemplates(RESOURCES);
-    GLOBALS.fillOptionsLists(HELPERS);
-
-    // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
-    // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
-    // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
-    // - their types
-    // - if they hatch from an egg,
-    // - if you have the eggdex, and
-    // - if you have the regular, shiny, albino, and melanistic pokedex entries
-    const LOCAL_STORAGE = new LocalStorageManager(localStorage);
-    if (!LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(GLOBALS)) { // can't load it from storage
-        LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, GLOBALS); // so load it from the web
-    } else { // can load it from storage
-        LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($, document, DexUtilities, GLOBALS); // reload it from web if it's old
+/* globals
+   DaycarePage FarmPage LabPage PublicFieldsPage PrivateFieldsPage
+   ShelterPage FishingPage MultiuserPage DexPage WishforgePage
+ */
+class PagesManager {
+    pages = {
+        'Daycare': {
+            class: DaycarePage,
+            object: undefined,
+            setting: 'enableDaycare'
+        },
+        'Farm': {
+            class: FarmPage,
+            object: undefined,
+            setting: 'easyEvolve'
+        },
+        'Fishing': {
+            class: FishingPage,
+            object: undefined,
+            setting: 'fishingEnable'
+        },
+        'Lab': {
+            class: LabPage,
+            object: undefined,
+            setting: 'labNotifier'
+        },
+        'Multiuser': {
+            class: MultiuserPage,
+            object: undefined,
+            setting: 'partyMod'
+        },
+        'PrivateFields': {
+            class: PrivateFieldsPage,
+            object: undefined,
+            setting: 'privateFieldEnable'
+        },
+        'PublicFields': {
+            class: PublicFieldsPage,
+            object: undefined,
+            setting: 'publicFieldEnable'
+        },
+        'Shelter': {
+            class: ShelterPage,
+            object: undefined,
+            setting: 'shelterEnable'
+        },
+        'Dex': {
+            class: DexPage,
+            object: undefined,
+            setting: 'dexFilterEnable'
+        },
+        'Wishforge': {
+            class: WishforgePage,
+            object: undefined,
+            setting: 'condenseWishforge'
+        },
     }
-    LOCAL_STORAGE.loadEvolveByLevelList(GLOBALS);
-    LOCAL_STORAGE.loadEvolutionTreeDepthList(GLOBALS);
-
-    const PFQoL = (function PFQoL() {
-
-        const SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
-
-        const PAGES = {
-            instantiatePages: function () {
-                for (const key of Object.keys(PAGES.pages)) {
-                    const pg = PAGES.pages[key];
-                    if (USER_SETTINGS[pg.setting] === true) {
-                        PAGES.pages[key].object = new PAGES.pages[key].class($, GLOBALS, {
-                            DexPageParser: DexPageParser
-                        });
-                    }
-                }
-            },
-            loadSettings: function () {
-                for (const key of Object.keys(PAGES.pages)) {
-                    const pg = PAGES.pages[key];
-                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.loadSettings();
-                    }
-                }
-            },
-            saveSettings: function () {
-                for (const key of Object.keys(PAGES.pages)) {
-                    const pg = PAGES.pages[key];
-                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.saveSettings();
-                    }
-                }
-            },
-            populateSettings: function () {
-                for (const key of Object.keys(PAGES.pages)) {
-                    const pg = PAGES.pages[key];
-                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.populateSettings();
-                    }
-                }
-            },
-            clearPageSettings: function (pageName) {
-                if (!(pageName in PAGES.pages)) {
-                    console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`);
-                } else if (PAGES.pages[pageName].object) {
-                    PAGES.pages[pageName].object.resetSettings();
-                }
-            },
-            setupHTML: function (GLOBALS) {
-                for (const key of Object.keys(PAGES.pages)) {
-                    const pg = PAGES.pages[key];
-                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.setupHTML(GLOBALS);
-                        fn.backwork.populateSettingsPage();
-                    }
-                }
-            },
-            setupCSS: function () {
-                for (const key of Object.keys(PAGES.pages)) {
-                    const pg = PAGES.pages[key];
-                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.setupCSS();
-                    }
-                }
-            },
-            setupObservers: function () {
-                for (const key of Object.keys(PAGES.pages)) {
-                    const pg = PAGES.pages[key];
-                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.setupObserver();
-                    }
-                }
-            },
-            setupHandlers: function (GLOBALS) {
-                for (const key of Object.keys(PAGES.pages)) {
-                    const pg = PAGES.pages[key];
-                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.setupHandlers(GLOBALS);
-                    }
-                }
-            },
-            settingsChange: function () {
-                for (const key of Object.keys(PAGES.pages)) {
-                    const pg = PAGES.pages[key];
-                    if (USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                        pg.object.settingsChange();
-                    }
-                }
-            },
-            pages: {
-                'Daycare': {
-                    class: DaycarePage,
-                    object: undefined,
-                    setting: 'enableDaycare'
-                },
-                'Farm': {
-                    class: FarmPage,
-                    object: undefined,
-                    setting: 'easyEvolve'
-                },
-                'Fishing': {
-                    class: FishingPage,
-                    object: undefined,
-                    setting: 'fishingEnable'
-                },
-                'Lab': {
-                    class: LabPage,
-                    object: undefined,
-                    setting: 'labNotifier'
-                },
-                'Multiuser': {
-                    class: MultiuserPage,
-                    object: undefined,
-                    setting: 'partyMod'
-                },
-                'PrivateFields': {
-                    class: PrivateFieldsPage,
-                    object: undefined,
-                    setting: 'privateFieldEnable'
-                },
-                'PublicFields': {
-                    class: PublicFieldsPage,
-                    object: undefined,
-                    setting: 'publicFieldEnable'
-                },
-                'Shelter': {
-                    class: ShelterPage,
-                    object: undefined,
-                    setting: 'shelterEnable'
-                },
-                'Dex': {
-                    class: DexPage,
-                    object: undefined,
-                    setting: 'dexFilterEnable'
-                },
-                'Wishforge': {
-                    class: WishforgePage,
-                    object: undefined,
-                    setting: 'condenseWishforge'
-                },
+    constructor(jQuery, GLOBALS) {
+        this.jQuery = jQuery;
+        this.GLOBALS = GLOBALS;
+    }
+    instantiatePages(QOLHUB) {
+        for (const key of Object.keys(this.pages)) {
+            const pg = this.pages[key];
+            if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
+                this.pages[key].object = new this.pages[key].class(this.jQuery, this.GLOBALS);
             }
+        }
+    }
+    loadSettings(QOLHUB) {
+        for (const key of Object.keys(this.pages)) {
+            const pg = this.pages[key];
+            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                pg.object.loadSettings();
+            }
+        }
+    }
+    saveSettings(QOLHUB) {
+        for (const key of Object.keys(this.pages)) {
+            const pg = this.pages[key];
+            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                pg.object.saveSettings();
+            }
+        }
+    }
+    populateSettings(QOLHUB) {
+        for (const key of Object.keys(this.pages)) {
+            const pg = this.pages[key];
+            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                pg.object.populateSettings();
+            }
+        }
+    }
+    clearPageSettings(pageName) {
+        if (!(pageName in this.pages)) {
+            console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`);
+        } else if (this.pages[pageName].object) {
+            this.pages[pageName].object.resetSettings();
+        }
+    }
+    setupHTML(GLOBALS, QOLHUB) {
+        for (const key of Object.keys(this.pages)) {
+            const pg = this.pages[key];
+            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                pg.object.setupHTML(GLOBALS);
+            }
+        }
+        this.populateSettings(QOLHUB);
+    }
+    setupCSS(QOLHUB) {
+        for (const key of Object.keys(this.pages)) {
+            const pg = this.pages[key];
+            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                pg.object.setupCSS();
+            }
+        }
+    }
+    setupObservers(QOLHUB) {
+        for (const key of Object.keys(this.pages)) {
+            const pg = this.pages[key];
+            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                pg.object.setupObserver();
+            }
+        }
+    }
+    setupHandlers(GLOBALS, QOLHUB) {
+        for (const key of Object.keys(this.pages)) {
+            const pg = this.pages[key];
+            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                pg.object.setupHandlers(GLOBALS);
+            }
+        }
+    }
+}
+
+
+'use strict';
+class PFQoLBase {
+    constructor($) {
+        // :contains to case insensitive
+        $.extend($.expr[':'], {
+            'containsIN': function (elem, i, match, array) {
+                return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
+            }
+        });
+
+        this.jQuery = $;
+        this.GLOBALS = new Globals();
+        this.HELPERS = new Helpers();
+        this.RESOURCES = new Resources();
+        this.PAGES = new PagesManager(this.jQuery, this.GLOBALS);
+        this.QOLHUB = new QoLHub(this.jQuery, this.GLOBALS, this.PAGES);
+        this.GLOBALS.fillTemplates(this.RESOURCES);
+        this.GLOBALS.fillOptionsLists();
+
+        this.init();
+    }
+    instantiatePages(obj) {
+        obj.PAGES.instantiatePages(obj.QOLHUB);
+    }
+    loadSettings(obj) { // initial settings on first run and setting the variable settings key
+        obj.QOLHUB.loadSettings();
+        obj.PAGES.loadSettings(obj.QOLHUB);
+    } // loadSettings
+    saveSettings() { // Save changed settings
+        this.QOLHUB.saveSettings();
+        this.PAGES.saveSettings(this.QOLHUB);
+    } // saveSettings
+    populateSettingsPage(obj) { // checks all settings checkboxes that are true in the settings
+        obj.QOLHUB.populateSettings();
+        obj.PAGES.populateSettings(obj.QOLHUB);
+    }
+    setupHTML(obj) { // injects the HTML changes from GLOBALS.TEMPLATES into the site
+        // Header link to Userscript settings
+        document.querySelector('li[data-name*=\'Lucky Egg\']')
+            .insertAdjacentHTML('afterend', obj.GLOBALS.TEMPLATES.qolHubLinkHTML);
+        obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
+    }
+    setupCSS(obj) { // All the CSS changes are added here
+        GM_addStyle(obj.RESOURCES.css());
+        obj.PAGES.setupCSS(obj.QOLHUB);
+        obj.QOLHUB.setupCSS();
+    }
+    setupObservers(obj) { // all the Observers that needs to run
+        obj.PAGES.setupObservers(obj.QOLHUB);
+    }
+    setupHandlers(obj) { // all the event handlers
+        obj.jQuery(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
+            obj.QOLHUB.build(document);
+            obj.populateSettingsPage(obj);
+        }));
+        obj.QOLHUB.setupHandlers();
+        obj.PAGES.setupHandlers(obj.GLOBALS, obj.QOLHUB);
+    }
+    startup() { // All the functions that are run to start the script on Pokéfarm
+        return {
+            'creating Page handlers': this.instantiatePages,
+            'loading Settings': this.loadSettings,
+            'setting up HTML': this.setupHTML,
+            'populating Settings': this.populateSettingsPage,
+            'setting up CSS': this.setupCSS,
+            'setting up Observers': this.setupObservers,
+            'setting up Handlers': this.setupHandlers,
         };
+    }
+    init() { // Starts all the functions.
+        console.log('Starting up ..');
+        const startup = this.startup();
+        for (const message in startup) {
+            if (Object.hasOwnProperty.call(startup, message)) {
+                console.log(message);
+                startup[message](this, this.GLOBALS);
+            }
+        }
+    }
+}
 
-        const fn = { // all the functions for the script
-            /** background stuff */
-            backwork: { // background stuff
-                instantiatePages() {
-                    PAGES.instantiatePages();
-                },
-                loadSettings() { // initial settings on first run and setting the variable settings key
-                    PAGES.loadSettings();
-                    if (localStorage.getItem(SETTINGS_SAVE_KEY) === null) {
-                        fn.backwork.saveSettings();
-                    } else {
-                        try {
-                            const countScriptSettings = Object.keys(USER_SETTINGS).length;
-                            const localStorageString = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                            const countLocalStorageSettings = Object.keys(localStorageString).length;
-                            // adds new objects (settings) to the local storage
-                            if (countLocalStorageSettings < countScriptSettings) {
-                                const defaultsSetting = USER_SETTINGS;
-                                const userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                const newSetting = $.extend(true, {}, defaultsSetting, userSetting);
-
-                                USER_SETTINGS = newSetting;
-                                fn.backwork.saveSettings();
-                            }
-                            // removes objects from the local storage if they don't exist anymore. Not yet possible..
-                            if (countLocalStorageSettings > countScriptSettings) {
-                                //let defaultsSetting = USER_SETTINGS;
-                                //let userSetting = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                                fn.backwork.saveSettings();
-                            }
-                        }
-                        catch (err) {
-                            fn.backwork.saveSettings();
-                        }
-                        if (localStorage.getItem(SETTINGS_SAVE_KEY) != USER_SETTINGS) {
-                            USER_SETTINGS = JSON.parse(localStorage.getItem(SETTINGS_SAVE_KEY));
-                        }
-                    }
-                }, // loadSettings
-                saveSettings() { // Save changed settings
-                    PAGES.saveSettings();
-                    localStorage.setItem(SETTINGS_SAVE_KEY, JSON.stringify(USER_SETTINGS));
-                }, // saveSettings
-                populateSettingsPage() { // checks all settings checkboxes that are true in the settings
-                    for (const key in USER_SETTINGS) {
-                        if (Object.hasOwnProperty.call(USER_SETTINGS, key)) {
-                            const value = USER_SETTINGS[key];
-                            if (typeof value === 'boolean') {
-                                HELPERS.toggleSetting(key, value);
-                            }
-                            else if (typeof value === 'string') {
-                                HELPERS.toggleSetting(key, value);
-                            }
-                        }
-                    }
-                    PAGES.populateSettings();
-                },
-                clearPageSettings(pageName) {
-                    PAGES.clearPageSettings(pageName);
-                },
-                setupHTML(GLOBALS) { // injects the HTML changes from GLOBALS.TEMPLATES into the site
-                    // Header link to Userscript settings
-                    document.querySelector('li[data-name*=\'Lucky Egg\']').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.qolHubLinkHTML);
-
-                    PAGES.setupHTML(GLOBALS);
-                },
-                setupCSS() { // All the CSS changes are added here
-                    GM_addStyle(RESOURCES.css());
-                    PAGES.setupCSS();
-
-                    //custom user css
-                    const customUserCss = USER_SETTINGS.customCss;
-                    //document.querySelector('head').append();
-                    $('head').append('<style type="text/css">' + customUserCss + '</style>');
-                },
-                setupObservers() { // all the Observers that needs to run
-                    PAGES.setupObservers();
-                },
-                setupHandlers(GLOBALS) { // all the event handlers
-                    PAGES.setupHandlers(GLOBALS);
-                },
-                startup() { // All the functions that are run to start the script on Pokéfarm
-                    return {
-                        'creating Page handlers': fn.backwork.instantiatePages,
-                        'loading Settings': fn.backwork.loadSettings,
-                        'setting up HTML': fn.backwork.setupHTML,
-                        'populating Settings': fn.backwork.populateSettingsPage,
-                        'setting up CSS': fn.backwork.setupCSS,
-                        'setting up Observers': fn.backwork.setupObservers,
-                        'setting up Handlers': fn.backwork.setupHandlers,
-                    };
-                },
-                init() { // Starts all the functions.
-                    console.log('Starting up ..');
-                    const startup = fn.backwork.startup();
-                    for (const message in startup) {
-                        if (Object.hasOwnProperty.call(startup, message)) {
-                            console.log(message);
-                            startup[message](GLOBALS);
-                        }
-                    }
-                },
-            }, // end of backwork
-
-            /** public stuff */
-            API: { // the actual seeable and interactable part of the userscript
-                settingsChange(element, textElement) {
-                    if (JSON.stringify(USER_SETTINGS).indexOf(element) >= 0) { // userscript settings
-                        if (USER_SETTINGS[element] === false) {
-                            USER_SETTINGS[element] = true;
-                        } else if (USER_SETTINGS[element] === true) {
-                            USER_SETTINGS[element] = false;
-                        } else if (typeof USER_SETTINGS[element] === 'string') {
-                            USER_SETTINGS[element] = textElement;
-                        }
-                        fn.backwork.saveSettings();
-                    } else {
-                        PAGES.settingsChange();
-                    }
-                }, // settingsChange
-
-                clearPageSettings(pageName) {
-                    if (pageName !== 'None') { // "None" matches option in HTML
-                        fn.backwork.clearPageSettings(pageName);
-                    }
-                }, // clearPageSettings
-                populateSettingsPage() {
-                    fn.backwork.populateSettingsPage();
-                } // populateSettingsPage
-            }, // end of API
-        }; // end of fn
-
-        fn.backwork.init();
-
-        return fn.API;
-    })(); // end of PFQoL function
-
-    $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
-        QoLHub.build($, document, GLOBALS.TEMPLATES, GLOBALS, USER_SETTINGS, PFQoL.settingsChange);
-        PFQoL.populateSettingsPage();
-    }));
-
-    $(document).on('click', '#updateDex', (function () {
-        QoLHub.handleUpdateDexClick($, document, DexUtilities, LOCAL_STORAGE, DexPageParser, EvolutionTreeParser, GLOBALS);
-    }));
-
-    $(document).on('click', '#resetPageSettings', (function () {
-        const page = $(this).parent().find('select').val();
-        PFQoL.clearPageSettings(page);
-    }));
-
-    // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
-    $(document).on('mouseover', '#clearCachedDex', (function () {
-        $('#clearCachedDex').next().remove();
-    }));
-
-    // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
-    $(document).on('click', '#clearCachedDex', (function () {
-        $('#clearCachedDex').next().remove();
-        localStorage.removeItem('QoLEvolveByLevel');
-        localStorage.removeItem('QoLDexIDsCache');
-        localStorage.removeItem('QoLEvolutionTreeDepth');
-        localStorage.removeItem('QoLRegionalFormsList');
-        $('#clearCachedDex').after('<span> Cleared!</span>');
-    }));
-
-    $(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
-        $(this).next().slideToggle();
-    }));
-};
+class PFQoL extends PFQoLBase {
+    constructor($) {
+        super($);
+        // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+        // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
+        // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
+        // - their types
+        // - if they hatch from an egg,
+        // - if you have the eggdex, and
+        // - if you have the regular, shiny, albino, and melanistic pokedex entries
+        this.LOCAL_STORAGE = new LocalStorageManager(localStorage);
+        if (!this.LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(this.GLOBALS)) { // can't load it from storage
+            this.LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, this.GLOBALS); // so load it from the web
+        } else { // can load it from storage
+            this.LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($, document, DexUtilities, this.GLOBALS); // reload it from web if it's old
+        }
+        this.LOCAL_STORAGE.loadEvolveByLevelList(this.GLOBALS);
+        this.LOCAL_STORAGE.loadEvolutionTreeDepthList(this.GLOBALS);
+    }
+}
 
 if (module) {
-    module.exports.pfqol = pfqol;
+    module.exports.pfqol = PFQoL;
+} else {
+    new PFQoL(jQuery);
 }
-else {
-    pfqol(jQuery);
-}
-
