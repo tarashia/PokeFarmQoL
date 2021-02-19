@@ -4,7 +4,7 @@ const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
 const appRoot = require('app-root-path');
-const pfqol = require(appRoot + '/__tests__/compiled');
+const pfqol = require(appRoot + '/__tests__/__tests__/Poke-Farm-QoL.user');
 const oldWindowLocation = window.location;
 
 function internalTrim(jObj) {
