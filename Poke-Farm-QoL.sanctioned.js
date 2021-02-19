@@ -14,6 +14,7 @@
 /**
  * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
  */
+// eslint-disable-next-line no-unused-vars
 class ResourcesBase {
     css() {
         return `/* Pokefarm QoL style sheet */
@@ -1349,6 +1350,17 @@ class ResourcesBase {
       </div>`;
     }
 }
+/**
+ * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
+ */
+/* globals ResourcesBase */
+// eslint-disable-next-line no-unused-vars
+class Resources extends ResourcesBase {
+    constructor() {
+        super();
+    }
+}
+// eslint-disable-next-line no-unused-vars
 class Helpers {
     static buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
@@ -1546,8 +1558,10 @@ class Helpers {
 if (module) {
     module.exports.Helpers = Helpers;
 }
-
+/* globals Helpers */
+// eslint-disable-next-line no-unused-vars
 class GlobalsBase {
+    // eslint-disable-next-line camelcase
     fillTemplates(TEMPLATES) {
         this.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
         this.TEMPLATES.fieldSortHTML              = TEMPLATES.fieldSortHTML();
@@ -2839,13 +2853,15 @@ class GlobalsBase {
     '["726b","Incineroar/Feral",1,3,0,0,1,1,0,0,0],' +
     '["740q","Oricorio/Pointe Style",4,9,0,0,1,1,0,0,0]]}}';
 }
-
+/* globals GlobalsBase */
+// eslint-disable-next-line no-unused-vars
 class Globals extends GlobalsBase {
 }
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
-
+/* globals Helpers */
+// eslint-disable-next-line no-unused-vars
 class QoLHubBase {
     static DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
         customCss: '',
@@ -3011,7 +3027,22 @@ class QoLHubBase {
 if (module) {
     module.exports.QoLHubBase = QoLHubBase;
 }
+/* This class handles creating, removing, and handling the DOM object actions
+ * for the QoL Hub.
+ */
+/* globals QoLHubBase */
+// eslint-disable-next-line no-unused-vars
+class QoLHub extends QoLHubBase {
+    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
+        super(jQuery, GLOBALS, PAGES, SETTINGS);
+    }
+} // QoLHub
 
+if (module) {
+    module.exports.QoLHub = QoLHub;
+}
+/* global Helpers */
+// eslint-disable-next-line no-unused-vars
 class Page {
     constructor(jQuery, ssk, ds, url) {
         this.jQuery = jQuery;
@@ -3099,7 +3130,8 @@ class Page {
     setupObserver() { /* empty */ }
     setupHandlers() { /* empty */ }
 } // Page
-
+/* globals Page Helpers */
+// eslint-disable-next-line no-unused-vars
 class ShelterPageBase extends Page {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLShelter', {
@@ -3129,6 +3161,7 @@ class ShelterPageBase extends Page {
         this.typeArray = [];
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.customSearch(GLOBALS);
             });
@@ -3572,13 +3605,15 @@ class ShelterPageBase extends Page {
         } // filteredTypeArray
     } // customSearch
 }
-
+/* globals ShelterPageBase */
+// eslint-disable-next-line no-unused-vars
 class ShelterPage extends ShelterPageBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, GLOBALS);
     }
 }
-
+/* globals Page Helpers */
+// eslint-disable-next-line no-unused-vars
 class PrivateFieldsPageBase extends Page {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLPrivateFields', {
@@ -3615,6 +3650,7 @@ class PrivateFieldsPageBase extends Page {
         this.eggGroupArray = [];
         const obj = this;
         this.observer = new MutationObserver((mutations) => {
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach((mutation) => {
                 obj.customSearch(GLOBALS);
                 obj.handleTooltipSettings();
@@ -4093,15 +4129,17 @@ class PrivateFieldsPageBase extends Page {
         } // if
     } // moveEnableReleaseAll
 }
-
+/* globals PrivateFieldsPageBase */
+// eslint-disable-next-line no-unused-vars
 class PrivateFieldsPage extends PrivateFieldsPageBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, GLOBALS);
     }
 }
-
+/* globals Page Helpers */
 const PublicFieldsBase = Page;
 
+// eslint-disable-next-line no-unused-vars
 class PublicFieldsPage extends PublicFieldsBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLPublicFields', {
@@ -4141,6 +4179,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         this.eggGroupArray = [];
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function(mutation) {
                 obj.customSearch(GLOBALS);
                 obj.handleTooltipSettings();
@@ -4691,7 +4730,8 @@ class PublicFieldsPage extends PublicFieldsBase {
         }
     }
 }
-
+/* globals Page Helpers */
+// eslint-disable-next-line no-unused-vars
 class LabPageBase extends Page {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLLab', {
@@ -4705,6 +4745,7 @@ class LabPageBase extends Page {
         this.globals = GLOBALS;
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.customSearch();
             });
@@ -4916,10 +4957,13 @@ class LabPageBase extends Page {
         this.searchForEggsMatchingCustom();
     }
 }
-
+/* globals LabPageBase */
+// eslint-disable-next-line no-unused-vars
 class LabPage extends LabPageBase {}
+// eslint-disable-next-line no-undef
 const FishingBase = Page;
 
+// eslint-disable-next-line no-unused-vars
 class FishingPage extends FishingBase {
     constructor(jQuery) {
         super(jQuery, 'QoLFishing', {}, 'fishing');
@@ -4960,9 +5004,10 @@ class FishingPage extends FishingBase {
         });
     }
 }
-
+/* globals Page */
 const MultiuserBase = Page;
 
+// eslint-disable-next-line no-unused-vars
 class MultiuserPage extends MultiuserBase {
     constructor(jQuery) {
         super(jQuery, 'QoLMultiuser', {
@@ -4972,6 +5017,7 @@ class MultiuserPage extends MultiuserBase {
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.partyModification();
             });
@@ -5207,7 +5253,8 @@ class MultiuserPage extends MultiuserBase {
         }
     }
 }
-
+/* globals Page */
+// eslint-disable-next-line no-unused-vars
 class FarmPageBase extends Page {
     DEFAULT_SETTINGS(GLOBALS) {
         const d = { TYPE_APPEND: {} };
@@ -5242,6 +5289,7 @@ class FarmPageBase extends Page {
         this.evolveListCache = '';
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.easyQuickEvolve();
             });
@@ -5819,10 +5867,12 @@ class FarmPageBase extends Page {
         }
     }
 }
-
+/* globals FarmPageBase */
+// eslint-disable-next-line no-unused-vars
 class FarmPage extends FarmPageBase {}
-
+/* globals Page */
 const DaycareBase = Page;
+// eslint-disable-next-line no-unused-vars
 class DaycarePage extends DaycareBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLDaycare', {}, 'daycare');
@@ -5923,14 +5973,16 @@ class DaycarePage extends DaycareBase {
         } // if
     } // customSearch
 }
-
+/* globals Page */
 const DexBase = Page;
 
+// eslint-disable-next-line no-unused-vars
 class DexPage extends DexBase {
     constructor(jQuery) {
         super(jQuery, 'QoLDexPage', {}, '/dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.applyTypeFilters();
             });
@@ -6030,9 +6082,10 @@ class DexPage extends DexBase {
         }
     }
 }
-
+/* globals Page */
 const WishforgeBase = Page;
 
+// eslint-disable-next-line no-unused-vars
 class WishforgePage extends WishforgeBase {
     constructor(jQuery, GLOBALS) {
         super(jQuery, 'QoLWishforge', {}, 'forge');
@@ -6149,6 +6202,7 @@ class WishforgePage extends WishforgeBase {
    DaycarePage FarmPage LabPage PublicFieldsPage PrivateFieldsPage
    ShelterPage FishingPage MultiuserPage DexPage WishforgePage
  */
+// eslint-disable-next-line no-unused-vars
 class PagesManager {
     pages = {
         'Daycare': {
@@ -6279,13 +6333,15 @@ class PagesManager {
         }
     }
 }
-
-
+/* globals GM_addStyle QoLHub
+        Globals Resources Helpers PagesManager */
 'use strict';
+// eslint-disable-next-line no-unused-vars
 class PFQoLBase {
     constructor($) {
         // :contains to case insensitive
         $.extend($.expr[':'], {
+            // eslint-disable-next-line no-unused-vars
             'containsIN': function (elem, i, match, array) {
                 return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
             }
@@ -6361,7 +6417,8 @@ class PFQoLBase {
         }
     }
 }
-
+/* globals jQuery PFQoLBase */
+// eslint-disable-next-line no-unused-vars
 class PFQoL extends PFQoLBase {
     constructor($) {
         super($);
