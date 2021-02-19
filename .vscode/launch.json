@@ -67,7 +67,6 @@
         "-i",
         "--no-cache",
         "${file}"
-        // "${fileBasename}"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
