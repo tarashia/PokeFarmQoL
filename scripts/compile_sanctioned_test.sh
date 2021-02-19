@@ -36,7 +36,7 @@ declare -a INPUT=("${ROOT}/requires/user/header.txt"
                   "${ROOT}/requires/common/pfqol.js"
                   "${ROOT}/requires/user/pfqol.js"
                   )
-OUTPUT="${ROOT}/__tests__/compiled.js"
+OUTPUT="${ROOT}/__tests__/Poke-Farm-QoL.sanctioned.js"
 
 # try to mimic the web environment
 echo "" > "${OUTPUT}"
