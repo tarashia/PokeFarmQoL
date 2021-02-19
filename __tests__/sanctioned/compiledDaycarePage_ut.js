@@ -1,7 +1,6 @@
-import { JSDOM } from 'jsdom';
-const dom = new JSDOM();
-window.document = dom.window.document;
-// global.window = dom.window;
+// import { JSDOM } from 'jsdom';
+// const dom = new JSDOM();
+// window.document = dom.window.document;
 
 const $ = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
@@ -9,7 +8,7 @@ const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
 const appRoot = require('app-root-path');
-const pfqol = require(appRoot + '/__tests__/__tests__/Poke-Farm-QoL.sanctioned');
+const pfqol = require(appRoot + '/__tests__/Poke-Farm-QoL.sanctioned');
 const oldWindowLocation = window.location;
 
 beforeAll(() => {

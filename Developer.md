@@ -130,3 +130,16 @@
 - [X] wishforgePage.js
   - Only in common. Nothing special for sanctioned/user
 - [X] Check if GLOBALS.DEX_DATA should be in common/ or in user/
+
+**Add tests for sanctioned build**
+- [X] compiled_test.js
+- [X] compiledDaycarePage.js
+- [X] compiledDexPage.js
+- [ ] compiledFarmPage.js
+- [X] compiledFishingPage.js
+- [ ] compiledLabPage.js
+- [X] compiledMultiuserPage.js
+- [ ] compiledPrivateFieldsPage.js
+- [X] compiledPublicFieldsPage.js
+- [ ] compiledShelterPage.js
+- [X] compiledWishforgePage.js
