@@ -105,8 +105,6 @@ describe('Test Shelter page', () => {
             'findMega': 6,
             'findStarter': 7,
             'findCustomSprite': 8,
-            'findReadyToEvolve': 1,
-            'findNFE': 2,
             'findTypeEgg': 1,
             'findTypePokemon': 2,
             'customEgg': 1,
@@ -137,11 +135,9 @@ describe('Test Shelter page', () => {
                '"findMega":false,'+
                '"findStarter":false,'+
                '"findCustomSprite":false,'+
-               '"findReadyToEvolve":false,'+
                '"findMale":false,'+
                '"findFemale":false,'+
                '"findNoGender":false,'+
-               '"findNFE":false,'+
                '"customEgg":false,'+
                '"customPokemon":false,'+
                '"customPng":false,'+
@@ -155,8 +151,6 @@ describe('Test Shelter page', () => {
         const checkboxDataKeys = ['findNewEgg', 'findNewPokemon', 'findShiny', 'findAlbino',
             'findMelanistic', 'findPrehistoric', 'findDelta', 'findMega',
             'findStarter', 'findCustomSprite',
-            // @TODO Need to setup the dex data to be able to use these
-            // 'findReadyToEvolve',  'findNFE',
             // Handled later
             // 'findTypeEgg', 'findTypePokemon',
             // Also handled later
@@ -293,11 +287,9 @@ describe('Test Shelter page', () => {
                '"findMega":false,'+
                '"findStarter":false,'+
                '"findCustomSprite":false,'+
-               '"findReadyToEvolve":false,'+
                '"findMale":false,'+
                '"findFemale":false,'+
                '"findNoGender":false,'+
-               '"findNFE":false,'+
                '"customEgg":false,'+
                '"customPokemon":false,'+
                '"customPng":false,'+
