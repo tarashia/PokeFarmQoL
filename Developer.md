@@ -137,9 +137,9 @@
 - [X] compiledDexPage.js
 - [ ] compiledFarmPage.js
 - [X] compiledFishingPage.js
-- [ ] compiledLabPage.js
+- [X] compiledLabPage.js
 - [X] compiledMultiuserPage.js
-- [ ] compiledPrivateFieldsPage.js
+- [X] compiledPrivateFieldsPage.js
 - [X] compiledPublicFieldsPage.js
 - [ ] compiledShelterPage.js
 - [X] compiledWishforgePage.js
