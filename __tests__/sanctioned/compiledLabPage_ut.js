@@ -66,7 +66,7 @@ describe('Test Lab Page', () => {
         expect($('[data-key=findLabType]').eq(0).val()).toBe(TYPE_SEARCH_1);
         expect($('[data-key=findLabType]').eq(1).val()).toBe(TYPE_SEARCH_2);
         expect($('[id=removeLabTypeList]').length).toBe(2);
-        expect($('.labfoundme').length).toBe(4);
+        expect($('.labfoundme').length).toBe(2);
 
         ////////////////////////////////////////////////////
         // trigger '#addLabSearch' click handler
@@ -77,7 +77,7 @@ describe('Test Lab Page', () => {
         expect($('[data-key=findLabEgg]').eq(1).val()).toBe(CUSTOM_SEARCH_2);
         expect($('[data-key=findLabEgg]').eq(2).val()).toBe('');
         expect($('[id=removeLabSearch]').length).toBe(3);
-        expect($('.labfoundme').length).toBe(4);
+        expect($('.labfoundme').length).toBe(2);
         // check that the rest stayed the same
         expect($('[data-key=findTypeEgg]').length).toBe(1);
         expect($('[data-key=findTypeEgg]').prop('checked')).toBe(TYPE_SEARCH_SETTING);
@@ -97,7 +97,7 @@ describe('Test Lab Page', () => {
         expect($('[data-key=findLabEgg]').eq(0).val()).toBe(CUSTOM_SEARCH_1);
         expect($('[data-key=findLabEgg]').eq(1).val()).toBe('');
         expect($('[id=removeLabSearch]').length).toBe(2);
-        expect($('.labfoundme').length).toBe(3);
+        expect($('.labfoundme').length).toBe(1);
         // check that the rest stayed the same
         expect($('[data-key=findTypeEgg]').length).toBe(1);
         expect($('[data-key=findTypeEgg]').prop('checked')).toBe(TYPE_SEARCH_SETTING);
@@ -118,7 +118,7 @@ describe('Test Lab Page', () => {
         expect($('[data-key=findLabType]').eq(1).val()).toBe(TYPE_SEARCH_2);
         expect($('[data-key=findLabType]').eq(2).val()).toBe('none');
         expect($('[id=removeLabTypeList]').length).toBe(3);
-        expect($('.labfoundme').length).toBe(3);
+        expect($('.labfoundme').length).toBe(1);
         // check that the rest stayed the same
         expect($('[data-key=findTypeEgg]').length).toBe(1);
         expect($('[data-key=findTypeEgg]').prop('checked')).toBe(TYPE_SEARCH_SETTING);
@@ -140,7 +140,7 @@ describe('Test Lab Page', () => {
         expect($('[data-key=findLabType]').eq(2).val()).toBe('none');
         expect($('[data-key=findLabType]').eq(3).val()).toBe('none');
         expect($('[id=removeLabTypeList]').length).toBe(4);
-        expect($('.labfoundme').length).toBe(3);
+        expect($('.labfoundme').length).toBe(1);
         // check that the rest stayed the same
         expect($('[data-key=findTypeEgg]').length).toBe(1);
         expect($('[data-key=findTypeEgg]').prop('checked')).toBe(TYPE_SEARCH_SETTING);
@@ -161,7 +161,7 @@ describe('Test Lab Page', () => {
         expect($('[data-key=findLabType]').eq(1).val()).toBe('none');
         expect($('[data-key=findLabType]').eq(2).val()).toBe('none');
         expect($('[id=removeLabTypeList]').length).toBe(3);
-        expect($('.labfoundme').length).toBe(2);
+        expect($('.labfoundme').length).toBe(1);
         // check that the rest stayed the same
         expect($('[data-key=findTypeEgg]').length).toBe(1);
         expect($('[data-key=findTypeEgg]').prop('checked')).toBe(TYPE_SEARCH_SETTING);
@@ -208,7 +208,7 @@ describe('Test Lab Page', () => {
         $('[data-key=findTypeEgg]').trigger('click'); // Should re-enable Ghost back in
         expect($('[data-key=findTypeEgg]').prop('checked')).toBe(true);
         expect($('[data-key=findTypeEgg]').length).toBe(1);
-        expect($('.labfoundme').length).toBe(2);
+        expect($('.labfoundme').length).toBe(1);
         // check that the rest stayed the same
         expect($('[data-key=customEgg]').length).toBe(1);
         expect($('[data-key=customEgg]').prop('checked')).toBe(CUSTOM_SEARCH_SETTING);
