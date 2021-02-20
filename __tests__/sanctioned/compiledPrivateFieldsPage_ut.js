@@ -54,7 +54,6 @@ describe('Test Private Fields Page', () => {
             '"fieldFemale":true,' +
             '"fieldNoGender":true,' +
             '"fieldItem":true,' +
-            '"fieldNFE":true,' +
             '"customItem":true,' +
             '"customEgg":true,' +
             '"customPokemon":true,' +
@@ -208,7 +207,6 @@ describe('Test Private Fields Page', () => {
             '"fieldFemale":false,' +
             '"fieldNoGender":false,' +
             '"fieldItem":false,' +
-            '"fieldNFE":false,' +
             '"customItem":false,' +
             '"customEgg":false,' +
             '"customPokemon":false,' +
@@ -259,10 +257,6 @@ describe('Test Private Fields Page', () => {
         expect($('[data-key=fieldItem]').length).toBe(1);
         expect($('[data-key=fieldItem]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldItem).toBe(false);
-
-        expect($('[data-key=fieldNFE]').length).toBe(1);
-        expect($('[data-key=fieldNFE]').prop('checked')).toBe(false);
-        expect(loadedSettings.fieldNFE).toBe(false);
 
         // check that HTML was setup correctly
         expect($('input').filter('#addPrivateFieldTypeSearch').length).toBe(1);
@@ -392,18 +386,6 @@ describe('Test Private Fields Page', () => {
         expect($('.privatefoundme').length).toBe(0);
         expect($('[data-key=fieldItem]').prop('checked')).toBe(false);
         expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldItem).toBe(false);
-        ////////////////////////////////////////
-
-        ////////////////////////////////////////
-        $('[data-key=fieldNFE]').trigger('click');
-        expect($('[data-key=fieldNFE]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNFE).toBe(true);
-        // @TODO: Setup the data to to be able to look for NFE pokemon
-        // expect($('.privatefoundme').length).toBe(NUM_NFE);
-        $('[data-key=fieldNFE]').trigger('click');
-        expect($('.privatefoundme').length).toBe(0);
-        expect($('[data-key=fieldNFE]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPrivateFields')).fieldNFE).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -639,7 +621,6 @@ describe('Test Private Fields Page', () => {
             '"fieldFemale":true,' +
             '"fieldNoGender":true,' +
             '"fieldItem":true,' +
-            '"fieldNFE":true,' +
             '"customItem":true,' +
             '"customEgg":true,' +
             '"customPokemon":true,' +
@@ -770,7 +751,6 @@ describe('Test Private Fields Page', () => {
             '"fieldFemale":true,' +
             '"fieldNoGender":true,' +
             '"fieldItem":true,' +
-            '"fieldNFE":true,' +
             '"customItem":true,' +
             '"customEgg":true,' +
             '"customPokemon":true,' +
@@ -887,7 +867,6 @@ describe('Test Private Fields Page', () => {
             '"fieldFemale":false,' +
             '"fieldNoGender":false,' +
             '"fieldItem":false,' +
-            '"fieldNFE":false,' +
             '"customItem":false,' +
             '"customEgg":false,' +
             '"customPokemon":false,' +
@@ -925,7 +904,6 @@ describe('Test Private Fields Page', () => {
             '"fieldFemale":false,' + // <-- false
             '"fieldNoGender":false,' + // <-- false
             '"fieldItem":true,' +
-            '"fieldNFE":true,' +
             '"customItem":true,' +
             '"customEgg":true,' +
             '"customPokemon":true,' +
@@ -938,35 +916,5 @@ describe('Test Private Fields Page', () => {
 
         // use 'fieldShiny' click as a roundabout way to reload the settings
         $('[data-key=fieldShiny]').trigger('click');
-
-        // get coverage for findNFE = false branch in customSearch
-        localStorage.setItem('QoLPrivateFields',
-            '{"fieldCustom":"Yamask,g/s/d/2.png/t=1589312209",' +
-            '"fieldType":"8,13",' +
-            '"fieldNature":"8",' +
-            '"fieldEggGroup":"12,9",' +
-            '"fieldNewPokemon":true,' +
-            '"fieldShiny":true,' +
-            '"fieldAlbino":true,' +
-            '"fieldMelanistic":true,' +
-            '"fieldPrehistoric":true,' +
-            '"fieldDelta":true,' +
-            '"fieldMega":true,' +
-            '"fieldStarter":true,' +
-            '"fieldCustomSprite":true,' +
-            '"fieldMale":true,' +
-            '"fieldFemale":true,' +
-            '"fieldNoGender":true,' +
-            '"fieldItem":true,' +
-            '"fieldNFE":false,' +// <-- false
-            '"customItem":true,' +
-            '"customEgg":true,' +
-            '"customPokemon":true,' +
-            '"customPng":true,' +
-            '"releaseSelectAll":true,' +
-            '"tooltipEnableMods":true,' +
-            '"tooltipNoBerry":true,' +
-            '"tooltipBerry":true}');
-        $('[data-key="fieldNFE"]').trigger('click');
     });
 });
