@@ -204,6 +204,7 @@ describe('Test Shelter page', () => {
         // test selecting a type from the list
         $('[data-key=findTypeEgg]').trigger('click');
         $('[data-key=findTypePokemon]').trigger('click');
+        // add type 4 -> Grass
         verifySelectingType('findType', 'QoLShelter', 'shelterfoundme', 5, 3);
         $('[data-key=findTypeEgg]').trigger('click');
         $('[data-key=findTypePokemon]').trigger('click');
