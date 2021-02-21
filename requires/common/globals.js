@@ -125,7 +125,7 @@ class GlobalsBase {
     EGG_GROUP_OPTIONS = null;
 
     // a static copy of the <script id="dexdata"> tag from Feb 16, 2021
-    DEX_DATA = '{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
+    DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
     '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
     '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
     '["002","Ivysaur",4,7,0,0,1,1,1,1,0],' +
@@ -1291,5 +1291,5 @@ class GlobalsBase {
     '["714b","Solgavern",16,14,0,0,1,1,0,0,0],' +
     '["714c","Lunavern",13,14,0,0,1,1,0,0,0],' +
     '["726b","Incineroar/Feral",1,3,0,0,1,1,0,0,0],' +
-    '["740q","Oricorio/Pointe Style",4,9,0,0,1,1,0,0,0]]}}';
+    '["740q","Oricorio/Pointe Style",4,9,0,0,1,1,0,0,0]]}}').split(',');
 }
