@@ -141,5 +141,5 @@
 - [X] compiledMultiuserPage.js
 - [X] compiledPrivateFieldsPage.js
 - [X] compiledPublicFieldsPage.js
-- [ ] compiledShelterPage.js
+- [X] compiledShelterPage.js
 - [X] compiledWishforgePage.js
