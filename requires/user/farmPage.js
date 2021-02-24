@@ -163,8 +163,8 @@ class FarmPage extends FarmPageBase {
         };
 
         const getEvolutionDestination = function (evoString) {
-            const destStart = evoString.indexOf('into</span> ') + 12;
-            return evoString.substr(destStart);
+            const destStart = evoString.indexOf('into</span>') + 'into</span>'.length;
+            return evoString.substr(destStart).trim();
         };
 
         const getEvolutionURL = function (evoString) {
