@@ -135,7 +135,7 @@
 - [X] compiled_test.js
 - [X] compiledDaycarePage.js
 - [X] compiledDexPage.js
-- [ ] compiledFarmPage.js
+- [X] compiledFarmPage.js
 - [X] compiledFishingPage.js
 - [X] compiledLabPage.js
 - [X] compiledMultiuserPage.js
