@@ -246,7 +246,8 @@ describe('Test Farm Page', () => {
         it('Should sort on types when "Sort on types" is clicked', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
-            const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+            let innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+            innerHTML = internalStringTrim(innerHTML);
             global.location.href = 'https://pokefarm.com/farm#tab=1';
             document.documentElement.innerHTML = innerHTML;
 
