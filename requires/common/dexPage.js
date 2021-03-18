@@ -1,8 +1,6 @@
 /* globals Page */
-const DexBase = Page;
-
 // eslint-disable-next-line no-unused-vars
-class DexPage extends DexBase {
+class DexPageBase extends Page {
     constructor(jQuery) {
         super(jQuery, 'QoLDexPage', {}, '/dex');
         const obj = this;
