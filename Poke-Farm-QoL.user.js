@@ -3478,6 +3478,9 @@ class Globals extends GlobalsBase {
     DEX_UPDATE_DATE = null;
     EVOLVE_BY_LEVEL_LIST = null;
     EVOLUTIONS_LEFT = null;
+    constructor() {
+        super();
+    }
 }
 /* eslint-disable no-trailing-spaces */
 /* EvolutionTreeParser class
@@ -8415,9 +8418,7 @@ class DaycarePage extends DaycareBase {
     } // customSearch
 }
 
-const DexBase = Page;
-
-class DexPage extends DexBase {
+class DexPageBase extends Page {
     constructor(jQuery) {
         super(jQuery, 'QoLDexPage', {}, '/dex');
         const obj = this;
@@ -8519,6 +8520,12 @@ class DexPage extends DexBase {
         } else {
             this.jQuery(selector).css('display', 'inline-block');
         }
+    }
+}
+
+class DexPage extends DexPageBase {
+    constructor(jQuery) {
+        super(jQuery);
     }
 }
 

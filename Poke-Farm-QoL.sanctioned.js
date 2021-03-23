@@ -1685,7 +1685,7 @@ class GlobalsBase {
     EGG_GROUP_OPTIONS = null;
 
     // a static copy of the <script id="dexdata"> tag from Feb 16, 2021
-    DEX_DATA = '{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
+    DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
     '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
     '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
     '["002","Ivysaur",4,7,0,0,1,1,1,1,0],' +
@@ -2851,11 +2851,20 @@ class GlobalsBase {
     '["714b","Solgavern",16,14,0,0,1,1,0,0,0],' +
     '["714c","Lunavern",13,14,0,0,1,1,0,0,0],' +
     '["726b","Incineroar/Feral",1,3,0,0,1,1,0,0,0],' +
-    '["740q","Oricorio/Pointe Style",4,9,0,0,1,1,0,0,0]]}}';
+    '["740q","Oricorio/Pointe Style",4,9,0,0,1,1,0,0,0]]}}').split(',');
 }
 /* globals GlobalsBase */
 // eslint-disable-next-line no-unused-vars
 class Globals extends GlobalsBase {
+    constructor() {
+        super();
+
+        // load the dex from local storage if it exists
+        const dex = localStorage.getItem('QoLPokedex');
+        if(dex !== null) {
+            this.DEX_DATA = JSON.parse(localStorage.getItem('QoLPokedex'));
+        }
+    }
 }
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
@@ -5345,9 +5354,8 @@ class FarmPageBase extends Page {
             document.querySelector('.qolEvolveNewList').remove();
         }
     }
-    easyEvolveNormalList(GLOBALS) {
+    easyEvolveNormalList() {
         this.clearSortedEvolveLists();
-        this.checkForValidDexData(GLOBALS);
     }
     easyEvolveTypeList(GLOBALS) {
         const obj = this;
@@ -5381,8 +5389,8 @@ class FarmPageBase extends Page {
         };
 
         const getEvolutionDestination = function (evoString) {
-            const destStart = evoString.indexOf('into</span> ') + 12;
-            return evoString.substr(destStart);
+            const destStart = evoString.indexOf('into</span>') + 'into</span>'.length;
+            return evoString.substr(destStart).trim();
         };
 
         const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
@@ -5401,8 +5409,15 @@ class FarmPageBase extends Page {
             // Handle unicode characters
             previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
 
-            const previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1;
-            const evolveInDex = dexData.indexOf('"' + evolvePokemon + '"') != -1;
+            // Handle evolvePokemon name formatting
+            let evolveFormatted = evolvePokemon.replace(' [', '/');
+            evolveFormatted = evolveFormatted.replace(']', '');
+
+            const previousIndex = dexData.indexOf('"' + previousPokemon + '"');
+            const evolveIndex = dexData.indexOf('"' + evolveFormatted + '"');
+
+            const previousInDex = previousIndex != -1;
+            const evolveInDex = evolveIndex != -1;
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
@@ -5421,25 +5436,27 @@ class FarmPageBase extends Page {
 
             if (previousInDex) {
                 // Step 1.a
-                evolveTypesPrevious = [1, 2].map((i) => dexData[dexData.indexOf('"' + previousPokemon + '"') + i]);
+                evolveTypesPrevious = [1, 2].map((i) => dexData[previousIndex + i]);
             }
             else {
                 // Step 1.b
-                evolveTypesPrevious = [18, -1];
+                evolveTypesPrevious = ['18', '-1'];
             }
 
             if (evolveInDex) {
                 // Step 2.a
-                evolveTypes = [1, 2].map((i) => dexData[dexData.indexOf('"' + evolvePokemon + '"') + i]);
+                evolveTypes = [1, 2].map((i) => dexData[evolveIndex + i]);
             }
             else {
                 // Step 2.b
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
                     evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
+                    // short circuit the previous pokemon's types, since the KNOWN_EXCEPTIONS table will have everything
+                    evolveTypesPrevious = evolveTypes;
                 }
                 // Step 2.c
                 else {
-                    evolveTypes = [18, -1];
+                    evolveTypes = ['18', '-1'];
                 }
             }
 
@@ -5659,9 +5676,7 @@ class FarmPageBase extends Page {
                 pokemonIsNormal = false;
             }
 
-            let evolvePokemonName = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 12);
-            // remove extraneous whitespace
-            evolvePokemonName = evolvePokemonName.trim();
+            let evolvePokemonName = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 'into</span>'.length).trim();
             // use a regex to find extra whitespace between words
             let whitespace = evolvePokemonName.match(/\s{2,}/g);
             while (whitespace) {
@@ -5974,10 +5989,8 @@ class DaycarePage extends DaycareBase {
     } // customSearch
 }
 /* globals Page */
-const DexBase = Page;
-
 // eslint-disable-next-line no-unused-vars
-class DexPage extends DexBase {
+class DexPageBase extends Page {
     constructor(jQuery) {
         super(jQuery, 'QoLDexPage', {}, '/dex');
         const obj = this;
@@ -6079,6 +6092,22 @@ class DexPage extends DexBase {
             this.jQuery(selector).css('display', 'inline-block');
         } else {
             this.jQuery(selector).css('display', 'inline-block');
+        }
+    }
+}
+/* globals DexPageBase */
+// eslint-disable-next-line no-unused-vars
+class DexPage extends DexPageBase {
+    constructor(jQuery) {
+        super(jQuery);
+
+        // when entering the dex page, update the local storage QoLPokedex
+        // so the user can update their information
+        if(localStorage.getItem('QoLPokedex') !== null) {
+            if(jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
+                const text = jQuery('script#dexdata').text();
+                localStorage.setItem('QoLPokedex', text);
+            }
         }
     }
 }
