@@ -32,7 +32,7 @@ declare -a INPUT=("${ROOT}/requires/sanctioned/header.txt"
                   "${ROOT}/requires/common/pfqol.js"
                   "${ROOT}/requires/sanctioned/pfqol.js"
                   )
-OUTPUT="${ROOT}/Poke-Farm-QoL.sanctioned.js"
+OUTPUT="${ROOT}/Poke-Farm-QoL.sanctioned.user.js"
 rm -f "${OUTPUT}"
 
 for FILE in "${INPUT[@]}"; do
