@@ -23,10 +23,10 @@ class QoLHub extends QoLHubBase {
         // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
         obj.jQuery(document).on('click', '#clearCachedDex', (function () {
             obj.jQuery('#clearCachedDex').next().remove();
-            localStorage.removeItem('QoLEvolveByLevel');
-            localStorage.removeItem('QoLDexIDsCache');
-            localStorage.removeItem('QoLEvolutionTreeDepth');
-            localStorage.removeItem('QoLRegionalFormsList');
+            localStorage.removeItem(this.GLOBALS.POKEDEX_EVOLVE_BY_LEVEL_KEY);
+            localStorage.removeItem(this.GLOBALS.POKEDEX_DEX_IDS_KEY);
+            localStorage.removeItem(this.GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY);
+            localStorage.removeItem(this.GLOBALS.POKEDEX_REGIONAL_FORMS_KEY);
             obj.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
         }));
     }
@@ -56,7 +56,7 @@ class QoLHub extends QoLHubBase {
         DexUtilities.getMainDexPage(obj.jQuery).then((data) => {
             const html = obj.jQuery.parseHTML(data);
             const dex = obj.jQuery(html[html.length - 1], virtualDocument).find('#dexdata').html();
-            const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
+            const dexNumbers = localStorageManager.parseAndStoreDexNumbers(obj.GLOBALS, dex);
 
             if (dexNumbers.length > 0) {
                 // update the progress bar in the hub

@@ -1,8 +1,9 @@
 /* global Helpers */
 // eslint-disable-next-line no-unused-vars
 class Page {
-    constructor(jQuery, ssk, ds, url) {
+    constructor(jQuery, localStorageMgr, ssk, ds, url) {
         this.jQuery = jQuery;
+        this.localStorageMgr = localStorageMgr;
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
@@ -14,14 +15,19 @@ class Page {
     }
 
     loadSettings() {
-        this.settings =
-            Helpers.loadSettings(this.jQuery,this.settingsSaveKey,
-                this.defaultSettings,
-                this.settings);
+        this.settings = this.localStorageMgr.loadSettings(
+            this.jQuery,this.settingsSaveKey,
+            this.defaultSettings,
+            this.settings);
+        // this.settings =
+        //     Helpers.loadSettings(this.jQuery,this.settingsSaveKey,
+        //         this.defaultSettings,
+        //         this.settings);
     }
 
     saveSettings() {
-        Helpers.saveSettings(this.settingsSaveKey, this.settings);
+        this.localStorageMgr.saveSettings(this.settingsSaveKey, this.settings);
+        // Helpers.saveSettings(this.settingsSaveKey, this.settings);
     }
 
     populateSettings(obj) {

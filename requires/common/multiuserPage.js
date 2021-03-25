@@ -3,8 +3,8 @@ const MultiuserBase = Page;
 
 // eslint-disable-next-line no-unused-vars
 class MultiuserPage extends MultiuserBase {
-    constructor(jQuery) {
-        super(jQuery, 'QoLMultiuser', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
             hideDislike: false,
             hideAll: false,
             niceTable: false,

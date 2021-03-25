@@ -42,6 +42,22 @@ class GlobalsBase {
     };
 
     SETTINGS_SAVE_KEY = 'QoLSettings';
+    DAYCARE_PAGE_SETTINGS_KEY = 'QoLDaycare';
+    DEX_PAGE_SETTINGS_KEY = 'QoLDexPage';
+    FARM_PAGE_SETTINGS_KEY = 'QoLFarm';
+    FISHING_PAGE_SETTINGS_KEY = 'QoLFishing';
+    LAB_PAGE_SETTINGS_KEY = 'QoLLab';
+    MULTIUSER_PAGE_SETTINGS_KEY = 'QoLMultiuser';
+    PRIVATE_FIELDS_PAGE_SETTINGS_KEY = 'QoLPrivateFields';
+    PUBLIC_FIELDS_PAGE_SETTINGS_KEY = 'QoLPublicFields';
+    SHELTER_PAGE_SETTINGS_KEY = 'QoLShelter';
+    WISHFORGE_PAGE_SETTINGS_KEY = 'QoLWishforge';
+    POKEDEX_DATA_KEY = 'QoLPokedex';
+    POKEDEX_DEX_IDS_KEY = 'QoLDexIDsCache';
+    POKEDEX_REGIONAL_FORMS_KEY = 'QoLRegionalFormsList';
+    POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
+    POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
+    POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
     // Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
     // Don't change the order without looking for where this array is used
     TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];

@@ -1,8 +1,8 @@
 /* globals FarmPageBase DexPageParser */
 // eslint-disable-next-line no-unused-vars
 class FarmPage extends FarmPageBase {
-    constructor(jQuery, GLOBALS, externals) {
-        super(jQuery, GLOBALS, externals);
+    constructor(jQuery, localStorageMgr, GLOBALS, externals) {
+        super(jQuery, localStorageMgr, GLOBALS, externals);
     }
     checkForValidDexData(GLOBALS) {
         if (GLOBALS.DEX_DATA === undefined) {
@@ -16,8 +16,8 @@ class FarmPage extends FarmPageBase {
         obj.checkForValidDexData(GLOBALS);
         const dexData = GLOBALS.DEX_DATA;
 
-        if (!GLOBALS.REGIONAL_FORMS_LIST && localStorage.getItem('QoLRegionalFormsList')) {
-            GLOBALS.REGIONAL_FORMS_LIST = JSON.parse(localStorage.getItem('QoLRegionalFormsList'));
+        if (!GLOBALS.REGIONAL_FORMS_LIST && localStorage.getItem(GLOBALS.POKEDEX_REGIONAL_FORMS_KEY)) {
+            GLOBALS.REGIONAL_FORMS_LIST = JSON.parse(localStorage.getItem(GLOBALS.POKEDEX_REGIONAL_FORMS_KEY));
         }
         const regionalFormList = GLOBALS.REGIONAL_FORMS_LIST;
 

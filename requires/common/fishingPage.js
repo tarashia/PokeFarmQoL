@@ -3,8 +3,8 @@ const FishingBase = Page;
 
 // eslint-disable-next-line no-unused-vars
 class FishingPage extends FishingBase {
-    constructor(jQuery) {
-        super(jQuery, 'QoLFishing', {}, 'fishing');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
         // no observer
     }
     setupHTML(GLOBALS) {

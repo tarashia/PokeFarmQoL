@@ -1,8 +1,8 @@
 /* globals Page Helpers */
 // eslint-disable-next-line no-unused-vars
 class LabPageBase extends Page {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLLab', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter

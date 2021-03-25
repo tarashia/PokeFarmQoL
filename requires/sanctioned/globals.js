@@ -5,9 +5,9 @@ class Globals extends GlobalsBase {
         super();
 
         // load the dex from local storage if it exists
-        const dex = localStorage.getItem('QoLPokedex');
+        const dex = localStorage.getItem(this.POKEDEX_DATA_KEY);
         if(dex !== null) {
-            this.DEX_DATA = JSON.parse(localStorage.getItem('QoLPokedex'));
+            this.DEX_DATA = JSON.parse(localStorage.getItem(this.POKEDEX_DATA_KEY));
         }
     }
 }

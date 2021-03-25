@@ -1,8 +1,8 @@
 /* globals Page */
 // eslint-disable-next-line no-unused-vars
 class DexPageBase extends Page {
-    constructor(jQuery) {
-        super(jQuery, 'QoLDexPage', {}, '/dex');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, '/dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars

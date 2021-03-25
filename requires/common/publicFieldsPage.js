@@ -3,8 +3,8 @@ const PublicFieldsBase = Page;
 
 // eslint-disable-next-line no-unused-vars
 class PublicFieldsPage extends PublicFieldsBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLPublicFields', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,

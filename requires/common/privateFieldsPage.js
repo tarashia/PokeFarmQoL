@@ -1,8 +1,8 @@
 /* globals Page Helpers */
 // eslint-disable-next-line no-unused-vars
 class PrivateFieldsPageBase extends Page {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLPrivateFields', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',

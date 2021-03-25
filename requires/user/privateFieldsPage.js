@@ -1,8 +1,8 @@
 /* globals PrivateFieldsPageBase Helpers */
 // eslint-disable-next-line no-unused-vars
 class PrivateFieldsPage extends PrivateFieldsPageBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, GLOBALS);
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS);
         this.settings.fieldNFE = false;
     }
     highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
@@ -14,7 +14,7 @@ class PrivateFieldsPage extends PrivateFieldsPageBase {
         const tooltip = Helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);
         let pokemon = tooltip['species'];
 
-        const key = 'QoLEvolutionTreeDepth';
+        const key = GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY;
         if (localStorage.getItem(key) !== null) {
             const evolutionData = JSON.parse(localStorage.getItem(key));
             if (Object.keys(evolutionData).length > 0) {

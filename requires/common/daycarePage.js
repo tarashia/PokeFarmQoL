@@ -2,8 +2,8 @@
 const DaycareBase = Page;
 // eslint-disable-next-line no-unused-vars
 class DaycarePage extends DaycareBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLDaycare', {}, 'daycare');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
