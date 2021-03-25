@@ -10,14 +10,13 @@ class PFQoL extends PFQoLBase {
         // - if they hatch from an egg,
         // - if you have the eggdex, and
         // - if you have the regular, shiny, albino, and melanistic pokedex entries
-        this.LOCAL_STORAGE = new LocalStorageManager(localStorage);
-        if (!this.LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(this.GLOBALS)) { // can't load it from storage
-            this.LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, this.GLOBALS); // so load it from the web
+        if (!this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS)) { // can't load it from storage
+            this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromWeb($, document, DexUtilities, this.GLOBALS); // so load it from the web
         } else { // can load it from storage
-            this.LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($, document, DexUtilities, this.GLOBALS); // reload it from web if it's old
+            this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromWebIfOld($, document, DexUtilities, this.GLOBALS); // reload it from web if it's old
         }
-        this.LOCAL_STORAGE.loadEvolveByLevelList(this.GLOBALS);
-        this.LOCAL_STORAGE.loadEvolutionTreeDepthList(this.GLOBALS);
+        this.LOCAL_STORAGE_MANAGER.loadEvolveByLevelList(this.GLOBALS);
+        this.LOCAL_STORAGE_MANAGER.loadEvolutionTreeDepthList(this.GLOBALS);
     }
 }
 

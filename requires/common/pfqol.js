@@ -18,7 +18,7 @@ class PFQoLBase {
         this.HELPERS = new Helpers();
         this.RESOURCES = new Resources();
         this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS);
-        this.QOLHUB = new QoLHub(this.jQuery, this.GLOBALS, this.PAGES);
+        this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.PAGES);
         this.GLOBALS.fillTemplates(this.RESOURCES);
         this.GLOBALS.fillOptionsLists();
 

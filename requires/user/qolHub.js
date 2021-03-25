@@ -4,8 +4,8 @@
 /* globals QoLHubBase DexUtilities DexPageParser EvolutionTreeParser LocalStorageManager */
 // eslint-disable-next-line no-unused-vars
 class QoLHub extends QoLHubBase {
-    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
-        super(jQuery, GLOBALS, PAGES, SETTINGS);
+    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
+        super(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS);
     }
     setupHandlers() {
         super.setupHandlers();
@@ -36,7 +36,7 @@ class QoLHub extends QoLHubBase {
     }
     handleUpdateDexClick(document) {
         const obj = this;
-        const localStorageManager = new LocalStorageManager(localStorage);
+        const localStorageManager = this.localStorageMgr;
         // Manually update GLOBALS.DEX_DATA
         localStorageManager.loadDexIntoGlobalsFromWeb(obj.jQuery, document, DexUtilities, obj.GLOBALS);
 

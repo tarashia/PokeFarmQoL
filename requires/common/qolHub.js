@@ -17,8 +17,9 @@ class QoLHubBase {
         dexFilterEnable: true,
         condenseWishforge: true
     };
-    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
+    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
         this.jQuery = jQuery;
+        this.localStorageMgr = localStorageMgr;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
