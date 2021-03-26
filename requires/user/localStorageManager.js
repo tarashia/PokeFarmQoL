@@ -10,14 +10,14 @@ class LocalStorageManager extends LocalStorageManagerBase {
      * - globals - reference to the GLOBALS settings object
      */
     loadDexIntoGlobalsFromStorage(globals) {
-        if(self.storage.getItem(globals.POKEDEX_DATA_KEY) === null) {
+        if(this.storage.getItem(globals.POKEDEX_DATA_KEY) === null) {
             return false;
         }
-        if(Object.keys(JSON.parse(self.storage.getItem(globals.POKEDEX_DATA_KEY))).length === 0) {
+        if(Object.keys(JSON.parse(this.storage.getItem(globals.POKEDEX_DATA_KEY))).length === 0) {
             return false;
         }
 
-        const dateAndDex = JSON.parse(self.storage.getItem(globals.POKEDEX_DATA_KEY));
+        const dateAndDex = JSON.parse(this.storage.getItem(globals.POKEDEX_DATA_KEY));
         // if QoLPokedex only contains date
         if((dateAndDex.length === 1) ||
            // or if the dex part of the array is empty
@@ -65,7 +65,7 @@ class LocalStorageManager extends LocalStorageManagerBase {
     loadDexIntoGlobalsFromWebIfOld($, document, dexUtilities, globals) {
         // If it's more than 30 days old, update the dex
         const THIRTY_DAYS_IN_MS = 30*24*3600*1000;
-        const dateAndDex = JSON.parse(self.storage.getItem(globals.POKEDEX_DATA_KEY));
+        const dateAndDex = JSON.parse(this.storage.getItem(globals.POKEDEX_DATA_KEY));
         if ((Date.now() - Date.parse(dateAndDex[0])) > THIRTY_DAYS_IN_MS) {
             return this.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals);
         }
@@ -79,15 +79,15 @@ class LocalStorageManager extends LocalStorageManagerBase {
             dateString = updateDate;
         }
         const datePlusDex = [dateString].concat(globals.DEX_DATA);
-        self.storage.setItem(globals.POKEDEX_DATA_KEY, JSON.stringify(datePlusDex));
+        this.storage.setItem(globals.POKEDEX_DATA_KEY, JSON.stringify(datePlusDex));
         $('.qolDate', document).val(dateString);
     }
 
     saveEvolveByLevelList(globals, parsedFamilies, dexIDs) {
         // load current evolve by level list
         let evolveByLevelList = {};
-        if(self.storage.getItem(globals.POKEDEX_EVOLVE_BY_LEVEL_KEY) !== null) {
-            evolveByLevelList = JSON.parse(self.storage.getItem(globals.POKEDEX_EVOLVE_BY_LEVEL_KEY));
+        if(this.storage.getItem(globals.POKEDEX_EVOLVE_BY_LEVEL_KEY) !== null) {
+            evolveByLevelList = JSON.parse(this.storage.getItem(globals.POKEDEX_EVOLVE_BY_LEVEL_KEY));
         }
 
         for(const pokemon in parsedFamilies) {
@@ -107,7 +107,7 @@ class LocalStorageManager extends LocalStorageManagerBase {
         } // for pokemon
 
         globals.EVOLVE_BY_LEVEL_LIST = evolveByLevelList;
-        self.storage.setItem(globals.POKEDEX_EVOLVE_BY_LEVEL_KEY, JSON.stringify(evolveByLevelList));
+        this.storage.setItem(globals.POKEDEX_EVOLVE_BY_LEVEL_KEY, JSON.stringify(evolveByLevelList));
     } // saveEvolveByLevelList
 
     saveEvolutionTreeDepths(globals, maxEvoTreeDepth) {
@@ -115,7 +115,7 @@ class LocalStorageManager extends LocalStorageManagerBase {
         // for a pokemon and it's family
         // e.g. - GLOBALS.EVOLUTIONS_LEFT["019s2"] = { remaining: 4, total: 5 } // 019s2 = Super Saiyan Rattata
 
-        self.storage.setItem(globals.POKEDEX_EVOLUTION_TREE_DEPTH_KEY, JSON.stringify(maxEvoTreeDepth));
+        this.storage.setItem(globals.POKEDEX_EVOLUTION_TREE_DEPTH_KEY, JSON.stringify(maxEvoTreeDepth));
         globals.EVOLUTIONS_LEFT = maxEvoTreeDepth;
 
     } // saveEvolutionTreeDepths
@@ -127,7 +127,7 @@ class LocalStorageManager extends LocalStorageManagerBase {
         const key = globals.POKEDEX_REGIONAL_FORMS_KEY;
         const list = regionalFormMap;
 
-        self.storage.setItem(key, JSON.stringify(list));
+        this.storage.setItem(key, JSON.stringify(list));
         globals.REGIONAL_FORMS_LIST = list;
 
     } // saveRegionalFormsList
@@ -141,7 +141,7 @@ class LocalStorageManager extends LocalStorageManagerBase {
         //           <alolan.png> : [Normal, Dark]
         // }
         const key = globals.POKEDEX_EGG_TYPES_MAP_KEY;
-        self.storage.setItem(key, JSON.stringify(map));
+        this.storage.setItem(key, JSON.stringify(map));
         globals.EGGS_PNG_TO_TYPES_LIST = map;
     }
 
@@ -152,8 +152,8 @@ class LocalStorageManager extends LocalStorageManagerBase {
         const json = JSON.parse(dex);
         // load current list of processed dex IDs
         let dexIDsCache = [];
-        if(self.storage.getItem(globals.POKEDEX_DEX_IDS_KEY) !== null) {
-            dexIDsCache = JSON.parse(self.storage.getItem(globals.POKEDEX_DEX_IDS_KEY));
+        if(this.storage.getItem(globals.POKEDEX_DEX_IDS_KEY) !== null) {
+            dexIDsCache = JSON.parse(this.storage.getItem(globals.POKEDEX_DEX_IDS_KEY));
         }
 
         const dexNumbers = [];
@@ -168,7 +168,7 @@ class LocalStorageManager extends LocalStorageManagerBase {
 
         // Add the list of dexNumbers to the cache and write it back to local storage
         dexIDsCache = dexIDsCache.concat(dexNumbers);
-        self.storage.setItem(globals.POKEDEX_DEX_IDS_KEY, JSON.stringify(dexIDsCache));
+        this.storage.setItem(globals.POKEDEX_DEX_IDS_KEY, JSON.stringify(dexIDsCache));
         return dexNumbers;
     }
 }
