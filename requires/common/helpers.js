@@ -48,7 +48,7 @@ class Helpers {
             catch (err) {
                 this.saveSettings(KEY, obj);
             }
-            if (localStorage.getItem(KEY) != obj) {
+            if (localStorage.getItem(KEY) != JSON.stringify(obj)) {
                 obj = JSON.parse(localStorage.getItem(KEY));
             }
         }
