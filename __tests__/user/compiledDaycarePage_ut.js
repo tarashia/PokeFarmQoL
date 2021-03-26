@@ -1,9 +1,10 @@
-import { JSDOM } from 'jsdom';
-const dom = new JSDOM();
-window.document = dom.window.document;
+// import { JSDOM } from 'jsdom';
+// const dom = new JSDOM();
+// window.document = dom.window.document;
 // global.window = dom.window;
 
 const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -46,7 +47,8 @@ describe('Test Daycare Page', () => {
         global.location.href = 'https://pokefarm.com/daycare';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLDaycare', '{}');
+        const key = `${$.USERID}.QoLDaycare`;
+        localStorage.setItem(key, '{}');
 
         // test Ditto in Daycare
         $('#pkmnadd').attr('data-gender', 'd');
