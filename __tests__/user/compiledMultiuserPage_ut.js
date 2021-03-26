@@ -1,4 +1,5 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -42,7 +43,8 @@ describe('Test Multiuser Page', () => {
         global.location.href = 'https://pokefarm.com/users/A,A,A,A,A,A,A,A,A,A';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLMultiuser',
+        const key = `${$.USERID}.QoLMultiuser`;
+        localStorage.setItem(key,
             '{"hideDislike":false,' +
             '"hideAll":false,' +
             '"niceTable":false}');
@@ -66,7 +68,7 @@ describe('Test Multiuser Page', () => {
         expect($('[data-key=hideDislike]').prop('checked')).toBe(true);
         expect($('[data-key=niceTable]').prop('checked')).toBe(false);
         expect($('[data-key=hideAll]').prop('checked')).toBe(false);
-        expect(localStorage.getItem('QoLMultiuser'))
+        expect(localStorage.getItem(key))
             .toBe('{"hideDislike":true,"hideAll":false,"niceTable":false}');
         // Any berry (check that all berries have the same class)
         expect($('[data-pid]').eq(0)
@@ -102,7 +104,7 @@ describe('Test Multiuser Page', () => {
         expect($('[data-key=hideDislike]').prop('checked')).toBe(false);
         expect($('[data-key=niceTable]').prop('checked')).toBe(true);
         expect($('[data-key=hideAll]').prop('checked')).toBe(false);
-        expect(localStorage.getItem('QoLMultiuser'))
+        expect(localStorage.getItem(key))
             .toBe('{"hideDislike":false,"hideAll":false,"niceTable":true}');
 
         // trigger hideAll section of partyModification
@@ -110,7 +112,7 @@ describe('Test Multiuser Page', () => {
         expect($('[data-key=hideDislike]').prop('checked')).toBe(false);
         expect($('[data-key=niceTable]').prop('checked')).toBe(false);
         expect($('[data-key=hideAll]').prop('checked')).toBe(true);
-        expect(localStorage.getItem('QoLMultiuser'))
+        expect(localStorage.getItem(key))
             .toBe('{"hideDislike":false,"hideAll":true,"niceTable":false}');
 
     });
