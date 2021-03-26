@@ -13,6 +13,6 @@ class LocalStorageManagerBase {
         Helpers.saveSettings(this.translateKey(key), obj);
     }
     loadSettings($, KEY, DEFAULT, obj) {
-        Helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
+        return Helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
     }
 }
