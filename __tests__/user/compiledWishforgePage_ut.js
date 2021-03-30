@@ -1,4 +1,5 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');

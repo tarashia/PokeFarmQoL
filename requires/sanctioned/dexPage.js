@@ -6,10 +6,10 @@ class DexPage extends DexPageBase {
 
         // when entering the dex page, update the local storage QoLPokedex
         // so the user can update their information
-        if(localStorage.getItem(GLOBALS.POKEDEX_DATA_KEY) !== null) {
+        if(this.localStorageMgr.getItem(GLOBALS.POKEDEX_DATA_KEY) !== null) {
             if(jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
                 const text = jQuery('script#dexdata').text();
-                localStorage.setItem(GLOBALS.POKEDEX_DATA_KEY, text);
+                this.localStorageMgr.setItem(GLOBALS.POKEDEX_DATA_KEY, text);
             }
         }
     }

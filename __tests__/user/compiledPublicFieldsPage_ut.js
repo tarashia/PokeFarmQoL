@@ -1,4 +1,6 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
+const key = `${$.USERID}.QoLPublicFields`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -60,11 +62,11 @@ const setupTooltipValues = function (tooltipEnableModsChecked,
 
 const checkLocalSettings = function (tooltipEnableModsChecked,
     tooltipNoBerryChecked, tooltipBerryChecked) {
-    expect(localStorage.getItem('QoLPublicFields'))
+    expect(localStorage.getItem(key))
         .toEqual(expect.stringContaining(`"tooltipEnableMods":${tooltipEnableModsChecked}`));
-    expect(localStorage.getItem('QoLPublicFields'))
+    expect(localStorage.getItem(key))
         .toEqual(expect.stringContaining(`"tooltipNoBerry":${tooltipNoBerryChecked}`));
-    expect(localStorage.getItem('QoLPublicFields'))
+    expect(localStorage.getItem(key))
         .toEqual(expect.stringContaining(`"tooltipBerry":${tooltipBerryChecked}`));
 };
 
@@ -108,7 +110,7 @@ describe('Test Public Fields Page', () => {
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';
         document.documentElement.innerHTML = innerHTML;
-        localStorage.setItem('QoLPublicFields',
+        localStorage.setItem(key,
             '{"fieldByBerry":false,' +
             '"fieldByMiddle":false,' +
             '"fieldByGrid":false,' +
@@ -250,7 +252,7 @@ describe('Test Public Fields Page', () => {
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';
         document.documentElement.innerHTML = innerHTML;
-        localStorage.setItem('QoLPublicFields',
+        localStorage.setItem(key,
             '{"fieldByBerry":false,' +
             '"fieldByMiddle":false,' +
             '"fieldByGrid":false,' +
@@ -426,7 +428,7 @@ describe('Test Public Fields Page', () => {
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLPublicFields',
+        localStorage.setItem(key,
             '{"fieldByBerry":false,' +
             '"fieldByMiddle":false,' +
             '"fieldByGrid":false,' +
@@ -461,7 +463,7 @@ describe('Test Public Fields Page', () => {
 
         ////////////////////////////////////////
         // check that settings were loaded correctly
-        const loadedSettings = JSON.parse(localStorage.getItem('QoLPublicFields'));
+        const loadedSettings = JSON.parse(localStorage.getItem(key));
         expect($('[data-key=fieldShiny]').length).toBe(1);
         expect($('[data-key=fieldShiny]').prop('checked')).toBe(false);
         expect(loadedSettings.fieldShiny).toBe(false);
@@ -532,100 +534,100 @@ describe('Test Public Fields Page', () => {
         // test selecting shiny pokemon
         $('[data-key=fieldShiny]').trigger('click');
         expect($('[data-key=fieldShiny]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldShiny).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldShiny).toBe(true);
         expect($('.publicfoundme').length).toBe(NUM_SHINY);
         $('[data-key=fieldShiny]').trigger('click');
         expect($('.publicfoundme').length).toBe(0);
         expect($('[data-key=fieldShiny]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldShiny).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldShiny).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         $('[data-key=fieldAlbino]').trigger('click');
         expect($('[data-key=fieldAlbino]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldAlbino).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldAlbino).toBe(true);
         expect($('.publicfoundme').length).toBe(NUM_ALBINO);
         $('[data-key=fieldAlbino]').trigger('click');
         expect($('.publicfoundme').length).toBe(0);
         expect($('[data-key=fieldAlbino]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldAlbino).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldAlbino).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         $('[data-key=fieldMelanistic]').trigger('click');
         expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldMelanistic).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldMelanistic).toBe(true);
         expect($('.publicfoundme').length).toBe(NUM_MELANISTIC);
         $('[data-key=fieldMelanistic]').trigger('click');
         expect($('.publicfoundme').length).toBe(0);
         expect($('[data-key=fieldMelanistic]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldMelanistic).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldMelanistic).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         $('[data-key=fieldPrehistoric]').trigger('click');
         expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldPrehistoric).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldPrehistoric).toBe(true);
         expect($('.publicfoundme').length).toBe(NUM_PREHISTORIC);
         $('[data-key=fieldPrehistoric]').trigger('click');
         expect($('.publicfoundme').length).toBe(0);
         expect($('[data-key=fieldPrehistoric]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldPrehistoric).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldPrehistoric).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         $('[data-key=fieldDelta]').trigger('click');
         expect($('[data-key=fieldDelta]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldDelta).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldDelta).toBe(true);
         expect($('.publicfoundme').length).toBe(NUM_DELTA);
         $('[data-key=fieldDelta]').trigger('click');
         expect($('.publicfoundme').length).toBe(0);
         expect($('[data-key=fieldDelta]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldDelta).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldDelta).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         $('[data-key=fieldMega]').trigger('click');
         expect($('[data-key=fieldMega]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldMega).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldMega).toBe(true);
         expect($('.publicfoundme').length).toBe(NUM_MEGA);
         $('[data-key=fieldMega]').trigger('click');
         expect($('.publicfoundme').length).toBe(0);
         expect($('[data-key=fieldMega]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldMega).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldMega).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         $('[data-key=fieldStarter]').trigger('click');
         expect($('[data-key=fieldStarter]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldStarter).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldStarter).toBe(true);
         expect($('.publicfoundme').length).toBe(NUM_STARTER);
         $('[data-key=fieldStarter]').trigger('click');
         expect($('.publicfoundme').length).toBe(0);
         expect($('[data-key=fieldStarter]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldStarter).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldStarter).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         $('[data-key=fieldCustomSprite]').trigger('click');
         expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustomSprite).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustomSprite).toBe(true);
         expect($('.publicfoundme').length).toBe(NUM_CS);
         $('[data-key=fieldCustomSprite]').trigger('click');
         expect($('.publicfoundme').length).toBe(0);
         expect($('[data-key=fieldCustomSprite]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustomSprite).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustomSprite).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         $('[data-key=fieldItem]').trigger('click');
         expect($('[data-key=fieldItem]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldItem).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldItem).toBe(true);
         expect($('.publicfoundme').length).toBe(NUM_HOLDING_ITEM);
         $('[data-key=fieldItem]').trigger('click');
         expect($('.publicofundme').length).toBe(0);
         expect($('[data-key=fieldItem]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldItem).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldItem).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -633,7 +635,7 @@ describe('Test Public Fields Page', () => {
         // check that the correct changes were applied
         expect($('[data-key=fieldType]').length).toBe(2);
         expect($('[id=removeFieldTypeSearch]').length).toBe(2);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldType).toBe('');
+        expect(JSON.parse(localStorage.getItem(key)).fieldType).toBe('');
         // null because it was never set to anything
         expect($('[data-key=fieldType]').eq(0).val()).toBe(null);
         expect($('[data-key=fieldType]').eq(1).val()).toBe('none');
@@ -644,11 +646,11 @@ describe('Test Public Fields Page', () => {
         $('[data-key=fieldType]').eq(0).prop('selectedIndex', 9); // Ground
         $('[data-key=fieldType]').eq(0).trigger('input');
         expect($('.publicfoundme').length).toBe(45); // just Ground
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldType).toBe('8');
+        expect(JSON.parse(localStorage.getItem(key)).fieldType).toBe('8');
         $('[data-key=fieldType]').eq(1).prop('selectedIndex', 5); // Grass
         $('[data-key=fieldType]').eq(1).trigger('input');
         expect($('.publicfoundme').length).toBe(55); // Ground or Grass
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldType).toBe('8,4');
+        expect(JSON.parse(localStorage.getItem(key)).fieldType).toBe('8,4');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -658,13 +660,13 @@ describe('Test Public Fields Page', () => {
         expect($('[id=removeFieldTypeSearch]').length).toBe(1);
         expect($('[data-key=fieldType]').eq(0).prop('selectedIndex')).toBe(5); // Grass
         expect($('.publicfoundme').length).toBe(10); // just Ground
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldType).toBe('4');
+        expect(JSON.parse(localStorage.getItem(key)).fieldType).toBe('4');
         // click remove again
         $('#removeFieldTypeSearch').eq(0).trigger('click');
         expect($('[data-key=fieldType]').length).toBe(0);
         expect($('[id=removeFieldTypeSearch]').length).toBe(0);
         expect($('.publicfoundme').length).toBe(0);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldType).toBe('');
+        expect(JSON.parse(localStorage.getItem(key)).fieldType).toBe('');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -675,7 +677,7 @@ describe('Test Public Fields Page', () => {
         // null because it was never set to anything
         expect($('[data-key=fieldNature]').eq(0).val()).toBe(null);
         expect($('[data-key=fieldNature]').eq(1).val()).toBe('none');
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldNature).toBe('');
+        expect(JSON.parse(localStorage.getItem(key)).fieldNature).toBe('');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -683,11 +685,11 @@ describe('Test Public Fields Page', () => {
         $('[data-key=fieldNature]').eq(0).prop('selectedIndex', 2); // Mild
         $('[data-key=fieldNature]').eq(0).trigger('input');
         expect($('.publicfoundme').length).toBe(NUM_MILD); // just Mild
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldNature).toBe('1');
+        expect(JSON.parse(localStorage.getItem(key)).fieldNature).toBe('1');
         $('[data-key=fieldNature]').eq(1).prop('selectedIndex', 5); // Bold
         $('[data-key=fieldNature]').eq(1).trigger('input');
         expect($('.publicfoundme').length).toBe(NUM_MILD + NUM_BOLD); // Mild or Bold
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldNature).toBe('1,4');
+        expect(JSON.parse(localStorage.getItem(key)).fieldNature).toBe('1,4');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -696,14 +698,14 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldNature]').length).toBe(1);
         expect($('[id=removeFieldNature]').length).toBe(1);
         expect($('[data-key=fieldNature]').eq(0).prop('selectedIndex')).toBe(5); // Bold
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldNature).toBe('4');
+        expect(JSON.parse(localStorage.getItem(key)).fieldNature).toBe('4');
         expect($('.publicfoundme').length).toBe(NUM_BOLD); // just Bold
         // click remove again
         $('#removeFieldNature').eq(0).trigger('click');
         expect($('[data-key=fieldNature]').length).toBe(0);
         expect($('[id=removeFieldNature]').length).toBe(0);
         expect($('.publicfoundme').length).toBe(0);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldNature).toBe('');
+        expect(JSON.parse(localStorage.getItem(key)).fieldNature).toBe('');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -714,7 +716,7 @@ describe('Test Public Fields Page', () => {
         // null because it was never set to anything
         expect($('[data-key=fieldEggGroup]').eq(0).val()).toBe(null);
         expect($('[data-key=fieldEggGroup]').eq(1).val()).toBe('none');
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldEggGroup).toBe('');
+        expect(JSON.parse(localStorage.getItem(key)).fieldEggGroup).toBe('');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -722,11 +724,11 @@ describe('Test Public Fields Page', () => {
         $('[data-key=fieldEggGroup]').eq(0).prop('selectedIndex', 10); // Amorphous
         $('[data-key=fieldEggGroup]').eq(0).trigger('input');
         expect($('.publicfoundme').length).toBe(NUM_AMORPHOUS); // just Amorphous
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldEggGroup).toBe('9');
+        expect(JSON.parse(localStorage.getItem(key)).fieldEggGroup).toBe('9');
         $('[data-key=fieldEggGroup]').eq(1).prop('selectedIndex', 2); // Monster
         $('[data-key=fieldEggGroup]').eq(1).trigger('input');
         expect($('.publicfoundme').length).toBe(NUM_AMORPHOUS + NUM_MONSTER); // Amorphous or Monster
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldEggGroup).toBe('9,1');
+        expect(JSON.parse(localStorage.getItem(key)).fieldEggGroup).toBe('9,1');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -736,13 +738,13 @@ describe('Test Public Fields Page', () => {
         expect($('[id=removeFieldEggGroup]').length).toBe(1);
         expect($('[data-key=fieldEggGroup]').eq(0).prop('selectedIndex')).toBe(2); // Monster
         expect($('.publicfoundme').length).toBe(NUM_MONSTER); // just Monster
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldEggGroup).toBe('1');
+        expect(JSON.parse(localStorage.getItem(key)).fieldEggGroup).toBe('1');
         // click remove again
         $('#removeFieldEggGroup').eq(0).trigger('click');
         expect($('[data-key=fieldEggGroup]').length).toBe(0);
         expect($('[id=removeFieldEggGroup]').length).toBe(0);
         expect($('.publicfoundme').length).toBe(0);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldEggGroup).toBe('');
+        expect(JSON.parse(localStorage.getItem(key)).fieldEggGroup).toBe('');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -752,7 +754,7 @@ describe('Test Public Fields Page', () => {
         expect($('[id=removeTextField]').length).toBe(2);
         expect($('[data-key=fieldCustom]').eq(0).val()).toBe('');
         expect($('[data-key=fieldCustom]').eq(1).val()).toBe('');
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustom).toBe('');
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustom).toBe('');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -760,31 +762,31 @@ describe('Test Public Fields Page', () => {
         // enable the fieldCustomPokemon button
         $('[data-key=fieldCustomPokemon]').trigger('click');
         expect($('[data-key=fieldCustomPokemon]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustomPokemon).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustomPokemon).toBe(true);
         // enable the gender buttons so all matches will be found
         $('[data-key=fieldMale]').trigger('click');
         expect($('[data-key=fieldMale]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldMale).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldMale).toBe(true);
         $('[data-key=fieldFemale]').trigger('click');
         expect($('[data-key=fieldFemale]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldFemale).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldFemale).toBe(true);
         // check search by name
         $('[data-key=fieldCustom]').eq(0).val('Cofagrigus');
         $('[data-key=fieldCustom]').eq(0).trigger('input');
         expect($('.publicfoundme').length).toBe(45); // just text
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustom).toBe('Cofagrigus');
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustom).toBe('Cofagrigus');
         // disable the fieldCustomPokemon button
         $('[data-key=fieldCustomPokemon]').trigger('click');
         expect($('[data-key=fieldCustomPokemon]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustomPokemon).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustomPokemon).toBe(false);
         expect($('.publicfoundme').length).toBe(0);
         // disable the gender buttons so all matches will be found
         $('[data-key=fieldMale]').trigger('click');
         expect($('[data-key=fieldMale]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldMale).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldMale).toBe(false);
         $('[data-key=fieldFemale]').trigger('click');
         expect($('[data-key=fieldFemale]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldFemale).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldFemale).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -792,16 +794,16 @@ describe('Test Public Fields Page', () => {
         // enable the fieldCustomPng button
         $('[data-key=fieldCustomPng]').trigger('click');
         expect($('[data-key=fieldCustomPng]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustomPng).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustomPng).toBe(true);
         // check search by URL
         $('[data-key=fieldCustom]').eq(1).val('1/g/g.png/t=1569852763');
         $('[data-key=fieldCustom]').eq(1).trigger('input');
         expect($('.publicfoundme').length).toBe(10); // just PNG URL
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustom).toBe('Cofagrigus,1/g/g.png/t=1569852763');
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustom).toBe('Cofagrigus,1/g/g.png/t=1569852763');
         // disable the fieldCustomPng button
         $('[data-key=fieldCustomPng]').trigger('click');
         expect($('[data-key=fieldCustomPng]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustomPng).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustomPng).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -810,12 +812,12 @@ describe('Test Public Fields Page', () => {
         // check that the correct changes were applied
         expect($('[data-key=fieldCustom]').length).toBe(1);
         expect($('[id=removeTextField]').length).toBe(1);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustom).toBe('1/g/g.png/t=1569852763');
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustom).toBe('1/g/g.png/t=1569852763');
         // click remove again
         $('#removeTextField').eq(0).trigger('click');
         expect($('[data-key=fieldCustom]').length).toBe(0);
         expect($('[id=removeTextField]').length).toBe(0);
-        expect(JSON.parse(localStorage.getItem('QoLPublicFields')).fieldCustom).toBe('');
+        expect(JSON.parse(localStorage.getItem(key)).fieldCustom).toBe('');
         ////////////////////////////////////////
     });
 
@@ -826,7 +828,7 @@ describe('Test Public Fields Page', () => {
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLPublicFields',
+        localStorage.setItem(key,
             '{"fieldByBerry":false,' +
             '"fieldByMiddle":false,' +
             '"fieldByGrid":false,' +
@@ -865,7 +867,7 @@ describe('Test Public Fields Page', () => {
         global.location.href = 'https://pokefarm.com/fields/ECEInTheHole';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLPublicFields',
+        localStorage.setItem(key,
             '{"fieldByBerry":false,' +
             '"fieldByMiddle":false,' +
             '"fieldByGrid":false,' +

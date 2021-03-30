@@ -6,7 +6,8 @@ class Globals extends GlobalsBase {
     DEX_UPDATE_DATE = null;
     EVOLVE_BY_LEVEL_LIST = null;
     EVOLUTIONS_LEFT = null;
-    constructor() {
+    constructor(localStorageMgr) {
         super();
+        this.localStorageMgr = localStorageMgr;
     }
 }

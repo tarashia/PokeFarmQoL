@@ -14,7 +14,7 @@ class PFQoLBase {
 
         this.jQuery = $;
         this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage);
-        this.GLOBALS = new Globals();
+        this.GLOBALS = new Globals(this.LOCAL_STORAGE_MANAGER);
         this.HELPERS = new Helpers();
         this.RESOURCES = new Resources();
         this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS);

@@ -1,4 +1,7 @@
-const jQuery = require('../../__mocks__/jquery_files').jQuery;
+const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
+const settingsKey = `${$.USERID}.QoLSettings`;
+const shelterKey = `${$.USERID}.QoLShelter`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -35,7 +38,7 @@ describe('Test that PFQoL compiles', () => {
         global.location.href = 'https://pokefarm.com/party';
 
         // set non-default Shelter settings to facilitate the resetPageSettings test
-        localStorage.setItem('QoLShelter', JSON.stringify({
+        localStorage.setItem(shelterKey, JSON.stringify({
             findCustom: '',
             findType: '',
             findTypeEgg: false, // non-default
@@ -61,14 +64,14 @@ describe('Test that PFQoL compiles', () => {
             shelterGrid: true,
         }));
 
-        new pfqol.pfqol(jQuery);
+        new pfqol.pfqol($);
 
         ////////////////////////////////////////
         // TEST 1
         // check that a div is added to the HTML when the QoL button in the
         // timerse bar is clicked
-        jQuery('li[data-name="QoL"]').eq(0).trigger('click');
-        let lastChild = jQuery('body').children().eq(-1);
+        $('li[data-name="QoL"]').eq(0).trigger('click');
+        let lastChild = $('body').children().eq(-1);
         expect(lastChild && lastChild.attr('class')).toBe('dialog');
         ////////////////////////////////////////
 
@@ -80,39 +83,39 @@ describe('Test that PFQoL compiles', () => {
         let settings;
         for (let i = 0; i < settingsList.length; i++) {
             const key = settingsList[i];
-            settings = JSON.parse(localStorage.getItem('QoLSettings'));
+            settings = JSON.parse(localStorage.getItem(settingsKey));
             if (settings[key] === true) {
                 expectedSettingValue = false;
             } else {
                 expectedSettingValue = true;
             }
-            jQuery(`[data-key=${key}]`).trigger('click');
-            settings = JSON.parse(localStorage.getItem('QoLSettings'));
+            $(`[data-key=${key}]`).trigger('click');
+            settings = JSON.parse(localStorage.getItem(settingsKey));
             expect(settings[key]).toEqual(expectedSettingValue);
         }
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         // this doesn't need any expects; it's not important enough
-        jQuery('h3.slidermenu').trigger('click');
+        $('h3.slidermenu').trigger('click');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         // test keydown handler for #qolcustomcss
-        let keyevent = jQuery.Event('keydown');
+        let keyevent = $.Event('keydown');
         keyevent.keyCode = 9; // tab
-        jQuery('#qolcustomcss').trigger(keyevent);
-        keyevent = jQuery.Event('keydown');
+        $('#qolcustomcss').trigger(keyevent);
+        keyevent = $.Event('keydown');
         keyevent.keyCode = 0;
         keyevent.which = 9; // tab
-        jQuery('#qolcustomcss').trigger(keyevent);
+        $('#qolcustomcss').trigger(keyevent);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         // TEST
         // check that clicking the close button removes the HTML for the dialog
-        jQuery('.closeHub').eq(0).trigger('click');
-        lastChild = jQuery('body').children().eq(-1);
+        $('.closeHub').eq(0).trigger('click');
+        lastChild = $('body').children().eq(-1);
         expect(lastChild && lastChild.attr('class')).not.toBe('dialog');
         ////////////////////////////////////////
     });

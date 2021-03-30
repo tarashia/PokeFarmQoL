@@ -2030,7 +2030,7 @@ class Helpers {
             catch (err) {
                 this.saveSettings(KEY, obj);
             }
-            if (localStorage.getItem(KEY) != obj) {
+            if (localStorage.getItem(KEY) != JSON.stringify(obj)) {
                 obj = JSON.parse(localStorage.getItem(KEY));
             }
         }
@@ -2220,6 +2220,22 @@ class GlobalsBase {
     };
 
     SETTINGS_SAVE_KEY = 'QoLSettings';
+    DAYCARE_PAGE_SETTINGS_KEY = 'QoLDaycare';
+    DEX_PAGE_SETTINGS_KEY = 'QoLDexPage';
+    FARM_PAGE_SETTINGS_KEY = 'QoLFarm';
+    FISHING_PAGE_SETTINGS_KEY = 'QoLFishing';
+    LAB_PAGE_SETTINGS_KEY = 'QoLLab';
+    MULTIUSER_PAGE_SETTINGS_KEY = 'QoLMultiuser';
+    PRIVATE_FIELDS_PAGE_SETTINGS_KEY = 'QoLPrivateFields';
+    PUBLIC_FIELDS_PAGE_SETTINGS_KEY = 'QoLPublicFields';
+    SHELTER_PAGE_SETTINGS_KEY = 'QoLShelter';
+    WISHFORGE_PAGE_SETTINGS_KEY = 'QoLWishforge';
+    POKEDEX_DATA_KEY = 'QoLPokedex';
+    POKEDEX_DEX_IDS_KEY = 'QoLDexIDsCache';
+    POKEDEX_REGIONAL_FORMS_KEY = 'QoLRegionalFormsList';
+    POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
+    POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
+    POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
     // Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
     // Don't change the order without looking for where this array is used
     TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
@@ -3478,8 +3494,9 @@ class Globals extends GlobalsBase {
     DEX_UPDATE_DATE = null;
     EVOLVE_BY_LEVEL_LIST = null;
     EVOLUTIONS_LEFT = null;
-    constructor() {
+    constructor(localStorageMgr) {
         super();
+        this.localStorageMgr = localStorageMgr;
     }
 }
 /* eslint-disable no-trailing-spaces */
@@ -3945,9 +3962,36 @@ class DexPageParser {
 if (module) {
     module.exports.DexPageParser = DexPageParser;
 }
-class LocalStorageManager {
-    constructor(storage) {
-        self.storage = storage;
+
+
+class LocalStorageManagerBase {
+    constructor(keyPrefix, storage) {
+        this.keyPrefix = keyPrefix;
+        this.storage = storage;
+    }
+    translateKey(key) {
+        return `${this.keyPrefix}.${key}`;
+    }
+    saveSettings(key, obj) {
+        Helpers.saveSettings(this.translateKey(key), obj);
+    }
+    loadSettings($, KEY, DEFAULT, obj) {
+        return Helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
+    }
+    getItem(key) {
+        return this.storage.getItem(this.translateKey(key));
+    }
+    setItem(key, value) {
+        this.storage.setItem(this.translateKey(key), value);
+    }
+    removeItem(key) {
+        this.storage.removeItem(this.translateKey(key));
+    }
+}
+
+class LocalStorageManager extends LocalStorageManagerBase {
+    constructor(keyPrefix, storage) {
+        super(keyPrefix, storage);
     }
 
     /* Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
@@ -3955,14 +3999,15 @@ class LocalStorageManager {
      * - globals - reference to the GLOBALS settings object
      */
     loadDexIntoGlobalsFromStorage(globals) {
-        if(self.storage.getItem('QoLPokedex') === null) {
+        const key = this.translateKey(globals.POKEDEX_DATA_KEY);
+        if(this.storage.getItem(key) === null) {
             return false;
         }
-        if(Object.keys(JSON.parse(self.storage.getItem('QoLPokedex'))).length === 0) {
+        if(Object.keys(JSON.parse(this.storage.getItem(key))).length === 0) {
             return false;
         }
 
-        const dateAndDex = JSON.parse(self.storage.getItem('QoLPokedex'));
+        const dateAndDex = JSON.parse(this.storage.getItem(key));
         // if QoLPokedex only contains date
         if((dateAndDex.length === 1) ||
            // or if the dex part of the array is empty
@@ -3995,11 +4040,11 @@ class LocalStorageManager {
     }
 
     loadEvolveByLevelList(GLOBALS) {
-        GLOBALS.EVOLVE_BY_LEVEL_LIST = JSON.parse(localStorage.getItem('QoLEvolveByLevel'));
+        GLOBALS.EVOLVE_BY_LEVEL_LIST = JSON.parse(localStorage.getItem(this.translateKey(GLOBALS.POKEDEX_EVOLVE_BY_LEVEL_KEY)));
     }
 
     loadEvolutionTreeDepthList(GLOBALS) {
-        GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem('QoLEvolutionTreeDepth'));
+        GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem(this.translateKey(GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY)));
     }
 
     /* Call loadDexIntoGlobalsFromWeb if more than 30 days have passed since it was last loaded
@@ -4010,7 +4055,7 @@ class LocalStorageManager {
     loadDexIntoGlobalsFromWebIfOld($, document, dexUtilities, globals) {
         // If it's more than 30 days old, update the dex
         const THIRTY_DAYS_IN_MS = 30*24*3600*1000;
-        const dateAndDex = JSON.parse(self.storage.getItem('QoLPokedex'));
+        const dateAndDex = JSON.parse(this.storage.getItem(this.translateKey(globals.POKEDEX_DATA_KEY)));
         if ((Date.now() - Date.parse(dateAndDex[0])) > THIRTY_DAYS_IN_MS) {
             return this.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals);
         }
@@ -4024,15 +4069,16 @@ class LocalStorageManager {
             dateString = updateDate;
         }
         const datePlusDex = [dateString].concat(globals.DEX_DATA);
-        self.storage.setItem('QoLPokedex', JSON.stringify(datePlusDex));
+        this.storage.setItem(this.translateKey(globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
         $('.qolDate', document).val(dateString);
     }
 
     saveEvolveByLevelList(globals, parsedFamilies, dexIDs) {
+        const key = this.translateKey(globals.POKEDEX_EVOLVE_BY_LEVEL_KEY);
         // load current evolve by level list
         let evolveByLevelList = {};
-        if(self.storage.getItem('QoLEvolveByLevel') !== null) {
-            evolveByLevelList = JSON.parse(self.storage.getItem('QoLEvolveByLevel'));
+        if(this.storage.getItem(key) !== null) {
+            evolveByLevelList = JSON.parse(this.storage.getItem(key));
         }
 
         for(const pokemon in parsedFamilies) {
@@ -4052,7 +4098,7 @@ class LocalStorageManager {
         } // for pokemon
 
         globals.EVOLVE_BY_LEVEL_LIST = evolveByLevelList;
-        self.storage.setItem('QoLEvolveByLevel', JSON.stringify(evolveByLevelList));
+        this.storage.setItem(key, JSON.stringify(evolveByLevelList));
     } // saveEvolveByLevelList
 
     saveEvolutionTreeDepths(globals, maxEvoTreeDepth) {
@@ -4060,7 +4106,7 @@ class LocalStorageManager {
         // for a pokemon and it's family
         // e.g. - GLOBALS.EVOLUTIONS_LEFT["019s2"] = { remaining: 4, total: 5 } // 019s2 = Super Saiyan Rattata
 
-        self.storage.setItem('QoLEvolutionTreeDepth', JSON.stringify(maxEvoTreeDepth));
+        this.storage.setItem(this.translateKey(globals.POKEDEX_EVOLUTION_TREE_DEPTH_KEY), JSON.stringify(maxEvoTreeDepth));
         globals.EVOLUTIONS_LEFT = maxEvoTreeDepth;
 
     } // saveEvolutionTreeDepths
@@ -4069,10 +4115,10 @@ class LocalStorageManager {
         // GLOBALS.REGIONAL_FORMS_LIST maps base pokemon species names to the list
         // of regional forms, including the base name.
         // e.g. - GLOBALS.REGIONAL_FORMS_LIST[Rattata] = ["Rattata", "Rattata [Alolan Forme]"]
-        const key = 'QoLRegionalFormsList';
+        const key = this.translateKey(globals.POKEDEX_REGIONAL_FORMS_KEY);
         const list = regionalFormMap;
 
-        self.storage.setItem(key, JSON.stringify(list));
+        this.storage.setItem(key, JSON.stringify(list));
         globals.REGIONAL_FORMS_LIST = list;
 
     } // saveRegionalFormsList
@@ -4085,20 +4131,21 @@ class LocalStorageManager {
         //           <kantonian.png> : [Normal],
         //           <alolan.png> : [Normal, Dark]
         // }
-        const key = 'QoLEggTypesMap';
-        self.storage.setItem(key, JSON.stringify(map));
+        const key = this.translateKey(globals.POKEDEX_EGG_TYPES_MAP_KEY);
+        this.storage.setItem(key, JSON.stringify(map));
         globals.EGGS_PNG_TO_TYPES_LIST = map;
     }
 
     /* parseAndStoreDexNumbers
      *
      */
-    parseAndStoreDexNumbers(dex) {
+    parseAndStoreDexNumbers(globals, dex) {
+        const key = this.translateKey(globals.POKEDEX_DEX_IDS_KEY);
         const json = JSON.parse(dex);
         // load current list of processed dex IDs
         let dexIDsCache = [];
-        if(self.storage.getItem('QoLDexIDsCache') !== null) {
-            dexIDsCache = JSON.parse(self.storage.getItem('QoLDexIDsCache'));
+        if(this.storage.getItem(key) !== null) {
+            dexIDsCache = JSON.parse(this.storage.getItem(key));
         }
 
         const dexNumbers = [];
@@ -4113,7 +4160,7 @@ class LocalStorageManager {
 
         // Add the list of dexNumbers to the cache and write it back to local storage
         dexIDsCache = dexIDsCache.concat(dexNumbers);
-        self.storage.setItem('QoLDexIDsCache', JSON.stringify(dexIDsCache));
+        this.storage.setItem(key, JSON.stringify(dexIDsCache));
         return dexNumbers;
     }
 }
@@ -4574,8 +4621,9 @@ class QoLHubBase {
         dexFilterEnable: true,
         condenseWishforge: true
     };
-    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
+    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
         this.jQuery = jQuery;
+        this.localStorageMgr = localStorageMgr;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
@@ -4627,17 +4675,17 @@ class QoLHubBase {
         }));
     }
     loadSettings() {
-        if (localStorage.getItem(this.SETTINGS_SAVE_KEY) === null) {
+        if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
             this.saveSettings();
         } else {
             try {
                 const countScriptSettings = Object.keys(this.USER_SETTINGS).length;
-                const localStorageString = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+                const localStorageString = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
                 const countLocalStorageSettings = Object.keys(localStorageString).length;
                 // adds new objects (settings) to the local storage
                 if (countLocalStorageSettings < countScriptSettings) {
                     const defaultsSetting = this.USER_SETTINGS;
-                    const userSetting = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+                    const userSetting = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
                     const newSetting = this.jQuery.extend(true, {}, defaultsSetting, userSetting);
 
                     this.USER_SETTINGS = newSetting;
@@ -4646,20 +4694,20 @@ class QoLHubBase {
                 // removes objects from the local storage if they don't exist anymore. Not yet possible..
                 if (countLocalStorageSettings > countScriptSettings) {
                     //let defaultsSetting = QOLHUB.USER_SETTINGS;
-                    //let userSetting = JSON.parse(localStorage.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                    //let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
                     this.saveSettings();
                 }
             }
             catch (err) {
                 this.saveSettings();
             }
-            if (localStorage.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
-                this.USER_SETTINGS = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+            if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
+                this.USER_SETTINGS = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
             }
         }
     }
     saveSettings() {
-        localStorage.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
+        this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
     }
     populateSettings() {
         for (const key in this.USER_SETTINGS) {
@@ -4730,8 +4778,8 @@ if (module) {
  */
 
 class QoLHub extends QoLHubBase {
-    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
-        super(jQuery, GLOBALS, PAGES, SETTINGS);
+    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
+        super(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS);
     }
     setupHandlers() {
         super.setupHandlers();
@@ -4749,10 +4797,10 @@ class QoLHub extends QoLHubBase {
         // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
         obj.jQuery(document).on('click', '#clearCachedDex', (function () {
             obj.jQuery('#clearCachedDex').next().remove();
-            localStorage.removeItem('QoLEvolveByLevel');
-            localStorage.removeItem('QoLDexIDsCache');
-            localStorage.removeItem('QoLEvolutionTreeDepth');
-            localStorage.removeItem('QoLRegionalFormsList');
+            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_EVOLVE_BY_LEVEL_KEY);
+            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_DEX_IDS_KEY);
+            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY);
+            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_REGIONAL_FORMS_KEY);
             obj.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
         }));
     }
@@ -4762,7 +4810,7 @@ class QoLHub extends QoLHubBase {
     }
     handleUpdateDexClick(document) {
         const obj = this;
-        const localStorageManager = new LocalStorageManager(localStorage);
+        const localStorageManager = this.localStorageMgr;
         // Manually update GLOBALS.DEX_DATA
         localStorageManager.loadDexIntoGlobalsFromWeb(obj.jQuery, document, DexUtilities, obj.GLOBALS);
 
@@ -4782,7 +4830,7 @@ class QoLHub extends QoLHubBase {
         DexUtilities.getMainDexPage(obj.jQuery).then((data) => {
             const html = obj.jQuery.parseHTML(data);
             const dex = obj.jQuery(html[html.length - 1], virtualDocument).find('#dexdata').html();
-            const dexNumbers = localStorageManager.parseAndStoreDexNumbers(dex);
+            const dexNumbers = localStorageManager.parseAndStoreDexNumbers(obj.GLOBALS, dex);
 
             if (dexNumbers.length > 0) {
                 // update the progress bar in the hub
@@ -4843,8 +4891,9 @@ if (module) {
 }
 
 class Page {
-    constructor(jQuery, ssk, ds, url) {
+    constructor(jQuery, localStorageMgr, ssk, ds, url) {
         this.jQuery = jQuery;
+        this.localStorageMgr = localStorageMgr;
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
@@ -4856,14 +4905,19 @@ class Page {
     }
 
     loadSettings() {
-        this.settings =
-            Helpers.loadSettings(this.jQuery,this.settingsSaveKey,
-                this.defaultSettings,
-                this.settings);
+        this.settings = this.localStorageMgr.loadSettings(
+            this.jQuery,this.settingsSaveKey,
+            this.defaultSettings,
+            this.settings);
+        // this.settings =
+        //     Helpers.loadSettings(this.jQuery,this.settingsSaveKey,
+        //         this.defaultSettings,
+        //         this.settings);
     }
 
     saveSettings() {
-        Helpers.saveSettings(this.settingsSaveKey, this.settings);
+        this.localStorageMgr.saveSettings(this.settingsSaveKey, this.settings);
+        // Helpers.saveSettings(this.settingsSaveKey, this.settings);
     }
 
     populateSettings(obj) {
@@ -4931,8 +4985,8 @@ class Page {
 } // Page
 
 class ShelterPageBase extends Page {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLShelter', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
             findTypeEgg: true,
@@ -5404,15 +5458,15 @@ class ShelterPageBase extends Page {
 }
 
 class ShelterPage extends ShelterPageBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, GLOBALS);
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS);
         this.settings.findReadyToEvolve = false;
         this.settings.findNFE = false;
 
         // when the page is loaded, check to see if the data needed for finding eggs by type is loaded (if it's needed)
         if (this.onPage(window) &&
             this.settings.findTypeEgg &&
-            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem('QoLEggTypesMap')))) {
+            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)))) {
             window.alert('Message from QoL script:\nUnable to load list of pokemon eggs and their types, ' +
                 'which is used to distinguish eggs with the same name but different types (Vulpix and ' +
                 'Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. ' +
@@ -5523,7 +5577,7 @@ class ShelterPage extends ShelterPageBase {
 
         if (filteredTypeArray.length > 0) {
             const eggPngsToTypes = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
-                JSON.parse(localStorage.getItem('QoLEggTypesMap')) || undefined;
+                JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)) || undefined;
             for (let i = 0; i < filteredTypeArray.length; i++) {
                 const value = filteredTypeArray[i];
                 const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
@@ -5593,8 +5647,8 @@ class ShelterPage extends ShelterPageBase {
 }
 
 class PrivateFieldsPageBase extends Page {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLPrivateFields', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
@@ -6108,8 +6162,8 @@ class PrivateFieldsPageBase extends Page {
 }
 
 class PrivateFieldsPage extends PrivateFieldsPageBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, GLOBALS);
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS);
         this.settings.fieldNFE = false;
     }
     highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
@@ -6121,9 +6175,9 @@ class PrivateFieldsPage extends PrivateFieldsPageBase {
         const tooltip = Helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);
         let pokemon = tooltip['species'];
 
-        const key = 'QoLEvolutionTreeDepth';
-        if (localStorage.getItem(key) !== null) {
-            const evolutionData = JSON.parse(localStorage.getItem(key));
+        const key = GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY;
+        if (this.localStorageMgr.getItem(key) !== null) {
+            const evolutionData = JSON.parse(this.localStorageMgr.getItem(key));
             if (Object.keys(evolutionData).length > 0) {
                 // if can't find the pokemon directly, try looking for its form data
                 if (!evolutionData[pokemon]) {
@@ -6170,8 +6224,8 @@ class PrivateFieldsPage extends PrivateFieldsPageBase {
 const PublicFieldsBase = Page;
 
 class PublicFieldsPage extends PublicFieldsBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLPublicFields', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,
@@ -6760,8 +6814,8 @@ class PublicFieldsPage extends PublicFieldsBase {
 }
 
 class LabPageBase extends Page {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLLab', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
@@ -6985,13 +7039,13 @@ class LabPageBase extends Page {
 }
 
 class LabPage extends LabPageBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, GLOBALS);
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS);
 
         // when the page is loaded, check to see if the data needed for finding eggs by type is loaded (if it's needed)
         if (this.onPage(window) &&
             this.settings.findTypeEgg &&
-            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem('QoLEggTypesMap')))) {
+            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)))) {
             window.alert('Message from QoL script:\nUnable to load list of pokemon eggs and their types, ' +
                 'which is used to distinguish eggs with the same name but different types (Vulpix and ' +
                 'Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. ' +
@@ -7002,7 +7056,7 @@ class LabPage extends LabPageBase {
     getTypesForEgg(searchPokemon) {
         const dexData = this.globals.DEX_DATA;
         const eggPngsToTypes = this.globals.EGGS_PNG_TO_TYPES_LIST ||
-            JSON.parse(localStorage.getItem('QoLEggTypesMap')) || undefined;
+            JSON.parse(this.localStorageMgr.getItem(this.globals.POKEDEX_EGG_TYPES_MAP_KEY)) || undefined;
         let searchTypeOne = '';
         let searchTypeTwo = '';
         if (eggPngsToTypes) {
@@ -7024,8 +7078,8 @@ class LabPage extends LabPageBase {
 const FishingBase = Page;
 
 class FishingPage extends FishingBase {
-    constructor(jQuery) {
-        super(jQuery, 'QoLFishing', {}, 'fishing');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
         // no observer
     }
     setupHTML(GLOBALS) {
@@ -7067,8 +7121,8 @@ class FishingPage extends FishingBase {
 const MultiuserBase = Page;
 
 class MultiuserPage extends MultiuserBase {
-    constructor(jQuery) {
-        super(jQuery, 'QoLMultiuser', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
@@ -7338,8 +7392,8 @@ class FarmPageBase extends Page {
         };
         return d;
     }
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLFarm', {}, 'farm#tab=1');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
@@ -7930,8 +7984,8 @@ class FarmPageBase extends Page {
 }
 
 class FarmPage extends FarmPageBase {
-    constructor(jQuery, GLOBALS, externals) {
-        super(jQuery, GLOBALS, externals);
+    constructor(jQuery, localStorageMgr, GLOBALS, externals) {
+        super(jQuery, localStorageMgr, GLOBALS, externals);
     }
     checkForValidDexData(GLOBALS) {
         if (GLOBALS.DEX_DATA === undefined) {
@@ -7945,8 +7999,8 @@ class FarmPage extends FarmPageBase {
         obj.checkForValidDexData(GLOBALS);
         const dexData = GLOBALS.DEX_DATA;
 
-        if (!GLOBALS.REGIONAL_FORMS_LIST && localStorage.getItem('QoLRegionalFormsList')) {
-            GLOBALS.REGIONAL_FORMS_LIST = JSON.parse(localStorage.getItem('QoLRegionalFormsList'));
+        if (!GLOBALS.REGIONAL_FORMS_LIST && this.localStorageMgr.getItem(GLOBALS.POKEDEX_REGIONAL_FORMS_KEY)) {
+            GLOBALS.REGIONAL_FORMS_LIST = JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_REGIONAL_FORMS_KEY));
         }
         const regionalFormList = GLOBALS.REGIONAL_FORMS_LIST;
 
@@ -8318,8 +8372,8 @@ class FarmPage extends FarmPageBase {
 
 const DaycareBase = Page;
 class DaycarePage extends DaycareBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLDaycare', {}, 'daycare');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -8419,8 +8473,8 @@ class DaycarePage extends DaycareBase {
 }
 
 class DexPageBase extends Page {
-    constructor(jQuery) {
-        super(jQuery, 'QoLDexPage', {}, '/dex');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, '/dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -8524,16 +8578,16 @@ class DexPageBase extends Page {
 }
 
 class DexPage extends DexPageBase {
-    constructor(jQuery) {
-        super(jQuery);
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS);
     }
 }
 
 const WishforgeBase = Page;
 
 class WishforgePage extends WishforgeBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLWishforge', {}, 'forge');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
@@ -8700,15 +8754,16 @@ class PagesManager {
             setting: 'condenseWishforge'
         },
     }
-    constructor(jQuery, GLOBALS) {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
         this.jQuery = jQuery;
+        this.localStorageMgr = localStorageMgr;
         this.GLOBALS = GLOBALS;
     }
     instantiatePages(QOLHUB) {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.jQuery, this.GLOBALS);
+                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.GLOBALS);
             }
         }
     }
@@ -8790,11 +8845,12 @@ class PFQoLBase {
         });
 
         this.jQuery = $;
-        this.GLOBALS = new Globals();
+        this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage);
+        this.GLOBALS = new Globals(this.LOCAL_STORAGE_MANAGER);
         this.HELPERS = new Helpers();
         this.RESOURCES = new Resources();
-        this.PAGES = new PagesManager(this.jQuery, this.GLOBALS);
-        this.QOLHUB = new QoLHub(this.jQuery, this.GLOBALS, this.PAGES);
+        this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS);
+        this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.PAGES);
         this.GLOBALS.fillTemplates(this.RESOURCES);
         this.GLOBALS.fillOptionsLists();
 
@@ -8870,14 +8926,13 @@ class PFQoL extends PFQoLBase {
         // - if they hatch from an egg,
         // - if you have the eggdex, and
         // - if you have the regular, shiny, albino, and melanistic pokedex entries
-        this.LOCAL_STORAGE = new LocalStorageManager(localStorage);
-        if (!this.LOCAL_STORAGE.loadDexIntoGlobalsFromStorage(this.GLOBALS)) { // can't load it from storage
-            this.LOCAL_STORAGE.loadDexIntoGlobalsFromWeb($, document, DexUtilities, this.GLOBALS); // so load it from the web
+        if (!this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS)) { // can't load it from storage
+            this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromWeb($, document, DexUtilities, this.GLOBALS); // so load it from the web
         } else { // can load it from storage
-            this.LOCAL_STORAGE.loadDexIntoGlobalsFromWebIfOld($, document, DexUtilities, this.GLOBALS); // reload it from web if it's old
+            this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromWebIfOld($, document, DexUtilities, this.GLOBALS); // reload it from web if it's old
         }
-        this.LOCAL_STORAGE.loadEvolveByLevelList(this.GLOBALS);
-        this.LOCAL_STORAGE.loadEvolutionTreeDepthList(this.GLOBALS);
+        this.LOCAL_STORAGE_MANAGER.loadEvolveByLevelList(this.GLOBALS);
+        this.LOCAL_STORAGE_MANAGER.loadEvolutionTreeDepthList(this.GLOBALS);
     }
 }
 

@@ -7,7 +7,7 @@ class LabPage extends LabPageBase {
         // when the page is loaded, check to see if the data needed for finding eggs by type is loaded (if it's needed)
         if (this.onPage(window) &&
             this.settings.findTypeEgg &&
-            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)))) {
+            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)))) {
             window.alert('Message from QoL script:\nUnable to load list of pokemon eggs and their types, ' +
                 'which is used to distinguish eggs with the same name but different types (Vulpix and ' +
                 'Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. ' +
@@ -18,7 +18,7 @@ class LabPage extends LabPageBase {
     getTypesForEgg(searchPokemon) {
         const dexData = this.globals.DEX_DATA;
         const eggPngsToTypes = this.globals.EGGS_PNG_TO_TYPES_LIST ||
-            JSON.parse(localStorage.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)) || undefined;
+            JSON.parse(this.localStorageMgr.getItem(this.globals.POKEDEX_EGG_TYPES_MAP_KEY)) || undefined;
         let searchTypeOne = '';
         let searchTypeTwo = '';
         if (eggPngsToTypes) {

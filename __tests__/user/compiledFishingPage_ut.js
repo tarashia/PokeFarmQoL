@@ -1,4 +1,6 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
+const key = `${$.USERID}.QoLFishing`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -51,7 +53,7 @@ describe('Test Fishing Page', () => {
         global.location.href = 'https://pokefarm.com/fishing';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLFishing', '{}');
+        localStorage.setItem(key, '{}');
         new pfqol.pfqol($);
 
         // check that setup is correct

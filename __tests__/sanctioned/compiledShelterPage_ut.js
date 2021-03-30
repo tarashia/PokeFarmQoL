@@ -1,4 +1,6 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
+const key = `${$.USERID}.QoLShelter`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -120,7 +122,7 @@ describe('Test Shelter page', () => {
         global.location.href = 'https://pokefarm.com/shelter';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLShelter',
+        localStorage.setItem(key,
             '{"findCustom":"",'+
                '"findType":"",'+
                '"findTypeEgg":false,'+
@@ -157,7 +159,7 @@ describe('Test Shelter page', () => {
             // 'customEgg', 'customPokemon', 'customPng',
             // 'findMale', 'findFemale', 'findNoGender'
         ];
-        const loadedSettings = JSON.parse(localStorage.getItem('QoLShelter'));
+        const loadedSettings = JSON.parse(localStorage.getItem(key));
         const listSearchFields = [
             {
                 'addButtonID': 'addShelterTypeList',
@@ -191,13 +193,13 @@ describe('Test Shelter page', () => {
         ////////////////////////////////////////
         // verify that all checkboxes work
         for(let i = 0; i < checkboxDataKeys.length; i++) {
-            verifyCheckbox(checkboxDataKeys[i], 'QoLShelter', 'shelterfoundme', QUANTITIES[checkboxDataKeys[i]]);
+            verifyCheckbox(checkboxDataKeys[i], key, 'shelterfoundme', QUANTITIES[checkboxDataKeys[i]]);
         }
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         // test adding type
-        verifyAddType( 'findType', 'QoLShelter', 'addShelterTypeList', 'removeShelterTypeList');
+        verifyAddType( 'findType', key, 'addShelterTypeList', 'removeShelterTypeList');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -205,21 +207,21 @@ describe('Test Shelter page', () => {
         $('[data-key=findTypeEgg]').trigger('click');
         $('[data-key=findTypePokemon]').trigger('click');
         // add type 4 -> Grass
-        verifySelectingType('findType', 'QoLShelter', 'shelterfoundme', 5, 3);
+        verifySelectingType('findType', key, 'shelterfoundme', 5, 3);
         $('[data-key=findTypeEgg]').trigger('click');
         $('[data-key=findTypePokemon]').trigger('click');
-        verifyCheckbox('findTypeEgg', 'QoLShelter', 'shelterfoundme', QUANTITIES['findTypeEgg']);
-        verifyCheckbox('findTypePokemon', 'QoLShelter', 'shelterfoundme', QUANTITIES['findTypePokemon']);
+        verifyCheckbox('findTypeEgg', key, 'shelterfoundme', QUANTITIES['findTypeEgg']);
+        verifyCheckbox('findTypePokemon', key, 'shelterfoundme', QUANTITIES['findTypePokemon']);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         // test removing type
-        verifyRemoveType('findType', 'QoLShelter', 'removeShelterTypeList', 'shelterfoundme', 1);
+        verifyRemoveType('findType', key, 'removeShelterTypeList', 'shelterfoundme', 1);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
         // test adding a custom search field
-        verifyAddTextField('findCustom', 'QoLShelter', 'addShelterTextfield', 'removeShelterTextfield');
+        verifyAddTextField('findCustom', key, 'addShelterTextfield', 'removeShelterTextfield');
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -236,7 +238,7 @@ describe('Test Shelter page', () => {
         $('[data-key=findCustom]').eq(0).val(NAME_TO_FIND);
         $('[data-key=findCustom]').eq(0).trigger('input');
         expect($('.shelterfoundme').length).toBe(3); // just text
-        expect(JSON.parse(localStorage.getItem('QoLShelter')).findCustom).toBe(NAME_TO_FIND);
+        expect(JSON.parse(localStorage.getItem(key)).findCustom).toBe(NAME_TO_FIND);
         // check buttons work individually
         $('[data-key=customEgg]').trigger('click'); // disable
         expect($('.shelterfoundme').length).toBe(2);
@@ -260,7 +262,7 @@ describe('Test Shelter page', () => {
 
         ////////////////////////////////////////
         // test removing a custom search field
-        verifyRemoveTextField('findCustom', 'QoLShelter', 'removeShelterTextfield', 1, '');
+        verifyRemoveTextField('findCustom', key, 'removeShelterTextfield', 1, '');
         ////////////////////////////////////////
     });
 
@@ -273,7 +275,7 @@ describe('Test Shelter page', () => {
         global.location.href = 'https://pokefarm.com/shelter';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLShelter',
+        localStorage.setItem(key,
             '{"findCustom":"",'+
                '"findType":"",'+
                '"findTypeEgg":false,'+
@@ -303,7 +305,7 @@ describe('Test Shelter page', () => {
         // check that data is setup correctly
         expect($('[data-key=shelterGrid]').length).toBe(1);
         expect($('[data-key=shelterGrid]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLShelter')).shelterGrid).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).shelterGrid).toBe(false);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -311,7 +313,7 @@ describe('Test Shelter page', () => {
         $('[data-key=shelterGrid]').trigger('click');
         expect($('#shelterarea').hasClass('qolshelterareagrid')).toBe(true);
         expect($('[data-key=shelterGrid]').prop('checked')).toBe(true);
-        expect(JSON.parse(localStorage.getItem('QoLShelter')).shelterGrid).toBe(true);
+        expect(JSON.parse(localStorage.getItem(key)).shelterGrid).toBe(true);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
@@ -319,7 +321,7 @@ describe('Test Shelter page', () => {
         $('[data-key=shelterGrid]').trigger('click');
         expect($('#shelterarea').hasClass('qolshelterareagrid')).toBe(false);
         expect($('[data-key=shelterGrid]').prop('checked')).toBe(false);
-        expect(JSON.parse(localStorage.getItem('QoLShelter')).shelterGrid).toBe(false);
+        expect(JSON.parse(localStorage.getItem(key)).shelterGrid).toBe(false);
         ////////////////////////////////////////
     });
 });

@@ -23,10 +23,10 @@ class QoLHub extends QoLHubBase {
         // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
         obj.jQuery(document).on('click', '#clearCachedDex', (function () {
             obj.jQuery('#clearCachedDex').next().remove();
-            localStorage.removeItem(this.GLOBALS.POKEDEX_EVOLVE_BY_LEVEL_KEY);
-            localStorage.removeItem(this.GLOBALS.POKEDEX_DEX_IDS_KEY);
-            localStorage.removeItem(this.GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY);
-            localStorage.removeItem(this.GLOBALS.POKEDEX_REGIONAL_FORMS_KEY);
+            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_EVOLVE_BY_LEVEL_KEY);
+            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_DEX_IDS_KEY);
+            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY);
+            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_REGIONAL_FORMS_KEY);
             obj.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
         }));
     }

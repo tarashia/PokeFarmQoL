@@ -9,7 +9,7 @@ class ShelterPage extends ShelterPageBase {
         // when the page is loaded, check to see if the data needed for finding eggs by type is loaded (if it's needed)
         if (this.onPage(window) &&
             this.settings.findTypeEgg &&
-            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(localStorage.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)))) {
+            !(GLOBALS.EGGS_PNG_TO_TYPES_LIST || JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)))) {
             window.alert('Message from QoL script:\nUnable to load list of pokemon eggs and their types, ' +
                 'which is used to distinguish eggs with the same name but different types (Vulpix and ' +
                 'Alolan Vulpix).\n\nCan still find eggs by type, but there may be mistakes. ' +
@@ -120,7 +120,7 @@ class ShelterPage extends ShelterPageBase {
 
         if (filteredTypeArray.length > 0) {
             const eggPngsToTypes = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
-                JSON.parse(localStorage.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)) || undefined;
+                JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)) || undefined;
             for (let i = 0; i < filteredTypeArray.length; i++) {
                 const value = filteredTypeArray[i];
                 const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];

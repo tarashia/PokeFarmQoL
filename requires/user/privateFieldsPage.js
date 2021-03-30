@@ -15,8 +15,8 @@ class PrivateFieldsPage extends PrivateFieldsPageBase {
         let pokemon = tooltip['species'];
 
         const key = GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY;
-        if (localStorage.getItem(key) !== null) {
-            const evolutionData = JSON.parse(localStorage.getItem(key));
+        if (this.localStorageMgr.getItem(key) !== null) {
+            const evolutionData = JSON.parse(this.localStorageMgr.getItem(key));
             if (Object.keys(evolutionData).length > 0) {
                 // if can't find the pokemon directly, try looking for its form data
                 if (!evolutionData[pokemon]) {

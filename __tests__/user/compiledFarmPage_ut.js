@@ -1,4 +1,7 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
+const key = `${$.USERID}.QoLFarm`;
+const dexKey = `${$.USERID}.QoLPokedex`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -182,8 +185,8 @@ describe('Test Farm Page', () => {
         const dexPath = path.join(__dirname, '../data/', 'dex.json');
         const dex = fs.readFileSync(dexPath, 'utf8', 'r');
 
-        localStorage.setItem('QoLPokedex', dex);
-        localStorage.setItem('QoLFarm',
+        localStorage.setItem(dexKey, dex);
+        localStorage.setItem(key,
             '{"TYPE_APPEND":' +
             '{"NORMAL":".0",' +
             '"FIRE":".1",' +
@@ -257,10 +260,10 @@ describe('Test Farm Page', () => {
             // load pokedex
             const dexPath = path.join(__dirname, '../data/', 'dex.json');
             const dex = fs.readFileSync(dexPath, 'utf8', 'r');
-            localStorage.setItem('QoLPokedex', dex);
+            localStorage.setItem(dexKey, dex);
 
-            localStorage.setItem('QoLPokedex', dex);
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(dexKey, dex);
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -331,9 +334,9 @@ describe('Test Farm Page', () => {
             // load pokedex
             const dexPath = path.join(__dirname, '../data/', 'dex.json');
             const dex = fs.readFileSync(dexPath, 'utf8', 'r');
-            localStorage.setItem('QoLPokedex', dex);
+            localStorage.setItem(dexKey, dex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -464,9 +467,9 @@ describe('Test Farm Page', () => {
             incompleteDex = JSON.parse(incompleteDex);
             incompleteDex[0] = (new Date()).toUTCString();
             incompleteDex = JSON.stringify(incompleteDex);
-            localStorage.setItem('QoLPokedex', incompleteDex);
+            localStorage.setItem(dexKey, incompleteDex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -508,7 +511,7 @@ describe('Test Farm Page', () => {
 
             new pfqol.pfqol($);
 
-            expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
+            expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
             // test the part of the '#qolevolvenew' click handler that works with pokemon
             // that have not been seen
@@ -707,9 +710,9 @@ describe('Test Farm Page', () => {
             incompleteDex = JSON.parse(incompleteDex);
             incompleteDex[0] = (new Date()).toUTCString();
             incompleteDex = JSON.stringify(incompleteDex);
-            localStorage.setItem('QoLPokedex', incompleteDex);
+            localStorage.setItem(dexKey, incompleteDex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -751,7 +754,7 @@ describe('Test Farm Page', () => {
 
             new pfqol.pfqol($);
 
-            expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
+            expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
             // test the part of the '#qolevolvenew' click handler that works with pokemon
             // that have not been seen
@@ -938,9 +941,9 @@ describe('Test Farm Page', () => {
             incompleteDex = JSON.parse(incompleteDex);
             incompleteDex[0] = (new Date()).toUTCString();
             incompleteDex = JSON.stringify(incompleteDex);
-            localStorage.setItem('QoLPokedex', incompleteDex);
+            localStorage.setItem(dexKey, incompleteDex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -982,7 +985,7 @@ describe('Test Farm Page', () => {
 
             new pfqol.pfqol($);
 
-            expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
+            expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
             // test the part of the '#qolevolvenew' click handler that works with pokemon
             // that have not been seen
@@ -1160,9 +1163,9 @@ describe('Test Farm Page', () => {
             incompleteDex = JSON.parse(incompleteDex);
             incompleteDex[0] = (new Date()).toUTCString();
             incompleteDex = JSON.stringify(incompleteDex);
-            localStorage.setItem('QoLPokedex', incompleteDex);
+            localStorage.setItem(dexKey, incompleteDex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -1204,7 +1207,7 @@ describe('Test Farm Page', () => {
 
             new pfqol.pfqol($);
 
-            expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
+            expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
             // test the part of the '#qolevolvenew' click handler that works with pokemon
             // that have not been seen
@@ -1356,9 +1359,9 @@ describe('Test Farm Page', () => {
             incompleteDex = JSON.parse(incompleteDex);
             incompleteDex[0] = (new Date()).toUTCString();
             incompleteDex = JSON.stringify(incompleteDex);
-            localStorage.setItem('QoLPokedex', incompleteDex);
+            localStorage.setItem(dexKey, incompleteDex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -1400,7 +1403,7 @@ describe('Test Farm Page', () => {
 
             new pfqol.pfqol($);
 
-            expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
+            expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
             // test the part of the '#qolevolvenew' click handler that works with pokemon
             // that have not been seen
@@ -1526,9 +1529,9 @@ describe('Test Farm Page', () => {
             incompleteDex = JSON.parse(incompleteDex);
             incompleteDex[0] = (new Date()).toUTCString();
             incompleteDex = JSON.stringify(incompleteDex);
-            localStorage.setItem('QoLPokedex', incompleteDex);
+            localStorage.setItem(dexKey, incompleteDex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -1570,7 +1573,7 @@ describe('Test Farm Page', () => {
 
             new pfqol.pfqol($);
 
-            expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
+            expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
             // test the part of the '#qolevolvenew' click handler that works with pokemon
             // that have not been seen
@@ -1621,9 +1624,9 @@ describe('Test Farm Page', () => {
             incompleteDex = JSON.parse(incompleteDex);
             incompleteDex[0] = (new Date()).toUTCString();
             incompleteDex = JSON.stringify(incompleteDex);
-            localStorage.setItem('QoLPokedex', incompleteDex);
+            localStorage.setItem(dexKey, incompleteDex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -1665,7 +1668,7 @@ describe('Test Farm Page', () => {
 
             new pfqol.pfqol($);
 
-            expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
+            expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
             // test the part of the '#qolevolvenew' click handler that works with pokemon
             // that have not been seen
@@ -1716,9 +1719,9 @@ describe('Test Farm Page', () => {
             incompleteDex = JSON.parse(incompleteDex);
             incompleteDex[0] = (new Date()).toUTCString();
             incompleteDex = JSON.stringify(incompleteDex);
-            localStorage.setItem('QoLPokedex', incompleteDex);
+            localStorage.setItem(dexKey, incompleteDex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -1760,7 +1763,7 @@ describe('Test Farm Page', () => {
 
             new pfqol.pfqol($);
 
-            expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
+            expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
             // test the part of the '#qolevolvenew' click handler that works with pokemon
             // that have not been seen
@@ -1811,9 +1814,9 @@ describe('Test Farm Page', () => {
             incompleteDex = JSON.parse(incompleteDex);
             incompleteDex[0] = (new Date()).toUTCString();
             incompleteDex = JSON.stringify(incompleteDex);
-            localStorage.setItem('QoLPokedex', incompleteDex);
+            localStorage.setItem(dexKey, incompleteDex);
 
-            localStorage.setItem('QoLFarm',
+            localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
                 '"FIRE":".1",' +
@@ -1855,7 +1858,7 @@ describe('Test Farm Page', () => {
 
             new pfqol.pfqol($);
 
-            expect(localStorage.getItem('QoLPokedex')).toBe(incompleteDex);
+            expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
             // test the part of the '#qolevolvenew' click handler that works with pokemon
             // that have not been seen

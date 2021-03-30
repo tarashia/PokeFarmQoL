@@ -1410,7 +1410,7 @@ class Helpers {
             catch (err) {
                 this.saveSettings(KEY, obj);
             }
-            if (localStorage.getItem(KEY) != obj) {
+            if (localStorage.getItem(KEY) != JSON.stringify(obj)) {
                 obj = JSON.parse(localStorage.getItem(KEY));
             }
         }
@@ -1602,6 +1602,22 @@ class GlobalsBase {
     };
 
     SETTINGS_SAVE_KEY = 'QoLSettings';
+    DAYCARE_PAGE_SETTINGS_KEY = 'QoLDaycare';
+    DEX_PAGE_SETTINGS_KEY = 'QoLDexPage';
+    FARM_PAGE_SETTINGS_KEY = 'QoLFarm';
+    FISHING_PAGE_SETTINGS_KEY = 'QoLFishing';
+    LAB_PAGE_SETTINGS_KEY = 'QoLLab';
+    MULTIUSER_PAGE_SETTINGS_KEY = 'QoLMultiuser';
+    PRIVATE_FIELDS_PAGE_SETTINGS_KEY = 'QoLPrivateFields';
+    PUBLIC_FIELDS_PAGE_SETTINGS_KEY = 'QoLPublicFields';
+    SHELTER_PAGE_SETTINGS_KEY = 'QoLShelter';
+    WISHFORGE_PAGE_SETTINGS_KEY = 'QoLWishforge';
+    POKEDEX_DATA_KEY = 'QoLPokedex';
+    POKEDEX_DEX_IDS_KEY = 'QoLDexIDsCache';
+    POKEDEX_REGIONAL_FORMS_KEY = 'QoLRegionalFormsList';
+    POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
+    POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
+    POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
     // Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
     // Don't change the order without looking for where this array is used
     TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
@@ -2856,14 +2872,49 @@ class GlobalsBase {
 /* globals GlobalsBase */
 // eslint-disable-next-line no-unused-vars
 class Globals extends GlobalsBase {
-    constructor() {
+    constructor(localStorageMgr) {
         super();
+        this.localStorageMgr = localStorageMgr;
 
         // load the dex from local storage if it exists
-        const dex = localStorage.getItem('QoLPokedex');
+        const dex = this.localStorageMgr.getItem(this.POKEDEX_DATA_KEY);
         if(dex !== null) {
-            this.DEX_DATA = JSON.parse(localStorage.getItem('QoLPokedex'));
+            this.DEX_DATA = JSON.parse(dex);
         }
+    }
+}
+/* globals Helpers */
+
+// eslint-disable-next-line no-unused-vars
+class LocalStorageManagerBase {
+    constructor(keyPrefix, storage) {
+        this.keyPrefix = keyPrefix;
+        this.storage = storage;
+    }
+    translateKey(key) {
+        return `${this.keyPrefix}.${key}`;
+    }
+    saveSettings(key, obj) {
+        Helpers.saveSettings(this.translateKey(key), obj);
+    }
+    loadSettings($, KEY, DEFAULT, obj) {
+        return Helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
+    }
+    getItem(key) {
+        return this.storage.getItem(this.translateKey(key));
+    }
+    setItem(key, value) {
+        this.storage.setItem(this.translateKey(key), value);
+    }
+    removeItem(key) {
+        this.storage.removeItem(this.translateKey(key));
+    }
+}
+/* globals LocalStorageManagerBase */
+// eslint-disable-next-line no-unused-vars
+class LocalStorageManager extends LocalStorageManagerBase {
+    constructor(keyPrefix, storage) {
+        super(keyPrefix, storage);
     }
 }
 /* This class handles creating, removing, and handling the DOM object actions
@@ -2885,8 +2936,9 @@ class QoLHubBase {
         dexFilterEnable: true,
         condenseWishforge: true
     };
-    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
+    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
         this.jQuery = jQuery;
+        this.localStorageMgr = localStorageMgr;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
@@ -2938,17 +2990,17 @@ class QoLHubBase {
         }));
     }
     loadSettings() {
-        if (localStorage.getItem(this.SETTINGS_SAVE_KEY) === null) {
+        if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
             this.saveSettings();
         } else {
             try {
                 const countScriptSettings = Object.keys(this.USER_SETTINGS).length;
-                const localStorageString = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+                const localStorageString = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
                 const countLocalStorageSettings = Object.keys(localStorageString).length;
                 // adds new objects (settings) to the local storage
                 if (countLocalStorageSettings < countScriptSettings) {
                     const defaultsSetting = this.USER_SETTINGS;
-                    const userSetting = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+                    const userSetting = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
                     const newSetting = this.jQuery.extend(true, {}, defaultsSetting, userSetting);
 
                     this.USER_SETTINGS = newSetting;
@@ -2957,20 +3009,20 @@ class QoLHubBase {
                 // removes objects from the local storage if they don't exist anymore. Not yet possible..
                 if (countLocalStorageSettings > countScriptSettings) {
                     //let defaultsSetting = QOLHUB.USER_SETTINGS;
-                    //let userSetting = JSON.parse(localStorage.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                    //let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
                     this.saveSettings();
                 }
             }
             catch (err) {
                 this.saveSettings();
             }
-            if (localStorage.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
-                this.USER_SETTINGS = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+            if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
+                this.USER_SETTINGS = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
             }
         }
     }
     saveSettings() {
-        localStorage.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
+        this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
     }
     populateSettings() {
         for (const key in this.USER_SETTINGS) {
@@ -3042,8 +3094,8 @@ if (module) {
 /* globals QoLHubBase */
 // eslint-disable-next-line no-unused-vars
 class QoLHub extends QoLHubBase {
-    constructor(jQuery, GLOBALS, PAGES, SETTINGS) {
-        super(jQuery, GLOBALS, PAGES, SETTINGS);
+    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
+        super(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS);
     }
 } // QoLHub
 
@@ -3053,8 +3105,9 @@ if (module) {
 /* global Helpers */
 // eslint-disable-next-line no-unused-vars
 class Page {
-    constructor(jQuery, ssk, ds, url) {
+    constructor(jQuery, localStorageMgr, ssk, ds, url) {
         this.jQuery = jQuery;
+        this.localStorageMgr = localStorageMgr;
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
@@ -3066,14 +3119,19 @@ class Page {
     }
 
     loadSettings() {
-        this.settings =
-            Helpers.loadSettings(this.jQuery,this.settingsSaveKey,
-                this.defaultSettings,
-                this.settings);
+        this.settings = this.localStorageMgr.loadSettings(
+            this.jQuery,this.settingsSaveKey,
+            this.defaultSettings,
+            this.settings);
+        // this.settings =
+        //     Helpers.loadSettings(this.jQuery,this.settingsSaveKey,
+        //         this.defaultSettings,
+        //         this.settings);
     }
 
     saveSettings() {
-        Helpers.saveSettings(this.settingsSaveKey, this.settings);
+        this.localStorageMgr.saveSettings(this.settingsSaveKey, this.settings);
+        // Helpers.saveSettings(this.settingsSaveKey, this.settings);
     }
 
     populateSettings(obj) {
@@ -3142,8 +3200,8 @@ class Page {
 /* globals Page Helpers */
 // eslint-disable-next-line no-unused-vars
 class ShelterPageBase extends Page {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLShelter', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
             findTypeEgg: true,
@@ -3617,15 +3675,15 @@ class ShelterPageBase extends Page {
 /* globals ShelterPageBase */
 // eslint-disable-next-line no-unused-vars
 class ShelterPage extends ShelterPageBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, GLOBALS);
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS);
     }
 }
 /* globals Page Helpers */
 // eslint-disable-next-line no-unused-vars
 class PrivateFieldsPageBase extends Page {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLPrivateFields', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
@@ -4141,8 +4199,8 @@ class PrivateFieldsPageBase extends Page {
 /* globals PrivateFieldsPageBase */
 // eslint-disable-next-line no-unused-vars
 class PrivateFieldsPage extends PrivateFieldsPageBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, GLOBALS);
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS);
     }
 }
 /* globals Page Helpers */
@@ -4150,8 +4208,8 @@ const PublicFieldsBase = Page;
 
 // eslint-disable-next-line no-unused-vars
 class PublicFieldsPage extends PublicFieldsBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLPublicFields', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,
@@ -4742,8 +4800,8 @@ class PublicFieldsPage extends PublicFieldsBase {
 /* globals Page Helpers */
 // eslint-disable-next-line no-unused-vars
 class LabPageBase extends Page {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLLab', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
@@ -4974,8 +5032,8 @@ const FishingBase = Page;
 
 // eslint-disable-next-line no-unused-vars
 class FishingPage extends FishingBase {
-    constructor(jQuery) {
-        super(jQuery, 'QoLFishing', {}, 'fishing');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
         // no observer
     }
     setupHTML(GLOBALS) {
@@ -5018,8 +5076,8 @@ const MultiuserBase = Page;
 
 // eslint-disable-next-line no-unused-vars
 class MultiuserPage extends MultiuserBase {
-    constructor(jQuery) {
-        super(jQuery, 'QoLMultiuser', {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
@@ -5291,8 +5349,8 @@ class FarmPageBase extends Page {
         };
         return d;
     }
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLFarm', {}, 'farm#tab=1');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
@@ -5889,8 +5947,8 @@ class FarmPage extends FarmPageBase {}
 const DaycareBase = Page;
 // eslint-disable-next-line no-unused-vars
 class DaycarePage extends DaycareBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLDaycare', {}, 'daycare');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -5991,8 +6049,8 @@ class DaycarePage extends DaycareBase {
 /* globals Page */
 // eslint-disable-next-line no-unused-vars
 class DexPageBase extends Page {
-    constructor(jQuery) {
-        super(jQuery, 'QoLDexPage', {}, '/dex');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, '/dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -6098,15 +6156,15 @@ class DexPageBase extends Page {
 /* globals DexPageBase */
 // eslint-disable-next-line no-unused-vars
 class DexPage extends DexPageBase {
-    constructor(jQuery) {
-        super(jQuery);
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS);
 
         // when entering the dex page, update the local storage QoLPokedex
         // so the user can update their information
-        if(localStorage.getItem('QoLPokedex') !== null) {
+        if(this.localStorageMgr.getItem(GLOBALS.POKEDEX_DATA_KEY) !== null) {
             if(jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
                 const text = jQuery('script#dexdata').text();
-                localStorage.setItem('QoLPokedex', text);
+                this.localStorageMgr.setItem(GLOBALS.POKEDEX_DATA_KEY, text);
             }
         }
     }
@@ -6116,8 +6174,8 @@ const WishforgeBase = Page;
 
 // eslint-disable-next-line no-unused-vars
 class WishforgePage extends WishforgeBase {
-    constructor(jQuery, GLOBALS) {
-        super(jQuery, 'QoLWishforge', {}, 'forge');
+    constructor(jQuery, localStorageMgr, GLOBALS) {
+        super(jQuery, localStorageMgr, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
@@ -6285,15 +6343,16 @@ class PagesManager {
             setting: 'condenseWishforge'
         },
     }
-    constructor(jQuery, GLOBALS) {
+    constructor(jQuery, localStorageMgr, GLOBALS) {
         this.jQuery = jQuery;
+        this.localStorageMgr = localStorageMgr;
         this.GLOBALS = GLOBALS;
     }
     instantiatePages(QOLHUB) {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.jQuery, this.GLOBALS);
+                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.GLOBALS);
             }
         }
     }
@@ -6363,7 +6422,7 @@ class PagesManager {
     }
 }
 /* globals GM_addStyle QoLHub
-        Globals Resources Helpers PagesManager */
+        Globals Resources Helpers PagesManager LocalStorageManager */
 'use strict';
 // eslint-disable-next-line no-unused-vars
 class PFQoLBase {
@@ -6377,11 +6436,12 @@ class PFQoLBase {
         });
 
         this.jQuery = $;
-        this.GLOBALS = new Globals();
+        this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage);
+        this.GLOBALS = new Globals(this.LOCAL_STORAGE_MANAGER);
         this.HELPERS = new Helpers();
         this.RESOURCES = new Resources();
-        this.PAGES = new PagesManager(this.jQuery, this.GLOBALS);
-        this.QOLHUB = new QoLHub(this.jQuery, this.GLOBALS, this.PAGES);
+        this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS);
+        this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.PAGES);
         this.GLOBALS.fillTemplates(this.RESOURCES);
         this.GLOBALS.fillOptionsLists();
 

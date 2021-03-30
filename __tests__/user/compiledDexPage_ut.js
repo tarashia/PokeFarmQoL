@@ -1,4 +1,6 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
+const key = `${$.USERID}.QoLDex`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -34,7 +36,7 @@ describe('Test Dex Page', () => {
         global.location.href = 'https://pokefarm.com/dex';
         document.documentElement.innerHTML = innerHTML;
 
-        localStorage.setItem('QoLDex', '{}');
+        localStorage.setItem(key, '{}');
 
         new pfqol.pfqol($);
 
@@ -111,8 +113,7 @@ describe('Test Dex Page', () => {
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/dex';
         document.documentElement.innerHTML = innerHTML;
-
-        localStorage.setItem('QoLDex', '{}');
+        localStorage.setItem(key, '{}');
 
         new pfqol.pfqol($);
 

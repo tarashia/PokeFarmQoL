@@ -71,17 +71,17 @@ class QoLHubBase {
         }));
     }
     loadSettings() {
-        if (localStorage.getItem(this.SETTINGS_SAVE_KEY) === null) {
+        if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
             this.saveSettings();
         } else {
             try {
                 const countScriptSettings = Object.keys(this.USER_SETTINGS).length;
-                const localStorageString = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+                const localStorageString = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
                 const countLocalStorageSettings = Object.keys(localStorageString).length;
                 // adds new objects (settings) to the local storage
                 if (countLocalStorageSettings < countScriptSettings) {
                     const defaultsSetting = this.USER_SETTINGS;
-                    const userSetting = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+                    const userSetting = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
                     const newSetting = this.jQuery.extend(true, {}, defaultsSetting, userSetting);
 
                     this.USER_SETTINGS = newSetting;
@@ -90,20 +90,20 @@ class QoLHubBase {
                 // removes objects from the local storage if they don't exist anymore. Not yet possible..
                 if (countLocalStorageSettings > countScriptSettings) {
                     //let defaultsSetting = QOLHUB.USER_SETTINGS;
-                    //let userSetting = JSON.parse(localStorage.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                    //let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
                     this.saveSettings();
                 }
             }
             catch (err) {
                 this.saveSettings();
             }
-            if (localStorage.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
-                this.USER_SETTINGS = JSON.parse(localStorage.getItem(this.SETTINGS_SAVE_KEY));
+            if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
+                this.USER_SETTINGS = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
             }
         }
     }
     saveSettings() {
-        localStorage.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
+        this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
     }
     populateSettings() {
         for (const key in this.USER_SETTINGS) {

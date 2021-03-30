@@ -1,4 +1,6 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
+$.USERID = '';
+const key = `${$.USERID}.QoLLab`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -44,14 +46,14 @@ describe('Test Lab Page', () => {
             `"customEgg":${CUSTOM_SEARCH_SETTING},` +
             `"findLabType":"${TYPE_SEARCH_1},${TYPE_SEARCH_2}",` +
             `"findTypeEgg":${TYPE_SEARCH_SETTING}}`;
-        localStorage.setItem('QoLLab', settings);
+        localStorage.setItem(key, settings);
 
         new pfqol.pfqol($);
         // trigger 'window' load handler
         $(window).trigger('load');
 
         // check that settings were applied correctly
-        expect(localStorage.getItem('QoLLab')).toBe(settings);
+        expect(localStorage.getItem(key)).toBe(settings);
 
         // check that values were added to the test correctly was setup correctly
         expect($('[data-key=findTypeEgg]').length).toBe(1);

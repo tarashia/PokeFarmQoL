@@ -15,4 +15,13 @@ class LocalStorageManagerBase {
     loadSettings($, KEY, DEFAULT, obj) {
         return Helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
     }
+    getItem(key) {
+        return this.storage.getItem(this.translateKey(key));
+    }
+    setItem(key, value) {
+        this.storage.setItem(this.translateKey(key), value);
+    }
+    removeItem(key) {
+        this.storage.removeItem(this.translateKey(key));
+    }
 }

@@ -16,8 +16,8 @@ class FarmPage extends FarmPageBase {
         obj.checkForValidDexData(GLOBALS);
         const dexData = GLOBALS.DEX_DATA;
 
-        if (!GLOBALS.REGIONAL_FORMS_LIST && localStorage.getItem(GLOBALS.POKEDEX_REGIONAL_FORMS_KEY)) {
-            GLOBALS.REGIONAL_FORMS_LIST = JSON.parse(localStorage.getItem(GLOBALS.POKEDEX_REGIONAL_FORMS_KEY));
+        if (!GLOBALS.REGIONAL_FORMS_LIST && this.localStorageMgr.getItem(GLOBALS.POKEDEX_REGIONAL_FORMS_KEY)) {
+            GLOBALS.REGIONAL_FORMS_LIST = JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_REGIONAL_FORMS_KEY));
         }
         const regionalFormList = GLOBALS.REGIONAL_FORMS_LIST;
 
