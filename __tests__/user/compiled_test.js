@@ -34,7 +34,7 @@ beforeAll(() => {
 });
 
 describe('Test that PFQoL compiles', () => {
-    test.skip('Test QoL Hub controls', () => {
+    test('Test QoL Hub controls', () => {
         const htmlpath = path.join(__dirname, '../data/', 'party.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
