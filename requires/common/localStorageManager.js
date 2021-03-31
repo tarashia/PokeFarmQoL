@@ -6,6 +6,34 @@ class LocalStorageManagerBase {
         this.keyPrefix = keyPrefix;
         this.storage = storage;
     }
+    /**
+     * This function helps users use the updated script without having to
+     * clear their settings by looking for items in local storage that
+     * start with 'QoL...' and moving the settings to the correct
+     * translated local storage key
+     */
+    migrateSettings() {
+        const newItems = {};
+        const keysToRemove = [];
+        // find the items that need to be replaced
+        for (let i = 0, len = this.storage.length; i < len; ++i) {
+            const match = this.storage.key(i).match(/^QoL.*/);
+            if(match) {
+                const oldKey = match.input;
+                const newKey = this.translateKey(oldKey);
+                newItems[newKey] = this.storage.getItem(oldKey);
+                keysToRemove.push(oldKey);
+            }
+        }
+        // remove the old style keys
+        for(let j = 0; j < keysToRemove.length; j++) {
+            this.storage.removeItem(keysToRemove[j]);
+        }
+        // add the new style keys
+        for(const newKey in newItems) {
+            this.storage.setItem(newKey, newItems[newKey]);
+        }
+    }
     translateKey(key) {
         return `${this.keyPrefix}.${key}`;
     }
