@@ -34,7 +34,7 @@ beforeAll(() => {
 });
 
 describe('Test that PFQoL compiles', () => {
-    test('Test QoL Hub controls', () => {
+    test.skip('Test QoL Hub controls', () => {
         const htmlpath = path.join(__dirname, '../data/', 'party.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -174,5 +174,37 @@ describe('Test that PFQoL compiles', () => {
         lastChild = $('body').children().eq(-1);
         expect(lastChild && lastChild.attr('class')).not.toBe('dialog');
         ////////////////////////////////////////
+    });
+    test('Test Local Storage Migration', () => {
+        const htmlpath = path.join(__dirname, '../data/', 'party.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        document.documentElement.innerHTML = innerHTML;
+        global.location.href = 'https://pokefarm.com/party';
+
+        localStorage.removeItem(settingsKey);
+        localStorage.removeItem(shelterKey);
+
+        // set non-default Shelter settings to facilitate the resetPageSettings test
+        const oldSettingsKey = 'QoLSettings';
+        const oldShelterKey = 'QoLShelter';
+        const qolSettings = {
+            example1: 'foo1'
+        };
+        const qolShelter = {
+            example2: 'foo2'
+        };
+        localStorage.setItem(oldSettingsKey, JSON.stringify(qolSettings));
+        localStorage.setItem(oldShelterKey, JSON.stringify(qolShelter));
+
+        new pfqol.pfqol($);
+
+        // the corrected settings end up getting modified by the code because
+        // the examples here are not full settings, so just check that the
+        // new settings are not null and that the old settings are null
+        expect(localStorage.getItem(oldSettingsKey)).toBeNull();
+        expect(localStorage.getItem(settingsKey)).not.toBeNull();
+        expect(localStorage.getItem(oldShelterKey)).toBeNull();
+        expect(localStorage.getItem(shelterKey)).not.toBeNull();
     });
 });
