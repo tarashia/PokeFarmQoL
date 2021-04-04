@@ -2,14 +2,14 @@
 class Globals {
     // eslint-disable-next-line camelcase
     static fillTemplates(GM_getResourceText) {
-        Globals.TEMPLATES.shelterOptionsHTML         = GM_getResourceText('shelterOptionsHTML');
-        Globals.TEMPLATES.fieldSortHTML              = GM_getResourceText('fieldSortHTML');
-        Globals.TEMPLATES.fieldSearchHTML            = GM_getResourceText('fieldSearchHTML');
-        Globals.TEMPLATES.privateFieldSearchHTML     = GM_getResourceText('privateFieldSearchHTML');
-        Globals.TEMPLATES.qolHubHTML                 = GM_getResourceText('qolHubHTML');
-        Globals.TEMPLATES.evolveFastHTML             = GM_getResourceText('evolveFastHTML');
-        Globals.TEMPLATES.labOptionsHTML             = GM_getResourceText('labOptionsHTML');
-        Globals.TEMPLATES.publicFieldTooltipModHTML  = GM_getResourceText('publicFieldTooltipModHTML');
+        Globals.TEMPLATES.shelterOptionsHTML = GM_getResourceText('shelterOptionsHTML');
+        Globals.TEMPLATES.fieldSortHTML = GM_getResourceText('fieldSortHTML');
+        Globals.TEMPLATES.fieldSearchHTML = GM_getResourceText('fieldSearchHTML');
+        Globals.TEMPLATES.privateFieldSearchHTML = GM_getResourceText('privateFieldSearchHTML');
+        Globals.TEMPLATES.qolHubHTML = GM_getResourceText('qolHubHTML');
+        Globals.TEMPLATES.evolveFastHTML = GM_getResourceText('evolveFastHTML');
+        Globals.TEMPLATES.labOptionsHTML = GM_getResourceText('labOptionsHTML');
+        Globals.TEMPLATES.publicFieldTooltipModHTML = GM_getResourceText('publicFieldTooltipModHTML');
         Globals.TEMPLATES.privateFieldTooltipModHTML = GM_getResourceText('privateFieldTooltipModHTML');
     }
     static fillOptionsLists(helpers) {
@@ -18,27 +18,27 @@ class Globals {
         Globals.EGG_GROUP_OPTIONS = helpers.buildOptionsString(Globals.EGG_GROUP_LIST);
     }
     static TEMPLATES = { // all the new/changed HTML for the userscript
-        qolHubLinkHTML        : '<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>',
-        qolHubUpdateLinkHTML  : '<li data-name="QoLupdate"><a href="https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js" target="_blank"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>',
+        qolHubLinkHTML: '<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>',
+        qolHubUpdateLinkHTML: '<li data-name="QoLupdate"><a href="https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js" target="_blank"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>',
         // qolSettingsMenuHTML   : GM_getResourceText('QoLSettingsMenuHTML'),
-        massReleaseSelectHTML : '<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label>' +
-        '<label id="movefishselectany"><input class="qolsetting" id="movefishselectanycheckbox" type="checkbox">Select Any  </label>' +
-        '<label id="movefishselectsour"><input class="qolsetting" id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label>' +
-        '<label id="movefishselectspicy"><input class="qolsetting" id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label>' +
-        '<label id="movefishselectdry"><input class="qolsetting" id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label>' +
-        '<label id="movefishselectsweet"><input class="qolsetting" id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label>' +
-        '<label id="movefishselectbitter"><input class="qolsetting" id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>',
-        partyModHTML          : '<div id=\'qolpartymod\'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>',
+        massReleaseSelectHTML: '<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label>' +
+            '<label id="movefishselectany"><input class="qolsetting" id="movefishselectanycheckbox" type="checkbox">Select Any  </label>' +
+            '<label id="movefishselectsour"><input class="qolsetting" id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label>' +
+            '<label id="movefishselectspicy"><input class="qolsetting" id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label>' +
+            '<label id="movefishselectdry"><input class="qolsetting" id="movefishselectdrycheckbox" type="checkbox">Select Dry  </label>' +
+            '<label id="movefishselectsweet"><input class="qolsetting" id="movefishselectsweetcheckbox" type="checkbox">Select Sweet  </label>' +
+            '<label id="movefishselectbitter"><input class="qolsetting" id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>',
+        partyModHTML: '<div id=\'qolpartymod\'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>',
         // filled in by fillTemplates
-        shelterOptionsHTML   : null,
-        fieldSortHTML         : null,
-        fieldSearchHTML       : null,
+        shelterOptionsHTML: null,
+        fieldSortHTML: null,
+        fieldSearchHTML: null,
         privateFieldSearchHTML: null,
-        qolHubHTML            : null,
-        evolveFastHTML        : null,
-        labOptionsHTML        : null,
-        publicFieldTooltipModHTML   : null,
-        privateFieldTooltipModHTML  : null
+        qolHubHTML: null,
+        evolveFastHTML: null,
+        labOptionsHTML: null,
+        publicFieldTooltipModHTML: null,
+        privateFieldTooltipModHTML: null
     };
 
     static SETTINGS_SAVE_KEY = 'QoLSettings';
@@ -107,7 +107,7 @@ class Globals {
         'findNewEgg', 'Egg', 'new egg', '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
         'findNewPokemon', 'Pokémon', 'new Pokémon', '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
         'findShiny', 'SHINY', 'Shiny', '<img src="//pfq-static.com/img/pkmn/shiny.png/t=1400179603">',
-        'findAlbino','ALBINO', 'Albino', '<img src="//pfq-static.com/img/pkmn/albino.png/t=1414662094">',
+        'findAlbino', 'ALBINO', 'Albino', '<img src="//pfq-static.com/img/pkmn/albino.png/t=1414662094">',
         'findMelanistic', 'MELANISTIC', 'Melanistic', '<img src="//pfq-static.com/img/pkmn/melanistic.png/t=1435353274">',
         'findPrehistoric', 'PREHISTORIC', 'Prehistoric', '<img src="//pfq-static.com/img/pkmn/prehistoric.png/t=1465558964">',
         'findDelta', 'DELTA', 'Delta', '<img src="//pfq-static.com/img/pkmn/_delta/dark.png/t=1501325214">',
@@ -117,7 +117,35 @@ class Globals {
         'findMale', '[M]', 'Male', '<img src="//pfq-static.com/img/pkmn/gender_m.png/t=1401213006">',
         'findFemale', '[F]', 'Female', '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
         'findNoGender', '[N]', 'Genderless', '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
+        'findLegendary', '', 'Legendary', '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
     ];
+    static SHELTER_SEARCH_LISTS = {
+        'findLegendary': [
+            // List of official legendaries more or less based on
+            // https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
+            // Kanto
+            'Articuno', 'Zapdos', 'Moltres', 'Mewtwo', 'Mew',
+            // Johto
+            'Raikou', 'Entei', 'Suicune', 'Lugia', 'Ho-oh', 'Celebi',
+            // Hoenn
+            'Regirock', 'Regice', 'Registeel', 'Latias', 'Latios', 'Kyogre', 'Groudon', 'Rayquaza', 'Deoxys', 'Jirachi',
+            // Sinnoh
+            'Uxie', 'Mesprit', 'Azelf', 'Dialga', 'Palkia', 'Heatran', 'Regigigas', 'Giratina', 'Cresselia',
+            'Phione', 'Manaphy', 'Darkrai', 'Shaymin', 'Arceus',
+            // Unova
+            'Cobalion', 'Terrakion', 'Virizion', 'Tornadus', 'Thundurus', 'Reshiram', 'Zekrom',
+            'Landorus', 'Kyurem', 'Keldeo', 'Meloetta', 'Genesect',
+            // Kalos
+            'Xerneas', 'Yveltal', 'Zygarde', 'Diancie', 'Hoopa', 'Volcanion',
+            // Alola
+            'Type: Null', 'Silvally', 'Tapu Koko', 'Tapu Lele', 'Tapu Bulu', 'Tapu Fini',
+            'Cosmog', 'Cosmoem', 'Solgaleo', 'Lunala', 'Necrozma',
+            // Galar
+            'Zacian', 'Zamazenta', 'Eternatus',
+            // PFQ
+            /* None */
+        ]
+    };
 
     // filled in by fillOptionsLists
     static TYPE_OPTIONS = null;
