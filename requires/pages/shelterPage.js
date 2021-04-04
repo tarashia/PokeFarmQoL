@@ -246,7 +246,7 @@ class ShelterPage extends ShelterBase {
 
     searchForTooltipText(GLOBALS, key) {
         const LIST = GLOBALS.SHELTER_SEARCH_LISTS[key];
-        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA[key];
+        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
         for (const entry in LIST) {
             const selected = this.jQuery(`div.pokemon+div.tooltip_content:contains('${entry}')`);
