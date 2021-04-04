@@ -248,7 +248,8 @@ class ShelterPage extends ShelterBase {
         const LIST = GLOBALS.SHELTER_SEARCH_LISTS[key];
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
-        for (const entry in LIST) {
+        for (let i = 0; i < LIST.length; i++) {
+            const entry = LIST[i];
             const selected = this.jQuery(`div.pokemon+div.tooltip_content:contains('${entry}')`);
             if (selected.length) {
                 const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
