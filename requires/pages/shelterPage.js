@@ -255,7 +255,7 @@ class ShelterPage extends ShelterBase {
                 const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
                 const imgResult = selected.length + ' ' + searchResult; //amount + type found
                 const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-                const shelterBigImg = selected.parent().prev().children('img.big');
+                const shelterBigImg = selected.prev().children('img.big');
                 shelterBigImg.addClass('shelterfoundme');
 
                 this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
