@@ -1,4 +1,4 @@
-/* globals GM_addStyle QoLHub
+/* globals addGlobalStyle QoLHub
         Globals Resources Helpers PagesManager LocalStorageManager */
 'use strict';
 // eslint-disable-next-line no-unused-vars
@@ -48,7 +48,7 @@ class PFQoLBase {
         obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
     }
     setupCSS(obj) { // All the CSS changes are added here
-        GM_addStyle(obj.RESOURCES.css());
+        addGlobalStyle(obj.RESOURCES.css());
         obj.PAGES.setupCSS(obj.QOLHUB);
         obj.QOLHUB.setupCSS();
     }

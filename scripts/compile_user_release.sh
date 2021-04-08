@@ -5,6 +5,7 @@ echo "Compiling code into one js file..."
 ROOT="."
 
 declare -a INPUT=("${ROOT}/requires/user/header.txt"
+                  "${ROOT}/requires/common/polyfill.js"
                   "${ROOT}/requires/common/resources.js"
                   "${ROOT}/requires/user/resources.js"
                   "${ROOT}/requires/common/helpers.js"

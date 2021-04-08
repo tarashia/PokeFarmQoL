@@ -6,6 +6,7 @@ ROOT="."
 declare -a EXTERNALS=("${ROOT}/node_modules/jquery/dist/jquery.min.js"
                      )
 declare -a INPUT=("${ROOT}/requires/user/header.txt"
+                  "${ROOT}/requires/common/polyfill.js"
                   "${ROOT}/requires/common/resources.js"
                   "${ROOT}/requires/user/resources.js"
                   "${ROOT}/requires/common/helpers.js"
@@ -42,9 +43,6 @@ OUTPUT="${ROOT}/__tests__/Poke-Farm-QoL.user.js"
 
 # try to mimic the web environment
 echo "" > "${OUTPUT}"
-echo "/* instanbul ignore next */" >> "${OUTPUT}"
-echo "// eslint-disable-next-line camelcase" >>  "${OUTPUT}"
-echo "const GM_addStyle        = require('../__mocks__/tampermonkey').GM_addStyle;" >> "${OUTPUT}"
 
 for FILE in "${EXTERNALS[@]}"; do
    echo "/* istanbul ignore next */" >> "${OUTPUT}"

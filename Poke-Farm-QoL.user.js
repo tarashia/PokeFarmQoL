@@ -9,8 +9,15 @@
 // @version      1.6.8
 // @match        https://pokefarm.com/*
 // @connect      github.com
-// @grant        GM_addStyle
 // ==/UserScript==
+/** TamperMonkey polyfill to replace GM_addStyle function */
+function addGlobalStyle(css) {
+    const head = document.getElementsByTagName('head')[0];
+    const style = document.createElement('style');
+    if (!head) { return; }
+    style.innerHTML = css;
+    head.appendChild(style);
+}
 /**
  * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
  */
@@ -2175,10 +2182,6 @@ class Helpers {
     } // parseFieldPokemonToolTip
 }
 
-if (module) {
-    module.exports.Helpers = Helpers;
-}
-
 class GlobalsBase {
     fillTemplates(TEMPLATES) {
         this.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
@@ -3834,10 +3837,6 @@ class EvolutionTreeParser {
         }
     }
 } // EvolutionTreeParser
-
-if (module) {
-    module.exports.EvolutionTreeParser = EvolutionTreeParser;
-}
 /* This class includes static functions for parsing data from a single dex page.
    Functions which process multiple text pages are in DexUtilities.
 */
@@ -3958,10 +3957,6 @@ class DexPageParser {
         return flattened;
     }
 } // DexPageParser
-
-if (module) {
-    module.exports.DexPageParser = DexPageParser;
-}
 
 
 class LocalStorageManagerBase {
@@ -4191,10 +4186,6 @@ class LocalStorageManager extends LocalStorageManagerBase {
         this.storage.setItem(key, JSON.stringify(dexIDsCache));
         return dexNumbers;
     }
-}
-
-if (module) {
-    module.exports.LocalStorageManager = LocalStorageManager;
 }
 class DexUtilities {
     /* Load the main dex page.
@@ -4627,10 +4618,6 @@ class DexUtilities {
     }
 
 } // DexUtilities
-
-if (module) {
-    module.exports.DexUtilities = DexUtilities;
-}
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
@@ -4797,10 +4784,6 @@ class QoLHubBase {
         this.jQuery('#core', document).removeClass('scrolllock');
     }
 } // QoLHubBase
-
-if (module) {
-    module.exports.QoLHubBase = QoLHubBase;
-}
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
@@ -4913,10 +4896,6 @@ class QoLHub extends QoLHubBase {
         });// getMainDexPage
     }
 } // QoLHub
-
-if (module) {
-    module.exports.QoLHub = QoLHub;
-}
 
 class Page {
     constructor(jQuery, localStorageMgr, ssk, ds, url) {
@@ -8908,7 +8887,7 @@ class PFQoLBase {
         obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
     }
     setupCSS(obj) { // All the CSS changes are added here
-        GM_addStyle(obj.RESOURCES.css());
+        addGlobalStyle(obj.RESOURCES.css());
         obj.PAGES.setupCSS(obj.QOLHUB);
         obj.QOLHUB.setupCSS();
     }
@@ -8966,7 +8945,7 @@ class PFQoL extends PFQoLBase {
     }
 }
 
-if (module) {
+if (typeof(module) !== 'undefined') {
     module.exports.pfqol = PFQoL;
 } else {
     new PFQoL(jQuery);

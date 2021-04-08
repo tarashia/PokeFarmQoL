@@ -9,8 +9,16 @@
 // @version      1.6.8
 // @match        https://pokefarm.com/*
 // @connect      github.com
-// @grant        GM_addStyle
 // ==/UserScript==
+/** TamperMonkey polyfill to replace GM_addStyle function */
+// eslint-disable-next-line no-unused-vars
+function addGlobalStyle(css) {
+    const head = document.getElementsByTagName('head')[0];
+    const style = document.createElement('style');
+    if (!head) { return; }
+    style.innerHTML = css;
+    head.appendChild(style);
+}
 /**
  * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
  */
@@ -1553,10 +1561,6 @@ class Helpers {
         }
         return ret;
     } // parseFieldPokemonToolTip
-}
-
-if (module) {
-    module.exports.Helpers = Helpers;
 }
 /* globals Helpers */
 // eslint-disable-next-line no-unused-vars
@@ -3112,10 +3116,6 @@ class QoLHubBase {
         this.jQuery('#core', document).removeClass('scrolllock');
     }
 } // QoLHubBase
-
-if (module) {
-    module.exports.QoLHubBase = QoLHubBase;
-}
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
@@ -3126,10 +3126,6 @@ class QoLHub extends QoLHubBase {
         super(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS);
     }
 } // QoLHub
-
-if (module) {
-    module.exports.QoLHub = QoLHub;
-}
 /* global Helpers */
 // eslint-disable-next-line no-unused-vars
 class Page {
@@ -6449,7 +6445,7 @@ class PagesManager {
         }
     }
 }
-/* globals GM_addStyle QoLHub
+/* globals addGlobalStyle QoLHub
         Globals Resources Helpers PagesManager LocalStorageManager */
 'use strict';
 // eslint-disable-next-line no-unused-vars
@@ -6499,7 +6495,7 @@ class PFQoLBase {
         obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
     }
     setupCSS(obj) { // All the CSS changes are added here
-        GM_addStyle(obj.RESOURCES.css());
+        addGlobalStyle(obj.RESOURCES.css());
         obj.PAGES.setupCSS(obj.QOLHUB);
         obj.QOLHUB.setupCSS();
     }
@@ -6544,7 +6540,7 @@ class PFQoL extends PFQoLBase {
     }
 }
 
-if (module) {
+if (typeof(module) !== 'undefined') {
     module.exports.pfqol = PFQoL;
 } else {
     new PFQoL(jQuery);

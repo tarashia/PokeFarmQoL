@@ -9,5 +9,4 @@
 // @version      1.6.8
 // @match        https://pokefarm.com/*
 // @connect      github.com
-// @grant        GM_addStyle
 // ==/UserScript==
