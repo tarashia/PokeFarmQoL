@@ -192,7 +192,3 @@ class Helpers {
         return ret;
     } // parseFieldPokemonToolTip
 }
-
-if (module) {
-    module.exports.Helpers = Helpers;
-}

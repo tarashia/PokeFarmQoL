@@ -1,4 +1,4 @@
-/* globals jQuery PFQoLBase LocalStorageManager DexUtilities */
+/* globals jQuery PFQoLBase DexUtilities */
 // eslint-disable-next-line no-unused-vars
 class PFQoL extends PFQoLBase {
     constructor($) {
@@ -20,7 +20,7 @@ class PFQoL extends PFQoLBase {
     }
 }
 
-if (module) {
+if (typeof(module) !== 'undefined') {
     module.exports.pfqol = PFQoL;
 } else {
     new PFQoL(jQuery);

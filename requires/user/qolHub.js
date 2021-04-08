@@ -1,7 +1,7 @@
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
-/* globals QoLHubBase DexUtilities DexPageParser EvolutionTreeParser LocalStorageManager */
+/* globals QoLHubBase DexUtilities DexPageParser EvolutionTreeParser */
 // eslint-disable-next-line no-unused-vars
 class QoLHub extends QoLHubBase {
     constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
@@ -111,7 +111,3 @@ class QoLHub extends QoLHubBase {
         });// getMainDexPage
     }
 } // QoLHub
-
-if (module) {
-    module.exports.QoLHub = QoLHub;
-}

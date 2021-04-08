@@ -175,7 +175,3 @@ class LocalStorageManager extends LocalStorageManagerBase {
         return dexNumbers;
     }
 }
-
-if (module) {
-    module.exports.LocalStorageManager = LocalStorageManager;
-}

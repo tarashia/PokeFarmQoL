@@ -6,7 +6,7 @@ class PFQoL extends PFQoLBase {
     }
 }
 
-if (module) {
+if (typeof(module) !== 'undefined') {
     module.exports.pfqol = PFQoL;
 } else {
     new PFQoL(jQuery);

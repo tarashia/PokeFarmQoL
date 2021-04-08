@@ -334,7 +334,3 @@ class EvolutionTreeParser {
         }
     }
 } // EvolutionTreeParser
-
-if (module) {
-    module.exports.EvolutionTreeParser = EvolutionTreeParser;
-}

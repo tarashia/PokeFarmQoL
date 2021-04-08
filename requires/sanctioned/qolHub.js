@@ -8,7 +8,3 @@ class QoLHub extends QoLHubBase {
         super(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS);
     }
 } // QoLHub
-
-if (module) {
-    module.exports.QoLHub = QoLHub;
-}

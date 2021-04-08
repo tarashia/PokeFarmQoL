@@ -165,7 +165,3 @@ class QoLHubBase {
         this.jQuery('#core', document).removeClass('scrolllock');
     }
 } // QoLHubBase
-
-if (module) {
-    module.exports.QoLHubBase = QoLHubBase;
-}
