@@ -1212,6 +1212,13 @@ class ResourcesBase {
                         </td>
                       </tr>
                       <tr>
+                        <td colspan="2" class="qolDexUpdate">
+                          <h3 class="qolHubHead">Pokedex Settings</h3>
+                        </td>
+                      </tr>
+                      <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
+                      </tr>
+                      <tr>
                         <td colspan="2" class="qolAllSettings">
                           <h3 class="qolHubHead">Css Settings</h3>
                         </td>
@@ -1231,7 +1238,7 @@ class ResourcesBase {
                           <h3 class="qolHubHead">Debugging Corner</h3>
                         </td>
                       </tr>
-                      <tr>
+                      <tr id="qolDebuggingCornerRow">
                         <td colspan="2" class="qolAllSettings">
                           <span>Use these controls to reset the settings for a particular page back to its defaults</span><br>
                           <span><b>Page Select</b></span>
