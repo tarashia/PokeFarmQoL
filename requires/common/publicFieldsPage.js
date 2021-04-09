@@ -93,18 +93,19 @@ class PublicFieldsPage extends PublicFieldsBase {
     setupCSS() {
         const fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
         const fieldOrderCssBorder = this.jQuery('#field_field').css('border');
-        this.jQuery('#fieldorder').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('#fieldorder').css('border', ''+fieldOrderCssBorder+'');
-        this.jQuery('#tooltipenable').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('#tooltipenable').css('border', ''+fieldOrderCssBorder+'');
+        this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
+        this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
+        this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
+        this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#tooltipenable').css('max-width', '600px');
         this.jQuery('#tooltipenable').css('position', 'relative');
         this.jQuery('#tooltipenable').css('margin', '16px auto');
-        this.jQuery('#fieldsearch').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('#fieldsearch').css('border', ''+fieldOrderCssBorder+'');
-        this.jQuery('.collapsible').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('.collapsible').css('border', ''+fieldOrderCssBorder+'');
-        this.jQuery('.collapsible_content').css('background-color', ''+fieldOrderCssColor+'');
+        this.jQuery('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
+        this.jQuery('.collapsible').css('border', '' + fieldOrderCssBorder + '');
+        this.jQuery('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
+
+        this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
+        this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
         // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
         // settings as most of the text on the site, manually set the text color for

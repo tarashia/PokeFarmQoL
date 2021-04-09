@@ -25,8 +25,6 @@ class ResourcesBase {
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 500px;
-            background-color: #555;
-            color: #fff;
             text-align: center;
             padding: 5px 0;
             border-radius: 6px;
@@ -49,7 +47,6 @@ class ResourcesBase {
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: #555 transparent transparent transparent;
         }
         
         .tooltip:hover .tooltiptext {
@@ -109,7 +106,6 @@ class ResourcesBase {
         #fieldorder {
             margin: 16px auto;
             padding: 4px;
-            border: 1px solid #9ec690;
             border-radius: 4px;
             max-width: 600px;
             position: relative;
@@ -118,7 +114,6 @@ class ResourcesBase {
         #fieldsearch {
             margin: 16px auto;
             padding: 4px;
-            border: 1px solid #9ec690;
             border-radius: 4px;
             max-width: 600px;
             position: relative;
@@ -245,7 +240,6 @@ class ResourcesBase {
         } 
         
         .qolHubHead {
-            border-bottom: 1px solid #9ec690;
             text-align: center;
             padding: 4px;
             margin: 0;
@@ -255,7 +249,6 @@ class ResourcesBase {
         .qolAllSettings {
             width: 315px;
             height: 100%;
-            border: 1px solid #9ec690;
             border-top: none;
             vertical-align: top;
         }
@@ -263,7 +256,6 @@ class ResourcesBase {
         .qolChangeLog {
             width: 315px;
             height: 100%;
-            border: 1px solid #9ec690;
             border-top: none;
         }
         
@@ -279,7 +271,6 @@ class ResourcesBase {
         }
         
         .qolChangeLogList {
-            color: #004000;
             text-align: left;
             padding: 4px;
             margin: 0;
@@ -302,7 +293,6 @@ class ResourcesBase {
         }
         
         .qolChangeLogHead {
-            border: 1px solid #9ec690;
             margin: 0px;
         }
         
@@ -313,7 +303,7 @@ class ResourcesBase {
             cursor: pointer;
         }
         
-            /* qol party clicking mod */
+        /* qol party clicking mod */
         /* settings menu */
         #qolpartymod {
             text-align: center;
@@ -393,7 +383,7 @@ class ResourcesBase {
             text-align: center!important;
         }
         
-            /* lab */
+        /* lab */
         /* lab notification wrap */
         #labsuccess {
             text-align: center;
@@ -417,11 +407,6 @@ class ResourcesBase {
           max-width: 600px;
           position: relative;
           border-radius: 6px;
-        }
-        
-        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-        .active, .collapsible:hover {
-          background-color: #ccc;
         }
         
         /* Style the collapsible content. Note: hidden by default */
