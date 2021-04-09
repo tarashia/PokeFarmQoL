@@ -46,8 +46,6 @@ class ResourcesBase {
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 500px;
-            background-color: #555;
-            color: #fff;
             text-align: center;
             padding: 5px 0;
             border-radius: 6px;
@@ -70,7 +68,6 @@ class ResourcesBase {
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: #555 transparent transparent transparent;
         }
         
         .tooltip:hover .tooltiptext {
@@ -130,7 +127,6 @@ class ResourcesBase {
         #fieldorder {
             margin: 16px auto;
             padding: 4px;
-            border: 1px solid #9ec690;
             border-radius: 4px;
             max-width: 600px;
             position: relative;
@@ -139,7 +135,6 @@ class ResourcesBase {
         #fieldsearch {
             margin: 16px auto;
             padding: 4px;
-            border: 1px solid #9ec690;
             border-radius: 4px;
             max-width: 600px;
             position: relative;
@@ -266,7 +261,6 @@ class ResourcesBase {
         } 
         
         .qolHubHead {
-            border-bottom: 1px solid #9ec690;
             text-align: center;
             padding: 4px;
             margin: 0;
@@ -276,7 +270,6 @@ class ResourcesBase {
         .qolAllSettings {
             width: 315px;
             height: 100%;
-            border: 1px solid #9ec690;
             border-top: none;
             vertical-align: top;
         }
@@ -284,7 +277,6 @@ class ResourcesBase {
         .qolChangeLog {
             width: 315px;
             height: 100%;
-            border: 1px solid #9ec690;
             border-top: none;
         }
         
@@ -300,7 +292,6 @@ class ResourcesBase {
         }
         
         .qolChangeLogList {
-            color: #004000;
             text-align: left;
             padding: 4px;
             margin: 0;
@@ -323,7 +314,6 @@ class ResourcesBase {
         }
         
         .qolChangeLogHead {
-            border: 1px solid #9ec690;
             margin: 0px;
         }
         
@@ -334,7 +324,7 @@ class ResourcesBase {
             cursor: pointer;
         }
         
-            /* qol party clicking mod */
+        /* qol party clicking mod */
         /* settings menu */
         #qolpartymod {
             text-align: center;
@@ -414,7 +404,7 @@ class ResourcesBase {
             text-align: center!important;
         }
         
-            /* lab */
+        /* lab */
         /* lab notification wrap */
         #labsuccess {
             text-align: center;
@@ -438,11 +428,6 @@ class ResourcesBase {
           max-width: 600px;
           position: relative;
           border-radius: 6px;
-        }
-        
-        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-        .active, .collapsible:hover {
-          background-color: #ccc;
         }
         
         /* Style the collapsible content. Note: hidden by default */
@@ -1248,6 +1233,13 @@ class ResourcesBase {
                         </td>
                       </tr>
                       <tr>
+                        <td colspan="2" class="qolDexUpdate">
+                          <h3 class="qolHubHead">Pokedex Settings</h3>
+                        </td>
+                      </tr>
+                      <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
+                      </tr>
+                      <tr>
                         <td colspan="2" class="qolAllSettings">
                           <h3 class="qolHubHead">Css Settings</h3>
                         </td>
@@ -1267,7 +1259,7 @@ class ResourcesBase {
                           <h3 class="qolHubHead">Debugging Corner</h3>
                         </td>
                       </tr>
-                      <tr>
+                      <tr id="qolDebuggingCornerRow">
                         <td colspan="2" class="qolAllSettings">
                           <span>Use these controls to reset the settings for a particular page back to its defaults</span><br>
                           <span><b>Page Select</b></span>
@@ -1704,7 +1696,11 @@ class GlobalsBase {
     NATURE_OPTIONS = null;
     EGG_GROUP_OPTIONS = null;
 
+    // filled in by LocalStorageManager
+    DEX_UPDATE_DATE = null;
+
     // a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+    // this is updated every time the user visits the dex page
     DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
     '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
     '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
@@ -2941,6 +2937,46 @@ class LocalStorageManagerBase {
     removeItem(key) {
         this.storage.removeItem(this.translateKey(key));
     }
+
+    /* Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
+     * Inputs:
+     * - globals - reference to the GLOBALS settings object
+     */
+    loadDexIntoGlobalsFromStorage(globals) {
+        const key = this.translateKey(globals.POKEDEX_DATA_KEY);
+        if(this.storage.getItem(key) === null) {
+            return false;
+        }
+        if(Object.keys(JSON.parse(this.storage.getItem(key))).length === 0) {
+            return false;
+        }
+
+        const dateAndDex = JSON.parse(this.storage.getItem(key));
+        // if QoLPokedex only contains date
+        if((dateAndDex.length === 1) ||
+           // or if the dex part of the array is empty
+           (dateAndDex[1] === undefined) ||
+            (dateAndDex[1] === null)) {
+            return false;
+        }
+
+        globals.DEX_UPDATE_DATE = dateAndDex[0];
+        const dex = dateAndDex.slice(1);
+        globals.DEX_DATA = dex;
+        return true;
+    }
+
+    updateLocalStorageDex($, document, updateDate, globals) {
+        let dateString = '';
+        if(updateDate === undefined) {
+            dateString = (new Date()).toUTCString();
+        } else {
+            dateString = updateDate;
+        }
+        const datePlusDex = [dateString].concat(globals.DEX_DATA);
+        this.storage.setItem(this.translateKey(globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
+        $('.qolDate', document).val(dateString);
+    }
 }
 /* globals LocalStorageManagerBase */
 // eslint-disable-next-line no-unused-vars
@@ -3091,16 +3127,20 @@ class QoLHubBase {
     build(document) {
         this.jQuery('body', document).append(this.GLOBALS.TEMPLATES.qolHubHTML);
         this.jQuery('#core', document).addClass('scrolllock');
-        const qolHubCssBackgroundHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.backgroundColor;
-        const qolHubCssTextColorHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.color;
-        const qolHubCssBackground = document.querySelector('.qolHubTable').style.backgroundColor;
-        const qolHubCssTextColor = document.querySelector('.qolHubTable').style.color;
-        document.querySelector('.qolHubHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
-        document.querySelector('.qolHubHead').style.color = '' + qolHubCssTextColorHead + '';
-        document.querySelector('.qolChangeLogHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
-        document.querySelector('.qolChangeLogHead').style.color = '' + qolHubCssTextColorHead + '';
-        document.querySelector('.qolopencloselist.qolChangeLogContent').style.backgroundColor = '' + qolHubCssBackground + '';
-        document.querySelector('.qolopencloselist.qolChangeLogContent').style.color = '' + qolHubCssTextColor + '';
+        const qolHubCssBackgroundHead = this.jQuery('.qolHubHead.qolHubSuperHead').css('background-color');
+        const qolHubCssTextColorHead = this.jQuery('.qolHubHead.qolHubSuperHead').css('color');
+        const qolHubCssBackground = this.jQuery('.qolHubTable').css('background-color');
+        const qolHubCssTextColor = this.jQuery('.qolHubTable').css('color');
+        const qolHubDialogBorder = this.jQuery('.dialog>div>div>div').css('border');
+        this.jQuery('.qolHubHead').css('background-color',  qolHubCssBackgroundHead);
+        this.jQuery('.qolHubHead').css('color', qolHubCssTextColorHead);
+        this.jQuery('.qolChangeLogHead').css('background-color', qolHubCssBackgroundHead);
+        this.jQuery('.qolChangeLogHead').css('color', qolHubCssTextColorHead);
+        this.jQuery('.qolChangeLogHead').css('border', qolHubDialogBorder);
+        this.jQuery('.qolopencloselist.qolChangeLogContent').css('background-color', qolHubCssBackground);
+        this.jQuery('.qolopencloselist.qolChangeLogContent').css('color',  qolHubCssTextColor);
+
+        this.jQuery('.qolAllSettings').css('border', qolHubDialogBorder);
 
         const customCss = this.USER_SETTINGS.customCss;
 
@@ -3124,6 +3164,18 @@ class QoLHubBase {
 class QoLHub extends QoLHubBase {
     constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
         super(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS);
+    }
+    build(document) {
+        super.build(document);
+
+        const dexUpdateRowContents = `<span>Notice that you can't find the newly added Eggs or Pokemon in shelter?
+          You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with
+          the newest pokemon.</span>
+          <span>Date last updated:<span class="qolDate">""</span></span>`;
+        this.jQuery('#qolDexUpdateRow').append(dexUpdateRowContents);
+
+        this.jQuery('.qolDate', document).text(this.GLOBALS.DEX_UPDATE_DATE);
+
     }
 } // QoLHub
 /* global Helpers */
@@ -3784,16 +3836,15 @@ class PrivateFieldsPageBase extends Page {
         this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
         this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
-        this.jQuery('#tooltipenable').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('#tooltipenable').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#tooltipenable').css('max-width', '600px');
         this.jQuery('#tooltipenable').css('position', 'relative');
         this.jQuery('#tooltipenable').css('margin', '16px auto');
-        this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
         this.jQuery('.collapsible').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
+
+        this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
+        this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
         // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
         // settings as most of the text on the site, manually set the text color for
@@ -4322,18 +4373,19 @@ class PublicFieldsPage extends PublicFieldsBase {
     setupCSS() {
         const fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
         const fieldOrderCssBorder = this.jQuery('#field_field').css('border');
-        this.jQuery('#fieldorder').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('#fieldorder').css('border', ''+fieldOrderCssBorder+'');
-        this.jQuery('#tooltipenable').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('#tooltipenable').css('border', ''+fieldOrderCssBorder+'');
+        this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
+        this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
+        this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
+        this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#tooltipenable').css('max-width', '600px');
         this.jQuery('#tooltipenable').css('position', 'relative');
         this.jQuery('#tooltipenable').css('margin', '16px auto');
-        this.jQuery('#fieldsearch').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('#fieldsearch').css('border', ''+fieldOrderCssBorder+'');
-        this.jQuery('.collapsible').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('.collapsible').css('border', ''+fieldOrderCssBorder+'');
-        this.jQuery('.collapsible_content').css('background-color', ''+fieldOrderCssColor+'');
+        this.jQuery('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
+        this.jQuery('.collapsible').css('border', '' + fieldOrderCssBorder + '');
+        this.jQuery('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
+
+        this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
+        this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
         // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
         // settings as most of the text on the site, manually set the text color for
@@ -6185,11 +6237,10 @@ class DexPage extends DexPageBase {
 
         // when entering the dex page, update the local storage QoLPokedex
         // so the user can update their information
-        if(this.localStorageMgr.getItem(GLOBALS.POKEDEX_DATA_KEY) !== null) {
-            if(jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
-                const text = jQuery('script#dexdata').text();
-                this.localStorageMgr.setItem(GLOBALS.POKEDEX_DATA_KEY, text);
-            }
+        if (jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
+            const text = jQuery('script#dexdata').text();
+            GLOBALS.DEX_DATA = JSON.parse(text);
+            this.localStorageMgr.updateLocalStorageDex(this.jQuery, document, undefined, GLOBALS);
         }
     }
 }
@@ -6537,6 +6588,14 @@ class PFQoLBase {
 class PFQoL extends PFQoLBase {
     constructor($) {
         super($);
+        // set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+        // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
+        // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
+        // - their types
+        // - if they hatch from an egg,
+        // - if you have the eggdex, and
+        // - if you have the regular, shiny, albino, and melanistic pokedex entries
+        this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS);
     }
 }
 

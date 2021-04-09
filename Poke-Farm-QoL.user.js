@@ -44,8 +44,6 @@ class ResourcesBase {
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 500px;
-            background-color: #555;
-            color: #fff;
             text-align: center;
             padding: 5px 0;
             border-radius: 6px;
@@ -68,7 +66,6 @@ class ResourcesBase {
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: #555 transparent transparent transparent;
         }
         
         .tooltip:hover .tooltiptext {
@@ -128,7 +125,6 @@ class ResourcesBase {
         #fieldorder {
             margin: 16px auto;
             padding: 4px;
-            border: 1px solid #9ec690;
             border-radius: 4px;
             max-width: 600px;
             position: relative;
@@ -137,7 +133,6 @@ class ResourcesBase {
         #fieldsearch {
             margin: 16px auto;
             padding: 4px;
-            border: 1px solid #9ec690;
             border-radius: 4px;
             max-width: 600px;
             position: relative;
@@ -264,7 +259,6 @@ class ResourcesBase {
         } 
         
         .qolHubHead {
-            border-bottom: 1px solid #9ec690;
             text-align: center;
             padding: 4px;
             margin: 0;
@@ -274,7 +268,6 @@ class ResourcesBase {
         .qolAllSettings {
             width: 315px;
             height: 100%;
-            border: 1px solid #9ec690;
             border-top: none;
             vertical-align: top;
         }
@@ -282,7 +275,6 @@ class ResourcesBase {
         .qolChangeLog {
             width: 315px;
             height: 100%;
-            border: 1px solid #9ec690;
             border-top: none;
         }
         
@@ -298,7 +290,6 @@ class ResourcesBase {
         }
         
         .qolChangeLogList {
-            color: #004000;
             text-align: left;
             padding: 4px;
             margin: 0;
@@ -321,7 +312,6 @@ class ResourcesBase {
         }
         
         .qolChangeLogHead {
-            border: 1px solid #9ec690;
             margin: 0px;
         }
         
@@ -332,7 +322,7 @@ class ResourcesBase {
             cursor: pointer;
         }
         
-            /* qol party clicking mod */
+        /* qol party clicking mod */
         /* settings menu */
         #qolpartymod {
             text-align: center;
@@ -412,7 +402,7 @@ class ResourcesBase {
             text-align: center!important;
         }
         
-            /* lab */
+        /* lab */
         /* lab notification wrap */
         #labsuccess {
             text-align: center;
@@ -436,11 +426,6 @@ class ResourcesBase {
           max-width: 600px;
           position: relative;
           border-radius: 6px;
-        }
-        
-        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-        .active, .collapsible:hover {
-          background-color: #ccc;
         }
         
         /* Style the collapsible content. Note: hidden by default */
@@ -1246,6 +1231,13 @@ class ResourcesBase {
                         </td>
                       </tr>
                       <tr>
+                        <td colspan="2" class="qolDexUpdate">
+                          <h3 class="qolHubHead">Pokedex Settings</h3>
+                        </td>
+                      </tr>
+                      <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
+                      </tr>
+                      <tr>
                         <td colspan="2" class="qolAllSettings">
                           <h3 class="qolHubHead">Css Settings</h3>
                         </td>
@@ -1265,7 +1257,7 @@ class ResourcesBase {
                           <h3 class="qolHubHead">Debugging Corner</h3>
                         </td>
                       </tr>
-                      <tr>
+                      <tr id="qolDebuggingCornerRow">
                         <td colspan="2" class="qolAllSettings">
                           <span>Use these controls to reset the settings for a particular page back to its defaults</span><br>
                           <span><b>Page Select</b></span>
@@ -1569,246 +1561,6 @@ class Resources extends ResourcesBase {
         <input type='button' value='Add searchfield' id='addShelterTextfield'>
         <div id="searchkeys">
           <div class='0'></div>
-        </div>
-      </div>`;
-    }
-
-    qolHubHTML() {
-        return `<div class="dialog">
-        <div>
-          <div>
-            <div>
-              <h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3>
-              <div>
-                <p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p>
-                <div>
-                  <table class="qolHubTable">
-                    <tbody>
-                      <tr>
-                        <td>
-                          <h3 class="qolHubHead">Settings</h3>
-                        </td>
-                        <td>
-                          <h3 class="qolHubHead">Change log</h3>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="qolAllSettings">
-                          <ul>
-                            <li>
-                              <label>
-                                <input type='checkbox' class='qolsetting' data-key='enableDaycare'/>
-                                <span>
-                                  Highlight Breeding Matches
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="shelterEnable"/>
-                                <span>
-                                  Advanced Shelter Search
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="fishingEnable"/>
-                                <span>
-                                  Release/Fishing select all
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="publicFieldEnable"/>
-                                <span>
-                                  Sort & Search Fields (Public View)
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="privateFieldEnable"/>
-                                <span>
-                                  Search Fields (Private View)
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="partyMod"/>
-                                <span>
-                                  Party click mod
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="easyEvolve"/>
-                                <span>
-                                  Easy evolving
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="labNotifier"/>
-                                <span>
-                                  Lab Notifier
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="dexFilterEnable"/>
-                                <span>
-                                  Multiple Types Filtering
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="condenseWishforge"/>
-                                <span>
-                                  Smaller Crafted Badges List
-                                </span>
-                              </label>
-                            </li>
-                          </ul>
-                        </td>
-                        <td class="qolChangeLog">
-                          <ul class="qolChangeLogList">
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.3.6 - **/02/2020</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Code reorganization to make it easier to add new features</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.3.5 - 11/02/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Custom Css: The script broke a lot of the custom css/skin you can create in your profile. If the script broke your custom css you can add that custom css in the QoL Hub and it works!</li><br>
-                                <li>Shelter/lab search: Pokemon/Eggs that are found are now also highlighted.</li><br>
-                                <li>Release/move mass Pokemon: Added a "select on berry" function!</li><br>
-                                <li>Moved select all & select berry checkboxes to the bottom at the move all/release all Pokemon dialogs</li><br>
-                                <li>Evolvelist fix: Alolan Forme Pokemon should now be placed in the right category!</li><br>
-                                <li>Evolvelist additions: Can now sort pokemons that can evolve on names.</li><br>
-                                <li>Evolvelist additions: Can now sort on Pokemon you don't have in your Pokedex. This included Shinies, albinos & melanistic pokemon. Also shows possible Alolan & mega/totem evolves, if you didn't complete a Pokemon 100%.</li><br>
-                                <li>Evolvelist addition: There is a counter showing how many Pokemons per category that can evolve, except for missing dex entries search.</li><br>
-                                <li>Evolvelist addition: When a pokemon evolves using the Quick evo button the Pokemon gets deleted from the list.</li><br>
-                                <li>Fixed a display bug when releasing a Pokemon in your party</li><br>
-                                <li>Fixed a bug with the party clicker modification sometimes breaking (probably fixed)</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.3.0 - 26/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Advanced Shelter Search: Added feature to search Pokemon and/or eggs on their types!</li><br>
-                                <li>Advanced Shelter Search: Custom search isn't case sensitive anymore, capital letters or not doesn't matter anymore!</li><br>
-                                <li>Lab Notifier: New feature! You can now 'search' the lab eggs so you're sure not to miss an egg that you really want to have (for example a ditto egg in the lab) or you can search the lab on Pokemon types, for typeraces for example.</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.2.0 - 18/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Oh yeah baby, I have an awesome function for you! Now in the farm evolve list all the Pokemons that can evolve will be categorized on types!! No more endless searching which Pokemon has which type. Standard setting is based on my Pokedex data. Open the Pokedex one time to update your own data. Happy wishforge hunting :)</li><br>
-                                <li>NOTE: Known issues with the new feature: Quick evolve doesn't function & clicking on a pokemon closes the selected type list. To evolve your Pokemons: 'Right-click' > 'open on new tab' and then evolve. I'm looking for a fix.</li><br>
-                                <li>Shelter search: now when you adopted a new egg you won't get notified in the shelter when you find this egg. Before it would still notify you found a new egg because it wasn't hatched yet. When you find multiple new eggs you still have to watch out that you don't adopt the 'new' egg that you just adopted and haven't hatched yet. This was a pain in the ass to test with adoption limits etc. Please let me know if you have any issues.</li><br>
-                                <li>New: added party click modifications menu to change the css on the mass party click list. For now there are 3 options: 'only hide disliked berries', 'show party in a table & hide disliked berries' & 'hide everything mass click super fast'.</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.1.5 - 12/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Shelter Search has been upgraded, you can now search multiple custom pokemons at once! Beware, having to many pokemons to search for can be a bit laggy. I rewrote the code, in my tests everything worked but if you encounter a bug let me know.</li><br>
-                                <li>Added a 'sort to grid' option in the shelter.</li><br>
-                                <li>QoL menus: All the added menus are now respecting your site skin colors!</li><br>
-                                <li>Fixed a few bugs in the fields section. Private view works now after selecting an option, Pokemon click counter now updates on keypresses & berry like/dislike colors are now fixed. Hopefully fixed the 'align to grid' option.</li><br>
-                                <li>Fixed auto update, didn't process the script versions right.</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.1.0 - 11/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Added various field sorter features on the fields page. For now you can sort Pokemons on berries, in the middle or in a grid.</li><br>
-                                <li>Added Pokemon click counter on fields. Especially handy for fields that only have 1 type of Pokemon in a field.</li><br>
-                                <li>Userscript has it's own settings page now and removed itself from the farm tab. Altogether with a change log. Yeeey</li><br>
-                                <li>Moved the shelter search menu for better access and view.</li><br>
-                                <li>Changed some code around to make it easier to implement new features. Like how the user settings are safed and stuff.</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.0.0 - 08/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>complete script rewrite, now using jQuery.</li></br>
-                                <li>Advanced Shelter Search rewritten. Can now search on Pokemon with Custom Sprites and on Pokemon name instead of only with image code.</li></br>
-                                <li>Select All checkbox added on field mass release & fishing.</li></br>
-                                <li>Userscript prompts the user when there is an update available for the script.</li></br>
-                              </ul>
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" class="qolDexUpdate">
-                          <h3 class="qolHubHead">Pokedex Settings</h3>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" class="qolDexUpdate">
-                          <input type='button' value="Update Pokedex" id="updateDex">
-                          <span>Date last updated:<span class="qolDate">""</span></span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" class="qolDexUpdate">
-                          <progress class="qolDexUpdateProgress" value="100" max="100"> 100% </progress>
-                          <span class="qolDexUpdateProgress">Complete!</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" class="qolAllSettings">
-                          <h3 class="qolHubHead">Css Settings</h3>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">
-                          <span>Add your custom css! not all custom css works if you add a site-skin to Pokefarm because the script overrides those css changes, add your custom skin here instead! If you have an error in your css you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom css is being loaded after the page loads, so it's possible that there will be a short delay before your css changes apply. To change the css of the script refer to it's stylesheet and change what you want to change here in the textarea.<br><a href="https://github.com/KaizokuBento/PokeFarmQoL/blob/master/resources/css/pfqol.css" target="_blank">Qol Userscript StyleSheet</a></span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" class="qolAllSettings">
-                          <div class='textareahub'></div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" class="qolAllSettings">
-                          <h3 class="qolHubHead">Debugging Corner</h3>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" class="qolAllSettings">
-                          <span>Use these controls to reset the settings for a particular page back to its defaults</span><br>
-                          <span><b>Page Select</b></span>
-                          <!-- Option values correspond to keys in the PAGES object in the main script -->
-                          <select name='Page Select' class="qolHubResetSettingsSelect" data-key="resetPageSettings">
-                            <option value="None">None</option>
-                            <option value="Daycare">Daycare</option>
-                            <option value="Farm">Farm</option>
-                            <option value="Fishing">Fishing</option>
-                            <option value="Lab">Lab</option>
-                            <option value="Multiuser">Multiuser</option>
-                            <option value="PrivateFields">Private Fields</option>
-                            <option value="PublicFields">Public Fields</option>
-                            <option value="Shelter">Shelter</option>
-                          </select>
-                          <input type='button' value="Reset Page Settings" id="resetPageSettings">
-                          <br><br>
-                          <span>Having issues with the "Update Pokedex" button or the Ready-to-Evolve feature in the Shelter? Use this button to erase the cached pokedex info, then use the <b>Update Pokedex</b> button to reload the pokedex.</span>
-                          <input type='button' value="Clear Cached Dex" id="clearCachedDex">
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <p class='closeHub'>Close</p>
-            </div>
-          </div>
         </div>
       </div>`;
     }
@@ -2321,7 +2073,11 @@ class GlobalsBase {
     NATURE_OPTIONS = null;
     EGG_GROUP_OPTIONS = null;
 
+    // filled in by LocalStorageManager
+    DEX_UPDATE_DATE = null;
+
     // a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+    // this is updated every time the user visits the dex page
     DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
     '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
     '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
@@ -3493,8 +3249,6 @@ class GlobalsBase {
 
 class Globals extends GlobalsBase {
     // filled in by LocalStorageManager
-    DEX_DATA = null;
-    DEX_UPDATE_DATE = null;
     EVOLVE_BY_LEVEL_LIST = null;
     EVOLUTIONS_LEFT = null;
     constructor(localStorageMgr) {
@@ -4010,12 +3764,6 @@ class LocalStorageManagerBase {
     removeItem(key) {
         this.storage.removeItem(this.translateKey(key));
     }
-}
-
-class LocalStorageManager extends LocalStorageManagerBase {
-    constructor(keyPrefix, storage) {
-        super(keyPrefix, storage);
-    }
 
     /* Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
      * Inputs:
@@ -4044,6 +3792,25 @@ class LocalStorageManager extends LocalStorageManagerBase {
         globals.DEX_DATA = dex;
         return true;
     }
+
+    updateLocalStorageDex($, document, updateDate, globals) {
+        let dateString = '';
+        if(updateDate === undefined) {
+            dateString = (new Date()).toUTCString();
+        } else {
+            dateString = updateDate;
+        }
+        const datePlusDex = [dateString].concat(globals.DEX_DATA);
+        this.storage.setItem(this.translateKey(globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
+        $('.qolDate', document).val(dateString);
+    }
+}
+
+class LocalStorageManager extends LocalStorageManagerBase {
+    constructor(keyPrefix, storage) {
+        super(keyPrefix, storage);
+    }
+
     /* Set globals.DEX_DATA and globals.DEX_UPDATE_DATE by loading the main dex page from the web
      * Inputs:
      * - $ - reference to jQuery
@@ -4083,17 +3850,6 @@ class LocalStorageManager extends LocalStorageManagerBase {
             return this.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals);
         }
         return Promise.resolve(false);
-    }
-    updateLocalStorageDex($, document, updateDate, globals) {
-        let dateString = '';
-        if(updateDate === undefined) {
-            dateString = (new Date()).toUTCString();
-        } else {
-            dateString = updateDate;
-        }
-        const datePlusDex = [dateString].concat(globals.DEX_DATA);
-        this.storage.setItem(this.translateKey(globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
-        $('.qolDate', document).val(dateString);
     }
 
     saveEvolveByLevelList(globals, parsedFamilies, dexIDs) {
@@ -4759,16 +4515,20 @@ class QoLHubBase {
     build(document) {
         this.jQuery('body', document).append(this.GLOBALS.TEMPLATES.qolHubHTML);
         this.jQuery('#core', document).addClass('scrolllock');
-        const qolHubCssBackgroundHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.backgroundColor;
-        const qolHubCssTextColorHead = document.querySelector('.qolHubHead.qolHubSuperHead').style.color;
-        const qolHubCssBackground = document.querySelector('.qolHubTable').style.backgroundColor;
-        const qolHubCssTextColor = document.querySelector('.qolHubTable').style.color;
-        document.querySelector('.qolHubHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
-        document.querySelector('.qolHubHead').style.color = '' + qolHubCssTextColorHead + '';
-        document.querySelector('.qolChangeLogHead').style.backgroundColor = '' + qolHubCssBackgroundHead + '';
-        document.querySelector('.qolChangeLogHead').style.color = '' + qolHubCssTextColorHead + '';
-        document.querySelector('.qolopencloselist.qolChangeLogContent').style.backgroundColor = '' + qolHubCssBackground + '';
-        document.querySelector('.qolopencloselist.qolChangeLogContent').style.color = '' + qolHubCssTextColor + '';
+        const qolHubCssBackgroundHead = this.jQuery('.qolHubHead.qolHubSuperHead').css('background-color');
+        const qolHubCssTextColorHead = this.jQuery('.qolHubHead.qolHubSuperHead').css('color');
+        const qolHubCssBackground = this.jQuery('.qolHubTable').css('background-color');
+        const qolHubCssTextColor = this.jQuery('.qolHubTable').css('color');
+        const qolHubDialogBorder = this.jQuery('.dialog>div>div>div').css('border');
+        this.jQuery('.qolHubHead').css('background-color',  qolHubCssBackgroundHead);
+        this.jQuery('.qolHubHead').css('color', qolHubCssTextColorHead);
+        this.jQuery('.qolChangeLogHead').css('background-color', qolHubCssBackgroundHead);
+        this.jQuery('.qolChangeLogHead').css('color', qolHubCssTextColorHead);
+        this.jQuery('.qolChangeLogHead').css('border', qolHubDialogBorder);
+        this.jQuery('.qolopencloselist.qolChangeLogContent').css('background-color', qolHubCssBackground);
+        this.jQuery('.qolopencloselist.qolChangeLogContent').css('color',  qolHubCssTextColor);
+
+        this.jQuery('.qolAllSettings').css('border', qolHubDialogBorder);
 
         const customCss = this.USER_SETTINGS.customCss;
 
@@ -4817,6 +4577,25 @@ class QoLHub extends QoLHubBase {
     }
     build(document) {
         super.build(document);
+
+        const dexUpdateRowContents = `<table><tr><td colspan="2" class="qolDexUpdate">
+          <input type='button' value="Update Pokedex" id="updateDex">
+          <span>Date last updated:<span class="qolDate">""</span></span>
+        </td></tr>
+        <tr><td colspan="2" class="qolDexUpdate">
+          <progress class="qolDexUpdateProgress" value="100" max="100"> 100% </progress>
+          <span class="qolDexUpdateProgress">Complete!</span>
+        </td></tr></table>`;
+        this.jQuery('#qolDexUpdateRow').append(dexUpdateRowContents);
+
+        const debuggingCornerRowAppend = `<input type='button' value="Reset Page Settings" id="resetPageSettings"><br><br>
+            <span>
+                Having issues with the "Update Pokedex" button or the Ready-to-Evolve feature in the Shelter?
+                Use this button to erase the cached pokedex info, then use the <b>Update Pokedex</b> button to reload the pokedex.
+            </span>
+            <input type='button' value="Clear Cached Dex" id="clearCachedDex">`;
+        this.jQuery('#qolDebuggingCornerRow').append(debuggingCornerRowAppend);
+
         this.jQuery('.qolDate', document).text(this.GLOBALS.DEX_UPDATE_DATE);
     }
     handleUpdateDexClick(document) {
@@ -5731,16 +5510,15 @@ class PrivateFieldsPageBase extends Page {
         this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
         this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
-        this.jQuery('#tooltipenable').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('#tooltipenable').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#tooltipenable').css('max-width', '600px');
         this.jQuery('#tooltipenable').css('position', 'relative');
         this.jQuery('#tooltipenable').css('margin', '16px auto');
-        this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
         this.jQuery('.collapsible').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
+
+        this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
+        this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
         // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
         // settings as most of the text on the site, manually set the text color for
@@ -6320,18 +6098,19 @@ class PublicFieldsPage extends PublicFieldsBase {
     setupCSS() {
         const fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
         const fieldOrderCssBorder = this.jQuery('#field_field').css('border');
-        this.jQuery('#fieldorder').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('#fieldorder').css('border', ''+fieldOrderCssBorder+'');
-        this.jQuery('#tooltipenable').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('#tooltipenable').css('border', ''+fieldOrderCssBorder+'');
+        this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
+        this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
+        this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
+        this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#tooltipenable').css('max-width', '600px');
         this.jQuery('#tooltipenable').css('position', 'relative');
         this.jQuery('#tooltipenable').css('margin', '16px auto');
-        this.jQuery('#fieldsearch').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('#fieldsearch').css('border', ''+fieldOrderCssBorder+'');
-        this.jQuery('.collapsible').css('background-color', ''+fieldOrderCssColor+'');
-        this.jQuery('.collapsible').css('border', ''+fieldOrderCssBorder+'');
-        this.jQuery('.collapsible_content').css('background-color', ''+fieldOrderCssColor+'');
+        this.jQuery('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
+        this.jQuery('.collapsible').css('border', '' + fieldOrderCssBorder + '');
+        this.jQuery('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
+
+        this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
+        this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
         // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
         // settings as most of the text on the site, manually set the text color for
@@ -8928,7 +8707,7 @@ class PFQoLBase {
 class PFQoL extends PFQoLBase {
     constructor($) {
         super($);
-        // manage GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+        // set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
         // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
         // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
         // - their types
