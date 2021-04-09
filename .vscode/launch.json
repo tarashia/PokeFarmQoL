@@ -10,6 +10,7 @@
         "--verbose",
         "-i",
         "--no-cache",
+        "--collectCoverageFrom=\"__tests__/Poke-Farm-QoL.user.js\"",
         "${workspaceFolder}/__tests__/user/compiled.+.js"
       ],
       "console": "integratedTerminal",
@@ -29,6 +30,7 @@
         "--verbose",
         "-i",
         "--no-cache",
+        "--collectCoverageFrom=\"__tests__/Poke-Farm-QoL.sanctioned.user.js\"",
         "${workspaceFolder}/__tests__/sanctioned/compiled.+.js"
       ],
       "console": "integratedTerminal",
@@ -47,7 +49,9 @@
       "args": [
         "--verbose",
         "-i",
-        "--no-cache"
+        "--no-cache",
+        "--collectCoverageFrom=\"__tests__/Poke-Farm-QoL.sanctioned.user.js\"",
+        "--collectCoverageFrom=\"__tests__/Poke-Farm-QoL.user.js\"",
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
@@ -66,6 +70,8 @@
         "--verbose",
         "-i",
         "--no-cache",
+        "--collectCoverageFrom=\"__tests__/Poke-Farm-QoL.sanctioned.user.js\"",
+        "--collectCoverageFrom=\"__tests__/Poke-Farm-QoL.user.js\"",
         "${file}"
       ],
       "console": "integratedTerminal",

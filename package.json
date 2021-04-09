@@ -41,10 +41,9 @@
     },
     "jest": {
         "collectCoverage": true,
-        "testPathIgnorePatterns": [
-            "/node_modules/",
-            "<rootDir>/__tests__/testTools.js",
-            "<rootDir>/__tests__/compiled.js"
+        "collectCoverageFrom": [
+            "__tests__/Poke-Farm-QoL.sanctioned.user.js",
+            "__tests__/Poke-Farm-QoL.user.js"
         ]
     },
     "dependencies": {
