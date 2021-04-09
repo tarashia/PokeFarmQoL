@@ -5,33 +5,6 @@ class LocalStorageManager extends LocalStorageManagerBase {
         super(keyPrefix, storage);
     }
 
-    /* Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
-     * Inputs:
-     * - globals - reference to the GLOBALS settings object
-     */
-    loadDexIntoGlobalsFromStorage(globals) {
-        const key = this.translateKey(globals.POKEDEX_DATA_KEY);
-        if(this.storage.getItem(key) === null) {
-            return false;
-        }
-        if(Object.keys(JSON.parse(this.storage.getItem(key))).length === 0) {
-            return false;
-        }
-
-        const dateAndDex = JSON.parse(this.storage.getItem(key));
-        // if QoLPokedex only contains date
-        if((dateAndDex.length === 1) ||
-           // or if the dex part of the array is empty
-           (dateAndDex[1] === undefined) ||
-            (dateAndDex[1] === null)) {
-            return false;
-        }
-
-        globals.DEX_UPDATE_DATE = dateAndDex[0];
-        const dex = dateAndDex.slice(1);
-        globals.DEX_DATA = dex;
-        return true;
-    }
     /* Set globals.DEX_DATA and globals.DEX_UPDATE_DATE by loading the main dex page from the web
      * Inputs:
      * - $ - reference to jQuery
@@ -71,17 +44,6 @@ class LocalStorageManager extends LocalStorageManagerBase {
             return this.loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals);
         }
         return Promise.resolve(false);
-    }
-    updateLocalStorageDex($, document, updateDate, globals) {
-        let dateString = '';
-        if(updateDate === undefined) {
-            dateString = (new Date()).toUTCString();
-        } else {
-            dateString = updateDate;
-        }
-        const datePlusDex = [dateString].concat(globals.DEX_DATA);
-        this.storage.setItem(this.translateKey(globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
-        $('.qolDate', document).val(dateString);
     }
 
     saveEvolveByLevelList(globals, parsedFamilies, dexIDs) {

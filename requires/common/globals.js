@@ -140,7 +140,11 @@ class GlobalsBase {
     NATURE_OPTIONS = null;
     EGG_GROUP_OPTIONS = null;
 
+    // filled in by LocalStorageManager
+    DEX_UPDATE_DATE = null;
+
     // a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+    // this is updated every time the user visits the dex page
     DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
     '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
     '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
