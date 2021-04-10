@@ -5,8 +5,8 @@ coverage
 node_modules
 
 # compiled JS for testing
-__tests__/Poke-Farm-QoL.user.js
-__tests__/Poke-Farm-QoL.sanctioned.user.js
+Poke-Farm-QoL.test.user.js
+Poke-Farm-QoL.sanctioned.test.user.js
 
 # notes
 notes.txt

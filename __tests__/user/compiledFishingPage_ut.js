@@ -6,7 +6,7 @@ const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
 const path = require('path');
 const appRoot = require('app-root-path');
-const pfqol = require(appRoot + '/__tests__/Poke-Farm-QoL.user');
+const pfqol = require(appRoot + '/Poke-Farm-QoL.test.user');
 const oldWindowLocation = window.location;
 
 beforeAll(() => {
