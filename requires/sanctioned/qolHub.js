@@ -10,13 +10,18 @@ class QoLHub extends QoLHubBase {
     build(document) {
         super.build(document);
 
-        const dexUpdateRowContents = `<span>Notice that you can't find the newly added Eggs or Pokemon in shelter?
+        const dexUpdateRowContents = `<td colspan="2" class="qolAllSettings">
+          <span>Notice that you can't find the newly added Eggs or Pokemon in shelter?
           You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with
-          the newest pokemon.</span>
-          <span>Date last updated:<span class="qolDate">""</span></span>`;
+          the newest pokemon.</span><br>
+          <span>Date last updated:<span class="qolDate">""</span></span>
+          </td>`;
         this.jQuery('#qolDexUpdateRow').append(dexUpdateRowContents);
 
-        this.jQuery('.qolDate', document).text(this.GLOBALS.DEX_UPDATE_DATE);
+        const dexUpdateDate = (this.GLOBALS.DEX_UPDATE_DATE === null) ?
+            'Not updated since installation' :
+            this.GLOBALS.DEX_UPDATE_DATE;
+        this.jQuery('.qolDate', document).text(dexUpdateDate);
 
     }
 } // QoLHub
