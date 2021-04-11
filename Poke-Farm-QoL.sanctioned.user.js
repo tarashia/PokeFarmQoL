@@ -2818,8 +2818,9 @@ class GlobalsBase {
 /* globals GlobalsBase */
 // eslint-disable-next-line no-unused-vars
 class Globals extends GlobalsBase {
-    constructor(localStorageMgr) {
+    constructor(jQuery, localStorageMgr) {
         super();
+        this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
 
         // load the dex from local storage if it exists
@@ -2827,8 +2828,8 @@ class Globals extends GlobalsBase {
             const obj = this;
             // fetch the initial dex data from the /dex page
             fetch('/dex')
-                .then(r => {
-                    const html = r.text();
+                .then(r => r.text())
+                .then(html => {
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
                     const script = doc.getElementById('dexdata');
@@ -6475,7 +6476,7 @@ class PFQoLBase {
         this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage);
         this.LOCAL_STORAGE_MANAGER.migrateSettings();
 
-        this.GLOBALS = new Globals(this.LOCAL_STORAGE_MANAGER);
+        this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER);
         this.HELPERS = new Helpers();
         this.RESOURCES = new Resources();
         this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS);
