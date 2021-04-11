@@ -114,6 +114,7 @@ describe('Test that PFQoL compiles', () => {
             findReadyToEvolve: false,
             findMale: true,
             findFemale: true,
+            findLegendary: false,
             findNoGender: true,
             findNFE: false,
             customEgg: true,
