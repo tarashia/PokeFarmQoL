@@ -1219,6 +1219,7 @@ class ResourcesBase {
                             <option value="PublicFields">Public Fields</option>
                             <option value="Shelter">Shelter</option>
                           </select>
+                          <input type='button' value="Reset Page Settings" id="resetPageSettings">
                         </td>
                       </tr>
                     </tbody>
@@ -3358,23 +3359,25 @@ class QoLHub extends QoLHubBase {
     build(document) {
         super.build(document);
 
-        const dexUpdateRowContents = `<table><tr><td colspan="2" class="qolDexUpdate">
-          <input type='button' value="Update Pokedex" id="updateDex">
-          <span>Date last updated:<span class="qolDate">""</span></span>
-        </td></tr>
-        <tr><td colspan="2" class="qolDexUpdate">
-          <progress class="qolDexUpdateProgress" value="100" max="100"> 100% </progress>
-          <span class="qolDexUpdateProgress">Complete!</span>
-        </td></tr></table>`;
+        const dexUpdateRowContents = `<td colspan="2" class="qolDexUpdate">
+            <table><tr><td>
+            <input type='button' value="Update Pokedex" id="updateDex">
+            <span>Date last updated:<span class="qolDate">""</span></span>
+          </td></tr>
+          <tr><td colspan="2" class="qolDexUpdate">
+            <progress class="qolDexUpdateProgress" value="100" max="100"> 100% </progress>
+            <span class="qolDexUpdateProgress">Complete!</span>
+          </td></tr></table>
+          </td>`;
         this.jQuery('#qolDexUpdateRow').append(dexUpdateRowContents);
 
-        const debuggingCornerRowAppend = `<input type='button' value="Reset Page Settings" id="resetPageSettings"><br><br>
+        const debuggingCornerRowAppend = `<br><br>
             <span>
                 Having issues with the "Update Pokedex" button or the Ready-to-Evolve feature in the Shelter?
                 Use this button to erase the cached pokedex info, then use the <b>Update Pokedex</b> button to reload the pokedex.
             </span>
             <input type='button' value="Clear Cached Dex" id="clearCachedDex">`;
-        this.jQuery('#qolDebuggingCornerRow').append(debuggingCornerRowAppend);
+        this.jQuery('#qolDebuggingCornerRow>td').append(debuggingCornerRowAppend);
 
         this.jQuery('.qolDate', document).text(this.GLOBALS.DEX_UPDATE_DATE);
     }
