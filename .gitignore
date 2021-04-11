@@ -7,3 +7,4 @@ node_modules
 # compiled JS for testing
 __tests__/Poke-Farm-QoL.sanctioned.user.js
 __tests__/Poke-Farm-QoL.user.js
+__tests__/compiled.js
