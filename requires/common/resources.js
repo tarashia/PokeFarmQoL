@@ -1200,6 +1200,7 @@ class ResourcesBase {
                             <option value="PublicFields">Public Fields</option>
                             <option value="Shelter">Shelter</option>
                           </select>
+                          <input type='button' value="Reset Page Settings" id="resetPageSettings">
                         </td>
                       </tr>
                     </tbody>
