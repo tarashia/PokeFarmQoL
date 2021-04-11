@@ -19,6 +19,7 @@ class Globals extends GlobalsBase {
                     const json = JSON.parse(script.textContent);
                     obj.DEX_DATA = json;
                     obj.localStorageMgr.updateLocalStorageDex(obj.jQuery, document, undefined, obj);
+                    obj.localStorageMgr.loadDexIntoGlobalsFromStorage(obj);
                 });
         }
     }
