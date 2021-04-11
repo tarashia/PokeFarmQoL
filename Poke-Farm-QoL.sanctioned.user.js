@@ -1168,66 +1168,12 @@ class ResourcesBase {
                         </td>
                         <td class="qolChangeLog">
                           <ul class="qolChangeLogList">
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.3.6 - **/02/2020</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Code reorganization to make it easier to add new features</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.3.5 - 11/02/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Custom Css: The script broke a lot of the custom css/skin you can create in your profile. If the script broke your custom css you can add that custom css in the QoL Hub and it works!</li><br>
-                                <li>Shelter/lab search: Pokemon/Eggs that are found are now also highlighted.</li><br>
-                                <li>Release/move mass Pokemon: Added a "select on berry" function!</li><br>
-                                <li>Moved select all & select berry checkboxes to the bottom at the move all/release all Pokemon dialogs</li><br>
-                                <li>Evolvelist fix: Alolan Forme Pokemon should now be placed in the right category!</li><br>
-                                <li>Evolvelist additions: Can now sort pokemons that can evolve on names.</li><br>
-                                <li>Evolvelist additions: Can now sort on Pokemon you don't have in your Pokedex. This included Shinies, albinos & melanistic pokemon. Also shows possible Alolan & mega/totem evolves, if you didn't complete a Pokemon 100%.</li><br>
-                                <li>Evolvelist addition: There is a counter showing how many Pokemons per category that can evolve, except for missing dex entries search.</li><br>
-                                <li>Evolvelist addition: When a pokemon evolves using the Quick evo button the Pokemon gets deleted from the list.</li><br>
-                                <li>Fixed a display bug when releasing a Pokemon in your party</li><br>
-                                <li>Fixed a bug with the party clicker modification sometimes breaking (probably fixed)</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.3.0 - 26/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Advanced Shelter Search: Added feature to search Pokemon and/or eggs on their types!</li><br>
-                                <li>Advanced Shelter Search: Custom search isn't case sensitive anymore, capital letters or not doesn't matter anymore!</li><br>
-                                <li>Lab Notifier: New feature! You can now 'search' the lab eggs so you're sure not to miss an egg that you really want to have (for example a ditto egg in the lab) or you can search the lab on Pokemon types, for typeraces for example.</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.2.0 - 18/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Oh yeah baby, I have an awesome function for you! Now in the farm evolve list all the Pokemons that can evolve will be categorized on types!! No more endless searching which Pokemon has which type. Standard setting is based on my Pokedex data. Open the Pokedex one time to update your own data. Happy wishforge hunting :)</li><br>
-                                <li>NOTE: Known issues with the new feature: Quick evolve doesn't function & clicking on a pokemon closes the selected type list. To evolve your Pokemons: 'Right-click' > 'open on new tab' and then evolve. I'm looking for a fix.</li><br>
-                                <li>Shelter search: now when you adopted a new egg you won't get notified in the shelter when you find this egg. Before it would still notify you found a new egg because it wasn't hatched yet. When you find multiple new eggs you still have to watch out that you don't adopt the 'new' egg that you just adopted and haven't hatched yet. This was a pain in the ass to test with adoption limits etc. Please let me know if you have any issues.</li><br>
-                                <li>New: added party click modifications menu to change the css on the mass party click list. For now there are 3 options: 'only hide disliked berries', 'show party in a table & hide disliked berries' & 'hide everything mass click super fast'.</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.1.5 - 12/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Shelter Search has been upgraded, you can now search multiple custom pokemons at once! Beware, having to many pokemons to search for can be a bit laggy. I rewrote the code, in my tests everything worked but if you encounter a bug let me know.</li><br>
-                                <li>Added a 'sort to grid' option in the shelter.</li><br>
-                                <li>QoL menus: All the added menus are now respecting your site skin colors!</li><br>
-                                <li>Fixed a few bugs in the fields section. Private view works now after selecting an option, Pokemon click counter now updates on keypresses & berry like/dislike colors are now fixed. Hopefully fixed the 'align to grid' option.</li><br>
-                                <li>Fixed auto update, didn't process the script versions right.</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.1.0 - 11/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>Added various field sorter features on the fields page. For now you can sort Pokemons on berries, in the middle or in a grid.</li><br>
-                                <li>Added Pokemon click counter on fields. Especially handy for fields that only have 1 type of Pokemon in a field.</li><br>
-                                <li>Userscript has it's own settings page now and removed itself from the farm tab. Altogether with a change log. Yeeey</li><br>
-                                <li>Moved the shelter search menu for better access and view.</li><br>
-                                <li>Changed some code around to make it easier to implement new features. Like how the user settings are safed and stuff.</li><br>
-                              </ul>
-                            </li>
-                            <li class="expandlist"><h3 class="slidermenu qolChangeLogHead">V 1.0.0 - 08/01/2019</h3>
-                              <ul class="qolopencloselist qolChangeLogContent">
-                                <li>complete script rewrite, now using jQuery.</li></br>
-                                <li>Advanced Shelter Search rewritten. Can now search on Pokemon with Custom Sprites and on Pokemon name instead of only with image code.</li></br>
-                                <li>Select All checkbox added on field mass release & fishing.</li></br>
-                                <li>Userscript prompts the user when there is an update available for the script.</li></br>
-                              </ul>
+                            <li class="expandlist">
+                              <span>
+                                Change log was removed as of April 2021. Visit
+                                <a href="https://github.com/jpgualdarrama/PokeFarmQoL">GitHub</a>
+                                for the latest list of features
+                              </span>
                             </li>
                           </ul>
                         </td>
@@ -1554,7 +1500,7 @@ class Helpers {
         return ret;
     } // parseFieldPokemonToolTip
 }
-/* globals Helpers */
+/* global Helpers */
 // eslint-disable-next-line no-unused-vars
 class GlobalsBase {
     // eslint-disable-next-line camelcase
@@ -2877,9 +2823,19 @@ class Globals extends GlobalsBase {
         this.localStorageMgr = localStorageMgr;
 
         // load the dex from local storage if it exists
-        const dex = this.localStorageMgr.getItem(this.POKEDEX_DATA_KEY);
-        if(dex !== null) {
-            this.DEX_DATA = JSON.parse(dex);
+        if (!this.localStorageMgr.loadDexIntoGlobalsFromStorage(this)) {
+            const obj = this;
+            // fetch the initial dex data from the /dex page
+            fetch('/dex')
+                .then(r => {
+                    const html = r.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const script = doc.getElementById('dexdata');
+                    const json = JSON.parse(script.textContent);
+                    obj.DEX_DATA = json;
+                    obj.localStorageMgr.updateLocalStorageDex(obj.jQuery, document, undefined, obj);
+                });
         }
     }
 }
@@ -3168,13 +3124,18 @@ class QoLHub extends QoLHubBase {
     build(document) {
         super.build(document);
 
-        const dexUpdateRowContents = `<span>Notice that you can't find the newly added Eggs or Pokemon in shelter?
+        const dexUpdateRowContents = `<td colspan="2" class="qolAllSettings">
+          <span>Notice that you can't find the newly added Eggs or Pokemon in shelter?
           You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with
-          the newest pokemon.</span>
-          <span>Date last updated:<span class="qolDate">""</span></span>`;
+          the newest pokemon.</span><br>
+          <span>Date last updated:<span class="qolDate">""</span></span>
+          </td>`;
         this.jQuery('#qolDexUpdateRow').append(dexUpdateRowContents);
 
-        this.jQuery('.qolDate', document).text(this.GLOBALS.DEX_UPDATE_DATE);
+        const dexUpdateDate = (this.GLOBALS.DEX_UPDATE_DATE === null) ?
+            'Not updated since installation' :
+            this.GLOBALS.DEX_UPDATE_DATE;
+        this.jQuery('.qolDate', document).text(dexUpdateDate);
 
     }
 } // QoLHub
