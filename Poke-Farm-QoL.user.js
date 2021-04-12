@@ -1910,15 +1910,15 @@ class GlobalsBase {
         '<label id="movefishselectbitter"><input class="qolsetting" id="movefishselectbittercheckbox" type="checkbox">Select Bitter  </label>',
         partyModHTML          : '<div id=\'qolpartymod\'><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike"/>Hide disliked berries</label><label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable"/>Show in table</label><label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll"/>Hide all click fast</label></div>',
         // filled in by fillTemplates
-        shelterOptionsHTML   : null,
-        fieldSortHTML         : null,
-        fieldSearchHTML       : null,
+        shelterOptionsHTML: null,
+        fieldSortHTML: null,
+        fieldSearchHTML: null,
         privateFieldSearchHTML: null,
-        qolHubHTML            : null,
-        evolveFastHTML        : null,
-        labOptionsHTML        : null,
-        publicFieldTooltipModHTML   : null,
-        privateFieldTooltipModHTML  : null
+        qolHubHTML: null,
+        evolveFastHTML: null,
+        labOptionsHTML: null,
+        publicFieldTooltipModHTML: null,
+        privateFieldTooltipModHTML: null
     };
 
     SETTINGS_SAVE_KEY = 'QoLSettings';
@@ -2003,7 +2003,7 @@ class GlobalsBase {
         'findNewEgg', 'Egg', 'new egg', '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">',
         'findNewPokemon', 'Pokémon', 'new Pokémon', '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
         'findShiny', 'SHINY', 'Shiny', '<img src="//pfq-static.com/img/pkmn/shiny.png/t=1400179603">',
-        'findAlbino','ALBINO', 'Albino', '<img src="//pfq-static.com/img/pkmn/albino.png/t=1414662094">',
+        'findAlbino', 'ALBINO', 'Albino', '<img src="//pfq-static.com/img/pkmn/albino.png/t=1414662094">',
         'findMelanistic', 'MELANISTIC', 'Melanistic', '<img src="//pfq-static.com/img/pkmn/melanistic.png/t=1435353274">',
         'findPrehistoric', 'PREHISTORIC', 'Prehistoric', '<img src="//pfq-static.com/img/pkmn/prehistoric.png/t=1465558964">',
         'findDelta', 'DELTA', 'Delta', '<img src="//pfq-static.com/img/pkmn/_delta/dark.png/t=1501325214">',
@@ -2013,7 +2013,35 @@ class GlobalsBase {
         'findMale', '[M]', 'Male', '<img src="//pfq-static.com/img/pkmn/gender_m.png/t=1401213006">',
         'findFemale', '[F]', 'Female', '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
         'findNoGender', '[N]', 'Genderless', '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
+        'findLegendary', '', 'Legendary', '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
     ];
+    static SHELTER_SEARCH_LISTS = {
+        'findLegendary': [
+            // List of official legendaries more or less based on
+            // https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
+            // Kanto
+            'Articuno', 'Zapdos', 'Moltres', 'Mewtwo', 'Mew',
+            // Johto
+            'Raikou', 'Entei', 'Suicune', 'Lugia', 'Ho-oh', 'Celebi',
+            // Hoenn
+            'Regirock', 'Regice', 'Registeel', 'Latias', 'Latios', 'Kyogre', 'Groudon', 'Rayquaza', 'Deoxys', 'Jirachi',
+            // Sinnoh
+            'Uxie', 'Mesprit', 'Azelf', 'Dialga', 'Palkia', 'Heatran', 'Regigigas', 'Giratina', 'Cresselia',
+            'Phione', 'Manaphy', 'Darkrai', 'Shaymin', 'Arceus',
+            // Unova
+            'Cobalion', 'Terrakion', 'Virizion', 'Tornadus', 'Thundurus', 'Reshiram', 'Zekrom',
+            'Landorus', 'Kyurem', 'Keldeo', 'Meloetta', 'Genesect',
+            // Kalos
+            'Xerneas', 'Yveltal', 'Zygarde', 'Diancie', 'Hoopa', 'Volcanion',
+            // Alola
+            'Type: Null', 'Silvally', 'Tapu Koko', 'Tapu Lele', 'Tapu Bulu', 'Tapu Fini',
+            'Cosmog', 'Cosmoem', 'Solgaleo', 'Lunala', 'Necrozma',
+            // Galar
+            'Zacian', 'Zamazenta', 'Eternatus',
+            // PFQ
+            /* None */
+        ]
+    };
 
     // filled in by fillOptionsLists
     TYPE_OPTIONS = null;
@@ -2026,6 +2054,7 @@ class GlobalsBase {
     // filled in by subclasses
     DEX_DATA = null;
 }
+
 
 class Globals extends GlobalsBase {
     // filled in by LocalStorageManager
@@ -3570,6 +3599,8 @@ class ShelterPageBase extends Page {
             findMega: true,
             findStarter: true,
             findCustomSprite: true,
+            findLegendary: false,
+            findReadyToEvolve: false,
             findMale: true,
             findFemale: true,
             findNoGender: true,
@@ -3780,6 +3811,26 @@ class ShelterPageBase extends Page {
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
         }
     }
+
+    searchForTooltipText(GLOBALS, key) {
+        const LIST = GLOBALS.SHELTER_SEARCH_LISTS[key];
+        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+        const keyIndex = SEARCH_DATA.indexOf(key);
+        for (let i = 0; i < LIST.length; i++) {
+            const entry = LIST[i];
+            const selected = this.jQuery(`div.pokemon+div.tooltip_content:contains('${entry}')`);
+            if (selected.length) {
+                const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
+                const imgResult = selected.length + ' ' + searchResult; //amount + type found
+                const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
+                const shelterBigImg = selected.prev().children('img.big');
+                shelterBigImg.addClass('shelterfoundme');
+
+                this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
+            }
+        }
+    }
+
     customSearch(GLOBALS) {
         const obj = this;
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
@@ -3832,6 +3883,9 @@ class ShelterPageBase extends Page {
         }
         if (this.settings.findCustomSprite === true) {
             this.searchForImgTitle(GLOBALS, 'findCustomSprite');
+        }
+        if (this.settings.findLegendary === true) {
+            this.searchForTooltipText(GLOBALS, 'findLegendary');
         }
 
         if (this.settings.findNewPokemon === true) {
@@ -4025,6 +4079,7 @@ class ShelterPageBase extends Page {
         } // filteredTypeArray
     } // customSearch
 }
+
 
 class ShelterPage extends ShelterPageBase {
     constructor(jQuery, localStorageMgr, GLOBALS) {

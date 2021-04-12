@@ -28,7 +28,7 @@ beforeAll(() => {
     );
 });
 
-const verifyCheckbox = function(dataKey, localStorageKey, matchClass, matchCount) {
+const verifyCheckbox = function (dataKey, localStorageKey, matchClass, matchCount) {
     $(`[data-key=${dataKey}]`).trigger('click');
     expect($(`[data-key=${dataKey}]`).prop('checked')).toBe(true);
     expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe(true);
@@ -39,7 +39,7 @@ const verifyCheckbox = function(dataKey, localStorageKey, matchClass, matchCount
     expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe(false);
 };
 
-const verifyAddType = function(dataKey, localStorageKey, addButtonID, removeButtonID) {
+const verifyAddType = function (dataKey, localStorageKey, addButtonID, removeButtonID) {
     $(`#${addButtonID}`).trigger('click');
     // check that the correct changes were applied
     expect($(`[data-key=${dataKey}]`).length).toBe(2);
@@ -50,14 +50,14 @@ const verifyAddType = function(dataKey, localStorageKey, addButtonID, removeButt
     expect($(`[data-key=${dataKey}]`).eq(1).val()).toBe('none');
 };
 
-const verifySelectingType = function(dataKey, localStorageKey, matchClass, typeToAdd, numMatches) {
+const verifySelectingType = function (dataKey, localStorageKey, matchClass, typeToAdd, numMatches) {
     $(`[data-key=${dataKey}]`).eq(0).prop('selectedIndex', typeToAdd);
     $(`[data-key=${dataKey}]`).eq(0).trigger('input');
     expect($(`.${matchClass}`).length).toBe(numMatches);
-    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe(`${typeToAdd-1}`);
+    expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe(`${typeToAdd - 1}`);
 };
 
-const verifyRemoveType = function(dataKey, localStorageKey, removeButtonID, matchClass, expectedNumber) {
+const verifyRemoveType = function (dataKey, localStorageKey, removeButtonID, matchClass, expectedNumber) {
     $(`#${removeButtonID}`).eq(0).trigger('click');
     expect($(`[data-key=${dataKey}]`).length).toBe(expectedNumber);
     expect($(`[id=${removeButtonID}]`).length).toBe(expectedNumber);
@@ -65,7 +65,7 @@ const verifyRemoveType = function(dataKey, localStorageKey, removeButtonID, matc
     expect(JSON.parse(localStorage.getItem(localStorageKey))[dataKey]).toBe('');
 };
 
-const verifyAddTextField = function(dataKey, localStorageKey, addButtonID, removeButtonID) {
+const verifyAddTextField = function (dataKey, localStorageKey, addButtonID, removeButtonID) {
     $(`#${addButtonID}`).trigger('click');
     // check that the correct changes were applied
     expect($(`[data-key=${dataKey}]`).length).toBe(2);
@@ -76,7 +76,7 @@ const verifyAddTextField = function(dataKey, localStorageKey, addButtonID, remov
     expect($(`[data-key=${dataKey}]`).eq(1).val()).toBe('');
 };
 
-const verifyRemoveTextField = function(dataKey, localStorageKey, removeButtonID, expectedNumber, expectedValue) {
+const verifyRemoveTextField = function (dataKey, localStorageKey, removeButtonID, expectedNumber, expectedValue) {
     // test removing custom fields
     $(`#${removeButtonID}`).eq(0).trigger('click');
     // check that the correct changes were applied
@@ -182,14 +182,14 @@ describe('Test Shelter page', () => {
         ];
 
         // check that all checkboxes were setup correctly
-        for(let i = 0; i < checkboxDataKeys.length; i++) {
+        for (let i = 0; i < checkboxDataKeys.length; i++) {
             expect($(`[data-key=${checkboxDataKeys[i]}]`).length).toBe(1);
             expect($(`[data-key=${checkboxDataKeys[i]}]`).prop('checked')).toBe(false);
             expect(loadedSettings[checkboxDataKeys[i]]).toBe(false);
         }
 
         // check that list search fields were setup correctly
-        for(let i = 0; i < listSearchFields.length; i++) {
+        for (let i = 0; i < listSearchFields.length; i++) {
             expect($('input').filter(`#${listSearchFields[i].addButtonID}`).length).toBe(1);
             expect($(`[data-key=${listSearchFields[i].dataKey}][array-name=${listSearchFields[i].listName}]`).length).toBe(1);
             expect($('input').filter(`#${listSearchFields[i].removeButtonID}`).length).toBe(1);
@@ -269,6 +269,107 @@ describe('Test Shelter page', () => {
         // test removing a custom search field
         verifyRemoveTextField('findCustom', key, 'removeShelterTextfield', 1, '');
         ////////////////////////////////////////
+    });
+
+    test('Test Search for Legendaries on Shelter Page', () => {
+        ////////////////////////////////////////
+        // remove handlers that linger from the previous test
+        $(document).off('click', '#addShelterTypeList');
+        $(document).off('click', '#removeShelterTypeList');
+        $(document).off('click', '#addShelterTextfield');
+        $(document).off('click', '#removeShelterTextfield');
+
+        ////////////////////////////////////////
+        // setup
+        const htmlpath = path.join(__dirname, './data/', 'shelter.html');
+        const html = fs.readFileSync(htmlpath, 'utf8', 'r');
+        const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = 'https://pokefarm.com/shelter';
+        document.documentElement.innerHTML = innerHTML;
+
+        // add legendary elements
+        const legendaryHTML = `<div class="pokemon tooltip_trigger" style="left: 30.9963%; top: 20.6878%;"
+                data-stage="pokemon"><img src="https://pfq-static.com/img/pkmn/i/4/o/7.png/t=00000000"
+                class="big"><img src="https://pfq-static.com/img/pkmn/x/b/q/w.png/t=1496995713"
+                class="small">
+            </div>
+            <div class="tooltip_content" data-adopt="hLpL_">Mew (Lv.4
+                    <img src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007" title="[F]">
+                    <img src="https://pfq-static.com/img/pkmn/cs.png/t=1405806997" title="[CUSTOM SPRITE]">
+                )
+                <span class="buttons">
+                    <button data-shelter="adopt">View / Adopt</button>
+                    <button data-shelter="hide">Hide</button>
+                </span>
+            </div>`;
+        document.querySelector('#shelterarea').insertAdjacentHTML('beforeend', legendaryHTML);
+        $('#shelterarea').children().eq(-2).attr('id', 'legendary1pokemon');
+        $('#shelterarea').children().eq(-1).attr('id', 'legendary1tooltip');
+
+        localStorage.setItem('QoLShelter',
+            '{"findLegendary":false,' +
+            '"findCustom":"",' +
+            '"findType":"",' +
+            '"findTypeEgg":false,' +
+            '"findTypePokemon":false,' +
+            '"findNewEgg":false,' +
+            '"findNewPokemon":false,' +
+            '"findShiny":false,' +
+            '"findAlbino":false,' +
+            '"findMelanistic":false,' +
+            '"findPrehistoric":false,' +
+            '"findDelta":false,' +
+            '"findMega":false,' +
+            '"findStarter":false,' +
+            '"findCustomSprite":false,' +
+            '"findReadyToEvolve":false,' +
+            '"findMale":false,' +
+            '"findFemale":false,' +
+            '"findNoGender":false,' +
+            '"findNFE":false,' +
+            '"customEgg":false,' +
+            '"customPokemon":false,' +
+            '"customPng":false,' +
+            '"shelterGrid":false}');
+
+        pfqol.pfqol($);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // check that settings were loaded correctly
+        const checkboxDataKeys = ['findLegendary'];
+        const loadedSettings = JSON.parse(localStorage.getItem('QoLShelter'));
+        // check that all checkboxes were setup correctly
+        for (let i = 0; i < checkboxDataKeys.length; i++) {
+            expect($(`[data-key=${checkboxDataKeys[i]}]`).length).toBe(1);
+            expect($(`[data-key=${checkboxDataKeys[i]}]`).prop('checked')).toBe(false);
+            expect(loadedSettings[checkboxDataKeys[i]]).toBe(false);
+        }
+        ////////////////////////////////////////
+
+        // verify that the script sees the 1 Mew + 7 Phione
+        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 8);
+
+        // add another legendary
+        document.querySelector('#shelterarea').insertAdjacentHTML('beforeend', legendaryHTML);
+        $('#shelterarea').children().eq(-2).attr('id', 'legendary2pokemon');
+        $('#shelterarea').children().eq(-1).attr('id', 'legendary2tooltip');
+
+        // verify that the script sees both legendaries
+        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 9);
+
+        // remove the first legendary
+        document.getElementById('legendary1pokemon').remove();
+        document.getElementById('legendary1tooltip').remove();
+
+        // verify that the script can see the 1 legendary
+        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 8);
+
+        // remove the second legendary
+        document.getElementById('legendary2pokemon').remove();
+        document.getElementById('legendary2tooltip').remove();
+
+        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 7);
     });
 
     test('Test Sort controls on Shelter Page', () => {

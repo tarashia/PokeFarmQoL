@@ -17,6 +17,8 @@ class ShelterPageBase extends Page {
             findMega: true,
             findStarter: true,
             findCustomSprite: true,
+            findLegendary: false,
+            findReadyToEvolve: false,
             findMale: true,
             findFemale: true,
             findNoGender: true,
@@ -228,6 +230,26 @@ class ShelterPageBase extends Page {
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
         }
     }
+
+    searchForTooltipText(GLOBALS, key) {
+        const LIST = GLOBALS.SHELTER_SEARCH_LISTS[key];
+        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+        const keyIndex = SEARCH_DATA.indexOf(key);
+        for (let i = 0; i < LIST.length; i++) {
+            const entry = LIST[i];
+            const selected = this.jQuery(`div.pokemon+div.tooltip_content:contains('${entry}')`);
+            if (selected.length) {
+                const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
+                const imgResult = selected.length + ' ' + searchResult; //amount + type found
+                const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
+                const shelterBigImg = selected.prev().children('img.big');
+                shelterBigImg.addClass('shelterfoundme');
+
+                this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
+            }
+        }
+    }
+
     customSearch(GLOBALS) {
         const obj = this;
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
@@ -280,6 +302,9 @@ class ShelterPageBase extends Page {
         }
         if (this.settings.findCustomSprite === true) {
             this.searchForImgTitle(GLOBALS, 'findCustomSprite');
+        }
+        if (this.settings.findLegendary === true) {
+            this.searchForTooltipText(GLOBALS, 'findLegendary');
         }
 
         if (this.settings.findNewPokemon === true) {
