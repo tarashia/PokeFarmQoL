@@ -281,7 +281,7 @@ describe('Test Shelter page', () => {
 
         ////////////////////////////////////////
         // setup
-        const htmlpath = path.join(__dirname, './data/', 'shelter.html');
+        const htmlpath = path.join(__dirname, '../data/', 'shelter.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
         global.location.href = 'https://pokefarm.com/shelter';
@@ -332,7 +332,7 @@ describe('Test Shelter page', () => {
             '"customPng":false,' +
             '"shelterGrid":false}');
 
-        pfqol.pfqol($);
+        new pfqol.pfqol($);
         ////////////////////////////////////////
 
         ////////////////////////////////////////
