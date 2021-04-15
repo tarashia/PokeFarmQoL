@@ -77,7 +77,7 @@ class LocalStorageManagerBase {
 
         globals.DEX_UPDATE_DATE = dateAndDex[0];
         const dex = dateAndDex.slice(1);
-        globals.DEX_DATA = dex[0].split(',');
+        globals.DEX_DATA = dex;
         return true;
     }
 
