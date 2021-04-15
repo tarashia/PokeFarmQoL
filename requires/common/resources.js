@@ -931,6 +931,13 @@ class ResourcesBase {
             </label>
           </td>
             </tr>
+            <tr>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findLegendary"/>Legendary
+            </label>
+          </td>
+            </tr>
           </tbody>
         </table>
         <h4>Search on type</h4>

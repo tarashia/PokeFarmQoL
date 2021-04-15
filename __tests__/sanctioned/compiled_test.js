@@ -53,7 +53,7 @@ describe('Test that PFQoL compiles', () => {
             findMega: true,
             findStarter: true,
             findCustomSprite: true,
-            findReadyToEvolve: false,
+            findLegendary: false,
             findMale: true,
             findFemale: true,
             findNoGender: true,

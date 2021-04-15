@@ -306,7 +306,7 @@ describe('Test Shelter page', () => {
         $('#shelterarea').children().eq(-2).attr('id', 'legendary1pokemon');
         $('#shelterarea').children().eq(-1).attr('id', 'legendary1tooltip');
 
-        localStorage.setItem('QoLShelter',
+        localStorage.setItem(key,
             '{"findLegendary":false,' +
             '"findCustom":"",' +
             '"findType":"",' +
@@ -338,7 +338,7 @@ describe('Test Shelter page', () => {
         ////////////////////////////////////////
         // check that settings were loaded correctly
         const checkboxDataKeys = ['findLegendary'];
-        const loadedSettings = JSON.parse(localStorage.getItem('QoLShelter'));
+        const loadedSettings = JSON.parse(localStorage.getItem(key));
         // check that all checkboxes were setup correctly
         for (let i = 0; i < checkboxDataKeys.length; i++) {
             expect($(`[data-key=${checkboxDataKeys[i]}]`).length).toBe(1);
@@ -348,7 +348,7 @@ describe('Test Shelter page', () => {
         ////////////////////////////////////////
 
         // verify that the script sees the 1 Mew + 7 Phione
-        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 8);
+        verifyCheckbox(checkboxDataKeys[0], key, 'shelterfoundme', 8);
 
         // add another legendary
         document.querySelector('#shelterarea').insertAdjacentHTML('beforeend', legendaryHTML);
@@ -356,20 +356,20 @@ describe('Test Shelter page', () => {
         $('#shelterarea').children().eq(-1).attr('id', 'legendary2tooltip');
 
         // verify that the script sees both legendaries
-        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 9);
+        verifyCheckbox(checkboxDataKeys[0], key, 'shelterfoundme', 9);
 
         // remove the first legendary
         document.getElementById('legendary1pokemon').remove();
         document.getElementById('legendary1tooltip').remove();
 
         // verify that the script can see the 1 legendary
-        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 8);
+        verifyCheckbox(checkboxDataKeys[0], key, 'shelterfoundme', 8);
 
         // remove the second legendary
         document.getElementById('legendary2pokemon').remove();
         document.getElementById('legendary2tooltip').remove();
 
-        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 7);
+        verifyCheckbox(checkboxDataKeys[0], key, 'shelterfoundme', 7);
     });
 
     test('Test Sort controls on Shelter Page', () => {

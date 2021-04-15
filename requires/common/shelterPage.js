@@ -18,7 +18,6 @@ class ShelterPageBase extends Page {
             findStarter: true,
             findCustomSprite: true,
             findLegendary: false,
-            findReadyToEvolve: false,
             findMale: true,
             findFemale: true,
             findNoGender: true,

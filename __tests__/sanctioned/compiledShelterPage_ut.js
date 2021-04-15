@@ -1,5 +1,6 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
 $.USERID = '';
+window.fetch = require('../../__mocks__/fetch').fetch;
 const key = `${$.USERID}.QoLShelter`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
@@ -123,27 +124,28 @@ describe('Test Shelter page', () => {
         document.documentElement.innerHTML = innerHTML;
 
         localStorage.setItem(key,
-            '{"findCustom":"",'+
-               '"findType":"",'+
-               '"findTypeEgg":false,'+
-               '"findTypePokemon":false,'+
-               '"findNewEgg":false,'+
-               '"findNewPokemon":false,'+
-               '"findShiny":false,'+
-               '"findAlbino":false,'+
-               '"findMelanistic":false,'+
-               '"findPrehistoric":false,'+
-               '"findDelta":false,'+
-               '"findMega":false,'+
-               '"findStarter":false,'+
-               '"findCustomSprite":false,'+
-               '"findMale":false,'+
-               '"findFemale":false,'+
-               '"findNoGender":false,'+
-               '"customEgg":false,'+
-               '"customPokemon":false,'+
-               '"customPng":false,'+
-               '"shelterGrid":false}');
+            '{"findCustom":"",' +
+            '"findType":"",' +
+            '"findTypeEgg":false,' +
+            '"findTypePokemon":false,' +
+            '"findNewEgg":false,' +
+            '"findNewPokemon":false,' +
+            '"findShiny":false,' +
+            '"findAlbino":false,' +
+            '"findMelanistic":false,' +
+            '"findPrehistoric":false,' +
+            '"findDelta":false,' +
+            '"findMega":false,' +
+            '"findStarter":false,' +
+            '"findCustomSprite":false,' +
+            '"findLegendary":false,' +
+            '"findMale":false,' +
+            '"findFemale":false,' +
+            '"findNoGender":false,' +
+            '"customEgg":false,' +
+            '"customPokemon":false,' +
+            '"customPng":false,' +
+            '"shelterGrid":false}');
 
         new pfqol.pfqol($);
         ////////////////////////////////////////
@@ -301,9 +303,8 @@ describe('Test Shelter page', () => {
         $('#shelterarea').children().eq(-2).attr('id', 'legendary1pokemon');
         $('#shelterarea').children().eq(-1).attr('id', 'legendary1tooltip');
 
-        localStorage.setItem('QoLShelter',
-            '{"findLegendary":false,' +
-            '"findCustom":"",' +
+        localStorage.setItem(key,
+            '{"findCustom":"",' +
             '"findType":"",' +
             '"findTypeEgg":false,' +
             '"findTypePokemon":false,' +
@@ -317,11 +318,10 @@ describe('Test Shelter page', () => {
             '"findMega":false,' +
             '"findStarter":false,' +
             '"findCustomSprite":false,' +
-            '"findReadyToEvolve":false,' +
+            '"findLegendary":false,' +
             '"findMale":false,' +
             '"findFemale":false,' +
             '"findNoGender":false,' +
-            '"findNFE":false,' +
             '"customEgg":false,' +
             '"customPokemon":false,' +
             '"customPng":false,' +
@@ -333,7 +333,7 @@ describe('Test Shelter page', () => {
         ////////////////////////////////////////
         // check that settings were loaded correctly
         const checkboxDataKeys = ['findLegendary'];
-        const loadedSettings = JSON.parse(localStorage.getItem('QoLShelter'));
+        const loadedSettings = JSON.parse(localStorage.getItem(key));
         // check that all checkboxes were setup correctly
         for (let i = 0; i < checkboxDataKeys.length; i++) {
             expect($(`[data-key=${checkboxDataKeys[i]}]`).length).toBe(1);
@@ -343,7 +343,7 @@ describe('Test Shelter page', () => {
         ////////////////////////////////////////
 
         // verify that the script sees the 1 Mew + 7 Phione
-        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 8);
+        verifyCheckbox(checkboxDataKeys[0], key, 'shelterfoundme', 8);
 
         // add another legendary
         document.querySelector('#shelterarea').insertAdjacentHTML('beforeend', legendaryHTML);
@@ -351,20 +351,20 @@ describe('Test Shelter page', () => {
         $('#shelterarea').children().eq(-1).attr('id', 'legendary2tooltip');
 
         // verify that the script sees both legendaries
-        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 9);
+        verifyCheckbox(checkboxDataKeys[0], key, 'shelterfoundme', 9);
 
         // remove the first legendary
         document.getElementById('legendary1pokemon').remove();
         document.getElementById('legendary1tooltip').remove();
 
         // verify that the script can see the 1 legendary
-        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 8);
+        verifyCheckbox(checkboxDataKeys[0], key, 'shelterfoundme', 8);
 
         // remove the second legendary
         document.getElementById('legendary2pokemon').remove();
         document.getElementById('legendary2tooltip').remove();
 
-        verifyCheckbox(checkboxDataKeys[0], 'QoLShelter', 'shelterfoundme', 7);
+        verifyCheckbox(checkboxDataKeys[0], key, 'shelterfoundme', 7);
     });
 
     test('Test Sort controls on Shelter Page', () => {
@@ -379,6 +379,7 @@ describe('Test Shelter page', () => {
         localStorage.setItem(key,
             '{"findCustom":"",'+
                '"findType":"",'+
+               '"findLegendary":false,'+
                '"findTypeEgg":false,'+
                '"findTypePokemon":false,'+
                '"findNewEgg":false,'+

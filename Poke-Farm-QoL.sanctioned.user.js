@@ -952,6 +952,13 @@ class ResourcesBase {
             </label>
           </td>
             </tr>
+            <tr>
+          <td>
+            <label>
+              <input type="checkbox" class="qolsetting" data-key="findLegendary"/>Legendary
+            </label>
+          </td>
+            </tr>
           </tbody>
         </table>
         <h4>Search on type</h4>
@@ -1638,7 +1645,7 @@ class GlobalsBase {
         'findNoGender', '[N]', 'Genderless', '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
         'findLegendary', '', 'Legendary', '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
     ];
-    static SHELTER_SEARCH_LISTS = {
+    SHELTER_SEARCH_LISTS = {
         'findLegendary': [
             // List of official legendaries more or less based on
             // https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
@@ -2119,7 +2126,6 @@ class ShelterPageBase extends Page {
             findStarter: true,
             findCustomSprite: true,
             findLegendary: false,
-            findReadyToEvolve: false,
             findMale: true,
             findFemale: true,
             findNoGender: true,

@@ -135,7 +135,7 @@ class GlobalsBase {
         'findNoGender', '[N]', 'Genderless', '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
         'findLegendary', '', 'Legendary', '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
     ];
-    static SHELTER_SEARCH_LISTS = {
+    SHELTER_SEARCH_LISTS = {
         'findLegendary': [
             // List of official legendaries more or less based on
             // https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
