@@ -33,7 +33,7 @@ class Globals extends GlobalsBase {
                         const doc = parser.parseFromString(html, 'text/html');
                         const script = doc.getElementById('dexdata');
                         const json = script.textContent;
-                        obj.DEX_DATA = json;
+                        obj.DEX_DATA = json.split(',');
                         obj.localStorageMgr.updateLocalStorageDex(obj.jQuery, document, undefined, obj);
                         obj.localStorageMgr.loadDexIntoGlobalsFromStorage(obj);
                         errorSuppressorCount = 0;
