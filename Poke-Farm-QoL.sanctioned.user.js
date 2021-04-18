@@ -1684,7 +1684,7 @@ class Globals extends GlobalsBase {
                         const doc = parser.parseFromString(html, 'text/html');
                         const script = doc.getElementById('dexdata');
                         const json = script.textContent;
-                        obj.DEX_DATA = json;
+                        obj.DEX_DATA = json.split(',');
                         obj.localStorageMgr.updateLocalStorageDex(obj.jQuery, document, undefined, obj);
                         obj.localStorageMgr.loadDexIntoGlobalsFromStorage(obj);
                         errorSuppressorCount = 0;
@@ -1709,6 +1709,7 @@ class Globals extends GlobalsBase {
         }
     }
 }
+
 /* globals Helpers */
 
 // eslint-disable-next-line no-unused-vars
@@ -1788,7 +1789,7 @@ class LocalStorageManagerBase {
 
         globals.DEX_UPDATE_DATE = dateAndDex[0];
         const dex = dateAndDex.slice(1);
-        globals.DEX_DATA = dex[0].split(',');
+        globals.DEX_DATA = dex;
         return true;
     }
 
@@ -1804,6 +1805,7 @@ class LocalStorageManagerBase {
         $('.qolDate', document).val(dateString);
     }
 }
+
 /* globals LocalStorageManagerBase */
 // eslint-disable-next-line no-unused-vars
 class LocalStorageManager extends LocalStorageManagerBase {
@@ -5070,7 +5072,7 @@ class DexPage extends DexPageBase {
         // so the user can update their information
         if (jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
             const text = jQuery('script#dexdata').text();
-            GLOBALS.DEX_DATA = JSON.parse(text);
+            GLOBALS.DEX_DATA = JSON.parse(text).split(',');
             this.localStorageMgr.updateLocalStorageDex(this.jQuery, document, undefined, GLOBALS);
         }
     }

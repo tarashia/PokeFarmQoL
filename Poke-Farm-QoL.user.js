@@ -2587,6 +2587,7 @@ class LocalStorageManagerBase {
     }
 }
 
+
 class LocalStorageManager extends LocalStorageManagerBase {
     constructor(keyPrefix, storage) {
         super(keyPrefix, storage);
