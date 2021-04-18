@@ -2,8 +2,6 @@
 const path = require('path');
 const fs = require('fs');
 
-const jQ = jest.requireActual('jquery');
-
 const fetch = jest.fn((p) => {
     if(p === '/dex') {
         const obj = {
@@ -14,7 +12,7 @@ const fetch = jest.fn((p) => {
             },
             ok: true
         };
-        return jQ.Deferred().resolve(obj);
+        return Promise.resolve(obj);
     }
 });
 
