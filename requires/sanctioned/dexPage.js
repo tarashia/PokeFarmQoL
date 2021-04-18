@@ -8,7 +8,7 @@ class DexPage extends DexPageBase {
         // so the user can update their information
         if (jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
             const text = jQuery('script#dexdata').text();
-            GLOBALS.DEX_DATA = JSON.parse(text);
+            GLOBALS.DEX_DATA = JSON.parse(text).split(',');
             this.localStorageMgr.updateLocalStorageDex(this.jQuery, document, undefined, GLOBALS);
         }
     }
