@@ -8,7 +8,6 @@ const path = require('path');
 const appRoot = require('app-root-path');
 const pfqol = require(appRoot + '/Poke-Farm-QoL.sanctioned.test.user');
 const oldWindowLocation = window.location;
-window.fetch = require('../../__mocks__/fetch').fetch;
 
 beforeAll(() => {
     delete window.location;
