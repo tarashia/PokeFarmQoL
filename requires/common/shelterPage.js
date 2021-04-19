@@ -69,6 +69,9 @@ class ShelterPageBase extends Page {
     setupCSS() {
         const shelterSuccessCss = this.jQuery('#sheltercommands').css('background-color');
         this.jQuery('#sheltersuccess').css('background-color', shelterSuccessCss);
+        this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
+        const background = this.jQuery('#shelterpage>.panel').eq(0).css('border');
+        this.jQuery('.tooltiptext').css('border', '' + background + '');
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#shelterarea'), {
