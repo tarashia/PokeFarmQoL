@@ -1309,14 +1309,14 @@ class Resources extends ResourcesBase {
 }
 // eslint-disable-next-line no-unused-vars
 class Helpers {
-    static buildOptionsString(arr) {
+    buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
         for (let i = 0; i < arr.length; i++) {
             str += `<option value="${i}">${arr[i]}</option> `;
         }
         return str;
     }
-    static toggleSetting(key, set) {
+    toggleSetting(key, set) {
         // update values for checkboxes
         if (typeof set === 'boolean') {
             const element = document.querySelector(`.qolsetting[data-key="${key}"]`);
@@ -1325,7 +1325,7 @@ class Helpers {
             }
         }
     } // toggleSetting
-    static setupFieldArrayHTML($, arr, id, div, cls) {
+    setupFieldArrayHTML($, arr, id, div, cls) {
         const n = arr.length;
         for (let i = 0; i < n; i++) {
             const rightDiv = i + 1;
@@ -1334,7 +1334,7 @@ class Helpers {
             $(`.${cls}`).removeClass(cls).addClass('' + rightDiv + '').find('.qolsetting').val(rightValue);
         }
     }
-    static loadSettings($, KEY, DEFAULT, obj) {
+    loadSettings($, KEY, DEFAULT, obj) {
         if (localStorage.getItem(KEY) === null) {
             this.saveSettings(KEY);
         } else {
@@ -1364,19 +1364,19 @@ class Helpers {
 
         return obj;
     }
-    static saveSettings(key, obj) {
+    saveSettings(key, obj) {
         localStorage.setItem(key, JSON.stringify(obj));
     }
-    static textSearchDiv(cls, dataKey, id, arrayName) {
+    textSearchDiv(cls, dataKey, id, arrayName) {
         return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${dataKey}" ` +
             `array-name='${arrayName}'` +
             `/></label><input type='button' value='Remove' id='${id}'></div>`;
     }
-    static selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
+    selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
         return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
             `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
     }
-    static parseFieldPokemonTooltip($, GLOBALS, tooltip) {
+    parseFieldPokemonTooltip($, GLOBALS, tooltip) {
         const dataElements = $(tooltip).children(0).children();
         let index = 1;
         // nickname
@@ -1500,10 +1500,20 @@ class Helpers {
         }
         return ret;
     } // parseFieldPokemonToolTip
+    getPokemonImageClass() {
+        // this seems like PFQ's threshold based on my experimentation
+        if (window.innerWidth >= 650) {
+            return 'big';
+        } else {
+            return 'small';
+        }
+    }
 }
-/* global Helpers */
 // eslint-disable-next-line no-unused-vars
 class GlobalsBase {
+    constructor(helpers) {
+        this.HELPERS = helpers;
+    }
     // eslint-disable-next-line camelcase
     fillTemplates(TEMPLATES) {
         this.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
@@ -1517,9 +1527,9 @@ class GlobalsBase {
         this.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
     }
     fillOptionsLists() {
-        this.TYPE_OPTIONS = Helpers.buildOptionsString(this.TYPE_LIST);
-        this.NATURE_OPTIONS = Helpers.buildOptionsString(this.NATURE_LIST);
-        this.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(this.EGG_GROUP_LIST);
+        this.TYPE_OPTIONS = this.HELPERS.buildOptionsString(this.TYPE_LIST);
+        this.NATURE_OPTIONS = this.HELPERS.buildOptionsString(this.NATURE_LIST);
+        this.EGG_GROUP_OPTIONS = this.HELPERS.buildOptionsString(this.EGG_GROUP_LIST);
     }
     TEMPLATES = { // all the new/changed HTML for the userscript
         qolHubLinkHTML        : '<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>',
@@ -2819,20 +2829,19 @@ class GlobalsBase {
 /* globals GlobalsBase */
 // eslint-disable-next-line no-unused-vars
 class Globals extends GlobalsBase {
-    constructor(jQuery, localStorageMgr) {
-        super();
+    constructor(jQuery, localStorageMgr, helpers) {
+        super(helpers);
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
     }
 }
 
-/* globals Helpers */
-
 // eslint-disable-next-line no-unused-vars
 class LocalStorageManagerBase {
-    constructor(keyPrefix, storage) {
+    constructor(keyPrefix, storage, helpers) {
         this.keyPrefix = keyPrefix;
         this.storage = storage;
+        this.helpers = helpers;
     }
     /**
      * This function helps users use the updated script without having to
@@ -2866,10 +2875,10 @@ class LocalStorageManagerBase {
         return `${this.keyPrefix}.${key}`;
     }
     saveSettings(key, obj) {
-        Helpers.saveSettings(this.translateKey(key), obj);
+        this.helpers.saveSettings(this.translateKey(key), obj);
     }
     loadSettings($, KEY, DEFAULT, obj) {
-        return Helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
+        return this.helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
     }
     getItem(key) {
         return this.storage.getItem(this.translateKey(key));
@@ -2925,14 +2934,13 @@ class LocalStorageManagerBase {
 /* globals LocalStorageManagerBase */
 // eslint-disable-next-line no-unused-vars
 class LocalStorageManager extends LocalStorageManagerBase {
-    constructor(keyPrefix, storage) {
-        super(keyPrefix, storage);
+    constructor(keyPrefix, storage, helpers) {
+        super(keyPrefix, storage, helpers);
     }
 }
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
-/* globals Helpers */
 // eslint-disable-next-line no-unused-vars
 class QoLHubBase {
     static DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
@@ -2948,9 +2956,10 @@ class QoLHubBase {
         dexFilterEnable: true,
         condenseWishforge: true
     };
-    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
+        this.HELPERS = HELPERS;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
@@ -3041,10 +3050,10 @@ class QoLHubBase {
             if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
                 const value = this.USER_SETTINGS[key];
                 if (typeof value === 'boolean') {
-                    Helpers.toggleSetting(key, value);
+                    this.HELPERS.toggleSetting(key, value);
                 }
                 else if (typeof value === 'string') {
-                    Helpers.toggleSetting(key, value);
+                    this.HELPERS.toggleSetting(key, value);
                 }
             }
         }
@@ -3106,8 +3115,8 @@ class QoLHubBase {
 /* globals QoLHubBase */
 // eslint-disable-next-line no-unused-vars
 class QoLHub extends QoLHubBase {
-    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
-        super(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS);
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
+        super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
     }
     build(document) {
         super.build(document);
@@ -3127,12 +3136,12 @@ class QoLHub extends QoLHubBase {
 
     }
 } // QoLHub
-/* global Helpers */
 // eslint-disable-next-line no-unused-vars
 class Page {
-    constructor(jQuery, localStorageMgr, ssk, ds, url) {
+    constructor(jQuery, localStorageMgr, helpers, ssk, ds, url) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
+        this.helpers = helpers;
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
@@ -3148,15 +3157,10 @@ class Page {
             this.jQuery,this.settingsSaveKey,
             this.defaultSettings,
             this.settings);
-        // this.settings =
-        //     Helpers.loadSettings(this.jQuery,this.settingsSaveKey,
-        //         this.defaultSettings,
-        //         this.settings);
     }
 
     saveSettings() {
         this.localStorageMgr.saveSettings(this.settingsSaveKey, this.settings);
-        // Helpers.saveSettings(this.settingsSaveKey, this.settings);
     }
 
     populateSettings(obj) {
@@ -3172,11 +3176,10 @@ class Page {
                 this.populateSettings(obj[key]);
             }
             else if (typeof value === 'boolean') {
-                Helpers.toggleSetting(key, value);//, false);
+                this.helpers.toggleSetting(key, value);//, false);
             }
             else if (typeof value === 'string') {
                 console.log('TODO - split and populate');
-                // Helpers.toggleSetting(key, value, false);
             }
         }
     }
@@ -3222,11 +3225,11 @@ class Page {
     setupObserver() { /* empty */ }
     setupHandlers() { /* empty */ }
 } // Page
-/* globals Page Helpers */
+/* globals Page */
 // eslint-disable-next-line no-unused-vars
 class ShelterPageBase extends Page {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
             findTypeEgg: true,
@@ -3276,15 +3279,15 @@ class ShelterPageBase extends Page {
 
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+        const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
             'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
         this.customArray = this.settings.findCustom.split(',');
         this.typeArray = this.settings.findType.split(',');
 
-        Helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
 
         this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
         this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
@@ -3293,6 +3296,9 @@ class ShelterPageBase extends Page {
     setupCSS() {
         const shelterSuccessCss = this.jQuery('#sheltercommands').css('background-color');
         this.jQuery('#sheltersuccess').css('background-color', shelterSuccessCss);
+        this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
+        const background = this.jQuery('#shelterpage>.panel').eq(0).css('border');
+        this.jQuery('.tooltiptext').css('border', '' + background + '');
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#shelterarea'), {
@@ -3379,7 +3385,7 @@ class ShelterPageBase extends Page {
         });
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+        const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
         const numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
         this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
@@ -3399,7 +3405,7 @@ class ShelterPageBase extends Page {
         }
     }
     addTypeList(GLOBALS) {
-        const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+        const theList = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
             'removeShelterTypeList', 'fieldTypes', 'typeArray');
         const numberTypes = this.jQuery('#shelterTypes>div').length;
         this.jQuery('#shelterTypes').append(theList);
@@ -3442,11 +3448,12 @@ class ShelterPageBase extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = this.jQuery('img[title*="' + value + '"]');
+        const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
             const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
             const imgResult = selected.length + ' ' + searchResult; //amount + type found
             const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-            const shelterBigImg = selected.parent().prev().children('img.big');
+            const shelterBigImg = selected.parent().prev().children(`img.${cls}`);
             this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
@@ -3455,6 +3462,7 @@ class ShelterPageBase extends Page {
     customSearch(GLOBALS) {
         const obj = this;
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+        const cls = this.helpers.getPokemonImageClass();
 
         const dexData = GLOBALS.DEX_DATA;
         // search whatever you want to find in the shelter & grid
@@ -3515,7 +3523,7 @@ class ShelterPageBase extends Page {
                 const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                 const tooltipResult = selected.length + ' ' + searchResult;
                 const shelterImgSearch = selected;
-                const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                 this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
                 this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
@@ -3535,7 +3543,7 @@ class ShelterPageBase extends Page {
                 const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                 if (selected.length >= 1) {
                     const shelterImgSearch = selected;
-                    const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                     this.jQuery(shelterBigImg).addClass('shelterfoundme');
                 }
                 this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
@@ -3584,7 +3592,7 @@ class ShelterPageBase extends Page {
                                 const imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
                                 const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
                                 const shelterImgSearch = selected;
-                                const shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
+                                const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
                                 this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
                                 this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
@@ -3599,7 +3607,7 @@ class ShelterPageBase extends Page {
                             const searchResult = customValue;
                             const tooltipResult = selected.length + ' ' + searchResult;
                             const shelterImgSearch = selected;
-                            const shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
+                            const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
                             this.jQuery(shelterBigImg).addClass('shelterfoundme');
                             this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                         }
@@ -3613,7 +3621,7 @@ class ShelterPageBase extends Page {
                         const searchResult = customValue;
                         const tooltipResult = selected.length + ' ' + searchResult;
                         const shelterImgSearch = selected;
-                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                         this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
                     }
@@ -3621,7 +3629,7 @@ class ShelterPageBase extends Page {
 
                 //imgSearch with Pokémon
                 if (this.settings.customPng === true) {
-                    const selected = this.jQuery('#shelterarea img.big[src*="' + customValue + '"]');
+                    const selected = this.jQuery(`#shelterarea img.${cls}[src*="${customValue}"]`);
                     if (selected.length) {
                         const searchResult = selected.parent().next().text().split('(')[0];
                         const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
@@ -3665,7 +3673,7 @@ class ShelterPageBase extends Page {
 
                     for (let o = 0; o < pokemonElems.length; o++) {
                         const shelterImgSearch = this.jQuery(pokemonElems[o]);
-                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
@@ -3687,7 +3695,7 @@ class ShelterPageBase extends Page {
 
                     for (let o = 0; o < typePokemonNames.length; o++) {
                         const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
-                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
@@ -3700,15 +3708,15 @@ class ShelterPageBase extends Page {
 /* globals ShelterPageBase */
 // eslint-disable-next-line no-unused-vars
 class ShelterPage extends ShelterPageBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS);
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
+        super(jQuery, localStorageMgr, HELPERS, GLOBALS);
     }
 }
-/* globals Page Helpers */
+/* globals Page */
 // eslint-disable-next-line no-unused-vars
 class PrivateFieldsPageBase extends Page {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
@@ -3759,21 +3767,21 @@ class PrivateFieldsPageBase extends Page {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.privateFieldTooltipModHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.privateFieldSearchHTML);
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+        const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
             'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
-        const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+        const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
             'removePrivateFieldNature', 'natureTypes', 'natureArray');
-        const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+        const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
             'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
         this.customArray = this.settings.fieldCustom.split(',');
         this.typeArray = this.settings.fieldType.split(',');
         this.natureArray = this.settings.fieldNature.split(',');
         this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
 
         this.handleTooltipSettings();
     }
@@ -3948,9 +3956,10 @@ class PrivateFieldsPageBase extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = this.jQuery('img[title*="' + value + '"]');
+        const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+            const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
             this.jQuery(bigImg).addClass('privatefoundme');
         }
     }
@@ -3959,13 +3968,14 @@ class PrivateFieldsPageBase extends Page {
         if (male) { genderMatches.push('[M]'); }
         if (female) { genderMatches.push('[F]'); }
         if (nogender) { genderMatches.push('[N]'); }
+        const cls = this.helpers.getPokemonImageClass();
 
         if (genderMatches.length > 0) {
             for (let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
                 const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
                     this.jQuery(shelterBigImg).addClass('privatefoundme');
                 }
             }
@@ -3975,16 +3985,17 @@ class PrivateFieldsPageBase extends Page {
         else {
             const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ')');
             if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
                 this.jQuery(shelterBigImg).addClass('privatefoundme');
             }
         }
 
     }
     searchForCustomEgg(value) {
+        const cls = this.helpers.getPokemonImageClass();
         const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
         if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
             this.jQuery(shelterBigImg).addClass('privatefoundme');
         }
     }
@@ -3997,6 +4008,7 @@ class PrivateFieldsPageBase extends Page {
     }
     customSearch(GLOBALS) {
         const obj = this;
+        const cls = this.helpers.getPokemonImageClass();
         const bigImgs = document.querySelectorAll('.privatefoundme');
         if (bigImgs !== null) {
             bigImgs.forEach((b) => { obj.jQuery(b).removeClass('privatefoundme'); });
@@ -4030,7 +4042,7 @@ class PrivateFieldsPageBase extends Page {
             // pokemon that hold items will have HTML that matches the following selector
             const items = obj.jQuery('.tooltip_content .item>div>.tooltip_item');
             if (items.length) {
-                const itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big');
+                const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
                 obj.jQuery(itemBigImgs).addClass('privatefoundme');
             }
         }
@@ -4042,7 +4054,7 @@ class PrivateFieldsPageBase extends Page {
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
             obj.jQuery('.fieldmon').each(function () {
                 const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
-                const tooltipData = Helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+                const tooltipData = obj.helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
 
                 const searchTypeOne = tooltipData.types[0] + '';
                 const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
@@ -4099,7 +4111,7 @@ class PrivateFieldsPageBase extends Page {
         }
     }
     addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
-        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
+        const theList = this.helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
         const number = this.jQuery(`#${divParent}>div`).length;
         this.jQuery(`#${divParent}`).append(theList);
         this.jQuery(`.${cls}`).removeClass(cls).addClass('' + number + '');
@@ -4118,7 +4130,7 @@ class PrivateFieldsPageBase extends Page {
         return arr;
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+        const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
         const numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
         this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
@@ -4223,17 +4235,15 @@ class PrivateFieldsPageBase extends Page {
 /* globals PrivateFieldsPageBase */
 // eslint-disable-next-line no-unused-vars
 class PrivateFieldsPage extends PrivateFieldsPageBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS);
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
+        super(jQuery, localStorageMgr, HELPERS, GLOBALS);
     }
 }
-/* globals Page Helpers */
-const PublicFieldsBase = Page;
-
+/* globals Page */
 // eslint-disable-next-line no-unused-vars
-class PublicFieldsPage extends PublicFieldsBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
+class PublicFieldsPage extends Page {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,
@@ -4301,21 +4311,21 @@ class PublicFieldsPage extends PublicFieldsBase {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.fieldSortHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.fieldSearchHTML);
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+        const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
             'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-        const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+        const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
             'removeFieldNature', 'natureTypes', 'natureArray');
-        const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+        const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
             'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
         this.customArray = this.settings.fieldCustom.split(',');
         this.typeArray = this.settings.fieldType.split(',');
         this.natureArray = this.settings.fieldNature.split(',');
         this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
 
         this.handleTooltipSettings();
     }
@@ -4531,9 +4541,10 @@ class PublicFieldsPage extends PublicFieldsBase {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = this.jQuery('img[title*="'+value+'"]');
+        const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+            const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
             this.jQuery(bigImg).addClass('publicfoundme');
         }
     }
@@ -4542,13 +4553,14 @@ class PublicFieldsPage extends PublicFieldsBase {
         if (male) { genderMatches.push('[M]'); }
         if(female) { genderMatches.push('[F]'); }
         if(nogender) { genderMatches.push('[N]'); }
+        const cls = this.helpers.getPokemonImageClass();
 
         if(genderMatches.length > 0) {
             for(let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
                 const selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
                     this.jQuery(shelterBigImg).addClass('publicfoundme');
                 }
             }
@@ -4558,7 +4570,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         else {
             const selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))');
             if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
                 this.jQuery(shelterBigImg).addClass('publicfoundme');
             }
         }
@@ -4566,8 +4578,9 @@ class PublicFieldsPage extends PublicFieldsBase {
     }
     searchForCustomEgg(value) {
         const selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
+        const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
             this.jQuery(shelterBigImg).addClass('publicfoundme');
         }
     }
@@ -4580,6 +4593,7 @@ class PublicFieldsPage extends PublicFieldsBase {
     }
     customSearch(GLOBALS) {
         const obj = this;
+        const cls = this.helpers.getPokemonImageClass();
 
         /////////////////////////////////////////////////
         //////////////////// sorting ////////////////////
@@ -4713,7 +4727,7 @@ class PublicFieldsPage extends PublicFieldsBase {
             // pokemon that hold items will have HTML that matches the following selector
             const items = this.jQuery('.tooltip_content .item>div>.tooltip_item');
             if(items.length) {
-                const itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big');
+                const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
                 this.jQuery(itemBigImgs).addClass('publicfoundme');
             }
         }
@@ -4726,7 +4740,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
             this.jQuery('.fieldmon').each(function() {
                 const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
-                const tooltipData = Helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+                const tooltipData = obj.helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
 
                 const searchTypeOne = tooltipData.types[0] + '';
                 const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '': '';
@@ -4783,7 +4797,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         }
     } // customSearch
     addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
-        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
+        const theList = this.helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
         const number = this.jQuery(`#${divParent}>div`).length;
         this.jQuery(`#${divParent}`).append(theList);
         this.jQuery(`.${cls}`).removeClass(cls).addClass(''+number+'');
@@ -4802,7 +4816,7 @@ class PublicFieldsPage extends PublicFieldsBase {
         return arr;
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+        const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
         const numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
         this.jQuery('.numberDiv').removeClass('numberDiv').addClass(''+numberDiv+'');
@@ -4822,11 +4836,11 @@ class PublicFieldsPage extends PublicFieldsBase {
         }
     }
 }
-/* globals Page Helpers */
+/* globals Page */
 // eslint-disable-next-line no-unused-vars
 class LabPageBase extends Page {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
@@ -4848,15 +4862,15 @@ class LabPageBase extends Page {
         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.labOptionsHTML);
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+        const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
 
         this.searchArray = this.settings.findLabEgg.split(',');
         this.typeArray = this.settings.findLabType.split(',');
 
-        Helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'labTypes', theType, 'typeNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'labTypes', theType, 'typeNumber');
     }
     setupCSS() {
         //lab css
@@ -4915,7 +4929,7 @@ class LabPageBase extends Page {
         }));
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+        const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
         const numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
         this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
@@ -4935,7 +4949,7 @@ class LabPageBase extends Page {
         }
     }
     addTypeList(GLOBALS) {
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
         const numberTypes = this.jQuery('#labTypes>div').length;
         this.jQuery('#labTypes').append(theType);
@@ -5052,13 +5066,11 @@ class LabPageBase extends Page {
 /* globals LabPageBase */
 // eslint-disable-next-line no-unused-vars
 class LabPage extends LabPageBase {}
-// eslint-disable-next-line no-undef
-const FishingBase = Page;
-
+/* globals Page */
 // eslint-disable-next-line no-unused-vars
-class FishingPage extends FishingBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+class FishingPage extends Page {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
         // no observer
     }
     setupHTML(GLOBALS) {
@@ -5097,12 +5109,10 @@ class FishingPage extends FishingBase {
     }
 }
 /* globals Page */
-const MultiuserBase = Page;
-
 // eslint-disable-next-line no-unused-vars
-class MultiuserPage extends MultiuserBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
+class MultiuserPage extends Page {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
@@ -5374,8 +5384,8 @@ class FarmPageBase extends Page {
         };
         return d;
     }
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
@@ -5969,11 +5979,10 @@ class FarmPageBase extends Page {
 // eslint-disable-next-line no-unused-vars
 class FarmPage extends FarmPageBase {}
 /* globals Page */
-const DaycareBase = Page;
 // eslint-disable-next-line no-unused-vars
-class DaycarePage extends DaycareBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
+class DaycarePage extends Page {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -6074,8 +6083,8 @@ class DaycarePage extends DaycareBase {
 /* globals Page */
 // eslint-disable-next-line no-unused-vars
 class DexPageBase extends Page {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, '/dex');
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, '/dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -6181,8 +6190,8 @@ class DexPageBase extends Page {
 /* globals DexPageBase */
 // eslint-disable-next-line no-unused-vars
 class DexPage extends DexPageBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS);
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS);
 
         // when entering the dex page, update the local storage QoLPokedex
         // so the user can update their information
@@ -6194,12 +6203,10 @@ class DexPage extends DexPageBase {
     }
 }
 /* globals Page */
-const WishforgeBase = Page;
-
 // eslint-disable-next-line no-unused-vars
-class WishforgePage extends WishforgeBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
+class WishforgePage extends Page {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
@@ -6367,16 +6374,17 @@ class PagesManager {
             setting: 'condenseWishforge'
         },
     }
-    constructor(jQuery, localStorageMgr, GLOBALS) {
+    constructor(jQuery, localStorageMgr, globals, HELPERS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
-        this.GLOBALS = GLOBALS;
+        this.GLOBALS = globals;
+        this.HELPERS = HELPERS;
     }
     instantiatePages(QOLHUB) {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.GLOBALS);
+                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS);
             }
         }
     }
@@ -6460,14 +6468,14 @@ class PFQoLBase {
         });
 
         this.jQuery = $;
-        this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage);
+        this.HELPERS = new Helpers();
+        this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
         this.LOCAL_STORAGE_MANAGER.migrateSettings();
 
-        this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER);
-        this.HELPERS = new Helpers();
+        this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS);
         this.RESOURCES = new Resources();
-        this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS);
-        this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.PAGES);
+        this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS);
+        this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES);
         this.GLOBALS.fillTemplates(this.RESOURCES);
         this.GLOBALS.fillOptionsLists();
 

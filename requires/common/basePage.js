@@ -1,9 +1,9 @@
-/* global Helpers */
 // eslint-disable-next-line no-unused-vars
 class Page {
-    constructor(jQuery, localStorageMgr, ssk, ds, url) {
+    constructor(jQuery, localStorageMgr, helpers, ssk, ds, url) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
+        this.helpers = helpers;
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
@@ -19,15 +19,10 @@ class Page {
             this.jQuery,this.settingsSaveKey,
             this.defaultSettings,
             this.settings);
-        // this.settings =
-        //     Helpers.loadSettings(this.jQuery,this.settingsSaveKey,
-        //         this.defaultSettings,
-        //         this.settings);
     }
 
     saveSettings() {
         this.localStorageMgr.saveSettings(this.settingsSaveKey, this.settings);
-        // Helpers.saveSettings(this.settingsSaveKey, this.settings);
     }
 
     populateSettings(obj) {
@@ -43,11 +38,10 @@ class Page {
                 this.populateSettings(obj[key]);
             }
             else if (typeof value === 'boolean') {
-                Helpers.toggleSetting(key, value);//, false);
+                this.helpers.toggleSetting(key, value);//, false);
             }
             else if (typeof value === 'string') {
                 console.log('TODO - split and populate');
-                // Helpers.toggleSetting(key, value, false);
             }
         }
     }

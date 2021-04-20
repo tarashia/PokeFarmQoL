@@ -4,8 +4,8 @@
 /* globals QoLHubBase DexUtilities DexPageParser EvolutionTreeParser */
 // eslint-disable-next-line no-unused-vars
 class QoLHub extends QoLHubBase {
-    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
-        super(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS);
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
+        super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
     }
     setupHandlers() {
         super.setupHandlers();

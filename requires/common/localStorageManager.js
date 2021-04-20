@@ -1,10 +1,9 @@
-/* globals Helpers */
-
 // eslint-disable-next-line no-unused-vars
 class LocalStorageManagerBase {
-    constructor(keyPrefix, storage) {
+    constructor(keyPrefix, storage, helpers) {
         this.keyPrefix = keyPrefix;
         this.storage = storage;
+        this.helpers = helpers;
     }
     /**
      * This function helps users use the updated script without having to
@@ -38,10 +37,10 @@ class LocalStorageManagerBase {
         return `${this.keyPrefix}.${key}`;
     }
     saveSettings(key, obj) {
-        Helpers.saveSettings(this.translateKey(key), obj);
+        this.helpers.saveSettings(this.translateKey(key), obj);
     }
     loadSettings($, KEY, DEFAULT, obj) {
-        return Helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
+        return this.helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
     }
     getItem(key) {
         return this.storage.getItem(this.translateKey(key));

@@ -13,14 +13,14 @@ class PFQoLBase {
         });
 
         this.jQuery = $;
-        this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage);
+        this.HELPERS = new Helpers();
+        this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
         this.LOCAL_STORAGE_MANAGER.migrateSettings();
 
-        this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER);
-        this.HELPERS = new Helpers();
+        this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS);
         this.RESOURCES = new Resources();
-        this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS);
-        this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.PAGES);
+        this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS);
+        this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES);
         this.GLOBALS.fillTemplates(this.RESOURCES);
         this.GLOBALS.fillOptionsLists();
 

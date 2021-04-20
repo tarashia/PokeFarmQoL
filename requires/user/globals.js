@@ -4,8 +4,8 @@ class Globals extends GlobalsBase {
     // filled in by LocalStorageManager
     EVOLVE_BY_LEVEL_LIST = null;
     EVOLUTIONS_LEFT = null;
-    constructor(jQuery, localStorageMgr) {
-        super();
+    constructor(jQuery, localStorageMgr, helpers) {
+        super(helpers);
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
     }

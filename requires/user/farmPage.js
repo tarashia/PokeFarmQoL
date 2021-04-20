@@ -1,8 +1,8 @@
 /* globals FarmPageBase DexPageParser */
 // eslint-disable-next-line no-unused-vars
 class FarmPage extends FarmPageBase {
-    constructor(jQuery, localStorageMgr, GLOBALS, externals) {
-        super(jQuery, localStorageMgr, GLOBALS, externals);
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS, externals) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS, externals);
     }
     checkForValidDexData(GLOBALS) {
         if (GLOBALS.DEX_DATA === undefined) {

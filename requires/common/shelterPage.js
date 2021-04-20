@@ -1,8 +1,8 @@
-/* globals Page Helpers */
+/* globals Page */
 // eslint-disable-next-line no-unused-vars
 class ShelterPageBase extends Page {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
             findTypeEgg: true,
@@ -52,15 +52,15 @@ class ShelterPageBase extends Page {
 
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+        const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
             'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
         this.customArray = this.settings.findCustom.split(',');
         this.typeArray = this.settings.findType.split(',');
 
-        Helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
 
         this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
         this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
@@ -158,7 +158,7 @@ class ShelterPageBase extends Page {
         });
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+        const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
         const numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
         this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
@@ -178,7 +178,7 @@ class ShelterPageBase extends Page {
         }
     }
     addTypeList(GLOBALS) {
-        const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+        const theList = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
             'removeShelterTypeList', 'fieldTypes', 'typeArray');
         const numberTypes = this.jQuery('#shelterTypes>div').length;
         this.jQuery('#shelterTypes').append(theList);
@@ -221,11 +221,12 @@ class ShelterPageBase extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = this.jQuery('img[title*="' + value + '"]');
+        const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
             const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
             const imgResult = selected.length + ' ' + searchResult; //amount + type found
             const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-            const shelterBigImg = selected.parent().prev().children('img.big');
+            const shelterBigImg = selected.parent().prev().children(`img.${cls}`);
             this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
@@ -234,6 +235,7 @@ class ShelterPageBase extends Page {
     customSearch(GLOBALS) {
         const obj = this;
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+        const cls = this.helpers.getPokemonImageClass();
 
         const dexData = GLOBALS.DEX_DATA;
         // search whatever you want to find in the shelter & grid
@@ -294,7 +296,7 @@ class ShelterPageBase extends Page {
                 const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                 const tooltipResult = selected.length + ' ' + searchResult;
                 const shelterImgSearch = selected;
-                const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                 this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
                 this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
@@ -314,7 +316,7 @@ class ShelterPageBase extends Page {
                 const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                 if (selected.length >= 1) {
                     const shelterImgSearch = selected;
-                    const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                     this.jQuery(shelterBigImg).addClass('shelterfoundme');
                 }
                 this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
@@ -363,7 +365,7 @@ class ShelterPageBase extends Page {
                                 const imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
                                 const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
                                 const shelterImgSearch = selected;
-                                const shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
+                                const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
                                 this.jQuery(shelterBigImg).addClass('shelterfoundme');
 
                                 this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
@@ -378,7 +380,7 @@ class ShelterPageBase extends Page {
                             const searchResult = customValue;
                             const tooltipResult = selected.length + ' ' + searchResult;
                             const shelterImgSearch = selected;
-                            const shelterBigImg = shelterImgSearch.parent().prev().children('img.big');
+                            const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
                             this.jQuery(shelterBigImg).addClass('shelterfoundme');
                             this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                         }
@@ -392,7 +394,7 @@ class ShelterPageBase extends Page {
                         const searchResult = customValue;
                         const tooltipResult = selected.length + ' ' + searchResult;
                         const shelterImgSearch = selected;
-                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                         this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
                     }
@@ -400,7 +402,7 @@ class ShelterPageBase extends Page {
 
                 //imgSearch with Pokémon
                 if (this.settings.customPng === true) {
-                    const selected = this.jQuery('#shelterarea img.big[src*="' + customValue + '"]');
+                    const selected = this.jQuery(`#shelterarea img.${cls}[src*="${customValue}"]`);
                     if (selected.length) {
                         const searchResult = selected.parent().next().text().split('(')[0];
                         const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
@@ -444,7 +446,7 @@ class ShelterPageBase extends Page {
 
                     for (let o = 0; o < pokemonElems.length; o++) {
                         const shelterImgSearch = this.jQuery(pokemonElems[o]);
-                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
@@ -466,7 +468,7 @@ class ShelterPageBase extends Page {
 
                     for (let o = 0; o < typePokemonNames.length; o++) {
                         const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
-                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 

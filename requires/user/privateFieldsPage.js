@@ -1,8 +1,8 @@
-/* globals PrivateFieldsPageBase Helpers */
+/* globals PrivateFieldsPageBase */
 // eslint-disable-next-line no-unused-vars
 class PrivateFieldsPage extends PrivateFieldsPageBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS);
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
+        super(jQuery, localStorageMgr, HELPERS, GLOBALS);
         this.settings.fieldNFE = false;
     }
     highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
@@ -11,7 +11,8 @@ class PrivateFieldsPage extends PrivateFieldsPageBase {
         // pokemon is "put down"
         if (!this.jQuery(pokemonElem).next().length) { return; }
 
-        const tooltip = Helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);
+        const tooltip = this.helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);
+        const cls = this.helpers.getPokemonImageClass();
         let pokemon = tooltip['species'];
 
         const key = GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY;
@@ -30,9 +31,9 @@ class PrivateFieldsPage extends PrivateFieldsPageBase {
                     const evolutionsLeft = evolutionData[pokemon].remaining;
 
                     if (evolutionsLeft === 1) {
-                        this.jQuery(pokemonElem).children('img.big').addClass('oneevolutionleft');
+                        this.jQuery(pokemonElem).children(`img.${cls}`).addClass('oneevolutionleft');
                     } else if (evolutionsLeft === 2) {
-                        this.jQuery(pokemonElem).children('img.big').addClass('twoevolutionleft');
+                        this.jQuery(pokemonElem).children(`img.${cls}`).addClass('twoevolutionleft');
                     }
                 }
             } else {

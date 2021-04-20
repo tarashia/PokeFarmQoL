@@ -1,8 +1,8 @@
-/* globals Page Helpers */
+/* globals Page */
 // eslint-disable-next-line no-unused-vars
 class LabPageBase extends Page {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
@@ -24,15 +24,15 @@ class LabPageBase extends Page {
         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.labOptionsHTML);
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+        const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
 
         this.searchArray = this.settings.findLabEgg.split(',');
         this.typeArray = this.settings.findLabType.split(',');
 
-        Helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'labTypes', theType, 'typeNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'labTypes', theType, 'typeNumber');
     }
     setupCSS() {
         //lab css
@@ -91,7 +91,7 @@ class LabPageBase extends Page {
         }));
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+        const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
         const numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
         this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
@@ -111,7 +111,7 @@ class LabPageBase extends Page {
         }
     }
     addTypeList(GLOBALS) {
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
         const numberTypes = this.jQuery('#labTypes>div').length;
         this.jQuery('#labTypes').append(theType);

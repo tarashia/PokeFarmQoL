@@ -1,8 +1,8 @@
 /* globals LabPageBase */
 // eslint-disable-next-line no-unused-vars
 class LabPage extends LabPageBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS);
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS);
 
         // when the page is loaded, check to see if the data needed for finding eggs by type is loaded (if it's needed)
         if (this.onPage(window) &&

@@ -1,8 +1,8 @@
 /* globals ShelterPageBase */
 // eslint-disable-next-line no-unused-vars
 class ShelterPage extends ShelterPageBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS);
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
+        super(jQuery, localStorageMgr, HELPERS, GLOBALS);
         this.settings.findReadyToEvolve = false;
         this.settings.findNFE = false;
 
@@ -21,6 +21,7 @@ class ShelterPage extends ShelterPageBase {
         const obj = this;
         const selected = this.jQuery('#shelterarea .tooltip_content');
         const readyBigImg = [];
+        const cls = this.helpers.getPokemonImageClass();
         selected.each((idx, s) => {
             const text = s.textContent.split(' ');
             const name = text[0];
@@ -33,7 +34,7 @@ class ShelterPage extends ShelterPageBase {
             }
 
             if (evolveLevel !== undefined && level >= evolveLevel) {
-                const shelterBigImg = obj.jQuery(s).prev().children('img.big');
+                const shelterBigImg = obj.jQuery(s).prev().children(`img.${cls}`);
                 readyBigImg.push(shelterBigImg);
             }
         });
@@ -46,6 +47,7 @@ class ShelterPage extends ShelterPageBase {
         this.insertShelterFoundDiv(readyBigImg.length, imgResult, '');
     }
     highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
+        const cls = this.helpers.getPokemonImageClass();
         // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
         // will not exist. If this occurs. don't try highlighting anything until the
         // pokemon is "put down"
@@ -73,9 +75,9 @@ class ShelterPage extends ShelterPageBase {
                 const evolutionsLeft = evolutionData[pokemon].remaining;
 
                 if (evolutionsLeft === 1) {
-                    this.jQuery(pokemonElem).children('img.big').addClass('oneevolutionleft');
+                    this.jQuery(pokemonElem).children(`img.${cls}`).addClass('oneevolutionleft');
                 } else if (evolutionsLeft === 2) {
-                    this.jQuery(pokemonElem).children('img.big').addClass('twoevolutionleft');
+                    this.jQuery(pokemonElem).children(`img.${cls}`).addClass('twoevolutionleft');
                 }
             }
         } else {
@@ -85,6 +87,7 @@ class ShelterPage extends ShelterPageBase {
     customSearch(GLOBALS) {
         super.customSearch(GLOBALS);
         const obj = this;
+        const cls = this.helpers.getPokemonImageClass();
 
         const dexData = GLOBALS.DEX_DATA;
         // search whatever you want to find in the shelter & grid
@@ -156,7 +159,7 @@ class ShelterPage extends ShelterPageBase {
 
                     for (let o = 0; o < pokemonElems.length; o++) {
                         const shelterImgSearch = this.jQuery(pokemonElems[o]);
-                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
@@ -178,7 +181,7 @@ class ShelterPage extends ShelterPageBase {
 
                     for (let o = 0; o < typePokemonNames.length; o++) {
                         const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
-                        const shelterBigImg = shelterImgSearch.prev().children('img.big');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 

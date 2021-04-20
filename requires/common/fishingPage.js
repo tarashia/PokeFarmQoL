@@ -1,10 +1,8 @@
-// eslint-disable-next-line no-undef
-const FishingBase = Page;
-
+/* globals Page */
 // eslint-disable-next-line no-unused-vars
-class FishingPage extends FishingBase {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+class FishingPage extends Page {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
         // no observer
     }
     setupHTML(GLOBALS) {

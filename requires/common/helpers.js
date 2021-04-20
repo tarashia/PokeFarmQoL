@@ -1,13 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 class Helpers {
-    static buildOptionsString(arr) {
+    buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
         for (let i = 0; i < arr.length; i++) {
             str += `<option value="${i}">${arr[i]}</option> `;
         }
         return str;
     }
-    static toggleSetting(key, set) {
+    toggleSetting(key, set) {
         // update values for checkboxes
         if (typeof set === 'boolean') {
             const element = document.querySelector(`.qolsetting[data-key="${key}"]`);
@@ -16,7 +16,7 @@ class Helpers {
             }
         }
     } // toggleSetting
-    static setupFieldArrayHTML($, arr, id, div, cls) {
+    setupFieldArrayHTML($, arr, id, div, cls) {
         const n = arr.length;
         for (let i = 0; i < n; i++) {
             const rightDiv = i + 1;
@@ -25,7 +25,7 @@ class Helpers {
             $(`.${cls}`).removeClass(cls).addClass('' + rightDiv + '').find('.qolsetting').val(rightValue);
         }
     }
-    static loadSettings($, KEY, DEFAULT, obj) {
+    loadSettings($, KEY, DEFAULT, obj) {
         if (localStorage.getItem(KEY) === null) {
             this.saveSettings(KEY);
         } else {
@@ -55,19 +55,19 @@ class Helpers {
 
         return obj;
     }
-    static saveSettings(key, obj) {
+    saveSettings(key, obj) {
         localStorage.setItem(key, JSON.stringify(obj));
     }
-    static textSearchDiv(cls, dataKey, id, arrayName) {
+    textSearchDiv(cls, dataKey, id, arrayName) {
         return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${dataKey}" ` +
             `array-name='${arrayName}'` +
             `/></label><input type='button' value='Remove' id='${id}'></div>`;
     }
-    static selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
+    selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
         return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
             `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
     }
-    static parseFieldPokemonTooltip($, GLOBALS, tooltip) {
+    parseFieldPokemonTooltip($, GLOBALS, tooltip) {
         const dataElements = $(tooltip).children(0).children();
         let index = 1;
         // nickname
@@ -191,4 +191,12 @@ class Helpers {
         }
         return ret;
     } // parseFieldPokemonToolTip
+    getPokemonImageClass() {
+        // this seems like PFQ's threshold based on my experimentation
+        if (window.innerWidth >= 650) {
+            return 'big';
+        } else {
+            return 'small';
+        }
+    }
 }

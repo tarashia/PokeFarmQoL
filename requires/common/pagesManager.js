@@ -56,16 +56,17 @@ class PagesManager {
             setting: 'condenseWishforge'
         },
     }
-    constructor(jQuery, localStorageMgr, GLOBALS) {
+    constructor(jQuery, localStorageMgr, globals, HELPERS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
-        this.GLOBALS = GLOBALS;
+        this.GLOBALS = globals;
+        this.HELPERS = HELPERS;
     }
     instantiatePages(QOLHUB) {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.GLOBALS);
+                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS);
             }
         }
     }

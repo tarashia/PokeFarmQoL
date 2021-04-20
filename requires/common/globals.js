@@ -1,6 +1,8 @@
-/* global Helpers */
 // eslint-disable-next-line no-unused-vars
 class GlobalsBase {
+    constructor(helpers) {
+        this.HELPERS = helpers;
+    }
     // eslint-disable-next-line camelcase
     fillTemplates(TEMPLATES) {
         this.TEMPLATES.shelterOptionsHTML         = TEMPLATES.shelterOptionsHTML();
@@ -14,9 +16,9 @@ class GlobalsBase {
         this.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
     }
     fillOptionsLists() {
-        this.TYPE_OPTIONS = Helpers.buildOptionsString(this.TYPE_LIST);
-        this.NATURE_OPTIONS = Helpers.buildOptionsString(this.NATURE_LIST);
-        this.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(this.EGG_GROUP_LIST);
+        this.TYPE_OPTIONS = this.HELPERS.buildOptionsString(this.TYPE_LIST);
+        this.NATURE_OPTIONS = this.HELPERS.buildOptionsString(this.NATURE_LIST);
+        this.EGG_GROUP_OPTIONS = this.HELPERS.buildOptionsString(this.EGG_GROUP_LIST);
     }
     TEMPLATES = { // all the new/changed HTML for the userscript
         qolHubLinkHTML        : '<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>',

@@ -1,7 +1,6 @@
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
-/* globals Helpers */
 // eslint-disable-next-line no-unused-vars
 class QoLHubBase {
     static DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
@@ -17,9 +16,10 @@ class QoLHubBase {
         dexFilterEnable: true,
         condenseWishforge: true
     };
-    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
+        this.HELPERS = HELPERS;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
@@ -110,10 +110,10 @@ class QoLHubBase {
             if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
                 const value = this.USER_SETTINGS[key];
                 if (typeof value === 'boolean') {
-                    Helpers.toggleSetting(key, value);
+                    this.HELPERS.toggleSetting(key, value);
                 }
                 else if (typeof value === 'string') {
-                    Helpers.toggleSetting(key, value);
+                    this.HELPERS.toggleSetting(key, value);
                 }
             }
         }

@@ -27,8 +27,8 @@ class FarmPageBase extends Page {
         };
         return d;
     }
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
