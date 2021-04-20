@@ -1183,6 +1183,9 @@ class ResourcesBase {
                       </tr>
                       <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
                       </tr>
+                      <tr id="qolDexClearRow">
+                        <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                      </tr>
                       <tr>
                         <td colspan="2" class="qolAllSettings">
                           <h3 class="qolHubHead">Css Settings</h3>
@@ -4402,6 +4405,16 @@ class QoLHubBase {
         obj.jQuery(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
             obj.jQuery(this).next().slideToggle();
         }));
+
+        // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
+        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
+            obj.jQuery('#clearCachedDex').next().remove();
+        }));
+
+        // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
+        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
+            obj.resetDex();
+        }));
     }
     loadSettings() {
         if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
@@ -4517,21 +4530,14 @@ class QoLHub extends QoLHubBase {
         obj.jQuery(document).on('click', '#updateDex', (function () {
             obj.handleUpdateDexClick(document);
         }));
-
-        // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
-        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
-            obj.jQuery('#clearCachedDex').next().remove();
-        }));
-
-        // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
-        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
-            obj.jQuery('#clearCachedDex').next().remove();
-            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_EVOLVE_BY_LEVEL_KEY);
-            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_DEX_IDS_KEY);
-            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY);
-            obj.localStorageMgr.removeItem(obj.GLOBALS.POKEDEX_REGIONAL_FORMS_KEY);
-            obj.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
-        }));
+    }
+    resetDex() {
+        this.jQuery('#clearCachedDex').next().remove();
+        this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_EVOLVE_BY_LEVEL_KEY);
+        this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DEX_IDS_KEY);
+        this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY);
+        this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_REGIONAL_FORMS_KEY);
+        this.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
     }
     build(document) {
         super.build(document);
@@ -4552,8 +4558,7 @@ class QoLHub extends QoLHubBase {
             <span>
                 Having issues with the "Update Pokedex" button or the Ready-to-Evolve feature in the Shelter?
                 Use this button to erase the cached pokedex info, then use the <b>Update Pokedex</b> button to reload the pokedex.
-            </span>
-            <input type='button' value="Clear Cached Dex" id="clearCachedDex">`;
+            </span>`;
         this.jQuery('#qolDebuggingCornerRow>td').append(debuggingCornerRowAppend);
 
         this.jQuery('.qolDate', document).text(this.GLOBALS.DEX_UPDATE_DATE);

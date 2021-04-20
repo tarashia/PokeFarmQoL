@@ -2,6 +2,7 @@ const $ = require('../../__mocks__/jquery_files').jQuery;
 $.USERID = '';
 const settingsKey = `${$.USERID}.QoLSettings`;
 const shelterKey = `${$.USERID}.QoLShelter`;
+const dexKey = `${$.USERID}.QoLPokedex`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -109,6 +110,14 @@ describe('Test that PFQoL compiles', () => {
         keyevent.keyCode = 0;
         keyevent.which = 9; // tab
         $('#qolcustomcss').trigger(keyevent);
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        // TEST
+        // check that clicking clear dex clears local storage
+        localStorage.setItem(dexKey, 'fdsa');
+        $('#clearCachedDex').eq(0).trigger('click');
+        expect(localStorage.getItem(dexKey)).toBeNull();
         ////////////////////////////////////////
 
         ////////////////////////////////////////

@@ -1185,6 +1185,9 @@ class ResourcesBase {
                       </tr>
                       <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
                       </tr>
+                      <tr id="qolDexClearRow">
+                        <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                      </tr>
                       <tr>
                         <td colspan="2" class="qolAllSettings">
                           <h3 class="qolHubHead">Css Settings</h3>
@@ -3009,6 +3012,16 @@ class QoLHubBase {
         obj.jQuery(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
             obj.jQuery(this).next().slideToggle();
         }));
+
+        // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
+        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
+            obj.jQuery('#clearCachedDex').next().remove();
+        }));
+
+        // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
+        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
+            obj.resetDex();
+        }));
     }
     loadSettings() {
         if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
@@ -3117,6 +3130,11 @@ class QoLHubBase {
 class QoLHub extends QoLHubBase {
     constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
         super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
+    }
+    resetDex() {
+        this.GLOBALS.DEX_UPDATE_DATE = null;
+        this.GLOBALS.DEX_DATA = null;
+        this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
     }
     build(document) {
         super.build(document);

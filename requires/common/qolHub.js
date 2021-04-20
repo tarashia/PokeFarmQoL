@@ -69,6 +69,16 @@ class QoLHubBase {
         obj.jQuery(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
             obj.jQuery(this).next().slideToggle();
         }));
+
+        // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
+        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
+            obj.jQuery('#clearCachedDex').next().remove();
+        }));
+
+        // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
+        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
+            obj.resetDex();
+        }));
     }
     loadSettings() {
         if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {

@@ -7,6 +7,11 @@ class QoLHub extends QoLHubBase {
     constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
         super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
     }
+    resetDex() {
+        this.GLOBALS.DEX_UPDATE_DATE = null;
+        this.GLOBALS.DEX_DATA = null;
+        this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
+    }
     build(document) {
         super.build(document);
 
