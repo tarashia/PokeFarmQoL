@@ -24,7 +24,7 @@
     "homepage": "https://github.com/jpgualdarrama/PokeFarmQoL#readme",
     "devDependencies": {
         "@babel/core": "^7.12.10",
-        "@babel/eslint-parser": "^7.12.1",
+        "@babel/eslint-parser": "^7.13.14",
         "@babel/eslint-plugin": "^7.12.1",
         "@babel/plugin-syntax-class-properties": "^7.12.1",
         "@babel/preset-env": "^7.12.1",
