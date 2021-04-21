@@ -1,6 +1,5 @@
 /* globals addGlobalStyle QoLHub
         Globals Resources Helpers PagesManager LocalStorageManager */
-'use strict';
 // eslint-disable-next-line no-unused-vars
 class PFQoLBase {
     constructor($) {
