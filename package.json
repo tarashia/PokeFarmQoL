@@ -4,7 +4,7 @@
     "description": "Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pokéfarm experience even more!",
     "main": "Poke-Farm-QoL.user.js",
     "scripts": {
-        "test": "jest",
+        "test": "jest --collectCoverageFrom=\"Poke-Farm-QoL.sanctioned.test.user.js\" --collectCoverageFrom=\"Poke-Farm-QoL.test.user.js\" --coverage ./__tests__/*/compiled*.js",
         "user_test": "bash ./scripts/compile_user_test.sh",
         "user_release": "bash ./scripts/compile_user_release.sh",
         "sanctioned_test": "bash ./scripts/compile_sanctioned_test.sh",
