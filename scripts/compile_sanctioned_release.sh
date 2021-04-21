@@ -62,6 +62,8 @@ for FILE in "${INPUT[@]}"; do
 done
 echo "$WRAPPER_FOOTER" >> "${OUTPUT}"
 
+npm run lint "${OUTPUT}"
+
 # ./scripts/remove_eslint_comments.sh "${OUTPUT}" "/tmp/output.txt"
 
 echo "Compilation complete!: ${OUTPUT}"

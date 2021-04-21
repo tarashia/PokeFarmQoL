@@ -74,4 +74,6 @@ for FILE in "${INPUT[@]}"; do
 done
 echo "$WRAPPER_FOOTER" >> "${OUTPUT}"
 
+npm run lint "${OUTPUT}"
+
 echo "Compilation complete!: ${OUTPUT}"
