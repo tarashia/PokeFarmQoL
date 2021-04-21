@@ -4,63 +4,63 @@
  */
 // eslint-disable-next-line no-unused-vars
 class PagesManager {
-    pages = {
-        'Daycare': {
-            class: DaycarePage,
-            object: undefined,
-            setting: 'enableDaycare'
-        },
-        'Farm': {
-            class: FarmPage,
-            object: undefined,
-            setting: 'easyEvolve'
-        },
-        'Fishing': {
-            class: FishingPage,
-            object: undefined,
-            setting: 'fishingEnable'
-        },
-        'Lab': {
-            class: LabPage,
-            object: undefined,
-            setting: 'labNotifier'
-        },
-        'Multiuser': {
-            class: MultiuserPage,
-            object: undefined,
-            setting: 'partyMod'
-        },
-        'PrivateFields': {
-            class: PrivateFieldsPage,
-            object: undefined,
-            setting: 'privateFieldEnable'
-        },
-        'PublicFields': {
-            class: PublicFieldsPage,
-            object: undefined,
-            setting: 'publicFieldEnable'
-        },
-        'Shelter': {
-            class: ShelterPage,
-            object: undefined,
-            setting: 'shelterEnable'
-        },
-        'Dex': {
-            class: DexPage,
-            object: undefined,
-            setting: 'dexFilterEnable'
-        },
-        'Wishforge': {
-            class: WishforgePage,
-            object: undefined,
-            setting: 'condenseWishforge'
-        },
-    }
     constructor(jQuery, localStorageMgr, globals, HELPERS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
         this.GLOBALS = globals;
         this.HELPERS = HELPERS;
+        this.pages = {
+            'Daycare': {
+                class: DaycarePage,
+                object: undefined,
+                setting: 'enableDaycare'
+            },
+            'Farm': {
+                class: FarmPage,
+                object: undefined,
+                setting: 'easyEvolve'
+            },
+            'Fishing': {
+                class: FishingPage,
+                object: undefined,
+                setting: 'fishingEnable'
+            },
+            'Lab': {
+                class: LabPage,
+                object: undefined,
+                setting: 'labNotifier'
+            },
+            'Multiuser': {
+                class: MultiuserPage,
+                object: undefined,
+                setting: 'partyMod'
+            },
+            'PrivateFields': {
+                class: PrivateFieldsPage,
+                object: undefined,
+                setting: 'privateFieldEnable'
+            },
+            'PublicFields': {
+                class: PublicFieldsPage,
+                object: undefined,
+                setting: 'publicFieldEnable'
+            },
+            'Shelter': {
+                class: ShelterPage,
+                object: undefined,
+                setting: 'shelterEnable'
+            },
+            'Dex': {
+                class: DexPage,
+                object: undefined,
+                setting: 'dexFilterEnable'
+            },
+            'Wishforge': {
+                class: WishforgePage,
+                object: undefined,
+                setting: 'condenseWishforge'
+            },
+        };
     }
     instantiatePages(QOLHUB) {
         for (const key of Object.keys(this.pages)) {

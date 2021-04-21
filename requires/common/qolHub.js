@@ -3,31 +3,31 @@
  */
 // eslint-disable-next-line no-unused-vars
 class QoLHubBase {
-    static DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
-        customCss: '',
-        enableDaycare: true,
-        shelterEnable: true,
-        fishingEnable: true,
-        publicFieldEnable: true,
-        privateFieldEnable: true,
-        partyMod: true,
-        easyEvolve: true,
-        labNotifier: true,
-        dexFilterEnable: true,
-        condenseWishforge: true
-    };
     constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
         this.HELPERS = HELPERS;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
+        this.DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
+            customCss: '',
+            enableDaycare: true,
+            shelterEnable: true,
+            fishingEnable: true,
+            publicFieldEnable: true,
+            privateFieldEnable: true,
+            partyMod: true,
+            easyEvolve: true,
+            labNotifier: true,
+            dexFilterEnable: true,
+            condenseWishforge: true
+        };
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
-        if(SETTINGS) {
+        if (SETTINGS) {
             this.USER_SETTINGS = SETTINGS;
         }
         else {
-            this.USER_SETTINGS = QoLHubBase.DEFAULT_USER_SETTINGS;
+            this.USER_SETTINGS = this.DEFAULT_USER_SETTINGS;
         }
     }
     setupCSS() {
@@ -155,13 +155,13 @@ class QoLHubBase {
         const qolHubCssBackground = this.jQuery('.qolHubTable').css('background-color');
         const qolHubCssTextColor = this.jQuery('.qolHubTable').css('color');
         const qolHubDialogBorder = this.jQuery('.dialog>div>div>div').css('border');
-        this.jQuery('.qolHubHead').css('background-color',  qolHubCssBackgroundHead);
+        this.jQuery('.qolHubHead').css('background-color', qolHubCssBackgroundHead);
         this.jQuery('.qolHubHead').css('color', qolHubCssTextColorHead);
         this.jQuery('.qolChangeLogHead').css('background-color', qolHubCssBackgroundHead);
         this.jQuery('.qolChangeLogHead').css('color', qolHubCssTextColorHead);
         this.jQuery('.qolChangeLogHead').css('border', qolHubDialogBorder);
         this.jQuery('.qolopencloselist.qolChangeLogContent').css('background-color', qolHubCssBackground);
-        this.jQuery('.qolopencloselist.qolChangeLogContent').css('color',  qolHubCssTextColor);
+        this.jQuery('.qolopencloselist.qolChangeLogContent').css('color', qolHubCssTextColor);
 
         this.jQuery('.qolAllSettings').css('border', qolHubDialogBorder);
 
