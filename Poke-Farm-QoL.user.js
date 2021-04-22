@@ -2031,7 +2031,35 @@ $(function () {
                 'findMale', '[M]', 'Male', '<img src="//pfq-static.com/img/pkmn/gender_m.png/t=1401213006">',
                 'findFemale', '[F]', 'Female', '<img src="//pfq-static.com/img/pkmn/gender_f.png/t=1401213007">',
                 'findNoGender', '[N]', 'Genderless', '<img src="//pfq-static.com/img/pkmn/gender_n.png/t=1401213004">',
+                'findLegendary', '', 'Legendary', '<img src="//pfq-static.com/img/pkmn/pkmn.png/t=1451852507">',
             ];
+            this.SHELTER_SEARCH_LISTS = {
+                'findLegendary': [
+                // List of official legendaries more or less based on
+                // https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
+                // Kanto
+                    'Articuno', 'Zapdos', 'Moltres', 'Mewtwo', 'Mew',
+                    // Johto
+                    'Raikou', 'Entei', 'Suicune', 'Lugia', 'Ho-oh', 'Celebi',
+                    // Hoenn
+                    'Regirock', 'Regice', 'Registeel', 'Latias', 'Latios', 'Kyogre', 'Groudon', 'Rayquaza', 'Deoxys', 'Jirachi',
+                    // Sinnoh
+                    'Uxie', 'Mesprit', 'Azelf', 'Dialga', 'Palkia', 'Heatran', 'Regigigas', 'Giratina', 'Cresselia',
+                    'Phione', 'Manaphy', 'Darkrai', 'Shaymin', 'Arceus',
+                    // Unova
+                    'Cobalion', 'Terrakion', 'Virizion', 'Tornadus', 'Thundurus', 'Reshiram', 'Zekrom',
+                    'Landorus', 'Kyurem', 'Keldeo', 'Meloetta', 'Genesect',
+                    // Kalos
+                    'Xerneas', 'Yveltal', 'Zygarde', 'Diancie', 'Hoopa', 'Volcanion',
+                    // Alola
+                    'Type: Null', 'Silvally', 'Tapu Koko', 'Tapu Lele', 'Tapu Bulu', 'Tapu Fini',
+                    'Cosmog', 'Cosmoem', 'Solgaleo', 'Lunala', 'Necrozma',
+                    // Galar
+                    'Zacian', 'Zamazenta', 'Eternatus',
+                // PFQ
+                /* None */
+                ]
+            };
 
             // filled in by fillOptionsLists
             this.TYPE_OPTIONS = null;
