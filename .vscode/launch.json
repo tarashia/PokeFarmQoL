@@ -47,22 +47,11 @@
       "type": "node",
       "request": "launch",
       "name": "Jest single run all tests",
-      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
-      "args": [
-        "--verbose",
-        "-i",
-        "--no-cache",
-        "--collectCoverageFrom=\"Poke-Farm-QoL.sanctioned.test.user.js\"",
-        "--collectCoverageFrom=\"Poke-Farm-QoL.test.user.js\"",
-        "--coverage",
-      ],
+      "program": "npm run test",
+      "args": [],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "preLaunchTask": "Compile",
-      "skipFiles": [
-        "${workspaceFolder}/node_modules/**/*.js",
-        "<node_internals>/**/*.js"
-      ]
+      "preLaunchTask": "Compile_All",
     },
     {
       "type": "node",
