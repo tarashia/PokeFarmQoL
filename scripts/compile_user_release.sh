@@ -4,8 +4,23 @@ echo "Compiling code into one js file..."
 # Order from Poke-Farm-QoL.user.js
 ROOT="."
 
-declare -a INPUT=("${ROOT}/requires/user/header.txt"
-                  "${ROOT}/requires/common/polyfill.js"
+# wrap INPUT files in WRAPPER_HEADER and WRAPPER_FOOTER
+read -r -d '' WRAPPER_HEADER << EOM
+// eslint-disable-next-line no-undef
+\$(function () {
+	('use strict');
+EOM
+
+read -r -d '' WRAPPER_FOOTER << EOM
+});
+EOM
+
+# The file that contains the header block comment for the script
+FILE_HEADER="${ROOT}/requires/user/header.txt"
+
+# Code files to concenate after FILE_HEADER and inside 
+# WRAPPER_HEADER and WRAPPER_FOOTER
+declare -a INPUT=("${ROOT}/requires/common/polyfill.js"
                   "${ROOT}/requires/common/resources.js"
                   "${ROOT}/requires/user/resources.js"
                   "${ROOT}/requires/common/helpers.js"
@@ -41,11 +56,17 @@ declare -a INPUT=("${ROOT}/requires/user/header.txt"
 OUTPUT="${ROOT}/Poke-Farm-QoL.user.js"
 rm -f "${OUTPUT}"
 
+cat "$FILE_HEADER" >> "${OUTPUT}"
+echo "" >> "${OUTPUT}"
+echo "$WRAPPER_HEADER" >> "${OUTPUT}"
 for FILE in "${INPUT[@]}"; do
    cat "$FILE" >> "${OUTPUT}"
    echo "" >> "${OUTPUT}"
 done
+echo "$WRAPPER_FOOTER" >> "${OUTPUT}"
 
-./scripts/remove_eslint_comments.sh "${OUTPUT}" "/tmp/output.txt"
+npm run lint "${OUTPUT}"
+
+# ./scripts/remove_eslint_comments.sh "${OUTPUT}" "/tmp/output.txt"
 
 echo "Compilation complete!: ${OUTPUT}"

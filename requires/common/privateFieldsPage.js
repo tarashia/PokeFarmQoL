@@ -1,8 +1,8 @@
-/* globals Page Helpers */
+/* globals Page */
 // eslint-disable-next-line no-unused-vars
 class PrivateFieldsPageBase extends Page {
-    constructor(jQuery, localStorageMgr, GLOBALS) {
-        super(jQuery, localStorageMgr, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        super(jQuery, localStorageMgr, helpers, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
@@ -53,21 +53,21 @@ class PrivateFieldsPageBase extends Page {
         document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.privateFieldTooltipModHTML);
         document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.privateFieldSearchHTML);
 
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+        const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
             'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
-        const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+        const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
             'removePrivateFieldNature', 'natureTypes', 'natureArray');
-        const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+        const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
             'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
         this.customArray = this.settings.fieldCustom.split(',');
         this.typeArray = this.settings.fieldType.split(',');
         this.natureArray = this.settings.fieldNature.split(',');
         this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
-        Helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
+        this.helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
 
         this.handleTooltipSettings();
     }
@@ -242,9 +242,10 @@ class PrivateFieldsPageBase extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = this.jQuery('img[title*="' + value + '"]');
+        const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+            const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
             this.jQuery(bigImg).addClass('privatefoundme');
         }
     }
@@ -253,13 +254,14 @@ class PrivateFieldsPageBase extends Page {
         if (male) { genderMatches.push('[M]'); }
         if (female) { genderMatches.push('[F]'); }
         if (nogender) { genderMatches.push('[N]'); }
+        const cls = this.helpers.getPokemonImageClass();
 
         if (genderMatches.length > 0) {
             for (let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
                 const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
                     this.jQuery(shelterBigImg).addClass('privatefoundme');
                 }
             }
@@ -269,16 +271,17 @@ class PrivateFieldsPageBase extends Page {
         else {
             const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ')');
             if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
                 this.jQuery(shelterBigImg).addClass('privatefoundme');
             }
         }
 
     }
     searchForCustomEgg(value) {
+        const cls = this.helpers.getPokemonImageClass();
         const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
         if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img.big');
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
             this.jQuery(shelterBigImg).addClass('privatefoundme');
         }
     }
@@ -291,6 +294,7 @@ class PrivateFieldsPageBase extends Page {
     }
     customSearch(GLOBALS) {
         const obj = this;
+        const cls = this.helpers.getPokemonImageClass();
         const bigImgs = document.querySelectorAll('.privatefoundme');
         if (bigImgs !== null) {
             bigImgs.forEach((b) => { obj.jQuery(b).removeClass('privatefoundme'); });
@@ -324,7 +328,7 @@ class PrivateFieldsPageBase extends Page {
             // pokemon that hold items will have HTML that matches the following selector
             const items = obj.jQuery('.tooltip_content .item>div>.tooltip_item');
             if (items.length) {
-                const itemBigImgs = items.parent().parent().parent().parent().prev().children('img.big');
+                const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
                 obj.jQuery(itemBigImgs).addClass('privatefoundme');
             }
         }
@@ -336,7 +340,7 @@ class PrivateFieldsPageBase extends Page {
         if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
             obj.jQuery('.fieldmon').each(function () {
                 const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
-                const tooltipData = Helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+                const tooltipData = obj.helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
 
                 const searchTypeOne = tooltipData.types[0] + '';
                 const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
@@ -393,7 +397,7 @@ class PrivateFieldsPageBase extends Page {
         }
     }
     addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
-        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
+        const theList = this.helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
         const number = this.jQuery(`#${divParent}>div`).length;
         this.jQuery(`#${divParent}`).append(theList);
         this.jQuery(`.${cls}`).removeClass(cls).addClass('' + number + '');
@@ -412,7 +416,7 @@ class PrivateFieldsPageBase extends Page {
         return arr;
     }
     addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+        const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
         const numberDiv = this.jQuery('#searchkeys>div').length;
         this.jQuery('#searchkeys').append(theField);
         this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');

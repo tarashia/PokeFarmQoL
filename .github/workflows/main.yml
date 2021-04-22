@@ -21,6 +21,8 @@ jobs:
     - name: npm install and test
       run: |
         npm install
+        npm run sanctioned_test
+        npm run user_test
         npm test
       env:
         CI: true

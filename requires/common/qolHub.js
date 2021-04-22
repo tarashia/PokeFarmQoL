@@ -1,33 +1,33 @@
 /* This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
-/* globals Helpers */
 // eslint-disable-next-line no-unused-vars
 class QoLHubBase {
-    static DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
-        customCss: '',
-        enableDaycare: true,
-        shelterEnable: true,
-        fishingEnable: true,
-        publicFieldEnable: true,
-        privateFieldEnable: true,
-        partyMod: true,
-        easyEvolve: true,
-        labNotifier: true,
-        dexFilterEnable: true,
-        condenseWishforge: true
-    };
-    constructor(jQuery, localStorageMgr, GLOBALS, PAGES, SETTINGS) {
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
+        this.HELPERS = HELPERS;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
+        this.DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
+            customCss: '',
+            enableDaycare: true,
+            shelterEnable: true,
+            fishingEnable: true,
+            publicFieldEnable: true,
+            privateFieldEnable: true,
+            partyMod: true,
+            easyEvolve: true,
+            labNotifier: true,
+            dexFilterEnable: true,
+            condenseWishforge: true
+        };
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
-        if(SETTINGS) {
+        if (SETTINGS) {
             this.USER_SETTINGS = SETTINGS;
         }
         else {
-            this.USER_SETTINGS = QoLHubBase.DEFAULT_USER_SETTINGS;
+            this.USER_SETTINGS = this.DEFAULT_USER_SETTINGS;
         }
     }
     setupCSS() {
@@ -68,6 +68,16 @@ class QoLHubBase {
 
         obj.jQuery(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
             obj.jQuery(this).next().slideToggle();
+        }));
+
+        // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
+        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
+            obj.jQuery('#clearCachedDex').next().remove();
+        }));
+
+        // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
+        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
+            obj.resetDex();
         }));
     }
     loadSettings() {
@@ -110,10 +120,10 @@ class QoLHubBase {
             if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
                 const value = this.USER_SETTINGS[key];
                 if (typeof value === 'boolean') {
-                    Helpers.toggleSetting(key, value);
+                    this.HELPERS.toggleSetting(key, value);
                 }
                 else if (typeof value === 'string') {
-                    Helpers.toggleSetting(key, value);
+                    this.HELPERS.toggleSetting(key, value);
                 }
             }
         }
@@ -145,13 +155,13 @@ class QoLHubBase {
         const qolHubCssBackground = this.jQuery('.qolHubTable').css('background-color');
         const qolHubCssTextColor = this.jQuery('.qolHubTable').css('color');
         const qolHubDialogBorder = this.jQuery('.dialog>div>div>div').css('border');
-        this.jQuery('.qolHubHead').css('background-color',  qolHubCssBackgroundHead);
+        this.jQuery('.qolHubHead').css('background-color', qolHubCssBackgroundHead);
         this.jQuery('.qolHubHead').css('color', qolHubCssTextColorHead);
         this.jQuery('.qolChangeLogHead').css('background-color', qolHubCssBackgroundHead);
         this.jQuery('.qolChangeLogHead').css('color', qolHubCssTextColorHead);
         this.jQuery('.qolChangeLogHead').css('border', qolHubDialogBorder);
         this.jQuery('.qolopencloselist.qolChangeLogContent').css('background-color', qolHubCssBackground);
-        this.jQuery('.qolopencloselist.qolChangeLogContent').css('color',  qolHubCssTextColor);
+        this.jQuery('.qolopencloselist.qolChangeLogContent').css('color', qolHubCssTextColor);
 
         this.jQuery('.qolAllSettings').css('border', qolHubDialogBorder);
 

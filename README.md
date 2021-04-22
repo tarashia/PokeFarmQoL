@@ -2,6 +2,7 @@
 Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pokéfarm experience even more!
 
 # Features
+Note that currently some features are different between the Sanctioned and Tampermoneky versions of this script. The subsections below call out the differences where they exist.
 ## Quality of Life Hub (Icon on Timers Bar)
 - Enable/disable the modifications on each page
 - Displays info on Pokedex data settings
@@ -34,8 +35,18 @@ Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pok
 ## Multiuser Page (/users/...)
 - Mass party clicking modifications
 ## Shelter Page (/shelter)
-- Advanced searching with custom search parameters
+### Common Features
+- Advanced searching with custom search parameters:
+  - Any icon that appears next to a Pokemon's name (Male, Female, Genderless, Starter, Shiny, Albino, Melanistic, Custom Sprite)
+  - Egg and Pokemon types
+  - Image file paths (img code)
 - Use the 'n' key on the keyboard to select an egg instead of clicking on it
+### Sanctioned Script
+- Does not currently have the ability to search for Not Fully Evolved (NFE) or Ready to Evolve (RTE) pokemon. This may be updated later, but at the moment, it is a feature that has proven buggy for many users, and so was left out of the Sanctioned version.
+### Tampermonkey Script
+- Additional search parameters:
+  - RTE pokemon
+  - NFE pokemon
 ## Wishforge Page (/forge)
 - Condense the list of Crafted Badges into a table
 

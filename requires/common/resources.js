@@ -1171,6 +1171,9 @@ class ResourcesBase {
                       </tr>
                       <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
                       </tr>
+                      <tr id="qolDexClearRow">
+                        <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                      </tr>
                       <tr>
                         <td colspan="2" class="qolAllSettings">
                           <h3 class="qolHubHead">Css Settings</h3>

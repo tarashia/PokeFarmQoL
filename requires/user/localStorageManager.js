@@ -1,8 +1,8 @@
 /* globals LocalStorageManagerBase */
 // eslint-disable-next-line no-unused-vars
 class LocalStorageManager extends LocalStorageManagerBase {
-    constructor(keyPrefix, storage) {
-        super(keyPrefix, storage);
+    constructor(keyPrefix, storage, helpers) {
+        super(keyPrefix, storage, helpers);
     }
 
     /* Set globals.DEX_DATA and globals.DEX_UPDATE_DATE by loading the main dex page from the web
