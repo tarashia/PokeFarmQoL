@@ -290,6 +290,11 @@
                                 <img src="https://pfq-static.com/img/items/luckyegg.png/t=1478085269" alt="Lucky Egg"> OFF
                             </a>
                         </li>
+                        <li data-name="QoL">
+                            <a title="QoL Settings">
+                                <img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL
+                            </a>
+                        </li>
                         <li class="spacer"></li>
                         <li>
                             <a href="/chat" class="borderless" title="Discord (Chat)">
@@ -506,7 +511,7 @@
             </div>
             <a href="#" id="headertoggler">
                 <span class="time">[20:36:52]</span>
-                <span class="notices">2 Notifications</span>
+                 <span class="notices">2 Notifications</span>
             </a>
             <div id="morestuffhtml">
                 <p>
@@ -550,37 +555,48 @@
                 </ul>
             </div>
             <div id="content">
+                <div id="qolpartymod" style="background-color: rgb(210, 232, 175); color: rgb(0, 64, 0);">
+                    <label>
+                        <input type="checkbox" class="qolsetting qolalone" data-key="hideDislike">Hide disliked berries
+                    </label>
+                    <label>
+                        <input type="checkbox" class="qolsetting qolalone" data-key="niceTable">Show in table
+                    </label>
+                    <label>
+                        <input type="checkbox" class="qolsetting qolalone" data-key="hideAll">Hide all click fast
+                    </label>
+                </div>
                 <div class="tabbed_interface horizontal" id="multiuser">
-                    <ul>
+                    <ul class="qolpartyclickul">
                         <li data-name="TheIceMage" class="tab-active">
-                            <label>TheIceMage</label>
+                            <label class="qolpartyclicklilabel">TheIceMage</label>
                         </li>
                         <li data-name="bear818">
-                            <label>bear818</label>
+                            <label class="qolpartyclicklilabel">bear818</label>
                         </li>
                         <li data-name="MallowCat">
-                            <label>MallowCat</label>
+                            <label class="qolpartyclicklilabel">MallowCat</label>
                         </li>
                         <li data-name="Brohepsi">
-                            <label>Brohepsi</label>
+                            <label class="qolpartyclicklilabel">Brohepsi</label>
                         </li>
                         <li data-name="maddy360">
-                            <label>maddy360</label>
+                            <label class="qolpartyclicklilabel">maddy360</label>
                         </li>
                         <li data-name="FelixEgadrik">
-                            <label>FelixEgadrik</label>
+                            <label class="qolpartyclicklilabel">FelixEgadrik</label>
                         </li>
                         <li data-name="ArcticHalo">
-                            <label>ArcticHalo</label>
+                            <label class="qolpartyclicklilabel">ArcticHalo</label>
                         </li>
                         <li data-name="regina56">
-                            <label>regina56</label>
+                            <label class="qolpartyclicklilabel">regina56</label>
                         </li>
                         <li data-name="Sanae_Kochiya">
-                            <label>Sanae_Kochiya</label>
+                            <label class="qolpartyclicklilabel">Sanae_Kochiya</label>
                         </li>
                         <li data-name="FloralFeline">
-                            <label>FloralFeline</label>
+                            <label class="qolpartyclicklilabel">FloralFeline</label>
                         </li>
                     </ul>
                     <div class="tab-active">
@@ -595,14 +611,14 @@
                                     <b>Interactions:</b>
                                     <span id="clickcount_act_sent">0</span> sent / 0 received
                                 </div>
-                                <div class="party wide">
-                                    <div data-pid="h6cMw">
-                                        <div class="pkmn">
+                                <div class="party wide qolpartyclickpartywidth">
+                                    <div data-pid="h6cMw" class="qolpartyclickalot qolpartyclickpartydivwidth qolpartyclickborderone qolpartyclickborderfive">
+                                        <div class="pkmn qolpartyclickhide">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/w/7/2/l.png/t=1584355938')" class="pokemon"></div>
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/j/z/h/y.png/t=1584355487')" class="icon"></div>
                                             <div class="helditem"></div>
                                         </div>
-                                        <div class="name">
+                                        <div class="name qolpartyclickhide">
                                             <a
                                                 class="summarylink"
                                                 draggable="false"
@@ -612,40 +628,65 @@
                                             <img src="https://pfq-static.com/img/pkmn/shiny.png/t=1400179603" title="[SHINY]">
                                             <img src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006" title="[M]">
                                         </div>
-                                        <div class="expbar">
+                                        <div class="expbar qolpartyclickhide">
                                             <div style="width:93.2%"></div>
                                             <span>Lv. 30 — 2,604 / 2,791</span>
                                         </div>
                                         <div class="action">
                                             <div class="berrybuttons" data-up="bitter" data-down="sweet">
-                                                <a href="#" data-berry="aspear" data-tooltip="">
+                                                <a
+                                                    href="#"
+                                                    data-berry="aspear"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickhide qolpartyclickz"
+                                                >
                                                     <span>Aspear Berry</span>
                                                     <img src="https://pfq-static.com/img/items/aspearberry.png/t=1369079719" alt="Aspear Berry">
                                                 </a>
-                                                <div class="tooltip_content">Aspear Berry (SOUR)</div>
-                                                <a href="#" data-berry="cheri" data-tooltip="">
+                                                <div class="tooltip_content qolpartyclickhide">Aspear Berry (SOUR)</div>
+                                                <a
+                                                    href="#"
+                                                    data-berry="cheri"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickhide qolpartyclickz"
+                                                >
                                                     <span>Cheri Berry</span>
                                                     <img src="https://pfq-static.com/img/items/cheriberry.png/t=1369079719" alt="Aspear Berry">
                                                 </a>
-                                                <div class="tooltip_content">Cheri Berry (SPICY)</div>
-                                                <a href="#" data-berry="chesto" data-tooltip="">
+                                                <div class="tooltip_content qolpartyclickhide">Cheri Berry (SPICY)</div>
+                                                <a
+                                                    href="#"
+                                                    data-berry="chesto"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickhide qolpartyclickz"
+                                                >
                                                     <span>Chesto Berry</span>
                                                     <img src="https://pfq-static.com/img/items/chestoberry.png/t=1369079719" alt="Cheri Berry">
                                                 </a>
-                                                <div class="tooltip_content">Chesto Berry (DRY)</div>
-                                                <a href="#" data-berry="pecha" data-tooltip="">
+                                                <div class="tooltip_content qolpartyclickhide">Chesto Berry (DRY)</div>
+                                                <a
+                                                    href="#"
+                                                    data-berry="pecha"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickhide qolpartyclickz"
+                                                >
                                                     <span>Pecha Berry</span>
                                                     <img src="https://pfq-static.com/img/items/pechaberry.png/t=1369079719" alt="Pecha Berry">
                                                 </a>
-                                                <div class="tooltip_content">Pecha Berry (SWEET)</div>
-                                                <a href="#" data-berry="rawst" data-tooltip="">
+                                                <div class="tooltip_content qolpartyclickhide">Pecha Berry (SWEET)</div>
+                                                <a
+                                                    href="#"
+                                                    data-berry="rawst"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickwidth qolpartyclickz"
+                                                >
                                                     <span>Rawst Berry</span>
                                                     <img src="https://pfq-static.com/img/items/rawstberry.png/t=1369079719" alt="Rawst Berry">
                                                 </a>
-                                                <div class="tooltip_content">Rawst Berry (BITTER)</div>
+                                                <div class="tooltip_content qolpartyclickhide">Rawst Berry (BITTER)</div>
                                             </div>
                                         </div>
-                                        <div class="taste">Likes:
+                                        <div class="taste qolpartyclickhide">Likes:
                                             <div class="right">
                                                 <b>Bitter</b> food
                                             </div>
@@ -663,11 +704,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tYcD">
-                                        <div class="pkmn">
+                                    <div data-pid="_tYcD" class="qolpartyclickalot qolpartyclickpartydivwidth qolpartyclickbordertwo">
+                                        <div class="pkmn qolpartyclickhide">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
-                                        <div class="name">
+                                        <div class="name qolpartyclickhide">
                                             <a
                                                 class="summarylink"
                                                 draggable="false"
@@ -675,14 +716,14 @@
                                                 style="width:200px"
                                             >&lt;Egg&gt;</a>
                                         </div>
-                                        <div class="expbar">
+                                        <div class="expbar qolpartyclickhide">
                                             <div style="width:88.5%"></div>
                                             <span>7,931 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="qolpartyclickz">Hold the Egg!</a>
                                         </div>
-                                        <div class="taste">&nbsp;
+                                        <div class="taste qolpartyclickhide">&nbsp;
                                             <div>&nbsp;</div>
                                         </div>
                                         <div class="extra">
@@ -694,11 +735,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tYzJ">
-                                        <div class="pkmn">
+                                    <div data-pid="_tYzJ" class="qolpartyclickalot qolpartyclickpartydivwidth qolpartyclickborderfive">
+                                        <div class="pkmn qolpartyclickhide">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
-                                        <div class="name">
+                                        <div class="name qolpartyclickhide">
                                             <a
                                                 class="summarylink"
                                                 draggable="false"
@@ -706,14 +747,14 @@
                                                 style="width:200px"
                                             >&lt;Egg&gt;</a>
                                         </div>
-                                        <div class="expbar">
+                                        <div class="expbar qolpartyclickhide">
                                             <div style="width:88.4%"></div>
                                             <span>7,925 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="qolpartyclickz">Hold the Egg!</a>
                                         </div>
-                                        <div class="taste">&nbsp;
+                                        <div class="taste qolpartyclickhide">&nbsp;
                                             <div>&nbsp;</div>
                                         </div>
                                         <div class="extra">
@@ -725,11 +766,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tL0R">
-                                        <div class="pkmn">
+                                    <div data-pid="_tL0R" class="qolpartyclickalot qolpartyclickpartydivwidth">
+                                        <div class="pkmn qolpartyclickhide">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
-                                        <div class="name">
+                                        <div class="name qolpartyclickhide">
                                             <a
                                                 class="summarylink"
                                                 draggable="false"
@@ -737,14 +778,14 @@
                                                 style="width:200px"
                                             >&lt;Egg&gt;</a>
                                         </div>
-                                        <div class="expbar">
+                                        <div class="expbar qolpartyclickhide">
                                             <div style="width:88.4%"></div>
                                             <span>7,925 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="qolpartyclickz">Hold the Egg!</a>
                                         </div>
-                                        <div class="taste">&nbsp;
+                                        <div class="taste qolpartyclickhide">&nbsp;
                                             <div>&nbsp;</div>
                                         </div>
                                         <div class="extra">
@@ -756,11 +797,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tJBk">
-                                        <div class="pkmn">
+                                    <div data-pid="_tJBk" class="qolpartyclickalot qolpartyclickpartydivwidth qolpartyclickborderthree qolpartyclickborderfive">
+                                        <div class="pkmn qolpartyclickhide">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
-                                        <div class="name">
+                                        <div class="name qolpartyclickhide">
                                             <a
                                                 class="summarylink"
                                                 draggable="false"
@@ -768,14 +809,14 @@
                                                 style="width:200px"
                                             >&lt;Egg&gt;</a>
                                         </div>
-                                        <div class="expbar">
+                                        <div class="expbar qolpartyclickhide">
                                             <div style="width:87.2%"></div>
                                             <span>7,820 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="qolpartyclickz">Hold the Egg!</a>
                                         </div>
-                                        <div class="taste">&nbsp;
+                                        <div class="taste qolpartyclickhide">&nbsp;
                                             <div>&nbsp;</div>
                                         </div>
                                         <div class="extra">
@@ -787,11 +828,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tYZJ">
-                                        <div class="pkmn">
+                                    <div data-pid="_tYZJ" class="qolpartyclickalot qolpartyclickpartydivwidth qolpartyclickborderfour">
+                                        <div class="pkmn qolpartyclickhide">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
-                                        <div class="name">
+                                        <div class="name qolpartyclickhide">
                                             <a
                                                 class="summarylink"
                                                 draggable="false"
@@ -799,14 +840,14 @@
                                                 style="width:200px"
                                             >&lt;Egg&gt;</a>
                                         </div>
-                                        <div class="expbar">
+                                        <div class="expbar qolpartyclickhide">
                                             <div style="width:87.2%"></div>
                                             <span>7,814 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="qolpartyclickz">Hold the Egg!</a>
                                         </div>
-                                        <div class="taste">&nbsp;
+                                        <div class="taste qolpartyclickhide">&nbsp;
                                             <div>&nbsp;</div>
                                         </div>
                                         <div class="extra">
@@ -820,7 +861,7 @@
                                     </div>
                                 </div>
                                 <a href="#" class="mu_navlink prev disabled">&lt; Previous</a>
-                                <a href="#" class="mu_navlink next">Next &gt;</a>
+                                <a href="#" class="mu_navlink next qolpartyclicknav">Next &gt;</a>
                                 <a class="fieldslink" href="/fields/TheIceMage">Go to Fields</a>
                                 <label class="compact-view-toggle">
                                     <input type="checkbox"> Compact View
@@ -829,7 +870,7 @@
                                     <input type="checkbox"> Auto-scroll
                                 </label>
                             </div>
-                            <div id="profilebox">
+                            <div id="profilebox" class="qolpartyclickhide">
                                 <div id="trainercard" class="">
                                     <div class="tc-ballicon"></div>
                                     <div class="tc-header">Trainer</div>
@@ -904,7 +945,7 @@ Houndour hunt (ended) 1s/1a/0m/272h
                                     </div>
                                 </div>
                             </div>
-                            <div id="trainerimage">
+                            <div id="trainerimage" class="qolpartyclickhide">
                                 <svg viewBox="0 0 300 600">
                                     <g id="trainer_full_image">
                                         <image

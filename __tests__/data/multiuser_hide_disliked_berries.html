@@ -290,6 +290,11 @@
                                 <img src="https://pfq-static.com/img/items/luckyegg.png/t=1478085269" alt="Lucky Egg"> OFF
                             </a>
                         </li>
+                        <li data-name="QoL">
+                            <a title="QoL Settings">
+                                <img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL
+                            </a>
+                        </li>
                         <li class="spacer"></li>
                         <li>
                             <a href="/chat" class="borderless" title="Discord (Chat)">
@@ -550,37 +555,48 @@
                 </ul>
             </div>
             <div id="content">
+                <div id="qolpartymod" style="background-color: rgb(210, 232, 175); color: rgb(0, 64, 0);">
+                    <label>
+                        <input type="checkbox" class="qolsetting qolalone" data-key="hideDislike">Hide disliked berries
+                    </label>
+                    <label>
+                        <input type="checkbox" class="qolsetting qolalone" data-key="niceTable">Show in table
+                    </label>
+                    <label>
+                        <input type="checkbox" class="qolsetting qolalone" data-key="hideAll">Hide all click fast
+                    </label>
+                </div>
                 <div class="tabbed_interface horizontal" id="multiuser">
-                    <ul>
+                    <ul class="">
                         <li data-name="TheIceMage" class="tab-active">
-                            <label>TheIceMage</label>
+                            <label class="">TheIceMage</label>
                         </li>
                         <li data-name="bear818">
-                            <label>bear818</label>
+                            <label class="">bear818</label>
                         </li>
                         <li data-name="MallowCat">
-                            <label>MallowCat</label>
+                            <label class="">MallowCat</label>
                         </li>
                         <li data-name="Brohepsi">
-                            <label>Brohepsi</label>
+                            <label class="">Brohepsi</label>
                         </li>
                         <li data-name="maddy360">
-                            <label>maddy360</label>
+                            <label class="">maddy360</label>
                         </li>
                         <li data-name="FelixEgadrik">
-                            <label>FelixEgadrik</label>
+                            <label class="">FelixEgadrik</label>
                         </li>
                         <li data-name="ArcticHalo">
-                            <label>ArcticHalo</label>
+                            <label class="">ArcticHalo</label>
                         </li>
                         <li data-name="regina56">
-                            <label>regina56</label>
+                            <label class="">regina56</label>
                         </li>
                         <li data-name="Sanae_Kochiya">
-                            <label>Sanae_Kochiya</label>
+                            <label class="">Sanae_Kochiya</label>
                         </li>
                         <li data-name="FloralFeline">
-                            <label>FloralFeline</label>
+                            <label class="">FloralFeline</label>
                         </li>
                     </ul>
                     <div class="tab-active">
@@ -596,7 +612,7 @@
                                     <span id="clickcount_act_sent">0</span> sent / 0 received
                                 </div>
                                 <div class="party wide">
-                                    <div data-pid="h6cMw">
+                                    <div data-pid="h6cMw" class="">
                                         <div class="pkmn">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/w/7/2/l.png/t=1584355938')" class="pokemon"></div>
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/j/z/h/y.png/t=1584355487')" class="icon"></div>
@@ -617,28 +633,53 @@
                                             <span>Lv. 30 — 2,604 / 2,791</span>
                                         </div>
                                         <div class="action">
-                                            <div class="berrybuttons" data-up="bitter" data-down="sweet">
-                                                <a href="#" data-berry="aspear" data-tooltip="">
+                                            <div class="berrybuttons qolpartyclicktextalign" data-up="bitter" data-down="sweet">
+                                                <a
+                                                    href="#"
+                                                    data-berry="aspear"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickhide"
+                                                >
                                                     <span>Aspear Berry</span>
                                                     <img src="https://pfq-static.com/img/items/aspearberry.png/t=1369079719" alt="Aspear Berry">
                                                 </a>
                                                 <div class="tooltip_content">Aspear Berry (SOUR)</div>
-                                                <a href="#" data-berry="cheri" data-tooltip="">
+                                                <a
+                                                    href="#"
+                                                    data-berry="cheri"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickhide"
+                                                >
                                                     <span>Cheri Berry</span>
                                                     <img src="https://pfq-static.com/img/items/cheriberry.png/t=1369079719" alt="Aspear Berry">
                                                 </a>
                                                 <div class="tooltip_content">Cheri Berry (SPICY)</div>
-                                                <a href="#" data-berry="chesto" data-tooltip="">
+                                                <a
+                                                    href="#"
+                                                    data-berry="chesto"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickhide"
+                                                >
                                                     <span>Chesto Berry</span>
                                                     <img src="https://pfq-static.com/img/items/chestoberry.png/t=1369079719" alt="Cheri Berry">
                                                 </a>
                                                 <div class="tooltip_content">Chesto Berry (DRY)</div>
-                                                <a href="#" data-berry="pecha" data-tooltip="">
+                                                <a
+                                                    href="#"
+                                                    data-berry="pecha"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickhide"
+                                                >
                                                     <span>Pecha Berry</span>
                                                     <img src="https://pfq-static.com/img/items/pechaberry.png/t=1369079719" alt="Pecha Berry">
                                                 </a>
                                                 <div class="tooltip_content">Pecha Berry (SWEET)</div>
-                                                <a href="#" data-berry="rawst" data-tooltip="">
+                                                <a
+                                                    href="#"
+                                                    data-berry="rawst"
+                                                    data-tooltip=""
+                                                    class="qolpartyclickwidth"
+                                                >
                                                     <span>Rawst Berry</span>
                                                     <img src="https://pfq-static.com/img/items/rawstberry.png/t=1369079719" alt="Rawst Berry">
                                                 </a>
@@ -663,7 +704,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tYcD">
+                                    <div data-pid="_tYcD" class="">
                                         <div class="pkmn">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
@@ -680,7 +721,7 @@
                                             <span>7,931 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="">Hold the Egg!</a>
                                         </div>
                                         <div class="taste">&nbsp;
                                             <div>&nbsp;</div>
@@ -694,7 +735,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tYzJ">
+                                    <div data-pid="_tYzJ" class="">
                                         <div class="pkmn">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
@@ -711,7 +752,7 @@
                                             <span>7,925 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="">Hold the Egg!</a>
                                         </div>
                                         <div class="taste">&nbsp;
                                             <div>&nbsp;</div>
@@ -725,7 +766,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tL0R">
+                                    <div data-pid="_tL0R" class="">
                                         <div class="pkmn">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
@@ -742,7 +783,7 @@
                                             <span>7,925 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="">Hold the Egg!</a>
                                         </div>
                                         <div class="taste">&nbsp;
                                             <div>&nbsp;</div>
@@ -756,7 +797,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tJBk">
+                                    <div data-pid="_tJBk" class="">
                                         <div class="pkmn">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
@@ -773,7 +814,7 @@
                                             <span>7,820 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="">Hold the Egg!</a>
                                         </div>
                                         <div class="taste">&nbsp;
                                             <div>&nbsp;</div>
@@ -787,7 +828,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-pid="_tYZJ">
+                                    <div data-pid="_tYZJ" class="">
                                         <div class="pkmn">
                                             <div style="background-image:url('https://pfq-static.com/img/pkmn/3/e/l.png/t=1478697860')" class="egg"></div>
                                         </div>
@@ -804,7 +845,7 @@
                                             <span>7,814 / 8,960</span>
                                         </div>
                                         <div class="action">
-                                            <a href="#" data-berry="aspear">Hold the Egg!</a>
+                                            <a href="#" data-berry="aspear" class="">Hold the Egg!</a>
                                         </div>
                                         <div class="taste">&nbsp;
                                             <div>&nbsp;</div>
@@ -829,7 +870,7 @@
                                     <input type="checkbox"> Auto-scroll
                                 </label>
                             </div>
-                            <div id="profilebox">
+                            <div id="profilebox" class="">
                                 <div id="trainercard" class="">
                                     <div class="tc-ballicon"></div>
                                     <div class="tc-header">Trainer</div>
@@ -904,7 +945,7 @@ Houndour hunt (ended) 1s/1a/0m/272h
                                     </div>
                                 </div>
                             </div>
-                            <div id="trainerimage">
+                            <div id="trainerimage" class="">
                                 <svg viewBox="0 0 300 600">
                                     <g id="trainer_full_image">
                                         <image
