@@ -1,0 +1,145 @@
+**Path to Sanctioned**
+- [X] Remove '@resource' dependencies
+    - Moved all data from '@resource' dependencies into resources.js file
+    - Load data from resources.js when needed
+- [X] Downgrade to jQuery 1.11.2
+    - Changed installed version of jQuery in npm
+    - Modified code to use Promises instead of $.Deferred objects, since they didn't exist
+- [X] Remove '@require' dependencies
+    - Create compile_build.sh script to compile into single Poke-Farm-QoL.user.js file
+    - Move top level code to pfqol.js
+- [ ] Setup framework for managing multiple scripts
+    - Add ability to run tests on different UUT files
+      - Added .env handling and a UUT env so I can specify which file to run on
+    - Create build scripts for each version
+      - test
+      - user
+      - sanctioned
+    - Workflow from now on
+      - Decide if code will be sanctioned-only, user-only, or both
+        - If the code will be:
+          - in sanctioned and in user         | common/foo.js
+          - in sanctioned and not in user     | sanctioned/foo.js
+          - not in sanctioned and in user     | user/foo.js
+          - not in sanctioned and not in user | no need to write code :P
+      - Add code in the appropriate file(s)
+      - Add tests for new code
+        - **How will tests be organized?**
+      - Run existing and new tests
+- [ ] Make it easy to build sanctioned and "extended" versions of script
+    - Take the more problematic features out of sanctioned version
+      - Loading pokedex data from the QoL hub
+      - Using pokedex data in shelter and lab
+        - Highlighting ready to evolve mons in shelter
+        - Distinguishing regional forms
+      - Hard code the regional forms list in the farm page
+
+**Moving existing code to common/sanctioned/user structure**
+- [X] basePage.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] daycarePage.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] dexPage.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] dexPageParser.js
+  - Only in user. Only needed for parsing ajax responses containing dex data.
+    Restricting this to user version only.
+- [X] dexUtilities.js
+  - Only in user. Only needed for parsing ajax responses containing dex data.
+    Restricting this to user version only.
+- [X] evolutionTreeParser.js
+  - Only in user. Only needed for parsing ajax responses containing dex data.
+    Restricting this to user version only.
+- [X] farmPage.js
+  - common/farmPage.js
+    - contains most of the features for the page
+    - `class FarmPageBase extends Page`
+  - user/farmPage.js
+    - contains features that need the parsed dex data.
+    - `class FarmPage extends FarmPageBase`
+- [X] fishingPage.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] globals.js
+  - common/globals.js
+    - contains most of the features for the page
+    - `class GlobalsBase`
+  - user/globals.js
+    - contains features that need the parsed dex data.
+    - `class Globals extends GlobalsBase`
+  - sanctioned/globals.js
+    - empty `Globals` class
+    - `class Globals extends GlobalsBase {}`
+- [X] header.txt
+  - Headers for user and sanctioned versions are different. Moved to user and sanctioned folders
+- [X] helpers.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] labPage.js
+  - common/labPage.js
+    - contains most of the features for the page
+    - `class LabPageBase extends Page`
+  - user/labPage.js
+    - contains features that need the parsed dex data.
+    - `class LabPage extends LabPageBase`
+  - sanctioned/labPage.js
+    - empty `LabPage` class
+    - `class LabPage extends LabPageBase {}`
+- [X] localStorageManager.js
+  - Only in user. Only needed storing the dex data parsed from ajax responses.
+    Restricting this to user version only.
+- [X] multiuserPage.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] pfqol.js
+- [X] privateFieldsPage.js
+  - common/privateFieldsPage.js
+    - contains most of the features for the page
+    - `class PrivateFieldsPageBase extends Page`
+  - user/privateFieldsPage.js
+    - contains features that need the parsed dex data.
+    - `class PrivateFieldsPage extends PrivateFieldsPageBase`
+- [X] publicFieldsPage.js
+  - common/publicFieldsPage.js
+    - contains ~~most~~ **all** of the features for the page
+    - `class PublicFieldsPage extends Page`
+    - No need to make subclasses right now. There are no functions that need dex data
+- [X] qolHub.js
+  - common/qolHub.js
+    - contains most of the features for the page
+    - `class QoLHubBase`
+    - Remove LocalStorageManager param from handleUpdateDexClick
+    - Remove DexUtilities
+    - Remove DexPageParser
+    - Remove EvolutionTreeParser
+  - user/qolHub.js
+    - contains features that need the parsed dex data.
+    - `class QoLHub extends QoLHubBase`
+- [X] resources.js
+  - Only in common. Resources that aren't needed for user/sanctioned are okay to have.
+- [X] shelterPage.js
+  - common/shelterPage.js
+    - contains most of the features for the page
+    - `class ShelterPageBase extends Page`
+    - Changes:
+      - Remove 'ready to evolve' settings and code
+      - Remove 'not fully evolved' settings and code
+      - Remove GLOBALS.EGGS_PNG_TO_TYPES_LIST usage
+      - Remove GLOBALS.EVOLVE_BY_LEVEL_LIST usage
+      - Remove GLOBALS.EVOLUTIONS_LEFT usage
+  - user/shelterPage.js
+    - contains features that need the parsed dex data.
+    - `class ShelterPage extends ShelterPageBase`
+- [X] wishforgePage.js
+  - Only in common. Nothing special for sanctioned/user
+- [X] Check if GLOBALS.DEX_DATA should be in common/ or in user/
+
+**Add tests for sanctioned build**
+- [X] compiled_test.js
+- [X] compiledDaycarePage.js
+- [X] compiledDexPage.js
+- [X] compiledFarmPage.js
+- [X] compiledFishingPage.js
+- [X] compiledLabPage.js
+- [X] compiledMultiuserPage.js
+- [X] compiledPrivateFieldsPage.js
+- [X] compiledPublicFieldsPage.js
+- [X] compiledShelterPage.js
+- [X] compiledWishforgePage.js

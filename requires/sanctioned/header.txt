@@ -1,0 +1,13 @@
+// eslint-disable-next-line multiline-comment-style
+// ==UserScript==
+// @name         Poké Farm QoL
+// @namespace    https://github.com/jpgualdarrama/
+// @author       Bentomon
+// @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/merge_issue_70_issue_master/Poke-Farm-QoL.sanctioned.user.js
+// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/merge_issue_70_issue_master/Poke-Farm-QoL.sanctioned.user.js
+// @description  Quality of Life changes to Pokéfarm!
+// @version      1.6.9
+// @match        https://pokefarm.com/*
+// @connect      github.com
+// ==/UserScript==
