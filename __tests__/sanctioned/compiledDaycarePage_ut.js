@@ -1,7 +1,3 @@
-// import { JSDOM } from 'jsdom';
-// const dom = new JSDOM();
-// window.document = dom.window.document;
-
 const $ = require('../../__mocks__/jquery_files').jQuery;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;

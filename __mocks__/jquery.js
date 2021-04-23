@@ -8,5 +8,4 @@ const get = jest.fn((path) => {
 
 const jQuery = jQ;
 jQuery.get = get;
-// jQuery.when = when;
 exports.jQuery = jQuery;
