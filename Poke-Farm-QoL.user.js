@@ -1816,7 +1816,7 @@ $(function () {
             }
 
             // types
-            const typeElements = $(dataElements[index]).children().slice(1,);
+            const typeElements = $(dataElements[index]).children().slice(1);
             const typeUrls = typeElements.map(idx => typeElements[idx]['src']);
             let types = typeUrls.map(idx =>
                 typeUrls[idx].substring(typeUrls[idx].indexOf('types/') + 'types/'.length,
@@ -3260,14 +3260,15 @@ $(function () {
     /* globals GlobalsBase */
     // eslint-disable-next-line no-unused-vars
     class Globals extends GlobalsBase {
-    // filled in by LocalStorageManager
-    EVOLVE_BY_LEVEL_LIST = null;
-    EVOLUTIONS_LEFT = null;
-    constructor(jQuery, localStorageMgr, helpers) {
-        super(helpers);
-        this.jQuery = jQuery;
-        this.localStorageMgr = localStorageMgr;
-    }
+        constructor(jQuery, localStorageMgr, helpers) {
+            super(helpers);
+            this.jQuery = jQuery;
+            this.localStorageMgr = localStorageMgr;
+
+            // filled in by LocalStorageManager
+            this.EVOLVE_BY_LEVEL_LIST = null;
+            this.EVOLUTIONS_LEFT = null;
+        }
     }
     /* eslint-disable no-trailing-spaces */
     /* EvolutionTreeParser class
@@ -7497,11 +7498,10 @@ $(function () {
                             console.error(`Unable to parse pokemon-evolving-to from <li> at index ${index}`);
                             errorOccurred = true;
                         } else {
-                            whitespace = evolvePokemon.match(/\s{2,}/g);
-                            // remove extraneous whitespace
+                        // remove extraneous whitespace
                             evolvePokemon = evolvePokemon.trim();
                             // use a regex to find extra whitespace between words
-                            let whitespace = evolvePokemon.match(/\s{2,}/g);
+                            whitespace = evolvePokemon.match(/\s{2,}/g);
                             while (whitespace) {
                                 for (let i = whitespace.length - 1; i >= 0; i--) {
                                     const match = whitespace[i];
