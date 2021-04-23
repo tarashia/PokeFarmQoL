@@ -105,9 +105,11 @@ class PublicFieldsPage extends Page {
         this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
         this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
-        // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-        // settings as most of the text on the site, manually set the text color for
-        // '.collapsible' to match the text around it
+        /*
+         * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+         * settings as most of the text on the site, manually set the text color for
+         * '.collapsible' to match the text around it
+         */
         this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
     }
     setupObserver() {
@@ -354,9 +356,7 @@ class PublicFieldsPage extends Page {
         const obj = this;
         const cls = this.helpers.getPokemonImageClass();
 
-        /////////////////////////////////////////////////
         //////////////////// sorting ////////////////////
-        /////////////////////////////////////////////////
         if (this.settings.fieldByBerry === true) { //sort field by berries
             this.jQuery('.fieldmon').removeClass('qolSortMiddle');
             this.jQuery('.field').removeClass('qolGridField');
@@ -450,9 +450,7 @@ class PublicFieldsPage extends Page {
             }
         }
 
-        /////////////////////////////////////////////////
         /////////////////// searching ///////////////////
-        /////////////////////////////////////////////////
         const bigImgs = document.querySelectorAll('.publicfoundme');
         if(bigImgs !== null) {
             bigImgs.forEach((b) => {obj.jQuery(b).removeClass('publicfoundme');});
