@@ -41,6 +41,10 @@
         ],
         "no-trailing-spaces": [
             "error"
+        ],
+        "multiline-comment-style": [
+          "error",
+          "starred-block"
         ]
     }
 }
