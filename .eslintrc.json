@@ -1,9 +1,9 @@
 {
-    "parser": "@babel/eslint-parser",
+    "parser": "./node_modules/@babel/eslint-parser",
     "env": {
+        "es6": true,
         "browser": true,
         "node": true,
-        "es2021": true,
         "jest": true
     },
     "extends": "eslint:recommended",
@@ -35,6 +35,12 @@
             "error"
         ],
         "no-var": [
+            "error"
+        ],
+        "prefer-const": [
+            "error"
+        ],
+        "no-trailing-spaces": [
             "error"
         ]
     }

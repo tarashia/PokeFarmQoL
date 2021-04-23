@@ -4,17 +4,40 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Jest single run current file",
+      "name": "Jest single run all user tests",
       "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
       "args": [
         "--verbose",
         "-i",
         "--no-cache",
-        "${fileBasename}"
+        "--collectCoverageFrom=\"Poke-Farm-QoL.test.user.js\"",
+        "--coverage",
+        "${workspaceFolder}/__tests__/user/compiled.+.js"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "preLaunchTask": "Compile",
+      "preLaunchTask": "Compile_User_Test",
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest single run all sanctioned tests",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "args": [
+        "--verbose",
+        "-i",
+        "--no-cache",
+        "--collectCoverageFrom=\"Poke-Farm-QoL.sanctioned.test.user.js\"",
+        "--coverage",
+        "${workspaceFolder}/__tests__/sanctioned/compiled.+.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "preLaunchTask": "Compile_Sanctioned_Test",
       "skipFiles": [
         "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**/*.js"
@@ -24,19 +47,41 @@
       "type": "node",
       "request": "launch",
       "name": "Jest single run all tests",
+      "program": "npm run test",
+      "args": [],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "preLaunchTask": "Compile_All",
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest single run current file",
       "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
       "args": [
         "--verbose",
         "-i",
-        "--no-cache"
+        "--no-cache",
+        "--collectCoverageFrom='[\"__tests__/*.user.js\"]'",
+        "--coverage",
+        "${file}"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "preLaunchTask": "Compile",
+      "preLaunchTask": "Compile_All",
       "skipFiles": [
-        "${workspaceFolder}/node_modules/**/*.js",,
+        "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**/*.js"
       ]
-    }
+    },
+    {
+      "type": "bashdb",
+      "request": "launch",
+      "name": "Bash-Debug (select script from list of sh files)",
+      "cwd": "${workspaceFolder}",
+      "program": "${command:SelectScriptName}",
+      "args": [],
+      "terminalKind": "integrated"
+    },
   ]
 }

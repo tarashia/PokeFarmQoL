@@ -3,29 +3,32 @@ const fs = require('fs');
 const path = require('path');
 const testTools = require('../__tests__/testTools');
 
-const du = jest.requireActual('../requires/utils/dexUtilities').DexUtilities;
+const du = jest.requireActual('../requires/user/dexUtilities').DexUtilities;
 
+// eslint-disable-next-line no-unused-vars
 const getMainDexPage = jest.fn(($) => {
     const file = path.join(__dirname, '../__tests__/data/', 'dex.html');
     const html = fs.readFileSync(file, 'utf8', 'r');
-    // return Promise.resolve(html);
-    return $.Deferred().resolve(html);
+    return Promise.resolve(html);
+    // return $.Deferred().resolve(html);
 });
 
 const getPokemonDexPage = jest.fn(($, id) => {
     if(testTools.dexPageExists(id)) {
         const html = testTools.loadDexFile(id);
-        // return Promise.resolve(html);
-        return $.Deferred().resolve(html);
-    } else if(id == '214|') { 
+        return Promise.resolve(html);
+        // return $.Deferred().resolve(html);
+    } else if(id == '214|') {
         const html = testTools.loadDexFile('214%7C');
-        return $.Deferred().resolve(html);
+        return Promise.resolve(html);
+        // return $.Deferred().resolve(html);
     } else if(id == '214~') {
         const html = testTools.loadDexFile('214_');
-        return $.Deferred().resolve(html);
+        return Promise.resolve(html);
+        // return $.Deferred().resolve(html);
     } else {
-        // return Promise.resolve(true);
-        return $.Deferred().resolve('');
+        return Promise.resolve('');
+        // return $.Deferred().resolve('');
     }
 });
 
