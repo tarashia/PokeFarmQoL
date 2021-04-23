@@ -270,11 +270,10 @@ class FarmPageBase extends Page {
                         console.error(`Unable to parse pokemon-evolving-to from <li> at index ${index}`);
                         errorOccurred = true;
                     } else {
-                        whitespace = evolvePokemon.match(/\s{2,}/g);
                         // remove extraneous whitespace
                         evolvePokemon = evolvePokemon.trim();
                         // use a regex to find extra whitespace between words
-                        let whitespace = evolvePokemon.match(/\s{2,}/g);
+                        whitespace = evolvePokemon.match(/\s{2,}/g);
                         while (whitespace) {
                             for (let i = whitespace.length - 1; i >= 0; i--) {
                                 const match = whitespace[i];

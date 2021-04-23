@@ -104,7 +104,7 @@ class Helpers {
         }
 
         // types
-        const typeElements = $(dataElements[index]).children().slice(1,);
+        const typeElements = $(dataElements[index]).children().slice(1);
         const typeUrls = typeElements.map(idx => typeElements[idx]['src']);
         let types = typeUrls.map(idx =>
             typeUrls[idx].substring(typeUrls[idx].indexOf('types/') + 'types/'.length,
