@@ -1,15 +1,17 @@
-// ==UserScript==
-// @name         Poké Farm QoL
-// @namespace    https://github.com/jpgualdarrama/
-// @author       Bentomon
-// @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/merge_issue_70_issue_master/Poke-Farm-QoL.user.js
-// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/merge_issue_70_issue_master/Poke-Farm-QoL.user.js
-// @description  Quality of Life changes to Pokéfarm!
-// @version      1.6.9
-// @match        https://pokefarm.com/*
-// @connect      github.com
-// ==/UserScript==
+/*
+ * ==UserScript==
+ * @name         Poké Farm QoL
+ * @namespace    https://github.com/jpgualdarrama/
+ * @author       Bentomon
+ * @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
+ * @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/merge_issue_70_issue_master/Poke-Farm-QoL.user.js
+ * @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/merge_issue_70_issue_master/Poke-Farm-QoL.user.js
+ * @description  Quality of Life changes to Pokéfarm!
+ * @version      1.6.9
+ * @match        https://pokefarm.com/*
+ * @connect      github.com
+ * ==/UserScript==
+ */
 // eslint-disable-next-line no-undef
 $(function () {
     ('use strict');
@@ -23,8 +25,8 @@ $(function () {
         head.appendChild(style);
     }
     /**
- * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
- */
+     * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
+     */
     // eslint-disable-next-line no-unused-vars
     class ResourcesBase {
         css() {
@@ -1311,8 +1313,8 @@ $(function () {
         }
     }
     /**
- * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
- */
+     * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
+     */
     /* globals ResourcesBase */
     // eslint-disable-next-line no-unused-vars
     class Resources extends ResourcesBase {
@@ -1789,8 +1791,10 @@ $(function () {
             }
             index++;
 
-            // Issue #59 - Pokefarm added a new h3 element after the nickname
-            // that contains no data
+            /*
+             * Issue #59 - Pokefarm added a new h3 element after the nickname
+             * that contains no data
+             */
             index++;
 
             // species
@@ -1956,8 +1960,10 @@ $(function () {
             this.POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
             this.POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
             this.POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
-            // Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
-            // Don't change the order without looking for where this array is used
+            /*
+             * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
+             * Don't change the order without looking for where this array is used
+             */
             this.TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
             this.NATURE_LIST = ['Lonely', 'Mild', 'Hasty', 'Gentle', 'Bold', 'Modest', 'Timid', 'Calm',
                 'Impish', 'Adamant', 'Jolly', 'Careful', 'Relaxed', 'Brave', 'Quiet', 'Sassy',
@@ -2035,9 +2041,11 @@ $(function () {
             ];
             this.SHELTER_SEARCH_LISTS = {
                 'findLegendary': [
-                // List of official legendaries more or less based on
-                // https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
-                // Kanto
+                /*
+                 * List of official legendaries more or less based on
+                 * https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
+                 * Kanto
+                 */
                     'Articuno', 'Zapdos', 'Moltres', 'Mewtwo', 'Mew',
                     // Johto
                     'Raikou', 'Entei', 'Suicune', 'Lugia', 'Ho-oh', 'Celebi',
@@ -2069,8 +2077,10 @@ $(function () {
             // filled in by LocalStorageManager
             this.DEX_UPDATE_DATE = null;
 
-            // a static copy of the <script id="dexdata"> tag from Feb 16, 2021
-            // this is updated every time the user visits the dex page
+            /*
+             * a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+             * this is updated every time the user visits the dex page
+             */
             this.DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
             '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
             '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
@@ -3271,34 +3281,36 @@ $(function () {
         }
     }
     /* eslint-disable no-trailing-spaces */
-    /* EvolutionTreeParser class
- * This purely static class provides functions for parsing the evolution div of a dex page.
- * This class should only be used by the DexPageParser class.
- * This classes complies with the practice of prepending an underscore on private items. This includes
- * "private" methods within this class, and the class itself.
- */
+    /*
+     * EvolutionTreeParser class
+     * This purely static class provides functions for parsing the evolution div of a dex page.
+     * This class should only be used by the DexPageParser class.
+     * This classes complies with the practice of prepending an underscore on private items. This includes
+     * "private" methods within this class, and the class itself.
+     */
     // eslint-disable-next-line no-unused-vars
     class EvolutionTreeParser {
     
-        /* _parseEvolutionLi
-     * Parses the contents of an <li> element from the evolution tree div of a dex page
-     * Inputs:
-     * - li - an HTML node representing the <li> to be parsed
-     * - dex_id_map - object mapping Pokemon names to their ID values
-     *                e.g. {'Rattata' => '019'}
-     *     > TODO - there's definitely a better way to handle this that is used somewhere else
-     *              in DexPageParser already
-     * Output:
-     * - ret - object mapping the name of the evolution target to the evolution conditions and parsed evolutions of said Pokemon
-     *         e.g. {
-     *               'Vaporeon' => {
-     *                           'condition' => 'Water Stone', 
-     *                           'evolutions' => [
-     *                                            // parsed <ul> containing Vaporeon [Mega Forme Q]
-     *                                           ]
-     *                          }, ...
-     *              }
-     */
+        /*
+         * _parseEvolutionLi
+         * Parses the contents of an <li> element from the evolution tree div of a dex page
+         * Inputs:
+         * - li - an HTML node representing the <li> to be parsed
+         * - dex_id_map - object mapping Pokemon names to their ID values
+         *                e.g. {'Rattata' => '019'}
+         *     > TODO - there's definitely a better way to handle this that is used somewhere else
+         *              in DexPageParser already
+         * Output:
+         * - ret - object mapping the name of the evolution target to the evolution conditions and parsed evolutions of said Pokemon
+         *         e.g. {
+         *               'Vaporeon' => {
+         *                           'condition' => 'Water Stone', 
+         *                           'evolutions' => [
+         *                                            // parsed <ul> containing Vaporeon [Mega Forme Q]
+         *                                           ]
+         *                          }, ...
+         *              }
+         */
         static _parseEvolutionLi(li, dexIDMap) {
             const condition = li.children('.condition');
             const targetElem = li.find('.name').eq(0);
@@ -3328,32 +3340,33 @@ $(function () {
             }
         }
 
-        /* _parseEvolutionUl
-     * Parses the contents of an <ul> element from the evolution tree div of a dex page
-     * Inputs:
-     * - ul - an HTML node representing the <ul> to be parsed
-     * - dex_id_map - object mapping Pokemon names to their ID values
-     *                e.g. {'Rattata' => '019'}
-     *     > TODO - there's definitely a better way to handle this that is used somewhere else
-     *              in DexPageParser already
-     * Output:
-     * - ret - object mapping the names of the evolution targets to the evolution conditions and parsed evolutions of said Pokemon.
-     *         ret will contain one key (i.e., one evolution target name) for each <li> found in the <ul> passed
-     *         e.g. {
-     *               'Vaporeon' => {
-     *                              'condition' => 'Water Stone', 
-     *                              'evolutions' => [
-     *                                               // parsed <ul> containing Vaporeon [Mega Forme Q]
-     *                                               {
-     *                                                'Vaporeon' => {
-     *                                                               'condition' => 'Water Stone', 
-     *                                                               'evolutions' => []
-     *                                                              }
-     *                                               }
-     *                                              ]
-     *                             }, ...
-     *              }
-     */
+        /*
+         * _parseEvolutionUl
+         * Parses the contents of an <ul> element from the evolution tree div of a dex page
+         * Inputs:
+         * - ul - an HTML node representing the <ul> to be parsed
+         * - dex_id_map - object mapping Pokemon names to their ID values
+         *                e.g. {'Rattata' => '019'}
+         *     > TODO - there's definitely a better way to handle this that is used somewhere else
+         *              in DexPageParser already
+         * Output:
+         * - ret - object mapping the names of the evolution targets to the evolution conditions and parsed evolutions of said Pokemon.
+         *         ret will contain one key (i.e., one evolution target name) for each <li> found in the <ul> passed
+         *         e.g. {
+         *               'Vaporeon' => {
+         *                              'condition' => 'Water Stone', 
+         *                              'evolutions' => [
+         *                                               // parsed <ul> containing Vaporeon [Mega Forme Q]
+         *                                               {
+         *                                                'Vaporeon' => {
+         *                                                               'condition' => 'Water Stone', 
+         *                                                               'evolutions' => []
+         *                                                              }
+         *                                               }
+         *                                              ]
+         *                             }, ...
+         *              }
+         */
         static _parseEvolutionUl(ul, dexIDMap) {
             const lis = ul.children('li');
             const numParallelEvolutions = lis.length;
@@ -3368,73 +3381,74 @@ $(function () {
             return ret;
         }
     
-        /* parseEvolutionTree
-     * Parses the content of an evolution tree of a dex page
-     * Inputs:
-     * - root - a string with the name of the pokemon at the base of the tree (e.g., 'Rattata')
-     * - evotree - the contents of $('.evolutiontree'). Example:
-     *             <div class="evolutiontree">
-     *               <span class="Name">
-     *                 <span class="icon" style="background-image:url(//url//)"></span>
-     *                 <b>Eevee</b>
-     *               </span>
-     *               <ul>
-     *                 <li>
-     *                   <span class="condition">Water Stone</span>
-     *                   <span class="name">
-     *                     <span class="icon" style="background-image:url(//url//)"></span>
-     *                     <a href="/dex/144">Vaporeon</a>
-     *                   </span>
-     *                   <ul>
-     *                     <li>
-     *                       <span class="condition">
-     *                         <img src=//url//>
-     *                         "Vaporeonite Q"
-     *                       </span>
-     *                       <span class="name">
-     *                         <span class="icon" style="background-image:url(//url//)"></span>
-     *                         <a href="/dex/144-Q">Vaporeon</a>
-     *                         <i class="small">[Mega Forme Q</i>
-     *                       </span>
-     *                     </li>
-     *                   </ul>
-     *                 </li>
-     *                 <li> ... data for Jolteon </li>
-     *                 ... data for Flareon, Espeon, Umbreon, Leafeon, Glaceon, Sylveon
-     *               </ul>
-     *             </div>
-     * - dex_id_map - object mapping Pokemon names to their ID values
-     *                e.g. {'Eevee' => '143'}
-     *     > TODO - there's definitely a better way to handle this that is used somewhere else
-     *              in DexPageParser already
-     * Outputs:
-     * - flat - Contains evolution data for a subtree of evolution data. For the base (non-recursive) call,
-     *          is an object containing evolutions for a single pokemon family. For recursive calls,
-     *          is an array which contains an object in each index.
-     *          Example (of whole object and of one index of array):
-     *          {
-     *           'members' => ['Eevee', 'Vaporeon', 'Jolteon', 'Flareon', 'Espeon', 'Umbreon',
-     *                         'Leafeon', 'Glaceon', 'Sylveon'],
-     *           'evolutions' => [
-     *             {'source' => 'Eevee'   , 'target' => 'Vaporeon', 'condition' => 'Water Stone'},
-     *             {'source' => 'Vaporeon', 'target' => 'Vaporeon [Mega Forme Q]', 'condition' => 'Vaporeonite Q'},
-     *             {'source' => 'Eevee'   , 'target' => 'Jolteon' , 'condition' => 'ThunderStone'},
-     *             {'source' => 'Jolteon' , 'target' => 'Jolteon [Mega Forme Q]' , 'condition' => 'Jolteonite Q'},
-     *             {'source' => 'Eevee'   , 'target' => 'Flareon' , 'condition' => 'Fire Stone'},
-     *             {'source' => 'Flareon' , 'target' => 'Flareon [Mega Forme Q]' , 'condition' => 'Flareonite Q'},
-     *             {'source' => 'Eevee'   , 'target' => 'Espeon'  , 'condition' => 'Happiess during Daytime'},
-     *             {'source' => 'Espeon'  , 'target' => 'Espeon [Mega Forme Q]'  , 'condition' => 'Espeonite Q'},
-     *             {'source' => 'Eevee'   , 'target' => 'Umbreon' , 'condition' => 'Happiness during Nighttime'},
-     *             {'source' => 'Umbreon' , 'target' => 'Umbreon [Mega Forme Q]' , 'condition' => 'Umbreonite Q'},
-     *             {'source' => 'Eevee'   , 'target' => 'Leafeon' , 'condition' => 'In Grass-type Field'},
-     *             {'source' => 'Leafeon' , 'target' => 'Leafeon [Mega Forme Q]' , 'condition' => 'Leafeonite Q'},
-     *             {'source' => 'Eevee'   , 'target' => 'Glaceon' , 'condition' => 'In Ice-type Field'},
-     *             {'source' => 'Glaceon' , 'target' => 'Glaceon [Mega Forme Q]' , 'condition' => 'Glaceonite Q'},
-     *             {'source' => 'Eevee'   , 'target' => 'Sylveon' , 'condition' => 'Affection'},
-     *             {'source' => 'Sylveon' , 'target' => 'Sylveon [Mega Forme Q]' , 'condition' => 'Sylveonite Q'},
-     *           ]
-     *          }
-     */
+        /*
+         * parseEvolutionTree
+         * Parses the content of an evolution tree of a dex page
+         * Inputs:
+         * - root - a string with the name of the pokemon at the base of the tree (e.g., 'Rattata')
+         * - evotree - the contents of $('.evolutiontree'). Example:
+         *             <div class="evolutiontree">
+         *               <span class="Name">
+         *                 <span class="icon" style="background-image:url(//url//)"></span>
+         *                 <b>Eevee</b>
+         *               </span>
+         *               <ul>
+         *                 <li>
+         *                   <span class="condition">Water Stone</span>
+         *                   <span class="name">
+         *                     <span class="icon" style="background-image:url(//url//)"></span>
+         *                     <a href="/dex/144">Vaporeon</a>
+         *                   </span>
+         *                   <ul>
+         *                     <li>
+         *                       <span class="condition">
+         *                         <img src=//url//>
+         *                         "Vaporeonite Q"
+         *                       </span>
+         *                       <span class="name">
+         *                         <span class="icon" style="background-image:url(//url//)"></span>
+         *                         <a href="/dex/144-Q">Vaporeon</a>
+         *                         <i class="small">[Mega Forme Q</i>
+         *                       </span>
+         *                     </li>
+         *                   </ul>
+         *                 </li>
+         *                 <li> ... data for Jolteon </li>
+         *                 ... data for Flareon, Espeon, Umbreon, Leafeon, Glaceon, Sylveon
+         *               </ul>
+         *             </div>
+         * - dex_id_map - object mapping Pokemon names to their ID values
+         *                e.g. {'Eevee' => '143'}
+         *     > TODO - there's definitely a better way to handle this that is used somewhere else
+         *              in DexPageParser already
+         * Outputs:
+         * - flat - Contains evolution data for a subtree of evolution data. For the base (non-recursive) call,
+         *          is an object containing evolutions for a single pokemon family. For recursive calls,
+         *          is an array which contains an object in each index.
+         *          Example (of whole object and of one index of array):
+         *          {
+         *           'members' => ['Eevee', 'Vaporeon', 'Jolteon', 'Flareon', 'Espeon', 'Umbreon',
+         *                         'Leafeon', 'Glaceon', 'Sylveon'],
+         *           'evolutions' => [
+         *             {'source' => 'Eevee'   , 'target' => 'Vaporeon', 'condition' => 'Water Stone'},
+         *             {'source' => 'Vaporeon', 'target' => 'Vaporeon [Mega Forme Q]', 'condition' => 'Vaporeonite Q'},
+         *             {'source' => 'Eevee'   , 'target' => 'Jolteon' , 'condition' => 'ThunderStone'},
+         *             {'source' => 'Jolteon' , 'target' => 'Jolteon [Mega Forme Q]' , 'condition' => 'Jolteonite Q'},
+         *             {'source' => 'Eevee'   , 'target' => 'Flareon' , 'condition' => 'Fire Stone'},
+         *             {'source' => 'Flareon' , 'target' => 'Flareon [Mega Forme Q]' , 'condition' => 'Flareonite Q'},
+         *             {'source' => 'Eevee'   , 'target' => 'Espeon'  , 'condition' => 'Happiess during Daytime'},
+         *             {'source' => 'Espeon'  , 'target' => 'Espeon [Mega Forme Q]'  , 'condition' => 'Espeonite Q'},
+         *             {'source' => 'Eevee'   , 'target' => 'Umbreon' , 'condition' => 'Happiness during Nighttime'},
+         *             {'source' => 'Umbreon' , 'target' => 'Umbreon [Mega Forme Q]' , 'condition' => 'Umbreonite Q'},
+         *             {'source' => 'Eevee'   , 'target' => 'Leafeon' , 'condition' => 'In Grass-type Field'},
+         *             {'source' => 'Leafeon' , 'target' => 'Leafeon [Mega Forme Q]' , 'condition' => 'Leafeonite Q'},
+         *             {'source' => 'Eevee'   , 'target' => 'Glaceon' , 'condition' => 'In Ice-type Field'},
+         *             {'source' => 'Glaceon' , 'target' => 'Glaceon [Mega Forme Q]' , 'condition' => 'Glaceonite Q'},
+         *             {'source' => 'Eevee'   , 'target' => 'Sylveon' , 'condition' => 'Affection'},
+         *             {'source' => 'Sylveon' , 'target' => 'Sylveon [Mega Forme Q]' , 'condition' => 'Sylveonite Q'},
+         *           ]
+         *          }
+         */
         static parseEvolutionTree(root, evotree, dexIDMap) {
             const uls = evotree.children('ul');
             const tree = {};
@@ -3457,21 +3471,22 @@ $(function () {
                 }
             }
 
-            /* tree format example
-         * {
-         *  'Eevee' => [
-         *              {
-         *               'Vaporeon' => {
-         *                              'condition' => 'Water Stone', 
-         *                               'evolutions' => [
-         *                                                // parsed <ul> containing Vaporeon [Mega Forme Q]
-         *                                               ],
-         *                             }, ...
-         *              },
-         *              // data for Jolteon, Flareon, Espeon, Umbreon, Leafeon, Glaceon, Sylveon
-         *            ]
-         * }
-         */
+            /*
+             * tree format example
+             * {
+             *  'Eevee' => [
+             *              {
+             *               'Vaporeon' => {
+             *                              'condition' => 'Water Stone', 
+             *                               'evolutions' => [
+             *                                                // parsed <ul> containing Vaporeon [Mega Forme Q]
+             *                                               ],
+             *                             }, ...
+             *              },
+             *              // data for Jolteon, Flareon, Espeon, Umbreon, Leafeon, Glaceon, Sylveon
+             *            ]
+             * }
+             */
             tree[root] = [];
             for(let i = 0; i < uls.length; i++) {
                 tree[root].push(EvolutionTreeParser._parseEvolutionUl(uls.eq(i), dexIDMap));
@@ -3485,48 +3500,49 @@ $(function () {
             return flat;
         }
 
-        /* _flattenEvolutionTree
-     * Parses a tree structure representing the evolutions of a pokemon into an object containing flat arrays.
-     * Called recursively to parse the nested evolution data.
-     * Inputs:
-     * - family_obj - Contains evolution data for a subtree of evolution data. For the base (non-recursive) call,
-     *                is an object containing evolutions for a single pokemon family. For recursive calls,
-     *                is an array which contains an object in each index.
-     *                Example (of whole object and of one index of array):
-     *                {
-     *                 'Eevee' => [
-     *                             {
-     *                              'Vaporeon' => {
-     *                                             'condition' => 'Water Stone', 
-     *                                              'evolutions' => [
-     *                                                               // parsed <ul> containing 
-     *                                                               // Vaporeon [Mega Forme Q]
-     *                                                              ],
-     *                                            }, ...
-     *                             },
-     *                             // data for Jolteon, Flareon, Espeon, Umbreon, Leafeon, Glaceon, Sylveon
-     *                           ]
-     *                }
-     * - ret_obj - An aggregator for the flattened data for a given family. Is undefined for the base
-     *             (non-recursive) call, and for each recursive call is an object containing family member 
-     *             and evolutions data.
-     *             Example: 
-     *             {
-     *               'members' => ['Bulbausaur', 'Ivysaur', 'Venusaur', 'Venusaur [Mega Forme]'],
-     *               'evolutions' => [
-     *                 {'source' => 'Bulbasaur', 'target' => 'Ivysaur', 'condition' => 'Level 16'},
-     *                 {'source' => 'Ivysaur', 'target' => 'Venusaur', 'condition' => 'Level 36'},
-     *                 {'source' => 'Venusaur', 'target' => 'Venusaur [Mega Forme]', 'condition => 'Venusaurite'}
-     *               ]
-     *             }
-     * - evo_src - The name of the pokemon at the root of the current call. Is undefined for the base
-     *             (non-resursive) call, and for each recursive call it is the name of the pokemon at the 
-     *             root of the subtree being parsed
-     * Outputs:
-     * - ret_obj - This will be equal to the the value of ret_obj that was passed in plus the evolution
-     *             data parsed during the current recursion
-     * - 
-     */
+        /*
+         * _flattenEvolutionTree
+         * Parses a tree structure representing the evolutions of a pokemon into an object containing flat arrays.
+         * Called recursively to parse the nested evolution data.
+         * Inputs:
+         * - family_obj - Contains evolution data for a subtree of evolution data. For the base (non-recursive) call,
+         *                is an object containing evolutions for a single pokemon family. For recursive calls,
+         *                is an array which contains an object in each index.
+         *                Example (of whole object and of one index of array):
+         *                {
+         *                 'Eevee' => [
+         *                             {
+         *                              'Vaporeon' => {
+         *                                             'condition' => 'Water Stone', 
+         *                                              'evolutions' => [
+         *                                                               // parsed <ul> containing 
+         *                                                               // Vaporeon [Mega Forme Q]
+         *                                                              ],
+         *                                            }, ...
+         *                             },
+         *                             // data for Jolteon, Flareon, Espeon, Umbreon, Leafeon, Glaceon, Sylveon
+         *                           ]
+         *                }
+         * - ret_obj - An aggregator for the flattened data for a given family. Is undefined for the base
+         *             (non-recursive) call, and for each recursive call is an object containing family member 
+         *             and evolutions data.
+         *             Example: 
+         *             {
+         *               'members' => ['Bulbausaur', 'Ivysaur', 'Venusaur', 'Venusaur [Mega Forme]'],
+         *               'evolutions' => [
+         *                 {'source' => 'Bulbasaur', 'target' => 'Ivysaur', 'condition' => 'Level 16'},
+         *                 {'source' => 'Ivysaur', 'target' => 'Venusaur', 'condition' => 'Level 36'},
+         *                 {'source' => 'Venusaur', 'target' => 'Venusaur [Mega Forme]', 'condition => 'Venusaurite'}
+         *               ]
+         *             }
+         * - evo_src - The name of the pokemon at the root of the current call. Is undefined for the base
+         *             (non-resursive) call, and for each recursive call it is the name of the pokemon at the 
+         *             root of the subtree being parsed
+         * Outputs:
+         * - ret_obj - This will be equal to the the value of ret_obj that was passed in plus the evolution
+         *             data parsed during the current recursion
+         * - 
+         */
         static _flattenEvolutionTree(familyObj, retObj, evoSrc) {
             retObj = retObj || {
                 'members': [],
@@ -3554,20 +3570,23 @@ $(function () {
             return retObj;
         }
 
-        /* _parseEvolutionConditions
-     * Parse the HTML in the conditions list from the flattened object.
-     * Currently this only successfully parses Level conditions
-     * Inputs:
-     * - flattened - See _flattenEvolutionTree for input format. Modified in
-     *               place to extract condition information from html
-     * Outputs: None
-     */
+        /*
+         * _parseEvolutionConditions
+         * Parse the HTML in the conditions list from the flattened object.
+         * Currently this only successfully parses Level conditions
+         * Inputs:
+         * - flattened - See _flattenEvolutionTree for input format. Modified in
+         *               place to extract condition information from html
+         * Outputs: None
+         */
         static _parseEvolutionConditions(flattened) {
             for(let e = 0; e < flattened.evolutions.length; e++) {
                 const condition = flattened.evolutions[e].condition;
                 const condText = condition.textContent;
-                // for now, let's just parse for pokemon that evolve by level
-                // TODO: Non-Level conditions
+                /*
+                 * for now, let's just parse for pokemon that evolve by level
+                 * TODO: Non-Level conditions
+                 */
                 if(condText.indexOf('Level ') > -1) {
                     flattened.evolutions[e].condition = [];
                     const words = condText.split(' ');
@@ -3606,13 +3625,15 @@ $(function () {
             }
         }
     } // EvolutionTreeParser
-    /* This class includes static functions for parsing data from a single dex page.
-   Functions which process multiple text pages are in DexUtilities.
-*/
+    /*
+     * This class includes static functions for parsing data from a single dex page.
+     * Functions which process multiple text pages are in DexUtilities.
+     */
 
     // eslint-disable-next-line no-unused-vars
     class DexPageParser {
-    /* Parse the header from a dex page
+    /*
+     * Parse the header from a dex page
      * Inputs:
      * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
      * Outputs:
@@ -3625,16 +3646,20 @@ $(function () {
      *                 }
      */
         static getInfoFromDexPageHeader(html) {
-        // Note - I thought this wouldn't work for exclusives because they're pokedex numbers all start with "000",
-        // but when exclusives have multiple forms, each form has its dex entry, and the forms are not grouped
-        // into the panel of a single pokemon. See Lunupine and Lunupine [Mega Forme Q] as an example, contrasted with
-        // Venusaur and Venusaur [Mega Forme]. This means that exclusives will never have any links in the form panel
-        // and thus will never get into this if statement
+        /*
+         * Note - I thought this wouldn't work for exclusives because they're pokedex numbers all start with "000",
+         * but when exclusives have multiple forms, each form has its dex entry, and the forms are not grouped
+         * into the panel of a single pokemon. See Lunupine and Lunupine [Mega Forme Q] as an example, contrasted with
+         * Venusaur and Venusaur [Mega Forme]. This means that exclusives will never have any links in the form panel
+         * and thus will never get into this if statement
+         */
             const nameHeader = html.find('#dexinfo>h3').eq(0);
             const formI = nameHeader.children('i.small');
 
-            // https://stackoverflow.com/questions/3442394/using-text-to-retrieve-only-text-not-nested-in-child-tags
-            // get text but not children's text
+            /*
+             * https://stackoverflow.com/questions/3442394/using-text-to-retrieve-only-text-not-nested-in-child-tags
+             * get text but not children's text
+             */
             const nameText = nameHeader.clone().children().remove().end().text();
             const nameSplits = nameText.split(' ');
             const basePokemonNumber = nameSplits[0].replace('#','').replace(':','');
@@ -3657,17 +3682,18 @@ $(function () {
             };
         }
 
-        /* Parse the footer from a dex page
-     * Inputs:
-     * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
-     * Outputs:
-     * - (anonymous) - struct containing data from footer.
-     *                 Example:
-     *                 {
-     *                   shortlink: "/shortlinks/save/dex/003-M",
-     *                   shortlinkNumber: "003-M"
-     *                 }
-     */
+        /*
+         * Parse the footer from a dex page
+         * Inputs:
+         * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
+         * Outputs:
+         * - (anonymous) - struct containing data from footer.
+         *                 Example:
+         *                 {
+         *                   shortlink: "/shortlinks/save/dex/003-M",
+         *                   shortlinkNumber: "003-M"
+         *                 }
+         */
         static getInfoFromDexPageFooter(html) {
             const currentLink = html.find('#footbar>span>a[href^="/shortlinks"]').attr('href');
             const currentNumber = currentLink.substr(currentLink.indexOf('/dex/')+5);
@@ -3678,17 +3704,18 @@ $(function () {
             };
         }
 
-        /* Parse the types of a pokemon from a dex page
-     * Inputs:
-     * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
-     * Outputs:
-     * - types - array containing the indices of the pokemon's type(s) in the GLOBALS.TYPE_LIST array
-     *           Example: For Venusaur:
-     *                 [
-     *                  4, // Grass
-     *                  7 // Poison
-     *                 ]
-     */
+        /*
+         * Parse the types of a pokemon from a dex page
+         * Inputs:
+         * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
+         * Outputs:
+         * - types - array containing the indices of the pokemon's type(s) in the GLOBALS.TYPE_LIST array
+         *           Example: For Venusaur:
+         *                 [
+         *                  4, // Grass
+         *                  7 // Poison
+         *                 ]
+         */
         static parseTypesFromDexPage(html, typeList) {
             const typeImgs = html.find('.dexdetails>li>img');
             const typeUrls = typeImgs.map((idx, img) => {
@@ -3702,13 +3729,14 @@ $(function () {
             return types.toArray();
         }
 
-        /* Parse egg png link from dex page
-     * Inputs:
-     * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
-     * Outputs:
-     * - eggUrl - Partial UTL to the png of the egg from the dex page.
-     *             'https://pfq-static.com/img/' is removed from the URL since it is always the same
-     */
+        /*
+         * Parse egg png link from dex page
+         * Inputs:
+         * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
+         * Outputs:
+         * - eggUrl - Partial UTL to the png of the egg from the dex page.
+         *             'https://pfq-static.com/img/' is removed from the URL since it is always the same
+         */
         static parseEggPngFromDexPage(html) {
             const eggUrl = (html.find('.eggspr').find('img')
                 .attr('src') || '')
@@ -3716,12 +3744,13 @@ $(function () {
             return eggUrl;
         }
 
-        /* Parse the evolution tree from a dex page
-     * Inputs:
-     * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
-     * Outputs:
-     * - flattened - See EvolutionTreeParser.parseEvolutionTree for description
-     */
+        /*
+         * Parse the evolution tree from a dex page
+         * Inputs:
+         * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
+         * Outputs:
+         * - flattened - See EvolutionTreeParser.parseEvolutionTree for description
+         */
         static parseEvolutionTreeFromDexPage(evolutionTreeParser, html, dexIDMap) {
             const rootName = DexPageParser.getInfoFromDexPageHeader(html).name;
             const tree = html.find('.evolutiontree').eq(0);
@@ -3737,11 +3766,11 @@ $(function () {
             this.helpers = helpers;
         }
         /**
-     * This function helps users use the updated script without having to
-     * clear their settings by looking for items in local storage that
-     * start with 'QoL...' and moving the settings to the correct
-     * translated local storage key
-     */
+         * This function helps users use the updated script without having to
+         * clear their settings by looking for items in local storage that
+         * start with 'QoL...' and moving the settings to the correct
+         * translated local storage key
+         */
         migrateSettings() {
             const newItems = {};
             const keysToRemove = [];
@@ -3783,10 +3812,11 @@ $(function () {
             this.storage.removeItem(this.translateKey(key));
         }
 
-        /* Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
-     * Inputs:
-     * - globals - reference to the GLOBALS settings object
-     */
+        /*
+         * Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
+         * Inputs:
+         * - globals - reference to the GLOBALS settings object
+         */
         loadDexIntoGlobalsFromStorage(globals) {
             const key = this.translateKey(globals.POKEDEX_DATA_KEY);
             if(this.storage.getItem(key) === null) {
@@ -3831,11 +3861,12 @@ $(function () {
             super(keyPrefix, storage, helpers);
         }
 
-        /* Set globals.DEX_DATA and globals.DEX_UPDATE_DATE by loading the main dex page from the web
-     * Inputs:
-     * - $ - reference to jQuery
-     * - globals - reference to the GLOBALS settings object
-     */
+        /*
+         * Set globals.DEX_DATA and globals.DEX_UPDATE_DATE by loading the main dex page from the web
+         * Inputs:
+         * - $ - reference to jQuery
+         * - globals - reference to the GLOBALS settings object
+         */
         loadDexIntoGlobalsFromWeb($, document, dexUtilities, globals) {
             return dexUtilities.getMainDexPage($).then((data) => {
                 globals.DEX_UPDATE_DATE = (new Date()).toUTCString();
@@ -3857,11 +3888,12 @@ $(function () {
             GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem(this.translateKey(GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY)));
         }
 
-        /* Call loadDexIntoGlobalsFromWeb if more than 30 days have passed since it was last loaded
-     * Inputs:
-     * - $ - reference to jQuery
-     * - globals - reference to the GLOBALS settings object
-     */
+        /*
+         * Call loadDexIntoGlobalsFromWeb if more than 30 days have passed since it was last loaded
+         * Inputs:
+         * - $ - reference to jQuery
+         * - globals - reference to the GLOBALS settings object
+         */
         loadDexIntoGlobalsFromWebIfOld($, document, dexUtilities, globals) {
         // If it's more than 30 days old, update the dex
             const THIRTY_DAYS_IN_MS = 30*24*3600*1000;
@@ -3901,9 +3933,11 @@ $(function () {
         } // saveEvolveByLevelList
 
         saveEvolutionTreeDepths(globals, maxEvoTreeDepth) {
-        // GLOBALS.EVOLUTIONS_LEFT stores the number of remaining evolutions and the total number of evolutions
-        // for a pokemon and it's family
-        // e.g. - GLOBALS.EVOLUTIONS_LEFT["019s2"] = { remaining: 4, total: 5 } // 019s2 = Super Saiyan Rattata
+        /*
+         * GLOBALS.EVOLUTIONS_LEFT stores the number of remaining evolutions and the total number of evolutions
+         * for a pokemon and it's family
+         * e.g. - GLOBALS.EVOLUTIONS_LEFT["019s2"] = { remaining: 4, total: 5 } // 019s2 = Super Saiyan Rattata
+         */
 
             this.storage.setItem(this.translateKey(globals.POKEDEX_EVOLUTION_TREE_DEPTH_KEY), JSON.stringify(maxEvoTreeDepth));
             globals.EVOLUTIONS_LEFT = maxEvoTreeDepth;
@@ -3911,9 +3945,11 @@ $(function () {
         } // saveEvolutionTreeDepths
 
         saveRegionalFormsList(globals, parsedFamilies, dexIDs, regionalFormMap) {
-        // GLOBALS.REGIONAL_FORMS_LIST maps base pokemon species names to the list
-        // of regional forms, including the base name.
-        // e.g. - GLOBALS.REGIONAL_FORMS_LIST[Rattata] = ["Rattata", "Rattata [Alolan Forme]"]
+        /*
+         * GLOBALS.REGIONAL_FORMS_LIST maps base pokemon species names to the list
+         * of regional forms, including the base name.
+         * e.g. - GLOBALS.REGIONAL_FORMS_LIST[Rattata] = ["Rattata", "Rattata [Alolan Forme]"]
+         */
             const key = this.translateKey(globals.POKEDEX_REGIONAL_FORMS_KEY);
             const list = regionalFormMap;
 
@@ -3923,21 +3959,24 @@ $(function () {
         } // saveRegionalFormsList
 
         saveEggTypesMap(globals, map) {
-        // GLOBALS.EGGS_PNG_TO_TYPES_LIST will map a pokemon's base name to all the egg pngs that
-        // will appear in the shelter with that name, and map each of those pngs to the type(s)
-        // of that egg
-        // e.g. GLOBALS.EGGS_PNG_TO_TYPES_LIST[Rattata] = {
-        //           <kantonian.png> : [Normal],
-        //           <alolan.png> : [Normal, Dark]
-        // }
+        /*
+         * GLOBALS.EGGS_PNG_TO_TYPES_LIST will map a pokemon's base name to all the egg pngs that
+         * will appear in the shelter with that name, and map each of those pngs to the type(s)
+         * of that egg
+         * e.g. GLOBALS.EGGS_PNG_TO_TYPES_LIST[Rattata] = {
+         *           <kantonian.png> : [Normal],
+         *           <alolan.png> : [Normal, Dark]
+         * }
+         */
             const key = this.translateKey(globals.POKEDEX_EGG_TYPES_MAP_KEY);
             this.storage.setItem(key, JSON.stringify(map));
             globals.EGGS_PNG_TO_TYPES_LIST = map;
         }
 
-        /* parseAndStoreDexNumbers
-     *
-     */
+        /*
+         * parseAndStoreDexNumbers
+         *
+         */
         parseAndStoreDexNumbers(globals, dex) {
             const key = this.translateKey(globals.POKEDEX_DEX_IDS_KEY);
             const json = JSON.parse(dex);
@@ -3965,7 +4004,8 @@ $(function () {
     }
     // eslint-disable-next-line no-unused-vars
     class DexUtilities {
-    /* Load the main dex page.
+    /*
+     * Load the main dex page.
      * Note: Testing this would essentially be testing jQuery, so no need to test
      * Inputs:
      * - $ - reference to jQuery
@@ -3975,37 +4015,41 @@ $(function () {
         static getMainDexPage($) {
             return $.get('https://pokefarm.com/dex');
         }
-        /* Load the dex page for a pokemon.
-     * Inputs:
-     * - $ - reference to jQuery
-     * - id - dex ID number to load
-     * Outputs:
-     * - (anonymous) - A promise that will be resolved when the page is loaded
-     */
+        /*
+         * Load the dex page for a pokemon.
+         * Inputs:
+         * - $ - reference to jQuery
+         * - id - dex ID number to load
+         * Outputs:
+         * - (anonymous) - A promise that will be resolved when the page is loaded
+         */
         static getPokemonDexPage($, id) {
             return $.get('https://pokefarm.com/dex/' + id);
         }
-        /* Loads the dex pages for the pokemon whose dex numbers are in the dexNumbers input
-     * Inputs:
-     * - $ - reference to jQuery
-     * - dexNumbers - an array containing dex IDs
-     *                Example: ["001", "002", "003", "004"];
-     * - progressBar - a <progress> tag that will show how many of the IDs in
-     *                 'dexNumbers' have been loaded
-     * - progressSpan - a <span> tag that will contain text about the progress
-     *                  of loading the dex pages
-     * Outputs:
-     * - (anonymous) - A Promise that will be resolved when all the dex pages
-     *                 have been loaded
-     */
+        /*
+         * Loads the dex pages for the pokemon whose dex numbers are in the dexNumbers input
+         * Inputs:
+         * - $ - reference to jQuery
+         * - dexNumbers - an array containing dex IDs
+         *                Example: ["001", "002", "003", "004"];
+         * - progressBar - a <progress> tag that will show how many of the IDs in
+         *                 'dexNumbers' have been loaded
+         * - progressSpan - a <span> tag that will contain text about the progress
+         *                  of loading the dex pages
+         * Outputs:
+         * - (anonymous) - A Promise that will be resolved when all the dex pages
+         *                 have been loaded
+         */
         static loadDexPages($, dexNumbers, progressBar, progressSpan) {
             const requests = [];
             progressBar.value = 0;
             progressSpan.textContent = 'Loading Pokedex info. Please wait until this is complete...';
 
             for(let d = 0; d < dexNumbers.length; d++) {
-            // if the dex number is 000, the user has not seen the pokemon,
-            // so just increment the progress bar value
+            /*
+             * if the dex number is 000, the user has not seen the pokemon,
+             * so just increment the progress bar value
+             */
                 if(dexNumbers[d] === '000') {
                     progressBar.value = progressBar['value'] + 1;
                     progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
@@ -4025,19 +4069,20 @@ $(function () {
             // return $.when.apply(undefined, requests);
             return Promise.all(requests);
         } // loadDexPages
-        /* Loads the dex pages for the forms of a pokemon
-     * Inputs:
-     * - $ - reference to jQuery
-     * - firstFormHTML - An array containing the HTML for the dex pages for a set of pokemon.
-     *                   The HTML in this array will be parsed to find the forms of a pokemon
-     * - progressBar - a <progress> tag that will show how many of the IDs in
-     *                 'dexNumbers' have been loaded
-     * - progressSpan - a <span> tag that will contain text about the progress
-     *                  of loading the dex pages
-     * Outputs:
-     * - (anonymous) - A Promise that will be resolved when all the forms' dex pages
-     *                 have been loaded
-     */
+        /*
+         * Loads the dex pages for the forms of a pokemon
+         * Inputs:
+         * - $ - reference to jQuery
+         * - firstFormHTML - An array containing the HTML for the dex pages for a set of pokemon.
+         *                   The HTML in this array will be parsed to find the forms of a pokemon
+         * - progressBar - a <progress> tag that will show how many of the IDs in
+         *                 'dexNumbers' have been loaded
+         * - progressSpan - a <span> tag that will contain text about the progress
+         *                  of loading the dex pages
+         * Outputs:
+         * - (anonymous) - A Promise that will be resolved when all the forms' dex pages
+         *                 have been loaded
+         */
         static loadFormPages($, ownerDocument, firstFormHTML, progressBar, progressSpan) {
             const requests = [];
             for(let a = 0; a < firstFormHTML.length; a++) {
@@ -4063,16 +4108,17 @@ $(function () {
 
             return Promise.all(requests);
         } // loadFormPages
-        /* Parses HTML from pokedex pages
-     * Inputs:
-     * - $ - reference to jQuery
-     * - ownerDocument - reference to virtual document to load HTML into
-     * - args - an array of HTML from pokedex pages
-     * Outputs:
-     * - flat_families - See DexPageParser.parseEvolutionTreeFromDexPage for details
-     * - dex_id_map - object mapping dex IDs to pokemon's names. Used to track which
-     *                pokemon's dex pages have been processed
-     */
+        /*
+         * Parses HTML from pokedex pages
+         * Inputs:
+         * - $ - reference to jQuery
+         * - ownerDocument - reference to virtual document to load HTML into
+         * - args - an array of HTML from pokedex pages
+         * Outputs:
+         * - flat_families - See DexPageParser.parseEvolutionTreeFromDexPage for details
+         * - dex_id_map - object mapping dex IDs to pokemon's names. Used to track which
+         *                pokemon's dex pages have been processed
+         */
         static parseEvolutionTrees($, ownerDocument, dexPageParser, evolutionTreeParser, args) {
             const flatFamilies = {};
             const dexIDMap = {};
@@ -4081,8 +4127,10 @@ $(function () {
                 const data = $(args[a], ownerDocument);
                 const rootName = dexPageParser.getInfoFromDexPageHeader(data).name;
 
-                // the evolution tree won't have the dex ID for the form of the pokemon that we're currently using
-                // use the footbar to get the full pokedex number for the current form
+                /*
+                 * the evolution tree won't have the dex ID for the form of the pokemon that we're currently using
+                 * use the footbar to get the full pokedex number for the current form
+                 */
                 const fullIDNumber = dexPageParser.getInfoFromDexPageFooter(data).shortlinkNumber;
 
                 // if the root name is already in in the flat files, but the root of the tree is not in the dexIDMap
@@ -4106,15 +4154,19 @@ $(function () {
         } // parseEvolutionTrees
 
         static buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap) {
-        // store the maximum depth of the evolution tree for each pokemon
-        // for highlighting each pokemon based on how fully evolved they are
-        // https://github.com/jpgualdarrama/PokeFarmQoL/issues/11
+        /*
+         * store the maximum depth of the evolution tree for each pokemon
+         * for highlighting each pokemon based on how fully evolved they are
+         * https://github.com/jpgualdarrama/PokeFarmQoL/issues/11
+         */
             const maxEvoTreeDepth = {};
             for(const pokemon in parsedFamilies) {
                 const evolutions = parsedFamilies[pokemon];
 
-                // filter out "evolutions" that are really changes between forms of the
-                // same pokemon
+                /*
+                 * filter out "evolutions" that are really changes between forms of the
+                 * same pokemon
+                 */
                 for(let i = evolutions.length - 1; i>= 0; i--) {
                     if(formMap[evolutions[i].source] === undefined) {
                         console.error(`Could not find form data for ${evolutions[i].source}`);
@@ -4183,8 +4235,10 @@ $(function () {
                             const paths = [];
                             createPaths([], tree, paths);
 
-                            // get remaining number of evolutions in each path and total number
-                            // of evolutions along each path
+                            /*
+                             * get remaining number of evolutions in each path and total number
+                             * of evolutions along each path
+                             */
                             const pokemonPathData = {};
                             for(let p = 0; p < paths.length; p++) {
                                 const mons = paths[p].split('|');
@@ -4212,8 +4266,10 @@ $(function () {
                             maxEvoTreeDepth[p] = parsedPathData[p];
                             maxEvoTreeDepth[dexIDs[p]] = parsedPathData[p];
                         }
-                    // maxEvoTreeDepth[pokemon] = Math.max(...parseEvolutionPaths(finalTree)) - 1;
-                    // maxEvoTreeDepth[dexIDs[pokemon]] = maxEvoTreeDepth[pokemon]
+                    /*
+                     * maxEvoTreeDepth[pokemon] = Math.max(...parseEvolutionPaths(finalTree)) - 1;
+                     * maxEvoTreeDepth[dexIDs[pokemon]] = maxEvoTreeDepth[pokemon]
+                     */
                     } // if evolutions.length
                     // add pokemon that don't evolve
                     else {
@@ -4231,9 +4287,11 @@ $(function () {
             const formData = {};
             const formMap = {};
 
-            // because the evolution tree for all the members of a single family will have the same text,
-            // use the text as a key in families
-            // use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
+            /*
+             * because the evolution tree for all the members of a single family will have the same text,
+             * use the text as a key in families
+             * use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
+             */
             for(let a = 0; a < args.length; a++) {
                 const data = $(args[a], ownerDocument);
                 const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
@@ -4279,12 +4337,13 @@ $(function () {
             return [formData, formMap];
         } // parseFormData
 
-        /* base_names = {
-       'Rattata' : 'Rattata',
-       'Rattata [Alolan Forme]' : 'Rattata',
-       'Raticate [Alolan Totem Forme]' : 'Raticate'
-       }
-    */
+        /*
+         * base_names = {
+         * 'Rattata' : 'Rattata',
+         * 'Rattata [Alolan Forme]' : 'Rattata',
+         * 'Raticate [Alolan Totem Forme]' : 'Raticate'
+         * }
+         */
         static parseBaseNames($, ownerDocument, dexPageParser, args) {
             const list = {};
             for(let a = 0; a <args.length; a++) {
@@ -4295,11 +4354,12 @@ $(function () {
             return list;
         }
 
-        /* egg_pngs = {
-       'Rattata' : '... .png',
-       'Rattata [Alolan Forme]' : '... .png'
-       }
-    */
+        /*
+         * egg_pngs = {
+         * 'Rattata' : '... .png',
+         * 'Rattata [Alolan Forme]' : '... .png'
+         * }
+         */
         static parseEggsPngsList($, ownerDocument, dexPageParser, args) {
             const list = {};
             for(let a = 0; a <args.length; a++) {
@@ -4315,13 +4375,14 @@ $(function () {
             return list;
         }
 
-        /* types = {
-       'Rattata' : [Normal],
-       'Raticate' : [Normal],
-       'Rattata [Alolan Forme]' : [Normal, Dark],
-       'Raticate [Alolan Forme]' : [Normal, Dark]
-       }
-    */
+        /*
+         * types = {
+         * 'Rattata' : [Normal],
+         * 'Raticate' : [Normal],
+         * 'Rattata [Alolan Forme]' : [Normal, Dark],
+         * 'Raticate [Alolan Forme]' : [Normal, Dark]
+         * }
+         */
         static parseTypesList($, ownerDocument, dexPageParser, globals, args) {
             const list = {};
             for(let a = 0; a < args.length; a++) {
@@ -4357,14 +4418,18 @@ $(function () {
 
                     const formNames = formMap[base].map((e) => e.name);
 
-                    // if any of the names have one of the regional markers,
-                    // add the regional names to the list
+                    /*
+                     * if any of the names have one of the regional markers,
+                     * add the regional names to the list
+                     */
                     let formWithMarkers = formNames.filter((n) => {
                         return REGIONAL_NAME_MARKERS.filter((r) => n.indexOf(`${r}`) > -1).length > 0;
                     });
 
-                    // filter out megas/totems
-                    // these are filtered out this way to allow for Galarian Zen Mode Darmanitan
+                    /*
+                     * filter out megas/totems
+                     * these are filtered out this way to allow for Galarian Zen Mode Darmanitan
+                     */
                     formWithMarkers = formWithMarkers.filter((n) => n.indexOf('Mega Forme') == -1);
                     formWithMarkers = formWithMarkers.filter((n) => n.indexOf('Totem Forme') == -1);
 
@@ -4378,13 +4443,14 @@ $(function () {
             return regionalFormData;
         }
 
-        /* egg_pngs_types_map = {
-       'Rattata' : {
-             <kantonian.png> : [Normal],
-             <alolan.png> : [Normal, Dark],
-          }
-       }
-    */
+        /*
+         * egg_pngs_types_map = {
+         * 'Rattata' : {
+         *       <kantonian.png> : [Normal],
+         *       <alolan.png> : [Normal, Dark],
+         *    }
+         * }
+         */
         static buildEggPngsTypesMap(baseNamesList, eggPngsList, typesList) {
             const map = {};
             for(const name in eggPngsList) {
@@ -4398,9 +4464,10 @@ $(function () {
         }
 
     } // DexUtilities
-    /* This class handles creating, removing, and handling the DOM object actions
- * for the QoL Hub.
- */
+    /*
+     * This class handles creating, removing, and handling the DOM object actions
+     * for the QoL Hub.
+     */
     // eslint-disable-next-line no-unused-vars
     class QoLHubBase {
         constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
@@ -4499,8 +4566,10 @@ $(function () {
                     }
                     // removes objects from the local storage if they don't exist anymore. Not yet possible..
                     if (countLocalStorageSettings > countScriptSettings) {
-                    //let defaultsSetting = QOLHUB.USER_SETTINGS;
-                    //let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                    /*
+                     * let defaultsSetting = QOLHUB.USER_SETTINGS;
+                     * let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                     */
                         this.saveSettings();
                     }
                 }
@@ -4579,9 +4648,10 @@ $(function () {
             this.jQuery('#core', document).removeClass('scrolllock');
         }
     } // QoLHubBase
-    /* This class handles creating, removing, and handling the DOM object actions
- * for the QoL Hub.
- */
+    /*
+     * This class handles creating, removing, and handling the DOM object actions
+     * for the QoL Hub.
+     */
     /* globals QoLHubBase DexUtilities DexPageParser EvolutionTreeParser */
     // eslint-disable-next-line no-unused-vars
     class QoLHub extends QoLHubBase {
@@ -4634,8 +4704,10 @@ $(function () {
             // Manually update GLOBALS.DEX_DATA
             localStorageManager.loadDexIntoGlobalsFromWeb(obj.jQuery, document, DexUtilities, obj.GLOBALS);
 
-            // obj.GLOBALS.DEX_DATA will contain the latest info as is read from local storage
-            // this handler updates the local storage
+            /*
+             * obj.GLOBALS.DEX_DATA will contain the latest info as is read from local storage
+             * this handler updates the local storage
+             */
             const progressSpan = obj.jQuery('span.qolDexUpdateProgress', document)[0];
             progressSpan.textContent = 'Loading...';
 
@@ -4644,8 +4716,10 @@ $(function () {
             obj.jQuery('.qolDate', document).text(obj.GLOBALS.DEX_UPDATE_DATE);
             localStorageManager.updateLocalStorageDex(obj.jQuery, document, date, obj.GLOBALS);
 
-            // this will update the obj.GLOBALS.EVOLVE_BY_LEVEL_LIST
-            // and local storage
+            /*
+             * this will update the obj.GLOBALS.EVOLVE_BY_LEVEL_LIST
+             * and local storage
+             */
             const virtualDocument = document.implementation.createHTMLDocument('virtual');
             DexUtilities.getMainDexPage(obj.jQuery).then((data) => {
                 const html = obj.jQuery.parseHTML(data);
@@ -4832,8 +4906,10 @@ $(function () {
                 });
             });
 
-            // used to keep track of the currently selected match
-            // matches can be selected via a shortcut key, specified via this.selectNextMatchKey
+            /*
+             * used to keep track of the currently selected match
+             * matches can be selected via a shortcut key, specified via this.selectNextMatchKey
+             */
             this.selectNextMatchKey = 78; // 'n'
             this.currentlySelectedMatch = undefined;
         }
@@ -5049,12 +5125,74 @@ $(function () {
             }
         }
 
+        searchForTypes(GLOBALS, types) {
+            const obj = this;
+            const dexData = GLOBALS.DEX_DATA;
+            const cls = this.helpers.getPokemonImageClass();
+            for (let i = 0; i < types.length; i++) {
+                const value = types[i];
+                const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
+
+                let typePokemonNames = [];
+                let selected = undefined;
+                if (this.settings.findTypeEgg === true) {
+                    const pokemonElems = [];
+                    typePokemonNames = [];
+                    selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
+                    selected.each(function () {
+                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                        let searchTypeOne = '';
+                        let searchTypeTwo = '';
+
+                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                        searchTypeOne = dexData[searchPokemonIndex + 1];
+                        searchTypeTwo = dexData[searchPokemonIndex + 2];
+
+                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                            typePokemonNames.push(searchPokemon);
+                            pokemonElems.push(this);
+                        }
+                    });
+
+                    for (let o = 0; o < pokemonElems.length; o++) {
+                        const shelterImgSearch = this.jQuery(pokemonElems[o]);
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    }
+
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
+                }
+
+                if (this.settings.findTypePokemon === true) {
+                    typePokemonNames = [];
+                    selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
+                    selected.each(function () {
+                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                        const searchTypeOne = dexData[searchPokemonIndex + 1];
+                        const searchTypeTwo = dexData[searchPokemonIndex + 2];
+                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                            typePokemonNames.push(searchPokemon);
+                        }
+                    });
+
+                    for (let o = 0; o < typePokemonNames.length; o++) {
+                        const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    }
+
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
+                }
+            }
+
+        }
+
         customSearch(GLOBALS) {
             const obj = this;
             const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
             const cls = this.helpers.getPokemonImageClass();
 
-            const dexData = GLOBALS.DEX_DATA;
             // search whatever you want to find in the shelter & grid
 
             //sort in grid
@@ -5069,13 +5207,13 @@ $(function () {
                 this.jQuery('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
                 this.jQuery('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
                 this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
-                // this.jQuery('#shelterpage #shelter #shelterarea:before').css({'display' : 'none!important'});
-                // this.jQuery('<pseudo:before>').attr('style', 'display: none!important');
                 this.jQuery('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
             }
 
-            //search values depending on settings
-            //emptying the sheltersuccess div to avoid duplicates
+            /*
+             * search values depending on settings
+             * emptying the sheltersuccess div to avoid duplicates
+             */
             document.querySelector('#sheltersuccess').innerHTML = '';
             this.jQuery('#shelterarea>div>img').removeClass('shelterfoundme');
 
@@ -5239,63 +5377,8 @@ $(function () {
             const filteredTypeArray = this.typeArray.filter(v => v != '');
 
             if (filteredTypeArray.length > 0) {
-                for (let i = 0; i < filteredTypeArray.length; i++) {
-                    const value = filteredTypeArray[i];
-                    const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
-
-                    let typePokemonNames = [];
-                    let selected = undefined;
-                    if (this.settings.findTypeEgg === true) {
-                        const pokemonElems = [];
-                        typePokemonNames = [];
-                        selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
-                        selected.each(function () {
-                            const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
-                            let searchTypeOne = '';
-                            let searchTypeTwo = '';
-
-                            const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
-                            searchTypeOne = dexData[searchPokemonIndex + 1];
-                            searchTypeTwo = dexData[searchPokemonIndex + 2];
-
-                            if ((searchTypeOne === value) || (searchTypeTwo === value)) {
-                                typePokemonNames.push(searchPokemon);
-                                pokemonElems.push(this);
-                            }
-                        });
-
-                        for (let o = 0; o < pokemonElems.length; o++) {
-                            const shelterImgSearch = this.jQuery(pokemonElems[o]);
-                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                        }
-
-                        this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
-                    }
-
-                    if (this.settings.findTypePokemon === true) {
-                        typePokemonNames = [];
-                        selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
-                        selected.each(function () {
-                            const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
-                            const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
-                            const searchTypeOne = dexData[searchPokemonIndex + 1];
-                            const searchTypeTwo = dexData[searchPokemonIndex + 2];
-                            if ((searchTypeOne === value) || (searchTypeTwo === value)) {
-                                typePokemonNames.push(searchPokemon);
-                            }
-                        });
-
-                        for (let o = 0; o < typePokemonNames.length; o++) {
-                            const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
-                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                        }
-
-                        this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
-                    }
-                }
-            } // filteredTypeArray
+                obj.searchForTypes(GLOBALS, filteredTypeArray);
+            }
         } // customSearch
     }
 
@@ -5349,9 +5432,11 @@ $(function () {
         }
         highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
             const cls = this.helpers.getPokemonImageClass();
-            // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
-            // will not exist. If this occurs. don't try highlighting anything until the
-            // pokemon is "put down"
+            /*
+             * if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
+             * will not exist. If this occurs. don't try highlighting anything until the
+             * pokemon is "put down"
+             */
             if (!this.jQuery(pokemonElem).next().length) { return; }
 
             const tooltipElem = this.jQuery(pokemonElem).next()[0];
@@ -5370,8 +5455,10 @@ $(function () {
                     }
                 }
                 if (!evolutionData[pokemon]) {
-                // Do not log error here. Repeated errors can (will) slow down the page
-                // console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
+                /*
+                 * Do not log error here. Repeated errors can (will) slow down the page
+                 * console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
+                 */
                 } else {
                     const evolutionsLeft = evolutionData[pokemon].remaining;
 
@@ -5385,48 +5472,16 @@ $(function () {
                 console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
             }
         }
-        customSearch(GLOBALS) {
-            super.customSearch(GLOBALS);
+
+        searchForTypes(GLOBALS, types) {
             const obj = this;
-            const cls = this.helpers.getPokemonImageClass();
-
             const dexData = GLOBALS.DEX_DATA;
-            // search whatever you want to find in the shelter & grid
-
-            if (this.settings.findNFE === true) {
-                this.jQuery('#shelterarea>[data-stage=pokemon]').each(function () {
-                    obj.highlightByHowFullyEvolved(GLOBALS, this);
-                });
-            } else {
-                this.jQuery('.oneevolutionleft').each((k, v) => {
-                    obj.jQuery(v).removeClass('oneevolutionleft');
-                });
-                this.jQuery('.twoevolutionleft').each((k, v) => {
-                    obj.jQuery(v).removeClass('twoevolutionleft');
-                });
-            }
-
-            if (this.settings.findReadyToEvolve === true) {
-                if (GLOBALS.EVOLVE_BY_LEVEL_LIST === null) {
-                    window.alert('Unable to load list of pokemon that can evolve by level. Please try updating dex ' +
-                    'by clicking "Update Pokedex" in the QoL Hub. If the problem persists, please post in the thread.\n\n' +
-                    'Disabling this function until the checkbox is clicked again');
-                    this.settings.findReadyToEvolve = false;
-                    // uncheck checkbox
-                    this.jQuery('[data-key=findReadyToEvolve]')[0].checked = false;
-                } else {
-                    this.searchForReadyToEvolveByLevel(GLOBALS);
-                }
-            }
-
-            //loop to find all the types
-            const filteredTypeArray = this.typeArray.filter(v => v != '');
-
-            if (filteredTypeArray.length > 0) {
+            const cls = this.helpers.getPokemonImageClass();
+            if (types.length > 0) {
                 const eggPngsToTypes = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
                 JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)) || undefined;
-                for (let i = 0; i < filteredTypeArray.length; i++) {
-                    const value = filteredTypeArray[i];
+                for (let i = 0; i < types.length; i++) {
+                    const value = types[i];
                     const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
 
                     let typePokemonNames = [];
@@ -5489,7 +5544,39 @@ $(function () {
                         this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
                     }
                 }
-            } // filteredTypeArray
+            }
+        }
+
+        customSearch(GLOBALS) {
+            super.customSearch(GLOBALS);
+            const obj = this;
+            // search whatever you want to find in the shelter & grid
+
+            if (this.settings.findNFE === true) {
+                this.jQuery('#shelterarea>[data-stage=pokemon]').each(function () {
+                    obj.highlightByHowFullyEvolved(GLOBALS, this);
+                });
+            } else {
+                this.jQuery('.oneevolutionleft').each((k, v) => {
+                    obj.jQuery(v).removeClass('oneevolutionleft');
+                });
+                this.jQuery('.twoevolutionleft').each((k, v) => {
+                    obj.jQuery(v).removeClass('twoevolutionleft');
+                });
+            }
+
+            if (this.settings.findReadyToEvolve === true) {
+                if (GLOBALS.EVOLVE_BY_LEVEL_LIST === null) {
+                    window.alert('Unable to load list of pokemon that can evolve by level. Please try updating dex ' +
+                    'by clicking "Update Pokedex" in the QoL Hub. If the problem persists, please post in the thread.\n\n' +
+                    'Disabling this function until the checkbox is clicked again');
+                    this.settings.findReadyToEvolve = false;
+                    // uncheck checkbox
+                    this.jQuery('[data-key=findReadyToEvolve]')[0].checked = false;
+                } else {
+                    this.searchForReadyToEvolveByLevel(GLOBALS);
+                }
+            }
         } // customSearch
     }
     /* globals Page */
@@ -5583,9 +5670,11 @@ $(function () {
             this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
             this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
-            // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-            // settings as most of the text on the site, manually set the text color for
-            // '.collapsible' to match the text around it
+            /*
+             * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+             * settings as most of the text on the site, manually set the text color for
+             * '.collapsible' to match the text around it
+             */
             this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
         }
         setupObserver() {
@@ -6020,9 +6109,11 @@ $(function () {
             this.settings.fieldNFE = false;
         }
         highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
-        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
-        // will not exist. If this occurs. don't try highlighting anything until the
-        // pokemon is "put down"
+        /*
+         * if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
+         * will not exist. If this occurs. don't try highlighting anything until the
+         * pokemon is "put down"
+         */
             if (!this.jQuery(pokemonElem).next().length) { return; }
 
             const tooltip = this.helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);
@@ -6181,9 +6272,11 @@ $(function () {
             this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
             this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
-            // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-            // settings as most of the text on the site, manually set the text color for
-            // '.collapsible' to match the text around it
+            /*
+             * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+             * settings as most of the text on the site, manually set the text color for
+             * '.collapsible' to match the text around it
+             */
             this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
         }
         setupObserver() {
@@ -6430,9 +6523,7 @@ $(function () {
             const obj = this;
             const cls = this.helpers.getPokemonImageClass();
 
-            /////////////////////////////////////////////////
             //////////////////// sorting ////////////////////
-            /////////////////////////////////////////////////
             if (this.settings.fieldByBerry === true) { //sort field by berries
                 this.jQuery('.fieldmon').removeClass('qolSortMiddle');
                 this.jQuery('.field').removeClass('qolGridField');
@@ -6526,9 +6617,7 @@ $(function () {
                 }
             }
 
-            /////////////////////////////////////////////////
             /////////////////// searching ///////////////////
-            /////////////////////////////////////////////////
             const bigImgs = document.querySelectorAll('.publicfoundme');
             if(bigImgs !== null) {
                 bigImgs.forEach((b) => {obj.jQuery(b).removeClass('publicfoundme');});
@@ -7343,8 +7432,8 @@ $(function () {
             obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
 
             /*
-          Nested helper function
-        */
+             *Nested helper function
+             */
             const getEvolutionOrigin = function (evoString) {
                 const summary = '/summary/';
                 const originStart = evoString.indexOf(summary) + summary.length + 7;
@@ -7385,18 +7474,19 @@ $(function () {
                 let evolveTypesPrevious = [];
                 let evolveTypes = [];
 
-                /* Procedure
-             * 1. Handling evolution origin:
-             *    a. If the evolution origin is in the dex, load the types from the dex
-             *    b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
-             * 2. If the evolution destination is not in the dex:
-             *    a. If the destination pokemon is in the dex, load the types from the dex
-             *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
-             *    c. Else, mark the type as '18' (not a valid type)
-             * 3. Use types to apply HTML classes to the list item that contains the current evolution
-             *    a. Use the evolution origin's and destination's types as HTML classes
-             *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
-             */
+                /*
+                 * Procedure
+                 * 1. Handling evolution origin:
+                 *    a. If the evolution origin is in the dex, load the types from the dex
+                 *    b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
+                 * 2. If the evolution destination is not in the dex:
+                 *    a. If the destination pokemon is in the dex, load the types from the dex
+                 *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
+                 *    c. Else, mark the type as '18' (not a valid type)
+                 * 3. Use types to apply HTML classes to the list item that contains the current evolution
+                 *    a. Use the evolution origin's and destination's types as HTML classes
+                 *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
+                 */
 
                 if (previousInDex) {
                 // Step 1.a
@@ -7424,8 +7514,10 @@ $(function () {
                     }
                 }
 
-                // the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-                // in some cases. Just strip it off
+                /*
+                 * the evolveTypes and evolveTypesPrevious entries can begin with a '.'
+                 * in some cases. Just strip it off
+                 */
                 evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
                 evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
 
@@ -7660,18 +7752,22 @@ $(function () {
                     pokemonDexKeepThirdName, pokemonDexKeepFourthName,
                     pokemonDexKeepFifthName, pokemonDexKeepSixthName] = evolvePokemonName.split(' ');
                 const [evolveNewTotalOne, evolveNewCheckOne, /* ignore */, /* ignore */, /* ignore */] = getNewCheckData(evolvePokemonNameOne);
-                // if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
-                // The remaining checks are a (not great) way of checking for names with '/' in them.
-                // PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
-                // Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
-                // Regex: \w+/\w+
+                /*
+                 * if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
+                 * The remaining checks are a (not great) way of checking for names with '/' in them.
+                 * PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
+                 * Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
+                 * Regex: \w+/\w+
+                 */
                 const evolvePokemonNameTwo = (evolvePokemonNameOne + '/' + pokemonDexKeepSecondName).replace('[', '').replace(']', '');
                 const [evolveNewTotalTwo, evolveNewCheckTwo,
                     evolveNewShinyCheckTwo, evolveNewAlbinoCheckTwo,
                     evolveNewMelaCheckTwo] = getNewCheckData(evolvePokemonNameTwo);
 
-                // Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
-                // Regex: \w+/\w+ \w+
+                /*
+                 * Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
+                 * Regex: \w+/\w+ \w+
+                 */
                 const evolvePokemonNameThree = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName).replace('[', '').replace(']', '');
@@ -7679,8 +7775,10 @@ $(function () {
                     evolveNewShinyCheckThree, evolveNewAlbinoCheckThree,
                     evolveNewMelaCheckThree] = getNewCheckData(evolvePokemonNameThree);
 
-                // Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
-                // Regex: \w+/\w+ \w+ \w+
+                /*
+                 * Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
+                 * Regex: \w+/\w+ \w+ \w+
+                 */
                 const evolvePokemonNameFour = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -7689,8 +7787,10 @@ $(function () {
                     evolveNewShinyCheckFour, evolveNewAlbinoCheckFour,
                     evolveNewMelaCheckFour] = getNewCheckData(evolvePokemonNameFour);
 
-                // Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
-                // Regex: \w+/\w+ \w+ \w+ \w+
+                /*
+                 * Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
+                 * Regex: \w+/\w+ \w+ \w+ \w+
+                 */
                 const evolvePokemonNameFive = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -7700,8 +7800,10 @@ $(function () {
                     evolveNewShinyCheckFive, evolveNewAlbinoCheckFive,
                     evolveNewMelaCheckFive] = getNewCheckData(evolvePokemonNameFive);
 
-                // Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
-                // Regex: \w+/\w+ \w+ \w+ \w+ \w+
+                /*
+                 * Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
+                 * Regex: \w+/\w+ \w+ \w+ \w+ \w+
+                 */
                 const evolvePokemonNameSix = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -7893,8 +7995,8 @@ $(function () {
             obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
 
             /*
-          Nested helper function
-        */
+             *Nested helper function
+             */
             const findDivCoreIndex = function ($, html) {
                 for (let j = 0; j < html.length; j++) {
                     if ($(html[j]).is('div#core')) {
@@ -7951,8 +8053,10 @@ $(function () {
                 let status = false;
                 let types = [];
                 loadDexPage($, number, name, (data) => {
-                // Kill two birds with one stone: 1) get the evolutions, and 2) check that
-                // evolveTypePrevOne and evolveTypePrevTwo are correct
+                /*
+                 * Kill two birds with one stone: 1) get the evolutions, and 2) check that
+                 * evolveTypePrevOne and evolveTypePrevTwo are correct
+                 */
                     let html = $.parseHTML(data);
                     // first find the right element in html to read from
                     const htmlIndex = findDivCoreIndex($, html);
@@ -8112,22 +8216,23 @@ $(function () {
                 let evolveTypesPrevious = [];
                 let evolveTypes = [];
 
-                /* Procedure
-             * 1. Load types for the evolution origin
-             *    a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
-             *    b. If it is in the dex and if it does not have regional forms, load the types from the dex data
-             * 2. If step 1.a or 1.b succeeded, load types for the evolution destination
-             *    a. If the destination pokemon is in the dex, load the types from the dex
-             *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
-             *    c. Else, load the destination pokemon's types by:
-             *       i. Getting the origin pokemon's dex number from its summary page
-             *       ii. Loading the list of the origin pokemon's evolutions from its dex page
-             *       iii. Finding the dex number for the destination pokemon from the list
-             *       iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
-             * 3. Use types to apply HTML classes to the list item that contains the current evolution
-             *    a. Use the evolution origin's and destination's types as HTML classes
-             *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
-             */
+                /*
+                 * Procedure
+                 * 1. Load types for the evolution origin
+                 *    a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
+                 *    b. If it is in the dex and if it does not have regional forms, load the types from the dex data
+                 * 2. If step 1.a or 1.b succeeded, load types for the evolution destination
+                 *    a. If the destination pokemon is in the dex, load the types from the dex
+                 *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
+                 *    c. Else, load the destination pokemon's types by:
+                 *       i. Getting the origin pokemon's dex number from its summary page
+                 *       ii. Loading the list of the origin pokemon's evolutions from its dex page
+                 *       iii. Finding the dex number for the destination pokemon from the list
+                 *       iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
+                 * 3. Use types to apply HTML classes to the list item that contains the current evolution
+                 *    a. Use the evolution origin's and destination's types as HTML classes
+                 *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
+                 */
 
                 // Step 1.a
                 if (!previousInDex || hasRegionalForms) {
@@ -8196,8 +8301,10 @@ $(function () {
                     return; // 'continue' for .each()
                 }
 
-                // the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-                // in some cases. Just strip it off
+                /*
+                 * the evolveTypes and evolveTypesPrevious entries can begin with a '.'
+                 * in some cases. Just strip it off
+                 */
                 evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
                 evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
 
@@ -8270,9 +8377,11 @@ $(function () {
                 if (button.attributes['data-gender'] !== undefined) {
                     gender = button.attributes['data-gender'].value;
                 }
-                // the egg group is binary coded decimal
-                // if a pokemon has two egg groups, the leftmost 4 bits of the number returned
-                // are the first egg group and the rightmost 4 bits are the second egg group
+                /*
+                 * the egg group is binary coded decimal
+                 * if a pokemon has two egg groups, the leftmost 4 bits of the number returned
+                 * are the first egg group and the rightmost 4 bits are the second egg group
+                 */
                 if (button.attributes['data-egggroup'] !== undefined) {
                     eggGroup1 = parseInt(button.attributes['data-egggroup'].value);
                     if (eggGroup1 > 15) { // two egg groups
@@ -8303,8 +8412,10 @@ $(function () {
                         const eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0];
                         const searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
 
-                        // There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
-                        // The gender title can be "[M], [F], [N]"
+                        /*
+                         * There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
+                         * The gender title can be "[M], [F], [N]"
+                         */
                         const searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
                         const searchEggGroups = obj.jQuery(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
 
@@ -8361,8 +8472,10 @@ $(function () {
             const elem = document.querySelector('.filter-type');
             const clone = elem.cloneNode(true);
             elem.parentNode.appendChild(clone);
-            // can't remove filter-type class or else the filtering
-            // won't look right
+            /*
+             * can't remove filter-type class or else the filtering
+             * won't look right
+             */
             this.jQuery(clone).addClass('filter-type-2');
         }
 
@@ -8793,13 +8906,15 @@ $(function () {
     class PFQoL extends PFQoLBase {
         constructor($) {
             super($);
-            // set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
-            // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
-            // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
-            // - their types
-            // - if they hatch from an egg,
-            // - if you have the eggdex, and
-            // - if you have the regular, shiny, albino, and melanistic pokedex entries
+            /*
+             * set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+             * GLOBALS.DEX_DATA is the data loaded directly from the script contained in
+             * the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
+             * - their types
+             * - if they hatch from an egg,
+             * - if you have the eggdex, and
+             * - if you have the regular, shiny, albino, and melanistic pokedex entries
+             */
             if (!this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS)) { // can't load it from storage
                 this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromWeb($, document, DexUtilities, this.GLOBALS); // so load it from the web
             } else { // can load it from storage
