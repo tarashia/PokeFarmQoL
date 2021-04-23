@@ -9,7 +9,7 @@ class MultiuserPage extends Page {
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-        // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.partyModification();
             });
