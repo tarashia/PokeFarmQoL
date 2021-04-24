@@ -4,8 +4,8 @@
 // @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
 // @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
-// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_87/Poke-Farm-QoL.sanctioned.user.js
+// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_87/Poke-Farm-QoL.sanctioned.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.6.9
 // @match        https://pokefarm.com/*
@@ -1197,7 +1197,9 @@ $(function () {
                       <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
                       </tr>
                       <tr id="qolDexClearRow">
-                        <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                        <td colspan="2">
+                          <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                        </td>
                       </tr>
                       <tr>
                         <td colspan="2" class="qolAllSettings">
@@ -3184,9 +3186,11 @@ $(function () {
             super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
         }
         resetDex() {
+            this.jQuery('#clearCachedDex').next().remove();
             this.GLOBALS.DEX_UPDATE_DATE = null;
             this.GLOBALS.DEX_DATA = null;
             this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
+            this.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
         }
         build(document) {
             super.build(document);

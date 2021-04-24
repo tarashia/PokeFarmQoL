@@ -4,8 +4,8 @@
 // @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
 // @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
-// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_87/Poke-Farm-QoL.user.js
+// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_87/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.6.9
 // @match        https://pokefarm.com/*
@@ -1197,7 +1197,9 @@ $(function () {
                       <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
                       </tr>
                       <tr id="qolDexClearRow">
-                        <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                        <td colspan="2">
+                          <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                        </td>
                       </tr>
                       <tr>
                         <td colspan="2" class="qolAllSettings">
