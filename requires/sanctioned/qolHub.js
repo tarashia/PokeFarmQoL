@@ -1,4 +1,5 @@
-/* This class handles creating, removing, and handling the DOM object actions
+/*
+ * This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
 /* globals QoLHubBase */
@@ -8,9 +9,11 @@ class QoLHub extends QoLHubBase {
         super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
     }
     resetDex() {
+        this.jQuery('#clearCachedDex').next().remove();
         this.GLOBALS.DEX_UPDATE_DATE = null;
         this.GLOBALS.DEX_DATA = null;
         this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
+        this.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
     }
     build(document) {
         super.build(document);
