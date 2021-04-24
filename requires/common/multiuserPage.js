@@ -45,6 +45,7 @@ class MultiuserPage extends Page {
     setupObserver() {
         this.observer.observe(document.querySelector('#multiuser'), {
             childList: true,
+            subtree: true,
         });
     }
     setupHandlers() {

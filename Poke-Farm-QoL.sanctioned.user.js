@@ -5259,6 +5259,7 @@ $(function () {
         setupObserver() {
             this.observer.observe(document.querySelector('#multiuser'), {
                 childList: true,
+                subtree: true,
             });
         }
         setupHandlers() {
@@ -5459,6 +5460,7 @@ $(function () {
             }
         }
     }
+
     /* globals Page */
     // eslint-disable-next-line no-unused-vars
     class FarmPageBase extends Page {
