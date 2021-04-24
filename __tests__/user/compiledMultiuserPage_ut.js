@@ -61,8 +61,10 @@ describe('Test Multiuser Page', () => {
         // trigger MutationObserver observe
         $('#multiuser>div').eq(-1).remove();
 
-        // trigger mutually exclusive settings
-        // get Egg's action div HTML to check it later
+        /*
+         * trigger mutually exclusive settings
+         * get Egg's action div HTML to check it later
+         */
         const eggActionDiv = $('[data-pid]').eq(3).find('.action').html();
         $('[data-key=hideDislike]').trigger('click');
         expect($('[data-key=hideDislike]').prop('checked')).toBe(true);
