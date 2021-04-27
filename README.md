@@ -59,6 +59,7 @@ Note that currently some features are different between the Sanctioned and Tampe
 ## Tampermonkey Script
 This is supported anywhere Tampermonkey is supported
 ## Integrated Script
+_Always working on expanding testing_ 🙂
 ### Windows
 - **Versions**: Tested on Windows 10 
 - **Browsers**: Chrome, Firefox, Opera (maybe more??)
@@ -71,4 +72,3 @@ This is supported anywhere Tampermonkey is supported
 ## Ubuntu Linux
 - **Versions**: TBR
 - **Browsers**: Chrome, Firefox
-_Working on expanding testing_
