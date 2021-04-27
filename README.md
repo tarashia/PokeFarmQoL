@@ -54,3 +54,21 @@ Note that currently some features are different between the Sanctioned and Tampe
 - **Farm Page** - Easy Evolution doesn't work when the list is sorted - This was not fixed, because it is impossible to implement given the current design of the sorted lists without copying code from pokefarm.
 - **Shelter** - Add nature/berry selector - This feature was not implemented, because it would 1) cause the shelter page to be extremely slow, 2) requires additional information not readily available on the shelter page, and 3) (may) break the one-click rule.
 - **Shelter** - Highlight pokemon that are ready to evolve (by item) - This feature was not implemented, because it would require loading information from a user's inventory
+
+# Supported Environments
+## Tampermonkey Script
+This is supported anywhere Tampermonkey is supported
+## Integrated Script
+### Windows
+- **Versions**: Tested on Windows 10 
+- **Browsers**: Chrome, Firefox, Opera (maybe more??)
+### Mac OS
+- **Versions**: Tested on Mac Big Sur 11.0.1
+- **Browsers**: Safari, Firefox
+### iOS
+- **Versions**: Tested on 13.3.1
+- **Browsers**: Chrome, Firefox
+## Ubuntu Linux
+- **Versions**: TBR
+- **Browsers**: Chrome, Firefox
+_Working on expanding testing_
