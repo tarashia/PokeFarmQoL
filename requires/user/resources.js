@@ -83,7 +83,8 @@ class Resources extends ResourcesBase {
         </table>
         <h4>Search on evolutions</h4>
         <span>Highlight pokemon based on evolution data. Make sure to use the <i>Update Pokedex</i> button in the QoL Hub to load evolution data.</span>
-        <div class="tooltip">Note
+        <div class="tooltip_trigger qoltooltip_trigger">Note</div>
+        <div class="tooltip_content>
           <span class="tooltiptext">
             Currently, these buttons may not highlight pokemon with multiple forms correctly. This is due to the form of a pokemon not being readily available in the text on the shelter page before clicking "Adopt" on the pokemon.
             <br>
@@ -103,7 +104,8 @@ class Resources extends ResourcesBase {
               <td colspan="2">
                 <label>
                   <input type="checkbox" class="qolsetting" data-key="findNFE"/>
-                  <div class="tooltip">Evolutions Left
+                  <div class="tooltip_trigger qoltooltip_trigger" style="display:inline-block">Evolutions Left</div>
+                  <div class="tooltip_content">
                     <span class="tooltiptext">
                       Pokemon with one evolution left are highlighted in red
                       <br>
@@ -139,7 +141,8 @@ class Resources extends ResourcesBase {
         </div>
         <h4>Custom Search</h4>
         <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-        <div class="tooltip">Custom Search Help
+        <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+        <div class="tooltip_content customsearchtooltip">
           <span class="tooltiptext">
             Custom search by Pokemon name
             <br>
@@ -284,7 +287,8 @@ class Resources extends ResourcesBase {
             <td>
               <label>
                 <input type="checkbox" class="qolsetting" data-key="fieldNFE"/>
-                <div class="tooltip">Evolutions Left
+                <div class="tooltip_trigger qoltooltip_trigger" style="display:inline-block">Evolutions Left</div>
+                <div class="tooltip_content">
                   <span class="tooltiptext">
                     Pokemon with one evolution left are highlighted in red
                     <br>
@@ -316,7 +320,8 @@ class Resources extends ResourcesBase {
       </div>
       <h4>Custom Search</h4>
       <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-      <div class="tooltip">Custom Search Help
+      <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+      <div class="tooltip_content customsearchtooltip">
         <span class="tooltiptext">
           Custom search by Pokemon name
           <br>

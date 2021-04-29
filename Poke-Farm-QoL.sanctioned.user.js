@@ -4,13 +4,14 @@
 // @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
 // @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
-// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_78/Poke-Farm-QoL.sanctioned.user.js
+// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_78/Poke-Farm-QoL.sanctioned.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.6.9
 // @match        https://pokefarm.com/*
 // @connect      github.com
 // ==/UserScript==
+
 // eslint-disable-next-line no-undef
 $(function () {
     ('use strict');
@@ -41,7 +42,7 @@ $(function () {
         
         /* tooltip */
         
-        .tooltip {
+        .qoltooltip_trigger {
             position: relative;
             display: inline-block;
             border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
@@ -77,6 +78,10 @@ $(function () {
         .tooltip:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
+        }
+        
+        .customsearchtooltip {
+            width: 400px;
         }
         
         /* shelter notification wrap */
@@ -546,7 +551,8 @@ $(function () {
             </div>
             <h4>Custom Search</h4>
             <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-            <div class="tooltip">Custom Search Help
+            <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+            <div class="tooltip_content customsearchtooltip">
                 <span class="tooltiptext">
                 Custom search by Pokemon name
                 <br>
@@ -809,7 +815,8 @@ $(function () {
         </div>
         <h4>Custom Search</h4>
         <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-        <div class="tooltip">Custom Search Help
+        <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+        <div class="tooltip_content customsearchtooltip">
           <span class="tooltiptext">
             Custom search by Pokemon name
             <br>
@@ -989,7 +996,8 @@ $(function () {
         </div>
         <h4>Custom Search</h4>
         <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-        <div class="tooltip">Custom Search Help
+        <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+        <div class="tooltip_content customsearchtooltip">
           <span class="tooltiptext">
             Custom search by Pokemon name
             <br>
