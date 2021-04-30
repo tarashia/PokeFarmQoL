@@ -16,7 +16,7 @@ class ResourcesBase {
         
         /* tooltip */
         
-        .tooltip {
+        .qoltooltip_trigger {
             position: relative;
             display: inline-block;
             border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
@@ -52,6 +52,10 @@ class ResourcesBase {
         .tooltip:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
+        }
+        
+        .customsearchtooltip {
+            width: 400px;
         }
         
         /* shelter notification wrap */
@@ -521,7 +525,8 @@ class ResourcesBase {
             </div>
             <h4>Custom Search</h4>
             <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-            <div class="tooltip">Custom Search Help
+            <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+            <div class="tooltip_content customsearchtooltip">
                 <span class="tooltiptext">
                 Custom search by Pokemon name
                 <br>
@@ -784,7 +789,8 @@ class ResourcesBase {
         </div>
         <h4>Custom Search</h4>
         <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-        <div class="tooltip">Custom Search Help
+        <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+        <div class="tooltip_content customsearchtooltip">
           <span class="tooltiptext">
             Custom search by Pokemon name
             <br>
@@ -964,7 +970,8 @@ class ResourcesBase {
         </div>
         <h4>Custom Search</h4>
         <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-        <div class="tooltip">Custom Search Help
+        <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+        <div class="tooltip_content customsearchtooltip">
           <span class="tooltiptext">
             Custom search by Pokemon name
             <br>
