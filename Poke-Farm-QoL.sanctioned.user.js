@@ -11,6 +11,7 @@
 // @match        https://pokefarm.com/*
 // @connect      github.com
 // ==/UserScript==
+
 // eslint-disable-next-line no-undef
 $(function () {
     ('use strict');
@@ -5582,7 +5583,7 @@ $(function () {
             obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
 
             /*
-             *Nested helper function
+             * Nested helper function
              */
             const getEvolutionOrigin = function (evoString) {
                 const summary = '/summary/';
@@ -5611,6 +5612,7 @@ $(function () {
 
                 // Handle unicode characters
                 previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
+                previousPokemon = previousPokemon.replace(/ñ/g, '\\u00f1');
 
                 // Handle evolvePokemon name formatting
                 let evolveFormatted = evolvePokemon.replace(' [', '/');

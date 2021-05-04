@@ -46,8 +46,8 @@ class FarmPage extends FarmPageBase {
         obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
 
         /*
-          Nested helper function
-        */
+         * Nested helper function
+         */
         const findDivCoreIndex = function ($, html) {
             for (let j = 0; j < html.length; j++) {
                 if ($(html[j]).is('div#core')) {
@@ -104,8 +104,10 @@ class FarmPage extends FarmPageBase {
             let status = false;
             let types = [];
             loadDexPage($, number, name, (data) => {
-                // Kill two birds with one stone: 1) get the evolutions, and 2) check that
-                // evolveTypePrevOne and evolveTypePrevTwo are correct
+                /*
+                 * Kill two birds with one stone: 1) get the evolutions, and 2) check that
+                 * evolveTypePrevOne and evolveTypePrevTwo are correct
+                 */
                 let html = $.parseHTML(data);
                 // first find the right element in html to read from
                 const htmlIndex = findDivCoreIndex($, html);
@@ -265,7 +267,8 @@ class FarmPage extends FarmPageBase {
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
-            /* Procedure
+            /*
+             * Procedure
              * 1. Load types for the evolution origin
              *    a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
              *    b. If it is in the dex and if it does not have regional forms, load the types from the dex data
@@ -349,8 +352,10 @@ class FarmPage extends FarmPageBase {
                 return; // 'continue' for .each()
             }
 
-            // the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-            // in some cases. Just strip it off
+            /*
+             * the evolveTypes and evolveTypesPrevious entries can begin with a '.'
+             * in some cases. Just strip it off
+             */
             evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
             evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
 
