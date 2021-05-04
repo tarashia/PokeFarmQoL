@@ -108,8 +108,10 @@ $.fn.equivalent = function (compareTo) {
         }
     }
     for (let i = 0; i < this.length; ++i) {
-        // use a "fuzzy" equivalency by removing extraneous whitespace that
-        // doesn't actually affect the structure of the HTML
+        /*
+         * use a "fuzzy" equivalency by removing extraneous whitespace that
+         * doesn't actually affect the structure of the HTML
+         */
         const actual = $(this[i]);
         const expected = $(compareTo[i]);
         const actualHTML = internalStringTrim(actual.html());
@@ -230,16 +232,20 @@ describe('Test Farm Page', () => {
 
         const htmlBefore = $('#farmnews-evolutions .scrollable').html();
 
-        // need to modify the list in order to show that it goes back to normal
-        // trigger '#qolsortevolvename' click handler
+        /*
+         * need to modify the list in order to show that it goes back to normal
+         * trigger '#qolsortevolvename' click handler
+         */
         $('#qolsortevolvename').trigger('click');
 
         // trigger '#qolevolvenormal' click handler
         $('#qolevolvenormal').trigger('click');
 
-        // there is an inconsequential difference between the HTML before and after:
-        // the <ul> item has an empty style attribute (i.e., 'style=""')
-        // remove the empty attribute from the after HTML
+        /*
+         * there is an inconsequential difference between the HTML before and after:
+         * the <ul> item has an empty style attribute (i.e., 'style=""')
+         * remove the empty attribute from the after HTML
+         */
         const htmlAfter = $('#farmnews-evolutions .scrollable').html().replace(' style=""', '');
 
         expect(htmlBefore).toBe(htmlAfter);
@@ -408,7 +414,8 @@ describe('Test Farm Page', () => {
             // remove comments
             removeComments(expectedHTML);
 
-            /* load pokedex that has a few mods:
+            /*
+             * load pokedex that has a few mods:
              * - Charmeleon has been removed
              * - Raticate [Alolan Forme] replaced Raticate
              *   - Type 1 modified to be 4 (Grass)
@@ -514,8 +521,10 @@ describe('Test Farm Page', () => {
 
             expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
-            // test the part of the '#qolevolvenew' click handler that works with pokemon
-            // that have not been seen
+            /*
+             * test the part of the '#qolevolvenew' click handler that works with pokemon
+             * that have not been seen
+             */
             $('#qolevolvenew').trigger('click');
 
             expect($('.qolEvolveNewList').length).toBe(1);
@@ -524,7 +533,8 @@ describe('Test Farm Page', () => {
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
             internalTrim(actualHTML);
-            /* "New" Categories and Expected Pokemon in each
+            /*
+             * "New" Categories and Expected Pokemon in each
              * - New Pokédex entry (L741)
              *   - Thievul
              * - Possible Mega/Totem forme (L750)
@@ -590,7 +600,8 @@ describe('Test Farm Page', () => {
              * - Error (L1054)
              *   - Quibbit [Toxic Forme]
              */
-            /* New Categories summarized (which is how they'll appear in the HTML):
+            /*
+             * New Categories summarized (which is how they'll appear in the HTML):
              * - New Pokédex entry
              *   - Thievul (L741)
              *   - Quibbit [Magma Forme] (L827)
@@ -659,7 +670,8 @@ describe('Test Farm Page', () => {
             // remove comments
             removeComments(expectedHTML);
 
-            /* load pokedex that has a few mods:
+            /*
+             * load pokedex that has a few mods:
              * - Charmeleon has been removed
              * - Raticate [Alolan Forme] replaced Raticate
              *   - Type 1 modified to be 4 (Grass)
@@ -757,8 +769,10 @@ describe('Test Farm Page', () => {
 
             expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
-            // test the part of the '#qolevolvenew' click handler that works with pokemon
-            // that have not been seen
+            /*
+             * test the part of the '#qolevolvenew' click handler that works with pokemon
+             * that have not been seen
+             */
             $('#qolevolvenew').trigger('click');
 
             expect($('.qolEvolveNewList').length).toBe(1);
@@ -767,7 +781,8 @@ describe('Test Farm Page', () => {
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
             internalTrim(actualHTML);
-            /* "New" Categories and Expected Pokemon in each
+            /*
+             * "New" Categories and Expected Pokemon in each
              * - Possible Mega/Totem forme (L750)
              *   - Frosmoth
              * - Possible Shiny Mega/Totem forme (L770)
@@ -825,7 +840,8 @@ describe('Test Farm Page', () => {
              * - Error (L1054)
              *   - Quibbit [Toxic Forme]
              */
-            /* New Categories summarized (which is how they'll appear in the HTML):
+            /*
+             * New Categories summarized (which is how they'll appear in the HTML):
              * - New Pokédex entry
              *   - Quibbit [Magma Forme] (L827)
              *   - Phasmaleef [Desert Forme] (L857)
@@ -890,7 +906,8 @@ describe('Test Farm Page', () => {
             // remove comments
             removeComments(expectedHTML);
 
-            /* load pokedex that has a few mods:
+            /*
+             * load pokedex that has a few mods:
              * - Charmeleon has been removed
              * - Raticate [Alolan Forme] replaced Raticate
              *   - Type 1 modified to be 4 (Grass)
@@ -988,8 +1005,10 @@ describe('Test Farm Page', () => {
 
             expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
-            // test the part of the '#qolevolvenew' click handler that works with pokemon
-            // that have not been seen
+            /*
+             * test the part of the '#qolevolvenew' click handler that works with pokemon
+             * that have not been seen
+             */
             $('#qolevolvenew').trigger('click');
 
             expect($('.qolEvolveNewList').length).toBe(1);
@@ -998,7 +1017,8 @@ describe('Test Farm Page', () => {
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
             internalTrim(actualHTML);
-            /* "New" Categories and Expected Pokemon in each
+            /*
+             * "New" Categories and Expected Pokemon in each
              * - Possible Mega/Totem forme (L750)
              *   - Frosmoth
              * - Possible Shiny Mega/Totem forme (L770)
@@ -1056,7 +1076,8 @@ describe('Test Farm Page', () => {
              * - Error (L1054)
              *   - Quibbit [Toxic Forme]
              */
-            /* New Categories summarized (which is how they'll appear in the HTML):
+            /*
+             * New Categories summarized (which is how they'll appear in the HTML):
              * - New Pokédex entry
              *   - Quibbit [Magma Forme] (L827)
              *   - Phasmaleef [Desert Forme] (L857)
@@ -1121,7 +1142,8 @@ describe('Test Farm Page', () => {
             // remove comments
             removeComments(expectedHTML);
 
-            /* load pokedex that has a few mods:
+            /*
+             * load pokedex that has a few mods:
              * - Charmeleon has been removed
              * - Raticate [Alolan Forme] replaced Raticate
              *   - Type 1 modified to be 4 (Grass)
@@ -1210,8 +1232,10 @@ describe('Test Farm Page', () => {
 
             expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
-            // test the part of the '#qolevolvenew' click handler that works with pokemon
-            // that have not been seen
+            /*
+             * test the part of the '#qolevolvenew' click handler that works with pokemon
+             * that have not been seen
+             */
             $('#qolevolvenew').trigger('click');
 
             expect($('.qolEvolveNewList').length).toBe(1);
@@ -1220,7 +1244,8 @@ describe('Test Farm Page', () => {
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
             internalTrim(actualHTML);
-            /* "New" Categories and Expected Pokemon in each
+            /*
+             * "New" Categories and Expected Pokemon in each
              * - Possible Mega/Totem forme (L750)
              *   - Frosmoth
              * - Possible Shiny Mega/Totem forme (L770)
@@ -1270,7 +1295,8 @@ describe('Test Farm Page', () => {
              * - Error (L1054)
              *   - Quibbit [Toxic Forme]
              */
-            /* New Categories summarized (which is how they'll appear in the HTML):
+            /*
+             * New Categories summarized (which is how they'll appear in the HTML):
              * - New Pokédex entry
              *   - Charmeleon (L867)
              * - Possible Mega/Totem forme (L750)
@@ -1327,7 +1353,8 @@ describe('Test Farm Page', () => {
             // remove comments
             removeComments(expectedHTML);
 
-            /* load pokedex that has a few mods:
+            /*
+             * load pokedex that has a few mods:
              * - Charmeleon has been removed
              * - Lycanroc's data has been modified
              *   - Eggs set to 1 ("egg entry(ies) exist")
@@ -1406,8 +1433,10 @@ describe('Test Farm Page', () => {
 
             expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
-            // test the part of the '#qolevolvenew' click handler that works with pokemon
-            // that have not been seen
+            /*
+             * test the part of the '#qolevolvenew' click handler that works with pokemon
+             * that have not been seen
+             */
             $('#qolevolvenew').trigger('click');
 
             expect($('.qolEvolveNewList').length).toBe(1);
@@ -1416,7 +1445,8 @@ describe('Test Farm Page', () => {
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
             internalTrim(actualHTML);
-            /* "New" Categories and Expected Pokemon in each
+            /*
+             * "New" Categories and Expected Pokemon in each
              * - Possible Mega/Totem forme (L750)
              *   - Frosmoth
              * - Possible Shiny Mega/Totem forme (L770)
@@ -1466,7 +1496,8 @@ describe('Test Farm Page', () => {
              * - Error (L1054)
              *   - Quibbit [Toxic Forme]
              */
-            /* New Categories summarized (which is how they'll appear in the HTML):
+            /*
+             * New Categories summarized (which is how they'll appear in the HTML):
              * - New Pokédex entry
              *   - Charmeleon (L867)
              * - Possible Mega/Totem forme (L750)
@@ -1576,8 +1607,10 @@ describe('Test Farm Page', () => {
 
             expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
-            // test the part of the '#qolevolvenew' click handler that works with pokemon
-            // that have not been seen
+            /*
+             * test the part of the '#qolevolvenew' click handler that works with pokemon
+             * that have not been seen
+             */
             $('#qolevolvenew').trigger('click');
 
             expect($('.qolEvolveNewList').length).toBe(1);
@@ -1586,7 +1619,8 @@ describe('Test Farm Page', () => {
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
             internalTrim(actualHTML);
-            /* "New" Categories and Expected Pokemon in each
+            /*
+             * "New" Categories and Expected Pokemon in each
              * - Error (L877)
              *   - ABC XYZ
              * - Error (L936)
@@ -1596,7 +1630,8 @@ describe('Test Farm Page', () => {
              * - Error (L1054)
              *   - ABC XYZ
              */
-            /* New Categories summarized (which is how they'll appear in the HTML):
+            /*
+             * New Categories summarized (which is how they'll appear in the HTML):
              * - Error
              *   - ABC XYZ
              */
@@ -1671,8 +1706,10 @@ describe('Test Farm Page', () => {
 
             expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
-            // test the part of the '#qolevolvenew' click handler that works with pokemon
-            // that have not been seen
+            /*
+             * test the part of the '#qolevolvenew' click handler that works with pokemon
+             * that have not been seen
+             */
             $('#qolevolvenew').trigger('click');
 
             expect($('.qolEvolveNewList').length).toBe(1);
@@ -1681,7 +1718,8 @@ describe('Test Farm Page', () => {
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
             internalTrim(actualHTML);
-            /* "New" Categories and Expected Pokemon in each
+            /*
+             * "New" Categories and Expected Pokemon in each
              * - Error (L877)
              *   - ABC XYZ
              * - Error (L936)
@@ -1691,7 +1729,8 @@ describe('Test Farm Page', () => {
              * - Error (L1054)
              *   - ABC XYZ
              */
-            /* New Categories summarized (which is how they'll appear in the HTML):
+            /*
+             * New Categories summarized (which is how they'll appear in the HTML):
              * - Error
              *   - ABC XYZ
              */
@@ -1766,8 +1805,10 @@ describe('Test Farm Page', () => {
 
             expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
-            // test the part of the '#qolevolvenew' click handler that works with pokemon
-            // that have not been seen
+            /*
+             * test the part of the '#qolevolvenew' click handler that works with pokemon
+             * that have not been seen
+             */
             $('#qolevolvenew').trigger('click');
 
             expect($('.qolEvolveNewList').length).toBe(1);
@@ -1776,7 +1817,8 @@ describe('Test Farm Page', () => {
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
             internalTrim(actualHTML);
-            /* "New" Categories and Expected Pokemon in each
+            /*
+             * "New" Categories and Expected Pokemon in each
              * - Error (L877)
              *   - ABC XYZ
              * - Error (L936)
@@ -1786,7 +1828,8 @@ describe('Test Farm Page', () => {
              * - Error (L1054)
              *   - ABC XYZ
              */
-            /* New Categories summarized (which is how they'll appear in the HTML):
+            /*
+             * New Categories summarized (which is how they'll appear in the HTML):
              * - Error
              *   - ABC XYZ
              */
@@ -1861,8 +1904,10 @@ describe('Test Farm Page', () => {
 
             expect(localStorage.getItem(dexKey)).toBe(incompleteDex);
 
-            // test the part of the '#qolevolvenew' click handler that works with pokemon
-            // that have not been seen
+            /*
+             * test the part of the '#qolevolvenew' click handler that works with pokemon
+             * that have not been seen
+             */
             $('#qolevolvenew').trigger('click');
 
             expect($('.qolEvolveNewList').length).toBe(1);
@@ -1871,7 +1916,8 @@ describe('Test Farm Page', () => {
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
             internalTrim(actualHTML);
-            /* "New" Categories and Expected Pokemon in each
+            /*
+             * "New" Categories and Expected Pokemon in each
              * - Error (L877)
              *   - ABC XYZ
              * - Error (L936)
@@ -1881,7 +1927,8 @@ describe('Test Farm Page', () => {
              * - Error (L1054)
              *   - ABC XYZ
              */
-            /* New Categories summarized (which is how they'll appear in the HTML):
+            /*
+             * New Categories summarized (which is how they'll appear in the HTML):
              * - Error
              *   - ABC XYZ
              */
