@@ -1,4 +1,5 @@
-/* This class handles creating, removing, and handling the DOM object actions
+/*
+ * This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
 /* globals QoLHubBase DexUtilities DexPageParser EvolutionTreeParser */
@@ -53,8 +54,10 @@ class QoLHub extends QoLHubBase {
         // Manually update GLOBALS.DEX_DATA
         localStorageManager.loadDexIntoGlobalsFromWeb(obj.jQuery, document, DexUtilities, obj.GLOBALS);
 
-        // obj.GLOBALS.DEX_DATA will contain the latest info as is read from local storage
-        // this handler updates the local storage
+        /*
+         * obj.GLOBALS.DEX_DATA will contain the latest info as is read from local storage
+         * this handler updates the local storage
+         */
         const progressSpan = obj.jQuery('span.qolDexUpdateProgress', document)[0];
         progressSpan.textContent = 'Loading...';
 
@@ -63,8 +66,10 @@ class QoLHub extends QoLHubBase {
         obj.jQuery('.qolDate', document).text(obj.GLOBALS.DEX_UPDATE_DATE);
         localStorageManager.updateLocalStorageDex(obj.jQuery, document, date, obj.GLOBALS);
 
-        // this will update the obj.GLOBALS.EVOLVE_BY_LEVEL_LIST
-        // and local storage
+        /*
+         * this will update the obj.GLOBALS.EVOLVE_BY_LEVEL_LIST
+         * and local storage
+         */
         const virtualDocument = document.implementation.createHTMLDocument('virtual');
         DexUtilities.getMainDexPage(obj.jQuery).then((data) => {
             const html = obj.jQuery.parseHTML(data);

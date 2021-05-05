@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 class DexUtilities {
-    /* Load the main dex page.
+    /*
+     * Load the main dex page.
      * Note: Testing this would essentially be testing jQuery, so no need to test
      * Inputs:
      * - $ - reference to jQuery
@@ -10,7 +11,8 @@ class DexUtilities {
     static getMainDexPage($) {
         return $.get('https://pokefarm.com/dex');
     }
-    /* Load the dex page for a pokemon.
+    /*
+     * Load the dex page for a pokemon.
      * Inputs:
      * - $ - reference to jQuery
      * - id - dex ID number to load
@@ -20,7 +22,8 @@ class DexUtilities {
     static getPokemonDexPage($, id) {
         return $.get('https://pokefarm.com/dex/' + id);
     }
-    /* Loads the dex pages for the pokemon whose dex numbers are in the dexNumbers input
+    /*
+     * Loads the dex pages for the pokemon whose dex numbers are in the dexNumbers input
      * Inputs:
      * - $ - reference to jQuery
      * - dexNumbers - an array containing dex IDs
@@ -39,8 +42,10 @@ class DexUtilities {
         progressSpan.textContent = 'Loading Pokedex info. Please wait until this is complete...';
 
         for(let d = 0; d < dexNumbers.length; d++) {
-            // if the dex number is 000, the user has not seen the pokemon,
-            // so just increment the progress bar value
+            /*
+             * if the dex number is 000, the user has not seen the pokemon,
+             * so just increment the progress bar value
+             */
             if(dexNumbers[d] === '000') {
                 progressBar.value = progressBar['value'] + 1;
                 progressSpan.textContent = `Loaded ${progressBar['value']} of ${dexNumbers.length} Pokemon`;
@@ -60,7 +65,8 @@ class DexUtilities {
         // return $.when.apply(undefined, requests);
         return Promise.all(requests);
     } // loadDexPages
-    /* Loads the dex pages for the forms of a pokemon
+    /*
+     * Loads the dex pages for the forms of a pokemon
      * Inputs:
      * - $ - reference to jQuery
      * - firstFormHTML - An array containing the HTML for the dex pages for a set of pokemon.
@@ -98,7 +104,8 @@ class DexUtilities {
 
         return Promise.all(requests);
     } // loadFormPages
-    /* Parses HTML from pokedex pages
+    /*
+     * Parses HTML from pokedex pages
      * Inputs:
      * - $ - reference to jQuery
      * - ownerDocument - reference to virtual document to load HTML into
@@ -116,8 +123,10 @@ class DexUtilities {
             const data = $(args[a], ownerDocument);
             const rootName = dexPageParser.getInfoFromDexPageHeader(data).name;
 
-            // the evolution tree won't have the dex ID for the form of the pokemon that we're currently using
-            // use the footbar to get the full pokedex number for the current form
+            /*
+             * the evolution tree won't have the dex ID for the form of the pokemon that we're currently using
+             * use the footbar to get the full pokedex number for the current form
+             */
             const fullIDNumber = dexPageParser.getInfoFromDexPageFooter(data).shortlinkNumber;
 
             // if the root name is already in in the flat files, but the root of the tree is not in the dexIDMap
@@ -141,15 +150,19 @@ class DexUtilities {
     } // parseEvolutionTrees
 
     static buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap) {
-        // store the maximum depth of the evolution tree for each pokemon
-        // for highlighting each pokemon based on how fully evolved they are
-        // https://github.com/jpgualdarrama/PokeFarmQoL/issues/11
+        /*
+         * store the maximum depth of the evolution tree for each pokemon
+         * for highlighting each pokemon based on how fully evolved they are
+         * https://github.com/jpgualdarrama/PokeFarmQoL/issues/11
+         */
         const maxEvoTreeDepth = {};
         for(const pokemon in parsedFamilies) {
             const evolutions = parsedFamilies[pokemon];
 
-            // filter out "evolutions" that are really changes between forms of the
-            // same pokemon
+            /*
+             * filter out "evolutions" that are really changes between forms of the
+             * same pokemon
+             */
             for(let i = evolutions.length - 1; i>= 0; i--) {
                 if(formMap[evolutions[i].source] === undefined) {
                     console.error(`Could not find form data for ${evolutions[i].source}`);
@@ -218,8 +231,10 @@ class DexUtilities {
                         const paths = [];
                         createPaths([], tree, paths);
 
-                        // get remaining number of evolutions in each path and total number
-                        // of evolutions along each path
+                        /*
+                         * get remaining number of evolutions in each path and total number
+                         * of evolutions along each path
+                         */
                         const pokemonPathData = {};
                         for(let p = 0; p < paths.length; p++) {
                             const mons = paths[p].split('|');
@@ -247,8 +262,10 @@ class DexUtilities {
                         maxEvoTreeDepth[p] = parsedPathData[p];
                         maxEvoTreeDepth[dexIDs[p]] = parsedPathData[p];
                     }
-                    // maxEvoTreeDepth[pokemon] = Math.max(...parseEvolutionPaths(finalTree)) - 1;
-                    // maxEvoTreeDepth[dexIDs[pokemon]] = maxEvoTreeDepth[pokemon]
+                    /*
+                     * maxEvoTreeDepth[pokemon] = Math.max(...parseEvolutionPaths(finalTree)) - 1;
+                     * maxEvoTreeDepth[dexIDs[pokemon]] = maxEvoTreeDepth[pokemon]
+                     */
                 } // if evolutions.length
                 // add pokemon that don't evolve
                 else {
@@ -266,9 +283,11 @@ class DexUtilities {
         const formData = {};
         const formMap = {};
 
-        // because the evolution tree for all the members of a single family will have the same text,
-        // use the text as a key in families
-        // use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
+        /*
+         * because the evolution tree for all the members of a single family will have the same text,
+         * use the text as a key in families
+         * use the ownerDocument parameter to jQuery to stop jQuery from loading images and audio files
+         */
         for(let a = 0; a < args.length; a++) {
             const data = $(args[a], ownerDocument);
             const headerInfo = dexPageParser.getInfoFromDexPageHeader(data);
@@ -314,12 +333,13 @@ class DexUtilities {
         return [formData, formMap];
     } // parseFormData
 
-    /* base_names = {
-       'Rattata' : 'Rattata',
-       'Rattata [Alolan Forme]' : 'Rattata',
-       'Raticate [Alolan Totem Forme]' : 'Raticate'
-       }
-    */
+    /*
+     * base_names = {
+     * 'Rattata' : 'Rattata',
+     * 'Rattata [Alolan Forme]' : 'Rattata',
+     * 'Raticate [Alolan Totem Forme]' : 'Raticate'
+     * }
+     */
     static parseBaseNames($, ownerDocument, dexPageParser, args) {
         const list = {};
         for(let a = 0; a <args.length; a++) {
@@ -330,11 +350,12 @@ class DexUtilities {
         return list;
     }
 
-    /* egg_pngs = {
-       'Rattata' : '... .png',
-       'Rattata [Alolan Forme]' : '... .png'
-       }
-    */
+    /*
+     * egg_pngs = {
+     * 'Rattata' : '... .png',
+     * 'Rattata [Alolan Forme]' : '... .png'
+     * }
+     */
     static parseEggsPngsList($, ownerDocument, dexPageParser, args) {
         const list = {};
         for(let a = 0; a <args.length; a++) {
@@ -350,13 +371,14 @@ class DexUtilities {
         return list;
     }
 
-    /* types = {
-       'Rattata' : [Normal],
-       'Raticate' : [Normal],
-       'Rattata [Alolan Forme]' : [Normal, Dark],
-       'Raticate [Alolan Forme]' : [Normal, Dark]
-       }
-    */
+    /*
+     * types = {
+     * 'Rattata' : [Normal],
+     * 'Raticate' : [Normal],
+     * 'Rattata [Alolan Forme]' : [Normal, Dark],
+     * 'Raticate [Alolan Forme]' : [Normal, Dark]
+     * }
+     */
     static parseTypesList($, ownerDocument, dexPageParser, globals, args) {
         const list = {};
         for(let a = 0; a < args.length; a++) {
@@ -392,14 +414,18 @@ class DexUtilities {
 
                 const formNames = formMap[base].map((e) => e.name);
 
-                // if any of the names have one of the regional markers,
-                // add the regional names to the list
+                /*
+                 * if any of the names have one of the regional markers,
+                 * add the regional names to the list
+                 */
                 let formWithMarkers = formNames.filter((n) => {
                     return REGIONAL_NAME_MARKERS.filter((r) => n.indexOf(`${r}`) > -1).length > 0;
                 });
 
-                // filter out megas/totems
-                // these are filtered out this way to allow for Galarian Zen Mode Darmanitan
+                /*
+                 * filter out megas/totems
+                 * these are filtered out this way to allow for Galarian Zen Mode Darmanitan
+                 */
                 formWithMarkers = formWithMarkers.filter((n) => n.indexOf('Mega Forme') == -1);
                 formWithMarkers = formWithMarkers.filter((n) => n.indexOf('Totem Forme') == -1);
 
@@ -413,13 +439,14 @@ class DexUtilities {
         return regionalFormData;
     }
 
-    /* egg_pngs_types_map = {
-       'Rattata' : {
-             <kantonian.png> : [Normal],
-             <alolan.png> : [Normal, Dark],
-          }
-       }
-    */
+    /*
+     * egg_pngs_types_map = {
+     * 'Rattata' : {
+     *       <kantonian.png> : [Normal],
+     *       <alolan.png> : [Normal, Dark],
+     *    }
+     * }
+     */
     static buildEggPngsTypesMap(baseNamesList, eggPngsList, typesList) {
         const map = {};
         for(const name in eggPngsList) {

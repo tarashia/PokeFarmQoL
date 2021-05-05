@@ -5,7 +5,8 @@ class LocalStorageManager extends LocalStorageManagerBase {
         super(keyPrefix, storage, helpers);
     }
 
-    /* Set globals.DEX_DATA and globals.DEX_UPDATE_DATE by loading the main dex page from the web
+    /*
+     * Set globals.DEX_DATA and globals.DEX_UPDATE_DATE by loading the main dex page from the web
      * Inputs:
      * - $ - reference to jQuery
      * - globals - reference to the GLOBALS settings object
@@ -31,7 +32,8 @@ class LocalStorageManager extends LocalStorageManagerBase {
         GLOBALS.EVOLUTIONS_LEFT = JSON.parse(localStorage.getItem(this.translateKey(GLOBALS.POKEDEX_EVOLUTION_TREE_DEPTH_KEY)));
     }
 
-    /* Call loadDexIntoGlobalsFromWeb if more than 30 days have passed since it was last loaded
+    /*
+     * Call loadDexIntoGlobalsFromWeb if more than 30 days have passed since it was last loaded
      * Inputs:
      * - $ - reference to jQuery
      * - globals - reference to the GLOBALS settings object
@@ -75,9 +77,11 @@ class LocalStorageManager extends LocalStorageManagerBase {
     } // saveEvolveByLevelList
 
     saveEvolutionTreeDepths(globals, maxEvoTreeDepth) {
-        // GLOBALS.EVOLUTIONS_LEFT stores the number of remaining evolutions and the total number of evolutions
-        // for a pokemon and it's family
-        // e.g. - GLOBALS.EVOLUTIONS_LEFT["019s2"] = { remaining: 4, total: 5 } // 019s2 = Super Saiyan Rattata
+        /*
+         * GLOBALS.EVOLUTIONS_LEFT stores the number of remaining evolutions and the total number of evolutions
+         * for a pokemon and it's family
+         * e.g. - GLOBALS.EVOLUTIONS_LEFT["019s2"] = { remaining: 4, total: 5 } // 019s2 = Super Saiyan Rattata
+         */
 
         this.storage.setItem(this.translateKey(globals.POKEDEX_EVOLUTION_TREE_DEPTH_KEY), JSON.stringify(maxEvoTreeDepth));
         globals.EVOLUTIONS_LEFT = maxEvoTreeDepth;
@@ -85,9 +89,11 @@ class LocalStorageManager extends LocalStorageManagerBase {
     } // saveEvolutionTreeDepths
 
     saveRegionalFormsList(globals, parsedFamilies, dexIDs, regionalFormMap) {
-        // GLOBALS.REGIONAL_FORMS_LIST maps base pokemon species names to the list
-        // of regional forms, including the base name.
-        // e.g. - GLOBALS.REGIONAL_FORMS_LIST[Rattata] = ["Rattata", "Rattata [Alolan Forme]"]
+        /*
+         * GLOBALS.REGIONAL_FORMS_LIST maps base pokemon species names to the list
+         * of regional forms, including the base name.
+         * e.g. - GLOBALS.REGIONAL_FORMS_LIST[Rattata] = ["Rattata", "Rattata [Alolan Forme]"]
+         */
         const key = this.translateKey(globals.POKEDEX_REGIONAL_FORMS_KEY);
         const list = regionalFormMap;
 
@@ -97,19 +103,22 @@ class LocalStorageManager extends LocalStorageManagerBase {
     } // saveRegionalFormsList
 
     saveEggTypesMap(globals, map) {
-        // GLOBALS.EGGS_PNG_TO_TYPES_LIST will map a pokemon's base name to all the egg pngs that
-        // will appear in the shelter with that name, and map each of those pngs to the type(s)
-        // of that egg
-        // e.g. GLOBALS.EGGS_PNG_TO_TYPES_LIST[Rattata] = {
-        //           <kantonian.png> : [Normal],
-        //           <alolan.png> : [Normal, Dark]
-        // }
+        /*
+         * GLOBALS.EGGS_PNG_TO_TYPES_LIST will map a pokemon's base name to all the egg pngs that
+         * will appear in the shelter with that name, and map each of those pngs to the type(s)
+         * of that egg
+         * e.g. GLOBALS.EGGS_PNG_TO_TYPES_LIST[Rattata] = {
+         *           <kantonian.png> : [Normal],
+         *           <alolan.png> : [Normal, Dark]
+         * }
+         */
         const key = this.translateKey(globals.POKEDEX_EGG_TYPES_MAP_KEY);
         this.storage.setItem(key, JSON.stringify(map));
         globals.EGGS_PNG_TO_TYPES_LIST = map;
     }
 
-    /* parseAndStoreDexNumbers
+    /*
+     * parseAndStoreDexNumbers
      *
      */
     parseAndStoreDexNumbers(globals, dex) {
