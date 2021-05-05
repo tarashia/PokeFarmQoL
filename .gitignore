@@ -13,3 +13,6 @@ notes.txt
 
 # config
 .env
+
+# output files
+output
