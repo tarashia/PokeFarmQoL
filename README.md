@@ -18,7 +18,7 @@ Note that currently some features are different between the Sanctioned and Tampe
   - Sort by type
   - Sort by name
   - Sort by "newness" (if you own the evolution or not)
-Sanctioned Script
+### Sanctioned Script
 Does not currently have the ability to sort Nicknamed pokemon by type. This would require loading the nicknamed pokemon's summary page, which has proven to be a slow process that causes a high amount of communication with the Pokefarm server, and so was left out of the Sanctioned version.
 ## Fishing Page (/fishing)
 - Select all Pokémon and select by berry preference for adopting/releasing
