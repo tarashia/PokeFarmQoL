@@ -307,7 +307,11 @@ describe('Test Farm Page', () => {
                 '"Raichu [Alolan Forme]":[".3",".10"],' +
                 '"Linoone [Galarian Forme]":[".15",".0"],' +
                 '"Lycanroc [Midnight Forme]":[".12"],' +
-                '"Lycanroc [Midday Forme]":[".12"]}}');
+                '"Lycanroc [Midday Forme]":[".12"]}}' +
+                '"Gourgeist [Small Size]":[[".13",".4"],' +
+                '"Gourgeist [Average Size]":[[".13",".4"],' +
+                '"Gourgeist [Large Size]":[[".13",".4"],' +
+                '"Gourgeist [Super Size]":[[".13",".4"],');
 
             new pfqol.pfqol($);
 
@@ -337,7 +341,22 @@ describe('Test Farm Page', () => {
             const dex = fs.readFileSync(dexPath, 'utf8', 'r');
             localStorage.setItem(dexKey, dex);
 
-            localStorage.setItem(dexKey, dex);
+            /*
+             * temp temp temp
+             * get a list of IDs, Names, and Types
+             */
+            const splitDex = JSON.parse(dex);
+            let output = '';
+            for(let i = splitDex.indexOf('"fairy"]')+1; i < splitDex.length; i+=11) {
+                const ID = splitDex[i];
+                const name = splitDex[i+1];
+                const type1 = splitDex[i+2];
+                const type2 = splitDex[i+3];
+                output = `${output}\n${ID},${name},${type1},${type2}`;
+            }
+            fs.writeFileSync('./idsNamesTypes.csv', output);
+            // temp temp temp
+
             localStorage.setItem(key,
                 '{"TYPE_APPEND":' +
                 '{"NORMAL":".0",' +
@@ -376,7 +395,11 @@ describe('Test Farm Page', () => {
                 '"Raichu [Alolan Forme]":[".3",".10"],' +
                 '"Linoone [Galarian Forme]":[".15",".0"],' +
                 '"Lycanroc [Midnight Forme]":[".12"],' +
-                '"Lycanroc [Midday Forme]":[".12"]}}');
+                '"Lycanroc [Midday Forme]":[".12"]}}' +
+                '"Gourgeist [Small Size]":[[".13",".4"],' +
+                '"Gourgeist [Average Size]":[[".13",".4"],' +
+                '"Gourgeist [Large Size]":[[".13",".4"],' +
+                '"Gourgeist [Super Size]":[[".13",".4"],');
 
             new pfqol.pfqol($);
 
@@ -388,6 +411,12 @@ describe('Test Farm Page', () => {
             expect($('.qolEvolveTypeList').css('display')).toBe('block');
             expect($('.evolvepkmnlist').css('display')).toBe('none');
             const actualHTML = $('#farmnews-evolutions .scrollable').children();
+
+            // Write out to files for debugging
+            fs.writeFileSync('./actualHTML.0.html', actualHTML.eq(0).html());
+            fs.writeFileSync('./actualHTML.1.html', actualHTML.eq(1).html());
+            fs.writeFileSync('./expectedHTML.0.html', expectedHTML.eq(0).html());
+            fs.writeFileSync('./expectedHTML.1.html', expectedHTML.eq(1).html());
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
     });

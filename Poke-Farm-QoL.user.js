@@ -7345,6 +7345,10 @@ $(function () {
                 'Golem [Alolan Forme]': [d.TYPE_APPEND['ROCK'], d.TYPE_APPEND['ELECTRIC']],
                 'Muk [Alolan Forme]': [d.TYPE_APPEND['POISON'], d.TYPE_APPEND['DARK']],
                 'Raichu [Alolan Forme]': [d.TYPE_APPEND['ELECTRIC'], d.TYPE_APPEND['PSYCHIC']],
+                'Gourgeist [Small Size]': [d.TYPE_APPEND['GHOST'], d.TYPE_APPEND['GRASS']],
+                'Gourgeist [Average Size]': [d.TYPE_APPEND['GHOST'], d.TYPE_APPEND['GRASS']],
+                'Gourgeist [Large Size]': [d.TYPE_APPEND['GHOST'], d.TYPE_APPEND['GRASS']],
+                'Gourgeist [Super Size]': [d.TYPE_APPEND['GHOST'], d.TYPE_APPEND['GRASS']],
             };
             return d;
         }
