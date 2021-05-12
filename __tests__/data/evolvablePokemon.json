@@ -1,0 +1,4408 @@
+[
+    {
+        "dex_id": "Haunter",
+        "dex_id_evolution": "Gengar",
+        "types": [
+            "13",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Onix",
+        "dex_id_evolution": "Steelix",
+        "types": [
+            "12",
+            "8",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Drowzee",
+        "dex_id_evolution": "Hypno",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Krabby",
+        "dex_id_evolution": "Kingler",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Voltorb",
+        "dex_id_evolution": "Electrode",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Exeggcute",
+        "dex_id_evolution": "Exeggutor",
+        "types": [
+            "4",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Exeggcute",
+        "dex_id_evolution": "Exeggutor [Alolan Forme]",
+        "types": [
+            "4",
+            "10",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Cubone",
+        "dex_id_evolution": "Marowak",
+        "types": [
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Cubone",
+        "dex_id_evolution": "Marowak [Alolan Forme]",
+        "types": [
+            "8",
+            "1",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Lickitung",
+        "dex_id_evolution": "Lickilicky",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Koffing",
+        "dex_id_evolution": "Weezing",
+        "types": [
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Koffing",
+        "dex_id_evolution": "Weezing [Galarian Forme]",
+        "types": [
+            "7",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Rhyhorn",
+        "dex_id_evolution": "Rhydon",
+        "types": [
+            "8",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Rhydon",
+        "dex_id_evolution": "Rhyperior",
+        "types": [
+            "8",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Tangela",
+        "dex_id_evolution": "Tangrowth",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Horsea",
+        "dex_id_evolution": "Seadra",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Seadra",
+        "dex_id_evolution": "Kingdra",
+        "types": [
+            "2",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Goldeen",
+        "dex_id_evolution": "Seaking",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Staryu",
+        "dex_id_evolution": "Starmie",
+        "types": [
+            "2",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Mime Jr.",
+        "dex_id_evolution": "Mr. Mime",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Scyther",
+        "dex_id_evolution": "Scizor",
+        "types": [
+            "11",
+            "9",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Smoochum",
+        "dex_id_evolution": "Jynx",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Magikarp",
+        "dex_id_evolution": "Gyarados",
+        "types": [
+            "2",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Eevee",
+        "dex_id_evolution": "Vaporeon",
+        "types": [
+            "0",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Eevee",
+        "dex_id_evolution": "Jolteon",
+        "types": [
+            "0",
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Eevee",
+        "dex_id_evolution": "Flareon",
+        "types": [
+            "0",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Eevee",
+        "dex_id_evolution": "Espeon",
+        "types": [
+            "0",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Eevee",
+        "dex_id_evolution": "Umbreon",
+        "types": [
+            "0",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Eevee",
+        "dex_id_evolution": "Leafeon",
+        "types": [
+            "0",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Eevee",
+        "dex_id_evolution": "Glaceon",
+        "types": [
+            "0",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Eevee",
+        "dex_id_evolution": "Sylveon",
+        "types": [
+            "0",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Omanyte",
+        "dex_id_evolution": "Omastar",
+        "types": [
+            "12",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Kabuto",
+        "dex_id_evolution": "Kabutops",
+        "types": [
+            "12",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Munchlax",
+        "dex_id_evolution": "Snorlax",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Dratini",
+        "dex_id_evolution": "Dragonair",
+        "types": [
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Dragonair",
+        "dex_id_evolution": "Dragonite",
+        "types": [
+            "14",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Chikorita",
+        "dex_id_evolution": "Bayleef",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Bayleef",
+        "dex_id_evolution": "Meganium",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Cyndaquil",
+        "dex_id_evolution": "Quilava",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Quilava",
+        "dex_id_evolution": "Typhlosion",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Totodile",
+        "dex_id_evolution": "Croconaw",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Croconaw",
+        "dex_id_evolution": "Feraligator",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Sentret",
+        "dex_id_evolution": "Furret",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Hoothoot",
+        "dex_id_evolution": "Noctowl",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Ledyba",
+        "dex_id_evolution": "Ledian",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Spinarak",
+        "dex_id_evolution": "Ariados",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Chinchou",
+        "dex_id_evolution": "Lanturn",
+        "types": [
+            "2",
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Togepi",
+        "dex_id_evolution": "Togetic",
+        "types": [
+            "17",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Togetic",
+        "dex_id_evolution": "Togekiss",
+        "types": [
+            "17",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Natu",
+        "dex_id_evolution": "Xatu",
+        "types": [
+            "10",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Mareep",
+        "dex_id_evolution": "Flaaffy",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Flaaffy",
+        "dex_id_evolution": "Ampharos",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Azurill",
+        "dex_id_evolution": "Marill",
+        "types": [
+            "0",
+            "17",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Marill",
+        "dex_id_evolution": "Azumarill",
+        "types": [
+            "2",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Bonsly",
+        "dex_id_evolution": "Sudowoodo",
+        "types": [
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Hoppip",
+        "dex_id_evolution": "Skiploom",
+        "types": [
+            "4",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Skiploom",
+        "dex_id_evolution": "Jumpluff",
+        "types": [
+            "4",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Aipom",
+        "dex_id_evolution": "Ambipom",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Sunkern",
+        "dex_id_evolution": "Sunflora",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Yanma",
+        "dex_id_evolution": "Yanmega",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Wooper",
+        "dex_id_evolution": "Quagsire",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Murkrow",
+        "dex_id_evolution": "Honchkrow",
+        "types": [
+            "15",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Misdreavus",
+        "dex_id_evolution": "Mismagius",
+        "types": [
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Pineco",
+        "dex_id_evolution": "Forretress",
+        "types": [
+            "11",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Gligar",
+        "dex_id_evolution": "Gliscor",
+        "types": [
+            "8",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Snubbull",
+        "dex_id_evolution": "Granbull",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Sneasel",
+        "dex_id_evolution": "Weavile",
+        "types": [
+            "15",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Teddiursa",
+        "dex_id_evolution": "Ursaring",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Slugma",
+        "dex_id_evolution": "Magcargo",
+        "types": [
+            "1",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Swinub",
+        "dex_id_evolution": "Piloswine",
+        "types": [
+            "5",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Piloswine",
+        "dex_id_evolution": "Mamoswine",
+        "types": [
+            "5",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Remoraid",
+        "dex_id_evolution": "Octillery",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Houndour",
+        "dex_id_evolution": "Houndoom",
+        "types": [
+            "15",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Phanpy",
+        "dex_id_evolution": "Donphan",
+        "types": [
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Tyrogue",
+        "dex_id_evolution": "Hitmonlee",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Tyrogue",
+        "dex_id_evolution": "Hitmonchan",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Tyrogue",
+        "dex_id_evolution": "Hitmontop",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Elekid",
+        "dex_id_evolution": "Electabuzz",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Electabuzz",
+        "dex_id_evolution": "Electivire",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Magby",
+        "dex_id_evolution": "Magmar",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Magmar",
+        "dex_id_evolution": "Magmortar",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Larvitar",
+        "dex_id_evolution": "Pupitar",
+        "types": [
+            "12",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Pupitar",
+        "dex_id_evolution": "Tyranitar",
+        "types": [
+            "12",
+            "8",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Treecko",
+        "dex_id_evolution": "Grovyle",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Grovyle",
+        "dex_id_evolution": "Sceptile",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Torchic",
+        "dex_id_evolution": "Combusken",
+        "types": [
+            "1",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Combusken",
+        "dex_id_evolution": "Blaziken",
+        "types": [
+            "1",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Mudkip",
+        "dex_id_evolution": "Marshtomp",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Marshtomp",
+        "dex_id_evolution": "Swampert",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Poochyena",
+        "dex_id_evolution": "Mightyena",
+        "types": [
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Zigzagoon",
+        "dex_id_evolution": "Linoone",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Wurmple",
+        "dex_id_evolution": "Silcoon",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Wurmple",
+        "dex_id_evolution": "Cascoon",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Silcoon",
+        "dex_id_evolution": "Beautifly",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Cascoon",
+        "dex_id_evolution": "Dustox",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Lotad",
+        "dex_id_evolution": "Lombre",
+        "types": [
+            "2",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Lombre",
+        "dex_id_evolution": "Ludicolo",
+        "types": [
+            "2",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Seedot",
+        "dex_id_evolution": "Nuzleaf",
+        "types": [
+            "4",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Nuzleaf",
+        "dex_id_evolution": "Shiftry",
+        "types": [
+            "4",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Taillow",
+        "dex_id_evolution": "Swellow",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Wingull",
+        "dex_id_evolution": "Pelipper",
+        "types": [
+            "2",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Ralts",
+        "dex_id_evolution": "Kirlia",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Kirlia",
+        "dex_id_evolution": "Gardevoir",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Kirlia",
+        "dex_id_evolution": "Gallade",
+        "types": [
+            "10",
+            "17",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Surskit",
+        "dex_id_evolution": "Masquerain",
+        "types": [
+            "11",
+            "2",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Shroomish",
+        "dex_id_evolution": "Breloom",
+        "types": [
+            "4",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Slakoth",
+        "dex_id_evolution": "Vigoroth",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Vigoroth",
+        "dex_id_evolution": "Slaking",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Nincada",
+        "dex_id_evolution": "Ninjask",
+        "types": [
+            "11",
+            "8",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Nincada",
+        "dex_id_evolution": "Shedinja",
+        "types": [
+            "11",
+            "8",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Whismur",
+        "dex_id_evolution": "Loudred",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Loudred",
+        "dex_id_evolution": "Exploud",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Makuhita",
+        "dex_id_evolution": "Hariyama",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Nosepass",
+        "dex_id_evolution": "Probopass",
+        "types": [
+            "12",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Skitty",
+        "dex_id_evolution": "Delcatty",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Aron",
+        "dex_id_evolution": "Lairon",
+        "types": [
+            "16",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Lairon",
+        "dex_id_evolution": "Aggron",
+        "types": [
+            "16",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Meditite",
+        "dex_id_evolution": "Medicham",
+        "types": [
+            "6",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Electrike",
+        "dex_id_evolution": "Manectric",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Gulpin",
+        "dex_id_evolution": "Swalot",
+        "types": [
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Carvanha",
+        "dex_id_evolution": "Sharpedo",
+        "types": [
+            "2",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Wailmer",
+        "dex_id_evolution": "Wailord",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Numel",
+        "dex_id_evolution": "Camerupt",
+        "types": [
+            "1",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Spoink",
+        "dex_id_evolution": "Grumpig",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Trapinch",
+        "dex_id_evolution": "Vibrava",
+        "types": [
+            "8",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Vibrava",
+        "dex_id_evolution": "Flygon",
+        "types": [
+            "8",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Cacnea",
+        "dex_id_evolution": "Cacturne",
+        "types": [
+            "4",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Swablu",
+        "dex_id_evolution": "Altaria",
+        "types": [
+            "0",
+            "9",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Barboach",
+        "dex_id_evolution": "Whiscash",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Corphish",
+        "dex_id_evolution": "Crawdaunt",
+        "types": [
+            "2",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Baltoy",
+        "dex_id_evolution": "Claydol",
+        "types": [
+            "8",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Lileep",
+        "dex_id_evolution": "Cradily",
+        "types": [
+            "12",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Anorith",
+        "dex_id_evolution": "Armaldo",
+        "types": [
+            "12",
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Feebas",
+        "dex_id_evolution": "Milotic",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Shuppet",
+        "dex_id_evolution": "Banette",
+        "types": [
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Duskull",
+        "dex_id_evolution": "Dusclops",
+        "types": [
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Dusclops",
+        "dex_id_evolution": "Dusknoir",
+        "types": [
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Chingling",
+        "dex_id_evolution": "Chimecho",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Wynaut",
+        "dex_id_evolution": "Wobbuffet",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Snorunt",
+        "dex_id_evolution": "Glalie",
+        "types": [
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Snorunt",
+        "dex_id_evolution": "Froslass",
+        "types": [
+            "5",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Spheal",
+        "dex_id_evolution": "Sealeo",
+        "types": [
+            "5",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Sealeo",
+        "dex_id_evolution": "Walrein",
+        "types": [
+            "5",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Clamperl",
+        "dex_id_evolution": "Huntail",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Clamperl",
+        "dex_id_evolution": "Gorebyss",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Bagon",
+        "dex_id_evolution": "Shelgon",
+        "types": [
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Shelgon",
+        "dex_id_evolution": "Salamence",
+        "types": [
+            "14",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Beldum",
+        "dex_id_evolution": "Metang",
+        "types": [
+            "16",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Metang",
+        "dex_id_evolution": "Metagross",
+        "types": [
+            "16",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Turtwig",
+        "dex_id_evolution": "Grotle",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Grotle",
+        "dex_id_evolution": "Torterra",
+        "types": [
+            "4",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Chimchar",
+        "dex_id_evolution": "Monferno",
+        "types": [
+            "1",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Monferno",
+        "dex_id_evolution": "Infernape",
+        "types": [
+            "1",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Piplup",
+        "dex_id_evolution": "Prinplup",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Prinplup",
+        "dex_id_evolution": "Empoleon",
+        "types": [
+            "2",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Starly",
+        "dex_id_evolution": "Staravia",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Staravia",
+        "dex_id_evolution": "Staraptor",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Bidoof",
+        "dex_id_evolution": "Bibarel",
+        "types": [
+            "0",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Kricketot",
+        "dex_id_evolution": "Kricketune",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Shinx",
+        "dex_id_evolution": "Luxio",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Luxio",
+        "dex_id_evolution": "Luxray",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Budew",
+        "dex_id_evolution": "Roselia",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Roselia",
+        "dex_id_evolution": "Roserade",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Cranidos",
+        "dex_id_evolution": "Rampardos",
+        "types": [
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Shieldon",
+        "dex_id_evolution": "Bastiodon",
+        "types": [
+            "12",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Burmy [Plant Cloak]",
+        "dex_id_evolution": "Wormadam [Plant Cloak]",
+        "types": [
+            "11",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Burmy [Plant Cloak]",
+        "dex_id_evolution": "Mothim",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Combee",
+        "dex_id_evolution": "Vespiquen",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Buizel",
+        "dex_id_evolution": "Floatzel",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Cherubi",
+        "dex_id_evolution": "Cherrim",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Shellos [Occident]",
+        "dex_id_evolution": "Gastrodon [Occident]",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Drifloon",
+        "dex_id_evolution": "Drifblim",
+        "types": [
+            "13",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Buneary",
+        "dex_id_evolution": "Lopunny",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Glameow",
+        "dex_id_evolution": "Purugly",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Stunky",
+        "dex_id_evolution": "Skuntank",
+        "types": [
+            "7",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Bronzor",
+        "dex_id_evolution": "Bronzong",
+        "types": [
+            "16",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Happiny",
+        "dex_id_evolution": "Chansey",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Chansey",
+        "dex_id_evolution": "Blissey",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Gible",
+        "dex_id_evolution": "Gabite",
+        "types": [
+            "14",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Gabite",
+        "dex_id_evolution": "Garchomp",
+        "types": [
+            "14",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Riolu",
+        "dex_id_evolution": "Lucario",
+        "types": [
+            "6",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Hippopotas",
+        "dex_id_evolution": "Hippowdon",
+        "types": [
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Skorupi",
+        "dex_id_evolution": "Drapion",
+        "types": [
+            "7",
+            "11",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Croagunk",
+        "dex_id_evolution": "Toxicroak",
+        "types": [
+            "7",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Finneon",
+        "dex_id_evolution": "Lumineon",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Mantyke",
+        "dex_id_evolution": "Mantine",
+        "types": [
+            "2",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Snover",
+        "dex_id_evolution": "Abomasnow",
+        "types": [
+            "5",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Porygon",
+        "dex_id_evolution": "Porygon2",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Porygon2",
+        "dex_id_evolution": "Porygon-Z",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Dialga",
+        "dex_id_evolution": "Dialga [Primal Forme Q]",
+        "types": [
+            "16",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Palkia",
+        "dex_id_evolution": "Palkia [Primal Forme Q]",
+        "types": [
+            "2",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Phione",
+        "dex_id_evolution": "Manaphy",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Snivy",
+        "dex_id_evolution": "Servine",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Servine",
+        "dex_id_evolution": "Serperior",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Tepig",
+        "dex_id_evolution": "Pignite",
+        "types": [
+            "1",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Pignite",
+        "dex_id_evolution": "Emboar",
+        "types": [
+            "1",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Oshawott",
+        "dex_id_evolution": "Dewott",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Dewott",
+        "dex_id_evolution": "Samurott",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Patrat",
+        "dex_id_evolution": "Watchog",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Lillipup",
+        "dex_id_evolution": "Herdier",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Herdier",
+        "dex_id_evolution": "Stoutland",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Purrloin",
+        "dex_id_evolution": "Liepard",
+        "types": [
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Pansage",
+        "dex_id_evolution": "Simisage",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Pansear",
+        "dex_id_evolution": "Simisear",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Panpour",
+        "dex_id_evolution": "Simipour",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Munna",
+        "dex_id_evolution": "Musharna",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Pidove",
+        "dex_id_evolution": "Tranquill",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Tranquill",
+        "dex_id_evolution": "Unfezant",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Blitzle",
+        "dex_id_evolution": "Zebstrika",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Roggenrola",
+        "dex_id_evolution": "Boldore",
+        "types": [
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Boldore",
+        "dex_id_evolution": "Gigalith",
+        "types": [
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Woobat",
+        "dex_id_evolution": "Swoobat",
+        "types": [
+            "10",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Drilbur",
+        "dex_id_evolution": "Excadrill",
+        "types": [
+            "8",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Timburr",
+        "dex_id_evolution": "Gurdurr",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Gurdurr",
+        "dex_id_evolution": "Conkeldurr",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Tympole",
+        "dex_id_evolution": "Palpitoad",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Palpitoad",
+        "dex_id_evolution": "Seismitoad",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Sewaddle",
+        "dex_id_evolution": "Swadloon",
+        "types": [
+            "11",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Swadloon",
+        "dex_id_evolution": "Leavanny",
+        "types": [
+            "11",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Venipede",
+        "dex_id_evolution": "Whirlipede",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Whirlipede",
+        "dex_id_evolution": "Scolipede",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Cottonee",
+        "dex_id_evolution": "Whimsicott",
+        "types": [
+            "4",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Petilil",
+        "dex_id_evolution": "Lilligant",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Sandile",
+        "dex_id_evolution": "Krokorok",
+        "types": [
+            "8",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Krokorok",
+        "dex_id_evolution": "Krookodile",
+        "types": [
+            "8",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Darumaka",
+        "dex_id_evolution": "Darmanitan",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Dwebble",
+        "dex_id_evolution": "Crustle",
+        "types": [
+            "11",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Scraggy",
+        "dex_id_evolution": "Scrafty",
+        "types": [
+            "15",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Yamask",
+        "dex_id_evolution": "Cofagrigus",
+        "types": [
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Tirtouga",
+        "dex_id_evolution": "Carracosta",
+        "types": [
+            "2",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Archen",
+        "dex_id_evolution": "Archeops",
+        "types": [
+            "12",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Trubbish",
+        "dex_id_evolution": "Garbodor",
+        "types": [
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Zorua",
+        "dex_id_evolution": "Zoroark",
+        "types": [
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Minccino",
+        "dex_id_evolution": "Cinccino",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Gothita",
+        "dex_id_evolution": "Gothorita",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Gothorita",
+        "dex_id_evolution": "Gothitelle",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Solosis",
+        "dex_id_evolution": "Duosion",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Duosion",
+        "dex_id_evolution": "Reuniclus",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Ducklett",
+        "dex_id_evolution": "Swanna",
+        "types": [
+            "2",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Vanillite",
+        "dex_id_evolution": "Vanillish",
+        "types": [
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Vanillish",
+        "dex_id_evolution": "Vanilluxe",
+        "types": [
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Deerling",
+        "dex_id_evolution": "Sawsbuck",
+        "types": [
+            "0",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Karrablast",
+        "dex_id_evolution": "Escavalier",
+        "types": [
+            "11",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Foongus",
+        "dex_id_evolution": "Amoonguss",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Frillish",
+        "dex_id_evolution": "Jellicent",
+        "types": [
+            "2",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Joltik",
+        "dex_id_evolution": "Galvantula",
+        "types": [
+            "11",
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Ferroseed",
+        "dex_id_evolution": "Ferrothorn",
+        "types": [
+            "4",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Klink",
+        "dex_id_evolution": "Klang",
+        "types": [
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Klang",
+        "dex_id_evolution": "Klinklang",
+        "types": [
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Tynamo",
+        "dex_id_evolution": "Eelektrik",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Eelektrik",
+        "dex_id_evolution": "Eelektross",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Elgyem",
+        "dex_id_evolution": "Beheeyem",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Litwick",
+        "dex_id_evolution": "Lampent",
+        "types": [
+            "13",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Lampent",
+        "dex_id_evolution": "Chandelure",
+        "types": [
+            "13",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Axew",
+        "dex_id_evolution": "Fraxure",
+        "types": [
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Fraxure",
+        "dex_id_evolution": "Haxorus",
+        "types": [
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Cubchoo",
+        "dex_id_evolution": "Beartic",
+        "types": [
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Shelmet",
+        "dex_id_evolution": "Accelgor",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Mienfoo",
+        "dex_id_evolution": "Mienshao",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Golett",
+        "dex_id_evolution": "Golurk",
+        "types": [
+            "8",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Pawniard",
+        "dex_id_evolution": "Bisharp",
+        "types": [
+            "15",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Rufflet",
+        "dex_id_evolution": "Braviary",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Vullaby",
+        "dex_id_evolution": "Mandibuzz",
+        "types": [
+            "15",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Deino",
+        "dex_id_evolution": "Zweilous",
+        "types": [
+            "15",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Zweilous",
+        "dex_id_evolution": "Hydreigon",
+        "types": [
+            "15",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Larvesta",
+        "dex_id_evolution": "Volcarona",
+        "types": [
+            "11",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Chespin",
+        "dex_id_evolution": "Quilladin",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Quilladin",
+        "dex_id_evolution": "Chesnaught",
+        "types": [
+            "4",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Fennekin",
+        "dex_id_evolution": "Braixen",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Braixen",
+        "dex_id_evolution": "Delphox",
+        "types": [
+            "1",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Froakie",
+        "dex_id_evolution": "Frogadier",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Frogadier",
+        "dex_id_evolution": "Greninja",
+        "types": [
+            "2",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Bunnelby",
+        "dex_id_evolution": "Diggersby",
+        "types": [
+            "0",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Fletchling",
+        "dex_id_evolution": "Fletchinder",
+        "types": [
+            "0",
+            "9",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Fletchinder",
+        "dex_id_evolution": "Talonflame",
+        "types": [
+            "1",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Scatterbug",
+        "dex_id_evolution": "Spewpa",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Spewpa",
+        "dex_id_evolution": "Vivillon",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Litleo",
+        "dex_id_evolution": "Pyroar",
+        "types": [
+            "1",
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Flabébé",
+        "dex_id_evolution": "Floette",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Floette",
+        "dex_id_evolution": "Florges",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Skiddo",
+        "dex_id_evolution": "Gogoat",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Pancham",
+        "dex_id_evolution": "Pangoro",
+        "types": [
+            "6",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Espurr",
+        "dex_id_evolution": "Meowstic",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Honedge",
+        "dex_id_evolution": "Doublade",
+        "types": [
+            "16",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Doublade",
+        "dex_id_evolution": "Aegislash [Blade Forme]",
+        "types": [
+            "16",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Spritzee",
+        "dex_id_evolution": "Aromatisse",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Swirlix",
+        "dex_id_evolution": "Slurpuff",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Inkay",
+        "dex_id_evolution": "Malamar",
+        "types": [
+            "15",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Binacle",
+        "dex_id_evolution": "Barbaracle",
+        "types": [
+            "12",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Skrelp",
+        "dex_id_evolution": "Dragalge",
+        "types": [
+            "7",
+            "2",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Clauncher",
+        "dex_id_evolution": "Clawitzer",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Helioptile",
+        "dex_id_evolution": "Heliolisk",
+        "types": [
+            "3",
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Tyrunt",
+        "dex_id_evolution": "Tyrantrum",
+        "types": [
+            "12",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Amaura",
+        "dex_id_evolution": "Aurorus",
+        "types": [
+            "12",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Goomy",
+        "dex_id_evolution": "Sliggoo",
+        "types": [
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Sliggoo",
+        "dex_id_evolution": "Goodra",
+        "types": [
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Phantump",
+        "dex_id_evolution": "Trevenant",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Pumpkaboo [Small Size]",
+        "dex_id_evolution": "Gourgeist [Small Size]",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Bergmite",
+        "dex_id_evolution": "Avalugg",
+        "types": [
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Noibat",
+        "dex_id_evolution": "Noivern",
+        "types": [
+            "9",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Rowlet",
+        "dex_id_evolution": "Dartrix",
+        "types": [
+            "4",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Dartrix",
+        "dex_id_evolution": "Decidueye",
+        "types": [
+            "4",
+            "9",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Litten",
+        "dex_id_evolution": "Torracat",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Torracat",
+        "dex_id_evolution": "Incineroar",
+        "types": [
+            "1",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Torracat",
+        "dex_id_evolution": "Incineroar [Feral]",
+        "types": [
+            "1",
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Popplio",
+        "dex_id_evolution": "Brionne",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Brionne",
+        "dex_id_evolution": "Primarina",
+        "types": [
+            "2",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Pikipek",
+        "dex_id_evolution": "Trumbeak",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Trumbeak",
+        "dex_id_evolution": "Toucannon",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Yungoos",
+        "dex_id_evolution": "Gumshoos",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Grubbin",
+        "dex_id_evolution": "Charjabug",
+        "types": [
+            "11",
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Charjabug",
+        "dex_id_evolution": "Vikavolt",
+        "types": [
+            "11",
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Crabrawler",
+        "dex_id_evolution": "Crabominable",
+        "types": [
+            "6",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Cutiefly",
+        "dex_id_evolution": "Ribombee",
+        "types": [
+            "11",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Rockruff",
+        "dex_id_evolution": "Lycanroc [Midday Forme]",
+        "types": [
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Rockruff",
+        "dex_id_evolution": "Lycanroc [Midnight Forme]",
+        "types": [
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Rockruff",
+        "dex_id_evolution": "Lycanroc [Dusk Forme]",
+        "types": [
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Mareanie",
+        "dex_id_evolution": "Toxapex",
+        "types": [
+            "7",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Mudbray",
+        "dex_id_evolution": "Mudsdale",
+        "types": [
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Dewpider",
+        "dex_id_evolution": "Araquanid",
+        "types": [
+            "2",
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Fomantis",
+        "dex_id_evolution": "Lurantis",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Morelull",
+        "dex_id_evolution": "Shiinotic",
+        "types": [
+            "4",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Salandit",
+        "dex_id_evolution": "Salazzle",
+        "types": [
+            "7",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Stufful",
+        "dex_id_evolution": "Bewear",
+        "types": [
+            "0",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Bounsweet",
+        "dex_id_evolution": "Steenee",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Steenee",
+        "dex_id_evolution": "Tsareena",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Wimpod",
+        "dex_id_evolution": "Golisopod",
+        "types": [
+            "11",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Sandygast",
+        "dex_id_evolution": "Palossand",
+        "types": [
+            "13",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Type: Null",
+        "dex_id_evolution": "Silvally",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Jangmo-o",
+        "dex_id_evolution": "Hakamo-o",
+        "types": [
+            "14",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Hakamo-o",
+        "dex_id_evolution": "Kommo-o",
+        "types": [
+            "14",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Cosmog",
+        "dex_id_evolution": "Cosmoem",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Cosmoem",
+        "dex_id_evolution": "Solgaleo",
+        "types": [
+            "10",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Cosmoem",
+        "dex_id_evolution": "Lunala",
+        "types": [
+            "10",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Poipole",
+        "dex_id_evolution": "Naganadel",
+        "types": [
+            "7",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Grookey",
+        "dex_id_evolution": "Thwackey",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Thwackey",
+        "dex_id_evolution": "Rillaboom",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Scorbunny",
+        "dex_id_evolution": "Raboot",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Raboot",
+        "dex_id_evolution": "Cinderace",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Sobble",
+        "dex_id_evolution": "Drizzile",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Drizzile",
+        "dex_id_evolution": "Inteleon",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Skwovet",
+        "dex_id_evolution": "Greedent",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Rookidee",
+        "dex_id_evolution": "Corvisquire",
+        "types": [
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Corvisquire",
+        "dex_id_evolution": "Corviknight",
+        "types": [
+            "9",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Blipbug",
+        "dex_id_evolution": "Dottler",
+        "types": [
+            "11",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Dottler",
+        "dex_id_evolution": "Orbeetle",
+        "types": [
+            "11",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Nickit",
+        "dex_id_evolution": "Thievul",
+        "types": [
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Gossifleur",
+        "dex_id_evolution": "Eldegoss",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Wooloo",
+        "dex_id_evolution": "Dubwool",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Chewtle",
+        "dex_id_evolution": "Drednaw",
+        "types": [
+            "2",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Yamper",
+        "dex_id_evolution": "Boltund",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Rolycoly",
+        "dex_id_evolution": "Carkol",
+        "types": [
+            "12",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Carkol",
+        "dex_id_evolution": "Coalossal",
+        "types": [
+            "12",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Applin",
+        "dex_id_evolution": "Flapple",
+        "types": [
+            "4",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Applin",
+        "dex_id_evolution": "Appletun",
+        "types": [
+            "4",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Silicobra",
+        "dex_id_evolution": "Sandaconda",
+        "types": [
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Arrokuda",
+        "dex_id_evolution": "Barraskewda",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Toxel",
+        "dex_id_evolution": "Toxtricity [Amped]",
+        "types": [
+            "3",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Toxel",
+        "dex_id_evolution": "Toxtricity [Low Key]",
+        "types": [
+            "3",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Sizzlipede",
+        "dex_id_evolution": "Centiskorch",
+        "types": [
+            "1",
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Clobbopus",
+        "dex_id_evolution": "Grapploct",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Sinistea",
+        "dex_id_evolution": "Polteageist",
+        "types": [
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Hatenna",
+        "dex_id_evolution": "Hattrem",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Hattrem",
+        "dex_id_evolution": "Hatterene",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Impidimp",
+        "dex_id_evolution": "Morgrem",
+        "types": [
+            "15",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Morgrem",
+        "dex_id_evolution": "Grimmsnarl",
+        "types": [
+            "15",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Milcery",
+        "dex_id_evolution": "Alcremie",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Snom",
+        "dex_id_evolution": "Frosmoth",
+        "types": [
+            "5",
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Cufant",
+        "dex_id_evolution": "Copperajah",
+        "types": [
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Dreepy",
+        "dex_id_evolution": "Drakloak",
+        "types": [
+            "14",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Drakloak",
+        "dex_id_evolution": "Dragapult",
+        "types": [
+            "14",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Bulbasaur",
+        "dex_id_evolution": "Ivysaur",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Ivysaur",
+        "dex_id_evolution": "Venusaur",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Charmander",
+        "dex_id_evolution": "Charmeleon",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Charmeleon",
+        "dex_id_evolution": "Charizard",
+        "types": [
+            "1",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Squirtle",
+        "dex_id_evolution": "Wartortle",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Wartortle",
+        "dex_id_evolution": "Blastoise",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Caterpie",
+        "dex_id_evolution": "Metapod",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Metapod",
+        "dex_id_evolution": "Butterfree",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Weedle",
+        "dex_id_evolution": "Kakuna",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Kakuna",
+        "dex_id_evolution": "Beedrill",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Pidgey",
+        "dex_id_evolution": "Pidgeotto",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Pidgeotto",
+        "dex_id_evolution": "Pidgeot",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Rattata",
+        "dex_id_evolution": "Raticate",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Spearow",
+        "dex_id_evolution": "Fearow",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Ekans",
+        "dex_id_evolution": "Arbok",
+        "types": [
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Pichu",
+        "dex_id_evolution": "Pikachu",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Pikachu",
+        "dex_id_evolution": "Raichu",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Pikachu",
+        "dex_id_evolution": "Raichu [Alolan Forme]",
+        "types": [
+            "3",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Sandshrew",
+        "dex_id_evolution": "Sandslash",
+        "types": [
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Nidoran",
+        "dex_id_evolution": "Nidorina",
+        "types": [
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Nidoran",
+        "dex_id_evolution": "Nidorino",
+        "types": [
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Nidorina",
+        "dex_id_evolution": "Nidoqueen",
+        "types": [
+            "7",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Nidorino",
+        "dex_id_evolution": "Nidoking",
+        "types": [
+            "7",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Cleffa",
+        "dex_id_evolution": "Clefairy",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Clefairy",
+        "dex_id_evolution": "Clefable",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Vulpix",
+        "dex_id_evolution": "Ninetales",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Igglybuff",
+        "dex_id_evolution": "Jigglypuff",
+        "types": [
+            "0",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Jigglypuff",
+        "dex_id_evolution": "Wigglytuff",
+        "types": [
+            "0",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Zubat",
+        "dex_id_evolution": "Golbat",
+        "types": [
+            "7",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Golbat",
+        "dex_id_evolution": "Crobat",
+        "types": [
+            "7",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Oddish",
+        "dex_id_evolution": "Gloom",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Gloom",
+        "dex_id_evolution": "Vileplume",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Gloom",
+        "dex_id_evolution": "Bellossom",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Paras",
+        "dex_id_evolution": "Parasect",
+        "types": [
+            "11",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Venonat",
+        "dex_id_evolution": "Venomoth",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Diglett",
+        "dex_id_evolution": "Dugtrio",
+        "types": [
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Meowth [Galarian Forme]",
+        "dex_id_evolution": "Perrserker",
+        "types": [
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Psyduck",
+        "dex_id_evolution": "Golduck",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Mankey",
+        "dex_id_evolution": "Primeape",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Growlithe",
+        "dex_id_evolution": "Arcanine",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Poliwag",
+        "dex_id_evolution": "Poliwhirl",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Poliwhirl",
+        "dex_id_evolution": "Poliwrath",
+        "types": [
+            "2",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Poliwhirl",
+        "dex_id_evolution": "Politoed",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Abra",
+        "dex_id_evolution": "Kadabra",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Kadabra",
+        "dex_id_evolution": "Alakazam",
+        "types": [
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Machop",
+        "dex_id_evolution": "Machoke",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Machoke",
+        "dex_id_evolution": "Machamp",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Bellsprout",
+        "dex_id_evolution": "Weepinbell",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Weepinbell",
+        "dex_id_evolution": "Victreebell",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Tentacool",
+        "dex_id_evolution": "Tentacruel",
+        "types": [
+            "2",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Geodude [Alolan Forme]",
+        "dex_id_evolution": "Graveler [Alolan Forme]",
+        "types": [
+            "12",
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Graveler [Alolan Forme]",
+        "dex_id_evolution": "Golem [Alolan Forme]",
+        "types": [
+            "12",
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Ponyta",
+        "dex_id_evolution": "Rapidash",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Slowpoke",
+        "dex_id_evolution": "Slowbro",
+        "types": [
+            "2",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Slowpoke",
+        "dex_id_evolution": "Slowking",
+        "types": [
+            "2",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Magnemite",
+        "dex_id_evolution": "Magneton",
+        "types": [
+            "3",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Magneton",
+        "dex_id_evolution": "Magnezone",
+        "types": [
+            "3",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Doduo",
+        "dex_id_evolution": "Dodrio",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Seel",
+        "dex_id_evolution": "Dewgong",
+        "types": [
+            "2",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Grimer",
+        "dex_id_evolution": "Muk",
+        "types": [
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Shellder",
+        "dex_id_evolution": "Cloyster",
+        "types": [
+            "2",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Gastly",
+        "dex_id_evolution": "Haunter",
+        "types": [
+            "13",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Burmy [Sandy Cloak]",
+        "dex_id_evolution": "Wormadam [Sandy Cloak]",
+        "types": [
+            "11",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Burmy [Sandy Cloak]",
+        "dex_id_evolution": "Mothim",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Shellos [Orient]",
+        "dex_id_evolution": "Gastrodon [Orient]",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Darumaka [Galarian Forme]",
+        "dex_id_evolution": "Darmanitan [Galarian Forme]",
+        "types": [
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Yamask [Galarian Forme]",
+        "dex_id_evolution": "Runerigus",
+        "types": [
+            "8",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Pumpkaboo [Large Size]",
+        "dex_id_evolution": "Gourgeist [Large Size]",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Blophin",
+        "dex_id_evolution": "Inflale",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Orkit",
+        "dex_id_evolution": "Orcalot",
+        "types": [
+            "2",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Faemueño",
+        "dex_id_evolution": "Faemilarín",
+        "types": [
+            "17",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Faemilarín",
+        "dex_id_evolution": "Faemísimo",
+        "types": [
+            "17",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Wagell",
+        "dex_id_evolution": "Wanamangora",
+        "types": [
+            "7",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Gosold",
+        "dex_id_evolution": "Goldesem",
+        "types": [
+            "0",
+            "9",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Impyre",
+        "dex_id_evolution": "Baflammet",
+        "types": [
+            "15",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Ardik",
+        "dex_id_evolution": "Sibex",
+        "types": [
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Boxaby",
+        "dex_id_evolution": "Kangspar",
+        "types": [
+            "12",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Taiveret",
+        "dex_id_evolution": "Taipaeus",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Taipaeus",
+        "dex_id_evolution": "Taimorpha",
+        "types": [
+            "4",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Flarbat",
+        "dex_id_evolution": "Flarotis",
+        "types": [
+            "1",
+            "9",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Flarotis",
+        "dex_id_evolution": "Flaroptera",
+        "types": [
+            "1",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Hydrark",
+        "dex_id_evolution": "Hydrinus",
+        "types": [
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Hydrinus",
+        "dex_id_evolution": "Hydrinifor",
+        "types": [
+            "2",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Gragon",
+        "dex_id_evolution": "Greegon",
+        "types": [
+            "13",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Greegon",
+        "dex_id_evolution": "Avaragon",
+        "types": [
+            "13",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Kinaster",
+        "dex_id_evolution": "Lunupine",
+        "types": [
+            "15",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Kinaster",
+        "dex_id_evolution": "Solynx",
+        "types": [
+            "15",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Luckoo",
+        "dex_id_evolution": "Peckoo",
+        "types": [
+            "4",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Peckoo",
+        "dex_id_evolution": "Peekoo",
+        "types": [
+            "4",
+            "9",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Arasprit",
+        "dex_id_evolution": "Arthreux",
+        "types": [
+            "8",
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Quetzephyr",
+        "dex_id_evolution": "Quetzaptyl",
+        "types": [
+            "3",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Kitsunari",
+        "dex_id_evolution": "Kitsubuki",
+        "types": [
+            "10",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Phastix",
+        "dex_id_evolution": "Phasmaleef [Forest Forme]",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Phastix",
+        "dex_id_evolution": "Phasmaleef [Desert Forme]",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Glaquine",
+        "dex_id_evolution": "Cavallost",
+        "types": [
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Minibbit",
+        "dex_id_evolution": "Metabbit",
+        "types": [
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Metabbit",
+        "dex_id_evolution": "Terabbit",
+        "types": [
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Tillink",
+        "dex_id_evolution": "Terrink",
+        "types": [
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Bezerell",
+        "dex_id_evolution": "Bezermuur",
+        "types": [
+            "2",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Bezermuur",
+        "dex_id_evolution": "Bezermuut",
+        "types": [
+            "2",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Ayeren",
+        "dex_id_evolution": "Aytheraye",
+        "types": [
+            "0",
+            "10",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Skeleco",
+        "dex_id_evolution": "Phantiidae",
+        "types": [
+            "2",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Klaatupillar",
+        "dex_id_evolution": "Charaxalis",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Charaxalis",
+        "dex_id_evolution": "Incantasius",
+        "types": [
+            "11",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Kyutopi",
+        "dex_id_evolution": "Konatus",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Kenyip",
+        "dex_id_evolution": "Arfrica",
+        "types": [
+            "8",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Arfrica",
+        "dex_id_evolution": "Kalahowli",
+        "types": [
+            "8",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Petripeep",
+        "dex_id_evolution": "Chirock",
+        "types": [
+            "12",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Petripeep",
+        "dex_id_evolution": "Serpetone",
+        "types": [
+            "12",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Serpetone",
+        "dex_id_evolution": "Toxilisk",
+        "types": [
+            "12",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Gumairy",
+        "dex_id_evolution": "Eucylph",
+        "types": [
+            "4",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Puppod",
+        "dex_id_evolution": "Slugdog",
+        "types": [
+            "7",
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Rokiwi",
+        "dex_id_evolution": "Brushiwi",
+        "types": [
+            "4",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Alicalf",
+        "dex_id_evolution": "Cetacorn",
+        "types": [
+            "5",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Valkind",
+        "dex_id_evolution": "Frayja",
+        "types": [
+            "17",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Croaket",
+        "dex_id_evolution": "Quibbit [Toxic Forme]",
+        "types": [
+            "15",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Croaket",
+        "dex_id_evolution": "Quibbit [Charged Forme]",
+        "types": [
+            "15",
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Croaket",
+        "dex_id_evolution": "Quibbit [Herbal Forme]",
+        "types": [
+            "15",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Croaket",
+        "dex_id_evolution": "Quibbit [Magma Forme]",
+        "types": [
+            "15",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Croaket",
+        "dex_id_evolution": "Quibbit [Fae Forme]",
+        "types": [
+            "15",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Slypin",
+        "dex_id_evolution": "Haredini",
+        "types": [
+            "10",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Selkrub",
+        "dex_id_evolution": "Aqrabion",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Aqrabion",
+        "dex_id_evolution": "Skargas",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Kawotor",
+        "dex_id_evolution": "Lutriva",
+        "types": [
+            "2",
+            "0",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Kawotor",
+        "dex_id_evolution": "Selutian",
+        "types": [
+            "2",
+            "0",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Kitwurm",
+        "dex_id_evolution": "Purrpa",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Purrpa",
+        "dex_id_evolution": "Moffkat",
+        "types": [
+            "11",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Pepyre",
+        "dex_id_evolution": "Skarasear",
+        "types": [
+            "4",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Aphreyd",
+        "dex_id_evolution": "Scavady",
+        "types": [
+            "11"
+        ]
+    },
+    {
+        "dex_id": "Caimaw",
+        "dex_id_evolution": "Caimangle",
+        "types": [
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Valimp",
+        "dex_id_evolution": "Valladox",
+        "types": [
+            "17",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Valladox",
+        "dex_id_evolution": "Valenoir",
+        "types": [
+            "17",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Frusky",
+        "dex_id_evolution": "Glacifur",
+        "types": [
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Skyrie",
+        "dex_id_evolution": "Grymphony",
+        "types": [
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Shinorin",
+        "dex_id_evolution": "Shinorin [Incandescent]",
+        "types": [
+            "14",
+            "6",
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Sikannos",
+        "dex_id_evolution": "Sikannos [Unfettered]",
+        "types": [
+            "0",
+            "1",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Goschief",
+        "dex_id_evolution": "Havonk",
+        "types": [
+            "17",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Mocknock",
+        "dex_id_evolution": "Portalgeist",
+        "types": [
+            "13",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Flurrawr [Boreal]",
+        "dex_id_evolution": "Tundrasail [Boreal]",
+        "types": [
+            "5",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Flurrawr [Austral]",
+        "dex_id_evolution": "Tundrasail [Austral]",
+        "types": [
+            "5",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Parapod",
+        "dex_id_evolution": "Craysprout",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Craysprout",
+        "dex_id_evolution": "Strelitzgon",
+        "types": [
+            "4",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Saiyan Rattata",
+        "dex_id_evolution": "Super-Saiyan Rattata",
+        "types": [
+            "0",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Super-Saiyan Rattata",
+        "dex_id_evolution": "Super-Saiyan Raticate",
+        "types": [
+            "0",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Super-Saiyan Raticate",
+        "dex_id_evolution": "Super-Saiyan 2 Raticate",
+        "types": [
+            "0",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Flying Pichu",
+        "dex_id_evolution": "Flying Pikachu",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Surfing Pichu",
+        "dex_id_evolution": "Surfing Pikachu",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Surfing Pichu",
+        "dex_id_evolution": "Snowboarding Pikachu",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Flying Pikachu",
+        "dex_id_evolution": "Flying Raichu",
+        "types": [
+            "3",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Surfing Pikachu",
+        "dex_id_evolution": "Surfing Raichu",
+        "types": [
+            "3",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Snowboarding Pikachu",
+        "dex_id_evolution": "Snowboarding Raichu",
+        "types": [
+            "3",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Shooting Star Cleffa",
+        "dex_id_evolution": "Shooting Star Clefairy",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Shooting Star Clefairy",
+        "dex_id_evolution": "Shooting Star Clefable",
+        "types": [
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Guild Igglybuff",
+        "dex_id_evolution": "Guild Jigglypuff",
+        "types": [
+            "0",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Guild Jigglypuff",
+        "dex_id_evolution": "Guild Wigglytuff",
+        "types": [
+            "0",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Apocalyptic Growlithe",
+        "dex_id_evolution": "Apocalyptic Arcanine",
+        "types": [
+            "1"
+        ]
+    },
+    {
+        "dex_id": "Snowpoke",
+        "dex_id_evolution": "Snowbro",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Snowpoke",
+        "dex_id_evolution": "Snowking",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Death Star Voltorb",
+        "dex_id_evolution": "Death Star Electrode",
+        "types": [
+            "3"
+        ]
+    },
+    {
+        "dex_id": "Early Bird Natu",
+        "dex_id_evolution": "Early Bird Xatu",
+        "types": [
+            "10",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Gligar [Vampire]",
+        "dex_id_evolution": "Gliscor [Vampire]",
+        "types": [
+            "8",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Blue Moon Slugma",
+        "dex_id_evolution": "Blue Moon Magcargo",
+        "types": [
+            "2",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Houndour [Orthrus]",
+        "dex_id_evolution": "Houndoom [Cerberus]",
+        "types": [
+            "1",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Frosdour",
+        "dex_id_evolution": "Chilldoom",
+        "types": [
+            "15",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Apocalyptic Poochyena",
+        "dex_id_evolution": "Apocalyptic Mightyena",
+        "types": [
+            "15",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Snoralts",
+        "dex_id_evolution": "Snolia",
+        "types": [
+            "5",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Snolia",
+        "dex_id_evolution": "Frosvoir",
+        "types": [
+            "5",
+            "17",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Snolia",
+        "dex_id_evolution": "Glaillade",
+        "types": [
+            "5",
+            "17",
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Apocalyptic Shroomish",
+        "dex_id_evolution": "Apocalyptic Breloom",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Numel [Arctic]",
+        "dex_id_evolution": "Camerupt [Arctic]",
+        "types": [
+            "5",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Seasonal Turtwig",
+        "dex_id_evolution": "Seasonal Grotle",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Seasonal Grotle",
+        "dex_id_evolution": "Seasonal Torterra",
+        "types": [
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Bidoof [Igneous]",
+        "dex_id_evolution": "Bibarel [Igneous]",
+        "types": [
+            "1",
+            "12"
+        ]
+    },
+    {
+        "dex_id": "Shinxel",
+        "dex_id_evolution": "Fluxio",
+        "types": [
+            "3",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Fluxio",
+        "dex_id_evolution": "Fluxray",
+        "types": [
+            "3",
+            "2"
+        ]
+    },
+    {
+        "dex_id": "Snow Combee",
+        "dex_id_evolution": "Snow Vespiquen",
+        "types": [
+            "11",
+            "5"
+        ]
+    },
+    {
+        "dex_id": "Purrloin [Hallowe'en Witch]",
+        "dex_id_evolution": "Liepard [Hallowe'en Witch]",
+        "types": [
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Apocalyptic Golett",
+        "dex_id_evolution": "Apocalyptic Golurk",
+        "types": [
+            "12",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Glileo",
+        "dex_id_evolution": "Pyriscor",
+        "types": [
+            "1",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Spritzkrow",
+        "dex_id_evolution": "Aromakrow",
+        "types": [
+            "17",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Noismog",
+        "dex_id_evolution": "Noismoem",
+        "types": [
+            "10",
+            "14"
+        ]
+    },
+    {
+        "dex_id": "Noismoem",
+        "dex_id_evolution": "Solgavern",
+        "types": [
+            "10",
+            "14",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Noismoem",
+        "dex_id_evolution": "Lunavern",
+        "types": [
+            "10",
+            "14",
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Rattata [Alolan Forme]",
+        "dex_id_evolution": "Raticate [Alolan Forme]",
+        "types": [
+            "15",
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Sandshrew [Alolan Forme]",
+        "dex_id_evolution": "Sandslash [Alolan Forme]",
+        "types": [
+            "5",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Vulpix [Alolan Forme]",
+        "dex_id_evolution": "Ninetales [Alolan Forme]",
+        "types": [
+            "5",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Diglett [Alolan Forme]",
+        "dex_id_evolution": "Dugtrio [Alolan Forme]",
+        "types": [
+            "8",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Meowth",
+        "dex_id_evolution": "Persian",
+        "types": [
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Meowth [Alolan Forme]",
+        "dex_id_evolution": "Persian [Alolan Forme]",
+        "types": [
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Geodude",
+        "dex_id_evolution": "Graveler",
+        "types": [
+            "12",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Graveler",
+        "dex_id_evolution": "Golem",
+        "types": [
+            "12",
+            "8"
+        ]
+    },
+    {
+        "dex_id": "Ponyta [Galarian Forme]",
+        "dex_id_evolution": "Rapidash [Galarian Forme]",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    {
+        "dex_id": "Slowpoke [Galarian Forme]",
+        "dex_id_evolution": "Slowbro [Galarian Forme]",
+        "types": [
+            "10",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Slowpoke [Galarian Forme]",
+        "dex_id_evolution": "Slowking [Galarian Forme]",
+        "types": [
+            "10",
+            "7"
+        ]
+    },
+    {
+        "dex_id": "Farfetch'd [Galarian Forme]",
+        "dex_id_evolution": "Sirfetch'd",
+        "types": [
+            "6"
+        ]
+    },
+    {
+        "dex_id": "Grimer [Alolan Forme]",
+        "dex_id_evolution": "Muk [Alolan Forme]",
+        "types": [
+            "7",
+            "15"
+        ]
+    },
+    {
+        "dex_id": "Mr. Mime [Galarian Forme]",
+        "dex_id_evolution": "Mr. Rime",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    {
+        "dex_id": "Corsola [Galarian Forme]",
+        "dex_id_evolution": "Cursola",
+        "types": [
+            "13"
+        ]
+    },
+    {
+        "dex_id": "Zigzagoon [Galarian Forme]",
+        "dex_id_evolution": "Linoone [Galarian Forme]",
+        "types": [
+            "15",
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Linoone [Galarian Forme]",
+        "dex_id_evolution": "Obstagoon",
+        "types": [
+            "15",
+            "0"
+        ]
+    },
+    {
+        "dex_id": "Burmy [Trash Cloak]",
+        "dex_id_evolution": "Wormadam [Trash Cloak]",
+        "types": [
+            "11",
+            "16"
+        ]
+    },
+    {
+        "dex_id": "Burmy [Trash Cloak]",
+        "dex_id_evolution": "Mothim",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    {
+        "dex_id": "Pumpkaboo [Average Size]",
+        "dex_id_evolution": "Gourgeist [Average Size]",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    {
+        "dex_id": "Pumpkaboo [Super Size]",
+        "dex_id_evolution": "Gourgeist [Super Size]",
+        "types": [
+            "13",
+            "4"
+        ]
+    }
+]
