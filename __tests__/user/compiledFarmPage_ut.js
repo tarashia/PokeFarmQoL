@@ -171,7 +171,7 @@ function getSummaryUID(json, sourceID, sourceName, targetID, targetName) {
 
 
 describe('Test Farm Page', () => {
-    it.skip('Should be setup correctly', () => {
+    it('Should be setup correctly', () => {
         const htmlpath = path.join(__dirname, '../data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -186,7 +186,7 @@ describe('Test Farm Page', () => {
         expect($('.qolsortnew').length).toBe(1);
     });
 
-    it.skip('Should show normal list when "Normal list" is clicked', () => {
+    it('Should show normal list when "Normal list" is clicked', () => {
         const htmlpath = path.join(__dirname, '../data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -258,7 +258,7 @@ describe('Test Farm Page', () => {
     });
 
     describe('Test "Sort on Types"', () => {
-        it.skip('Should sort on types when "Sort on types" is clicked', () => {
+        it('Should sort on types when "Sort on types" is clicked', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -553,7 +553,7 @@ describe('Test Farm Page', () => {
     });
 
     describe('Test "Sort on Name"', () => {
-        it.skip('Should sort on names when "Sort on name" is clicked', () => {
+        it('Should sort on names when "Sort on name" is clicked', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -627,7 +627,7 @@ describe('Test Farm Page', () => {
     });
 
     describe('Test "Sort on New"', () => {
-        it.skip('Should only show new pokemon when "New dex entry" is clicked', () => {
+        it('Should only show new pokemon when "New dex entry" is clicked', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -875,7 +875,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it.skip('Test when normal pokemon with multiple words in its name is not in the dex', () => {
+        it('Test when normal pokemon with multiple words in its name is not in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1103,7 +1103,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it.skip('Test when normal pokemon with multiple words and [ in its name is not in the dex', () => {
+        it('Test when normal pokemon with multiple words and [ in its name is not in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1331,7 +1331,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it.skip('Test when normal pokemon with a regular name is not in the dex', () => {
+        it('Test when normal pokemon with a regular name is not in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1534,7 +1534,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it.skip('Test when melanistic pokemon with a regular name is not in the dex', () => {
+        it('Test when melanistic pokemon with a regular name is not in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1727,7 +1727,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it.skip('Test the error case where a normal pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
+        it('Test the error case where a normal pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeNormalPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1820,7 +1820,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it.skip('Test the error case where a shiny pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
+        it('Test the error case where a shiny pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeShinyPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1913,7 +1913,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it.skip('Test the error case where an albino pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
+        it('Test the error case where an albino pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeAlbinoPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -2006,7 +2006,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it.skip('Test the error case where a melanistic pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
+        it('Test the error case where a melanistic pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeMelanisticPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
