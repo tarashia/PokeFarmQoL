@@ -3,6 +3,9 @@ const { readFileSync, existsSync } = require('fs');
 
 const loadDexFile = function (dexID) {
     const file = join(__dirname, './data/dex/', dexID + '.html');
+    if(!existsSync(file)) {
+        console.error(`Can't load file that doesn't exist: ${file}`);
+    }
     const html = readFileSync(file, 'utf8', 'r');
     return html;
 };
