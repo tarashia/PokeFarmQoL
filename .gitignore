@@ -16,3 +16,7 @@ notes.txt
 
 # output files
 output
+
+# testing debug files
+actualHTML.0.html
+expectedHTML.0.html
