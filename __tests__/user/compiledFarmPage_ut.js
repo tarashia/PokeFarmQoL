@@ -543,9 +543,9 @@ describe('Test Farm Page', () => {
 
             const expectedHTML = $(expectedOutputUl);
             // Write out to files for debugging
-            fs.writeFileSync('./actualHTML.0.html', actualHTML.html());
+            fs.writeFileSync('./actualHTML.html', actualHTML.html());
             // fs.writeFileSync('./actualHTML.1.html', actualHTML.eq(1).html());
-            fs.writeFileSync('./expectedHTML.0.html', expectedHTML.html());
+            fs.writeFileSync('./expectedHTML.html', expectedHTML.html());
             // fs.writeFileSync('./expectedHTML.1.html', expectedHTML.eq(1).html());
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
 
