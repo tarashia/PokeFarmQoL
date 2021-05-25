@@ -18,5 +18,5 @@ notes.txt
 output
 
 # testing debug files
-actualHTML.0.html
-expectedHTML.0.html
+actualHTML.html
+expectedHTML.html
