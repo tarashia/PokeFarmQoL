@@ -262,8 +262,12 @@ class FarmPage extends FarmPageBase {
 
             let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1;
             let evolveInDex = dexData.indexOf('"' + evolvePokemon + '"') != -1;
-            const previousHasRegionalForms = regionalFormList && Object.prototype.hasOwnProperty.call(regionalFormList, previousPokemon);
-            const evolveHasRegionalForms = regionalFormList && Object.prototype.hasOwnProperty.call(regionalFormList, evolvePokemon);
+            const previousHasRegionalForms = regionalFormList &&
+                Object.prototype.hasOwnProperty.call(regionalFormList, previousPokemon) &&
+                regionalFormList[previousPokemon].length > 1;
+            const evolveHasRegionalForms = regionalFormList &&
+                Object.prototype.hasOwnProperty.call(regionalFormList, evolvePokemon) &&
+                regionalFormList[evolvePokemon].length > 1;
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
