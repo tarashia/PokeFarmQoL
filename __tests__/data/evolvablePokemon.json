@@ -6,6 +6,14 @@
             "13",
             "7"
         ],
+        "types_source": [
+            "13",
+            "7"
+        ],
+        "types_target": [
+            "13",
+            "7"
+        ],
         "name_source": "Haunter",
         "name_target": "Gengar"
     },
@@ -17,6 +25,14 @@
             "8",
             "16"
         ],
+        "types_source": [
+            "12",
+            "8"
+        ],
+        "types_target": [
+            "16",
+            "8"
+        ],
         "name_source": "Onix",
         "name_target": "Steelix"
     },
@@ -24,6 +40,12 @@
         "dex_id": "104",
         "dex_id_evolution": "105",
         "types": [
+            "10"
+        ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
             "10"
         ],
         "name_source": "Drowzee",
@@ -35,6 +57,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Krabby",
         "name_target": "Kingler"
     },
@@ -44,6 +72,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Voltorb",
         "name_target": "Electrode"
     },
@@ -51,6 +85,14 @@
         "dex_id": "110",
         "dex_id_evolution": "111",
         "types": [
+            "4",
+            "10"
+        ],
+        "types_source": [
+            "4",
+            "10"
+        ],
+        "types_target": [
             "4",
             "10"
         ],
@@ -65,6 +107,14 @@
             "10",
             "14"
         ],
+        "types_source": [
+            "4",
+            "10"
+        ],
+        "types_target": [
+            "4",
+            "14"
+        ],
         "name_source": "Exeggcute",
         "name_target": "Exeggutor [Alolan Forme]"
     },
@@ -72,6 +122,12 @@
         "dex_id": "112",
         "dex_id_evolution": "113",
         "types": [
+            "8"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8"
         ],
         "name_source": "Cubone",
@@ -85,6 +141,13 @@
             "1",
             "13"
         ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
+            "1",
+            "13"
+        ],
         "name_source": "Cubone",
         "name_target": "Marowak [Alolan Forme]"
     },
@@ -92,6 +155,12 @@
         "dex_id": "114",
         "dex_id_evolution": "115",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Lickitung",
@@ -103,6 +172,12 @@
         "types": [
             "7"
         ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
+            "7"
+        ],
         "name_source": "Koffing",
         "name_target": "Weezing"
     },
@@ -110,6 +185,13 @@
         "dex_id": "116",
         "dex_id_evolution": "117r8",
         "types": [
+            "7",
+            "17"
+        ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
             "7",
             "17"
         ],
@@ -123,6 +205,14 @@
             "8",
             "12"
         ],
+        "types_source": [
+            "8",
+            "12"
+        ],
+        "types_target": [
+            "8",
+            "12"
+        ],
         "name_source": "Rhyhorn",
         "name_target": "Rhydon"
     },
@@ -130,6 +220,14 @@
         "dex_id": "119",
         "dex_id_evolution": "120",
         "types": [
+            "8",
+            "12"
+        ],
+        "types_source": [
+            "8",
+            "12"
+        ],
+        "types_target": [
             "8",
             "12"
         ],
@@ -142,6 +240,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Tangela",
         "name_target": "Tangrowth"
     },
@@ -149,6 +253,12 @@
         "dex_id": "124",
         "dex_id_evolution": "125",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Horsea",
@@ -161,6 +271,13 @@
             "2",
             "14"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2",
+            "14"
+        ],
         "name_source": "Seadra",
         "name_target": "Kingdra"
     },
@@ -168,6 +285,12 @@
         "dex_id": "127",
         "dex_id_evolution": "128",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Goldeen",
@@ -180,6 +303,13 @@
             "2",
             "10"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2",
+            "10"
+        ],
         "name_source": "Staryu",
         "name_target": "Starmie"
     },
@@ -187,6 +317,14 @@
         "dex_id": "131",
         "dex_id_evolution": "132",
         "types": [
+            "10",
+            "17"
+        ],
+        "types_source": [
+            "10",
+            "17"
+        ],
+        "types_target": [
             "10",
             "17"
         ],
@@ -201,6 +339,14 @@
             "9",
             "16"
         ],
+        "types_source": [
+            "11",
+            "9"
+        ],
+        "types_target": [
+            "11",
+            "16"
+        ],
         "name_source": "Scyther",
         "name_target": "Scizor"
     },
@@ -208,6 +354,14 @@
         "dex_id": "135",
         "dex_id_evolution": "136",
         "types": [
+            "5",
+            "10"
+        ],
+        "types_source": [
+            "5",
+            "10"
+        ],
+        "types_target": [
             "5",
             "10"
         ],
@@ -221,6 +375,13 @@
             "2",
             "9"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2",
+            "9"
+        ],
         "name_source": "Magikarp",
         "name_target": "Gyarados"
     },
@@ -229,6 +390,12 @@
         "dex_id_evolution": "144",
         "types": [
             "0",
+            "2"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Eevee",
@@ -241,6 +408,12 @@
             "0",
             "3"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Eevee",
         "name_target": "Jolteon"
     },
@@ -249,6 +422,12 @@
         "dex_id_evolution": "146",
         "types": [
             "0",
+            "1"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "1"
         ],
         "name_source": "Eevee",
@@ -261,6 +440,12 @@
             "0",
             "10"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Eevee",
         "name_target": "Espeon"
     },
@@ -269,6 +454,12 @@
         "dex_id_evolution": "148",
         "types": [
             "0",
+            "15"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "15"
         ],
         "name_source": "Eevee",
@@ -281,6 +472,12 @@
             "0",
             "4"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Eevee",
         "name_target": "Leafeon"
     },
@@ -289,6 +486,12 @@
         "dex_id_evolution": "150",
         "types": [
             "0",
+            "5"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "5"
         ],
         "name_source": "Eevee",
@@ -301,6 +504,12 @@
             "0",
             "17"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "17"
+        ],
         "name_source": "Eevee",
         "name_target": "Sylveon"
     },
@@ -308,6 +517,14 @@
         "dex_id": "152",
         "dex_id_evolution": "153",
         "types": [
+            "12",
+            "2"
+        ],
+        "types_source": [
+            "12",
+            "2"
+        ],
+        "types_target": [
             "12",
             "2"
         ],
@@ -321,6 +538,14 @@
             "12",
             "2"
         ],
+        "types_source": [
+            "12",
+            "2"
+        ],
+        "types_target": [
+            "12",
+            "2"
+        ],
         "name_source": "Kabuto",
         "name_target": "Kabutops"
     },
@@ -330,6 +555,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Munchlax",
         "name_target": "Snorlax"
     },
@@ -337,6 +568,12 @@
         "dex_id": "162",
         "dex_id_evolution": "163",
         "types": [
+            "14"
+        ],
+        "types_source": [
+            "14"
+        ],
+        "types_target": [
             "14"
         ],
         "name_source": "Dratini",
@@ -349,6 +586,13 @@
             "14",
             "9"
         ],
+        "types_source": [
+            "14"
+        ],
+        "types_target": [
+            "14",
+            "9"
+        ],
         "name_source": "Dragonair",
         "name_target": "Dragonite"
     },
@@ -356,6 +600,12 @@
         "dex_id": "167",
         "dex_id_evolution": "168",
         "types": [
+            "4"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4"
         ],
         "name_source": "Chikorita",
@@ -367,6 +617,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Bayleef",
         "name_target": "Meganium"
     },
@@ -374,6 +630,12 @@
         "dex_id": "170",
         "dex_id_evolution": "171",
         "types": [
+            "1"
+        ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
             "1"
         ],
         "name_source": "Cyndaquil",
@@ -385,6 +647,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Quilava",
         "name_target": "Typhlosion"
     },
@@ -392,6 +660,12 @@
         "dex_id": "173",
         "dex_id_evolution": "174",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Totodile",
@@ -403,6 +677,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Croconaw",
         "name_target": "Feraligator"
     },
@@ -412,6 +692,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Sentret",
         "name_target": "Furret"
     },
@@ -419,6 +705,14 @@
         "dex_id": "178",
         "dex_id_evolution": "179",
         "types": [
+            "0",
+            "9"
+        ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
             "0",
             "9"
         ],
@@ -432,6 +726,14 @@
             "11",
             "9"
         ],
+        "types_source": [
+            "11",
+            "9"
+        ],
+        "types_target": [
+            "11",
+            "9"
+        ],
         "name_source": "Ledyba",
         "name_target": "Ledian"
     },
@@ -439,6 +741,14 @@
         "dex_id": "182",
         "dex_id_evolution": "183",
         "types": [
+            "11",
+            "7"
+        ],
+        "types_source": [
+            "11",
+            "7"
+        ],
+        "types_target": [
             "11",
             "7"
         ],
@@ -452,6 +762,14 @@
             "2",
             "3"
         ],
+        "types_source": [
+            "2",
+            "3"
+        ],
+        "types_target": [
+            "2",
+            "3"
+        ],
         "name_source": "Chinchou",
         "name_target": "Lanturn"
     },
@@ -459,6 +777,13 @@
         "dex_id": "186",
         "dex_id_evolution": "187",
         "types": [
+            "17",
+            "9"
+        ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
             "17",
             "9"
         ],
@@ -472,6 +797,14 @@
             "17",
             "9"
         ],
+        "types_source": [
+            "17",
+            "9"
+        ],
+        "types_target": [
+            "17",
+            "9"
+        ],
         "name_source": "Togetic",
         "name_target": "Togekiss"
     },
@@ -479,6 +812,14 @@
         "dex_id": "189",
         "dex_id_evolution": "190",
         "types": [
+            "10",
+            "9"
+        ],
+        "types_source": [
+            "10",
+            "9"
+        ],
+        "types_target": [
             "10",
             "9"
         ],
@@ -491,6 +832,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Mareep",
         "name_target": "Flaaffy"
     },
@@ -498,6 +845,12 @@
         "dex_id": "192",
         "dex_id_evolution": "193",
         "types": [
+            "3"
+        ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
             "3"
         ],
         "name_source": "Flaaffy",
@@ -511,6 +864,14 @@
             "17",
             "2"
         ],
+        "types_source": [
+            "0",
+            "17"
+        ],
+        "types_target": [
+            "2",
+            "17"
+        ],
         "name_source": "Azurill",
         "name_target": "Marill"
     },
@@ -518,6 +879,14 @@
         "dex_id": "195",
         "dex_id_evolution": "196",
         "types": [
+            "2",
+            "17"
+        ],
+        "types_source": [
+            "2",
+            "17"
+        ],
+        "types_target": [
             "2",
             "17"
         ],
@@ -530,6 +899,12 @@
         "types": [
             "12"
         ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
+            "12"
+        ],
         "name_source": "Bonsly",
         "name_target": "Sudowoodo"
     },
@@ -537,6 +912,14 @@
         "dex_id": "199",
         "dex_id_evolution": "200",
         "types": [
+            "4",
+            "9"
+        ],
+        "types_source": [
+            "4",
+            "9"
+        ],
+        "types_target": [
             "4",
             "9"
         ],
@@ -550,6 +933,14 @@
             "4",
             "9"
         ],
+        "types_source": [
+            "4",
+            "9"
+        ],
+        "types_target": [
+            "4",
+            "9"
+        ],
         "name_source": "Skiploom",
         "name_target": "Jumpluff"
     },
@@ -557,6 +948,12 @@
         "dex_id": "202",
         "dex_id_evolution": "203",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Aipom",
@@ -568,6 +965,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Sunkern",
         "name_target": "Sunflora"
     },
@@ -575,6 +978,14 @@
         "dex_id": "206",
         "dex_id_evolution": "207",
         "types": [
+            "11",
+            "9"
+        ],
+        "types_source": [
+            "11",
+            "9"
+        ],
+        "types_target": [
             "11",
             "9"
         ],
@@ -588,6 +999,14 @@
             "2",
             "8"
         ],
+        "types_source": [
+            "2",
+            "8"
+        ],
+        "types_target": [
+            "2",
+            "8"
+        ],
         "name_source": "Wooper",
         "name_target": "Quagsire"
     },
@@ -595,6 +1014,14 @@
         "dex_id": "210",
         "dex_id_evolution": "211",
         "types": [
+            "15",
+            "9"
+        ],
+        "types_source": [
+            "15",
+            "9"
+        ],
+        "types_target": [
             "15",
             "9"
         ],
@@ -607,6 +1034,12 @@
         "types": [
             "13"
         ],
+        "types_source": [
+            "13"
+        ],
+        "types_target": [
+            "13"
+        ],
         "name_source": "Misdreavus",
         "name_target": "Mismagius"
     },
@@ -614,6 +1047,13 @@
         "dex_id": "216",
         "dex_id_evolution": "217",
         "types": [
+            "11",
+            "16"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "16"
         ],
@@ -627,6 +1067,14 @@
             "8",
             "9"
         ],
+        "types_source": [
+            "8",
+            "9"
+        ],
+        "types_target": [
+            "8",
+            "9"
+        ],
         "name_source": "Gligar",
         "name_target": "Gliscor"
     },
@@ -634,6 +1082,12 @@
         "dex_id": "221",
         "dex_id_evolution": "222",
         "types": [
+            "17"
+        ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
             "17"
         ],
         "name_source": "Snubbull",
@@ -646,6 +1100,14 @@
             "15",
             "5"
         ],
+        "types_source": [
+            "15",
+            "5"
+        ],
+        "types_target": [
+            "15",
+            "5"
+        ],
         "name_source": "Sneasel",
         "name_target": "Weavile"
     },
@@ -655,6 +1117,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Teddiursa",
         "name_target": "Ursaring"
     },
@@ -662,6 +1130,13 @@
         "dex_id": "230",
         "dex_id_evolution": "231",
         "types": [
+            "1",
+            "12"
+        ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
             "1",
             "12"
         ],
@@ -675,6 +1150,14 @@
             "5",
             "8"
         ],
+        "types_source": [
+            "5",
+            "8"
+        ],
+        "types_target": [
+            "5",
+            "8"
+        ],
         "name_source": "Swinub",
         "name_target": "Piloswine"
     },
@@ -682,6 +1165,14 @@
         "dex_id": "233",
         "dex_id_evolution": "234",
         "types": [
+            "5",
+            "8"
+        ],
+        "types_source": [
+            "5",
+            "8"
+        ],
+        "types_target": [
             "5",
             "8"
         ],
@@ -694,6 +1185,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Remoraid",
         "name_target": "Octillery"
     },
@@ -701,6 +1198,14 @@
         "dex_id": "240",
         "dex_id_evolution": "241",
         "types": [
+            "15",
+            "1"
+        ],
+        "types_source": [
+            "15",
+            "1"
+        ],
+        "types_target": [
             "15",
             "1"
         ],
@@ -713,6 +1218,12 @@
         "types": [
             "8"
         ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
+            "8"
+        ],
         "name_source": "Phanpy",
         "name_target": "Donphan"
     },
@@ -720,6 +1231,12 @@
         "dex_id": "246",
         "dex_id_evolution": "247",
         "types": [
+            "6"
+        ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
             "6"
         ],
         "name_source": "Tyrogue",
@@ -731,6 +1248,12 @@
         "types": [
             "6"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6"
+        ],
         "name_source": "Tyrogue",
         "name_target": "Hitmonchan"
     },
@@ -738,6 +1261,12 @@
         "dex_id": "246",
         "dex_id_evolution": "249",
         "types": [
+            "6"
+        ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
             "6"
         ],
         "name_source": "Tyrogue",
@@ -749,6 +1278,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Elekid",
         "name_target": "Electabuzz"
     },
@@ -756,6 +1291,12 @@
         "dex_id": "251",
         "dex_id_evolution": "252",
         "types": [
+            "3"
+        ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
             "3"
         ],
         "name_source": "Electabuzz",
@@ -767,6 +1308,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Magby",
         "name_target": "Magmar"
     },
@@ -776,6 +1323,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Magmar",
         "name_target": "Magmortar"
     },
@@ -783,6 +1336,14 @@
         "dex_id": "260",
         "dex_id_evolution": "261",
         "types": [
+            "12",
+            "8"
+        ],
+        "types_source": [
+            "12",
+            "8"
+        ],
+        "types_target": [
             "12",
             "8"
         ],
@@ -797,6 +1358,14 @@
             "8",
             "15"
         ],
+        "types_source": [
+            "12",
+            "8"
+        ],
+        "types_target": [
+            "12",
+            "15"
+        ],
         "name_source": "Pupitar",
         "name_target": "Tyranitar"
     },
@@ -804,6 +1373,12 @@
         "dex_id": "266",
         "dex_id_evolution": "267",
         "types": [
+            "4"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4"
         ],
         "name_source": "Treecko",
@@ -815,6 +1390,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Grovyle",
         "name_target": "Sceptile"
     },
@@ -822,6 +1403,13 @@
         "dex_id": "269",
         "dex_id_evolution": "270",
         "types": [
+            "1",
+            "6"
+        ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
             "1",
             "6"
         ],
@@ -835,6 +1423,14 @@
             "1",
             "6"
         ],
+        "types_source": [
+            "1",
+            "6"
+        ],
+        "types_target": [
+            "1",
+            "6"
+        ],
         "name_source": "Combusken",
         "name_target": "Blaziken"
     },
@@ -842,6 +1438,13 @@
         "dex_id": "272",
         "dex_id_evolution": "273",
         "types": [
+            "2",
+            "8"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "8"
         ],
@@ -855,6 +1458,14 @@
             "2",
             "8"
         ],
+        "types_source": [
+            "2",
+            "8"
+        ],
+        "types_target": [
+            "2",
+            "8"
+        ],
         "name_source": "Marshtomp",
         "name_target": "Swampert"
     },
@@ -862,6 +1473,12 @@
         "dex_id": "275",
         "dex_id_evolution": "276",
         "types": [
+            "15"
+        ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
             "15"
         ],
         "name_source": "Poochyena",
@@ -873,6 +1490,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Zigzagoon",
         "name_target": "Linoone"
     },
@@ -880,6 +1503,12 @@
         "dex_id": "279",
         "dex_id_evolution": "280",
         "types": [
+            "11"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11"
         ],
         "name_source": "Wurmple",
@@ -891,6 +1520,12 @@
         "types": [
             "11"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11"
+        ],
         "name_source": "Wurmple",
         "name_target": "Cascoon"
     },
@@ -898,6 +1533,13 @@
         "dex_id": "280",
         "dex_id_evolution": "281",
         "types": [
+            "11",
+            "9"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "9"
         ],
@@ -911,6 +1553,13 @@
             "11",
             "7"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11",
+            "7"
+        ],
         "name_source": "Cascoon",
         "name_target": "Dustox"
     },
@@ -918,6 +1567,14 @@
         "dex_id": "284",
         "dex_id_evolution": "285",
         "types": [
+            "2",
+            "4"
+        ],
+        "types_source": [
+            "2",
+            "4"
+        ],
+        "types_target": [
             "2",
             "4"
         ],
@@ -931,6 +1588,14 @@
             "2",
             "4"
         ],
+        "types_source": [
+            "2",
+            "4"
+        ],
+        "types_target": [
+            "2",
+            "4"
+        ],
         "name_source": "Lombre",
         "name_target": "Ludicolo"
     },
@@ -938,6 +1603,13 @@
         "dex_id": "287",
         "dex_id_evolution": "288",
         "types": [
+            "4",
+            "15"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4",
             "15"
         ],
@@ -951,6 +1623,14 @@
             "4",
             "15"
         ],
+        "types_source": [
+            "4",
+            "15"
+        ],
+        "types_target": [
+            "4",
+            "15"
+        ],
         "name_source": "Nuzleaf",
         "name_target": "Shiftry"
     },
@@ -958,6 +1638,14 @@
         "dex_id": "290",
         "dex_id_evolution": "291",
         "types": [
+            "0",
+            "9"
+        ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
             "0",
             "9"
         ],
@@ -971,6 +1659,14 @@
             "2",
             "9"
         ],
+        "types_source": [
+            "2",
+            "9"
+        ],
+        "types_target": [
+            "2",
+            "9"
+        ],
         "name_source": "Wingull",
         "name_target": "Pelipper"
     },
@@ -981,6 +1677,14 @@
             "10",
             "17"
         ],
+        "types_source": [
+            "10",
+            "17"
+        ],
+        "types_target": [
+            "10",
+            "17"
+        ],
         "name_source": "Ralts",
         "name_target": "Kirlia"
     },
@@ -988,6 +1692,14 @@
         "dex_id": "295",
         "dex_id_evolution": "296",
         "types": [
+            "10",
+            "17"
+        ],
+        "types_source": [
+            "10",
+            "17"
+        ],
+        "types_target": [
             "10",
             "17"
         ],
@@ -1002,6 +1714,14 @@
             "17",
             "6"
         ],
+        "types_source": [
+            "10",
+            "17"
+        ],
+        "types_target": [
+            "10",
+            "6"
+        ],
         "name_source": "Kirlia",
         "name_target": "Gallade"
     },
@@ -1011,6 +1731,14 @@
         "types": [
             "11",
             "2",
+            "9"
+        ],
+        "types_source": [
+            "11",
+            "2"
+        ],
+        "types_target": [
+            "11",
             "9"
         ],
         "name_source": "Surskit",
@@ -1023,6 +1751,13 @@
             "4",
             "6"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4",
+            "6"
+        ],
         "name_source": "Shroomish",
         "name_target": "Breloom"
     },
@@ -1032,6 +1767,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Slakoth",
         "name_target": "Vigoroth"
     },
@@ -1039,6 +1780,12 @@
         "dex_id": "303",
         "dex_id_evolution": "304",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Vigoroth",
@@ -1052,6 +1799,14 @@
             "8",
             "9"
         ],
+        "types_source": [
+            "11",
+            "8"
+        ],
+        "types_target": [
+            "11",
+            "9"
+        ],
         "name_source": "Nincada",
         "name_target": "Ninjask"
     },
@@ -1063,6 +1818,14 @@
             "8",
             "13"
         ],
+        "types_source": [
+            "11",
+            "8"
+        ],
+        "types_target": [
+            "11",
+            "13"
+        ],
         "name_source": "Nincada",
         "name_target": "Shedinja"
     },
@@ -1070,6 +1833,12 @@
         "dex_id": "308",
         "dex_id_evolution": "309",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Whismur",
@@ -1081,6 +1850,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Loudred",
         "name_target": "Exploud"
     },
@@ -1088,6 +1863,12 @@
         "dex_id": "311",
         "dex_id_evolution": "312",
         "types": [
+            "6"
+        ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
             "6"
         ],
         "name_source": "Makuhita",
@@ -1100,6 +1881,13 @@
             "12",
             "16"
         ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
+            "12",
+            "16"
+        ],
         "name_source": "Nosepass",
         "name_target": "Probopass"
     },
@@ -1109,6 +1897,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Skitty",
         "name_target": "Delcatty"
     },
@@ -1116,6 +1910,14 @@
         "dex_id": "319",
         "dex_id_evolution": "320",
         "types": [
+            "16",
+            "12"
+        ],
+        "types_source": [
+            "16",
+            "12"
+        ],
+        "types_target": [
             "16",
             "12"
         ],
@@ -1129,6 +1931,14 @@
             "16",
             "12"
         ],
+        "types_source": [
+            "16",
+            "12"
+        ],
+        "types_target": [
+            "16",
+            "12"
+        ],
         "name_source": "Lairon",
         "name_target": "Aggron"
     },
@@ -1136,6 +1946,14 @@
         "dex_id": "322",
         "dex_id_evolution": "323",
         "types": [
+            "6",
+            "10"
+        ],
+        "types_source": [
+            "6",
+            "10"
+        ],
+        "types_target": [
             "6",
             "10"
         ],
@@ -1148,6 +1966,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Electrike",
         "name_target": "Manectric"
     },
@@ -1155,6 +1979,12 @@
         "dex_id": "330",
         "dex_id_evolution": "331",
         "types": [
+            "7"
+        ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
             "7"
         ],
         "name_source": "Gulpin",
@@ -1167,6 +1997,14 @@
             "2",
             "15"
         ],
+        "types_source": [
+            "2",
+            "15"
+        ],
+        "types_target": [
+            "2",
+            "15"
+        ],
         "name_source": "Carvanha",
         "name_target": "Sharpedo"
     },
@@ -1174,6 +2012,12 @@
         "dex_id": "334",
         "dex_id_evolution": "335",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Wailmer",
@@ -1186,6 +2030,14 @@
             "1",
             "8"
         ],
+        "types_source": [
+            "1",
+            "8"
+        ],
+        "types_target": [
+            "1",
+            "8"
+        ],
         "name_source": "Numel",
         "name_target": "Camerupt"
     },
@@ -1195,6 +2047,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Spoink",
         "name_target": "Grumpig"
     },
@@ -1202,6 +2060,13 @@
         "dex_id": "342",
         "dex_id_evolution": "343",
         "types": [
+            "8",
+            "14"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8",
             "14"
         ],
@@ -1215,6 +2080,14 @@
             "8",
             "14"
         ],
+        "types_source": [
+            "8",
+            "14"
+        ],
+        "types_target": [
+            "8",
+            "14"
+        ],
         "name_source": "Vibrava",
         "name_target": "Flygon"
     },
@@ -1222,6 +2095,13 @@
         "dex_id": "345",
         "dex_id_evolution": "346",
         "types": [
+            "4",
+            "15"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4",
             "15"
         ],
@@ -1236,6 +2116,14 @@
             "9",
             "14"
         ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
+            "14",
+            "9"
+        ],
         "name_source": "Swablu",
         "name_target": "Altaria"
     },
@@ -1243,6 +2131,14 @@
         "dex_id": "353",
         "dex_id_evolution": "354",
         "types": [
+            "2",
+            "8"
+        ],
+        "types_source": [
+            "2",
+            "8"
+        ],
+        "types_target": [
             "2",
             "8"
         ],
@@ -1256,6 +2152,13 @@
             "2",
             "15"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2",
+            "15"
+        ],
         "name_source": "Corphish",
         "name_target": "Crawdaunt"
     },
@@ -1263,6 +2166,14 @@
         "dex_id": "357",
         "dex_id_evolution": "358",
         "types": [
+            "8",
+            "10"
+        ],
+        "types_source": [
+            "8",
+            "10"
+        ],
+        "types_target": [
             "8",
             "10"
         ],
@@ -1276,6 +2187,14 @@
             "12",
             "4"
         ],
+        "types_source": [
+            "12",
+            "4"
+        ],
+        "types_target": [
+            "12",
+            "4"
+        ],
         "name_source": "Lileep",
         "name_target": "Cradily"
     },
@@ -1283,6 +2202,14 @@
         "dex_id": "361",
         "dex_id_evolution": "362",
         "types": [
+            "12",
+            "11"
+        ],
+        "types_source": [
+            "12",
+            "11"
+        ],
+        "types_target": [
             "12",
             "11"
         ],
@@ -1295,6 +2222,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Feebas",
         "name_target": "Milotic"
     },
@@ -1302,6 +2235,12 @@
         "dex_id": "367",
         "dex_id_evolution": "368",
         "types": [
+            "13"
+        ],
+        "types_source": [
+            "13"
+        ],
+        "types_target": [
             "13"
         ],
         "name_source": "Shuppet",
@@ -1313,6 +2252,12 @@
         "types": [
             "13"
         ],
+        "types_source": [
+            "13"
+        ],
+        "types_target": [
+            "13"
+        ],
         "name_source": "Duskull",
         "name_target": "Dusclops"
     },
@@ -1320,6 +2265,12 @@
         "dex_id": "370",
         "dex_id_evolution": "371",
         "types": [
+            "13"
+        ],
+        "types_source": [
+            "13"
+        ],
+        "types_target": [
             "13"
         ],
         "name_source": "Dusclops",
@@ -1331,6 +2282,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Chingling",
         "name_target": "Chimecho"
     },
@@ -1338,6 +2295,12 @@
         "dex_id": "376",
         "dex_id_evolution": "377",
         "types": [
+            "10"
+        ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
             "10"
         ],
         "name_source": "Wynaut",
@@ -1349,6 +2312,12 @@
         "types": [
             "5"
         ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
+            "5"
+        ],
         "name_source": "Snorunt",
         "name_target": "Glalie"
     },
@@ -1356,6 +2325,13 @@
         "dex_id": "378",
         "dex_id_evolution": "380",
         "types": [
+            "5",
+            "13"
+        ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
             "5",
             "13"
         ],
@@ -1369,6 +2345,14 @@
             "5",
             "2"
         ],
+        "types_source": [
+            "5",
+            "2"
+        ],
+        "types_target": [
+            "5",
+            "2"
+        ],
         "name_source": "Spheal",
         "name_target": "Sealeo"
     },
@@ -1376,6 +2360,14 @@
         "dex_id": "382",
         "dex_id_evolution": "383",
         "types": [
+            "5",
+            "2"
+        ],
+        "types_source": [
+            "5",
+            "2"
+        ],
+        "types_target": [
             "5",
             "2"
         ],
@@ -1388,6 +2380,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Clamperl",
         "name_target": "Huntail"
     },
@@ -1395,6 +2393,12 @@
         "dex_id": "384",
         "dex_id_evolution": "386",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Clamperl",
@@ -1406,6 +2410,12 @@
         "types": [
             "14"
         ],
+        "types_source": [
+            "14"
+        ],
+        "types_target": [
+            "14"
+        ],
         "name_source": "Bagon",
         "name_target": "Shelgon"
     },
@@ -1413,6 +2423,13 @@
         "dex_id": "390",
         "dex_id_evolution": "391",
         "types": [
+            "14",
+            "9"
+        ],
+        "types_source": [
+            "14"
+        ],
+        "types_target": [
             "14",
             "9"
         ],
@@ -1426,6 +2443,14 @@
             "16",
             "10"
         ],
+        "types_source": [
+            "16",
+            "10"
+        ],
+        "types_target": [
+            "16",
+            "10"
+        ],
         "name_source": "Beldum",
         "name_target": "Metang"
     },
@@ -1433,6 +2458,14 @@
         "dex_id": "393",
         "dex_id_evolution": "394",
         "types": [
+            "16",
+            "10"
+        ],
+        "types_source": [
+            "16",
+            "10"
+        ],
+        "types_target": [
             "16",
             "10"
         ],
@@ -1445,6 +2478,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Turtwig",
         "name_target": "Grotle"
     },
@@ -1452,6 +2491,13 @@
         "dex_id": "406",
         "dex_id_evolution": "407",
         "types": [
+            "4",
+            "8"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4",
             "8"
         ],
@@ -1465,6 +2511,13 @@
             "1",
             "6"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1",
+            "6"
+        ],
         "name_source": "Chimchar",
         "name_target": "Monferno"
     },
@@ -1472,6 +2525,14 @@
         "dex_id": "409",
         "dex_id_evolution": "410",
         "types": [
+            "1",
+            "6"
+        ],
+        "types_source": [
+            "1",
+            "6"
+        ],
+        "types_target": [
             "1",
             "6"
         ],
@@ -1484,6 +2545,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Piplup",
         "name_target": "Prinplup"
     },
@@ -1491,6 +2558,13 @@
         "dex_id": "412",
         "dex_id_evolution": "413",
         "types": [
+            "2",
+            "16"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "16"
         ],
@@ -1504,6 +2578,14 @@
             "0",
             "9"
         ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
+            "0",
+            "9"
+        ],
         "name_source": "Starly",
         "name_target": "Staravia"
     },
@@ -1511,6 +2593,14 @@
         "dex_id": "415",
         "dex_id_evolution": "416",
         "types": [
+            "0",
+            "9"
+        ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
             "0",
             "9"
         ],
@@ -1524,6 +2614,13 @@
             "0",
             "2"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0",
+            "2"
+        ],
         "name_source": "Bidoof",
         "name_target": "Bibarel"
     },
@@ -1531,6 +2628,12 @@
         "dex_id": "419",
         "dex_id_evolution": "420",
         "types": [
+            "11"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11"
         ],
         "name_source": "Kricketot",
@@ -1542,6 +2645,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Shinx",
         "name_target": "Luxio"
     },
@@ -1551,6 +2660,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Luxio",
         "name_target": "Luxray"
     },
@@ -1558,6 +2673,14 @@
         "dex_id": "424",
         "dex_id_evolution": "425",
         "types": [
+            "4",
+            "7"
+        ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
             "4",
             "7"
         ],
@@ -1571,6 +2694,14 @@
             "4",
             "7"
         ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
+            "4",
+            "7"
+        ],
         "name_source": "Roselia",
         "name_target": "Roserade"
     },
@@ -1580,6 +2711,12 @@
         "types": [
             "12"
         ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
+            "12"
+        ],
         "name_source": "Cranidos",
         "name_target": "Rampardos"
     },
@@ -1587,6 +2724,14 @@
         "dex_id": "429",
         "dex_id_evolution": "430",
         "types": [
+            "12",
+            "16"
+        ],
+        "types_source": [
+            "12",
+            "16"
+        ],
+        "types_target": [
             "12",
             "16"
         ],
@@ -1600,6 +2745,13 @@
             "11",
             "4"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11",
+            "4"
+        ],
         "name_source": "Burmy [Plant Cloak]",
         "name_target": "Wormadam [Plant Cloak]"
     },
@@ -1607,6 +2759,13 @@
         "dex_id": "431",
         "dex_id_evolution": "433",
         "types": [
+            "11",
+            "9"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "9"
         ],
@@ -1620,6 +2779,14 @@
             "11",
             "9"
         ],
+        "types_source": [
+            "11",
+            "9"
+        ],
+        "types_target": [
+            "11",
+            "9"
+        ],
         "name_source": "Combee",
         "name_target": "Vespiquen"
     },
@@ -1627,6 +2794,12 @@
         "dex_id": "437",
         "dex_id_evolution": "438",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Buizel",
@@ -1638,6 +2811,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Cherubi",
         "name_target": "Cherrim"
     },
@@ -1645,6 +2824,13 @@
         "dex_id": "441",
         "dex_id_evolution": "442",
         "types": [
+            "2",
+            "8"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "8"
         ],
@@ -1658,6 +2844,14 @@
             "13",
             "9"
         ],
+        "types_source": [
+            "13",
+            "9"
+        ],
+        "types_target": [
+            "13",
+            "9"
+        ],
         "name_source": "Drifloon",
         "name_target": "Drifblim"
     },
@@ -1665,6 +2859,12 @@
         "dex_id": "445",
         "dex_id_evolution": "446",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Buneary",
@@ -1676,6 +2876,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Glameow",
         "name_target": "Purugly"
     },
@@ -1683,6 +2889,14 @@
         "dex_id": "449",
         "dex_id_evolution": "450",
         "types": [
+            "7",
+            "15"
+        ],
+        "types_source": [
+            "7",
+            "15"
+        ],
+        "types_target": [
             "7",
             "15"
         ],
@@ -1696,6 +2910,14 @@
             "16",
             "10"
         ],
+        "types_source": [
+            "16",
+            "10"
+        ],
+        "types_target": [
+            "16",
+            "10"
+        ],
         "name_source": "Bronzor",
         "name_target": "Bronzong"
     },
@@ -1703,6 +2925,12 @@
         "dex_id": "453",
         "dex_id_evolution": "454",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Happiny",
@@ -1714,6 +2942,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Chansey",
         "name_target": "Blissey"
     },
@@ -1721,6 +2955,14 @@
         "dex_id": "458",
         "dex_id_evolution": "459",
         "types": [
+            "14",
+            "8"
+        ],
+        "types_source": [
+            "14",
+            "8"
+        ],
+        "types_target": [
             "14",
             "8"
         ],
@@ -1734,6 +2976,14 @@
             "14",
             "8"
         ],
+        "types_source": [
+            "14",
+            "8"
+        ],
+        "types_target": [
+            "14",
+            "8"
+        ],
         "name_source": "Gabite",
         "name_target": "Garchomp"
     },
@@ -1744,6 +2994,13 @@
             "6",
             "16"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6",
+            "16"
+        ],
         "name_source": "Riolu",
         "name_target": "Lucario"
     },
@@ -1751,6 +3008,12 @@
         "dex_id": "463",
         "dex_id_evolution": "464",
         "types": [
+            "8"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8"
         ],
         "name_source": "Hippopotas",
@@ -1764,6 +3027,14 @@
             "11",
             "15"
         ],
+        "types_source": [
+            "7",
+            "11"
+        ],
+        "types_target": [
+            "7",
+            "15"
+        ],
         "name_source": "Skorupi",
         "name_target": "Drapion"
     },
@@ -1771,6 +3042,14 @@
         "dex_id": "467",
         "dex_id_evolution": "468",
         "types": [
+            "7",
+            "6"
+        ],
+        "types_source": [
+            "7",
+            "6"
+        ],
+        "types_target": [
             "7",
             "6"
         ],
@@ -1783,6 +3062,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Finneon",
         "name_target": "Lumineon"
     },
@@ -1790,6 +3075,14 @@
         "dex_id": "472",
         "dex_id_evolution": "473",
         "types": [
+            "2",
+            "9"
+        ],
+        "types_source": [
+            "2",
+            "9"
+        ],
+        "types_target": [
             "2",
             "9"
         ],
@@ -1803,6 +3096,14 @@
             "5",
             "4"
         ],
+        "types_source": [
+            "5",
+            "4"
+        ],
+        "types_target": [
+            "5",
+            "4"
+        ],
         "name_source": "Snover",
         "name_target": "Abomasnow"
     },
@@ -1810,6 +3111,12 @@
         "dex_id": "476",
         "dex_id_evolution": "477",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Porygon",
@@ -1821,6 +3128,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Porygon2",
         "name_target": "Porygon-Z"
     },
@@ -1828,6 +3141,12 @@
         "dex_id": "489",
         "dex_id_evolution": "490",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Phione",
@@ -1839,6 +3158,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Snivy",
         "name_target": "Servine"
     },
@@ -1848,6 +3173,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Servine",
         "name_target": "Serperior"
     },
@@ -1855,6 +3186,13 @@
         "dex_id": "498",
         "dex_id_evolution": "499",
         "types": [
+            "1",
+            "6"
+        ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
             "1",
             "6"
         ],
@@ -1868,6 +3206,14 @@
             "1",
             "6"
         ],
+        "types_source": [
+            "1",
+            "6"
+        ],
+        "types_target": [
+            "1",
+            "6"
+        ],
         "name_source": "Pignite",
         "name_target": "Emboar"
     },
@@ -1875,6 +3221,12 @@
         "dex_id": "501",
         "dex_id_evolution": "502",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Oshawott",
@@ -1886,6 +3238,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Dewott",
         "name_target": "Samurott"
     },
@@ -1893,6 +3251,12 @@
         "dex_id": "504",
         "dex_id_evolution": "505",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Patrat",
@@ -1904,6 +3268,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Lillipup",
         "name_target": "Herdier"
     },
@@ -1911,6 +3281,12 @@
         "dex_id": "507",
         "dex_id_evolution": "508",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Herdier",
@@ -1922,6 +3298,12 @@
         "types": [
             "15"
         ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
+            "15"
+        ],
         "name_source": "Purrloin",
         "name_target": "Liepard"
     },
@@ -1929,6 +3311,12 @@
         "dex_id": "511",
         "dex_id_evolution": "512",
         "types": [
+            "4"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4"
         ],
         "name_source": "Pansage",
@@ -1940,6 +3328,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Pansear",
         "name_target": "Simisear"
     },
@@ -1947,6 +3341,12 @@
         "dex_id": "515",
         "dex_id_evolution": "516",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Panpour",
@@ -1958,6 +3358,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Munna",
         "name_target": "Musharna"
     },
@@ -1965,6 +3371,14 @@
         "dex_id": "519",
         "dex_id_evolution": "520",
         "types": [
+            "0",
+            "9"
+        ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
             "0",
             "9"
         ],
@@ -1978,6 +3392,14 @@
             "0",
             "9"
         ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
+            "0",
+            "9"
+        ],
         "name_source": "Tranquill",
         "name_target": "Unfezant"
     },
@@ -1985,6 +3407,12 @@
         "dex_id": "522",
         "dex_id_evolution": "523",
         "types": [
+            "3"
+        ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
             "3"
         ],
         "name_source": "Blitzle",
@@ -1996,6 +3424,12 @@
         "types": [
             "12"
         ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
+            "12"
+        ],
         "name_source": "Roggenrola",
         "name_target": "Boldore"
     },
@@ -2005,6 +3439,12 @@
         "types": [
             "12"
         ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
+            "12"
+        ],
         "name_source": "Boldore",
         "name_target": "Gigalith"
     },
@@ -2012,6 +3452,14 @@
         "dex_id": "527",
         "dex_id_evolution": "528",
         "types": [
+            "10",
+            "9"
+        ],
+        "types_source": [
+            "10",
+            "9"
+        ],
+        "types_target": [
             "10",
             "9"
         ],
@@ -2025,6 +3473,13 @@
             "8",
             "16"
         ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
+            "8",
+            "16"
+        ],
         "name_source": "Drilbur",
         "name_target": "Excadrill"
     },
@@ -2032,6 +3487,12 @@
         "dex_id": "532",
         "dex_id_evolution": "533",
         "types": [
+            "6"
+        ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
             "6"
         ],
         "name_source": "Timburr",
@@ -2043,6 +3504,12 @@
         "types": [
             "6"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6"
+        ],
         "name_source": "Gurdurr",
         "name_target": "Conkeldurr"
     },
@@ -2050,6 +3517,13 @@
         "dex_id": "535",
         "dex_id_evolution": "536",
         "types": [
+            "2",
+            "8"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "8"
         ],
@@ -2063,6 +3537,14 @@
             "2",
             "8"
         ],
+        "types_source": [
+            "2",
+            "8"
+        ],
+        "types_target": [
+            "2",
+            "8"
+        ],
         "name_source": "Palpitoad",
         "name_target": "Seismitoad"
     },
@@ -2070,6 +3552,14 @@
         "dex_id": "540",
         "dex_id_evolution": "541",
         "types": [
+            "11",
+            "4"
+        ],
+        "types_source": [
+            "11",
+            "4"
+        ],
+        "types_target": [
             "11",
             "4"
         ],
@@ -2083,6 +3573,14 @@
             "11",
             "4"
         ],
+        "types_source": [
+            "11",
+            "4"
+        ],
+        "types_target": [
+            "11",
+            "4"
+        ],
         "name_source": "Swadloon",
         "name_target": "Leavanny"
     },
@@ -2090,6 +3588,14 @@
         "dex_id": "543",
         "dex_id_evolution": "544",
         "types": [
+            "11",
+            "7"
+        ],
+        "types_source": [
+            "11",
+            "7"
+        ],
+        "types_target": [
             "11",
             "7"
         ],
@@ -2103,6 +3609,14 @@
             "11",
             "7"
         ],
+        "types_source": [
+            "11",
+            "7"
+        ],
+        "types_target": [
+            "11",
+            "7"
+        ],
         "name_source": "Whirlipede",
         "name_target": "Scolipede"
     },
@@ -2110,6 +3624,14 @@
         "dex_id": "546",
         "dex_id_evolution": "547",
         "types": [
+            "4",
+            "17"
+        ],
+        "types_source": [
+            "4",
+            "17"
+        ],
+        "types_target": [
             "4",
             "17"
         ],
@@ -2122,6 +3644,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Petilil",
         "name_target": "Lilligant"
     },
@@ -2129,6 +3657,14 @@
         "dex_id": "551",
         "dex_id_evolution": "552",
         "types": [
+            "8",
+            "15"
+        ],
+        "types_source": [
+            "8",
+            "15"
+        ],
+        "types_target": [
             "8",
             "15"
         ],
@@ -2142,6 +3678,14 @@
             "8",
             "15"
         ],
+        "types_source": [
+            "8",
+            "15"
+        ],
+        "types_target": [
+            "8",
+            "15"
+        ],
         "name_source": "Krokorok",
         "name_target": "Krookodile"
     },
@@ -2151,6 +3695,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Darumaka",
         "name_target": "Darmanitan"
     },
@@ -2158,6 +3708,14 @@
         "dex_id": "557",
         "dex_id_evolution": "558",
         "types": [
+            "11",
+            "12"
+        ],
+        "types_source": [
+            "11",
+            "12"
+        ],
+        "types_target": [
             "11",
             "12"
         ],
@@ -2171,6 +3729,14 @@
             "15",
             "6"
         ],
+        "types_source": [
+            "15",
+            "6"
+        ],
+        "types_target": [
+            "15",
+            "6"
+        ],
         "name_source": "Scraggy",
         "name_target": "Scrafty"
     },
@@ -2180,6 +3746,12 @@
         "types": [
             "13"
         ],
+        "types_source": [
+            "13"
+        ],
+        "types_target": [
+            "13"
+        ],
         "name_source": "Yamask",
         "name_target": "Cofagrigus"
     },
@@ -2187,6 +3759,14 @@
         "dex_id": "564",
         "dex_id_evolution": "565",
         "types": [
+            "2",
+            "12"
+        ],
+        "types_source": [
+            "2",
+            "12"
+        ],
+        "types_target": [
             "2",
             "12"
         ],
@@ -2200,6 +3780,14 @@
             "12",
             "9"
         ],
+        "types_source": [
+            "12",
+            "9"
+        ],
+        "types_target": [
+            "12",
+            "9"
+        ],
         "name_source": "Archen",
         "name_target": "Archeops"
     },
@@ -2207,6 +3795,12 @@
         "dex_id": "568",
         "dex_id_evolution": "569",
         "types": [
+            "7"
+        ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
             "7"
         ],
         "name_source": "Trubbish",
@@ -2218,6 +3812,12 @@
         "types": [
             "15"
         ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
+            "15"
+        ],
         "name_source": "Zorua",
         "name_target": "Zoroark"
     },
@@ -2225,6 +3825,12 @@
         "dex_id": "572",
         "dex_id_evolution": "573",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Minccino",
@@ -2236,6 +3842,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Gothita",
         "name_target": "Gothorita"
     },
@@ -2243,6 +3855,12 @@
         "dex_id": "575",
         "dex_id_evolution": "576",
         "types": [
+            "10"
+        ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
             "10"
         ],
         "name_source": "Gothorita",
@@ -2254,6 +3872,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Solosis",
         "name_target": "Duosion"
     },
@@ -2261,6 +3885,12 @@
         "dex_id": "578",
         "dex_id_evolution": "579",
         "types": [
+            "10"
+        ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
             "10"
         ],
         "name_source": "Duosion",
@@ -2273,6 +3903,14 @@
             "2",
             "9"
         ],
+        "types_source": [
+            "2",
+            "9"
+        ],
+        "types_target": [
+            "2",
+            "9"
+        ],
         "name_source": "Ducklett",
         "name_target": "Swanna"
     },
@@ -2280,6 +3918,12 @@
         "dex_id": "582",
         "dex_id_evolution": "583",
         "types": [
+            "5"
+        ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
             "5"
         ],
         "name_source": "Vanillite",
@@ -2291,6 +3935,12 @@
         "types": [
             "5"
         ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
+            "5"
+        ],
         "name_source": "Vanillish",
         "name_target": "Vanilluxe"
     },
@@ -2298,6 +3948,14 @@
         "dex_id": "585",
         "dex_id_evolution": "586",
         "types": [
+            "0",
+            "4"
+        ],
+        "types_source": [
+            "0",
+            "4"
+        ],
+        "types_target": [
             "0",
             "4"
         ],
@@ -2311,6 +3969,13 @@
             "11",
             "16"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11",
+            "16"
+        ],
         "name_source": "Karrablast",
         "name_target": "Escavalier"
     },
@@ -2318,6 +3983,14 @@
         "dex_id": "590",
         "dex_id_evolution": "591",
         "types": [
+            "4",
+            "7"
+        ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
             "4",
             "7"
         ],
@@ -2331,6 +4004,14 @@
             "2",
             "13"
         ],
+        "types_source": [
+            "2",
+            "13"
+        ],
+        "types_target": [
+            "2",
+            "13"
+        ],
         "name_source": "Frillish",
         "name_target": "Jellicent"
     },
@@ -2338,6 +4019,14 @@
         "dex_id": "595",
         "dex_id_evolution": "596",
         "types": [
+            "11",
+            "3"
+        ],
+        "types_source": [
+            "11",
+            "3"
+        ],
+        "types_target": [
             "11",
             "3"
         ],
@@ -2351,6 +4040,14 @@
             "4",
             "16"
         ],
+        "types_source": [
+            "4",
+            "16"
+        ],
+        "types_target": [
+            "4",
+            "16"
+        ],
         "name_source": "Ferroseed",
         "name_target": "Ferrothorn"
     },
@@ -2358,6 +4055,12 @@
         "dex_id": "599",
         "dex_id_evolution": "600",
         "types": [
+            "16"
+        ],
+        "types_source": [
+            "16"
+        ],
+        "types_target": [
             "16"
         ],
         "name_source": "Klink",
@@ -2369,6 +4072,12 @@
         "types": [
             "16"
         ],
+        "types_source": [
+            "16"
+        ],
+        "types_target": [
+            "16"
+        ],
         "name_source": "Klang",
         "name_target": "Klinklang"
     },
@@ -2376,6 +4085,12 @@
         "dex_id": "602",
         "dex_id_evolution": "603",
         "types": [
+            "3"
+        ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
             "3"
         ],
         "name_source": "Tynamo",
@@ -2387,6 +4102,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Eelektrik",
         "name_target": "Eelektross"
     },
@@ -2396,6 +4117,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Elgyem",
         "name_target": "Beheeyem"
     },
@@ -2403,6 +4130,14 @@
         "dex_id": "607",
         "dex_id_evolution": "608",
         "types": [
+            "13",
+            "1"
+        ],
+        "types_source": [
+            "13",
+            "1"
+        ],
+        "types_target": [
             "13",
             "1"
         ],
@@ -2416,6 +4151,14 @@
             "13",
             "1"
         ],
+        "types_source": [
+            "13",
+            "1"
+        ],
+        "types_target": [
+            "13",
+            "1"
+        ],
         "name_source": "Lampent",
         "name_target": "Chandelure"
     },
@@ -2423,6 +4166,12 @@
         "dex_id": "610",
         "dex_id_evolution": "611",
         "types": [
+            "14"
+        ],
+        "types_source": [
+            "14"
+        ],
+        "types_target": [
             "14"
         ],
         "name_source": "Axew",
@@ -2434,6 +4183,12 @@
         "types": [
             "14"
         ],
+        "types_source": [
+            "14"
+        ],
+        "types_target": [
+            "14"
+        ],
         "name_source": "Fraxure",
         "name_target": "Haxorus"
     },
@@ -2441,6 +4196,12 @@
         "dex_id": "613",
         "dex_id_evolution": "614",
         "types": [
+            "5"
+        ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
             "5"
         ],
         "name_source": "Cubchoo",
@@ -2452,6 +4213,12 @@
         "types": [
             "11"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11"
+        ],
         "name_source": "Shelmet",
         "name_target": "Accelgor"
     },
@@ -2461,6 +4228,12 @@
         "types": [
             "6"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6"
+        ],
         "name_source": "Mienfoo",
         "name_target": "Mienshao"
     },
@@ -2468,6 +4241,14 @@
         "dex_id": "622",
         "dex_id_evolution": "623",
         "types": [
+            "8",
+            "13"
+        ],
+        "types_source": [
+            "8",
+            "13"
+        ],
+        "types_target": [
             "8",
             "13"
         ],
@@ -2481,6 +4262,14 @@
             "15",
             "16"
         ],
+        "types_source": [
+            "15",
+            "16"
+        ],
+        "types_target": [
+            "15",
+            "16"
+        ],
         "name_source": "Pawniard",
         "name_target": "Bisharp"
     },
@@ -2488,6 +4277,14 @@
         "dex_id": "627",
         "dex_id_evolution": "628",
         "types": [
+            "0",
+            "9"
+        ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
             "0",
             "9"
         ],
@@ -2501,6 +4298,14 @@
             "15",
             "9"
         ],
+        "types_source": [
+            "15",
+            "9"
+        ],
+        "types_target": [
+            "15",
+            "9"
+        ],
         "name_source": "Vullaby",
         "name_target": "Mandibuzz"
     },
@@ -2508,6 +4313,14 @@
         "dex_id": "633",
         "dex_id_evolution": "634",
         "types": [
+            "15",
+            "14"
+        ],
+        "types_source": [
+            "15",
+            "14"
+        ],
+        "types_target": [
             "15",
             "14"
         ],
@@ -2521,6 +4334,14 @@
             "15",
             "14"
         ],
+        "types_source": [
+            "15",
+            "14"
+        ],
+        "types_target": [
+            "15",
+            "14"
+        ],
         "name_source": "Zweilous",
         "name_target": "Hydreigon"
     },
@@ -2528,6 +4349,14 @@
         "dex_id": "636",
         "dex_id_evolution": "637",
         "types": [
+            "11",
+            "1"
+        ],
+        "types_source": [
+            "11",
+            "1"
+        ],
+        "types_target": [
             "11",
             "1"
         ],
@@ -2540,6 +4369,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Chespin",
         "name_target": "Quilladin"
     },
@@ -2547,6 +4382,13 @@
         "dex_id": "651",
         "dex_id_evolution": "652",
         "types": [
+            "4",
+            "6"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4",
             "6"
         ],
@@ -2559,6 +4401,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Fennekin",
         "name_target": "Braixen"
     },
@@ -2566,6 +4414,13 @@
         "dex_id": "654",
         "dex_id_evolution": "655",
         "types": [
+            "1",
+            "10"
+        ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
             "1",
             "10"
         ],
@@ -2578,6 +4433,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Froakie",
         "name_target": "Frogadier"
     },
@@ -2588,6 +4449,13 @@
             "2",
             "15"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2",
+            "15"
+        ],
         "name_source": "Frogadier",
         "name_target": "Greninja"
     },
@@ -2595,6 +4463,13 @@
         "dex_id": "659",
         "dex_id_evolution": "660",
         "types": [
+            "0",
+            "8"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0",
             "8"
         ],
@@ -2609,6 +4484,14 @@
             "9",
             "1"
         ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
+            "1",
+            "9"
+        ],
         "name_source": "Fletchling",
         "name_target": "Fletchinder"
     },
@@ -2616,6 +4499,14 @@
         "dex_id": "662",
         "dex_id_evolution": "663",
         "types": [
+            "1",
+            "9"
+        ],
+        "types_source": [
+            "1",
+            "9"
+        ],
+        "types_target": [
             "1",
             "9"
         ],
@@ -2628,6 +4519,12 @@
         "types": [
             "11"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11"
+        ],
         "name_source": "Scatterbug",
         "name_target": "Spewpa"
     },
@@ -2635,6 +4532,13 @@
         "dex_id": "665",
         "dex_id_evolution": "666",
         "types": [
+            "11",
+            "9"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "9"
         ],
@@ -2648,6 +4552,14 @@
             "1",
             "0"
         ],
+        "types_source": [
+            "1",
+            "0"
+        ],
+        "types_target": [
+            "1",
+            "0"
+        ],
         "name_source": "Litleo",
         "name_target": "Pyroar"
     },
@@ -2655,6 +4567,12 @@
         "dex_id": "669",
         "dex_id_evolution": "670",
         "types": [
+            "17"
+        ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
             "17"
         ],
         "name_source": "Flabébé",
@@ -2666,6 +4584,12 @@
         "types": [
             "17"
         ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
+            "17"
+        ],
         "name_source": "Floette",
         "name_target": "Florges"
     },
@@ -2673,6 +4597,12 @@
         "dex_id": "672",
         "dex_id_evolution": "673",
         "types": [
+            "4"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4"
         ],
         "name_source": "Skiddo",
@@ -2685,6 +4615,13 @@
             "6",
             "15"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6",
+            "15"
+        ],
         "name_source": "Pancham",
         "name_target": "Pangoro"
     },
@@ -2694,6 +4631,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Espurr",
         "name_target": "Meowstic"
     },
@@ -2701,6 +4644,14 @@
         "dex_id": "679",
         "dex_id_evolution": "680",
         "types": [
+            "16",
+            "13"
+        ],
+        "types_source": [
+            "16",
+            "13"
+        ],
+        "types_target": [
             "16",
             "13"
         ],
@@ -2714,6 +4665,14 @@
             "16",
             "13"
         ],
+        "types_source": [
+            "16",
+            "13"
+        ],
+        "types_target": [
+            "16",
+            "13"
+        ],
         "name_source": "Doublade",
         "name_target": "Aegislash [Blade Forme]"
     },
@@ -2723,6 +4682,12 @@
         "types": [
             "17"
         ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
+            "17"
+        ],
         "name_source": "Spritzee",
         "name_target": "Aromatisse"
     },
@@ -2730,6 +4695,12 @@
         "dex_id": "684",
         "dex_id_evolution": "685",
         "types": [
+            "17"
+        ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
             "17"
         ],
         "name_source": "Swirlix",
@@ -2742,6 +4713,14 @@
             "15",
             "10"
         ],
+        "types_source": [
+            "15",
+            "10"
+        ],
+        "types_target": [
+            "15",
+            "10"
+        ],
         "name_source": "Inkay",
         "name_target": "Malamar"
     },
@@ -2749,6 +4728,14 @@
         "dex_id": "688",
         "dex_id_evolution": "689",
         "types": [
+            "12",
+            "2"
+        ],
+        "types_source": [
+            "12",
+            "2"
+        ],
+        "types_target": [
             "12",
             "2"
         ],
@@ -2763,6 +4750,14 @@
             "2",
             "14"
         ],
+        "types_source": [
+            "7",
+            "2"
+        ],
+        "types_target": [
+            "7",
+            "14"
+        ],
         "name_source": "Skrelp",
         "name_target": "Dragalge"
     },
@@ -2772,6 +4767,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Clauncher",
         "name_target": "Clawitzer"
     },
@@ -2779,6 +4780,14 @@
         "dex_id": "694",
         "dex_id_evolution": "695",
         "types": [
+            "3",
+            "0"
+        ],
+        "types_source": [
+            "3",
+            "0"
+        ],
+        "types_target": [
             "3",
             "0"
         ],
@@ -2792,6 +4801,14 @@
             "12",
             "14"
         ],
+        "types_source": [
+            "12",
+            "14"
+        ],
+        "types_target": [
+            "12",
+            "14"
+        ],
         "name_source": "Tyrunt",
         "name_target": "Tyrantrum"
     },
@@ -2799,6 +4816,14 @@
         "dex_id": "698",
         "dex_id_evolution": "699",
         "types": [
+            "12",
+            "5"
+        ],
+        "types_source": [
+            "12",
+            "5"
+        ],
+        "types_target": [
             "12",
             "5"
         ],
@@ -2811,6 +4836,12 @@
         "types": [
             "14"
         ],
+        "types_source": [
+            "14"
+        ],
+        "types_target": [
+            "14"
+        ],
         "name_source": "Goomy",
         "name_target": "Sliggoo"
     },
@@ -2820,6 +4851,12 @@
         "types": [
             "14"
         ],
+        "types_source": [
+            "14"
+        ],
+        "types_target": [
+            "14"
+        ],
         "name_source": "Sliggoo",
         "name_target": "Goodra"
     },
@@ -2827,6 +4864,14 @@
         "dex_id": "707",
         "dex_id_evolution": "708",
         "types": [
+            "13",
+            "4"
+        ],
+        "types_source": [
+            "13",
+            "4"
+        ],
+        "types_target": [
             "13",
             "4"
         ],
@@ -2840,6 +4885,14 @@
             "13",
             "4"
         ],
+        "types_source": [
+            "13",
+            "4"
+        ],
+        "types_target": [
+            "13",
+            "4"
+        ],
         "name_source": "Pumpkaboo [Small Size]",
         "name_target": "Gourgeist [Small Size]"
     },
@@ -2847,6 +4900,12 @@
         "dex_id": "711",
         "dex_id_evolution": "712",
         "types": [
+            "5"
+        ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
             "5"
         ],
         "name_source": "Bergmite",
@@ -2859,6 +4918,14 @@
             "9",
             "14"
         ],
+        "types_source": [
+            "9",
+            "14"
+        ],
+        "types_target": [
+            "9",
+            "14"
+        ],
         "name_source": "Noibat",
         "name_target": "Noivern"
     },
@@ -2866,6 +4933,14 @@
         "dex_id": "721",
         "dex_id_evolution": "722",
         "types": [
+            "4",
+            "9"
+        ],
+        "types_source": [
+            "4",
+            "9"
+        ],
+        "types_target": [
             "4",
             "9"
         ],
@@ -2880,6 +4955,14 @@
             "9",
             "13"
         ],
+        "types_source": [
+            "4",
+            "9"
+        ],
+        "types_target": [
+            "4",
+            "13"
+        ],
         "name_source": "Dartrix",
         "name_target": "Decidueye"
     },
@@ -2889,6 +4972,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Litten",
         "name_target": "Torracat"
     },
@@ -2896,6 +4985,13 @@
         "dex_id": "725",
         "dex_id_evolution": "726",
         "types": [
+            "1",
+            "15"
+        ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
             "1",
             "15"
         ],
@@ -2909,6 +5005,13 @@
             "1",
             "3"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1",
+            "3"
+        ],
         "name_source": "Torracat",
         "name_target": "Incineroar [Feral]"
     },
@@ -2918,6 +5021,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Popplio",
         "name_target": "Brionne"
     },
@@ -2925,6 +5034,13 @@
         "dex_id": "728",
         "dex_id_evolution": "729",
         "types": [
+            "2",
+            "17"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "17"
         ],
@@ -2938,6 +5054,14 @@
             "0",
             "9"
         ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
+            "0",
+            "9"
+        ],
         "name_source": "Pikipek",
         "name_target": "Trumbeak"
     },
@@ -2945,6 +5069,14 @@
         "dex_id": "731",
         "dex_id_evolution": "732",
         "types": [
+            "0",
+            "9"
+        ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
             "0",
             "9"
         ],
@@ -2957,6 +5089,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Yungoos",
         "name_target": "Gumshoos"
     },
@@ -2964,6 +5102,13 @@
         "dex_id": "735",
         "dex_id_evolution": "736",
         "types": [
+            "11",
+            "3"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "3"
         ],
@@ -2977,6 +5122,14 @@
             "11",
             "3"
         ],
+        "types_source": [
+            "11",
+            "3"
+        ],
+        "types_target": [
+            "11",
+            "3"
+        ],
         "name_source": "Charjabug",
         "name_target": "Vikavolt"
     },
@@ -2984,6 +5137,13 @@
         "dex_id": "738",
         "dex_id_evolution": "739",
         "types": [
+            "6",
+            "5"
+        ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
             "6",
             "5"
         ],
@@ -2997,6 +5157,14 @@
             "11",
             "17"
         ],
+        "types_source": [
+            "11",
+            "17"
+        ],
+        "types_target": [
+            "11",
+            "17"
+        ],
         "name_source": "Cutiefly",
         "name_target": "Ribombee"
     },
@@ -3004,6 +5172,12 @@
         "dex_id": "743",
         "dex_id_evolution": "744",
         "types": [
+            "12"
+        ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
             "12"
         ],
         "name_source": "Rockruff",
@@ -3015,6 +5189,12 @@
         "types": [
             "12"
         ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
+            "12"
+        ],
         "name_source": "Rockruff",
         "name_target": "Lycanroc [Midnight Forme]"
     },
@@ -3022,6 +5202,12 @@
         "dex_id": "743",
         "dex_id_evolution": "744c",
         "types": [
+            "12"
+        ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
             "12"
         ],
         "name_source": "Rockruff",
@@ -3034,6 +5220,14 @@
             "7",
             "2"
         ],
+        "types_source": [
+            "7",
+            "2"
+        ],
+        "types_target": [
+            "7",
+            "2"
+        ],
         "name_source": "Mareanie",
         "name_target": "Toxapex"
     },
@@ -3041,6 +5235,12 @@
         "dex_id": "748",
         "dex_id_evolution": "749",
         "types": [
+            "8"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8"
         ],
         "name_source": "Mudbray",
@@ -3053,6 +5253,14 @@
             "2",
             "11"
         ],
+        "types_source": [
+            "2",
+            "11"
+        ],
+        "types_target": [
+            "2",
+            "11"
+        ],
         "name_source": "Dewpider",
         "name_target": "Araquanid"
     },
@@ -3062,6 +5270,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Fomantis",
         "name_target": "Lurantis"
     },
@@ -3069,6 +5283,14 @@
         "dex_id": "754",
         "dex_id_evolution": "755",
         "types": [
+            "4",
+            "17"
+        ],
+        "types_source": [
+            "4",
+            "17"
+        ],
+        "types_target": [
             "4",
             "17"
         ],
@@ -3082,6 +5304,14 @@
             "7",
             "1"
         ],
+        "types_source": [
+            "7",
+            "1"
+        ],
+        "types_target": [
+            "7",
+            "1"
+        ],
         "name_source": "Salandit",
         "name_target": "Salazzle"
     },
@@ -3089,6 +5319,14 @@
         "dex_id": "758",
         "dex_id_evolution": "759",
         "types": [
+            "0",
+            "6"
+        ],
+        "types_source": [
+            "0",
+            "6"
+        ],
+        "types_target": [
             "0",
             "6"
         ],
@@ -3101,6 +5339,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Bounsweet",
         "name_target": "Steenee"
     },
@@ -3110,6 +5354,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Steenee",
         "name_target": "Tsareena"
     },
@@ -3117,6 +5367,14 @@
         "dex_id": "766",
         "dex_id_evolution": "767",
         "types": [
+            "11",
+            "2"
+        ],
+        "types_source": [
+            "11",
+            "2"
+        ],
+        "types_target": [
             "11",
             "2"
         ],
@@ -3130,6 +5388,14 @@
             "13",
             "8"
         ],
+        "types_source": [
+            "13",
+            "8"
+        ],
+        "types_target": [
+            "13",
+            "8"
+        ],
         "name_source": "Sandygast",
         "name_target": "Palossand"
     },
@@ -3139,6 +5405,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Type: Null",
         "name_target": "Silvally"
     },
@@ -3146,6 +5418,13 @@
         "dex_id": "781",
         "dex_id_evolution": "782",
         "types": [
+            "14",
+            "6"
+        ],
+        "types_source": [
+            "14"
+        ],
+        "types_target": [
             "14",
             "6"
         ],
@@ -3159,6 +5438,14 @@
             "14",
             "6"
         ],
+        "types_source": [
+            "14",
+            "6"
+        ],
+        "types_target": [
+            "14",
+            "6"
+        ],
         "name_source": "Hakamo-o",
         "name_target": "Kommo-o"
     },
@@ -3168,6 +5455,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Cosmog",
         "name_target": "Cosmoem"
     },
@@ -3175,6 +5468,13 @@
         "dex_id": "789",
         "dex_id_evolution": "790",
         "types": [
+            "10",
+            "16"
+        ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
             "10",
             "16"
         ],
@@ -3188,6 +5488,13 @@
             "10",
             "13"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10",
+            "13"
+        ],
         "name_source": "Cosmoem",
         "name_target": "Lunala"
     },
@@ -3195,6 +5502,13 @@
         "dex_id": "799",
         "dex_id_evolution": "800",
         "types": [
+            "7",
+            "14"
+        ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
             "7",
             "14"
         ],
@@ -3207,6 +5521,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Grookey",
         "name_target": "Thwackey"
     },
@@ -3214,6 +5534,12 @@
         "dex_id": "810",
         "dex_id_evolution": "811",
         "types": [
+            "4"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4"
         ],
         "name_source": "Thwackey",
@@ -3225,6 +5551,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Scorbunny",
         "name_target": "Raboot"
     },
@@ -3232,6 +5564,12 @@
         "dex_id": "813",
         "dex_id_evolution": "814",
         "types": [
+            "1"
+        ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
             "1"
         ],
         "name_source": "Raboot",
@@ -3243,6 +5581,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Sobble",
         "name_target": "Drizzile"
     },
@@ -3250,6 +5594,12 @@
         "dex_id": "816",
         "dex_id_evolution": "817",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Drizzile",
@@ -3261,6 +5611,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Skwovet",
         "name_target": "Greedent"
     },
@@ -3270,6 +5626,12 @@
         "types": [
             "9"
         ],
+        "types_source": [
+            "9"
+        ],
+        "types_target": [
+            "9"
+        ],
         "name_source": "Rookidee",
         "name_target": "Corvisquire"
     },
@@ -3277,6 +5639,13 @@
         "dex_id": "821",
         "dex_id_evolution": "822",
         "types": [
+            "9",
+            "16"
+        ],
+        "types_source": [
+            "9"
+        ],
+        "types_target": [
             "9",
             "16"
         ],
@@ -3290,6 +5659,13 @@
             "11",
             "10"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11",
+            "10"
+        ],
         "name_source": "Blipbug",
         "name_target": "Dottler"
     },
@@ -3297,6 +5673,14 @@
         "dex_id": "824",
         "dex_id_evolution": "825",
         "types": [
+            "11",
+            "10"
+        ],
+        "types_source": [
+            "11",
+            "10"
+        ],
+        "types_target": [
             "11",
             "10"
         ],
@@ -3309,6 +5693,12 @@
         "types": [
             "15"
         ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
+            "15"
+        ],
         "name_source": "Nickit",
         "name_target": "Thievul"
     },
@@ -3318,6 +5708,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Gossifleur",
         "name_target": "Eldegoss"
     },
@@ -3325,6 +5721,12 @@
         "dex_id": "830",
         "dex_id_evolution": "831",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Wooloo",
@@ -3337,6 +5739,13 @@
             "2",
             "12"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2",
+            "12"
+        ],
         "name_source": "Chewtle",
         "name_target": "Drednaw"
     },
@@ -3346,6 +5755,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Yamper",
         "name_target": "Boltund"
     },
@@ -3353,6 +5768,13 @@
         "dex_id": "836",
         "dex_id_evolution": "837",
         "types": [
+            "12",
+            "1"
+        ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
             "12",
             "1"
         ],
@@ -3366,6 +5788,14 @@
             "12",
             "1"
         ],
+        "types_source": [
+            "12",
+            "1"
+        ],
+        "types_target": [
+            "12",
+            "1"
+        ],
         "name_source": "Carkol",
         "name_target": "Coalossal"
     },
@@ -3373,6 +5803,14 @@
         "dex_id": "839",
         "dex_id_evolution": "840",
         "types": [
+            "4",
+            "14"
+        ],
+        "types_source": [
+            "4",
+            "14"
+        ],
+        "types_target": [
             "4",
             "14"
         ],
@@ -3386,6 +5824,14 @@
             "4",
             "14"
         ],
+        "types_source": [
+            "4",
+            "14"
+        ],
+        "types_target": [
+            "4",
+            "14"
+        ],
         "name_source": "Applin",
         "name_target": "Appletun"
     },
@@ -3393,6 +5839,12 @@
         "dex_id": "842",
         "dex_id_evolution": "843",
         "types": [
+            "8"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8"
         ],
         "name_source": "Silicobra",
@@ -3404,6 +5856,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Arrokuda",
         "name_target": "Barraskewda"
     },
@@ -3411,6 +5869,14 @@
         "dex_id": "847",
         "dex_id_evolution": "848",
         "types": [
+            "3",
+            "7"
+        ],
+        "types_source": [
+            "3",
+            "7"
+        ],
+        "types_target": [
             "3",
             "7"
         ],
@@ -3424,6 +5890,14 @@
             "3",
             "7"
         ],
+        "types_source": [
+            "3",
+            "7"
+        ],
+        "types_target": [
+            "3",
+            "7"
+        ],
         "name_source": "Toxel",
         "name_target": "Toxtricity [Low Key]"
     },
@@ -3431,6 +5905,14 @@
         "dex_id": "849",
         "dex_id_evolution": "850",
         "types": [
+            "1",
+            "11"
+        ],
+        "types_source": [
+            "1",
+            "11"
+        ],
+        "types_target": [
             "1",
             "11"
         ],
@@ -3443,6 +5925,12 @@
         "types": [
             "6"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6"
+        ],
         "name_source": "Clobbopus",
         "name_target": "Grapploct"
     },
@@ -3450,6 +5938,12 @@
         "dex_id": "853",
         "dex_id_evolution": "854",
         "types": [
+            "13"
+        ],
+        "types_source": [
+            "13"
+        ],
+        "types_target": [
             "13"
         ],
         "name_source": "Sinistea",
@@ -3461,6 +5955,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Hatenna",
         "name_target": "Hattrem"
     },
@@ -3468,6 +5968,13 @@
         "dex_id": "856",
         "dex_id_evolution": "857",
         "types": [
+            "10",
+            "17"
+        ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
             "10",
             "17"
         ],
@@ -3481,6 +5988,14 @@
             "15",
             "17"
         ],
+        "types_source": [
+            "15",
+            "17"
+        ],
+        "types_target": [
+            "15",
+            "17"
+        ],
         "name_source": "Impidimp",
         "name_target": "Morgrem"
     },
@@ -3488,6 +6003,14 @@
         "dex_id": "859",
         "dex_id_evolution": "860",
         "types": [
+            "15",
+            "17"
+        ],
+        "types_source": [
+            "15",
+            "17"
+        ],
+        "types_target": [
             "15",
             "17"
         ],
@@ -3500,6 +6023,12 @@
         "types": [
             "17"
         ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
+            "17"
+        ],
         "name_source": "Milcery",
         "name_target": "Alcremie"
     },
@@ -3507,6 +6036,14 @@
         "dex_id": "871",
         "dex_id_evolution": "872",
         "types": [
+            "5",
+            "11"
+        ],
+        "types_source": [
+            "5",
+            "11"
+        ],
+        "types_target": [
             "5",
             "11"
         ],
@@ -3519,6 +6056,12 @@
         "types": [
             "16"
         ],
+        "types_source": [
+            "16"
+        ],
+        "types_target": [
+            "16"
+        ],
         "name_source": "Cufant",
         "name_target": "Copperajah"
     },
@@ -3526,6 +6069,14 @@
         "dex_id": "884",
         "dex_id_evolution": "885",
         "types": [
+            "14",
+            "13"
+        ],
+        "types_source": [
+            "14",
+            "13"
+        ],
+        "types_target": [
             "14",
             "13"
         ],
@@ -3539,6 +6090,14 @@
             "14",
             "13"
         ],
+        "types_source": [
+            "14",
+            "13"
+        ],
+        "types_target": [
+            "14",
+            "13"
+        ],
         "name_source": "Drakloak",
         "name_target": "Dragapult"
     },
@@ -3546,6 +6105,14 @@
         "dex_id": "001",
         "dex_id_evolution": "002",
         "types": [
+            "4",
+            "7"
+        ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
             "4",
             "7"
         ],
@@ -3559,6 +6126,14 @@
             "4",
             "7"
         ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
+            "4",
+            "7"
+        ],
         "name_source": "Ivysaur",
         "name_target": "Venusaur"
     },
@@ -3566,6 +6141,12 @@
         "dex_id": "004",
         "dex_id_evolution": "005",
         "types": [
+            "1"
+        ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
             "1"
         ],
         "name_source": "Charmander",
@@ -3578,6 +6159,13 @@
             "1",
             "9"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1",
+            "9"
+        ],
         "name_source": "Charmeleon",
         "name_target": "Charizard"
     },
@@ -3585,6 +6173,12 @@
         "dex_id": "007",
         "dex_id_evolution": "008",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Squirtle",
@@ -3596,6 +6190,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Wartortle",
         "name_target": "Blastoise"
     },
@@ -3605,6 +6205,12 @@
         "types": [
             "11"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11"
+        ],
         "name_source": "Caterpie",
         "name_target": "Metapod"
     },
@@ -3612,6 +6218,13 @@
         "dex_id": "011",
         "dex_id_evolution": "012",
         "types": [
+            "11",
+            "9"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "9"
         ],
@@ -3625,6 +6238,14 @@
             "11",
             "7"
         ],
+        "types_source": [
+            "11",
+            "7"
+        ],
+        "types_target": [
+            "11",
+            "7"
+        ],
         "name_source": "Weedle",
         "name_target": "Kakuna"
     },
@@ -3632,6 +6253,14 @@
         "dex_id": "014",
         "dex_id_evolution": "015",
         "types": [
+            "11",
+            "7"
+        ],
+        "types_source": [
+            "11",
+            "7"
+        ],
+        "types_target": [
             "11",
             "7"
         ],
@@ -3645,6 +6274,14 @@
             "0",
             "9"
         ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
+            "0",
+            "9"
+        ],
         "name_source": "Pidgey",
         "name_target": "Pidgeotto"
     },
@@ -3652,6 +6289,14 @@
         "dex_id": "017",
         "dex_id_evolution": "018",
         "types": [
+            "0",
+            "9"
+        ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
             "0",
             "9"
         ],
@@ -3664,6 +6309,12 @@
         "types": [
             "0"
         ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
+            "0"
+        ],
         "name_source": "Rattata",
         "name_target": "Raticate"
     },
@@ -3671,6 +6322,14 @@
         "dex_id": "021",
         "dex_id_evolution": "022",
         "types": [
+            "0",
+            "9"
+        ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
             "0",
             "9"
         ],
@@ -3683,6 +6342,12 @@
         "types": [
             "7"
         ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
+            "7"
+        ],
         "name_source": "Ekans",
         "name_target": "Arbok"
     },
@@ -3692,6 +6357,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Pichu",
         "name_target": "Pikachu"
     },
@@ -3699,6 +6370,12 @@
         "dex_id": "026",
         "dex_id_evolution": "027",
         "types": [
+            "3"
+        ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
             "3"
         ],
         "name_source": "Pikachu",
@@ -3711,6 +6388,13 @@
             "3",
             "10"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3",
+            "10"
+        ],
         "name_source": "Pikachu",
         "name_target": "Raichu [Alolan Forme]"
     },
@@ -3718,6 +6402,12 @@
         "dex_id": "028",
         "dex_id_evolution": "029",
         "types": [
+            "8"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8"
         ],
         "name_source": "Sandshrew",
@@ -3729,6 +6419,12 @@
         "types": [
             "7"
         ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
+            "7"
+        ],
         "name_source": "Nidoran",
         "name_target": "Nidorina"
     },
@@ -3738,6 +6434,12 @@
         "types": [
             "7"
         ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
+            "7"
+        ],
         "name_source": "Nidoran",
         "name_target": "Nidorino"
     },
@@ -3745,6 +6447,13 @@
         "dex_id": "031",
         "dex_id_evolution": "032",
         "types": [
+            "7",
+            "8"
+        ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
             "7",
             "8"
         ],
@@ -3758,6 +6467,13 @@
             "7",
             "8"
         ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
+            "7",
+            "8"
+        ],
         "name_source": "Nidorino",
         "name_target": "Nidoking"
     },
@@ -3765,6 +6481,12 @@
         "dex_id": "035",
         "dex_id_evolution": "036",
         "types": [
+            "17"
+        ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
             "17"
         ],
         "name_source": "Cleffa",
@@ -3776,6 +6498,12 @@
         "types": [
             "17"
         ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
+            "17"
+        ],
         "name_source": "Clefairy",
         "name_target": "Clefable"
     },
@@ -3785,6 +6513,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Vulpix",
         "name_target": "Ninetales"
     },
@@ -3792,6 +6526,14 @@
         "dex_id": "040",
         "dex_id_evolution": "041",
         "types": [
+            "0",
+            "17"
+        ],
+        "types_source": [
+            "0",
+            "17"
+        ],
+        "types_target": [
             "0",
             "17"
         ],
@@ -3805,6 +6547,14 @@
             "0",
             "17"
         ],
+        "types_source": [
+            "0",
+            "17"
+        ],
+        "types_target": [
+            "0",
+            "17"
+        ],
         "name_source": "Jigglypuff",
         "name_target": "Wigglytuff"
     },
@@ -3812,6 +6562,14 @@
         "dex_id": "043",
         "dex_id_evolution": "044",
         "types": [
+            "7",
+            "9"
+        ],
+        "types_source": [
+            "7",
+            "9"
+        ],
+        "types_target": [
             "7",
             "9"
         ],
@@ -3825,6 +6583,14 @@
             "7",
             "9"
         ],
+        "types_source": [
+            "7",
+            "9"
+        ],
+        "types_target": [
+            "7",
+            "9"
+        ],
         "name_source": "Golbat",
         "name_target": "Crobat"
     },
@@ -3832,6 +6598,14 @@
         "dex_id": "046",
         "dex_id_evolution": "047",
         "types": [
+            "4",
+            "7"
+        ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
             "4",
             "7"
         ],
@@ -3845,6 +6619,14 @@
             "4",
             "7"
         ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
+            "4",
+            "7"
+        ],
         "name_source": "Gloom",
         "name_target": "Vileplume"
     },
@@ -3855,6 +6637,13 @@
             "4",
             "7"
         ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Gloom",
         "name_target": "Bellossom"
     },
@@ -3862,6 +6651,14 @@
         "dex_id": "050",
         "dex_id_evolution": "051",
         "types": [
+            "11",
+            "4"
+        ],
+        "types_source": [
+            "11",
+            "4"
+        ],
+        "types_target": [
             "11",
             "4"
         ],
@@ -3875,6 +6672,14 @@
             "11",
             "7"
         ],
+        "types_source": [
+            "11",
+            "7"
+        ],
+        "types_target": [
+            "11",
+            "7"
+        ],
         "name_source": "Venonat",
         "name_target": "Venomoth"
     },
@@ -3882,6 +6687,12 @@
         "dex_id": "054",
         "dex_id_evolution": "055",
         "types": [
+            "8"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8"
         ],
         "name_source": "Diglett",
@@ -3893,6 +6704,12 @@
         "types": [
             "16"
         ],
+        "types_source": [
+            "16"
+        ],
+        "types_target": [
+            "16"
+        ],
         "name_source": "Meowth [Galarian Forme]",
         "name_target": "Perrserker"
     },
@@ -3900,6 +6717,12 @@
         "dex_id": "058",
         "dex_id_evolution": "059",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Psyduck",
@@ -3911,6 +6734,12 @@
         "types": [
             "6"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6"
+        ],
         "name_source": "Mankey",
         "name_target": "Primeape"
     },
@@ -3920,6 +6749,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Growlithe",
         "name_target": "Arcanine"
     },
@@ -3927,6 +6762,12 @@
         "dex_id": "064",
         "dex_id_evolution": "065",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Poliwag",
@@ -3939,6 +6780,13 @@
             "2",
             "6"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2",
+            "6"
+        ],
         "name_source": "Poliwhirl",
         "name_target": "Poliwrath"
     },
@@ -3946,6 +6794,12 @@
         "dex_id": "065",
         "dex_id_evolution": "067",
         "types": [
+            "2"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2"
         ],
         "name_source": "Poliwhirl",
@@ -3957,6 +6811,12 @@
         "types": [
             "10"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "10"
+        ],
         "name_source": "Abra",
         "name_target": "Kadabra"
     },
@@ -3964,6 +6824,12 @@
         "dex_id": "069",
         "dex_id_evolution": "070",
         "types": [
+            "10"
+        ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
             "10"
         ],
         "name_source": "Kadabra",
@@ -3975,6 +6841,12 @@
         "types": [
             "6"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6"
+        ],
         "name_source": "Machop",
         "name_target": "Machoke"
     },
@@ -3984,6 +6856,12 @@
         "types": [
             "6"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6"
+        ],
         "name_source": "Machoke",
         "name_target": "Machamp"
     },
@@ -3991,6 +6869,14 @@
         "dex_id": "074",
         "dex_id_evolution": "075",
         "types": [
+            "4",
+            "7"
+        ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
             "4",
             "7"
         ],
@@ -4004,6 +6890,14 @@
             "4",
             "7"
         ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
+            "4",
+            "7"
+        ],
         "name_source": "Weepinbell",
         "name_target": "Victreebell"
     },
@@ -4011,6 +6905,14 @@
         "dex_id": "077",
         "dex_id_evolution": "078",
         "types": [
+            "2",
+            "7"
+        ],
+        "types_source": [
+            "2",
+            "7"
+        ],
+        "types_target": [
             "2",
             "7"
         ],
@@ -4024,6 +6926,14 @@
             "12",
             "3"
         ],
+        "types_source": [
+            "12",
+            "3"
+        ],
+        "types_target": [
+            "12",
+            "3"
+        ],
         "name_source": "Geodude [Alolan Forme]",
         "name_target": "Graveler [Alolan Forme]"
     },
@@ -4031,6 +6941,14 @@
         "dex_id": "080r7",
         "dex_id_evolution": "081r7",
         "types": [
+            "12",
+            "3"
+        ],
+        "types_source": [
+            "12",
+            "3"
+        ],
+        "types_target": [
             "12",
             "3"
         ],
@@ -4043,6 +6961,12 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Ponyta",
         "name_target": "Rapidash"
     },
@@ -4050,6 +6974,14 @@
         "dex_id": "084",
         "dex_id_evolution": "085",
         "types": [
+            "2",
+            "10"
+        ],
+        "types_source": [
+            "2",
+            "10"
+        ],
+        "types_target": [
             "2",
             "10"
         ],
@@ -4063,6 +6995,14 @@
             "2",
             "10"
         ],
+        "types_source": [
+            "2",
+            "10"
+        ],
+        "types_target": [
+            "2",
+            "10"
+        ],
         "name_source": "Slowpoke",
         "name_target": "Slowking"
     },
@@ -4070,6 +7010,14 @@
         "dex_id": "087",
         "dex_id_evolution": "088",
         "types": [
+            "3",
+            "16"
+        ],
+        "types_source": [
+            "3",
+            "16"
+        ],
+        "types_target": [
             "3",
             "16"
         ],
@@ -4083,6 +7031,14 @@
             "3",
             "16"
         ],
+        "types_source": [
+            "3",
+            "16"
+        ],
+        "types_target": [
+            "3",
+            "16"
+        ],
         "name_source": "Magneton",
         "name_target": "Magnezone"
     },
@@ -4090,6 +7046,14 @@
         "dex_id": "091",
         "dex_id_evolution": "092",
         "types": [
+            "0",
+            "9"
+        ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
             "0",
             "9"
         ],
@@ -4103,6 +7067,13 @@
             "2",
             "5"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2",
+            "5"
+        ],
         "name_source": "Seel",
         "name_target": "Dewgong"
     },
@@ -4112,6 +7083,12 @@
         "types": [
             "7"
         ],
+        "types_source": [
+            "7"
+        ],
+        "types_target": [
+            "7"
+        ],
         "name_source": "Grimer",
         "name_target": "Muk"
     },
@@ -4119,6 +7096,13 @@
         "dex_id": "097",
         "dex_id_evolution": "098",
         "types": [
+            "2",
+            "5"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "5"
         ],
@@ -4132,6 +7116,14 @@
             "13",
             "7"
         ],
+        "types_source": [
+            "13",
+            "7"
+        ],
+        "types_target": [
+            "13",
+            "7"
+        ],
         "name_source": "Gastly",
         "name_target": "Haunter"
     },
@@ -4139,6 +7131,13 @@
         "dex_id": "431c",
         "dex_id_evolution": "432c",
         "types": [
+            "11",
+            "8"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "8"
         ],
@@ -4152,6 +7151,13 @@
             "11",
             "9"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11",
+            "9"
+        ],
         "name_source": "Burmy [Sandy Cloak]",
         "name_target": "Mothim"
     },
@@ -4159,6 +7165,13 @@
         "dex_id": "441b",
         "dex_id_evolution": "442b",
         "types": [
+            "2",
+            "8"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "8"
         ],
@@ -4171,6 +7184,12 @@
         "types": [
             "5"
         ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
+            "5"
+        ],
         "name_source": "Darumaka [Galarian Forme]",
         "name_target": "Darmanitan [Galarian Forme]"
     },
@@ -4178,6 +7197,14 @@
         "dex_id": "562r8",
         "dex_id_evolution": "866",
         "types": [
+            "8",
+            "13"
+        ],
+        "types_source": [
+            "8",
+            "13"
+        ],
+        "types_target": [
             "8",
             "13"
         ],
@@ -4191,6 +7218,14 @@
             "13",
             "4"
         ],
+        "types_source": [
+            "13",
+            "4"
+        ],
+        "types_target": [
+            "13",
+            "4"
+        ],
         "name_source": "Pumpkaboo [Large Size]",
         "name_target": "Gourgeist [Large Size]"
     },
@@ -4200,6 +7235,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Blophin",
         "name_target": "Inflale"
     },
@@ -4207,6 +7248,13 @@
         "dex_id": "000a4",
         "dex_id_evolution": "000a6",
         "types": [
+            "2",
+            "16"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "16"
         ],
@@ -4220,6 +7268,14 @@
             "17",
             "9"
         ],
+        "types_source": [
+            "17",
+            "9"
+        ],
+        "types_target": [
+            "17",
+            "9"
+        ],
         "name_source": "Faemueño",
         "name_target": "Faemilarín"
     },
@@ -4230,6 +7286,14 @@
             "17",
             "9"
         ],
+        "types_source": [
+            "17",
+            "9"
+        ],
+        "types_target": [
+            "17",
+            "9"
+        ],
         "name_source": "Faemilarín",
         "name_target": "Faemísimo"
     },
@@ -4237,6 +7301,14 @@
         "dex_id": "000aa",
         "dex_id_evolution": "000ab",
         "types": [
+            "7",
+            "17"
+        ],
+        "types_source": [
+            "7",
+            "17"
+        ],
+        "types_target": [
             "7",
             "17"
         ],
@@ -4251,6 +7323,14 @@
             "9",
             "10"
         ],
+        "types_source": [
+            "0",
+            "9"
+        ],
+        "types_target": [
+            "10",
+            "9"
+        ],
         "name_source": "Gosold",
         "name_target": "Goldesem"
     },
@@ -4258,6 +7338,13 @@
         "dex_id": "000ae",
         "dex_id_evolution": "000af",
         "types": [
+            "15",
+            "1"
+        ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
             "15",
             "1"
         ],
@@ -4270,6 +7357,12 @@
         "types": [
             "5"
         ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
+            "5"
+        ],
         "name_source": "Ardik",
         "name_target": "Sibex"
     },
@@ -4277,6 +7370,14 @@
         "dex_id": "000ak",
         "dex_id_evolution": "000al",
         "types": [
+            "12",
+            "6"
+        ],
+        "types_source": [
+            "12",
+            "6"
+        ],
+        "types_target": [
             "12",
             "6"
         ],
@@ -4289,6 +7390,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Taiveret",
         "name_target": "Taipaeus"
     },
@@ -4296,6 +7403,13 @@
         "dex_id": "000ao",
         "dex_id_evolution": "000ap",
         "types": [
+            "4",
+            "6"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4",
             "6"
         ],
@@ -4310,6 +7424,14 @@
             "9",
             "17"
         ],
+        "types_source": [
+            "1",
+            "9"
+        ],
+        "types_target": [
+            "1",
+            "17"
+        ],
         "name_source": "Flarbat",
         "name_target": "Flarotis"
     },
@@ -4317,6 +7439,14 @@
         "dex_id": "000ar",
         "dex_id_evolution": "000as",
         "types": [
+            "1",
+            "17"
+        ],
+        "types_source": [
+            "1",
+            "17"
+        ],
+        "types_target": [
             "1",
             "17"
         ],
@@ -4329,6 +7459,12 @@
         "types": [
             "2"
         ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
+            "2"
+        ],
         "name_source": "Hydrark",
         "name_target": "Hydrinus"
     },
@@ -4336,6 +7472,13 @@
         "dex_id": "000au",
         "dex_id_evolution": "000av",
         "types": [
+            "2",
+            "16"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "16"
         ],
@@ -4349,6 +7492,14 @@
             "13",
             "14"
         ],
+        "types_source": [
+            "13",
+            "14"
+        ],
+        "types_target": [
+            "13",
+            "14"
+        ],
         "name_source": "Gragon",
         "name_target": "Greegon"
     },
@@ -4356,6 +7507,14 @@
         "dex_id": "000ay",
         "dex_id_evolution": "000az",
         "types": [
+            "13",
+            "14"
+        ],
+        "types_source": [
+            "13",
+            "14"
+        ],
+        "types_target": [
             "13",
             "14"
         ],
@@ -4369,6 +7528,13 @@
             "15",
             "1"
         ],
+        "types_source": [
+            "15",
+            "1"
+        ],
+        "types_target": [
+            "15"
+        ],
         "name_source": "Kinaster",
         "name_target": "Lunupine"
     },
@@ -4379,6 +7545,13 @@
             "15",
             "1"
         ],
+        "types_source": [
+            "15",
+            "1"
+        ],
+        "types_target": [
+            "1"
+        ],
         "name_source": "Kinaster",
         "name_target": "Solynx"
     },
@@ -4386,6 +7559,14 @@
         "dex_id": "000b1",
         "dex_id_evolution": "000b2",
         "types": [
+            "4",
+            "9"
+        ],
+        "types_source": [
+            "4",
+            "9"
+        ],
+        "types_target": [
             "4",
             "9"
         ],
@@ -4400,6 +7581,14 @@
             "9",
             "10"
         ],
+        "types_source": [
+            "4",
+            "9"
+        ],
+        "types_target": [
+            "4",
+            "10"
+        ],
         "name_source": "Peckoo",
         "name_target": "Peekoo"
     },
@@ -4407,6 +7596,13 @@
         "dex_id": "000b4",
         "dex_id_evolution": "000b5",
         "types": [
+            "8",
+            "11"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8",
             "11"
         ],
@@ -4420,6 +7616,14 @@
             "3",
             "9"
         ],
+        "types_source": [
+            "3",
+            "9"
+        ],
+        "types_target": [
+            "3",
+            "9"
+        ],
         "name_source": "Quetzephyr",
         "name_target": "Quetzaptyl"
     },
@@ -4427,6 +7631,13 @@
         "dex_id": "000b9",
         "dex_id_evolution": "000ba",
         "types": [
+            "10",
+            "13"
+        ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
             "10",
             "13"
         ],
@@ -4439,6 +7650,12 @@
         "types": [
             "11"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11"
+        ],
         "name_source": "Phastix",
         "name_target": "Phasmaleef [Forest Forme]"
     },
@@ -4446,6 +7663,12 @@
         "dex_id": "000bd",
         "dex_id_evolution": "000bf",
         "types": [
+            "11"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11"
         ],
         "name_source": "Phastix",
@@ -4457,6 +7680,12 @@
         "types": [
             "5"
         ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
+            "5"
+        ],
         "name_source": "Glaquine",
         "name_target": "Cavallost"
     },
@@ -4464,6 +7693,12 @@
         "dex_id": "000bk",
         "dex_id_evolution": "000bl",
         "types": [
+            "16"
+        ],
+        "types_source": [
+            "16"
+        ],
+        "types_target": [
             "16"
         ],
         "name_source": "Minibbit",
@@ -4475,6 +7710,12 @@
         "types": [
             "16"
         ],
+        "types_source": [
+            "16"
+        ],
+        "types_target": [
+            "16"
+        ],
         "name_source": "Metabbit",
         "name_target": "Terabbit"
     },
@@ -4482,6 +7723,12 @@
         "dex_id": "000bn",
         "dex_id_evolution": "000bo",
         "types": [
+            "8"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8"
         ],
         "name_source": "Tillink",
@@ -4494,6 +7741,14 @@
             "2",
             "15"
         ],
+        "types_source": [
+            "2",
+            "15"
+        ],
+        "types_target": [
+            "2",
+            "15"
+        ],
         "name_source": "Bezerell",
         "name_target": "Bezermuur"
     },
@@ -4501,6 +7756,14 @@
         "dex_id": "000bq",
         "dex_id_evolution": "000br",
         "types": [
+            "2",
+            "15"
+        ],
+        "types_source": [
+            "2",
+            "15"
+        ],
+        "types_target": [
             "2",
             "15"
         ],
@@ -4515,6 +7778,14 @@
             "10",
             "13"
         ],
+        "types_source": [
+            "0",
+            "10"
+        ],
+        "types_target": [
+            "0",
+            "13"
+        ],
         "name_source": "Ayeren",
         "name_target": "Aytheraye"
     },
@@ -4522,6 +7793,14 @@
         "dex_id": "000bv",
         "dex_id_evolution": "000bw",
         "types": [
+            "2",
+            "13"
+        ],
+        "types_source": [
+            "2",
+            "13"
+        ],
+        "types_target": [
             "2",
             "13"
         ],
@@ -4534,6 +7813,12 @@
         "types": [
             "11"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11"
+        ],
         "name_source": "Klaatupillar",
         "name_target": "Charaxalis"
     },
@@ -4541,6 +7826,13 @@
         "dex_id": "000by",
         "dex_id_evolution": "000bz",
         "types": [
+            "11",
+            "10"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "10"
         ],
@@ -4554,6 +7846,14 @@
             "10",
             "17"
         ],
+        "types_source": [
+            "10",
+            "17"
+        ],
+        "types_target": [
+            "10",
+            "17"
+        ],
         "name_source": "Kyutopi",
         "name_target": "Konatus"
     },
@@ -4561,6 +7861,13 @@
         "dex_id": "000co",
         "dex_id_evolution": "000cp",
         "types": [
+            "8",
+            "6"
+        ],
+        "types_source": [
+            "8"
+        ],
+        "types_target": [
             "8",
             "6"
         ],
@@ -4574,6 +7881,14 @@
             "8",
             "6"
         ],
+        "types_source": [
+            "8",
+            "6"
+        ],
+        "types_target": [
+            "8",
+            "6"
+        ],
         "name_source": "Arfrica",
         "name_target": "Kalahowli"
     },
@@ -4581,6 +7896,13 @@
         "dex_id": "000cr",
         "dex_id_evolution": "000cs",
         "types": [
+            "12",
+            "14"
+        ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
             "12",
             "14"
         ],
@@ -4594,6 +7916,13 @@
             "12",
             "7"
         ],
+        "types_source": [
+            "12"
+        ],
+        "types_target": [
+            "12",
+            "7"
+        ],
         "name_source": "Petripeep",
         "name_target": "Serpetone"
     },
@@ -4601,6 +7930,14 @@
         "dex_id": "000cu",
         "dex_id_evolution": "000cv",
         "types": [
+            "12",
+            "7"
+        ],
+        "types_source": [
+            "12",
+            "7"
+        ],
+        "types_target": [
             "12",
             "7"
         ],
@@ -4614,6 +7951,14 @@
             "4",
             "17"
         ],
+        "types_source": [
+            "4",
+            "17"
+        ],
+        "types_target": [
+            "4",
+            "17"
+        ],
         "name_source": "Gumairy",
         "name_target": "Eucylph"
     },
@@ -4621,6 +7966,14 @@
         "dex_id": "000cy",
         "dex_id_evolution": "000cz",
         "types": [
+            "7",
+            "0"
+        ],
+        "types_source": [
+            "7",
+            "0"
+        ],
+        "types_target": [
             "7",
             "0"
         ],
@@ -4634,6 +7987,13 @@
             "4",
             "15"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4",
+            "15"
+        ],
         "name_source": "Rokiwi",
         "name_target": "Brushiwi"
     },
@@ -4641,6 +8001,14 @@
         "dex_id": "000d2",
         "dex_id_evolution": "000d3",
         "types": [
+            "5",
+            "12"
+        ],
+        "types_source": [
+            "5",
+            "12"
+        ],
+        "types_target": [
             "5",
             "12"
         ],
@@ -4654,6 +8022,14 @@
             "17",
             "6"
         ],
+        "types_source": [
+            "17",
+            "6"
+        ],
+        "types_target": [
+            "17",
+            "6"
+        ],
         "name_source": "Valkind",
         "name_target": "Frayja"
     },
@@ -4661,6 +8037,13 @@
         "dex_id": "000d6",
         "dex_id_evolution": "000d7",
         "types": [
+            "15",
+            "7"
+        ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
             "15",
             "7"
         ],
@@ -4674,6 +8057,13 @@
             "15",
             "3"
         ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
+            "15",
+            "3"
+        ],
         "name_source": "Croaket",
         "name_target": "Quibbit [Charged Forme]"
     },
@@ -4681,6 +8071,13 @@
         "dex_id": "000d6",
         "dex_id_evolution": "000d9",
         "types": [
+            "15",
+            "4"
+        ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
             "15",
             "4"
         ],
@@ -4694,6 +8091,13 @@
             "15",
             "1"
         ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
+            "15",
+            "1"
+        ],
         "name_source": "Croaket",
         "name_target": "Quibbit [Magma Forme]"
     },
@@ -4701,6 +8105,13 @@
         "dex_id": "000d6",
         "dex_id_evolution": "000db",
         "types": [
+            "15",
+            "17"
+        ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
             "15",
             "17"
         ],
@@ -4714,6 +8125,14 @@
             "10",
             "15"
         ],
+        "types_source": [
+            "10",
+            "15"
+        ],
+        "types_target": [
+            "10",
+            "15"
+        ],
         "name_source": "Slypin",
         "name_target": "Haredini"
     },
@@ -4724,6 +8143,14 @@
             "11",
             "7"
         ],
+        "types_source": [
+            "11",
+            "7"
+        ],
+        "types_target": [
+            "11",
+            "7"
+        ],
         "name_source": "Selkrub",
         "name_target": "Aqrabion"
     },
@@ -4731,6 +8158,14 @@
         "dex_id": "000dh",
         "dex_id_evolution": "000di",
         "types": [
+            "11",
+            "7"
+        ],
+        "types_source": [
+            "11",
+            "7"
+        ],
+        "types_target": [
             "11",
             "7"
         ],
@@ -4745,6 +8180,14 @@
             "0",
             "6"
         ],
+        "types_source": [
+            "2",
+            "0"
+        ],
+        "types_target": [
+            "2",
+            "6"
+        ],
         "name_source": "Kawotor",
         "name_target": "Lutriva"
     },
@@ -4756,6 +8199,14 @@
             "0",
             "5"
         ],
+        "types_source": [
+            "2",
+            "0"
+        ],
+        "types_target": [
+            "2",
+            "5"
+        ],
         "name_source": "Kawotor",
         "name_target": "Selutian"
     },
@@ -4765,6 +8216,12 @@
         "types": [
             "11"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11"
+        ],
         "name_source": "Kitwurm",
         "name_target": "Purrpa"
     },
@@ -4772,6 +8229,13 @@
         "dex_id": "000dn",
         "dex_id_evolution": "000do",
         "types": [
+            "11",
+            "17"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "17"
         ],
@@ -4785,6 +8249,14 @@
             "4",
             "1"
         ],
+        "types_source": [
+            "4",
+            "1"
+        ],
+        "types_target": [
+            "4",
+            "1"
+        ],
         "name_source": "Pepyre",
         "name_target": "Skarasear"
     },
@@ -4792,6 +8264,12 @@
         "dex_id": "000dr",
         "dex_id_evolution": "000ds",
         "types": [
+            "11"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11"
         ],
         "name_source": "Aphreyd",
@@ -4803,6 +8281,12 @@
         "types": [
             "16"
         ],
+        "types_source": [
+            "16"
+        ],
+        "types_target": [
+            "16"
+        ],
         "name_source": "Caimaw",
         "name_target": "Caimangle"
     },
@@ -4810,6 +8294,14 @@
         "dex_id": "000dw",
         "dex_id_evolution": "000dx",
         "types": [
+            "17",
+            "15"
+        ],
+        "types_source": [
+            "17",
+            "15"
+        ],
+        "types_target": [
             "17",
             "15"
         ],
@@ -4823,6 +8315,14 @@
             "17",
             "15"
         ],
+        "types_source": [
+            "17",
+            "15"
+        ],
+        "types_target": [
+            "17",
+            "15"
+        ],
         "name_source": "Valladox",
         "name_target": "Valenoir"
     },
@@ -4830,6 +8330,12 @@
         "dex_id": "000dz",
         "dex_id_evolution": "000f0",
         "types": [
+            "5"
+        ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
             "5"
         ],
         "name_source": "Frusky",
@@ -4841,6 +8347,12 @@
         "types": [
             "9"
         ],
+        "types_source": [
+            "9"
+        ],
+        "types_target": [
+            "9"
+        ],
         "name_source": "Skyrie",
         "name_target": "Grymphony"
     },
@@ -4848,6 +8360,13 @@
         "dex_id": "000f7",
         "dex_id_evolution": "000f8",
         "types": [
+            "17",
+            "15"
+        ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
             "17",
             "15"
         ],
@@ -4861,6 +8380,14 @@
             "13",
             "16"
         ],
+        "types_source": [
+            "13",
+            "16"
+        ],
+        "types_target": [
+            "13",
+            "16"
+        ],
         "name_source": "Mocknock",
         "name_target": "Portalgeist"
     },
@@ -4868,6 +8395,13 @@
         "dex_id": "000fb",
         "dex_id_evolution": "000fd",
         "types": [
+            "5",
+            "8"
+        ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
             "5",
             "8"
         ],
@@ -4881,6 +8415,13 @@
             "5",
             "8"
         ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
+            "5",
+            "8"
+        ],
         "name_source": "Flurrawr [Austral]",
         "name_target": "Tundrasail [Austral]"
     },
@@ -4890,6 +8431,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Parapod",
         "name_target": "Craysprout"
     },
@@ -4897,6 +8444,13 @@
         "dex_id": "000fg",
         "dex_id_evolution": "000fh",
         "types": [
+            "4",
+            "14"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4",
             "14"
         ],
@@ -4910,6 +8464,14 @@
             "0",
             "6"
         ],
+        "types_source": [
+            "0",
+            "6"
+        ],
+        "types_target": [
+            "0",
+            "6"
+        ],
         "name_source": "Saiyan Rattata",
         "name_target": "Super-Saiyan Rattata"
     },
@@ -4917,6 +8479,14 @@
         "dex_id": "019s2",
         "dex_id_evolution": "020s1",
         "types": [
+            "0",
+            "6"
+        ],
+        "types_source": [
+            "0",
+            "6"
+        ],
+        "types_target": [
             "0",
             "6"
         ],
@@ -4930,6 +8500,14 @@
             "0",
             "6"
         ],
+        "types_source": [
+            "0",
+            "6"
+        ],
+        "types_target": [
+            "0",
+            "6"
+        ],
         "name_source": "Super-Saiyan Raticate",
         "name_target": "Super-Saiyan 2 Raticate"
     },
@@ -4937,6 +8515,12 @@
         "dex_id": "025f",
         "dex_id_evolution": "026f",
         "types": [
+            "3"
+        ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
             "3"
         ],
         "name_source": "Flying Pichu",
@@ -4948,6 +8532,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Surfing Pichu",
         "name_target": "Surfing Pikachu"
     },
@@ -4957,6 +8547,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Surfing Pichu",
         "name_target": "Snowboarding Pikachu"
     },
@@ -4964,6 +8560,13 @@
         "dex_id": "026f",
         "dex_id_evolution": "027f",
         "types": [
+            "3",
+            "9"
+        ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
             "3",
             "9"
         ],
@@ -4977,6 +8580,13 @@
             "3",
             "2"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3",
+            "2"
+        ],
         "name_source": "Surfing Pikachu",
         "name_target": "Surfing Raichu"
     },
@@ -4984,6 +8594,13 @@
         "dex_id": "026w",
         "dex_id_evolution": "027w",
         "types": [
+            "3",
+            "5"
+        ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
             "3",
             "5"
         ],
@@ -4996,6 +8613,12 @@
         "types": [
             "17"
         ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
+            "17"
+        ],
         "name_source": "Shooting Star Cleffa",
         "name_target": "Shooting Star Clefairy"
     },
@@ -5005,6 +8628,12 @@
         "types": [
             "17"
         ],
+        "types_source": [
+            "17"
+        ],
+        "types_target": [
+            "17"
+        ],
         "name_source": "Shooting Star Clefairy",
         "name_target": "Shooting Star Clefable"
     },
@@ -5012,6 +8641,14 @@
         "dex_id": "040g",
         "dex_id_evolution": "041g",
         "types": [
+            "0",
+            "17"
+        ],
+        "types_source": [
+            "0",
+            "17"
+        ],
+        "types_target": [
             "0",
             "17"
         ],
@@ -5025,6 +8662,14 @@
             "0",
             "17"
         ],
+        "types_source": [
+            "0",
+            "17"
+        ],
+        "types_target": [
+            "0",
+            "17"
+        ],
         "name_source": "Guild Jigglypuff",
         "name_target": "Guild Wigglytuff"
     },
@@ -5034,6 +8679,13 @@
         "types": [
             "1"
         ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
+            "1",
+            "1"
+        ],
         "name_source": "Apocalyptic Growlithe",
         "name_target": "Apocalyptic Arcanine"
     },
@@ -5041,6 +8693,14 @@
         "dex_id": "084s",
         "dex_id_evolution": "085s",
         "types": [
+            "5",
+            "10"
+        ],
+        "types_source": [
+            "5",
+            "10"
+        ],
+        "types_target": [
             "5",
             "10"
         ],
@@ -5054,6 +8714,14 @@
             "5",
             "10"
         ],
+        "types_source": [
+            "5",
+            "10"
+        ],
+        "types_target": [
+            "5",
+            "10"
+        ],
         "name_source": "Snowpoke",
         "name_target": "Snowking"
     },
@@ -5063,6 +8731,12 @@
         "types": [
             "3"
         ],
+        "types_source": [
+            "3"
+        ],
+        "types_target": [
+            "3"
+        ],
         "name_source": "Death Star Voltorb",
         "name_target": "Death Star Electrode"
     },
@@ -5070,6 +8744,14 @@
         "dex_id": "189e",
         "dex_id_evolution": "190e",
         "types": [
+            "10",
+            "9"
+        ],
+        "types_source": [
+            "10",
+            "9"
+        ],
+        "types_target": [
             "10",
             "9"
         ],
@@ -5083,6 +8765,14 @@
             "8",
             "9"
         ],
+        "types_source": [
+            "8",
+            "9"
+        ],
+        "types_target": [
+            "8",
+            "9"
+        ],
         "name_source": "Gligar [Vampire]",
         "name_target": "Gliscor [Vampire]"
     },
@@ -5090,6 +8780,13 @@
         "dex_id": "230bm",
         "dex_id_evolution": "231bm",
         "types": [
+            "2",
+            "12"
+        ],
+        "types_source": [
+            "2"
+        ],
+        "types_target": [
             "2",
             "12"
         ],
@@ -5103,6 +8800,14 @@
             "1",
             "14"
         ],
+        "types_source": [
+            "1",
+            "14"
+        ],
+        "types_target": [
+            "1",
+            "14"
+        ],
         "name_source": "Houndour [Orthrus]",
         "name_target": "Houndoom [Cerberus]"
     },
@@ -5110,6 +8815,14 @@
         "dex_id": "240i",
         "dex_id_evolution": "241i",
         "types": [
+            "15",
+            "5"
+        ],
+        "types_source": [
+            "15",
+            "5"
+        ],
+        "types_target": [
             "15",
             "5"
         ],
@@ -5123,6 +8836,14 @@
             "15",
             "13"
         ],
+        "types_source": [
+            "15",
+            "13"
+        ],
+        "types_target": [
+            "15",
+            "13"
+        ],
         "name_source": "Apocalyptic Poochyena",
         "name_target": "Apocalyptic Mightyena"
     },
@@ -5130,6 +8851,14 @@
         "dex_id": "294b",
         "dex_id_evolution": "295b",
         "types": [
+            "5",
+            "17"
+        ],
+        "types_source": [
+            "5",
+            "17"
+        ],
+        "types_target": [
             "5",
             "17"
         ],
@@ -5144,6 +8873,14 @@
             "17",
             "13"
         ],
+        "types_source": [
+            "5",
+            "17"
+        ],
+        "types_target": [
+            "5",
+            "13"
+        ],
         "name_source": "Snolia",
         "name_target": "Frosvoir"
     },
@@ -5155,6 +8892,14 @@
             "17",
             "6"
         ],
+        "types_source": [
+            "5",
+            "17"
+        ],
+        "types_target": [
+            "5",
+            "6"
+        ],
         "name_source": "Snolia",
         "name_target": "Glaillade"
     },
@@ -5162,6 +8907,14 @@
         "dex_id": "300x",
         "dex_id_evolution": "301x",
         "types": [
+            "4",
+            "7"
+        ],
+        "types_source": [
+            "4",
+            "7"
+        ],
+        "types_target": [
             "4",
             "7"
         ],
@@ -5175,6 +8928,14 @@
             "5",
             "8"
         ],
+        "types_source": [
+            "5",
+            "8"
+        ],
+        "types_target": [
+            "5",
+            "8"
+        ],
         "name_source": "Numel [Arctic]",
         "name_target": "Camerupt [Arctic]"
     },
@@ -5182,6 +8943,12 @@
         "dex_id": "405s",
         "dex_id_evolution": "406s",
         "types": [
+            "4"
+        ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
             "4"
         ],
         "name_source": "Seasonal Turtwig",
@@ -5193,6 +8960,12 @@
         "types": [
             "4"
         ],
+        "types_source": [
+            "4"
+        ],
+        "types_target": [
+            "4"
+        ],
         "name_source": "Seasonal Grotle",
         "name_target": "Seasonal Torterra"
     },
@@ -5200,6 +8973,13 @@
         "dex_id": "417b",
         "dex_id_evolution": "418b",
         "types": [
+            "1",
+            "12"
+        ],
+        "types_source": [
+            "1"
+        ],
+        "types_target": [
             "1",
             "12"
         ],
@@ -5213,6 +8993,14 @@
             "3",
             "2"
         ],
+        "types_source": [
+            "3",
+            "2"
+        ],
+        "types_target": [
+            "3",
+            "2"
+        ],
         "name_source": "Shinxel",
         "name_target": "Fluxio"
     },
@@ -5220,6 +9008,14 @@
         "dex_id": "422f",
         "dex_id_evolution": "423f",
         "types": [
+            "3",
+            "2"
+        ],
+        "types_source": [
+            "3",
+            "2"
+        ],
+        "types_target": [
             "3",
             "2"
         ],
@@ -5233,6 +9029,14 @@
             "11",
             "5"
         ],
+        "types_source": [
+            "11",
+            "5"
+        ],
+        "types_target": [
+            "11",
+            "5"
+        ],
         "name_source": "Snow Combee",
         "name_target": "Snow Vespiquen"
     },
@@ -5242,6 +9046,12 @@
         "types": [
             "15"
         ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
+            "15"
+        ],
         "name_source": "Purrloin [Hallowe'en Witch]",
         "name_target": "Liepard [Hallowe'en Witch]"
     },
@@ -5249,6 +9059,14 @@
         "dex_id": "622x",
         "dex_id_evolution": "623x",
         "types": [
+            "12",
+            "16"
+        ],
+        "types_source": [
+            "12",
+            "16"
+        ],
+        "types_target": [
             "12",
             "16"
         ],
@@ -5262,6 +9080,14 @@
             "1",
             "7"
         ],
+        "types_source": [
+            "1",
+            "7"
+        ],
+        "types_target": [
+            "1",
+            "7"
+        ],
         "name_source": "Glileo",
         "name_target": "Pyriscor"
     },
@@ -5272,6 +9098,14 @@
             "17",
             "15"
         ],
+        "types_source": [
+            "17",
+            "15"
+        ],
+        "types_target": [
+            "17",
+            "15"
+        ],
         "name_source": "Spritzkrow",
         "name_target": "Aromakrow"
     },
@@ -5279,6 +9113,14 @@
         "dex_id": "713b",
         "dex_id_evolution": "713c",
         "types": [
+            "10",
+            "14"
+        ],
+        "types_source": [
+            "10",
+            "14"
+        ],
+        "types_target": [
             "10",
             "14"
         ],
@@ -5293,6 +9135,14 @@
             "14",
             "16"
         ],
+        "types_source": [
+            "10",
+            "14"
+        ],
+        "types_target": [
+            "16",
+            "14"
+        ],
         "name_source": "Noismoem",
         "name_target": "Solgavern"
     },
@@ -5304,6 +9154,14 @@
             "14",
             "13"
         ],
+        "types_source": [
+            "10",
+            "14"
+        ],
+        "types_target": [
+            "13",
+            "14"
+        ],
         "name_source": "Noismoem",
         "name_target": "Lunavern"
     },
@@ -5311,6 +9169,14 @@
         "dex_id": "019r7",
         "dex_id_evolution": "020r7",
         "types": [
+            "15",
+            "0"
+        ],
+        "types_source": [
+            "15",
+            "0"
+        ],
+        "types_target": [
             "15",
             "0"
         ],
@@ -5324,6 +9190,14 @@
             "5",
             "16"
         ],
+        "types_source": [
+            "5",
+            "16"
+        ],
+        "types_target": [
+            "5",
+            "16"
+        ],
         "name_source": "Sandshrew [Alolan Forme]",
         "name_target": "Sandslash [Alolan Forme]"
     },
@@ -5331,6 +9205,13 @@
         "dex_id": "038r7",
         "dex_id_evolution": "039r7",
         "types": [
+            "5",
+            "17"
+        ],
+        "types_source": [
+            "5"
+        ],
+        "types_target": [
             "5",
             "17"
         ],
@@ -5344,6 +9225,14 @@
             "8",
             "16"
         ],
+        "types_source": [
+            "8",
+            "16"
+        ],
+        "types_target": [
+            "8",
+            "16"
+        ],
         "name_source": "Diglett [Alolan Forme]",
         "name_target": "Dugtrio [Alolan Forme]"
     },
@@ -5351,6 +9240,12 @@
         "dex_id": "056",
         "dex_id_evolution": "057",
         "types": [
+            "0"
+        ],
+        "types_source": [
+            "0"
+        ],
+        "types_target": [
             "0"
         ],
         "name_source": "Meowth",
@@ -5362,6 +9257,12 @@
         "types": [
             "15"
         ],
+        "types_source": [
+            "15"
+        ],
+        "types_target": [
+            "15"
+        ],
         "name_source": "Meowth [Alolan Forme]",
         "name_target": "Persian [Alolan Forme]"
     },
@@ -5369,6 +9270,14 @@
         "dex_id": "079",
         "dex_id_evolution": "080",
         "types": [
+            "12",
+            "8"
+        ],
+        "types_source": [
+            "12",
+            "8"
+        ],
+        "types_target": [
             "12",
             "8"
         ],
@@ -5382,6 +9291,14 @@
             "12",
             "8"
         ],
+        "types_source": [
+            "12",
+            "8"
+        ],
+        "types_target": [
+            "12",
+            "8"
+        ],
         "name_source": "Graveler",
         "name_target": "Golem"
     },
@@ -5389,6 +9306,13 @@
         "dex_id": "082r8",
         "dex_id_evolution": "083r8",
         "types": [
+            "10",
+            "17"
+        ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
             "10",
             "17"
         ],
@@ -5402,6 +9326,13 @@
             "10",
             "7"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "7",
+            "10"
+        ],
         "name_source": "Slowpoke [Galarian Forme]",
         "name_target": "Slowbro [Galarian Forme]"
     },
@@ -5412,6 +9343,13 @@
             "10",
             "7"
         ],
+        "types_source": [
+            "10"
+        ],
+        "types_target": [
+            "7",
+            "10"
+        ],
         "name_source": "Slowpoke [Galarian Forme]",
         "name_target": "Slowking [Galarian Forme]"
     },
@@ -5421,6 +9359,12 @@
         "types": [
             "6"
         ],
+        "types_source": [
+            "6"
+        ],
+        "types_target": [
+            "6"
+        ],
         "name_source": "Farfetch'd [Galarian Forme]",
         "name_target": "Sirfetch'd"
     },
@@ -5428,6 +9372,14 @@
         "dex_id": "095r7",
         "dex_id_evolution": "096r7",
         "types": [
+            "7",
+            "15"
+        ],
+        "types_source": [
+            "7",
+            "15"
+        ],
+        "types_target": [
             "7",
             "15"
         ],
@@ -5441,6 +9393,14 @@
             "5",
             "10"
         ],
+        "types_source": [
+            "5",
+            "10"
+        ],
+        "types_target": [
+            "5",
+            "10"
+        ],
         "name_source": "Mr. Mime [Galarian Forme]",
         "name_target": "Mr. Rime"
     },
@@ -5450,6 +9410,12 @@
         "types": [
             "13"
         ],
+        "types_source": [
+            "13"
+        ],
+        "types_target": [
+            "13"
+        ],
         "name_source": "Corsola [Galarian Forme]",
         "name_target": "Cursola"
     },
@@ -5457,6 +9423,14 @@
         "dex_id": "277r8",
         "dex_id_evolution": "278r8",
         "types": [
+            "15",
+            "0"
+        ],
+        "types_source": [
+            "15",
+            "0"
+        ],
+        "types_target": [
             "15",
             "0"
         ],
@@ -5470,6 +9444,14 @@
             "15",
             "0"
         ],
+        "types_source": [
+            "15",
+            "0"
+        ],
+        "types_target": [
+            "15",
+            "0"
+        ],
         "name_source": "Linoone [Galarian Forme]",
         "name_target": "Obstagoon"
     },
@@ -5477,6 +9459,13 @@
         "dex_id": "431b",
         "dex_id_evolution": "432b",
         "types": [
+            "11",
+            "16"
+        ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
             "11",
             "16"
         ],
@@ -5490,6 +9479,13 @@
             "11",
             "9"
         ],
+        "types_source": [
+            "11"
+        ],
+        "types_target": [
+            "11",
+            "9"
+        ],
         "name_source": "Burmy [Trash Cloak]",
         "name_target": "Mothim"
     },
@@ -5500,6 +9496,14 @@
             "13",
             "4"
         ],
+        "types_source": [
+            "13",
+            "4"
+        ],
+        "types_target": [
+            "13",
+            "4"
+        ],
         "name_source": "Pumpkaboo [Average Size]",
         "name_target": "Gourgeist [Average Size]"
     },
@@ -5507,6 +9511,14 @@
         "dex_id": "709s4",
         "dex_id_evolution": "710s4",
         "types": [
+            "13",
+            "4"
+        ],
+        "types_source": [
+            "13",
+            "4"
+        ],
+        "types_target": [
             "13",
             "4"
         ],
