@@ -1,0 +1,2221 @@
+{
+    "Gengar": {
+        "id": "101",
+        "types": [
+            "13",
+            "7"
+        ]
+    },
+    "Gengar [Mega Forme]": {
+        "id": "101-M",
+        "types": [
+            "13",
+            "7"
+        ]
+    },
+    "Steelix": {
+        "id": "103",
+        "types": [
+            "16",
+            "8"
+        ]
+    },
+    "Steelix [Mega Forme]": {
+        "id": "103-M",
+        "types": [
+            "16",
+            "8"
+        ]
+    },
+    "Electrode": {
+        "id": "109",
+        "types": [
+            "3"
+        ]
+    },
+    "Death Star Electrode": {
+        "id": "109ds",
+        "types": [
+            "3"
+        ]
+    },
+    "Exeggutor": {
+        "id": "111",
+        "types": [
+            "4",
+            "10"
+        ]
+    },
+    "Exeggutor [Alolan Forme]": {
+        "id": "111r7",
+        "types": [
+            "4",
+            "14"
+        ]
+    },
+    "Marowak": {
+        "id": "113",
+        "types": [
+            "8"
+        ]
+    },
+    "Marowak [Alolan Forme]": {
+        "id": "113r7",
+        "types": [
+            "1",
+            "13"
+        ]
+    },
+    "Marowak [Alolan Totem Forme]": {
+        "id": "113t7",
+        "types": [
+            "1",
+            "13"
+        ]
+    },
+    "Marowak [Alolan Mega Forme Q]": {
+        "id": "113-Q",
+        "types": [
+            "1",
+            "13"
+        ]
+    },
+    "Weezing": {
+        "id": "117",
+        "types": [
+            "7"
+        ]
+    },
+    "Weezing [Galarian Forme]": {
+        "id": "117r8",
+        "types": [
+            "7",
+            "17"
+        ]
+    },
+    "Mr. Mime": {
+        "id": "132",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    "Mr. Mime [Galarian Forme]": {
+        "id": "132r8",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    "Scizor": {
+        "id": "134",
+        "types": [
+            "11",
+            "16"
+        ]
+    },
+    "Scizor [Mega Forme]": {
+        "id": "134-M",
+        "types": [
+            "11",
+            "16"
+        ]
+    },
+    "Jynx": {
+        "id": "136",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    "Jynx [Mega Forme Q]": {
+        "id": "136-Q",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    "Gyarados": {
+        "id": "140",
+        "types": [
+            "2",
+            "9"
+        ]
+    },
+    "Gyarados [Mega Forme]": {
+        "id": "140-M",
+        "types": [
+            "2",
+            "15"
+        ]
+    },
+    "Vaporeon": {
+        "id": "144",
+        "types": [
+            "2"
+        ]
+    },
+    "Vaporeon [Mega Forme Q]": {
+        "id": "144-Q",
+        "types": [
+            "2"
+        ]
+    },
+    "Jolteon": {
+        "id": "145",
+        "types": [
+            "3"
+        ]
+    },
+    "Jolteon [Mega Forme Q]": {
+        "id": "145-Q",
+        "types": [
+            "3"
+        ]
+    },
+    "Flareon": {
+        "id": "146",
+        "types": [
+            "1"
+        ]
+    },
+    "Flareon [Mega Forme Q]": {
+        "id": "146-Q",
+        "types": [
+            "1"
+        ]
+    },
+    "Espeon": {
+        "id": "147",
+        "types": [
+            "10"
+        ]
+    },
+    "Espeon [Mega Forme Q]": {
+        "id": "147-Q",
+        "types": [
+            "10"
+        ]
+    },
+    "Umbreon": {
+        "id": "148",
+        "types": [
+            "15"
+        ]
+    },
+    "Umbreon [Mega Forme Q]": {
+        "id": "148-Q",
+        "types": [
+            "15"
+        ]
+    },
+    "Leafeon": {
+        "id": "149",
+        "types": [
+            "4"
+        ]
+    },
+    "Leafeon [Mega Forme Q]": {
+        "id": "149-Q",
+        "types": [
+            "4"
+        ]
+    },
+    "Glaceon": {
+        "id": "150",
+        "types": [
+            "5"
+        ]
+    },
+    "Glaceon [Mega Forme Q]": {
+        "id": "150-Q",
+        "types": [
+            "5"
+        ]
+    },
+    "Sylveon": {
+        "id": "151",
+        "types": [
+            "17"
+        ]
+    },
+    "Sylveon [Mega Forme Q]": {
+        "id": "151-Q",
+        "types": [
+            "17"
+        ]
+    },
+    "Dragonite": {
+        "id": "164",
+        "types": [
+            "14",
+            "9"
+        ]
+    },
+    "Dragonite [Mega Forme Q]": {
+        "id": "164-Q",
+        "types": [
+            "14",
+            "9"
+        ]
+    },
+    "Furret": {
+        "id": "177",
+        "types": [
+            "0"
+        ]
+    },
+    "Furret [Mega Forme Q]": {
+        "id": "177-Q",
+        "types": [
+            "0",
+            "14"
+        ]
+    },
+    "Xatu": {
+        "id": "190",
+        "types": [
+            "10",
+            "9"
+        ]
+    },
+    "Early Bird Xatu": {
+        "id": "190e",
+        "types": [
+            "10",
+            "9"
+        ]
+    },
+    "Ampharos": {
+        "id": "193",
+        "types": [
+            "3"
+        ]
+    },
+    "Ampharos [Mega Forme]": {
+        "id": "193-M",
+        "types": [
+            "3",
+            "14"
+        ]
+    },
+    "Jumpluff": {
+        "id": "201",
+        "types": [
+            "4",
+            "9"
+        ]
+    },
+    "Jumpluff [Mega Forme Q]": {
+        "id": "201-Q",
+        "types": [
+            "4",
+            "17"
+        ]
+    },
+    "Gliscor": {
+        "id": "220",
+        "types": [
+            "8",
+            "9"
+        ]
+    },
+    "Gliscor [Vampire]": {
+        "id": "220v",
+        "types": [
+            "8",
+            "9"
+        ]
+    },
+    "Weavile": {
+        "id": "227",
+        "types": [
+            "15",
+            "5"
+        ]
+    },
+    "Weavile [Mega Forme Q]": {
+        "id": "227-Q",
+        "types": [
+            "15",
+            "5"
+        ]
+    },
+    "Magcargo": {
+        "id": "231",
+        "types": [
+            "1",
+            "12"
+        ]
+    },
+    "Blue Moon Magcargo": {
+        "id": "231bm",
+        "types": [
+            "2",
+            "12"
+        ]
+    },
+    "Houndoom": {
+        "id": "241",
+        "types": [
+            "15",
+            "1"
+        ]
+    },
+    "Houndoom [Mega Forme]": {
+        "id": "241-M",
+        "types": [
+            "15",
+            "1"
+        ]
+    },
+    "Chilldoom": {
+        "id": "241i",
+        "types": [
+            "15",
+            "5"
+        ]
+    },
+    "Houndoom [Cerberus]": {
+        "id": "241c",
+        "types": [
+            "1",
+            "14"
+        ]
+    },
+    "Donphan": {
+        "id": "243",
+        "types": [
+            "8"
+        ]
+    },
+    "Donphan [Totem Forme Q]": {
+        "id": "243t",
+        "types": [
+            "8"
+        ]
+    },
+    "Tyranitar": {
+        "id": "262",
+        "types": [
+            "12",
+            "15"
+        ]
+    },
+    "Tyranitar [Mega Forme]": {
+        "id": "262-M",
+        "types": [
+            "12",
+            "15"
+        ]
+    },
+    "Sceptile": {
+        "id": "268",
+        "types": [
+            "4"
+        ]
+    },
+    "Sceptile [Mega Forme]": {
+        "id": "268-M",
+        "types": [
+            "4",
+            "14"
+        ]
+    },
+    "Blaziken": {
+        "id": "271",
+        "types": [
+            "1",
+            "6"
+        ]
+    },
+    "Blaziken [Mega Forme]": {
+        "id": "271-M",
+        "types": [
+            "1",
+            "6"
+        ]
+    },
+    "Swampert": {
+        "id": "274",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    "Swampert [Mega Forme]": {
+        "id": "274-M",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    "Mightyena": {
+        "id": "276",
+        "types": [
+            "15"
+        ]
+    },
+    "Apocalyptic Mightyena": {
+        "id": "276x",
+        "types": [
+            "15",
+            "13"
+        ]
+    },
+    "Mightyena [Mega Forme Q]": {
+        "id": "276-Q",
+        "types": [
+            "15"
+        ]
+    },
+    "Linoone": {
+        "id": "278",
+        "types": [
+            "0"
+        ]
+    },
+    "Linoone [Galarian Forme]": {
+        "id": "278r8",
+        "types": [
+            "15",
+            "0"
+        ]
+    },
+    "Kirlia": {
+        "id": "295",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    "Snolia": {
+        "id": "295b",
+        "types": [
+            "5",
+            "17"
+        ]
+    },
+    "Gardevoir": {
+        "id": "296",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    "Gardevoir [Mega Forme]": {
+        "id": "296-M",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    "Frosvoir": {
+        "id": "296b",
+        "types": [
+            "5",
+            "13"
+        ]
+    },
+    "Gallade": {
+        "id": "297",
+        "types": [
+            "10",
+            "6"
+        ]
+    },
+    "Gallade [Mega Forme]": {
+        "id": "297-M",
+        "types": [
+            "10",
+            "6"
+        ]
+    },
+    "Glaillade": {
+        "id": "297b",
+        "types": [
+            "5",
+            "6"
+        ]
+    },
+    "Breloom": {
+        "id": "301",
+        "types": [
+            "4",
+            "6"
+        ]
+    },
+    "Apocalyptic Breloom": {
+        "id": "301x",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    "Breloom [Mega Forme Q]": {
+        "id": "301-Q",
+        "types": [
+            "4",
+            "6"
+        ]
+    },
+    "Aggron": {
+        "id": "321",
+        "types": [
+            "16",
+            "12"
+        ]
+    },
+    "Aggron [Mega Forme]": {
+        "id": "321-M",
+        "types": [
+            "16"
+        ]
+    },
+    "Medicham": {
+        "id": "323",
+        "types": [
+            "6",
+            "10"
+        ]
+    },
+    "Medicham [Mega Forme]": {
+        "id": "323-M",
+        "types": [
+            "6",
+            "10"
+        ]
+    },
+    "Manectric": {
+        "id": "325",
+        "types": [
+            "3"
+        ]
+    },
+    "Manectric [Mega Forme]": {
+        "id": "325-M",
+        "types": [
+            "3"
+        ]
+    },
+    "Manectric [Mega Forme Q]": {
+        "id": "325-Q",
+        "types": [
+            "3",
+            "1"
+        ]
+    },
+    "Sharpedo": {
+        "id": "333",
+        "types": [
+            "2",
+            "15"
+        ]
+    },
+    "Sharpedo [Mega Forme]": {
+        "id": "333-M",
+        "types": [
+            "2",
+            "15"
+        ]
+    },
+    "Wailord": {
+        "id": "335",
+        "types": [
+            "2"
+        ]
+    },
+    "Wailord [Mega Forme Q]": {
+        "id": "335-Q",
+        "types": [
+            "2",
+            "9"
+        ]
+    },
+    "Camerupt": {
+        "id": "337",
+        "types": [
+            "1",
+            "8"
+        ]
+    },
+    "Camerupt [Mega Forme]": {
+        "id": "337-M",
+        "types": [
+            "1",
+            "8"
+        ]
+    },
+    "Camerupt [Arctic]": {
+        "id": "337i",
+        "types": [
+            "5",
+            "8"
+        ]
+    },
+    "Flygon": {
+        "id": "344",
+        "types": [
+            "8",
+            "14"
+        ]
+    },
+    "Flygon [Mega Forme Q]": {
+        "id": "344-Q",
+        "types": [
+            "8",
+            "14"
+        ]
+    },
+    "Altaria": {
+        "id": "348",
+        "types": [
+            "14",
+            "9"
+        ]
+    },
+    "Altaria [Mega Forme]": {
+        "id": "348-M",
+        "types": [
+            "14",
+            "17"
+        ]
+    },
+    "Whiscash": {
+        "id": "354",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    "Whiscash [Totem Forme Q]": {
+        "id": "354t",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    "Milotic": {
+        "id": "364",
+        "types": [
+            "2"
+        ]
+    },
+    "Milotic [Mega Forme Q]": {
+        "id": "364-Q",
+        "types": [
+            "2",
+            "17"
+        ]
+    },
+    "Banette": {
+        "id": "368",
+        "types": [
+            "13"
+        ]
+    },
+    "Banette [Mega Forme]": {
+        "id": "368-M",
+        "types": [
+            "13"
+        ]
+    },
+    "Glalie": {
+        "id": "379",
+        "types": [
+            "5"
+        ]
+    },
+    "Glalie [Mega Forme]": {
+        "id": "379-M",
+        "types": [
+            "5"
+        ]
+    },
+    "Froslass": {
+        "id": "380",
+        "types": [
+            "5",
+            "13"
+        ]
+    },
+    "Froslass [Mega Forme Q]": {
+        "id": "380-Q",
+        "types": [
+            "5",
+            "13"
+        ]
+    },
+    "Salamence": {
+        "id": "391",
+        "types": [
+            "14",
+            "9"
+        ]
+    },
+    "Salamence [Mega Forme]": {
+        "id": "391-M",
+        "types": [
+            "14",
+            "9"
+        ]
+    },
+    "Metagross": {
+        "id": "394",
+        "types": [
+            "16",
+            "10"
+        ]
+    },
+    "Metagross [Mega Forme]": {
+        "id": "394-M",
+        "types": [
+            "16",
+            "10"
+        ]
+    },
+    "Grotle": {
+        "id": "406",
+        "types": [
+            "4"
+        ]
+    },
+    "Seasonal Grotle": {
+        "id": "406s",
+        "types": [
+            "4"
+        ]
+    },
+    "Torterra": {
+        "id": "407",
+        "types": [
+            "4",
+            "8"
+        ]
+    },
+    "Seasonal Torterra": {
+        "id": "407s",
+        "types": [
+            "4"
+        ]
+    },
+    "Bibarel": {
+        "id": "418",
+        "types": [
+            "0",
+            "2"
+        ]
+    },
+    "Bibarel [Igneous]": {
+        "id": "418b",
+        "types": [
+            "1",
+            "12"
+        ]
+    },
+    "Luxio": {
+        "id": "422",
+        "types": [
+            "3"
+        ]
+    },
+    "Fluxio": {
+        "id": "422f",
+        "types": [
+            "3",
+            "2"
+        ]
+    },
+    "Luxray": {
+        "id": "423",
+        "types": [
+            "3"
+        ]
+    },
+    "Fluxray [Mega Forme Q]": {
+        "id": "423-F",
+        "types": [
+            "3",
+            "2"
+        ]
+    },
+    "Luxray [Mega Forme Q]": {
+        "id": "423-Q",
+        "types": [
+            "3",
+            "15"
+        ]
+    },
+    "Wormadam [Plant Cloak]": {
+        "id": "432",
+        "types": [
+            "11",
+            "4"
+        ]
+    },
+    "Wormadam [Trash Cloak]": {
+        "id": "432b",
+        "types": [
+            "11",
+            "16"
+        ]
+    },
+    "Wormadam [Sandy Cloak]": {
+        "id": "432c",
+        "types": [
+            "11",
+            "8"
+        ]
+    },
+    "Vespiquen": {
+        "id": "435",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    "Snow Vespiquen [Totem Forme Q]": {
+        "id": "435t",
+        "types": [
+            "11",
+            "5"
+        ]
+    },
+    "Floatzel": {
+        "id": "438",
+        "types": [
+            "2"
+        ]
+    },
+    "Floatzel [Mega Forme Q]": {
+        "id": "438-Q",
+        "types": [
+            "2"
+        ]
+    },
+    "Cherrim": {
+        "id": "440",
+        "types": [
+            "4"
+        ]
+    },
+    "Cherrim [Sunny Forme]": {
+        "id": "440s",
+        "types": [
+            "4"
+        ]
+    },
+    "Gastrodon [Occident]": {
+        "id": "442",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    "Gastrodon [Orient]": {
+        "id": "442b",
+        "types": [
+            "2",
+            "8"
+        ]
+    },
+    "Lopunny": {
+        "id": "446",
+        "types": [
+            "0"
+        ]
+    },
+    "Lopunny [Mega Forme]": {
+        "id": "446-M",
+        "types": [
+            "0",
+            "6"
+        ]
+    },
+    "Skuntank": {
+        "id": "450",
+        "types": [
+            "7",
+            "15"
+        ]
+    },
+    "Skuntank [Totem Forme Q]": {
+        "id": "450t",
+        "types": [
+            "7",
+            "15"
+        ]
+    },
+    "Garchomp": {
+        "id": "460",
+        "types": [
+            "14",
+            "8"
+        ]
+    },
+    "Garchomp [Mega Forme]": {
+        "id": "460-M",
+        "types": [
+            "14",
+            "8"
+        ]
+    },
+    "Lucario": {
+        "id": "462",
+        "types": [
+            "6",
+            "16"
+        ]
+    },
+    "Lucario [Mega Forme]": {
+        "id": "462-M",
+        "types": [
+            "6",
+            "16"
+        ]
+    },
+    "Lumineon": {
+        "id": "471",
+        "types": [
+            "2"
+        ]
+    },
+    "Lumineon [Mega Forme Q]": {
+        "id": "471-Q",
+        "types": [
+            "2",
+            "17"
+        ]
+    },
+    "Abomasnow": {
+        "id": "475",
+        "types": [
+            "5",
+            "4"
+        ]
+    },
+    "Abomasnow [Mega Forme]": {
+        "id": "475-M",
+        "types": [
+            "5",
+            "4"
+        ]
+    },
+    "Manaphy": {
+        "id": "490",
+        "types": [
+            "2"
+        ]
+    },
+    "Manaphy [Mega Forme Q]": {
+        "id": "490-Q",
+        "types": [
+            "2",
+            "17"
+        ]
+    },
+    "Liepard": {
+        "id": "510",
+        "types": [
+            "15"
+        ]
+    },
+    "Liepard [Hallowe'en Witch]": {
+        "id": "510h",
+        "types": [
+            "15"
+        ]
+    },
+    "Liepard [Mega Forme Q]": {
+        "id": "510-Q",
+        "types": [
+            "15"
+        ]
+    },
+    "Scolipede": {
+        "id": "545",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    "Scolipede [Mega Forme Q]": {
+        "id": "545-Q",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    "Darmanitan": {
+        "id": "555",
+        "types": [
+            "1"
+        ]
+    },
+    "Darmanitan [Zen Mode]": {
+        "id": "555b",
+        "types": [
+            "1",
+            "10"
+        ]
+    },
+    "Darmanitan [Galarian Zen Mode]": {
+        "id": "555c",
+        "types": [
+            "5",
+            "1"
+        ]
+    },
+    "Darmanitan [Galarian Forme]": {
+        "id": "555r8",
+        "types": [
+            "5"
+        ]
+    },
+    "Scrafty": {
+        "id": "560",
+        "types": [
+            "15",
+            "6"
+        ]
+    },
+    "Scrafty [Mega Forme Q]": {
+        "id": "560-Q",
+        "types": [
+            "15",
+            "6"
+        ]
+    },
+    "Zoroark": {
+        "id": "571",
+        "types": [
+            "15"
+        ]
+    },
+    "Zoroark [Mega Forme Q]": {
+        "id": "571-Q",
+        "types": [
+            "15"
+        ]
+    },
+    "Chandelure": {
+        "id": "609",
+        "types": [
+            "13",
+            "1"
+        ]
+    },
+    "Chandelure [Mega Forme Q]": {
+        "id": "609-Q",
+        "types": [
+            "13",
+            "1"
+        ]
+    },
+    "Haxorus": {
+        "id": "612",
+        "types": [
+            "14"
+        ]
+    },
+    "Haxorus [Mega Forme Q]": {
+        "id": "612-Q",
+        "types": [
+            "14",
+            "16"
+        ]
+    },
+    "Golurk": {
+        "id": "623",
+        "types": [
+            "8",
+            "13"
+        ]
+    },
+    "Apocalyptic Golurk": {
+        "id": "623x",
+        "types": [
+            "12",
+            "16"
+        ]
+    },
+    "Braviary": {
+        "id": "628",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    "Braviary [Totem Forme Q]": {
+        "id": "628t",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    "Mandibuzz": {
+        "id": "630",
+        "types": [
+            "15",
+            "9"
+        ]
+    },
+    "Mandibuzz [Totem Forme Q]": {
+        "id": "630t",
+        "types": [
+            "15",
+            "9"
+        ]
+    },
+    "Pyroar": {
+        "id": "668",
+        "types": [
+            "1",
+            "0"
+        ]
+    },
+    "Pyriscor": {
+        "id": "668g",
+        "types": [
+            "1",
+            "7"
+        ]
+    },
+    "Pyroar [Mega Forme Q]": {
+        "id": "668-Q",
+        "types": [
+            "1",
+            "0"
+        ]
+    },
+    "Gogoat": {
+        "id": "673",
+        "types": [
+            "4"
+        ]
+    },
+    "Gogoat [Mega Forme Q]": {
+        "id": "673-Q",
+        "types": [
+            "4"
+        ]
+    },
+    "Aegislash [Blade Forme]": {
+        "id": "681",
+        "types": [
+            "16",
+            "13"
+        ]
+    },
+    "Aegislash [Shield Forme]": {
+        "id": "681b",
+        "types": [
+            "16",
+            "13"
+        ]
+    },
+    "Aromatisse": {
+        "id": "683",
+        "types": [
+            "17"
+        ]
+    },
+    "Aromakrow": {
+        "id": "683p",
+        "types": [
+            "17",
+            "15"
+        ]
+    },
+    "Heliolisk": {
+        "id": "695",
+        "types": [
+            "3",
+            "0"
+        ]
+    },
+    "Heliolisk [Mega Forme Q]": {
+        "id": "695-Q",
+        "types": [
+            "3",
+            "1"
+        ]
+    },
+    "Goodra": {
+        "id": "705",
+        "types": [
+            "14"
+        ]
+    },
+    "Goodra [Mega Forme Q]": {
+        "id": "705-Q",
+        "types": [
+            "14",
+            "7"
+        ]
+    },
+    "Trevenant": {
+        "id": "708",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    "Trevenant [Totem Forme Q]": {
+        "id": "708t",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    "Gourgeist [Small Size]": {
+        "id": "710",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    "Gourgeist [Average Size]": {
+        "id": "710s2",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    "Gourgeist [Large Size]": {
+        "id": "710s3",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    "Gourgeist [Super Size]": {
+        "id": "710s4",
+        "types": [
+            "13",
+            "4"
+        ]
+    },
+    "Noivern": {
+        "id": "714",
+        "types": [
+            "9",
+            "14"
+        ]
+    },
+    "Lunavern": {
+        "id": "714c",
+        "types": [
+            "13",
+            "14"
+        ]
+    },
+    "Noivern [Mega Forme Q]": {
+        "id": "714-Q",
+        "types": [
+            "9",
+            "14"
+        ]
+    },
+    "Incineroar": {
+        "id": "726",
+        "types": [
+            "1",
+            "15"
+        ]
+    },
+    "Incineroar [Feral]": {
+        "id": "726b",
+        "types": [
+            "1",
+            "3"
+        ]
+    },
+    "Gumshoos": {
+        "id": "734",
+        "types": [
+            "0"
+        ]
+    },
+    "Gumshoos [Totem Forme]": {
+        "id": "734t",
+        "types": [
+            "0"
+        ]
+    },
+    "Vikavolt": {
+        "id": "737",
+        "types": [
+            "11",
+            "3"
+        ]
+    },
+    "Vikavolt [Totem Forme]": {
+        "id": "737t",
+        "types": [
+            "11",
+            "3"
+        ]
+    },
+    "Ribombee": {
+        "id": "742",
+        "types": [
+            "11",
+            "17"
+        ]
+    },
+    "Ribombee [Totem Forme]": {
+        "id": "742t",
+        "types": [
+            "11",
+            "17"
+        ]
+    },
+    "Lycanroc [Midday Forme]": {
+        "id": "744",
+        "types": [
+            "12"
+        ]
+    },
+    "Lycanroc [Midnight Forme]": {
+        "id": "744b",
+        "types": [
+            "12"
+        ]
+    },
+    "Lycanroc [Dusk Forme]": {
+        "id": "744c",
+        "types": [
+            "12"
+        ]
+    },
+    "Araquanid": {
+        "id": "751",
+        "types": [
+            "2",
+            "11"
+        ]
+    },
+    "Araquanid [Totem Forme]": {
+        "id": "751t",
+        "types": [
+            "2",
+            "11"
+        ]
+    },
+    "Lurantis": {
+        "id": "753",
+        "types": [
+            "4"
+        ]
+    },
+    "Lurantis [Totem Forme]": {
+        "id": "753t",
+        "types": [
+            "4"
+        ]
+    },
+    "Salazzle": {
+        "id": "757",
+        "types": [
+            "7",
+            "1"
+        ]
+    },
+    "Salazzle [Totem Forme]": {
+        "id": "757t",
+        "types": [
+            "7",
+            "1"
+        ]
+    },
+    "Silvally": {
+        "id": "772",
+        "types": [
+            "0"
+        ]
+    },
+    "Silvally [Type: Bug]": {
+        "id": "772a",
+        "types": [
+            "11"
+        ]
+    },
+    "Silvally [Type: Dark]": {
+        "id": "772b",
+        "types": [
+            "15"
+        ]
+    },
+    "Silvally [Type: Dragon]": {
+        "id": "772c",
+        "types": [
+            "14"
+        ]
+    },
+    "Silvally [Type: Electric]": {
+        "id": "772d",
+        "types": [
+            "3"
+        ]
+    },
+    "Silvally [Type: Fighting]": {
+        "id": "772e",
+        "types": [
+            "6"
+        ]
+    },
+    "Silvally [Type: Fire]": {
+        "id": "772f",
+        "types": [
+            "1"
+        ]
+    },
+    "Silvally [Type: Flying]": {
+        "id": "772g",
+        "types": [
+            "9"
+        ]
+    },
+    "Silvally [Type: Ghost]": {
+        "id": "772h",
+        "types": [
+            "13"
+        ]
+    },
+    "Silvally [Type: Grass]": {
+        "id": "772i",
+        "types": [
+            "4"
+        ]
+    },
+    "Silvally [Type: Ground]": {
+        "id": "772j",
+        "types": [
+            "8"
+        ]
+    },
+    "Silvally [Type: Ice]": {
+        "id": "772k",
+        "types": [
+            "5"
+        ]
+    },
+    "Silvally [Type: Poison]": {
+        "id": "772l",
+        "types": [
+            "7"
+        ]
+    },
+    "Silvally [Type: Psychic]": {
+        "id": "772m",
+        "types": [
+            "10"
+        ]
+    },
+    "Silvally [Type: Rock]": {
+        "id": "772n",
+        "types": [
+            "12"
+        ]
+    },
+    "Silvally [Type: Steel]": {
+        "id": "772o",
+        "types": [
+            "16"
+        ]
+    },
+    "Silvally [Type: Water]": {
+        "id": "772p",
+        "types": [
+            "2"
+        ]
+    },
+    "Silvally [Type: Fairy]": {
+        "id": "772q",
+        "types": [
+            "17"
+        ]
+    },
+    "Kommo-o": {
+        "id": "783",
+        "types": [
+            "14",
+            "6"
+        ]
+    },
+    "Kommo-o [Totem Forme]": {
+        "id": "783t",
+        "types": [
+            "14",
+            "6"
+        ]
+    },
+    "Toxtricity [Amped]": {
+        "id": "848",
+        "types": [
+            "3",
+            "7"
+        ]
+    },
+    "Toxtricity [Low Key]": {
+        "id": "848b",
+        "types": [
+            "3",
+            "7"
+        ]
+    },
+    "Venusaur": {
+        "id": "003",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    "Venusaur [Mega Forme]": {
+        "id": "003-M",
+        "types": [
+            "4",
+            "7"
+        ]
+    },
+    "Charizard": {
+        "id": "006",
+        "types": [
+            "1",
+            "9"
+        ]
+    },
+    "Charizard [Mega Forme X]": {
+        "id": "006-X",
+        "types": [
+            "1",
+            "14"
+        ]
+    },
+    "Charizard [Mega Forme Y]": {
+        "id": "006-Y",
+        "types": [
+            "1",
+            "9"
+        ]
+    },
+    "Blastoise": {
+        "id": "009",
+        "types": [
+            "2"
+        ]
+    },
+    "Blastoise [Mega Forme]": {
+        "id": "009-M",
+        "types": [
+            "2"
+        ]
+    },
+    "Butterfree": {
+        "id": "012",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    "Butterfree [Mega Forme Q]": {
+        "id": "012-Q",
+        "types": [
+            "11",
+            "10"
+        ]
+    },
+    "Beedrill": {
+        "id": "015",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    "Beedrill [Mega Forme]": {
+        "id": "015-M",
+        "types": [
+            "11",
+            "7"
+        ]
+    },
+    "Pidgeot": {
+        "id": "018",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    "Pidgeot [Mega Forme]": {
+        "id": "018-M",
+        "types": [
+            "0",
+            "9"
+        ]
+    },
+    "Raticate": {
+        "id": "020",
+        "types": [
+            "0"
+        ]
+    },
+    "Raticate [Alolan Forme]": {
+        "id": "020r7",
+        "types": [
+            "15",
+            "0"
+        ]
+    },
+    "Raticate [Alolan Totem Forme]": {
+        "id": "020t7",
+        "types": [
+            "15",
+            "0"
+        ]
+    },
+    "Super-Saiyan 4 Raticate": {
+        "id": "020-T",
+        "types": [
+            "0",
+            "6"
+        ]
+    },
+    "Arbok": {
+        "id": "024",
+        "types": [
+            "7"
+        ]
+    },
+    "Arbok [Mega Forme Q]": {
+        "id": "024-Q",
+        "types": [
+            "7",
+            "15"
+        ]
+    },
+    "Pikachu": {
+        "id": "026",
+        "types": [
+            "3"
+        ]
+    },
+    "Snowboarding Pikachu": {
+        "id": "026w",
+        "types": [
+            "3"
+        ]
+    },
+    "Raichu": {
+        "id": "027",
+        "types": [
+            "3"
+        ]
+    },
+    "Raichu [Alolan Forme]": {
+        "id": "027r7",
+        "types": [
+            "3",
+            "10"
+        ]
+    },
+    "Snowboarding Raichu": {
+        "id": "027w",
+        "types": [
+            "3",
+            "5"
+        ]
+    },
+    "Raichu [Mega Forme Q]": {
+        "id": "027-Q",
+        "types": [
+            "3",
+            "6"
+        ]
+    },
+    "Sandslash": {
+        "id": "029",
+        "types": [
+            "8"
+        ]
+    },
+    "Sandslash [Alolan Forme]": {
+        "id": "029r7",
+        "types": [
+            "5",
+            "16"
+        ]
+    },
+    "Sandslash [Totem Forme Q]": {
+        "id": "029t",
+        "types": [
+            "8"
+        ]
+    },
+    "Clefairy": {
+        "id": "036",
+        "types": [
+            "17"
+        ]
+    },
+    "Shooting Star Clefairy": {
+        "id": "036s",
+        "types": [
+            "17"
+        ]
+    },
+    "Clefable": {
+        "id": "037",
+        "types": [
+            "17"
+        ]
+    },
+    "Shooting Star Clefable": {
+        "id": "037s",
+        "types": [
+            "17"
+        ]
+    },
+    "Ninetales": {
+        "id": "039",
+        "types": [
+            "1"
+        ]
+    },
+    "Ninetales [Alolan Forme]": {
+        "id": "039r7",
+        "types": [
+            "5",
+            "17"
+        ]
+    },
+    "Ninetales [Mega Forme Q]": {
+        "id": "039-Q",
+        "types": [
+            "1",
+            "10"
+        ]
+    },
+    "Kyukori": {
+        "id": "039-A",
+        "types": [
+            "1",
+            "5"
+        ]
+    },
+    "Jigglypuff": {
+        "id": "041",
+        "types": [
+            "0",
+            "17"
+        ]
+    },
+    "Guild Jigglypuff": {
+        "id": "041g",
+        "types": [
+            "0",
+            "17"
+        ]
+    },
+    "Wigglytuff": {
+        "id": "042",
+        "types": [
+            "0",
+            "17"
+        ]
+    },
+    "Guild Wigglytuff": {
+        "id": "042g",
+        "types": [
+            "0",
+            "17"
+        ]
+    },
+    "Dugtrio": {
+        "id": "055",
+        "types": [
+            "8"
+        ]
+    },
+    "Dugtrio [Alolan Forme]": {
+        "id": "055r7",
+        "types": [
+            "8",
+            "16"
+        ]
+    },
+    "Arcanine": {
+        "id": "063",
+        "types": [
+            "1"
+        ]
+    },
+    "Apocalyptic Arcanine": {
+        "id": "063x",
+        "types": [
+            "1",
+            "1"
+        ]
+    },
+    "Arcanine [Mega Forme Q]": {
+        "id": "063-Q",
+        "types": [
+            "1",
+            "14"
+        ]
+    },
+    "Alakazam": {
+        "id": "070",
+        "types": [
+            "10"
+        ]
+    },
+    "Alakazam [Mega Forme]": {
+        "id": "070-M",
+        "types": [
+            "10"
+        ]
+    },
+    "Graveler": {
+        "id": "080",
+        "types": [
+            "12",
+            "8"
+        ]
+    },
+    "Graveler [Alolan Forme]": {
+        "id": "080r7",
+        "types": [
+            "12",
+            "3"
+        ]
+    },
+    "Golem": {
+        "id": "081",
+        "types": [
+            "12",
+            "8"
+        ]
+    },
+    "Golem [Alolan Forme]": {
+        "id": "081r7",
+        "types": [
+            "12",
+            "3"
+        ]
+    },
+    "Rapidash": {
+        "id": "083",
+        "types": [
+            "1"
+        ]
+    },
+    "Rapidash [Galarian Forme]": {
+        "id": "083r8",
+        "types": [
+            "10",
+            "17"
+        ]
+    },
+    "Rapidash [Mega Forme Q]": {
+        "id": "083-Q",
+        "types": [
+            "1",
+            "9"
+        ]
+    },
+    "Slowbro": {
+        "id": "085",
+        "types": [
+            "2",
+            "10"
+        ]
+    },
+    "Slowbro [Mega Forme]": {
+        "id": "085-M",
+        "types": [
+            "2",
+            "10"
+        ]
+    },
+    "Slowbro [Galarian Forme]": {
+        "id": "085r8",
+        "types": [
+            "7",
+            "10"
+        ]
+    },
+    "Snowbro": {
+        "id": "085s",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    "Slowking": {
+        "id": "086",
+        "types": [
+            "2",
+            "10"
+        ]
+    },
+    "Slowking [Galarian Forme]": {
+        "id": "086r8",
+        "types": [
+            "7",
+            "10"
+        ]
+    },
+    "Snowking": {
+        "id": "086s",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    "Dewgong": {
+        "id": "094",
+        "types": [
+            "2",
+            "5"
+        ]
+    },
+    "Dewgong [Mega Forme Q]": {
+        "id": "094-Q",
+        "types": [
+            "2",
+            "5"
+        ]
+    },
+    "Muk": {
+        "id": "096",
+        "types": [
+            "7"
+        ]
+    },
+    "Muk [Alolan Forme]": {
+        "id": "096r7",
+        "types": [
+            "7",
+            "15"
+        ]
+    },
+    "Kangspar": {
+        "id": "000al",
+        "types": [
+            "12",
+            "6"
+        ]
+    },
+    "Kangspar [Mega Forme Q]": {
+        "id": "000-X",
+        "types": [
+            "12",
+            "6"
+        ]
+    },
+    "Lunupine": {
+        "id": "000a1",
+        "types": [
+            "15"
+        ]
+    },
+    "Lunupine [Mega Forme Q]": {
+        "id": "000-L",
+        "types": [
+            "15",
+            "17"
+        ]
+    },
+    "Solynx": {
+        "id": "000ah",
+        "types": [
+            "1"
+        ]
+    },
+    "Solynx [Mega Forme Q]": {
+        "id": "000-S",
+        "types": [
+            "1",
+            "3"
+        ]
+    },
+    "Phasmaleef [Forest Forme]": {
+        "id": "000be",
+        "types": [
+            "11"
+        ]
+    },
+    "Phasmaleef [Desert Forme]": {
+        "id": "000bf",
+        "types": [
+            "11"
+        ]
+    },
+    "Terabbit": {
+        "id": "000bm",
+        "types": [
+            "16"
+        ]
+    },
+    "Terabbit [Mega Forme Q]": {
+        "id": "000-T",
+        "types": [
+            "16"
+        ]
+    },
+    "Quibbit [Toxic Forme]": {
+        "id": "000d7",
+        "types": [
+            "15",
+            "7"
+        ]
+    },
+    "Quibbit [Charged Forme]": {
+        "id": "000d8",
+        "types": [
+            "15",
+            "3"
+        ]
+    },
+    "Quibbit [Herbal Forme]": {
+        "id": "000d9",
+        "types": [
+            "15",
+            "4"
+        ]
+    },
+    "Quibbit [Magma Forme]": {
+        "id": "000da",
+        "types": [
+            "15",
+            "1"
+        ]
+    },
+    "Quibbit [Fae Forme]": {
+        "id": "000db",
+        "types": [
+            "15",
+            "17"
+        ]
+    },
+    "Tundrasail [Boreal]": {
+        "id": "000fd",
+        "types": [
+            "5",
+            "8"
+        ]
+    },
+    "Tundrasail [Austral]": {
+        "id": "000fe",
+        "types": [
+            "5",
+            "8"
+        ]
+    },
+    "Fluxray": {
+        "id": "423f",
+        "types": [
+            "3",
+            "2"
+        ]
+    },
+    "Snow Vespiquen": {
+        "id": "435s",
+        "types": [
+            "11",
+            "5"
+        ]
+    },
+    "Persian": {
+        "id": "057",
+        "types": [
+            "0"
+        ]
+    },
+    "Persian [Alolan Forme]": {
+        "id": "057r7",
+        "types": [
+            "15"
+        ]
+    },
+    "Persian [Mega Forme Q]": {
+        "id": "057-Q",
+        "types": [
+            "0",
+            "13"
+        ]
+    },
+    "Sirfetch'd": {
+        "id": "864",
+        "types": [
+            "6"
+        ]
+    },
+    "Mr. Rime": {
+        "id": "865",
+        "types": [
+            "5",
+            "10"
+        ]
+    },
+    "Cursola": {
+        "id": "863",
+        "types": [
+            "13"
+        ]
+    },
+    "Obstagoon": {
+        "id": "861",
+        "types": [
+            "15",
+            "0"
+        ]
+    },
+    "Mothim": {
+        "id": "433",
+        "types": [
+            "11",
+            "9"
+        ]
+    },
+    "Cofagrigus": {
+        "id": "563",
+        "types": [
+            "13"
+        ]
+    },
+    "Perrserker": {
+        "id": "862",
+        "types": [
+            "16"
+        ]
+    },
+    "Runerigus": {
+        "id": "866",
+        "types": [
+            "8",
+            "13"
+        ]
+    },
+    "Super-Saiyan Raticate": {
+        "id": "020s1",
+        "types": [
+            "0",
+            "6"
+        ]
+    },
+    "Surfing Pikachu": {
+        "id": "026s",
+        "types": [
+            "3"
+        ]
+    },
+    "Solgavern": {
+        "id": "714b",
+        "types": [
+            "16",
+            "14"
+        ]
+    }
+}
