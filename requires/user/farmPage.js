@@ -234,18 +234,17 @@ class FarmPage extends FarmPageBase {
 
         const addToKnownExceptions = function (name, type1, type2) {
             // add the exception to the known exceptions list
-            obj.settings.KNOWN_EXCEPTIONS[name] = [type1];
-
-            if (type2) {
-                obj.settings.KNOWN_EXCEPTIONS[name].push(type2);
-            }
+            obj.settings.KNOWN_EXCEPTIONS[name] = {
+                'id': '',
+                'types': (type2) ? [type1, type2] : [type1]
+            };
 
             obj.saveSettings();
         };
 
         const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
             if (evoString.includes('title="[DELTA')) {
-                const deltaType = evoString.match('DELTA-(.*)]">');
+                const deltaType = evoString.match('DELTA-(.*?)]">');
                 $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
             }
         };
@@ -258,7 +257,10 @@ class FarmPage extends FarmPageBase {
             const evoUrl = getEvolutionURL(getEvolveString);
 
             // Handle unicode characters
-            previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
+            previousPokemon = previousPokemon
+                .replace(/é/g, '\\u00e9')
+                .replace(/í/g, '\\u00ed')
+                .replace(/ñ/g, '\\u00f1');
 
             let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1;
             let evolveInDex = dexData.indexOf('"' + evolvePokemon + '"') != -1;
@@ -312,7 +314,7 @@ class FarmPage extends FarmPageBase {
             if (!evolveInDex || evolveHasRegionalForms) {
                 // Step 2.b
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
-                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
+                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].types.map((t) => '' + t);
                     evolveInDex = true;
                 }
                 // Step 2.c
@@ -323,13 +325,14 @@ class FarmPage extends FarmPageBase {
                     // Load the dex page for previousPokemon
                     const dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
                     let evolutions = {};
+                    let loadStatus = false;
                     if (dexInfo.status) {
-                        evolveInDex = dexInfo.status;
+                        loadStatus = dexInfo.status;
                         evolutions = dexInfo.evolutions;
                         evolveTypesPrevious = dexInfo.types;
                     }
 
-                    if (evolveInDex && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
+                    if (!evolveInDex && loadStatus && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
                         const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
                         if (info.status) {
                             evolveInDex = info.status;
