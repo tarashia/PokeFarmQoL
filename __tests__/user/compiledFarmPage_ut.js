@@ -11,6 +11,39 @@ const appRoot = require('app-root-path');
 const pfqol = require(appRoot + '/Poke-Farm-QoL.test.user');
 const oldWindowLocation = window.location;
 
+const TYPES_LIST = [
+    'Normal', 'Fire', 'Water', 'Electric',
+    'Grass', 'Ice', 'Fighting', 'Poison',
+    'Ground', 'Flying', 'Psychic', 'Bug',
+    'Rock', 'Ghost', 'Dragon', 'Dark',
+    'Steel', 'Fairy',
+];
+const TYPES_INDICES = [...TYPES_LIST.keys()];
+const initialFarmSettings = {
+    TYPE_APPEND: {
+        NORMAL:'.0',
+        FIRE:'.1',
+        WATER:'.2',
+        ELECTRIC:'.3',
+        GRASS:'.4',
+        ICE:'.5',
+        FIGHTING:'.6',
+        POISON:'.7',
+        GROUND:'.8',
+        FLYING:'.9',
+        PSYCHIC:'.10',
+        BUG:'.11',
+        ROCK:'.12',
+        GHOST:'.13',
+        DRAGON:'.14',
+        DARK:'.15',
+        STEEL:'.16',
+        FAIRY:'.17',
+        NONE:'.18',
+    },
+    KNOWN_EXCEPTIONS: JSON.parse(fs.readFileSync(path.join(__dirname, '../data/', 'knownExceptions.json'), 'utf8', 'r'))
+};
+
 function internalTrim(jObj) {
     // trim self
     const re = RegExp('>(.*?)<', 'g');
@@ -140,6 +173,73 @@ $.fn.equals = function (compareTo) {
     return true;
 };
 
+function buildHTMLFarmEntry(source, target, gender, summaryID) {
+    /* <li><span><a class="summarylink" draggable="false"
+                                 href="/summary/FT9_z">Nickit</a><img
+                                 src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
+                                 title="[M]"></span> <span class="canevolve small">can <span
+                                 class="autoevo">evolve</span> into</span> Thievul</li> */
+    const genderImg = (gender === 'M') ? '<img src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006" title="[M]"></img>' :
+        (gender === 'F') ? '<img src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007" title="[F]"></img>' :
+            (gender === 'N') ? '<img src="https://pfq-static.com/img/pkmn/gender_n.png/t=1401213004" title="[N]"></img>' :
+                undefined;
+    if (!genderImg) {
+        throw new Error(`Unable to identify gender from string ${gender}`);
+    }
+
+    return `<li><span><a class="summarylink" draggable="false" href="/summary/${summaryID}">${source}</a>` +
+    `${genderImg}</span>` +
+    `<span class="canevolve small">can <span class="autoevo">evolve</span> into</span> ${target}</li>`;
+}
+
+function addDeltaTypeToHTMLFarmEntry(farmEntryHTML, deltaType) {
+    const endOfEvolutionSourceLink = farmEntryHTML.indexOf('</a>') + '</a>'.length;
+    const deltaHTML = `<img src="https://pfq-static.com/img/pkmn/_delta/${deltaType.toLowerCase()}.png/t=1501325213" ` +
+        `title="[DELTA-${deltaType.toUpperCase()}]"></img>`;
+    return [farmEntryHTML.slice(0, endOfEvolutionSourceLink),
+        deltaHTML,
+        farmEntryHTML.slice(endOfEvolutionSourceLink)].join('');
+}
+
+function buildSortedOnTypeFarmEntry(type, typeIndex, lisHTML) {
+    /* Example of empty list:
+    <li class="expandlist" hidden="">
+        <h3 class="slidermenu">Dragon</h3>
+        <ul class="Dragon 14 qolChangeLogContent">
+        </ul>
+    </li><br hidden="">
+
+    Example of non-empty list
+    <li class="expandlist">
+        <h3 class="slidermenu">Dark (16)</h3>
+        <ul class="Dark 15 qolChangeLogContent">
+            <li> ... </li>
+            <li> ... </li>
+            ...
+        </ul>
+    </li><br> */
+    let html;
+    const typeClass = (type === 'Normal' ? 'normal' : type);
+    if (lisHTML.length == 0) {
+        html = '<li class="expandlist" hidden="">' +
+        `<h3 class="slidermenu">${type}</h3>`;
+    } else {
+        html = '<li class="expandlist">' +
+        `<h3 class="slidermenu">${type} (${lisHTML.length})</h3>`;
+    }
+    html += `<ul class="${typeClass} ${typeIndex} qolChangeLogContent">`;
+    for (let i = 0; i < lisHTML.length; i++) {
+        html += lisHTML[i];
+    }
+    html += '</ul>';
+    if (lisHTML.length == 0) {
+        html += '</li><br hidden="">';
+    } else {
+        html += '</li><br>';
+    }
+    return html;
+}
+
 beforeAll(() => {
     delete window.location;
 
@@ -169,7 +269,6 @@ function getSummaryUID(json, sourceID, sourceName, targetID, targetName) {
     return uid;
 }
 
-
 describe('Test Farm Page', () => {
     it('Should be setup correctly', () => {
         const htmlpath = path.join(__dirname, '../data/', 'farm.html');
@@ -198,140 +297,29 @@ describe('Test Farm Page', () => {
         const dex = fs.readFileSync(dexPath, 'utf8', 'r');
 
         localStorage.setItem(dexKey, dex);
-        localStorage.setItem(key,
-            '{"TYPE_APPEND":' +
-      '{"NORMAL":".0",' +
-      '"FIRE":".1",' +
-      '"WATER":".2",' +
-      '"ELECTRIC":".3",' +
-      '"GRASS":".4",' +
-      '"ICE":".5",' +
-      '"FIGHTING":".6",' +
-      '"POISON":".7",' +
-      '"GROUND":".8",' +
-      '"FLYING":".9",' +
-      '"PSYCHIC":".10",' +
-      '"BUG":".11",' +
-      '"ROCK":".12",' +
-      '"GHOST":".13",' +
-      '"DRAGON":".14",' +
-      '"DARK":".15",' +
-      '"STEEL":".16",' +
-      '"FAIRY":".17",' +
-      '"NONE":".18"},' +
-      '"KNOWN_EXCEPTIONS":' +
-      '{"Gastrodon [Orient]":[".2",".8"],' +
-      '"Gastrodon [Occident]":[".2",".8"],' +
-      '"Wormadam [Plant Cloak]":[".11",".4"],' +
-      '"Wormadam [Trash Cloak]":[".11",".16"],' +
-      '"Chilldoom":[".15",".5"],' +
-      '"Raticate [Alolan Forme]":[".15",".0"],' +
-      '"Ninetales [Alolan Forme]":[".5",".17"],' +
-      '"Exeggutor [Alolan Forme]":[".4",".14"],' +
-      '"Marowak [Alolan Forme]":[".1",".13"],' +
-      '"Dugtrio [Alolan Forme]":[".8",".16"],' +
-      '"Graveler [Alolan Forme]":[".12",".3"],' +
-      '"Golem [Alolan Forme]":[".12",".3"],' +
-      '"Muk [Alolan Forme]":[".7",".15"],' +
-      '"Raichu [Alolan Forme]":[".3",".10"],' +
-      '"Linoone [Galarian Forme]":[".15",".0"],' +
-      '"Lycanroc [Midnight Forme]":[".12"],' +
-      '"Lycanroc [Midday Forme]":[".12"]}}');
+        localStorage.setItem(key, JSON.stringify(initialFarmSettings));
 
         new pfqol.pfqol($);
 
         const htmlBefore = $('#farmnews-evolutions .scrollable').html();
 
         /* need to modify the list in order to show that it goes back to normal
-       trigger '#qolsortevolvename' click handler */
+        trigger '#qolsortevolvename' click handler */
         $('#qolsortevolvename').trigger('click');
 
         // trigger '#qolevolvenormal' click handler
         $('#qolevolvenormal').trigger('click');
 
         /* there is an inconsequential difference between the HTML before and after:
-       the <ul> item has an empty style attribute (i.e., 'style=""')
-       remove the empty attribute from the after HTML */
+        the <ul> item has an empty style attribute (i.e., 'style=""')
+        remove the empty attribute from the after HTML */
         const htmlAfter = $('#farmnews-evolutions .scrollable').html().replace(' style=""', '');
 
         expect(htmlBefore).toBe(htmlAfter);
     });
 
     describe('Test "Sort on Types"', () => {
-        it('Should sort on types when "Sort on types" is clicked', () => {
-            const htmlpath = path.join(__dirname, '../data/', 'farm.html');
-            const html = fs.readFileSync(htmlpath, 'utf8', 'r');
-            const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
-            global.location.href = 'https://pokefarm.com/farm#tab=1';
-            document.documentElement.innerHTML = innerHTML;
-
-            const expectedPath = path.join(__dirname, '../data/', 'farmListSortedOnType.html');
-            const expectedObjects = $($.parseHTML(fs.readFileSync(expectedPath, 'utf8', 'r').trim()));
-            const expectedHTML = expectedObjects.filter('ul');
-
-            // load pokedex
-            const dexPath = path.join(__dirname, '../data/', 'dex.json');
-            const dex = fs.readFileSync(dexPath, 'utf8', 'r');
-            localStorage.setItem(dexKey, dex);
-
-            localStorage.setItem(dexKey, dex);
-            localStorage.setItem(key,
-                '{"TYPE_APPEND":' +
-        '{"NORMAL":".0",' +
-        '"FIRE":".1",' +
-        '"WATER":".2",' +
-        '"ELECTRIC":".3",' +
-        '"GRASS":".4",' +
-        '"ICE":".5",' +
-        '"FIGHTING":".6",' +
-        '"POISON":".7",' +
-        '"GROUND":".8",' +
-        '"FLYING":".9",' +
-        '"PSYCHIC":".10",' +
-        '"BUG":".11",' +
-        '"ROCK":".12",' +
-        '"GHOST":".13",' +
-        '"DRAGON":".14",' +
-        '"DARK":".15",' +
-        '"STEEL":".16",' +
-        '"FAIRY":".17",' +
-        '"NONE":".18"},' +
-        '"KNOWN_EXCEPTIONS":' +
-        '{"Gastrodon [Orient]":[".2",".8"],' +
-        '"Gastrodon [Occident]":[".2",".8"],' +
-        '"Wormadam [Plant Cloak]":[".11",".4"],' +
-        '"Wormadam [Trash Cloak]":[".11",".16"],' +
-        '"Chilldoom":[".15",".5"],' +
-        '"Raticate [Alolan Forme]":[".15",".0"],' +
-        '"Ninetales [Alolan Forme]":[".5",".17"],' +
-        '"Exeggutor [Alolan Forme]":[".4",".14"],' +
-        '"Marowak [Alolan Forme]":[".1",".13"],' +
-        '"Dugtrio [Alolan Forme]":[".8",".16"],' +
-        '"Graveler [Alolan Forme]":[".12",".3"],' +
-        '"Golem [Alolan Forme]":[".12",".3"],' +
-        '"Muk [Alolan Forme]":[".7",".15"],' +
-        '"Raichu [Alolan Forme]":[".3",".10"],' +
-        '"Linoone [Galarian Forme]":[".15",".0"],' +
-        '"Lycanroc [Midnight Forme]":[".12"],' +
-        '"Lycanroc [Midday Forme]":[".12"]}}' +
-        '"Gourgeist [Small Size]":[[".13",".4"],' +
-        '"Gourgeist [Average Size]":[[".13",".4"],' +
-        '"Gourgeist [Large Size]":[[".13",".4"],' +
-        '"Gourgeist [Super Size]":[[".13",".4"],');
-
-            new pfqol.pfqol($);
-
-            // trigger '#qolchangesletype' click handler
-            $('#qolchangesletype').trigger('click');
-
-            expect($('.qolEvolveTypeList').length).toBe(1);
-            expect($('.evolvepkmnlist').length).toBe(1);
-            expect($('.qolEvolveTypeList').css('display')).toBe('block');
-            expect($('.evolvepkmnlist').css('display')).toBe('none');
-            const actualHTML = $('#farmnews-evolutions .scrollable').children();
-            expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
-        });
-        it('Should correctly sort additional pokemon', () => {
+        it('Should correctly sort all evolutions on types when "Sort on types" is clicked', () => {
             const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
             const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
             const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -348,157 +336,22 @@ describe('Test Farm Page', () => {
             localStorage.setItem(dexKey, dex);
 
             // load regional forms list
-            const regionalFormsPath = path.join(__dirname, '../data', 'regionalFormsList.json');
+            const regionalFormsPath = path.join(__dirname, '../data', 'formsList.json');
             const regionalForms = fs.readFileSync(regionalFormsPath, 'utf8', 'r');
             localStorage.setItem(regionalFormsKey, regionalForms);
 
-            localStorage.setItem(key,
-                '{"TYPE_APPEND":' +
-                '{"NORMAL":".0",' +
-                '"FIRE":".1",' +
-                '"WATER":".2",' +
-                '"ELECTRIC":".3",' +
-                '"GRASS":".4",' +
-                '"ICE":".5",' +
-                '"FIGHTING":".6",' +
-                '"POISON":".7",' +
-                '"GROUND":".8",' +
-                '"FLYING":".9",' +
-                '"PSYCHIC":".10",' +
-                '"BUG":".11",' +
-                '"ROCK":".12",' +
-                '"GHOST":".13",' +
-                '"DRAGON":".14",' +
-                '"DARK":".15",' +
-                '"STEEL":".16",' +
-                '"FAIRY":".17",' +
-                '"NONE":".18"},' +
-                '"KNOWN_EXCEPTIONS":' +
-                '{"Gastrodon [Orient]":[".2",".8"],' +
-                '"Gastrodon [Occident]":[".2",".8"],' +
-                '"Wormadam [Plant Cloak]":[".11",".4"],' +
-                '"Wormadam [Trash Cloak]":[".11",".16"],' +
-                '"Chilldoom":[".15",".5"],' +
-                '"Raticate [Alolan Forme]":[".15",".0"],' +
-                '"Ninetales [Alolan Forme]":[".5",".17"],' +
-                '"Exeggutor [Alolan Forme]":[".4",".14"],' +
-                '"Marowak [Alolan Forme]":[".1",".13"],' +
-                '"Dugtrio [Alolan Forme]":[".8",".16"],' +
-                '"Graveler [Alolan Forme]":[".12",".3"],' +
-                '"Golem [Alolan Forme]":[".12",".3"],' +
-                '"Muk [Alolan Forme]":[".7",".15"],' +
-                '"Raichu [Alolan Forme]":[".3",".10"],' +
-                '"Linoone [Galarian Forme]":[".15",".0"],' +
-                '"Lycanroc [Midnight Forme]":[".12"],' +
-                '"Lycanroc [Midday Forme]":[".12"]}}' +
-                '"Gourgeist [Small Size]":[[".13",".4"],' +
-                '"Gourgeist [Average Size]":[[".13",".4"],' +
-                '"Gourgeist [Large Size]":[[".13",".4"],' +
-                '"Gourgeist [Super Size]":[[".13",".4"],');
-            const buildHTMLFarmEntry = (source, target, gender, summaryID) => {
-                /* <li><span><a class="summarylink" draggable="false"
-                                               href="/summary/FT9_z">Nickit</a><img
-                                               src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006"
-                                               title="[M]"></span> <span class="canevolve small">can <span
-                                               class="autoevo">evolve</span> into</span> Thievul</li> */
-                const genderImg = (gender === 'M') ? '<img src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006" title="[M]"></img>' :
-                    (gender === 'F') ? '<img src="https://pfq-static.com/img/pkmn/gender_f.png/t=1401213007" title="[F]"></img>' :
-                        (gender === 'N') ? '<img src="https://pfq-static.com/img/pkmn/gender_n.png/t=1401213004" title="[N]"></img>' :
-                            undefined;
-                if (!genderImg) {
-                    throw new Error(`Unable to identify gender from string ${gender}`);
-                }
-
-                return `<li><span><a class="summarylink" draggable="false" href="/summary/${summaryID}">${source}</a>` +
-                  `${genderImg}</span>` +
-                  `<span class="canevolve small">can <span class="autoevo">evolve</span> into</span> ${target}</li>`;
-            };
-
-            const buildSortedOnTypeFarmEntry = (type, typeIndex, lisHTML) => {
-                /* Example of empty list:
-                <li class="expandlist" hidden="">
-                    <h3 class="slidermenu">Dragon</h3>
-                    <ul class="Dragon 14 qolChangeLogContent">
-                    </ul>
-                </li><br hidden="">
-
-                Example of non-empty list
-                <li class="expandlist">
-                    <h3 class="slidermenu">Dark (16)</h3>
-                    <ul class="Dark 15 qolChangeLogContent">
-                        <li> ... </li>
-                        <li> ... </li>
-                        ...
-                    </ul>
-                </li><br> */
-                let html;
-                const typeClass = (type === 'Normal' ? 'normal' : type);
-                if (lisHTML.length == 0) {
-                    html = '<li class="expandlist" hidden="">' +
-                      `<h3 class="slidermenu">${type}</h3>`;
-                } else {
-                    html = '<li class="expandlist">' +
-                      `<h3 class="slidermenu">${type} (${lisHTML.length})</h3>`;
-                }
-                html += `<ul class="${typeClass} ${typeIndex} qolChangeLogContent">`;
-                for (let i = 0; i < lisHTML.length; i++) {
-                    html += lisHTML[i];
-                }
-                html += '</ul>';
-                if (lisHTML.length == 0) {
-                    html += '</li><br hidden="">';
-                } else {
-                    html += '</li><br>';
-                }
-                return html;
-            };
-
-            // arrays used for building data
-            const TYPES_LIST = [
-                'Normal',
-                'Fire',
-                'Water',
-                'Electric',
-                'Grass',
-                'Ice',
-                'Fighting',
-                'Poison',
-                'Ground',
-                'Flying',
-                'Psychic',
-                'Bug',
-                'Rock',
-                'Ghost',
-                'Dragon',
-                'Dark',
-                'Steel',
-                'Fairy',
-            ];
-            const outputHTMLEntries = [
-                [], /* NORMAL */
-                [], /* FIRE */
-                [], /* WATER */
-                [], /* ELECTRIC */
-                [], /* GRASS */
-                [], /* ICE */
-                [], /* FIGHTING */
-                [], /* POISON */
-                [], /* GROUND */
-                [], /* FLYING */
-                [], /* PSYCHIC */
-                [], /* BUG */
-                [], /* ROCK */
-                [], /* GHOST */
-                [], /* DRAGON */
-                [], /* DARK */
-                [], /* STEEL */
-                [], /* FAIRY */
-            ];
+            localStorage.setItem(key, JSON.stringify(initialFarmSettings));
 
             // setup input data
             const evolvableList = document.querySelector('#farmnews-evolutions>div.scrollable>ul');
             const jsonPath = path.join(__dirname, '..', 'data', 'farmSortOnType_SummaryUIDs.json');
             const uidsJson = JSON.parse(fs.readFileSync(jsonPath));
+
+            // arrays used for building data
+            const outputHTMLEntries = [];
+            for(let i = 0; i < TYPES_LIST.length; i++) {
+                outputHTMLEntries.push([]);
+            }
 
             for (let i = 0; i < evolvablePokemon.length; i++) {
                 const { dex_id: sourceID, dex_id_evolution: targetID, name_source: sourceFullName, name_target: targetFullName, types } = evolvablePokemon[i];
@@ -544,11 +397,179 @@ describe('Test Farm Page', () => {
             const expectedHTML = $(expectedOutputUl);
             // Write out to files for debugging
             fs.writeFileSync('./actualHTML.html', actualHTML.html());
-            // fs.writeFileSync('./actualHTML.1.html', actualHTML.eq(1).html());
             fs.writeFileSync('./expectedHTML.html', expectedHTML.html());
-            // fs.writeFileSync('./expectedHTML.1.html', expectedHTML.eq(1).html());
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
 
+        });
+        it('Should correctly sort all evolutions on types when pokemon are nicknamed and "Sort on types" is clicked', () => {
+            const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
+            const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
+            const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+            global.location.href = 'https://pokefarm.com/farm#tab=1';
+            document.documentElement.innerHTML = innerHTML;
+
+            const evolvablePokemonFile = path.join(__dirname, '..', 'data', 'evolvablePokemon.json');
+            const json = fs.readFileSync(evolvablePokemonFile, 'utf8', 'r');
+            const evolvablePokemon = JSON.parse(json);
+
+            // load pokedex
+            const dexPath = path.join(__dirname, '../data/', 'dex.json');
+            const dex = fs.readFileSync(dexPath, 'utf8', 'r');
+            localStorage.setItem(dexKey, dex);
+
+            // load regional forms list
+            const regionalFormsPath = path.join(__dirname, '../data', 'formsList.json');
+            const regionalForms = fs.readFileSync(regionalFormsPath, 'utf8', 'r');
+            localStorage.setItem(regionalFormsKey, regionalForms);
+
+            localStorage.setItem(key, JSON.stringify(initialFarmSettings));
+
+            // setup input data
+            const evolvableList = document.querySelector('#farmnews-evolutions>div.scrollable>ul');
+            const jsonPath = path.join(__dirname, '..', 'data', 'farmSortOnType_SummaryUIDs.json');
+            const uidsJson = JSON.parse(fs.readFileSync(jsonPath));
+
+            // arrays used for building data
+            const outputHTMLEntries = [];
+            for(let i = 0; i < TYPES_LIST.length; i++) {
+                outputHTMLEntries.push([]);
+            }
+
+            for (let i = 0; i < evolvablePokemon.length; i++) {
+                const { dex_id: sourceID, dex_id_evolution: targetID, name_source: sourceFullName, name_target: targetFullName, types } = evolvablePokemon[i];
+                /* the data will contain full form names, but in actuality, Pokemon will only include
+                the base name of the source pokemon */
+                const sourceName = sourceFullName.includes('[') ? sourceFullName.substring(0, sourceFullName.indexOf('[')).trim() : sourceFullName;
+                const targetName = targetFullName.includes('[') ? targetFullName.substring(0, targetFullName.indexOf('[')).trim() : targetFullName;
+
+                const summaryUid = getSummaryUID(uidsJson, sourceID, sourceName, targetID, targetName);
+                const farmInputHTML = buildHTMLFarmEntry('Foo', targetFullName, 'M', summaryUid);
+                const farmExpectedOutputHTML = buildHTMLFarmEntry('Foo', targetFullName, 'M', summaryUid);
+
+                evolvableList.insertAdjacentHTML('beforeend', farmInputHTML);
+
+                for (let j = 0; j < types.length; j++) {
+                    outputHTMLEntries[types[j]].push(farmExpectedOutputHTML);
+                }
+            }
+
+            // setup expected output data
+
+            // Create the <ul>...</ul> HTML with the expected output elements
+            for (let j = 0; j < TYPES_LIST.length; j++) {
+                outputHTMLEntries[j] = buildSortedOnTypeFarmEntry(TYPES_LIST[j], j, outputHTMLEntries[j]);
+            }
+            outputHTMLEntries.push(`<li class="expandlist" hidden="">
+              <h3 class="slidermenu">Unknown Types</h3>
+              <ul class="Unknown 18 qolChangeLogContent"></ul>
+            </li>`);
+            const expectedOutputUl = `<ul class="qolEvolveTypeList">${outputHTMLEntries.join(' ')}</ul>`;
+
+            new pfqol.pfqol($);
+
+            // trigger '#qolchangesletype' click handler
+            $('#qolchangesletype').trigger('click');
+
+            expect($('.qolEvolveTypeList').length).toBe(1);
+            expect($('.evolvepkmnlist').length).toBe(1);
+            expect($('.qolEvolveTypeList').css('display')).toBe('block');
+            expect($('.evolvepkmnlist').css('display')).toBe('none');
+            const actualHTML = $('#farmnews-evolutions .scrollable').children().eq(0);
+
+            const expectedHTML = $(expectedOutputUl);
+            // Write out to files for debugging
+            fs.writeFileSync('./actualHTML.html', actualHTML.html());
+            fs.writeFileSync('./expectedHTML.html', expectedHTML.html());
+            expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
+        });
+        it('Should correctly sort all evolutions on types when pokemon are delta mons and "Sort on types" is clicked', () => {
+            const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
+            const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
+            const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+            global.location.href = 'https://pokefarm.com/farm#tab=1';
+            document.documentElement.innerHTML = innerHTML;
+
+            const evolvablePokemonFile = path.join(__dirname, '..', 'data', 'evolvablePokemon.json');
+            const json = fs.readFileSync(evolvablePokemonFile, 'utf8', 'r');
+            const evolvablePokemon = JSON.parse(json);
+
+            // load pokedex
+            const dexPath = path.join(__dirname, '../data/', 'dex.json');
+            const dex = fs.readFileSync(dexPath, 'utf8', 'r');
+            localStorage.setItem(dexKey, dex);
+
+            // load regional forms list
+            const regionalFormsPath = path.join(__dirname, '../data', 'formsList.json');
+            const regionalForms = fs.readFileSync(regionalFormsPath, 'utf8', 'r');
+            localStorage.setItem(regionalFormsKey, regionalForms);
+
+            localStorage.setItem(key, JSON.stringify(initialFarmSettings));
+
+            // setup input data
+            const evolvableList = document.querySelector('#farmnews-evolutions>div.scrollable>ul');
+            const jsonPath = path.join(__dirname, '..', 'data', 'farmSortOnType_SummaryUIDs.json');
+            const uidsJson = JSON.parse(fs.readFileSync(jsonPath));
+
+            // arrays used for building data
+            const outputHTMLEntries = [];
+            for(let i = 0; i < TYPES_LIST.length; i++) {
+                outputHTMLEntries.push([]);
+            }
+
+            for (let i = 0; i < evolvablePokemon.length; i++) {
+                const { dex_id: sourceID, dex_id_evolution: targetID, name_source: sourceFullName, name_target: targetFullName, types } = evolvablePokemon[i];
+                /* the data will contain full form names, but in actuality, Pokemon will only include
+                the base name of the source pokemon */
+                const sourceName = sourceFullName.includes('[') ? sourceFullName.substring(0, sourceFullName.indexOf('[')).trim() : sourceFullName;
+                const targetName = targetFullName.includes('[') ? targetFullName.substring(0, targetFullName.indexOf('[')).trim() : targetFullName;
+
+                const summaryUid = getSummaryUID(uidsJson, sourceID, sourceName, targetID, targetName);
+                let farmInputHTML = buildHTMLFarmEntry('Foo', targetFullName, 'M', summaryUid);
+                let farmExpectedOutputHTML = buildHTMLFarmEntry('Foo', targetFullName, 'M', summaryUid);
+
+                // add a third type that is not in types
+                let deltaType;
+                do {
+                    deltaType = TYPES_INDICES[Math.floor(Math.random() * TYPES_LIST.length)];
+                } while (types.includes(''+deltaType));
+                farmInputHTML = addDeltaTypeToHTMLFarmEntry(farmInputHTML, TYPES_LIST[deltaType]);
+                farmExpectedOutputHTML = addDeltaTypeToHTMLFarmEntry(farmExpectedOutputHTML, TYPES_LIST[deltaType]);
+
+                evolvableList.insertAdjacentHTML('beforeend', farmInputHTML);
+                for (let j = 0; j < types.length; j++) {
+                    outputHTMLEntries[types[j]].push(farmExpectedOutputHTML);
+                }
+                outputHTMLEntries[deltaType].push(farmExpectedOutputHTML);
+            }
+
+            // setup expected output data
+
+            // Create the <ul>...</ul> HTML with the expected output elements
+            for (let j = 0; j < TYPES_LIST.length; j++) {
+                outputHTMLEntries[j] = buildSortedOnTypeFarmEntry(TYPES_LIST[j], j, outputHTMLEntries[j]);
+            }
+            outputHTMLEntries.push(`<li class="expandlist" hidden="">
+              <h3 class="slidermenu">Unknown Types</h3>
+              <ul class="Unknown 18 qolChangeLogContent"></ul>
+            </li>`);
+            const expectedOutputUl = `<ul class="qolEvolveTypeList">${outputHTMLEntries.join(' ')}</ul>`;
+
+            new pfqol.pfqol($);
+
+            // trigger '#qolchangesletype' click handler
+            $('#qolchangesletype').trigger('click');
+
+            expect($('.qolEvolveTypeList').length).toBe(1);
+            expect($('.evolvepkmnlist').length).toBe(1);
+            expect($('.qolEvolveTypeList').css('display')).toBe('block');
+            expect($('.evolvepkmnlist').css('display')).toBe('none');
+            const actualHTML = $('#farmnews-evolutions .scrollable').children().eq(0);
+
+            const expectedHTML = $(expectedOutputUl);
+            // Write out to files for debugging
+            fs.writeFileSync('./actualHTML.html', actualHTML.html());
+            fs.writeFileSync('./expectedHTML.html', expectedHTML.html());
+            expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
     });
 
