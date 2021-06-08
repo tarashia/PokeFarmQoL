@@ -332,17 +332,19 @@ class FarmPage extends FarmPageBase {
                         evolveTypesPrevious = dexInfo.types;
                     }
 
-                    if (!evolveInDex && loadStatus && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
-                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
-                        if (info.status) {
-                            evolveInDex = info.status;
-                            evolveTypes = info.types;
-                            addToKnownExceptions(evolvePokemon, evolveTypes[0],
-                                evolveTypes.length > 1 && evolveTypes[1]);
+                    if (!evolveInDex) {
+                        if(loadStatus && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
+                            const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
+                            if (info.status) {
+                                evolveInDex = info.status;
+                                evolveTypes = info.types;
+                                addToKnownExceptions(evolvePokemon, evolveTypes[0],
+                                    evolveTypes.length > 1 && evolveTypes[1]);
+                            }
+                        } else {
+                            const msg = `An error occurred when processing ${evolvePokemon}`;
+                            console.error(msg);
                         }
-                    } else {
-                        const msg = `An error occurred when processing ${evolvePokemon}`;
-                        console.error(msg);
                     }
                 } // else ( if(evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) )
             }
