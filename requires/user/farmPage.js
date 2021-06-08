@@ -45,9 +45,7 @@ class FarmPage extends FarmPageBase {
         obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
         obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
 
-        /*
-          Nested helper function
-        */
+        /* Nested helper function */
         const findDivCoreIndex = function ($, html) {
             for (let j = 0; j < html.length; j++) {
                 if ($(html[j]).is('div#core')) {
@@ -103,20 +101,23 @@ class FarmPage extends FarmPageBase {
             const evolutions = {};
             let status = false;
             let types = [];
+
             loadDexPage($, number, name, (data) => {
-                // Kill two birds with one stone: 1) get the evolutions, and 2) check that
-                // evolveTypePrevOne and evolveTypePrevTwo are correct
+                /* Kill two birds with one stone: 1) get the evolutions, and 2) check that
+                   evolveTypePrevOne and evolveTypePrevTwo are correct */
                 let html = $.parseHTML(data);
                 // first find the right element in html to read from
                 const htmlIndex = findDivCoreIndex($, html);
                 if (!logErrorIfIndexNegativeOne(htmlIndex, `Unable to find evolutions for ${name}.`)) {
                     html = html[htmlIndex];
                     // Get the evolutions from the dex page
-                    const evosSpans = html.querySelectorAll('.evolutiontree>ul>li>.name');
-                    evosSpans.forEach((e) => {
+                    let originSpan = html.querySelector('.evolutiontree .name>b');
+                    originSpan = (originSpan) ? originSpan.parentNode.parentNode : null;
+                    const evosSpans = $(originSpan).children('ul').children('li').children('.name');
+                    evosSpans.each((i, e) => {
                         if (e.querySelector('a')) {
                             const evoNumber = e.querySelector('a').attributes['href'].value.substr(5);
-                            const evoName = e.textContent;
+                            const evoName = e.textContent.trim();
                             evolutions[evoNumber] = evoName;
                             evolutions[evoName] = evoNumber;
                         } else {
@@ -233,18 +234,17 @@ class FarmPage extends FarmPageBase {
 
         const addToKnownExceptions = function (name, type1, type2) {
             // add the exception to the known exceptions list
-            obj.settings.KNOWN_EXCEPTIONS[name] = [type1];
-
-            if (type2) {
-                obj.settings.KNOWN_EXCEPTIONS[name].push(type2);
-            }
+            obj.settings.KNOWN_EXCEPTIONS[name] = {
+                'id': '',
+                'types': (type2) ? [type1, type2] : [type1]
+            };
 
             obj.saveSettings();
         };
 
         const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
             if (evoString.includes('title="[DELTA')) {
-                const deltaType = evoString.match('DELTA-(.*)]">');
+                const deltaType = evoString.match('DELTA-(.*?)]">');
                 $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
             }
         };
@@ -257,33 +257,40 @@ class FarmPage extends FarmPageBase {
             const evoUrl = getEvolutionURL(getEvolveString);
 
             // Handle unicode characters
-            previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
+            previousPokemon = previousPokemon
+                .replace(/é/g, '\\u00e9')
+                .replace(/í/g, '\\u00ed')
+                .replace(/ñ/g, '\\u00f1');
 
             let previousInDex = dexData.indexOf('"' + previousPokemon + '"') != -1;
             let evolveInDex = dexData.indexOf('"' + evolvePokemon + '"') != -1;
-            const hasRegionalForms = regionalFormList && Object.prototype.hasOwnProperty.call(regionalFormList, previousPokemon);
+            const previousHasRegionalForms = regionalFormList &&
+                Object.prototype.hasOwnProperty.call(regionalFormList, previousPokemon) &&
+                regionalFormList[previousPokemon].length > 1;
+            const evolveHasRegionalForms = regionalFormList &&
+                Object.prototype.hasOwnProperty.call(regionalFormList, evolvePokemon) &&
+                regionalFormList[evolvePokemon].length > 1;
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
             /* Procedure
-             * 1. Load types for the evolution origin
-             *    a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
-             *    b. If it is in the dex and if it does not have regional forms, load the types from the dex data
-             * 2. If step 1.a or 1.b succeeded, load types for the evolution destination
-             *    a. If the destination pokemon is in the dex, load the types from the dex
-             *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
-             *    c. Else, load the destination pokemon's types by:
-             *       i. Getting the origin pokemon's dex number from its summary page
-             *       ii. Loading the list of the origin pokemon's evolutions from its dex page
-             *       iii. Finding the dex number for the destination pokemon from the list
-             *       iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
-             * 3. Use types to apply HTML classes to the list item that contains the current evolution
-             *    a. Use the evolution origin's and destination's types as HTML classes
-             *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
-             */
+               1. Load types for the evolution origin
+                  a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
+                  b. If it is in the dex and if it does not have regional forms, load the types from the dex data
+               2. If step 1.a or 1.b succeeded, load types for the evolution destination
+                  a. If the destination pokemon is in the dex, load the types from the dex
+                  b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
+                  c. Else, load the destination pokemon's types by:
+                     i. Getting the origin pokemon's dex number from its summary page
+                     ii. Loading the list of the origin pokemon's evolutions from its dex page
+                     iii. Finding the dex number for the destination pokemon from the list
+                     iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
+               3. Use types to apply HTML classes to the list item that contains the current evolution
+                  a. Use the evolution origin's and destination's types as HTML classes
+                  b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well */
 
             // Step 1.a
-            if (!previousInDex || hasRegionalForms) {
+            if (!previousInDex || previousHasRegionalForms) {
                 const data = loadEvolutionOriginTypes(obj.jQuery, evoUrl);
                 if (data.status) {
                     previousInDex = data.status;
@@ -304,10 +311,10 @@ class FarmPage extends FarmPageBase {
             }
 
             // will only get here if 1.a or 1.b succeeded
-            if (!evolveInDex) {
+            if (!evolveInDex || evolveHasRegionalForms) {
                 // Step 2.b
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
-                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
+                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].types.map((t) => '' + t);
                     evolveInDex = true;
                 }
                 // Step 2.c
@@ -318,13 +325,14 @@ class FarmPage extends FarmPageBase {
                     // Load the dex page for previousPokemon
                     const dexInfo = loadDataFromEvolutionOriginDexPage(obj.jQuery, GLOBALS.TYPE_LIST, dexNumber, previousPokemon);
                     let evolutions = {};
+                    let loadStatus = false;
                     if (dexInfo.status) {
-                        evolveInDex = dexInfo.status;
+                        loadStatus = dexInfo.status;
                         evolutions = dexInfo.evolutions;
                         evolveTypesPrevious = dexInfo.types;
                     }
 
-                    if (evolveInDex && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
+                    if (!evolveInDex && loadStatus && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
                         const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
                         if (info.status) {
                             evolveInDex = info.status;
@@ -349,10 +357,18 @@ class FarmPage extends FarmPageBase {
                 return; // 'continue' for .each()
             }
 
-            // the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-            // in some cases. Just strip it off
+            /* the evolveTypes and evolveTypesPrevious entries can begin with a '.'
+               in some cases. Just strip it off */
             evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
             evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
+
+            // Some pokemon have double types. Remove the second type if it is the same as the first
+            if(evolveTypesPrevious[1] == evolveTypesPrevious[0]) {
+                evolveTypesPrevious = [evolveTypesPrevious[0]];
+            }
+            if(evolveTypes[1] == evolveTypes[0]) {
+                evolveTypes = [evolveTypes[0]];
+            }
 
             // filter out invalid 2nd types (will be -1)
             evolveTypesPrevious = evolveTypesPrevious.filter((t) => t !== '-1');

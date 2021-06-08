@@ -2,28 +2,157 @@
 // eslint-disable-next-line no-unused-vars
 class FarmPageBase extends Page {
     DEFAULT_SETTINGS(GLOBALS) {
-        const d = { TYPE_APPEND: {} };
+        const d = {
+            TYPE_APPEND: {}
+        };
         // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
         for (let i = 0; i < GLOBALS.TYPE_LIST.length; i++) {
             const type = GLOBALS.TYPE_LIST[i];
-            d.TYPE_APPEND[type.toUpperCase()] = '.' + i;
+            d.TYPE_APPEND[type.toUpperCase()] = '' + i;
         }
         d.TYPE_APPEND['NONE'] = '.' + GLOBALS.TYPE_LIST.length;
         d.KNOWN_EXCEPTIONS = {
-            'Gastrodon [Orient]': [d.TYPE_APPEND['WATER'], d.TYPE_APPEND['GROUND']],
-            'Gastrodon [Occident]': [d.TYPE_APPEND['WATER'], d.TYPE_APPEND['GROUND']],
-            'Wormadam [Plant Cloak]': [d.TYPE_APPEND['BUG'], d.TYPE_APPEND['GRASS']],
-            'Wormadam [Trash Cloak]': [d.TYPE_APPEND['BUG'], d.TYPE_APPEND['STEEL']],//, d.['GRASS']],
-            'Chilldoom': [d.TYPE_APPEND['DARK'], d.TYPE_APPEND['ICE']],
-            'Raticate [Alolan Forme]': [d.TYPE_APPEND['DARK'], d.TYPE_APPEND['NORMAL']],
-            'Ninetales [Alolan Forme]': [d.TYPE_APPEND['ICE'], d.TYPE_APPEND['FAIRY']],
-            'Exeggutor [Alolan Forme]': [d.TYPE_APPEND['GRASS'], d.TYPE_APPEND['DRAGON']],
-            'Marowak [Alolan Forme]': [d.TYPE_APPEND['FIRE'], d.TYPE_APPEND['GHOST']],
-            'Dugtrio [Alolan Forme]': [d.TYPE_APPEND['GROUND'], d.TYPE_APPEND['STEEL']],
-            'Graveler [Alolan Forme]': [d.TYPE_APPEND['ROCK'], d.TYPE_APPEND['ELECTRIC']],
-            'Golem [Alolan Forme]': [d.TYPE_APPEND['ROCK'], d.TYPE_APPEND['ELECTRIC']],
-            'Muk [Alolan Forme]': [d.TYPE_APPEND['POISON'], d.TYPE_APPEND['DARK']],
-            'Raichu [Alolan Forme]': [d.TYPE_APPEND['ELECTRIC'], d.TYPE_APPEND['PSYCHIC']],
+            'Gastrodon [Occident]': {
+                'id': '442',
+                'types': [
+                    '2',
+                    '8'
+                ]
+            },
+            'Gastrodon [Orient]': {
+                'id': '442b',
+                'types': [
+                    '2',
+                    '8'
+                ]
+            },
+            'Wormadam [Plant Cloak]': {
+                'id': '432',
+                'types': [
+                    '11',
+                    '4'
+                ]
+            },
+            'Wormadam [Trash Cloak]': {
+                'id': '432b',
+                'types': [
+                    '11',
+                    '16'
+                ]
+            },
+            'Wormadam [Sandy Cloak]': {
+                'id': '432c',
+                'types': [
+                    '11',
+                    '8'
+                ]
+            },
+            // 'Chilldoom': [d.TYPE_APPEND['DARK'], d.TYPE_APPEND['ICE']],
+            'Raticate [Alolan Forme]': {
+                'id': '020r7',
+                'types': [
+                    '15',
+                    '0'
+                ]
+            },
+
+            'Ninetales [Alolan Forme]': {
+                'id': '039r7',
+                'types': [
+                    '5',
+                    '17'
+                ]
+            },
+            'Exeggutor [Alolan Forme]': {
+                'id': '111r7',
+                'types': [
+                    '4',
+                    '14'
+                ]
+            },
+            'Marowak [Alolan Forme]': {
+                'id': '113r7',
+                'types': [
+                    '1',
+                    '13'
+                ]
+            },
+            'Dugtrio [Alolan Forme]': {
+                'id': '055r7',
+                'types': [
+                    '8',
+                    '16'
+                ]
+            },
+            'Graveler [Alolan Forme]': {
+                'id': '080r7',
+                'types': [
+                    '12',
+                    '3'
+                ]
+            },
+            'Golem [Alolan Forme]': {
+                'id': '081r7',
+                'types': [
+                    '12',
+                    '3'
+                ]
+            },
+            'Muk [Alolan Forme]': {
+                'id': '096r7',
+                'types': [
+                    '7',
+                    '15'
+                ]
+            },
+            'Raichu [Alolan Forme]': {
+                'id': '027r7',
+                'types': [
+                    '3',
+                    '10'
+                ]
+            },
+            'Linoone [Galarian Forme]': {
+                'id': '278r8',
+                'types': [
+                    '15',
+                    '0'
+                ]
+            },
+            'Gourgeist [Small Size]': {
+                'id': '710',
+                'types': [
+                    '13',
+                    '4'
+                ]
+            },
+            'Gourgeist [Average Size]': {
+                'id': '710s2',
+                'types': [
+                    '13',
+                    '4'
+                ]
+            },
+            'Gourgeist [Large Size]': {
+                'id': '710s3',
+                'types': [
+                    '13',
+                    '4'
+                ]
+            },
+            'Gourgeist [Super Size]': {
+                'id': '710s4',
+                'types': [
+                    '13',
+                    '4'
+                ]
+            },
+            'Persian [Alolan Forme]': {
+                'id': '057r7',
+                'types': [
+                    '15'
+                ]
+            },
         };
         return d;
     }
@@ -92,147 +221,6 @@ class FarmPageBase extends Page {
     }
     easyEvolveNormalList() {
         this.clearSortedEvolveLists();
-    }
-    easyEvolveTypeList(GLOBALS) {
-        const obj = this;
-        const dexData = GLOBALS.DEX_DATA;
-
-        this.clearSortedEvolveLists();
-
-        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-        obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-        document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
-
-        const typeBorder = obj.jQuery('.panel>h3').css('border');
-        const typeColor = obj.jQuery('.panel>h3').css('color');
-        obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-        obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-        obj.jQuery('.expandlist').css('color', '' + typeColor + '');
-
-        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-        obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
-
-        /*
-          Nested helper function
-        */
-        const getEvolutionOrigin = function (evoString) {
-            const summary = '/summary/';
-            const originStart = evoString.indexOf(summary) + summary.length + 7;
-            const originEnd = evoString.indexOf('</a>');
-            return evoString.substring(originStart, originEnd);
-        };
-
-        const getEvolutionDestination = function (evoString) {
-            const destStart = evoString.indexOf('into</span>') + 'into</span>'.length;
-            return evoString.substr(destStart).trim();
-        };
-
-        const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
-            if (evoString.includes('title="[DELTA')) {
-                const deltaType = evoString.match('DELTA-(.*)]">');
-                $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
-            }
-        };
-
-        obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
-            // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = obj.jQuery(this).html();
-            let previousPokemon = getEvolutionOrigin(getEvolveString);
-            const evolvePokemon = getEvolutionDestination(getEvolveString);
-
-            // Handle unicode characters
-            previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
-
-            // Handle evolvePokemon name formatting
-            let evolveFormatted = evolvePokemon.replace(' [', '/');
-            evolveFormatted = evolveFormatted.replace(']', '');
-
-            const previousIndex = dexData.indexOf('"' + previousPokemon + '"');
-            const evolveIndex = dexData.indexOf('"' + evolveFormatted + '"');
-
-            const previousInDex = previousIndex != -1;
-            const evolveInDex = evolveIndex != -1;
-            let evolveTypesPrevious = [];
-            let evolveTypes = [];
-
-            /* Procedure
-             * 1. Handling evolution origin:
-             *    a. If the evolution origin is in the dex, load the types from the dex
-             *    b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
-             * 2. If the evolution destination is not in the dex:
-             *    a. If the destination pokemon is in the dex, load the types from the dex
-             *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
-             *    c. Else, mark the type as '18' (not a valid type)
-             * 3. Use types to apply HTML classes to the list item that contains the current evolution
-             *    a. Use the evolution origin's and destination's types as HTML classes
-             *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
-             */
-
-            if (previousInDex) {
-                // Step 1.a
-                evolveTypesPrevious = [1, 2].map((i) => dexData[previousIndex + i]);
-            }
-            else {
-                // Step 1.b
-                evolveTypesPrevious = ['18', '-1'];
-            }
-
-            if (evolveInDex) {
-                // Step 2.a
-                evolveTypes = [1, 2].map((i) => dexData[evolveIndex + i]);
-            }
-            else {
-                // Step 2.b
-                if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
-                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
-                    // short circuit the previous pokemon's types, since the KNOWN_EXCEPTIONS table will have everything
-                    evolveTypesPrevious = evolveTypes;
-                }
-                // Step 2.c
-                else {
-                    evolveTypes = ['18', '-1'];
-                }
-            }
-
-            // the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-            // in some cases. Just strip it off
-            evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
-            evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
-
-            // filter out invalid 2nd types (will be -1)
-            evolveTypesPrevious = evolveTypesPrevious.filter((t) => t !== '-1');
-            evolveTypes = evolveTypes.filter((t) => t !== '-1');
-
-            // append types to DOM
-            const elem = this;
-            evolveTypes.map((t) => {
-                obj.jQuery(elem).clone().appendTo('.' + t);
-            });
-            evolveTypesPrevious.map((t) => {
-                if (!isNaN(parseInt(t)) && parseInt(t) > -1 && evolveTypes.indexOf(t) == -1) {
-                    obj.jQuery(elem).clone().appendTo('.' + t);
-                }
-            });
-
-            appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
-        }); // each
-
-        obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
-            const amountOfEvolves = obj.jQuery(this).children().children().length;
-            const evolveTypeName = obj.jQuery(this).children('.slidermenu').html();
-
-            // hide the types with no evolutions
-            if (amountOfEvolves === 0) {
-                this.nextSibling.hidden = true;
-                this.hidden = true;
-            } else {
-                obj.jQuery(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
-            }
-        });
-
-        obj.jQuery('.evolvepkmnlist').hide();
     }
     easyEvolveNameList() {
         const obj = this;
@@ -432,18 +420,18 @@ class FarmPageBase extends Page {
                 pokemonDexKeepThirdName, pokemonDexKeepFourthName,
                 pokemonDexKeepFifthName, pokemonDexKeepSixthName] = evolvePokemonName.split(' ');
             const [evolveNewTotalOne, evolveNewCheckOne, /* ignore */, /* ignore */, /* ignore */] = getNewCheckData(evolvePokemonNameOne);
-            // if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
-            // The remaining checks are a (not great) way of checking for names with '/' in them.
-            // PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
-            // Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
-            // Regex: \w+/\w+
+            /* if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
+               The remaining checks are a (not great) way of checking for names with '/' in them.
+               PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
+               Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
+               Regex: \w+/\w+ */
             const evolvePokemonNameTwo = (evolvePokemonNameOne + '/' + pokemonDexKeepSecondName).replace('[', '').replace(']', '');
             const [evolveNewTotalTwo, evolveNewCheckTwo,
                 evolveNewShinyCheckTwo, evolveNewAlbinoCheckTwo,
                 evolveNewMelaCheckTwo] = getNewCheckData(evolvePokemonNameTwo);
 
-            // Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
-            // Regex: \w+/\w+ \w+
+            /* Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
+               Regex: \w+/\w+ \w+ */
             const evolvePokemonNameThree = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName).replace('[', '').replace(']', '');
@@ -451,8 +439,8 @@ class FarmPageBase extends Page {
                 evolveNewShinyCheckThree, evolveNewAlbinoCheckThree,
                 evolveNewMelaCheckThree] = getNewCheckData(evolvePokemonNameThree);
 
-            // Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
-            // Regex: \w+/\w+ \w+ \w+
+            /* Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
+               Regex: \w+/\w+ \w+ \w+ */
             const evolvePokemonNameFour = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -461,8 +449,8 @@ class FarmPageBase extends Page {
                 evolveNewShinyCheckFour, evolveNewAlbinoCheckFour,
                 evolveNewMelaCheckFour] = getNewCheckData(evolvePokemonNameFour);
 
-            // Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
-            // Regex: \w+/\w+ \w+ \w+ \w+
+            /* Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
+               Regex: \w+/\w+ \w+ \w+ \w+ */
             const evolvePokemonNameFive = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -472,8 +460,8 @@ class FarmPageBase extends Page {
                 evolveNewShinyCheckFive, evolveNewAlbinoCheckFive,
                 evolveNewMelaCheckFive] = getNewCheckData(evolvePokemonNameFive);
 
-            // Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
-            // Regex: \w+/\w+ \w+ \w+ \w+ \w+
+            /* Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
+               Regex: \w+/\w+ \w+ \w+ \w+ \w+ */
             const evolvePokemonNameSix = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +

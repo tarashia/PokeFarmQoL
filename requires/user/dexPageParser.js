@@ -1,10 +1,12 @@
-/* This class includes static functions for parsing data from a single dex page.
-   Functions which process multiple text pages are in DexUtilities.
-*/
+/*
+ * This class includes static functions for parsing data from a single dex page.
+ * Functions which process multiple text pages are in DexUtilities.
+ */
 
 // eslint-disable-next-line no-unused-vars
 class DexPageParser {
-    /* Parse the header from a dex page
+    /*
+     * Parse the header from a dex page
      * Inputs:
      * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
      * Outputs:
@@ -17,16 +19,20 @@ class DexPageParser {
      *                 }
      */
     static getInfoFromDexPageHeader(html) {
-        // Note - I thought this wouldn't work for exclusives because they're pokedex numbers all start with "000",
-        // but when exclusives have multiple forms, each form has its dex entry, and the forms are not grouped
-        // into the panel of a single pokemon. See Lunupine and Lunupine [Mega Forme Q] as an example, contrasted with
-        // Venusaur and Venusaur [Mega Forme]. This means that exclusives will never have any links in the form panel
-        // and thus will never get into this if statement
+        /*
+         * Note - I thought this wouldn't work for exclusives because they're pokedex numbers all start with "000",
+         * but when exclusives have multiple forms, each form has its dex entry, and the forms are not grouped
+         * into the panel of a single pokemon. See Lunupine and Lunupine [Mega Forme Q] as an example, contrasted with
+         * Venusaur and Venusaur [Mega Forme]. This means that exclusives will never have any links in the form panel
+         * and thus will never get into this if statement
+         */
         const nameHeader = html.find('#dexinfo>h3').eq(0);
         const formI = nameHeader.children('i.small');
 
-        // https://stackoverflow.com/questions/3442394/using-text-to-retrieve-only-text-not-nested-in-child-tags
-        // get text but not children's text
+        /*
+         * https://stackoverflow.com/questions/3442394/using-text-to-retrieve-only-text-not-nested-in-child-tags
+         * get text but not children's text
+         */
         const nameText = nameHeader.clone().children().remove().end().text();
         const nameSplits = nameText.split(' ');
         const basePokemonNumber = nameSplits[0].replace('#','').replace(':','');
@@ -49,7 +55,8 @@ class DexPageParser {
         };
     }
 
-    /* Parse the footer from a dex page
+    /*
+     * Parse the footer from a dex page
      * Inputs:
      * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
      * Outputs:
@@ -70,7 +77,8 @@ class DexPageParser {
         };
     }
 
-    /* Parse the types of a pokemon from a dex page
+    /*
+     * Parse the types of a pokemon from a dex page
      * Inputs:
      * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
      * Outputs:
@@ -94,7 +102,8 @@ class DexPageParser {
         return types.toArray();
     }
 
-    /* Parse egg png link from dex page
+    /*
+     * Parse egg png link from dex page
      * Inputs:
      * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
      * Outputs:
@@ -108,7 +117,8 @@ class DexPageParser {
         return eggUrl;
     }
 
-    /* Parse the evolution tree from a dex page
+    /*
+     * Parse the evolution tree from a dex page
      * Inputs:
      * - html - HTML of a full dex page (from https://www.pokefarm.com/dex/<id>)
      * Outputs:

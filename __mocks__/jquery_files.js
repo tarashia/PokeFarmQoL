@@ -37,7 +37,7 @@ const ajax = jest.fn((settings) => {
         const summaryMatch = settings.url.match('https://pokefarm.com/summary/(.....)');
         const dexMatch = settings.url.match('https://pokefarm.com/dex/(.+)');
         if (summaryMatch && summaryMatch.length > 1) {
-            data = fs.readFileSync(path.join(__dirname, '../__tests__/data/', summaryMatch[1] + '.html'), 'utf8', 'r');
+            data = fs.readFileSync(path.join(__dirname, '../__tests__/data/farm_sort_on_types/', summaryMatch[1] + '.html'), 'utf8', 'r');
         } else if (dexMatch && dexMatch.length > 1) {
             data = testTools.loadDexFile(dexMatch[1]);
         }
