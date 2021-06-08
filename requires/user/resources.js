@@ -228,7 +228,8 @@ class Resources extends ResourcesBase {
 
     privateFieldSearchHTML() {
         return `<div id ="fieldsearch">
-      <h4>Advanced Field search</h4>
+      <button type="button" class="collapsible"><b>Advanced Field search</b></button>
+      <div class="collapsible_content">
       <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
       <table>
         <tbody>
@@ -399,6 +400,7 @@ class Resources extends ResourcesBase {
       <input type='button' value='Add searchfield' id='addTextField'>
       <div id="searchkeys">
         <div class='0'></div>
+      </div>
       </div>
     </div>`;
     }
