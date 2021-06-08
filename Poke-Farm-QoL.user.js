@@ -143,8 +143,6 @@ $(function () {
         
         #fieldsearch {
             margin: 16px auto;
-            padding: 4px;
-            border-radius: 4px;
             max-width: 600px;
             position: relative;
         }
@@ -472,7 +470,8 @@ $(function () {
 
         fieldSearchHTML() {
             return `<div id ="fieldsearch">
-            <h4>Advanced Field search</h4>
+          <button type="button" class="collapsible"><b>Advanced Field search</b></button>
+          <div class="collapsible_content">
             <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
             <table>
                 <tbody>
@@ -630,6 +629,7 @@ $(function () {
             <div id="searchkeys">
                 <div class='0'></div>
             </div>
+          </div>
         </div>`;
         }
 
@@ -736,7 +736,8 @@ $(function () {
 
         privateFieldSearchHTML() {
             return `<div id ="fieldsearch">
-        <h4>Advanced Field search</h4>
+        <button type="button" class="collapsible"><b>Advanced Field search</b></button>
+        <div class="collapsible_content">
         <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
         <table>
           <tbody>
@@ -894,6 +895,7 @@ $(function () {
         <input type='button' value='Add searchfield' id='addTextField'>
         <div id="searchkeys">
           <div class='0'></div>
+        </div>
         </div>
       </div>`;
         }
@@ -1551,7 +1553,8 @@ $(function () {
 
         privateFieldSearchHTML() {
             return `<div id ="fieldsearch">
-      <h4>Advanced Field search</h4>
+      <button type="button" class="collapsible"><b>Advanced Field search</b></button>
+      <div class="collapsible_content">
       <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
       <table>
         <tbody>
@@ -1722,6 +1725,7 @@ $(function () {
       <input type='button' value='Add searchfield' id='addTextField'>
       <div id="searchkeys">
         <div class='0'></div>
+      </div>
       </div>
     </div>`;
         }
@@ -5586,7 +5590,6 @@ $(function () {
             this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
             this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
             this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-            this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
             this.jQuery('#tooltipenable').css('max-width', '600px');
             this.jQuery('#tooltipenable').css('position', 'relative');
             this.jQuery('#tooltipenable').css('margin', '16px auto');
@@ -5598,8 +5601,8 @@ $(function () {
             this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
             /* Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-               settings as most of the text on the site, manually set the text color for
-               '.collapsible' to match the text around it */
+           settings as most of the text on the site, manually set the text color for
+           '.collapsible' to match the text around it */
             this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
         }
         setupObserver() {
@@ -6184,7 +6187,6 @@ $(function () {
             this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
             this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
             this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-            this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
             this.jQuery('#tooltipenable').css('max-width', '600px');
             this.jQuery('#tooltipenable').css('position', 'relative');
             this.jQuery('#tooltipenable').css('margin', '16px auto');
@@ -6196,8 +6198,8 @@ $(function () {
             this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
             /* Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-               settings as most of the text on the site, manually set the text color for
-               '.collapsible' to match the text around it */
+           settings as most of the text on the site, manually set the text color for
+           '.collapsible' to match the text around it */
             this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
         }
         setupObserver() {
