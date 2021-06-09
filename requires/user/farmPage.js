@@ -234,10 +234,7 @@ class FarmPage extends FarmPageBase {
 
         const addToKnownExceptions = function (name, type1, type2) {
             // add the exception to the known exceptions list
-            obj.settings.KNOWN_EXCEPTIONS[name] = {
-                'id': '',
-                'types': (type2) ? [type1, type2] : [type1]
-            };
+            obj.settings.KNOWN_EXCEPTIONS[name] = (type2) ? [type1, type2] : [type1];
 
             obj.saveSettings();
         };
@@ -314,7 +311,7 @@ class FarmPage extends FarmPageBase {
             if (!evolveInDex || evolveHasRegionalForms) {
                 // Step 2.b
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
-                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].types.map((t) => '' + t);
+                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
                     evolveInDex = true;
                 }
                 // Step 2.c

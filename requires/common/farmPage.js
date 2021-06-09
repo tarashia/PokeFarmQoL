@@ -12,147 +12,85 @@ class FarmPageBase extends Page {
         }
         d.TYPE_APPEND['NONE'] = '.' + GLOBALS.TYPE_LIST.length;
         d.KNOWN_EXCEPTIONS = {
-            'Gastrodon [Occident]': {
-                'id': '442',
-                'types': [
-                    '2',
-                    '8'
-                ]
-            },
-            'Gastrodon [Orient]': {
-                'id': '442b',
-                'types': [
-                    '2',
-                    '8'
-                ]
-            },
-            'Wormadam [Plant Cloak]': {
-                'id': '432',
-                'types': [
-                    '11',
-                    '4'
-                ]
-            },
-            'Wormadam [Trash Cloak]': {
-                'id': '432b',
-                'types': [
-                    '11',
-                    '16'
-                ]
-            },
-            'Wormadam [Sandy Cloak]': {
-                'id': '432c',
-                'types': [
-                    '11',
-                    '8'
-                ]
-            },
-            // 'Chilldoom': [d.TYPE_APPEND['DARK'], d.TYPE_APPEND['ICE']],
-            'Raticate [Alolan Forme]': {
-                'id': '020r7',
-                'types': [
-                    '15',
-                    '0'
-                ]
-            },
-
-            'Ninetales [Alolan Forme]': {
-                'id': '039r7',
-                'types': [
-                    '5',
-                    '17'
-                ]
-            },
-            'Exeggutor [Alolan Forme]': {
-                'id': '111r7',
-                'types': [
-                    '4',
-                    '14'
-                ]
-            },
-            'Marowak [Alolan Forme]': {
-                'id': '113r7',
-                'types': [
-                    '1',
-                    '13'
-                ]
-            },
-            'Dugtrio [Alolan Forme]': {
-                'id': '055r7',
-                'types': [
-                    '8',
-                    '16'
-                ]
-            },
-            'Graveler [Alolan Forme]': {
-                'id': '080r7',
-                'types': [
-                    '12',
-                    '3'
-                ]
-            },
-            'Golem [Alolan Forme]': {
-                'id': '081r7',
-                'types': [
-                    '12',
-                    '3'
-                ]
-            },
-            'Muk [Alolan Forme]': {
-                'id': '096r7',
-                'types': [
-                    '7',
-                    '15'
-                ]
-            },
-            'Raichu [Alolan Forme]': {
-                'id': '027r7',
-                'types': [
-                    '3',
-                    '10'
-                ]
-            },
-            'Linoone [Galarian Forme]': {
-                'id': '278r8',
-                'types': [
-                    '15',
-                    '0'
-                ]
-            },
-            'Gourgeist [Small Size]': {
-                'id': '710',
-                'types': [
-                    '13',
-                    '4'
-                ]
-            },
-            'Gourgeist [Average Size]': {
-                'id': '710s2',
-                'types': [
-                    '13',
-                    '4'
-                ]
-            },
-            'Gourgeist [Large Size]': {
-                'id': '710s3',
-                'types': [
-                    '13',
-                    '4'
-                ]
-            },
-            'Gourgeist [Super Size]': {
-                'id': '710s4',
-                'types': [
-                    '13',
-                    '4'
-                ]
-            },
-            'Persian [Alolan Forme]': {
-                'id': '057r7',
-                'types': [
-                    '15'
-                ]
-            },
+            'Gastrodon [Occident]': [
+                '2',
+                '8'
+            ],
+            'Gastrodon [Orient]': [
+                '2',
+                '8'
+            ],
+            'Wormadam [Plant Cloak]': [
+                '11',
+                '4'
+            ],
+            'Wormadam [Trash Cloak]':[
+                '11',
+                '16'
+            ],
+            'Wormadam [Sandy Cloak]': [
+                '11',
+                '8'
+            ],
+            'Raticate [Alolan Forme]': [
+                '15',
+                '0'
+            ],
+            'Ninetales [Alolan Forme]': [
+                '5',
+                '17'
+            ],
+            'Exeggutor [Alolan Forme]': [
+                '4',
+                '14'
+            ],
+            'Marowak [Alolan Forme]': [
+                '1',
+                '13'
+            ],
+            'Dugtrio [Alolan Forme]': [
+                '8',
+                '16'
+            ],
+            'Graveler [Alolan Forme]': [
+                '12',
+                '3'
+            ],
+            'Golem [Alolan Forme]': [
+                '12',
+                '3'
+            ],
+            'Muk [Alolan Forme]': [
+                '7',
+                '15'
+            ],
+            'Raichu [Alolan Forme]': [
+                '3',
+                '10'
+            ],
+            'Linoone [Galarian Forme]': [
+                '15',
+                '0'
+            ],
+            'Gourgeist [Small Size]': [
+                '13',
+                '4'
+            ],
+            'Gourgeist [Average Size]': [
+                '13',
+                '4'
+            ],
+            'Gourgeist [Large Size]': [
+                '13',
+                '4'
+            ],
+            'Gourgeist [Super Size]': [
+                '13',
+                '4'
+            ],
+            'Persian [Alolan Forme]': [
+                '15'
+            ],
         };
         return d;
     }

@@ -395,7 +395,7 @@ describe('Test Farm Page', () => {
                 const targetInDex = targetDexIndex >= 0 && parsedDex[targetDexIndex - 1].includes(`"${targetID}"`);
                 const targetInExceptions = targetFullName in initialFarmSettings.KNOWN_EXCEPTIONS;
                 if(targetInExceptions) {
-                    const exceptionTypes = initialFarmSettings.KNOWN_EXCEPTIONS[targetFullName].types.filter((t, i, self) => i == self.indexOf(t));
+                    const exceptionTypes = initialFarmSettings.KNOWN_EXCEPTIONS[targetFullName].filter((t, i, self) => i == self.indexOf(t));
                     for (let j = 0; j < exceptionTypes.length; j++) {
                         outputHTMLEntries[exceptionTypes[j]].push(farmExpectedOutputHTML);
                     }

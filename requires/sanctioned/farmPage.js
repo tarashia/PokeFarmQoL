@@ -83,7 +83,7 @@ class FarmPage extends FarmPageBase {
                   b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well */
 
             if(evolveInExceptions) {
-                evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].types.map((t) => '' + t);
+                evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
                 // short circuit the previous pokemon's types, since the KNOWN_EXCEPTIONS table will have everything
                 evolveTypesPrevious = evolveTypes;
             }
