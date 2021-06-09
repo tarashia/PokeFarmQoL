@@ -1580,7 +1580,7 @@ $(function () {
             this.POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
             this.POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
             /* Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
-               Don't change the order without looking for where this array is used */
+           Don't change the order without looking for where this array is used */
             this.TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
             this.NATURE_LIST = ['Lonely', 'Mild', 'Hasty', 'Gentle', 'Bold', 'Modest', 'Timid', 'Calm',
                 'Impish', 'Adamant', 'Jolly', 'Careful', 'Relaxed', 'Brave', 'Quiet', 'Sassy',
@@ -1668,7 +1668,7 @@ $(function () {
                     'Regirock', 'Regice', 'Registeel', 'Latias', 'Latios', 'Kyogre', 'Groudon', 'Rayquaza', 'Deoxys', 'Jirachi',
                     // Sinnoh
                     'Uxie', 'Mesprit', 'Azelf', 'Dialga', 'Palkia', 'Heatran', 'Regigigas', 'Giratina', 'Cresselia',
-                    'Phione', 'Manaphy', 'Darkrai', 'Shaymin', 'Arceus',
+                    'Manaphy', 'Darkrai', 'Shaymin', 'Arceus',
                     // Unova
                     'Cobalion', 'Terrakion', 'Virizion', 'Tornadus', 'Thundurus', 'Reshiram', 'Zekrom',
                     'Landorus', 'Kyurem', 'Keldeo', 'Meloetta', 'Genesect',
@@ -1693,7 +1693,7 @@ $(function () {
             this.DEX_UPDATE_DATE = null;
 
             /* a static copy of the <script id="dexdata"> tag from Feb 16, 2021
-               this is updated every time the user visits the dex page */
+           this is updated every time the user visits the dex page */
             this.DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
             '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
             '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
