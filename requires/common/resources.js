@@ -345,8 +345,6 @@ class ResourcesBase {
         
         .qolpartyclicknav {
             position: absolute!important;
-            left: 300px!important;
-            top: 500px!important;
         }
         
         .qolpartyclickpartywidth {
