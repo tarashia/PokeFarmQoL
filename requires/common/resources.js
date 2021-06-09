@@ -323,16 +323,24 @@ class ResourcesBase {
             display: inline-block!important;
         }
         
+        .qolpartyclickz {
+            z-index: 100!important;
+        }
+
+        .qolpartyclickbigscreen {
+          left: 50%!important;
+          top: 50%!important;
+        }
+
+        .qolpartyclicksmallscreen {
+          left: 50%!important;
+          top: 75%!important;
+        }
+        
         .qolpartyclickalot {
             position: absolute!important;
             background-color: transparent!important;
             border: none!important;
-            left: 300px!important;
-            top: 500px!important;
-        }
-        
-        .qolpartyclickz {
-            z-index: 100!important;
         }
         
         .qolpartyclicknav {
