@@ -16,7 +16,7 @@ class ResourcesBase {
         
         /* tooltip */
         
-        .tooltip {
+        .qoltooltip_trigger {
             position: relative;
             display: inline-block;
             border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
@@ -52,6 +52,10 @@ class ResourcesBase {
         .tooltip:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
+        }
+        
+        .customsearchtooltip {
+            width: 400px;
         }
         
         /* shelter notification wrap */
@@ -113,8 +117,6 @@ class ResourcesBase {
         
         #fieldsearch {
             margin: 16px auto;
-            padding: 4px;
-            border-radius: 4px;
             max-width: 600px;
             position: relative;
         }
@@ -442,7 +444,8 @@ class ResourcesBase {
 
     fieldSearchHTML() {
         return `<div id ="fieldsearch">
-            <h4>Advanced Field search</h4>
+          <button type="button" class="collapsible"><b>Advanced Field search</b></button>
+          <div class="collapsible_content">
             <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
             <table>
                 <tbody>
@@ -521,7 +524,8 @@ class ResourcesBase {
             </div>
             <h4>Custom Search</h4>
             <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-            <div class="tooltip">Custom Search Help
+            <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+            <div class="tooltip_content customsearchtooltip">
                 <span class="tooltiptext">
                 Custom search by Pokemon name
                 <br>
@@ -599,6 +603,7 @@ class ResourcesBase {
             <div id="searchkeys">
                 <div class='0'></div>
             </div>
+          </div>
         </div>`;
     }
 
@@ -705,7 +710,8 @@ class ResourcesBase {
 
     privateFieldSearchHTML() {
         return `<div id ="fieldsearch">
-        <h4>Advanced Field search</h4>
+        <button type="button" class="collapsible"><b>Advanced Field search</b></button>
+        <div class="collapsible_content">
         <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
         <table>
           <tbody>
@@ -784,7 +790,8 @@ class ResourcesBase {
         </div>
         <h4>Custom Search</h4>
         <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-        <div class="tooltip">Custom Search Help
+        <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+        <div class="tooltip_content customsearchtooltip">
           <span class="tooltiptext">
             Custom search by Pokemon name
             <br>
@@ -862,6 +869,7 @@ class ResourcesBase {
         <input type='button' value='Add searchfield' id='addTextField'>
         <div id="searchkeys">
           <div class='0'></div>
+        </div>
         </div>
       </div>`;
     }
@@ -964,7 +972,8 @@ class ResourcesBase {
         </div>
         <h4>Custom Search</h4>
         <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-        <div class="tooltip">Custom Search Help
+        <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+        <div class="tooltip_content customsearchtooltip">
           <span class="tooltiptext">
             Custom search by Pokemon name
             <br>
@@ -1172,7 +1181,9 @@ class ResourcesBase {
                       <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
                       </tr>
                       <tr id="qolDexClearRow">
-                        <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                        <td colspan="2">
+                          <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                        </td>
                       </tr>
                       <tr>
                         <td colspan="2" class="qolAllSettings">

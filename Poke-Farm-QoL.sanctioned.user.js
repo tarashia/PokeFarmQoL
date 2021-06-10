@@ -1,15 +1,17 @@
+// eslint-disable-next-line multiline-comment-style
 // ==UserScript==
 // @name         Poké Farm QoL
 // @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
 // @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_70/Poke-Farm-QoL.sanctioned.user.js
-// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_70/Poke-Farm-QoL.sanctioned.user.js
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_78/Poke-Farm-QoL.sanctioned.user.js
+// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_78/Poke-Farm-QoL.sanctioned.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.6.9
 // @match        https://pokefarm.com/*
 // @connect      github.com
 // ==/UserScript==
+
 // eslint-disable-next-line no-undef
 $(function () {
     ('use strict');
@@ -40,7 +42,7 @@ $(function () {
         
         /* tooltip */
         
-        .tooltip {
+        .qoltooltip_trigger {
             position: relative;
             display: inline-block;
             border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
@@ -76,6 +78,10 @@ $(function () {
         .tooltip:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
+        }
+        
+        .customsearchtooltip {
+            width: 400px;
         }
         
         /* shelter notification wrap */
@@ -137,8 +143,6 @@ $(function () {
         
         #fieldsearch {
             margin: 16px auto;
-            padding: 4px;
-            border-radius: 4px;
             max-width: 600px;
             position: relative;
         }
@@ -466,7 +470,8 @@ $(function () {
 
         fieldSearchHTML() {
             return `<div id ="fieldsearch">
-            <h4>Advanced Field search</h4>
+          <button type="button" class="collapsible"><b>Advanced Field search</b></button>
+          <div class="collapsible_content">
             <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
             <table>
                 <tbody>
@@ -545,7 +550,8 @@ $(function () {
             </div>
             <h4>Custom Search</h4>
             <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-            <div class="tooltip">Custom Search Help
+            <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+            <div class="tooltip_content customsearchtooltip">
                 <span class="tooltiptext">
                 Custom search by Pokemon name
                 <br>
@@ -623,6 +629,7 @@ $(function () {
             <div id="searchkeys">
                 <div class='0'></div>
             </div>
+          </div>
         </div>`;
         }
 
@@ -729,7 +736,8 @@ $(function () {
 
         privateFieldSearchHTML() {
             return `<div id ="fieldsearch">
-        <h4>Advanced Field search</h4>
+        <button type="button" class="collapsible"><b>Advanced Field search</b></button>
+        <div class="collapsible_content">
         <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
         <table>
           <tbody>
@@ -808,7 +816,8 @@ $(function () {
         </div>
         <h4>Custom Search</h4>
         <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-        <div class="tooltip">Custom Search Help
+        <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+        <div class="tooltip_content customsearchtooltip">
           <span class="tooltiptext">
             Custom search by Pokemon name
             <br>
@@ -886,6 +895,7 @@ $(function () {
         <input type='button' value='Add searchfield' id='addTextField'>
         <div id="searchkeys">
           <div class='0'></div>
+        </div>
         </div>
       </div>`;
         }
@@ -988,7 +998,8 @@ $(function () {
         </div>
         <h4>Custom Search</h4>
         <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
-        <div class="tooltip">Custom Search Help
+        <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+        <div class="tooltip_content customsearchtooltip">
           <span class="tooltiptext">
             Custom search by Pokemon name
             <br>
@@ -1196,7 +1207,9 @@ $(function () {
                       <tr id="qolDexUpdateRow"> <!-- Filled in by implementations -->
                       </tr>
                       <tr id="qolDexClearRow">
-                        <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                        <td colspan="2">
+                          <input type='button' value="Clear Cached Dex" id="clearCachedDex">
+                        </td>
                       </tr>
                       <tr>
                         <td colspan="2" class="qolAllSettings">
@@ -1399,8 +1412,8 @@ $(function () {
             }
             index++;
 
-            // Issue #59 - Pokefarm added a new h3 element after the nickname
-            // that contains no data
+            /* Issue #59 - Pokefarm added a new h3 element after the nickname
+               that contains no data */
             index++;
 
             // species
@@ -1566,8 +1579,8 @@ $(function () {
             this.POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
             this.POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
             this.POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
-            // Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
-            // Don't change the order without looking for where this array is used
+            /* Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
+           Don't change the order without looking for where this array is used */
             this.TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
             this.NATURE_LIST = ['Lonely', 'Mild', 'Hasty', 'Gentle', 'Bold', 'Modest', 'Timid', 'Calm',
                 'Impish', 'Adamant', 'Jolly', 'Careful', 'Relaxed', 'Brave', 'Quiet', 'Sassy',
@@ -1645,9 +1658,9 @@ $(function () {
             ];
             this.SHELTER_SEARCH_LISTS = {
                 'findLegendary': [
-                // List of official legendaries more or less based on
-                // https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
-                // Kanto
+                /* List of official legendaries more or less based on
+                   https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
+                   Kanto */
                     'Articuno', 'Zapdos', 'Moltres', 'Mewtwo', 'Mew',
                     // Johto
                     'Raikou', 'Entei', 'Suicune', 'Lugia', 'Ho-oh', 'Celebi',
@@ -1655,7 +1668,7 @@ $(function () {
                     'Regirock', 'Regice', 'Registeel', 'Latias', 'Latios', 'Kyogre', 'Groudon', 'Rayquaza', 'Deoxys', 'Jirachi',
                     // Sinnoh
                     'Uxie', 'Mesprit', 'Azelf', 'Dialga', 'Palkia', 'Heatran', 'Regigigas', 'Giratina', 'Cresselia',
-                    'Phione', 'Manaphy', 'Darkrai', 'Shaymin', 'Arceus',
+                    'Manaphy', 'Darkrai', 'Shaymin', 'Arceus',
                     // Unova
                     'Cobalion', 'Terrakion', 'Virizion', 'Tornadus', 'Thundurus', 'Reshiram', 'Zekrom',
                     'Landorus', 'Kyurem', 'Keldeo', 'Meloetta', 'Genesect',
@@ -1679,8 +1692,8 @@ $(function () {
             // filled in by LocalStorageManager
             this.DEX_UPDATE_DATE = null;
 
-            // a static copy of the <script id="dexdata"> tag from Feb 16, 2021
-            // this is updated every time the user visits the dex page
+            /* a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+           this is updated every time the user visits the dex page */
             this.DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
             '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
             '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
@@ -3080,8 +3093,8 @@ $(function () {
                     }
                     // removes objects from the local storage if they don't exist anymore. Not yet possible..
                     if (countLocalStorageSettings > countScriptSettings) {
-                    //let defaultsSetting = QOLHUB.USER_SETTINGS;
-                    //let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                    /* let defaultsSetting = QOLHUB.USER_SETTINGS;
+                       let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY)); */
                         this.saveSettings();
                     }
                 }
@@ -3161,8 +3174,7 @@ $(function () {
         }
     } // QoLHubBase
     /* This class handles creating, removing, and handling the DOM object actions
- * for the QoL Hub.
- */
+       for the QoL Hub. */
     /* globals QoLHubBase */
     // eslint-disable-next-line no-unused-vars
     class QoLHub extends QoLHubBase {
@@ -3170,9 +3182,11 @@ $(function () {
             super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
         }
         resetDex() {
+            this.jQuery('#clearCachedDex').next().remove();
             this.GLOBALS.DEX_UPDATE_DATE = null;
             this.GLOBALS.DEX_DATA = null;
             this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
+            this.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
         }
         build(document) {
             super.build(document);
@@ -3319,8 +3333,8 @@ $(function () {
                 });
             });
 
-            // used to keep track of the currently selected match
-            // matches can be selected via a shortcut key, specified via this.selectNextMatchKey
+            /* used to keep track of the currently selected match
+               matches can be selected via a shortcut key, specified via this.selectNextMatchKey */
             this.selectNextMatchKey = 78; // 'n'
             this.currentlySelectedMatch = undefined;
         }
@@ -3536,12 +3550,74 @@ $(function () {
             }
         }
 
+        searchForTypes(GLOBALS, types) {
+            const obj = this;
+            const dexData = GLOBALS.DEX_DATA;
+            const cls = this.helpers.getPokemonImageClass();
+            for (let i = 0; i < types.length; i++) {
+                const value = types[i];
+                const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
+
+                let typePokemonNames = [];
+                let selected = undefined;
+                if (this.settings.findTypeEgg === true) {
+                    const pokemonElems = [];
+                    typePokemonNames = [];
+                    selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
+                    selected.each(function () {
+                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                        let searchTypeOne = '';
+                        let searchTypeTwo = '';
+
+                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                        searchTypeOne = dexData[searchPokemonIndex + 1];
+                        searchTypeTwo = dexData[searchPokemonIndex + 2];
+
+                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                            typePokemonNames.push(searchPokemon);
+                            pokemonElems.push(this);
+                        }
+                    });
+
+                    for (let o = 0; o < pokemonElems.length; o++) {
+                        const shelterImgSearch = this.jQuery(pokemonElems[o]);
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    }
+
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
+                }
+
+                if (this.settings.findTypePokemon === true) {
+                    typePokemonNames = [];
+                    selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
+                    selected.each(function () {
+                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                        const searchTypeOne = dexData[searchPokemonIndex + 1];
+                        const searchTypeTwo = dexData[searchPokemonIndex + 2];
+                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                            typePokemonNames.push(searchPokemon);
+                        }
+                    });
+
+                    for (let o = 0; o < typePokemonNames.length; o++) {
+                        const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    }
+
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
+                }
+            }
+
+        }
+
         customSearch(GLOBALS) {
             const obj = this;
             const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
             const cls = this.helpers.getPokemonImageClass();
 
-            const dexData = GLOBALS.DEX_DATA;
             // search whatever you want to find in the shelter & grid
 
             //sort in grid
@@ -3556,13 +3632,11 @@ $(function () {
                 this.jQuery('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
                 this.jQuery('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
                 this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
-                // this.jQuery('#shelterpage #shelter #shelterarea:before').css({'display' : 'none!important'});
-                // this.jQuery('<pseudo:before>').attr('style', 'display: none!important');
                 this.jQuery('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
             }
 
-            //search values depending on settings
-            //emptying the sheltersuccess div to avoid duplicates
+            /* search values depending on settings
+               emptying the sheltersuccess div to avoid duplicates */
             document.querySelector('#sheltersuccess').innerHTML = '';
             this.jQuery('#shelterarea>div>img').removeClass('shelterfoundme');
 
@@ -3726,63 +3800,8 @@ $(function () {
             const filteredTypeArray = this.typeArray.filter(v => v != '');
 
             if (filteredTypeArray.length > 0) {
-                for (let i = 0; i < filteredTypeArray.length; i++) {
-                    const value = filteredTypeArray[i];
-                    const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
-
-                    let typePokemonNames = [];
-                    let selected = undefined;
-                    if (this.settings.findTypeEgg === true) {
-                        const pokemonElems = [];
-                        typePokemonNames = [];
-                        selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
-                        selected.each(function () {
-                            const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
-                            let searchTypeOne = '';
-                            let searchTypeTwo = '';
-
-                            const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
-                            searchTypeOne = dexData[searchPokemonIndex + 1];
-                            searchTypeTwo = dexData[searchPokemonIndex + 2];
-
-                            if ((searchTypeOne === value) || (searchTypeTwo === value)) {
-                                typePokemonNames.push(searchPokemon);
-                                pokemonElems.push(this);
-                            }
-                        });
-
-                        for (let o = 0; o < pokemonElems.length; o++) {
-                            const shelterImgSearch = this.jQuery(pokemonElems[o]);
-                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                        }
-
-                        this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
-                    }
-
-                    if (this.settings.findTypePokemon === true) {
-                        typePokemonNames = [];
-                        selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
-                        selected.each(function () {
-                            const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
-                            const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
-                            const searchTypeOne = dexData[searchPokemonIndex + 1];
-                            const searchTypeTwo = dexData[searchPokemonIndex + 2];
-                            if ((searchTypeOne === value) || (searchTypeTwo === value)) {
-                                typePokemonNames.push(searchPokemon);
-                            }
-                        });
-
-                        for (let o = 0; o < typePokemonNames.length; o++) {
-                            const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
-                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                        }
-
-                        this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
-                    }
-                }
-            } // filteredTypeArray
+                obj.searchForTypes(GLOBALS, filteredTypeArray);
+            }
         } // customSearch
     }
 
@@ -3873,7 +3892,6 @@ $(function () {
             this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
             this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
             this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-            this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
             this.jQuery('#tooltipenable').css('max-width', '600px');
             this.jQuery('#tooltipenable').css('position', 'relative');
             this.jQuery('#tooltipenable').css('margin', '16px auto');
@@ -3884,9 +3902,9 @@ $(function () {
             this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
             this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
-            // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-            // settings as most of the text on the site, manually set the text color for
-            // '.collapsible' to match the text around it
+            /* Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+           settings as most of the text on the site, manually set the text color for
+           '.collapsible' to match the text around it */
             this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
         }
         setupObserver() {
@@ -4416,7 +4434,6 @@ $(function () {
             this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
             this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
             this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-            this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
             this.jQuery('#tooltipenable').css('max-width', '600px');
             this.jQuery('#tooltipenable').css('position', 'relative');
             this.jQuery('#tooltipenable').css('margin', '16px auto');
@@ -4427,9 +4444,9 @@ $(function () {
             this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
             this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
-            // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-            // settings as most of the text on the site, manually set the text color for
-            // '.collapsible' to match the text around it
+            /* Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+           settings as most of the text on the site, manually set the text color for
+           '.collapsible' to match the text around it */
             this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
         }
         setupObserver() {
@@ -4676,9 +4693,7 @@ $(function () {
             const obj = this;
             const cls = this.helpers.getPokemonImageClass();
 
-            /////////////////////////////////////////////////
             //////////////////// sorting ////////////////////
-            /////////////////////////////////////////////////
             if (this.settings.fieldByBerry === true) { //sort field by berries
                 this.jQuery('.fieldmon').removeClass('qolSortMiddle');
                 this.jQuery('.field').removeClass('qolGridField');
@@ -4764,17 +4779,19 @@ $(function () {
 
                 if(pokemonInField !== '') {
                     if (JSON.stringify(pokemonClicked) === pokemonInField) {
-                        this.jQuery('#pokemonclickcount').css({'color' : '#059121'});
+                        this.jQuery('#pokemonclickcount').css({
+                            'color' : '#059121'
+                        });
                     }
                     if (pokemonClicked !== JSON.parse(pokemonInField)) {
-                        this.jQuery('#pokemonclickcount').css({'color' : '#a30323'});
+                        this.jQuery('#pokemonclickcount').css({
+                            'color' : '#a30323'
+                        });
                     }
                 }
             }
 
-            /////////////////////////////////////////////////
             /////////////////// searching ///////////////////
-            /////////////////////////////////////////////////
             const bigImgs = document.querySelectorAll('.publicfoundme');
             if(bigImgs !== null) {
                 bigImgs.forEach((b) => {obj.jQuery(b).removeClass('publicfoundme');});
@@ -5236,6 +5253,7 @@ $(function () {
         setupObserver() {
             this.observer.observe(document.querySelector('#multiuser'), {
                 childList: true,
+                subtree: true,
             });
         }
         setupHandlers() {
@@ -5436,32 +5454,100 @@ $(function () {
             }
         }
     }
+
     /* globals Page */
     // eslint-disable-next-line no-unused-vars
     class FarmPageBase extends Page {
         DEFAULT_SETTINGS(GLOBALS) {
-            const d = { TYPE_APPEND: {} };
+            const d = {
+                TYPE_APPEND: {}
+            };
             // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
             for (let i = 0; i < GLOBALS.TYPE_LIST.length; i++) {
                 const type = GLOBALS.TYPE_LIST[i];
-                d.TYPE_APPEND[type.toUpperCase()] = '.' + i;
+                d.TYPE_APPEND[type.toUpperCase()] = '' + i;
             }
             d.TYPE_APPEND['NONE'] = '.' + GLOBALS.TYPE_LIST.length;
             d.KNOWN_EXCEPTIONS = {
-                'Gastrodon [Orient]': [d.TYPE_APPEND['WATER'], d.TYPE_APPEND['GROUND']],
-                'Gastrodon [Occident]': [d.TYPE_APPEND['WATER'], d.TYPE_APPEND['GROUND']],
-                'Wormadam [Plant Cloak]': [d.TYPE_APPEND['BUG'], d.TYPE_APPEND['GRASS']],
-                'Wormadam [Trash Cloak]': [d.TYPE_APPEND['BUG'], d.TYPE_APPEND['STEEL']],//, d.['GRASS']],
-                'Chilldoom': [d.TYPE_APPEND['DARK'], d.TYPE_APPEND['ICE']],
-                'Raticate [Alolan Forme]': [d.TYPE_APPEND['DARK'], d.TYPE_APPEND['NORMAL']],
-                'Ninetales [Alolan Forme]': [d.TYPE_APPEND['ICE'], d.TYPE_APPEND['FAIRY']],
-                'Exeggutor [Alolan Forme]': [d.TYPE_APPEND['GRASS'], d.TYPE_APPEND['DRAGON']],
-                'Marowak [Alolan Forme]': [d.TYPE_APPEND['FIRE'], d.TYPE_APPEND['GHOST']],
-                'Dugtrio [Alolan Forme]': [d.TYPE_APPEND['GROUND'], d.TYPE_APPEND['STEEL']],
-                'Graveler [Alolan Forme]': [d.TYPE_APPEND['ROCK'], d.TYPE_APPEND['ELECTRIC']],
-                'Golem [Alolan Forme]': [d.TYPE_APPEND['ROCK'], d.TYPE_APPEND['ELECTRIC']],
-                'Muk [Alolan Forme]': [d.TYPE_APPEND['POISON'], d.TYPE_APPEND['DARK']],
-                'Raichu [Alolan Forme]': [d.TYPE_APPEND['ELECTRIC'], d.TYPE_APPEND['PSYCHIC']],
+                'Gastrodon [Occident]': [
+                    '2',
+                    '8'
+                ],
+                'Gastrodon [Orient]': [
+                    '2',
+                    '8'
+                ],
+                'Wormadam [Plant Cloak]': [
+                    '11',
+                    '4'
+                ],
+                'Wormadam [Trash Cloak]':[
+                    '11',
+                    '16'
+                ],
+                'Wormadam [Sandy Cloak]': [
+                    '11',
+                    '8'
+                ],
+                'Raticate [Alolan Forme]': [
+                    '15',
+                    '0'
+                ],
+                'Ninetales [Alolan Forme]': [
+                    '5',
+                    '17'
+                ],
+                'Exeggutor [Alolan Forme]': [
+                    '4',
+                    '14'
+                ],
+                'Marowak [Alolan Forme]': [
+                    '1',
+                    '13'
+                ],
+                'Dugtrio [Alolan Forme]': [
+                    '8',
+                    '16'
+                ],
+                'Graveler [Alolan Forme]': [
+                    '12',
+                    '3'
+                ],
+                'Golem [Alolan Forme]': [
+                    '12',
+                    '3'
+                ],
+                'Muk [Alolan Forme]': [
+                    '7',
+                    '15'
+                ],
+                'Raichu [Alolan Forme]': [
+                    '3',
+                    '10'
+                ],
+                'Linoone [Galarian Forme]': [
+                    '15',
+                    '0'
+                ],
+                'Gourgeist [Small Size]': [
+                    '13',
+                    '4'
+                ],
+                'Gourgeist [Average Size]': [
+                    '13',
+                    '4'
+                ],
+                'Gourgeist [Large Size]': [
+                    '13',
+                    '4'
+                ],
+                'Gourgeist [Super Size]': [
+                    '13',
+                    '4'
+                ],
+                'Persian [Alolan Forme]': [
+                    '15'
+                ],
             };
             return d;
         }
@@ -5530,147 +5616,6 @@ $(function () {
         }
         easyEvolveNormalList() {
             this.clearSortedEvolveLists();
-        }
-        easyEvolveTypeList(GLOBALS) {
-            const obj = this;
-            const dexData = GLOBALS.DEX_DATA;
-
-            this.clearSortedEvolveLists();
-
-            const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-            obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
-
-            const typeBorder = obj.jQuery('.panel>h3').css('border');
-            const typeColor = obj.jQuery('.panel>h3').css('color');
-            obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-            obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-            obj.jQuery('.expandlist').css('color', '' + typeColor + '');
-
-            const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-            const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-            obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-            obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
-
-            /*
-          Nested helper function
-        */
-            const getEvolutionOrigin = function (evoString) {
-                const summary = '/summary/';
-                const originStart = evoString.indexOf(summary) + summary.length + 7;
-                const originEnd = evoString.indexOf('</a>');
-                return evoString.substring(originStart, originEnd);
-            };
-
-            const getEvolutionDestination = function (evoString) {
-                const destStart = evoString.indexOf('into</span>') + 'into</span>'.length;
-                return evoString.substr(destStart).trim();
-            };
-
-            const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
-                if (evoString.includes('title="[DELTA')) {
-                    const deltaType = evoString.match('DELTA-(.*)]">');
-                    $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
-                }
-            };
-
-            obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
-            // getting the <li> element from the pokemon & the pokemon evolved name
-                const getEvolveString = obj.jQuery(this).html();
-                let previousPokemon = getEvolutionOrigin(getEvolveString);
-                const evolvePokemon = getEvolutionDestination(getEvolveString);
-
-                // Handle unicode characters
-                previousPokemon = previousPokemon.replace(/é/g, '\\u00e9');
-
-                // Handle evolvePokemon name formatting
-                let evolveFormatted = evolvePokemon.replace(' [', '/');
-                evolveFormatted = evolveFormatted.replace(']', '');
-
-                const previousIndex = dexData.indexOf('"' + previousPokemon + '"');
-                const evolveIndex = dexData.indexOf('"' + evolveFormatted + '"');
-
-                const previousInDex = previousIndex != -1;
-                const evolveInDex = evolveIndex != -1;
-                let evolveTypesPrevious = [];
-                let evolveTypes = [];
-
-                /* Procedure
-             * 1. Handling evolution origin:
-             *    a. If the evolution origin is in the dex, load the types from the dex
-             *    b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
-             * 2. If the evolution destination is not in the dex:
-             *    a. If the destination pokemon is in the dex, load the types from the dex
-             *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
-             *    c. Else, mark the type as '18' (not a valid type)
-             * 3. Use types to apply HTML classes to the list item that contains the current evolution
-             *    a. Use the evolution origin's and destination's types as HTML classes
-             *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
-             */
-
-                if (previousInDex) {
-                // Step 1.a
-                    evolveTypesPrevious = [1, 2].map((i) => dexData[previousIndex + i]);
-                }
-                else {
-                // Step 1.b
-                    evolveTypesPrevious = ['18', '-1'];
-                }
-
-                if (evolveInDex) {
-                // Step 2.a
-                    evolveTypes = [1, 2].map((i) => dexData[evolveIndex + i]);
-                }
-                else {
-                // Step 2.b
-                    if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
-                        evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
-                        // short circuit the previous pokemon's types, since the KNOWN_EXCEPTIONS table will have everything
-                        evolveTypesPrevious = evolveTypes;
-                    }
-                    // Step 2.c
-                    else {
-                        evolveTypes = ['18', '-1'];
-                    }
-                }
-
-                // the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-                // in some cases. Just strip it off
-                evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
-                evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
-
-                // filter out invalid 2nd types (will be -1)
-                evolveTypesPrevious = evolveTypesPrevious.filter((t) => t !== '-1');
-                evolveTypes = evolveTypes.filter((t) => t !== '-1');
-
-                // append types to DOM
-                const elem = this;
-                evolveTypes.map((t) => {
-                    obj.jQuery(elem).clone().appendTo('.' + t);
-                });
-                evolveTypesPrevious.map((t) => {
-                    if (!isNaN(parseInt(t)) && parseInt(t) > -1 && evolveTypes.indexOf(t) == -1) {
-                        obj.jQuery(elem).clone().appendTo('.' + t);
-                    }
-                });
-
-                appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
-            }); // each
-
-            obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
-                const amountOfEvolves = obj.jQuery(this).children().children().length;
-                const evolveTypeName = obj.jQuery(this).children('.slidermenu').html();
-
-                // hide the types with no evolutions
-                if (amountOfEvolves === 0) {
-                    this.nextSibling.hidden = true;
-                    this.hidden = true;
-                } else {
-                    obj.jQuery(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
-                }
-            });
-
-            obj.jQuery('.evolvepkmnlist').hide();
         }
         easyEvolveNameList() {
             const obj = this;
@@ -5870,18 +5815,18 @@ $(function () {
                     pokemonDexKeepThirdName, pokemonDexKeepFourthName,
                     pokemonDexKeepFifthName, pokemonDexKeepSixthName] = evolvePokemonName.split(' ');
                 const [evolveNewTotalOne, evolveNewCheckOne, /* ignore */, /* ignore */, /* ignore */] = getNewCheckData(evolvePokemonNameOne);
-                // if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
-                // The remaining checks are a (not great) way of checking for names with '/' in them.
-                // PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
-                // Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
-                // Regex: \w+/\w+
+                /* if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
+               The remaining checks are a (not great) way of checking for names with '/' in them.
+               PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
+               Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
+               Regex: \w+/\w+ */
                 const evolvePokemonNameTwo = (evolvePokemonNameOne + '/' + pokemonDexKeepSecondName).replace('[', '').replace(']', '');
                 const [evolveNewTotalTwo, evolveNewCheckTwo,
                     evolveNewShinyCheckTwo, evolveNewAlbinoCheckTwo,
                     evolveNewMelaCheckTwo] = getNewCheckData(evolvePokemonNameTwo);
 
-                // Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
-                // Regex: \w+/\w+ \w+
+                /* Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
+               Regex: \w+/\w+ \w+ */
                 const evolvePokemonNameThree = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName).replace('[', '').replace(']', '');
@@ -5889,8 +5834,8 @@ $(function () {
                     evolveNewShinyCheckThree, evolveNewAlbinoCheckThree,
                     evolveNewMelaCheckThree] = getNewCheckData(evolvePokemonNameThree);
 
-                // Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
-                // Regex: \w+/\w+ \w+ \w+
+                /* Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
+               Regex: \w+/\w+ \w+ \w+ */
                 const evolvePokemonNameFour = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -5899,8 +5844,8 @@ $(function () {
                     evolveNewShinyCheckFour, evolveNewAlbinoCheckFour,
                     evolveNewMelaCheckFour] = getNewCheckData(evolvePokemonNameFour);
 
-                // Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
-                // Regex: \w+/\w+ \w+ \w+ \w+
+                /* Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
+               Regex: \w+/\w+ \w+ \w+ \w+ */
                 const evolvePokemonNameFive = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -5910,8 +5855,8 @@ $(function () {
                     evolveNewShinyCheckFive, evolveNewAlbinoCheckFive,
                     evolveNewMelaCheckFive] = getNewCheckData(evolvePokemonNameFive);
 
-                // Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
-                // Regex: \w+/\w+ \w+ \w+ \w+ \w+
+                /* Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
+               Regex: \w+/\w+ \w+ \w+ \w+ \w+ */
                 const evolvePokemonNameSix = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -6057,7 +6002,153 @@ $(function () {
     }
     /* globals FarmPageBase */
     // eslint-disable-next-line no-unused-vars
-    class FarmPage extends FarmPageBase {}
+    class FarmPage extends FarmPageBase {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS, externals) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS, externals);
+        }
+        easyEvolveTypeList(GLOBALS) {
+            const obj = this;
+            const dexData = GLOBALS.DEX_DATA;
+
+            this.clearSortedEvolveLists();
+
+            const typeBackground = obj.jQuery('.panel>h3').css('background-color');
+            obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+            document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
+
+            const typeBorder = obj.jQuery('.panel>h3').css('border');
+            const typeColor = obj.jQuery('.panel>h3').css('color');
+            obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
+            obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
+            obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+
+            const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
+            const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
+            obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+            obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+
+            /* Nested helper function */
+            const getEvolutionOrigin = function (evoString) {
+                const summary = '/summary/';
+                const originStart = evoString.indexOf(summary) + summary.length + 7;
+                const originEnd = evoString.indexOf('</a>');
+                return evoString.substring(originStart, originEnd);
+            };
+
+            const getEvolutionDestination = function (evoString) {
+                const destStart = evoString.indexOf('into</span>') + 'into</span>'.length;
+                return evoString.substr(destStart).trim();
+            };
+
+            const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
+                if (evoString.includes('title="[DELTA')) {
+                    const deltaType = evoString.match('DELTA-(.*)]">');
+                    $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
+                }
+            };
+
+            obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
+            // getting the <li> element from the pokemon & the pokemon evolved name
+                const getEvolveString = obj.jQuery(this).html();
+                let previousPokemon = getEvolutionOrigin(getEvolveString);
+                const evolvePokemon = getEvolutionDestination(getEvolveString);
+
+                // Handle unicode characters
+                previousPokemon = previousPokemon
+                    .replace(/é/g, '\\u00e9')
+                    .replace(/í/g, '\\u00ed')
+                    .replace(/ñ/g, '\\u00f1');
+
+                // Handle evolvePokemon name formatting
+                let evolveFormatted = evolvePokemon.replace(' [', '/');
+                evolveFormatted = evolveFormatted.replace(']', '');
+
+                const previousIndex = dexData.indexOf('"' + previousPokemon + '"');
+                const evolveIndex = dexData.indexOf('"' + evolveFormatted + '"');
+
+                const previousInDex = previousIndex != -1;
+                const evolveInDex = evolveIndex != -1;
+                const evolveInExceptions = evolvePokemon in obj.settings.KNOWN_EXCEPTIONS;
+                let evolveTypesPrevious = [];
+                let evolveTypes = [];
+
+                /* Procedure
+               1. If the evolution destination is in the known exceptions list
+                  a. Load the types from KNOWN_EXCEPTIONS
+               2. Else:
+                  a. If the evolution origin is in the dex, load the types from the dex
+                  b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
+                  c. If the destination pokemon is in the dex, load the types from the dex
+                  d. Else, mark the type as '18' (not a valid type)
+               3. Use types to apply HTML classes to the list item that contains the current evolution
+                  a. Use the evolution origin's and destination's types as HTML classes
+                  b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well */
+
+                if(evolveInExceptions) {
+                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
+                    // short circuit the previous pokemon's types, since the KNOWN_EXCEPTIONS table will have everything
+                    evolveTypesPrevious = evolveTypes;
+                }
+                else {
+                    if (previousInDex) {
+                        evolveTypesPrevious = [1, 2].map((i) => dexData[previousIndex + i]);
+                    }
+                    else {
+                        evolveTypesPrevious = ['18', '-1'];
+                    }
+
+                    if (evolveInDex) {
+                        evolveTypes = [1, 2].map((i) => dexData[evolveIndex + i]);
+                    }
+                    else {
+                        evolveTypes = ['18', '-1'];
+                    }
+                }
+
+                /* the evolveTypes and evolveTypesPrevious entries can begin with a '.'
+               in some cases. Just strip it off */
+                evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
+                evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
+
+                // filter out invalid 2nd types (will be -1)
+                evolveTypesPrevious = evolveTypesPrevious.filter((t) => t !== '-1');
+                evolveTypes = evolveTypes.filter((t) => t !== '-1');
+
+                // append types to DOM
+                const elem = this;
+                // add unknown source types
+                if(evolveTypesPrevious   .includes('18')) {
+                    obj.jQuery(elem).clone().appendTo('.18source');
+                }
+                // add unknown target types
+                if(evolveTypes.includes('18')) {
+                    obj.jQuery(elem).clone().appendTo('.18target');
+                }
+                const combinedValidTypes = [...evolveTypesPrevious, ...evolveTypes]
+                    .filter((t, i, self) => t != '18' && self.indexOf(t) === i);
+                combinedValidTypes.map((t) => {
+                    obj.jQuery(elem).clone().appendTo(`.${t}`);
+                });
+
+                appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
+            }); // each
+
+            obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
+                const amountOfEvolves = obj.jQuery(this).children().children().length;
+                const evolveTypeName = obj.jQuery(this).children('.slidermenu').html();
+
+                // hide the types with no evolutions
+                if (amountOfEvolves === 0) {
+                    this.nextSibling.hidden = true;
+                    this.hidden = true;
+                } else {
+                    obj.jQuery(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
+                }
+            });
+
+            obj.jQuery('.evolvepkmnlist').hide();
+        }
+    }
     /* globals Page */
     // eslint-disable-next-line no-unused-vars
     class DaycarePage extends Page {
@@ -6093,9 +6184,9 @@ $(function () {
                 if (button.attributes['data-gender'] !== undefined) {
                     gender = button.attributes['data-gender'].value;
                 }
-                // the egg group is binary coded decimal
-                // if a pokemon has two egg groups, the leftmost 4 bits of the number returned
-                // are the first egg group and the rightmost 4 bits are the second egg group
+                /* the egg group is binary coded decimal
+                   if a pokemon has two egg groups, the leftmost 4 bits of the number returned
+                   are the first egg group and the rightmost 4 bits are the second egg group */
                 if (button.attributes['data-egggroup'] !== undefined) {
                     eggGroup1 = parseInt(button.attributes['data-egggroup'].value);
                     if (eggGroup1 > 15) { // two egg groups
@@ -6126,8 +6217,8 @@ $(function () {
                         const eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0];
                         const searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
 
-                        // There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
-                        // The gender title can be "[M], [F], [N]"
+                        /* There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
+                           The gender title can be "[M], [F], [N]" */
                         const searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
                         const searchEggGroups = obj.jQuery(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
 
@@ -6184,8 +6275,8 @@ $(function () {
             const elem = document.querySelector('.filter-type');
             const clone = elem.cloneNode(true);
             elem.parentNode.appendChild(clone);
-            // can't remove filter-type class or else the filtering
-            // won't look right
+            /* can't remove filter-type class or else the filtering
+               won't look right */
             this.jQuery(clone).addClass('filter-type-2');
         }
 
@@ -6273,8 +6364,8 @@ $(function () {
         constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
             super(jQuery, localStorageMgr, helpers, GLOBALS);
 
-            // when entering the dex page, update the local storage QoLPokedex
-            // so the user can update their information
+            /* when entering the dex page, update the local storage QoLPokedex
+               so the user can update their information */
             if (jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
                 const text = jQuery('script#dexdata').text();
                 GLOBALS.DEX_DATA = text.split(',');
@@ -6624,13 +6715,13 @@ $(function () {
     class PFQoL extends PFQoLBase {
         constructor($) {
             super($);
-            // set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
-            // GLOBALS.DEX_DATA is the data loaded directly from the script contained in
-            // the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
-            // - their types
-            // - if they hatch from an egg,
-            // - if you have the eggdex, and
-            // - if you have the regular, shiny, albino, and melanistic pokedex entries
+            /* set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+               GLOBALS.DEX_DATA is the data loaded directly from the script contained in
+               the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
+               - their types
+               - if they hatch from an egg,
+               - if you have the eggdex, and
+               - if you have the regular, shiny, albino, and melanistic pokedex entries */
             this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS);
         }
     }

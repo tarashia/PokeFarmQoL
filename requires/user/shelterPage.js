@@ -48,9 +48,11 @@ class ShelterPage extends ShelterPageBase {
     }
     highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
         const cls = this.helpers.getPokemonImageClass();
-        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
-        // will not exist. If this occurs. don't try highlighting anything until the
-        // pokemon is "put down"
+        /*
+         * if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
+         * will not exist. If this occurs. don't try highlighting anything until the
+         * pokemon is "put down"
+         */
         if (!this.jQuery(pokemonElem).next().length) { return; }
 
         const tooltipElem = this.jQuery(pokemonElem).next()[0];
@@ -69,8 +71,10 @@ class ShelterPage extends ShelterPageBase {
                 }
             }
             if (!evolutionData[pokemon]) {
-                // Do not log error here. Repeated errors can (will) slow down the page
-                // console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
+                /*
+                 * Do not log error here. Repeated errors can (will) slow down the page
+                 * console.error(`Private Fields Page - Could not find evolution data for ${pokemon}`);
+                 */
             } else {
                 const evolutionsLeft = evolutionData[pokemon].remaining;
 
@@ -84,48 +88,16 @@ class ShelterPage extends ShelterPageBase {
             console.error('Unable to load evolution data. In QoL Hub, please clear cached dex and reload dex data');
         }
     }
-    customSearch(GLOBALS) {
-        super.customSearch(GLOBALS);
+
+    searchForTypes(GLOBALS, types) {
         const obj = this;
-        const cls = this.helpers.getPokemonImageClass();
-
         const dexData = GLOBALS.DEX_DATA;
-        // search whatever you want to find in the shelter & grid
-
-        if (this.settings.findNFE === true) {
-            this.jQuery('#shelterarea>[data-stage=pokemon]').each(function () {
-                obj.highlightByHowFullyEvolved(GLOBALS, this);
-            });
-        } else {
-            this.jQuery('.oneevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('oneevolutionleft');
-            });
-            this.jQuery('.twoevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('twoevolutionleft');
-            });
-        }
-
-        if (this.settings.findReadyToEvolve === true) {
-            if (GLOBALS.EVOLVE_BY_LEVEL_LIST === null) {
-                window.alert('Unable to load list of pokemon that can evolve by level. Please try updating dex ' +
-                    'by clicking "Update Pokedex" in the QoL Hub. If the problem persists, please post in the thread.\n\n' +
-                    'Disabling this function until the checkbox is clicked again');
-                this.settings.findReadyToEvolve = false;
-                // uncheck checkbox
-                this.jQuery('[data-key=findReadyToEvolve]')[0].checked = false;
-            } else {
-                this.searchForReadyToEvolveByLevel(GLOBALS);
-            }
-        }
-
-        //loop to find all the types
-        const filteredTypeArray = this.typeArray.filter(v => v != '');
-
-        if (filteredTypeArray.length > 0) {
+        const cls = this.helpers.getPokemonImageClass();
+        if (types.length > 0) {
             const eggPngsToTypes = GLOBALS.EGGS_PNG_TO_TYPES_LIST ||
                 JSON.parse(this.localStorageMgr.getItem(GLOBALS.POKEDEX_EGG_TYPES_MAP_KEY)) || undefined;
-            for (let i = 0; i < filteredTypeArray.length; i++) {
-                const value = filteredTypeArray[i];
+            for (let i = 0; i < types.length; i++) {
+                const value = types[i];
                 const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
 
                 let typePokemonNames = [];
@@ -188,6 +160,38 @@ class ShelterPage extends ShelterPageBase {
                     this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
                 }
             }
-        } // filteredTypeArray
+        }
+    }
+
+    customSearch(GLOBALS) {
+        super.customSearch(GLOBALS);
+        const obj = this;
+        // search whatever you want to find in the shelter & grid
+
+        if (this.settings.findNFE === true) {
+            this.jQuery('#shelterarea>[data-stage=pokemon]').each(function () {
+                obj.highlightByHowFullyEvolved(GLOBALS, this);
+            });
+        } else {
+            this.jQuery('.oneevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('oneevolutionleft');
+            });
+            this.jQuery('.twoevolutionleft').each((k, v) => {
+                obj.jQuery(v).removeClass('twoevolutionleft');
+            });
+        }
+
+        if (this.settings.findReadyToEvolve === true) {
+            if (GLOBALS.EVOLVE_BY_LEVEL_LIST === null) {
+                window.alert('Unable to load list of pokemon that can evolve by level. Please try updating dex ' +
+                    'by clicking "Update Pokedex" in the QoL Hub. If the problem persists, please post in the thread.\n\n' +
+                    'Disabling this function until the checkbox is clicked again');
+                this.settings.findReadyToEvolve = false;
+                // uncheck checkbox
+                this.jQuery('[data-key=findReadyToEvolve]')[0].checked = false;
+            } else {
+                this.searchForReadyToEvolveByLevel(GLOBALS);
+            }
+        }
     } // customSearch
 }

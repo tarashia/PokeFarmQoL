@@ -13,3 +13,10 @@ notes.txt
 
 # config
 .env
+
+# output files
+output
+
+# testing debug files
+actualHTML.html
+expectedHTML.html

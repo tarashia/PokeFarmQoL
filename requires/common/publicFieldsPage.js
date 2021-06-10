@@ -94,7 +94,6 @@ class PublicFieldsPage extends Page {
         this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
         this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('#fieldsearch').css('border', '' + fieldOrderCssBorder + '');
         this.jQuery('#tooltipenable').css('max-width', '600px');
         this.jQuery('#tooltipenable').css('position', 'relative');
         this.jQuery('#tooltipenable').css('margin', '16px auto');
@@ -105,9 +104,9 @@ class PublicFieldsPage extends Page {
         this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
         this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
-        // Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-        // settings as most of the text on the site, manually set the text color for
-        // '.collapsible' to match the text around it
+        /* Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+           settings as most of the text on the site, manually set the text color for
+           '.collapsible' to match the text around it */
         this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
     }
     setupObserver() {
@@ -354,9 +353,7 @@ class PublicFieldsPage extends Page {
         const obj = this;
         const cls = this.helpers.getPokemonImageClass();
 
-        /////////////////////////////////////////////////
         //////////////////// sorting ////////////////////
-        /////////////////////////////////////////////////
         if (this.settings.fieldByBerry === true) { //sort field by berries
             this.jQuery('.fieldmon').removeClass('qolSortMiddle');
             this.jQuery('.field').removeClass('qolGridField');
@@ -442,17 +439,19 @@ class PublicFieldsPage extends Page {
 
             if(pokemonInField !== '') {
                 if (JSON.stringify(pokemonClicked) === pokemonInField) {
-                    this.jQuery('#pokemonclickcount').css({'color' : '#059121'});
+                    this.jQuery('#pokemonclickcount').css({
+                        'color' : '#059121'
+                    });
                 }
                 if (pokemonClicked !== JSON.parse(pokemonInField)) {
-                    this.jQuery('#pokemonclickcount').css({'color' : '#a30323'});
+                    this.jQuery('#pokemonclickcount').css({
+                        'color' : '#a30323'
+                    });
                 }
             }
         }
 
-        /////////////////////////////////////////////////
         /////////////////// searching ///////////////////
-        /////////////////////////////////////////////////
         const bigImgs = document.querySelectorAll('.publicfoundme');
         if(bigImgs !== null) {
             bigImgs.forEach((b) => {obj.jQuery(b).removeClass('publicfoundme');});

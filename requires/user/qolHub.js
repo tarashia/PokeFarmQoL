@@ -1,6 +1,5 @@
 /* This class handles creating, removing, and handling the DOM object actions
- * for the QoL Hub.
- */
+   for the QoL Hub. */
 /* globals QoLHubBase DexUtilities DexPageParser EvolutionTreeParser */
 // eslint-disable-next-line no-unused-vars
 class QoLHub extends QoLHubBase {
@@ -53,8 +52,8 @@ class QoLHub extends QoLHubBase {
         // Manually update GLOBALS.DEX_DATA
         localStorageManager.loadDexIntoGlobalsFromWeb(obj.jQuery, document, DexUtilities, obj.GLOBALS);
 
-        // obj.GLOBALS.DEX_DATA will contain the latest info as is read from local storage
-        // this handler updates the local storage
+        /* obj.GLOBALS.DEX_DATA will contain the latest info as is read from local storage
+           this handler updates the local storage */
         const progressSpan = obj.jQuery('span.qolDexUpdateProgress', document)[0];
         progressSpan.textContent = 'Loading...';
 
@@ -63,8 +62,8 @@ class QoLHub extends QoLHubBase {
         obj.jQuery('.qolDate', document).text(obj.GLOBALS.DEX_UPDATE_DATE);
         localStorageManager.updateLocalStorageDex(obj.jQuery, document, date, obj.GLOBALS);
 
-        // this will update the obj.GLOBALS.EVOLVE_BY_LEVEL_LIST
-        // and local storage
+        /* this will update the obj.GLOBALS.EVOLVE_BY_LEVEL_LIST
+           and local storage */
         const virtualDocument = document.implementation.createHTMLDocument('virtual');
         DexUtilities.getMainDexPage(obj.jQuery).then((data) => {
             const html = obj.jQuery.parseHTML(data);
@@ -93,9 +92,6 @@ class QoLHub extends QoLHubBase {
                         // Build evolution tree depths
                         const evolutionTreeDepthList = DexUtilities.buildEvolutionTreeDepthsList(parsedFamilies, dexIDs, formData, formMap);
 
-                        // Collect regional form data
-                        const regionalFormMap = DexUtilities.buildRegionalFormsMap(formMap);
-
                         // Collect list of base names to make it easier down the line
                         const baseNames = DexUtilities.parseBaseNames(obj.jQuery, virtualDocument, DexPageParser, allPagesHTML);
                         // Collect list of egg pngs
@@ -106,7 +102,7 @@ class QoLHub extends QoLHubBase {
 
                         localStorageManager.saveEvolveByLevelList(obj.GLOBALS, parsedFamilies, dexIDs);
                         localStorageManager.saveEvolutionTreeDepths(obj.GLOBALS, evolutionTreeDepthList);
-                        localStorageManager.saveRegionalFormsList(obj.GLOBALS, parsedFamilies, dexIDs, regionalFormMap);
+                        localStorageManager.saveRegionalFormsList(obj.GLOBALS, parsedFamilies, dexIDs, formMap);
                         localStorageManager.saveEggTypesMap(obj.GLOBALS, eggPngsTypeMap);
                         progressSpan.textContent = 'Complete!';
                     }, (error) => {

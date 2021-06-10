@@ -1,5 +1,6 @@
 /* eslint-disable no-trailing-spaces */
-/* EvolutionTreeParser class
+/*
+ * EvolutionTreeParser class
  * This purely static class provides functions for parsing the evolution div of a dex page.
  * This class should only be used by the DexPageParser class.
  * This classes complies with the practice of prepending an underscore on private items. This includes
@@ -8,7 +9,8 @@
 // eslint-disable-next-line no-unused-vars
 class EvolutionTreeParser {
     
-    /* _parseEvolutionLi
+    /*
+     * _parseEvolutionLi
      * Parses the contents of an <li> element from the evolution tree div of a dex page
      * Inputs:
      * - li - an HTML node representing the <li> to be parsed
@@ -56,7 +58,8 @@ class EvolutionTreeParser {
         }
     }
 
-    /* _parseEvolutionUl
+    /*
+     * _parseEvolutionUl
      * Parses the contents of an <ul> element from the evolution tree div of a dex page
      * Inputs:
      * - ul - an HTML node representing the <ul> to be parsed
@@ -96,7 +99,8 @@ class EvolutionTreeParser {
         return ret;
     }
     
-    /* parseEvolutionTree
+    /*
+     * parseEvolutionTree
      * Parses the content of an evolution tree of a dex page
      * Inputs:
      * - root - a string with the name of the pokemon at the base of the tree (e.g., 'Rattata')
@@ -185,7 +189,8 @@ class EvolutionTreeParser {
             }
         }
 
-        /* tree format example
+        /*
+         * tree format example
          * {
          *  'Eevee' => [
          *              {
@@ -213,7 +218,8 @@ class EvolutionTreeParser {
         return flat;
     }
 
-    /* _flattenEvolutionTree
+    /*
+     * _flattenEvolutionTree
      * Parses a tree structure representing the evolutions of a pokemon into an object containing flat arrays.
      * Called recursively to parse the nested evolution data.
      * Inputs:
@@ -282,7 +288,8 @@ class EvolutionTreeParser {
         return retObj;
     }
 
-    /* _parseEvolutionConditions
+    /*
+     * _parseEvolutionConditions
      * Parse the HTML in the conditions list from the flattened object.
      * Currently this only successfully parses Level conditions
      * Inputs:
@@ -294,8 +301,10 @@ class EvolutionTreeParser {
         for(let e = 0; e < flattened.evolutions.length; e++) {
             const condition = flattened.evolutions[e].condition;
             const condText = condition.textContent;
-            // for now, let's just parse for pokemon that evolve by level
-            // TODO: Non-Level conditions
+            /*
+             * for now, let's just parse for pokemon that evolve by level
+             * TODO: Non-Level conditions
+             */
             if(condText.indexOf('Level ') > -1) {
                 flattened.evolutions[e].condition = [];
                 const words = condText.split(' ');
