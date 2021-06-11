@@ -84,7 +84,7 @@
       "terminalKind": "integrated"
     },
     {
-      "name": "GulpTester",
+      "name": "User Test Gulp Tester",
       "type": "node",
       "request": "launch",
       "program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
