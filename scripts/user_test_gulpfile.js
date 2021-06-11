@@ -10,20 +10,6 @@ const output = 'Poke-Farm-QoL.test.user.js';
 const outputDir = path.join(__dirname, '..');
 const outputFullPath = path.join(outputDir, output);
 
-/* declare -a INPUT=("${ROOT}/requires/user/resources.js"
-                     "${ROOT}/requires/user/globals.js"
-                     "${ROOT}/requires/user/evolutionTreeParser.js"
-                     "${ROOT}/requires/user/dexPageParser.js"
-                     "${ROOT}/requires/user/localStorageManager.js"
-                     "${ROOT}/requires/user/dexUtilities.js"
-                     "${ROOT}/requires/user/qolHub.js"
-                     "${ROOT}/requires/user/shelterPage.js"
-                     "${ROOT}/requires/user/privateFieldsPage.js"
-                     "${ROOT}/requires/user/labPage.js"
-                     "${ROOT}/requires/user/farmPage.js"
-                     "${ROOT}/requires/user/dexPage.js"
-                     "${ROOT}/requires/user/pfqol.js"
-                     ) */
 const commonSources = [
     '/home/jonpaul/code/javascript/PokeFarmQoL/requires/common/polyfill.js',
     '/home/jonpaul/code/javascript/PokeFarmQoL/requires/common/resources.js',
