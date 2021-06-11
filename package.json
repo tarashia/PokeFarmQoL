@@ -7,9 +7,9 @@
         "pretest": "npm run build_all",
         "test": "jest --collectCoverageFrom=\"Poke-Farm-QoL.sanctioned.test.user.js\" --collectCoverageFrom=\"Poke-Farm-QoL.test.user.js\" --coverage ./__tests__/*/compiled*.js",
         "user_test": "gulp -f ./scripts/user_test_gulpfile.js",
-        "user_release": "bash ./scripts/compile_user_release.sh",
-        "sanctioned_test": "bash ./scripts/compile_sanctioned_test.sh",
-        "sanctioned_release": "bash ./scripts/compile_sanctioned_release.sh",
+        "user_release": "gulp -f ./scripts/user_release_gulpfile.js",
+        "sanctioned_test": "gulp -f ./scripts/sanctioned_test_gulpfile.js",
+        "sanctioned_release": "gulp -f ./scripts/sanctioned_release_gulpfile.js",
         "build_all": "npm run user_test; npm run user_release; npm run sanctioned_test; npm run sanctioned_release",
         "lint": "eslint --fix "
     },
