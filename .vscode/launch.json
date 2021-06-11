@@ -83,5 +83,21 @@
       "args": [],
       "terminalKind": "integrated"
     },
+    {
+      "name": "GulpTester",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
+      "stopOnEntry": false,
+      "args": [
+        "-f",
+        "./scripts/user_test_gulpfile.js"
+      ],
+      "cwd": "${workspaceRoot}",
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "console": "internalConsole",
+    }
   ]
 }
