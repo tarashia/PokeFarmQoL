@@ -4,8 +4,8 @@
 // @namespace    https://github.com/jpgualdarrama/
 // @author       Bentomon
 // @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_96/Poke-Farm-QoL.sanctioned.user.js
-// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/issue_96/Poke-Farm-QoL.sanctioned.user.js
+// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
+// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.6.9
 // @match        https://pokefarm.com/*
@@ -4383,8 +4383,12 @@ $(function () {
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
                 this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickbigscreen');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
                 this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
+                this.jQuery('.mu_navlink.next').removeClass('qolpartyclickbigscreen');
+                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
                 this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
@@ -4422,8 +4426,12 @@ $(function () {
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
                 this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickbigscreen');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
                 this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
+                this.jQuery('.mu_navlink.next').removeClass('qolpartyclickbigscreen');
+                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
                 this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
@@ -4464,8 +4472,12 @@ $(function () {
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
                 this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickbigscreen');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
                 this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
+                this.jQuery('.mu_navlink.next').removeClass('qolpartyclickbigscreen');
+                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
                 this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
@@ -4524,9 +4536,28 @@ $(function () {
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').addClass('qolpartyclickwidth');
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').addClass('qolpartyclickblock');
                 this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
+
+                // desktop
+                if(window.innerWidth > 650) {
+                    this.jQuery('#multiuser .party>div').addClass('qolpartyclickbigscreen');
+                }
+                // mobile
+                else {
+                    this.jQuery('#multiuser .party>div').addClass('qolpartyclicksmallscreen');
+                }
                 this.jQuery('#multiuser .party>div').addClass('qolpartyclickalot');
                 this.jQuery('#multiuser .party>div>.action a[data-berry]').addClass('qolpartyclickz');
+
+                // desktop
+                if(window.innerWidth > 650) {
+                    this.jQuery('.mu_navlink.next').addClass('qolpartyclickbigscreen');
+                }
+                // mobile
+                else {
+                    this.jQuery('.mu_navlink.next').addClass('qolpartyclicksmallscreen');
+                }
                 this.jQuery('.mu_navlink.next').addClass('qolpartyclicknav');
+
                 this.jQuery('#multiuser .party').addClass('qolpartyclickpartywidth');
                 this.jQuery('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
                 this.jQuery('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
