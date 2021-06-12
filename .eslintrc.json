@@ -44,7 +44,7 @@
         ],
         "multiline-comment-style": [
           "error",
-          "bare-block"
+          "starred-block"
         ],
         "object-curly-newline": [
             "error",
