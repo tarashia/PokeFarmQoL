@@ -53,3 +53,12 @@ exports.userSources = [
 
 exports.sanctionedHeaderPath = path.join(__dirname, '..', 'requires', 'sanctioned', 'header.txt');
 exports.userHeaderPath = path.join(__dirname, '..', 'requires', 'user', 'header.txt');
+
+exports.releaseBuildFunctionHeader =[
+    '// eslint-disable-next-line no-undef',
+    '$(function () {',
+    '(\'use strict\');\n'
+].join('\n');
+exports.releaseBuildFunctionFooter =  [
+    '});'
+].join('\n');

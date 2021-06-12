@@ -15,6 +15,8 @@ const outputFullPath = path.join(outputDir, output);
 const commonSources = sources.commonSources;
 const sanctionedSources = sources.sanctionedSources;
 const headerPath = sources.sanctionedHeaderPath;
+const functionWrapHeader = sources.releaseBuildFunctionHeader;
+const functionWrapFooter = sources.releaseBuildFunctionFooter;
 
 function concatenate() {
     return src(
@@ -32,14 +34,8 @@ function removeComments() {
 
 function addFunctionWrap() {
     return src(outputFullPath)
-        .pipe(header([
-            '// eslint-disable-next-line no-undef',
-            '$(function () {',
-            '(\'use strict\');'
-        ].join('\n')))
-        .pipe(footer([
-            '});'
-        ]))
+        .pipe(header(functionWrapHeader))
+        .pipe(footer(functionWrapFooter))
         .pipe(dest(outputDir));
 }
 

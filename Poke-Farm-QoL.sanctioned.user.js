@@ -11,7 +11,6 @@
 // @match        https://pokefarm.com/*
 // @connect      github.com
 // ==/UserScript==
-
 // eslint-disable-next-line no-undef
 $(function () {
     ('use strict');
@@ -25,8 +24,8 @@ $(function () {
         head.appendChild(style);
     }
     /**
- * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
- */
+     * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
+     */
     // eslint-disable-next-line no-unused-vars
     class ResourcesBase {
         css() {
@@ -1323,16 +1322,6 @@ $(function () {
       </div>`;
         }
     }
-    /**
- * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
- */
-    /* globals ResourcesBase */
-    // eslint-disable-next-line no-unused-vars
-    class Resources extends ResourcesBase {
-        constructor() {
-            super();
-        }
-    }
     // eslint-disable-next-line no-unused-vars
     class Helpers {
         buildOptionsString(arr) {
@@ -1412,8 +1401,10 @@ $(function () {
             }
             index++;
 
-            /* Issue #59 - Pokefarm added a new h3 element after the nickname
-               that contains no data */
+            /*
+             * Issue #59 - Pokefarm added a new h3 element after the nickname
+             * that contains no data
+             */
             index++;
 
             // species
@@ -1579,8 +1570,10 @@ $(function () {
             this.POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
             this.POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
             this.POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
-            /* Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
-           Don't change the order without looking for where this array is used */
+            /*
+             * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
+             * Don't change the order without looking for where this array is used
+             */
             this.TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
             this.NATURE_LIST = ['Lonely', 'Mild', 'Hasty', 'Gentle', 'Bold', 'Modest', 'Timid', 'Calm',
                 'Impish', 'Adamant', 'Jolly', 'Careful', 'Relaxed', 'Brave', 'Quiet', 'Sassy',
@@ -1658,9 +1651,11 @@ $(function () {
             ];
             this.SHELTER_SEARCH_LISTS = {
                 'findLegendary': [
-                /* List of official legendaries more or less based on
-                   https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
-                   Kanto */
+                /*
+                 * List of official legendaries more or less based on
+                 * https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
+                 * Kanto
+                 */
                     'Articuno', 'Zapdos', 'Moltres', 'Mewtwo', 'Mew',
                     // Johto
                     'Raikou', 'Entei', 'Suicune', 'Lugia', 'Ho-oh', 'Celebi',
@@ -1692,8 +1687,10 @@ $(function () {
             // filled in by LocalStorageManager
             this.DEX_UPDATE_DATE = null;
 
-            /* a static copy of the <script id="dexdata"> tag from Feb 16, 2021
-           this is updated every time the user visits the dex page */
+            /*
+             * a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+             * this is updated every time the user visits the dex page
+             */
             this.DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
             '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
             '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +
@@ -2880,16 +2877,6 @@ $(function () {
             this.EGG_GROUP_OPTIONS = this.HELPERS.buildOptionsString(this.EGG_GROUP_LIST);
         }
     }
-    /* globals GlobalsBase */
-    // eslint-disable-next-line no-unused-vars
-    class Globals extends GlobalsBase {
-        constructor(jQuery, localStorageMgr, helpers) {
-            super(helpers);
-            this.jQuery = jQuery;
-            this.localStorageMgr = localStorageMgr;
-        }
-    }
-
     // eslint-disable-next-line no-unused-vars
     class LocalStorageManagerBase {
         constructor(keyPrefix, storage, helpers) {
@@ -2898,11 +2885,11 @@ $(function () {
             this.helpers = helpers;
         }
         /**
-     * This function helps users use the updated script without having to
-     * clear their settings by looking for items in local storage that
-     * start with 'QoL...' and moving the settings to the correct
-     * translated local storage key
-     */
+         * This function helps users use the updated script without having to
+         * clear their settings by looking for items in local storage that
+         * start with 'QoL...' and moving the settings to the correct
+         * translated local storage key
+         */
         migrateSettings() {
             const newItems = {};
             const keysToRemove = [];
@@ -2944,10 +2931,11 @@ $(function () {
             this.storage.removeItem(this.translateKey(key));
         }
 
-        /* Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
-     * Inputs:
-     * - globals - reference to the GLOBALS settings object
-     */
+        /*
+         * Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
+         * Inputs:
+         * - globals - reference to the GLOBALS settings object
+         */
         loadDexIntoGlobalsFromStorage(globals) {
             const key = this.translateKey(globals.POKEDEX_DATA_KEY);
             if(this.storage.getItem(key) === null) {
@@ -2985,16 +2973,10 @@ $(function () {
         }
     }
 
-    /* globals LocalStorageManagerBase */
-    // eslint-disable-next-line no-unused-vars
-    class LocalStorageManager extends LocalStorageManagerBase {
-        constructor(keyPrefix, storage, helpers) {
-            super(keyPrefix, storage, helpers);
-        }
-    }
-    /* This class handles creating, removing, and handling the DOM object actions
- * for the QoL Hub.
- */
+    /*
+     * This class handles creating, removing, and handling the DOM object actions
+     * for the QoL Hub.
+     */
     // eslint-disable-next-line no-unused-vars
     class QoLHubBase {
         constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
@@ -3093,8 +3075,10 @@ $(function () {
                     }
                     // removes objects from the local storage if they don't exist anymore. Not yet possible..
                     if (countLocalStorageSettings > countScriptSettings) {
-                    /* let defaultsSetting = QOLHUB.USER_SETTINGS;
-                       let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY)); */
+                    /*
+                     * let defaultsSetting = QOLHUB.USER_SETTINGS;
+                     * let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                     */
                         this.saveSettings();
                     }
                 }
@@ -3173,39 +3157,6 @@ $(function () {
             this.jQuery('#core', document).removeClass('scrolllock');
         }
     } // QoLHubBase
-    /* This class handles creating, removing, and handling the DOM object actions
-       for the QoL Hub. */
-    /* globals QoLHubBase */
-    // eslint-disable-next-line no-unused-vars
-    class QoLHub extends QoLHubBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
-            super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
-        }
-        resetDex() {
-            this.jQuery('#clearCachedDex').next().remove();
-            this.GLOBALS.DEX_UPDATE_DATE = null;
-            this.GLOBALS.DEX_DATA = null;
-            this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
-            this.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
-        }
-        build(document) {
-            super.build(document);
-
-            const dexUpdateRowContents = `<td colspan="2" class="qolAllSettings">
-          <span>Notice that you can't find the newly added Eggs or Pokemon in shelter?
-          You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with
-          the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.</span><br>
-          <span>Date last updated:<span class="qolDate">""</span></span>
-          </td>`;
-            this.jQuery('#qolDexUpdateRow').append(dexUpdateRowContents);
-
-            const dexUpdateDate = (this.GLOBALS.DEX_UPDATE_DATE === null) ?
-                'Not updated since installation' :
-                this.GLOBALS.DEX_UPDATE_DATE;
-            this.jQuery('.qolDate', document).text(dexUpdateDate);
-
-        }
-    } // QoLHub
     // eslint-disable-next-line no-unused-vars
     class Page {
         constructor(jQuery, localStorageMgr, helpers, ssk, ds, url) {
@@ -3295,102 +3246,896 @@ $(function () {
         setupObserver() { /* empty */ }
         setupHandlers() { /* empty */ }
     } // Page
-    /* globals Page */
+
     // eslint-disable-next-line no-unused-vars
-    class ShelterPageBase extends Page {
+    class DaycarePage extends Page {
         constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
-                findCustom: '',
-                findType: '',
-                findTypeEgg: true,
-                findTypePokemon: false,
-                findNewEgg: true,
-                findNewPokemon: true,
-                findShiny: true,
-                findAlbino: true,
-                findMelanistic: true,
-                findPrehistoric: true,
-                findDelta: true,
-                findMega: true,
-                findStarter: true,
-                findCustomSprite: true,
-                findLegendary: false,
-                findMale: true,
-                findFemale: true,
-                findNoGender: true,
-                customEgg: true,
-                customPokemon: true,
-                customPng: false,
-                shelterGrid: true,
-            }, '/shelter');
-            this.customArray = [];
-            this.typeArray = [];
+            super(jQuery, localStorageMgr, helpers, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
+            const obj = this;
+            this.observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                // const fsPokemon = document.querySelector('#fs_pokemon');
+                    const fsPokemon = obj.jQuery('#fs_pokemon');
+                    if (fsPokemon.length > 0 &&
+                    obj.jQuery.contains(fsPokemon[0], mutation.target)) {
+                        obj.customSearch(GLOBALS);
+                    }
+                });
+            });
+        } // constructor
+
+        setupObserver() {
+            this.observer.observe(document.querySelector('body'), {
+                childList: true,
+                subtree: true
+            });
+        }
+        customSearch(GLOBALS) {
+            const obj = this;
+            const button = document.querySelector('#pkmnadd');
+
+            let gender = null;
+            let eggGroup1 = null, eggGroup2 = null;
+
+            if (button !== null) {
+                if (button.attributes['data-gender'] !== undefined) {
+                    gender = button.attributes['data-gender'].value;
+                }
+                /*
+                 * the egg group is binary coded decimal
+                 * if a pokemon has two egg groups, the leftmost 4 bits of the number returned
+                 * are the first egg group and the rightmost 4 bits are the second egg group
+                 */
+                if (button.attributes['data-egggroup'] !== undefined) {
+                    eggGroup1 = parseInt(button.attributes['data-egggroup'].value);
+                    if (eggGroup1 > 15) { // two egg groups
+                        eggGroup2 = eggGroup1 & 15;
+                        eggGroup1 = eggGroup1 >> 4;
+                    }
+                }
+            }
+
+            const EGG_ID_TO_NAME = GLOBALS.EGG_GROUP_ID_TO_NAME;
+            if (eggGroup1 !== null) { eggGroup1 = EGG_ID_TO_NAME[eggGroup1]; }
+            if (eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2]; }
+
+            // clear matches
+            obj.jQuery('.daycarefoundme').removeClass('daycarefoundme');
+
+            if (gender !== null && eggGroup1 !== null) {
+                const fieldmons = document.querySelectorAll('.fieldmon');
+                if (fieldmons !== null) {
+                    for (let m = 0; m < fieldmons.length; m++) {
+                        const mon = fieldmons[m];
+                        const searchPokemonBigImg = obj.jQuery(mon)[0].childNodes[0];
+                        const searchPokemon = searchPokemonBigImg.alt;
+
+                        const tooltip = obj.jQuery(mon).next();
+                        const fieldmontip = tooltip[0].querySelector('.fieldmontip');
+                        const speciesDiv = obj.jQuery(fieldmontip).children(':contains(Species)')[0];
+                        const eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0];
+                        const searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
+
+                        /*
+                         * There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
+                         * The gender title can be "[M], [F], [N]"
+                         */
+                        const searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
+                        const searchEggGroups = obj.jQuery(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
+
+                        // Match Ditto in Daycare to anything that can breed
+                        if (gender === 'd' && eggGroup1 === 'Ditto' &&
+                        searchPokemon !== 'Ditto' && searchEggGroups[0] !== 'Undiscovered') {
+                            obj.jQuery(searchPokemonBigImg).addClass('daycarefoundme');
+                        }
+                        // Match Ditto in field to anything that can breed
+                        else if (eggGroup1 !== 'Ditto' && searchPokemon === 'Ditto' && eggGroup1 !== 'Undiscovered') {
+                            obj.jQuery(searchPokemonBigImg).addClass('daycarefoundme');
+                        }
+                        // Match correct gender
+                        else {
+                            const genderCorrect = (gender === 'f' && searchGender === 'm') ||
+                            (gender === 'm' && searchGender === 'f');
+                            const group1Correct = searchEggGroups.reduce((res, curr) => { res = res || (eggGroup1 === curr); return res; }, false);
+                            let group2Correct = false;
+                            if (eggGroup2 !== null) {
+                                group2Correct = searchEggGroups.reduce((res, curr) => { res = res || (eggGroup2 === curr); return res; }, false);
+                            }
+
+                            if (genderCorrect && (group1Correct || group2Correct)) {
+                                obj.jQuery(searchPokemonBigImg).addClass('daycarefoundme');
+                            }
+                        }
+
+                    } // for
+                }
+            } // if
+        } // customSearch
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    class DexPageBase extends Page {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, '/dex');
             const obj = this;
             this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
                 mutations.forEach(function (mutation) {
-                    obj.customSearch(GLOBALS);
+                    obj.applyTypeFilters();
                 });
             });
-
-            /* used to keep track of the currently selected match
-               matches can be selected via a shortcut key, specified via this.selectNextMatchKey */
-            this.selectNextMatchKey = 78; // 'n'
-            this.currentlySelectedMatch = undefined;
-        }
-
-        setupHTML(GLOBALS) {
-            this.jQuery('.tabbed_interface.horizontal>div').removeClass('tab-active');
-            this.jQuery('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul>li').insertAdjacentHTML('afterend', '<li class=""><label>Sort</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
-            document.querySelector('#shelteroptionsqol').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
-            this.jQuery('#shelteroptionsqol').addClass('tab-active');
-
-            document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
-
-            const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
-                'removeShelterTypeList', 'fieldTypes', 'typeArray');
-
-            this.customArray = this.settings.findCustom.split(',');
-            this.typeArray = this.settings.findType.split(',');
-
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
-
-            this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
-            this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
-            this.jQuery('[data-shelter=blackflute]').addClass('customSearchOnClick');
-        }
-        setupCSS() {
-            const shelterSuccessCss = this.jQuery('#sheltercommands').css('background-color');
-            this.jQuery('#sheltersuccess').css('background-color', shelterSuccessCss);
-            this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
-            const background = this.jQuery('#shelterpage>.panel').eq(0).css('border');
-            this.jQuery('.tooltiptext').css('border', '' + background + '');
+            this.typeArray = [];
         }
         setupObserver() {
-            this.observer.observe(document.querySelector('#shelterarea'), {
+            this.observer.observe(document.querySelector('#regionslist'), {
                 childList: true,
+                subtree: true,
+            });
+        }
+        setupHTML() {
+            const elem = document.querySelector('.filter-type');
+            const clone = elem.cloneNode(true);
+            elem.parentNode.appendChild(clone);
+            /*
+             * can't remove filter-type class or else the filtering
+             * won't look right
+             */
+            this.jQuery(clone).addClass('filter-type-2');
+        }
+
+        setupHandlers() {
+            const obj = this;
+            let h = obj.jQuery.parseJSON(obj.jQuery('#dexdata').html());
+            const type2 = obj.jQuery('.filter-type-2');
+            const l = obj.jQuery('.filter-type-2 .types');
+            const c = l.children();
+
+            const typesSpan = obj.jQuery('.filter-type-2 .types');
+
+            type2.on('mousedown.dextfilter touchstart.dextfilter', function (event) {
+                event.preventDefault();
+                const leftedge = typesSpan.offset().left;
+                const width = typesSpan.width();
+                const rightedge = leftedge + width;
+                let xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
+                if (xLocation >= leftedge & xLocation < rightedge) {
+                    xLocation -= leftedge;
+                    xLocation = Math.floor(xLocation / width * c.length);
+                    xLocation = c.eq(xLocation);
+                    if (xLocation.data('type') == h) {
+                        h = null;
+                        obj.toggleSelectedTypes();
+                        obj.applyTypeFilters();
+                    } else {
+                        h = xLocation.data('type');
+                        obj.toggleSelectedTypes(xLocation);
+                        obj.applyTypeFilters();
+                    }
+                } else {
+                    obj.toggleSelectedTypes();
+                    obj.applyTypeFilters();
+                }
+            });
+        }
+
+        toggleSelectedTypes(b) {
+            const g = this.jQuery('.filter-type-2 .name i');
+            const l = this.jQuery('.filter-type-2 .types');
+            const c = l.children();
+
+            l.addClass('selected');
+            c.removeClass('selected');
+            if (b && b.length && !b.hasClass('selected')) {
+                b.addClass('selected');
+                g.text(b.data('type').charAt(0).toUpperCase() + b.data('type').slice(1));
+            } else {
+                l.removeClass('selected');
+                g.text('');
+            }
+        }
+
+        applyTypeFilters() {
+            const l1 = this.jQuery('.entry.filter-type:not(.filter-type-2) .types');
+            const l = this.jQuery('.entry.filter-type-2 .types');
+            const c1 = l1.children();
+            const c = l.children();
+
+            // get the first filter type
+            const a1 = c1.filter('.selected').data('type');
+            const a = c.filter('.selected').data('type');
+
+            let selector = '.region-entries>li.entry';
+            if (a1 !== undefined) {
+                selector += '.t-' + a1;
+            }
+            if (a !== undefined) {
+                selector += '.t-' + a;
+            }
+            if (a1 || a) {
+            // Set "display" to "none" for all elements
+                this.jQuery('.region-entries>li.entry').css('display', 'none');
+                // Set "display" to "inline-block" for elements matching selector
+                this.jQuery(selector).css('display', 'inline-block');
+            } else {
+                this.jQuery(selector).css('display', 'inline-block');
+            }
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    class FarmPageBase extends Page {
+        DEFAULT_SETTINGS(GLOBALS) {
+            const d = {
+                TYPE_APPEND: {}
+            };
+            // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
+            for (let i = 0; i < GLOBALS.TYPE_LIST.length; i++) {
+                const type = GLOBALS.TYPE_LIST[i];
+                d.TYPE_APPEND[type.toUpperCase()] = '' + i;
+            }
+            d.TYPE_APPEND['NONE'] = '.' + GLOBALS.TYPE_LIST.length;
+            d.KNOWN_EXCEPTIONS = {
+                'Gastrodon [Occident]': [
+                    '2',
+                    '8'
+                ],
+                'Gastrodon [Orient]': [
+                    '2',
+                    '8'
+                ],
+                'Wormadam [Plant Cloak]': [
+                    '11',
+                    '4'
+                ],
+                'Wormadam [Trash Cloak]':[
+                    '11',
+                    '16'
+                ],
+                'Wormadam [Sandy Cloak]': [
+                    '11',
+                    '8'
+                ],
+                'Raticate [Alolan Forme]': [
+                    '15',
+                    '0'
+                ],
+                'Ninetales [Alolan Forme]': [
+                    '5',
+                    '17'
+                ],
+                'Exeggutor [Alolan Forme]': [
+                    '4',
+                    '14'
+                ],
+                'Marowak [Alolan Forme]': [
+                    '1',
+                    '13'
+                ],
+                'Dugtrio [Alolan Forme]': [
+                    '8',
+                    '16'
+                ],
+                'Graveler [Alolan Forme]': [
+                    '12',
+                    '3'
+                ],
+                'Golem [Alolan Forme]': [
+                    '12',
+                    '3'
+                ],
+                'Muk [Alolan Forme]': [
+                    '7',
+                    '15'
+                ],
+                'Raichu [Alolan Forme]': [
+                    '3',
+                    '10'
+                ],
+                'Linoone [Galarian Forme]': [
+                    '15',
+                    '0'
+                ],
+                'Gourgeist [Small Size]': [
+                    '13',
+                    '4'
+                ],
+                'Gourgeist [Average Size]': [
+                    '13',
+                    '4'
+                ],
+                'Gourgeist [Large Size]': [
+                    '13',
+                    '4'
+                ],
+                'Gourgeist [Super Size]': [
+                    '13',
+                    '4'
+                ],
+                'Persian [Alolan Forme]': [
+                    '15'
+                ],
+            };
+            return d;
+        }
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+            this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
+            this.settings = this.defaultSettings;
+            this.evolveListCache = '';
+            const obj = this;
+            this.observer = new MutationObserver(function (mutations) {
+            // eslint-disable-next-line no-unused-vars
+                mutations.forEach(function (mutation) {
+                    obj.easyQuickEvolve();
+                });
+            });
+        }
+        setupHTML() {
+            const obj = this;
+            this.jQuery(document).ready(function () {
+                obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+                document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend',
+                    '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
+                // use the evolve button
+                obj.jQuery('#farmnews-evolutions>p>label>input').addClass('qolquickevo');
+            });
+        }
+        setupObserver() {
+            this.observer.observe(document.querySelector('#farmnews-evolutions'), {
+                childList: true,
+                characterdata: true,
+                subtree: true,
+                characterDataOldValue: true,
             });
         }
         setupHandlers(GLOBALS) {
             const obj = this;
-            this.jQuery(document).on('change', '#shelteroptionsqol input', (function () { //shelter search
-                obj.loadSettings();
-                obj.customSearch(GLOBALS);
+            obj.jQuery(document).on('click', '#qolevolvenormal', (function () {
+                obj.easyEvolveNormalList(GLOBALS);
+            }));
+
+            obj.jQuery(document).on('click', '#qolchangesletype', (function () {
+                obj.easyEvolveTypeList(GLOBALS);
+            }));
+
+            obj.jQuery(document).on('click', '#qolsortevolvename', (function () {
+                obj.easyEvolveNameList(GLOBALS);
+            }));
+
+            obj.jQuery(document).on('click', '#qolevolvenew', (function () {
+                obj.easyEvolveNewList(GLOBALS);
+            }));
+        }
+        clearSortedEvolveLists() {
+        // first remove the sorted pokemon type list to avoid duplicates
+            this.jQuery('.evolvepkmnlist').show();
+            this.jQuery('.evolvepkmnlist').removeAttr('class');
+            if (document.querySelector('.qolEvolveTypeList')) {
+                document.querySelector('.qolEvolveTypeList').remove();
+            }
+            if (document.querySelector('.qolEvolveNameList')) {
+                document.querySelector('.qolEvolveNameList').remove();
+            }
+            if (document.querySelector('.qolEvolveNewList')) {
+                document.querySelector('.qolEvolveNewList').remove();
+            }
+        }
+        easyEvolveNormalList() {
+            this.clearSortedEvolveLists();
+        }
+        easyEvolveNameList() {
+            const obj = this;
+            this.clearSortedEvolveLists();
+
+            this.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+            document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNameList">');
+
+            let errorOccurred = false;
+            this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index) {
+            // getting the <li> element from the pokemon & the pokemon evolved name
+                const getEvolveString = obj.jQuery(this).html();
+                if (getEvolveString === undefined || getEvolveString === '') {
+                    console.error(`Unable to parse html from <li> at index ${index}`);
+                    errorOccurred = true;
+                } else {
+                    let beforeEvolvePokemon = obj.jQuery(this).children().children().text().slice(0, -6);
+                    if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
+                        console.error(`Unable to parse pokemon-evolving-from from <li> at index ${index}`);
+                        errorOccurred = true;
+                    } else {
+                    // remove extraneous whitespace
+                        beforeEvolvePokemon = beforeEvolvePokemon.trim();
+                        // use a regex to find extra whitespace between words
+                        let whitespace = beforeEvolvePokemon.match(/\s{2,}/g);
+                        while (whitespace) {
+                            for (let i = whitespace.length - 1; i >= 0; i--) {
+                                const match = whitespace[i];
+                                beforeEvolvePokemon = beforeEvolvePokemon.replace(match, ' ');
+                            }
+                            whitespace = beforeEvolvePokemon.match(/\s{2,}/g);
+                        }
+                        let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 12);
+                        if (evolvePokemon === undefined || evolvePokemon === '') {
+                            console.error(`Unable to parse pokemon-evolving-to from <li> at index ${index}`);
+                            errorOccurred = true;
+                        } else {
+                        // remove extraneous whitespace
+                            evolvePokemon = evolvePokemon.trim();
+                            // use a regex to find extra whitespace between words
+                            whitespace = evolvePokemon.match(/\s{2,}/g);
+                            while (whitespace) {
+                                for (let i = whitespace.length - 1; i >= 0; i--) {
+                                    const match = whitespace[i];
+                                    evolvePokemon = evolvePokemon.replace(match, ' ');
+                                }
+                                whitespace = evolvePokemon.match(/\s{2,}/g);
+                            }
+                            // Replace all spaces with a character that is not part of any Pokemon's name, but is valid in a CSS selector
+                            const evolvePokemonClass = evolvePokemon.replace(/ /g, '_').replace('[', '').replace(']', '').replace(/\./g, '');
+                            if (evolvePokemonClass === undefined || evolvePokemonClass === '') {
+                                console.error(`Unable to create valid CSS class for pokemon-evolving-to from <li> at index ${index}`);
+                                errorOccurred = true;
+                            } else {
+                                if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(evolvePokemonClass) === false) {
+                                    document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">' +
+                                    beforeEvolvePokemon + ' > ' + evolvePokemon +
+                                    '</h3><ul class="' + evolvePokemonClass +
+                                    ' qolChangeLogContent"></ul></li><br>');
+                                } // class
+                                obj.jQuery(this).clone().appendTo('.' + evolvePokemonClass + '');
+                            } // evolvePokemonClass
+                        } // evolvePokemon
+                    } // beforeEvolvePokemon
+                } // getEvolveString
+            });
+
+            if (errorOccurred) {
+                window.alert('Error occurred while sorting pokemon by name');
+                return;
+            }
+
+            obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li').each(function (index) {
+                const amountOfEvolves = obj.jQuery(this).children().children().length;
+                if (amountOfEvolves === 0) {
+                    console.error(`Found 0 evolutions for <li> at ${index} of evolve name list`);
+                    errorOccurred = true;
+                } else {
+                    const getEvolveString = obj.jQuery(this).children().children().html();
+                    if (getEvolveString === undefined || getEvolveString === '') {
+                        console.error(`Unable to parse evolve string from <li> at ${index} from evolve name list`);
+                        errorOccurred = true;
+                    } else {
+                        const beforeEvolvePokemon = obj.jQuery(this).children().children().children().children().first().text(); // .split(' ').join('');
+
+                        if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
+                            console.error(`Unable to parse pokemon-evolving-from from <li> at ${index} from evolve name list`);
+                            errorOccurred = true;
+                        } else {
+                            const evolvePokemon = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 'into</span> '.length);
+                            if (evolvePokemon === undefined || evolvePokemon === '') {
+                                console.error(`Unable to parse pokemon-evolving-to from <li> at ${index} from evolve name list`);
+                                errorOccurred = true;
+                            } else {
+                                obj.jQuery(this).children('.slidermenu').html(beforeEvolvePokemon + ' > ' + evolvePokemon + ' (' + amountOfEvolves + ')');
+                            }
+                        }
+                    } // getEvolveString
+                } // amountOfEvolves
+            });
+
+            obj.jQuery('.evolvepkmnlist').hide();
+
+            if (errorOccurred) {
+                window.alert('Error occurred while sorting pokemon by name');
+                return;
+            }
+
+            //layout of the created html
+            const typeBackground = obj.jQuery('.panel>h3').css('background-color');
+            const typeBorder = obj.jQuery('.panel>h3').css('border');
+            const typeColor = obj.jQuery('.panel>h3').css('color');
+            obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
+            obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
+            obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+
+            const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
+            const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
+            obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+            obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        }
+        easyEvolveNewList(GLOBALS) {
+            const obj = this;
+            const dexData = GLOBALS.DEX_DATA;
+
+            this.clearSortedEvolveLists();
+
+            // add a class to the original pokemon evolve list to be able to manipulate the element more easily and add the ul for the new dex search
+            this.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+            document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNewList">');
+
+            const getNewCheckData = (name) => {
+                const nameIndex = dexData.indexOf('"' + name + '"');
+                const checkData = (nameIndex > -1 && dexData.length > nameIndex + 9) ?
+                    dexData.slice(nameIndex + 5, nameIndex + 10) :
+                    [undefined, undefined, undefined, undefined, undefined];
+                if (checkData[4] !== undefined) {
+                    checkData[4] = checkData[4].replace(']', '');
+                }
+                return checkData;
+            };
+
+            const createListElements = (jQuery, cls, header, name, elem) => {
+                if (jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass(cls) === false) {
+                    const html = '<li class="expandlist">' +
+                    `<h3 class="slidermenu">${header}</h3>` +
+                    `<ul class="${cls} qolChangeLogContent"></ul></li><br>`;
+                    document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', html);
+                }
+
+                if (jQuery(`#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.${cls}>li:contains(${name})`).length == 0) {
+                    jQuery(elem).clone().appendTo(`.${cls}`);
+                }
+            };
+
+            this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () { //the actual search
+            // getting the <li> element from the pokemon & the pokemon evolved name
+                const getEvolveString = obj.jQuery(this).html();
+
+                // every pokemon is a normal unless shiny, albino or melanistic pokemon is found
+                let pokemonIsNormal = true;
+                let pokemonIsShiny = false;
+                let pokemonIsAlbino = false;
+                let pokemonIsMelanistic = false;
+
+                if (getEvolveString.includes('title="[SHINY]')) {
+                    pokemonIsShiny = true;
+                    pokemonIsNormal = false;
+                }
+                if (getEvolveString.includes('title="[ALBINO]')) {
+                    pokemonIsAlbino = true;
+                    pokemonIsNormal = false;
+                }
+                if (getEvolveString.includes('title="[MELANISTIC]')) {
+                    pokemonIsMelanistic = true;
+                    pokemonIsNormal = false;
+                }
+
+                let evolvePokemonName = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 'into</span>'.length).trim();
+                // use a regex to find extra whitespace between words
+                let whitespace = evolvePokemonName.match(/\s{2,}/g);
+                while (whitespace) {
+                    for (let i = whitespace.length - 1; i >= 0; i--) {
+                        const match = whitespace[i];
+                        evolvePokemonName = evolvePokemonName.replace(match, ' ');
+                    }
+                    whitespace = evolvePokemonName.match(/\s{2,}/g);
+                }
+                const evolvePokemonNameIndex = dexData.indexOf('"' + evolvePokemonName + '"');
+                const evolvePokemonNameInDex = evolvePokemonNameIndex != -1;
+
+                const [evolveNewTotal, evolveNewCheck,
+                    evolveNewShinyCheck, evolveNewAlbinoCheck,
+                    evolveNewMelaCheck] = getNewCheckData(evolvePokemonName);
+
+                const [evolvePokemonNameOne, pokemonDexKeepSecondName,
+                    pokemonDexKeepThirdName, pokemonDexKeepFourthName,
+                    pokemonDexKeepFifthName, pokemonDexKeepSixthName] = evolvePokemonName.split(' ');
+                const [evolveNewTotalOne, evolveNewCheckOne, /* ignore */, /* ignore */, /* ignore */] = getNewCheckData(evolvePokemonNameOne);
+                /*
+                 * if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
+                 * The remaining checks are a (not great) way of checking for names with '/' in them.
+                 * PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
+                 * Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
+                 * Regex: \w+/\w+
+                 */
+                const evolvePokemonNameTwo = (evolvePokemonNameOne + '/' + pokemonDexKeepSecondName).replace('[', '').replace(']', '');
+                const [evolveNewTotalTwo, evolveNewCheckTwo,
+                    evolveNewShinyCheckTwo, evolveNewAlbinoCheckTwo,
+                    evolveNewMelaCheckTwo] = getNewCheckData(evolvePokemonNameTwo);
+
+                /*
+                 * Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
+                 * Regex: \w+/\w+ \w+
+                 */
+                const evolvePokemonNameThree = (evolvePokemonNameOne + '/' +
+                pokemonDexKeepSecondName + ' ' +
+                pokemonDexKeepThirdName).replace('[', '').replace(']', '');
+                const [evolveNewTotalThree, evolveNewCheckThree,
+                    evolveNewShinyCheckThree, evolveNewAlbinoCheckThree,
+                    evolveNewMelaCheckThree] = getNewCheckData(evolvePokemonNameThree);
+
+                /*
+                 * Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
+                 * Regex: \w+/\w+ \w+ \w+
+                 */
+                const evolvePokemonNameFour = (evolvePokemonNameOne + '/' +
+                pokemonDexKeepSecondName + ' ' +
+                pokemonDexKeepThirdName + ' ' +
+                pokemonDexKeepFourthName).replace('[', '').replace(']', '');
+                const [evolveNewTotalFour, evolveNewCheckFour,
+                    evolveNewShinyCheckFour, evolveNewAlbinoCheckFour,
+                    evolveNewMelaCheckFour] = getNewCheckData(evolvePokemonNameFour);
+
+                /*
+                 * Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
+                 * Regex: \w+/\w+ \w+ \w+ \w+
+                 */
+                const evolvePokemonNameFive = (evolvePokemonNameOne + '/' +
+                pokemonDexKeepSecondName + ' ' +
+                pokemonDexKeepThirdName + ' ' +
+                pokemonDexKeepFourthName + ' ' +
+                pokemonDexKeepFifthName).replace('[', '').replace(']', '');
+                const [evolveNewTotalFive, evolveNewCheckFive,
+                    evolveNewShinyCheckFive, evolveNewAlbinoCheckFive,
+                    evolveNewMelaCheckFive] = getNewCheckData(evolvePokemonNameFive);
+
+                /*
+                 * Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
+                 * Regex: \w+/\w+ \w+ \w+ \w+ \w+
+                 */
+                const evolvePokemonNameSix = (evolvePokemonNameOne + '/' +
+                pokemonDexKeepSecondName + ' ' +
+                pokemonDexKeepThirdName + ' ' +
+                pokemonDexKeepFourthName + ' ' +
+                pokemonDexKeepFifthName + ' ' +
+                pokemonDexKeepSixthName).replace('[', '').replace(']', '');
+                const [evolveNewTotalSix, evolveNewCheckSix,
+                    evolveNewShinyCheckSix, evolveNewAlbinoCheckSix,
+                    evolveNewMelaCheckSix] = getNewCheckData(evolvePokemonNameSix);
+
+                //prep done now the search
+                if (evolvePokemonNameInDex) { //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
+                    if (pokemonIsNormal == true) { //normal Pokémon search
+                        if (evolveNewCheckOne == 0) { //looks for Pokémon that you have 0 from. Those are always new.
+                            createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                        } else if (evolveNewTotal > evolveNewCheck && evolveNewCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
+                            createListElements(obj.jQuery, 'newpossiblepokedexentry', 'Possible Mega/Totem forme', evolvePokemonName, this);
+                        }
+                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
+                    } else if (pokemonIsShiny == true) { //shiny Pokemon search
+                        if (evolveNewShinyCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
+                            createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                        } else if (evolveNewTotal > evolveNewShinyCheck && evolveNewShinyCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
+                            createListElements(obj.jQuery, 'newpossibleshinypokedexentry', 'Possible Shiny Mega/Totem forme', evolvePokemonName, this);
+                        }
+                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
+                    } else if (pokemonIsAlbino == true) { //albino pokemon search
+                        if (evolveNewAlbinoCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
+                            createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                        } else if (evolveNewTotal > evolveNewAlbinoCheck && evolveNewAlbinoCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
+                            createListElements(obj.jQuery, 'newpossiblealbinopokedexentry', 'Possible Albino Mega/Totem forme', evolvePokemonName, this);
+                        }
+                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
+                    } else if (pokemonIsMelanistic == true) { //melanistic pokemon search
+                        if (evolveNewMelaCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
+                            createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                        } else if (evolveNewTotal > evolveNewMelaCheck && evolveNewMelaCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
+                            createListElements(obj.jQuery, 'newpossiblemelanisticpokedexentry', 'Possible Melanistic Mega/Totem forme', evolvePokemonName, this);
+                        }
+                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
+                    }
+
+                //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
+                } else {
+                    if (pokemonIsNormal == true) {
+                        if (evolveNewCheckTwo == 0 || evolveNewCheckThree == 0 || evolveNewCheckFour == 0 || evolveNewCheckFive == 0 || evolveNewCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
+                            createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                        } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
+                            if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
+                                createListElements(obj.jQuery, 'possiblealolan', 'Possible new Alolan entry', evolvePokemonName, this);
+                            }
+                        } else if (evolvePokemonName.indexOf('[') >= 0) {
+                            if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
+                                createListElements(obj.jQuery, 'possibledifferent', 'Possible new forme/cloak entry', evolvePokemonName, this);
+                            } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
+                                createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                            }
+
+                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
+                            createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                        } else {
+                            createListElements(obj.jQuery, 'errornotfound', 'Error contact ECEInTheHole!', evolvePokemonName, this);
+                        }
+                    } else if (pokemonIsShiny == true) {
+                        if (evolveNewShinyCheckTwo == 0 || evolveNewShinyCheckThree == 0 || evolveNewShinyCheckFour == 0 || evolveNewShinyCheckFive == 0 || evolveNewShinyCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
+                            createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                        } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
+                            if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
+                                createListElements(obj.jQuery, 'possibleshinyalolan', 'Possible new Shiny Alolan entry', evolvePokemonName, this);
+                            }
+                        } else if (evolvePokemonName.indexOf('[') >= 0) {
+                            if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
+                                createListElements(obj.jQuery, 'possibleshinydifferent', 'Possible new Shiny forme/cloak entry', evolvePokemonName, this);
+                            } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
+                                createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                            }
+                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
+                            createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                        } else {
+                            createListElements(obj.jQuery, 'errornotfound', 'Error contact ECEInTheHole!', evolvePokemonName, this);
+                        }
+                    } else if (pokemonIsAlbino == true) {
+                        if (evolveNewAlbinoCheckTwo == 0 || evolveNewAlbinoCheckThree == 0 || evolveNewAlbinoCheckFour == 0 || evolveNewAlbinoCheckFive == 0 || evolveNewAlbinoCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
+                            createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                        } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
+                            if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
+                                createListElements(obj.jQuery, 'possiblealbinoalolan', 'Possible new Albino Alolan entry', evolvePokemonName, this);
+                            }
+                        } else if (evolvePokemonName.indexOf('[') >= 0) {
+                            if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
+                                createListElements(obj.jQuery, 'possiblealbinodifferent', 'Possible new Albino forme/cloak entry', evolvePokemonName, this);
+                            } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
+                                createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                            }
+                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
+                            createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                        } else {
+                            createListElements(obj.jQuery, 'errornotfound', 'Error contact ECEInTheHole!', evolvePokemonName, this);
+                        }
+
+                    } else if (pokemonIsMelanistic == true) {
+                        if (evolveNewMelaCheckTwo == 0 || evolveNewMelaCheckThree == 0 || evolveNewMelaCheckFour == 0 || evolveNewMelaCheckFive == 0 || evolveNewMelaCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
+                            createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                        } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
+                            if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
+                                createListElements(obj.jQuery, 'possiblemelanalolan', 'Possible new Melanistic Alolan entry', evolvePokemonName, this);
+                            }
+                        } else if (evolvePokemonName.indexOf('[') >= 0) {
+                            if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
+                                createListElements(obj.jQuery, 'possiblemelandifferent', 'Possible new Melanistic forme/cloak entry', evolvePokemonName, this);
+                            } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
+                                createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                            }
+                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
+                            createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                        } else {
+                            createListElements(obj.jQuery, 'errornotfound', 'Error contact ECEInTheHole!', evolvePokemonName, this);
+                        }
+                    }
+                }
+            });
+
+            obj.jQuery('.evolvepkmnlist').hide();
+
+            //layout
+            const typeBackground = obj.jQuery('.panel>h3').css('background-color');
+            const typeBorder = obj.jQuery('.panel>h3').css('border');
+            const typeColor = obj.jQuery('.panel>h3').css('color');
+            obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
+            obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
+            obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+
+            const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
+            const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
+            obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+            obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        }
+        easyQuickEvolve() {
+            if (this.jQuery('.canevolve:contains("evolved into")').parent().length != 0) {
+                this.jQuery('.canevolve:contains("evolved into")').parent().remove();
+            }
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    class FishingPage extends Page {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+        // no observer
+        }
+        setupHTML(GLOBALS) {
+        // fishing select all button on caught fishing
+            document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.massReleaseSelectHTML);
+        }
+        setupHandlers() {
+            const obj = this;
+            obj.jQuery('#selectallfishcheckbox').on('click', function () {
+                obj.jQuery('li[data-flavour]>label>input').prop('checked', this.checked);
+            });
+
+            obj.jQuery('#movefishselectanycheckbox').on('click', function () {
+                obj.jQuery('li[data-flavour=Any]>label>input').prop('checked', this.checked);
+            });
+
+            obj.jQuery('#movefishselectsourcheckbox').on('click', function () {
+                obj.jQuery('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
+            });
+
+            obj.jQuery('#movefishselectspicycheckbox').on('click', function () {
+                obj.jQuery('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
+            });
+
+            obj.jQuery('#movefishselectdrycheckbox').on('click', function () {
+                obj.jQuery('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
+            });
+
+            obj.jQuery('#movefishselectsweetcheckbox').on('click', function () {
+                obj.jQuery('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
+            });
+
+            obj.jQuery('#movefishselectbittercheckbox').on('click', function () {
+                obj.jQuery('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
+            });
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    class LabPageBase extends Page {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
+                findLabEgg: '', // same as findCustom in shelter
+                customEgg: true,
+                findLabType: '', // same as findType in shelter
+                findTypeEgg: true,
+            }, '/lab');
+            this.searchArray = [];
+            this.typeArray = [];
+            this.globals = GLOBALS;
+            const obj = this;
+            this.observer = new MutationObserver(function (mutations) {
+            // eslint-disable-next-line no-unused-vars
+                mutations.forEach(function (mutation) {
+                    obj.customSearch();
+                });
+            });
+        }
+
+        setupHTML(GLOBALS) {
+            document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.labOptionsHTML);
+            document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
+
+            const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+                'removeLabTypeList', 'labTypes', 'typeArray');
+
+            this.searchArray = this.settings.findLabEgg.split(',');
+            this.typeArray = this.settings.findLabType.split(',');
+
+            this.helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv');
+            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'labTypes', theType, 'typeNumber');
+        }
+        setupCSS() {
+        //lab css
+            const labSuccessCss = this.jQuery('#labpage>div').css('background-color');
+            this.jQuery('#labsuccess').css('background-color', labSuccessCss);
+        }
+        setupObserver() {
+            this.observer.observe(document.querySelector('#labpage>div>div>div'), {
+                childList: true,
+                characterdata: true,
+                subtree: true,
+                characterDataOldValue: true,
+            });
+        }
+        setupHandlers(GLOBALS) {
+            const obj = this;
+            obj.jQuery(document).on('click', '#addLabSearch', (function () { //add lab text field
+                obj.addTextField();
+            }));
+
+            obj.jQuery(document).on('click', '#removeLabSearch', (function () { //remove lab text field
+                obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
                 obj.saveSettings();
             }));
 
-            this.jQuery(document).on('change', '.qolsetting', (function () {
-                obj.loadSettings();
-                obj.customSearch(GLOBALS);
+            obj.jQuery(document).on('click', '#addLabTypeList', (function () { //add lab type list
+                obj.addTypeList(GLOBALS);
+            }));
+
+            obj.jQuery(document).on('click', '#removeLabTypeList', (function () { //remove lab type list
+                obj.removeTypeList(this, obj.jQuery(this).parent().find('select').val());
                 obj.saveSettings();
             }));
 
-            this.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+            obj.jQuery(document).on('change', '#labCustomSearch input', (function () { //lab search
+                obj.customSearch(GLOBALS);
+            }));
+
+            obj.jQuery(document).on('click', '#labpage', (function () { //shelter search
+                obj.customSearch(GLOBALS);
+            }));
+
+            obj.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
                 obj.settingsChange(this.getAttribute('data-key'),
                     obj.jQuery(this).val(),
                     obj.jQuery(this).parent().parent().attr('class'),
@@ -3400,86 +4145,36 @@ $(function () {
                 obj.saveSettings();
             }));
 
-            this.jQuery('.customSearchOnClick').on('click', (function () {
+            obj.jQuery(window).on('load', (function () {
                 obj.loadSettings();
                 obj.customSearch(GLOBALS);
-                obj.saveSettings();
             }));
-
-            this.jQuery(document).on('click', '#addShelterTextfield', (function () { //add shelter text field
-                obj.addTextField();
-                obj.saveSettings();
-            }));
-
-            this.jQuery(document).on('click', '#removeShelterTextfield', (function () { //remove shelter text field
-                obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
-
-            this.jQuery(document).on('click', '#addShelterTypeList', (function () { //add shelter type list
-                obj.addTypeList(GLOBALS);
-                obj.customSearch(GLOBALS);
-            }));
-
-            this.jQuery(document).on('click', '#removeShelterTypeList', (function () { //remove shelter type list
-                obj.removeTypeList(this, obj.jQuery(this).parent().find('select').val());
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
-
-            this.jQuery(window).on('keyup.qol_shelter_shortcuts', function (a) {
-                if (0 == obj.jQuery(a.target).closest('input, textarea').length) {
-                    switch (a.keyCode) {
-                    case obj.selectNextMatchKey: {
-                        const numMatches = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
-
-                        // remove all existing locks
-                        obj.jQuery('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
-
-                        // default is undefined, so set the value to either 0 or 1+current
-                        obj.currentlySelectedMatch = (obj.currentlySelectedMatch + 1) || 0;
-
-                        if (numMatches) {
-                            const modIndex = (numMatches == 1) ? 0 : (obj.currentlySelectedMatch + 1) % numMatches - 1;
-                            const selected = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(modIndex);
-                            // these steps mimic clicking on the pokemon/egg
-                            selected.parent().addClass('selected');
-                            selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
-                            selected.next().find('[data-shelter=adopt]').focus();
-                        } else {
-                            obj.currentlySelectedMatch = undefined;
-                        }
-                    }
-                    }
-                }
-            });
         }
         addTextField() {
-            const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+            const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
             const numberDiv = this.jQuery('#searchkeys>div').length;
             this.jQuery('#searchkeys').append(theField);
             this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
         }
         removeTextField(byebye, key) {
-            this.customArray = this.jQuery.grep(this.customArray, function (value) { //when textfield is removed, the value will be deleted from the localstorage
+        // when textfield is removed, the value will be deleted from the localstorage
+            this.searchArray = this.jQuery.grep(this.searchArray, function (value) {
                 return value != key;
             });
-            this.settings.findCustom = this.customArray.toString();
+            this.settings.findCustom = this.searchArray.toString();
 
             this.jQuery(byebye).parent().remove();
 
-            let i;
-            for (i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
+            for (let i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
                 const rightDiv = i + 1;
                 this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
             }
         }
         addTypeList(GLOBALS) {
-            const theList = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
-                'removeShelterTypeList', 'fieldTypes', 'typeArray');
-            const numberTypes = this.jQuery('#shelterTypes>div').length;
-            this.jQuery('#shelterTypes').append(theList);
+            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+                'removeLabTypeList', 'labTypes', 'typeArray');
+            const numberTypes = this.jQuery('#labTypes>div').length;
+            this.jQuery('#labTypes').append(theType);
             this.jQuery('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
         }
         removeTypeList(byebye, key) {
@@ -3490,329 +4185,356 @@ $(function () {
 
             this.jQuery(byebye).parent().remove();
 
-            let i;
-            for (i = 0; i < this.jQuery('#shelterTypes>div').length; i++) {
+            for (let i = 0; i < this.jQuery('#labTypes>div').length; i++) {
                 const rightDiv = i + 1;
                 this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
             }
         }
-        insertShelterFoundDiv(number, name, img) {
-            document.querySelector('#sheltersuccess').
-                insertAdjacentHTML('beforeend',
-                    '<div id="shelterfound">' + name + ((number !== 1) ? 's' : '') + ' found ' + img + '</div>');
+        getTypesForEgg(searchPokemon) {
+            const data = this.globals.DEX_DATA;
+            const searchPokemonIndex = data.indexOf('"' + searchPokemon + '"');
+            return [data[searchPokemonIndex + 1], data[searchPokemonIndex + 2]];
         }
-        insertShelterTypeFoundDiv(number, type, stage, names) {
-            let stageNoun = '';
-            if (stage === 'egg') {
-                stageNoun = stage + (number !== 1 ? 's' : '');
-            } else { // i.e. stage === 'Pokemon'
-                stageNoun = stage;
-            }
-            document.querySelector('#sheltersuccess').
-                insertAdjacentHTML('beforeend',
-                    '<div id="shelterfound">' + number + ' ' + type + ' type ' +
-                stageNoun + ' found!' + (names.length > 0 ? '(' + names.toString() + ')' : '') + '</div>');
-        }
-
-        searchForImgTitle(GLOBALS, key) {
-            const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
-            const keyIndex = SEARCH_DATA.indexOf(key);
-            const value = SEARCH_DATA[keyIndex + 1];
-            const selected = this.jQuery('img[title*="' + value + '"]');
-            const cls = this.helpers.getPokemonImageClass();
-            if (selected.length) {
-                const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
-                const imgResult = selected.length + ' ' + searchResult; //amount + type found
-                const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-                const shelterBigImg = selected.parent().prev().children(`img.${cls}`);
-                this.jQuery(shelterBigImg).addClass('shelterfoundme');
-
-                this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
-            }
-        }
-
-        searchForTooltipText(GLOBALS, key) {
-            const LIST = GLOBALS.SHELTER_SEARCH_LISTS[key];
-            const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
-            const keyIndex = SEARCH_DATA.indexOf(key);
-            for (let i = 0; i < LIST.length; i++) {
-                const entry = LIST[i];
-                const selected = this.jQuery(`div.pokemon+div.tooltip_content:contains('${entry}')`);
-                if (selected.length) {
-                    const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
-                    const imgResult = selected.length + ' ' + searchResult; //amount + type found
-                    const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-                    const shelterBigImg = selected.prev().children('img.big');
-                    shelterBigImg.addClass('shelterfoundme');
-
-                    this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
-                }
-            }
-        }
-
-        searchForTypes(GLOBALS, types) {
+        searchForEggsMatchingTypes() {
+            const GLOBALS = this.globals;
+            const jQuery = this.jQuery;
             const obj = this;
-            const dexData = GLOBALS.DEX_DATA;
-            const cls = this.helpers.getPokemonImageClass();
-            for (let i = 0; i < types.length; i++) {
-                const value = types[i];
-                const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
+            const enabled = ((this.settings.findTypeEgg === true) &&
+            (!(this.typeArray.length == 1 && this.typeArray[0] == '')));
+            if (enabled) {
+                const typesArrayNoEmptySpace = this.typeArray.filter(v => v != '');
+                for (let i = 0; i < typesArrayNoEmptySpace.length; i++) {
+                    const value = typesArrayNoEmptySpace[i];
+                    const amountOfTypesFound = [];
+                    const typePokemonNames = [];
 
-                let typePokemonNames = [];
-                let selected = undefined;
-                if (this.settings.findTypeEgg === true) {
-                    const pokemonElems = [];
-                    typePokemonNames = [];
-                    selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
-                    selected.each(function () {
-                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
-                        let searchTypeOne = '';
-                        let searchTypeTwo = '';
-
-                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
-                        searchTypeOne = dexData[searchPokemonIndex + 1];
-                        searchTypeTwo = dexData[searchPokemonIndex + 2];
-
-                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
-                            typePokemonNames.push(searchPokemon);
-                            pokemonElems.push(this);
-                        }
-                    });
-
-                    for (let o = 0; o < pokemonElems.length; o++) {
-                        const shelterImgSearch = this.jQuery(pokemonElems[o]);
-                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                    }
-
-                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
-                }
-
-                if (this.settings.findTypePokemon === true) {
-                    typePokemonNames = [];
-                    selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
-                    selected.each(function () {
-                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
-                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
-                        const searchTypeOne = dexData[searchPokemonIndex + 1];
-                        const searchTypeTwo = dexData[searchPokemonIndex + 2];
-                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                    jQuery('#egglist>div>h3').each(function () {
+                        const searchPokemon = jQuery(this).text().split(' ')[0];
+                        const [searchTypeOne, searchTypeTwo] = obj.getTypesForEgg(searchPokemon);
+                        if (searchTypeOne === value) {
+                            amountOfTypesFound.push('found');
                             typePokemonNames.push(searchPokemon);
                         }
-                    });
 
-                    for (let o = 0; o < typePokemonNames.length; o++) {
-                        const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
-                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                        if (searchTypeTwo === value) {
+                            amountOfTypesFound.push('found');
+                            typePokemonNames.push(searchPokemon);
+                        }
+                    }); // each
+
+                    const foundType = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+
+                    const typeImgStandOutLength = typePokemonNames.length;
+                    for (let o = 0; o < typeImgStandOutLength; o++) {
+                        const value = typePokemonNames[o];
+                        const shelterImgSearch = this.jQuery('#egglist>div>h3:containsIN(' + value + ')');
+                        const shelterBigImg = shelterImgSearch.next();
+                        jQuery(shelterBigImg).addClass('labfoundme');
                     }
 
-                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
-                }
-            }
-
+                    if (amountOfTypesFound.length > 1) {
+                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + amountOfTypesFound.length + ' ' + foundType + ' egg types found! (' + typePokemonNames.toString() + ')</div>');
+                    } else if (amountOfTypesFound.length == 1) {
+                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + amountOfTypesFound.length + ' ' + foundType + ' egg type found! (' + typePokemonNames.toString() + ')</div>');
+                    }
+                } // for
+            } // if
         }
+        searchForEggsMatchingCustom() {
+            const jQuery = this.jQuery;
+            if (!(this.searchArray.length == 1 && this.searchArray[0] == '')) {
+                if (this.settings.customEgg === true) {
+                    const searchArrayNoEmptySpace = this.searchArray.filter(v => v != '');
+                    for (let i = 0; i < searchArrayNoEmptySpace.length; i++) {
+                        const value = searchArrayNoEmptySpace[i];
+                        if (jQuery('#egglist>div>h3:containsIN(' + value + ')').length) {
+                            const searchResult = value;
 
-        customSearch(GLOBALS) {
-            const obj = this;
-            const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
-            const cls = this.helpers.getPokemonImageClass();
+                            const shelterImgSearch = jQuery('#egglist>div>h3:containsIN(' + value + ')');
+                            const shelterBigImg = shelterImgSearch.next();
+                            jQuery(shelterBigImg).addClass('labfoundme');
 
-            // search whatever you want to find in the shelter & grid
-
-            //sort in grid
-            this.jQuery('#shelterarea').removeClass('qolshelterareagrid');
-            this.jQuery('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
-            this.jQuery('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
-            this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
-            this.jQuery('#sheltergridthingy').remove();
-
-            if (this.settings.shelterGrid === true) { //shelter grid
-                this.jQuery('#shelterarea').addClass('qolshelterareagrid');
-                this.jQuery('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
-                this.jQuery('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
-                this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
-                this.jQuery('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
-            }
-
-            /* search values depending on settings
-               emptying the sheltersuccess div to avoid duplicates */
-            document.querySelector('#sheltersuccess').innerHTML = '';
-            this.jQuery('#shelterarea>div>img').removeClass('shelterfoundme');
-
-            if (this.settings.findShiny === true) {
-                this.searchForImgTitle(GLOBALS, 'findShiny');
-            }
-            if (this.settings.findAlbino === true) {
-                this.searchForImgTitle(GLOBALS, 'findAlbino');
-            }
-            if (this.settings.findMelanistic === true) {
-                this.searchForImgTitle(GLOBALS, 'findMelanistic');
-            }
-            if (this.settings.findPrehistoric === true) {
-                this.searchForImgTitle(GLOBALS, 'findPrehistoric');
-            }
-            if (this.settings.findDelta === true) {
-                this.searchForImgTitle(GLOBALS, 'findDelta');
-            }
-            if (this.settings.findMega === true) {
-                this.searchForImgTitle(GLOBALS, 'findMega');
-            }
-            if (this.settings.findStarter === true) {
-                this.searchForImgTitle(GLOBALS, 'findStarter');
-            }
-            if (this.settings.findCustomSprite === true) {
-                this.searchForImgTitle(GLOBALS, 'findCustomSprite');
-            }
-            if (this.settings.findLegendary === true) {
-                this.searchForTooltipText(GLOBALS, 'findLegendary');
-            }
-
-            if (this.settings.findNewPokemon === true) {
-                const key = 'findNewPokemon';
-                const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
-                const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')');
-                if (selected.length) {
-                    const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
-                    const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
-                    const tooltipResult = selected.length + ' ' + searchResult;
-                    const shelterImgSearch = selected;
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
-
-                    this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
-                }
-            }
-
-            if (this.settings.findNewEgg === true) {
-                const key = 'findNewEgg';
-                const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
-                const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')').filter(function () {
-                // .text() will include the text in the View/Adopt and Hide buttons, so there will be a space
-                    return obj.jQuery(this).text().startsWith(value + ' ');
-                });
-
-                if (selected.length) {
-                    const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
-                    const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
-                    if (selected.length >= 1) {
-                        const shelterImgSearch = selected;
-                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                    }
-                    this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
-                }
-            }
-
-            //loop to find all search genders for the custom
-            const shelterValueArrayCustom = [];
-            for (const key in this.settings) {
-                const value = this.settings[key];
-                if (value === true) {
-                    if (key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
-                        const searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
-                        shelterValueArrayCustom.push(searchKey);
-                    }
-                }
-            }
-
-            //loop to find all the custom search parameters
-            const customSearchAmount = this.customArray.length;
-            const heartPng = '<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">';
-            const eggPng = '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">';
-            for (let i = 0; i < customSearchAmount; i++) {
-                const customValue = this.customArray[i];
-                if (customValue != '') {
-                //custom pokemon search
-                    if (this.settings.customPokemon === true) {
-                        const genderMatches = [];
-                        if (shelterValueArrayCustom.indexOf('[M]') > -1) {
-                            genderMatches.push('[M]');
-                        }
-                        if (shelterValueArrayCustom.indexOf('[F]') > -1) {
-                            genderMatches.push('[F]');
-                        }
-                        if (shelterValueArrayCustom.indexOf('[N]') > -1) {
-                            genderMatches.push('[N]');
-                        }
-
-                        if (genderMatches.length > 0) {
-                            for (let i = 0; i < genderMatches.length; i++) {
-                                const genderMatch = genderMatches[i];
-                                const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + ') img[title*=\'' + genderMatch + '\']');
-                                if (selected.length) {
-                                    const searchResult = customValue;
-                                    const genderName = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
-                                    const imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
-                                    const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
-                                    const shelterImgSearch = selected;
-                                    const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
-                                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
-
-                                    this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
-                                }
+                            if (jQuery('#egglist>div>h3:containsIN(' + value + ')').length > 1) {
+                                document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                            } else {
+                                document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
                             }
-                        }
+                        } // if
 
-                        //No genders
-                        else if (shelterValueArrayCustom.length === 0) {
-                            const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):not(:containsIN("Egg"))');
-                            if (selected.length) {
-                                const searchResult = customValue;
-                                const tooltipResult = selected.length + ' ' + searchResult;
-                                const shelterImgSearch = selected;
-                                const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
-                                this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                                this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                        if (jQuery('#egglist>div img[src*="' + value + '"]').length) {
+                            const searchResult = jQuery('#egglist>div img[src*="' + value + '"]').prev().text();
+
+                            const shelterImgSearch = jQuery('#egglist>div img[src*="' + value + '"]');
+                            jQuery(shelterImgSearch).addClass('labfoundme');
+
+                            if (jQuery('#egglist>div img[src*="' + value + '"]').length > 1) {
+                                document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                            } else {
+                                document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
                             }
-                        }
-                    }
+                        } // if
+                    } // for
+                } // if
+            } // else
+        }
+        customSearch() {
+            document.querySelector('#labsuccess').innerHTML = '';
+            this.jQuery('#egglist>div>img').removeClass('labfoundme');
 
-                    //custom egg
-                    if (this.settings.customEgg === true) {
-                        const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):contains("Egg")');
-                        if (selected.length) {
-                            const searchResult = customValue;
-                            const tooltipResult = selected.length + ' ' + searchResult;
-                            const shelterImgSearch = selected;
-                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
-                        }
-                    }
-
-                    //imgSearch with Pokémon
-                    if (this.settings.customPng === true) {
-                        const selected = this.jQuery(`#shelterarea img.${cls}[src*="${customValue}"]`);
-                        if (selected.length) {
-                            const searchResult = selected.parent().next().text().split('(')[0];
-                            const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
-                            const shelterImgSearch = selected;
-                            this.jQuery(shelterImgSearch).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
-                        }
-                    }
-                }
-            }
-
-            //loop to find all the types
-
-            const filteredTypeArray = this.typeArray.filter(v => v != '');
-
-            if (filteredTypeArray.length > 0) {
-                obj.searchForTypes(GLOBALS, filteredTypeArray);
-            }
-        } // customSearch
+            this.searchForEggsMatchingTypes();
+            this.searchForEggsMatchingCustom();
+        }
     }
 
-    /* globals ShelterPageBase */
     // eslint-disable-next-line no-unused-vars
-    class ShelterPage extends ShelterPageBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
-            super(jQuery, localStorageMgr, HELPERS, GLOBALS);
+    class MultiuserPage extends Page {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
+                hideDislike: false,
+                hideAll: false,
+                niceTable: false,
+            }, 'users/');
+            const obj = this;
+            this.observer = new MutationObserver(function (mutations) {
+            // eslint-disable-next-line no-unused-vars
+                mutations.forEach(function (mutation) {
+                    obj.partyModification();
+                });
+            });
+        }
+
+        settingsChange(element, textElement, customClass, typeClass, arrayName) {
+            if (super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
+                return false;
+            }
+
+            const mutuallyExclusive = ['hideAll', 'hideDislike', 'niceTable'];
+            const idx = mutuallyExclusive.indexOf(element);
+            if (idx > -1) {
+                for (let i = 0; i < mutuallyExclusive.length; i++) {
+                    if (i !== idx) {
+                        this.settings[mutuallyExclusive[i]] = false;
+                    }
+                }
+                return true;
+            }
+            else { return false; }
+        }
+        setupHTML(GLOBALS) {
+            document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.partyModHTML);
+        }
+        setupCSS() {
+            const menuBackground = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
+            this.jQuery('#qolpartymod').css('background-color', '' + menuBackground + '');
+            const menuColor = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
+            this.jQuery('#qolpartymod').css('color', '' + menuColor + '');
+        }
+        setupObserver() {
+            this.observer.observe(document.querySelector('#multiuser'), {
+                childList: true,
+                subtree: true,
+            });
+        }
+        setupHandlers() {
+            const obj = this;
+            obj.jQuery(window).on('load', (function () {
+                obj.loadSettings();
+                obj.partyModification();
+            }));
+
+            obj.jQuery(document).on('click input', '#qolpartymod', (function () {
+                obj.partyModification();
+            }));
+
+            obj.jQuery(document).on('click', '.tabbed_interface', (function () {
+                obj.partyModification();
+            }));
+
+            obj.jQuery(document).on('change', '.qolsetting', (function () {
+                obj.loadSettings();
+                obj.settingsChange(this.getAttribute('data-key'),
+                    obj.jQuery(this).val(),
+                    obj.jQuery(this).parent().parent().attr('class'),
+                    obj.jQuery(this).parent().attr('class'));
+                obj.partyModification();
+                obj.saveSettings();
+            }));
+
+            obj.jQuery('input.qolalone').on('change', function () { //only 1 textbox may be true
+                obj.jQuery('input.qolalone').not(this).prop('checked', false);
+            });
+        }
+        partyModification() {
+            if (this.settings.hideDislike === false && this.settings.hideAll === false && this.settings.niceTable === false) {
+                this.jQuery('#trainerimage').removeClass('qolpartyclickhide');
+                this.jQuery('#profilebox').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+                this.jQuery('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').removeClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
+                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
+                this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
+                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
+                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+                this.jQuery('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
+                this.jQuery('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
+                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
+            }
+
+            if (this.settings.hideDislike === true) {
+                this.jQuery('#trainerimage').removeClass('qolpartyclickhide');
+                this.jQuery('#profilebox').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+                this.jQuery('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').removeClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
+                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
+                this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
+                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
+                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+                this.jQuery('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
+                this.jQuery('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
+                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons').addClass('qolpartyclicktextalign');
+                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').addClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').addClass('qolpartyclickwidth');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').addClass('qolpartyclickblock');
+            }
+
+            if (this.settings.niceTable === true) {
+                this.jQuery('#trainerimage').removeClass('qolpartyclickhide');
+                this.jQuery('#profilebox').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+                this.jQuery('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').removeClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
+                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
+                this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
+                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
+                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+                this.jQuery('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
+                this.jQuery('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
+                this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
+                this.jQuery('#multiuser .pkmn').addClass('qolpartyclickhide');
+                this.jQuery('#multiuser .name').addClass('qolpartyclickhide');
+                this.jQuery('#multiuser .expbar').addClass('qolpartyclickhide');
+                this.jQuery('#multiuser .taste').addClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party').addClass('qolpartyclickpartywidth');
+                this.jQuery('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
+                this.jQuery('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
+                this.jQuery('#multiuser .party>div:nth-child(2)').addClass('qolpartyclickbordertwo');
+                this.jQuery('#multiuser .party>div:nth-child(5)').addClass('qolpartyclickborderthree');
+                this.jQuery('#multiuser .party>div:nth-child(6)').addClass('qolpartyclickborderfour');
+                this.jQuery('#multiuser .party>div:nth-child(2n+1)').addClass('qolpartyclickborderfive');
+                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons').addClass('qolpartyclicktextalign');
+                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').addClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').addClass('qolpartyclickwidth');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').addClass('qolpartyclickblock');
+            }
+
+
+            if (this.settings.hideAll === true) {
+                this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
+                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').removeClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
+                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
+                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
+                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
+                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
+                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
+                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
+                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
+                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
+                this.jQuery('#trainerimage').addClass('qolpartyclickhide');
+                this.jQuery('#profilebox').addClass('qolpartyclickhide');
+                this.jQuery('#multiuser .pkmn').addClass('qolpartyclickhide');
+                this.jQuery('#multiuser .name').addClass('qolpartyclickhide');
+                this.jQuery('#multiuser .expbar').addClass('qolpartyclickhide');
+                this.jQuery('#multiuser .taste').addClass('qolpartyclickhide');
+                this.jQuery('#partybox .party>div>.action.working').addClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').addClass('qolpartyclickhide');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').addClass('qolpartyclickwidth');
+                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').addClass('qolpartyclickblock');
+                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
+                this.jQuery('#multiuser .party>div').addClass('qolpartyclickalot');
+                this.jQuery('#multiuser .party>div>.action a[data-berry]').addClass('qolpartyclickz');
+                this.jQuery('.mu_navlink.next').addClass('qolpartyclicknav');
+                this.jQuery('#multiuser .party').addClass('qolpartyclickpartywidth');
+                this.jQuery('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
+                this.jQuery('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
+                this.jQuery('#multiuser .party>div:nth-child(2)').addClass('qolpartyclickbordertwo');
+                this.jQuery('#multiuser .party>div:nth-child(5)').addClass('qolpartyclickborderthree');
+                this.jQuery('#multiuser .party>div:nth-child(6)').addClass('qolpartyclickborderfour');
+                this.jQuery('#multiuser .party>div:nth-child(2n+1)').addClass('qolpartyclickborderfive');
+                this.jQuery('#multiuser.tabbed_interface.horizontal>ul').addClass('qolpartyclickul');
+                this.jQuery('#multiuser.tabbed_interface>ul>li>label').addClass('qolpartyclicklilabel');
+            }
         }
     }
-    /* globals Page */
+
+
     // eslint-disable-next-line no-unused-vars
     class PrivateFieldsPageBase extends Page {
         constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
@@ -3902,9 +4624,11 @@ $(function () {
             this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
             this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
-            /* Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-           settings as most of the text on the site, manually set the text color for
-           '.collapsible' to match the text around it */
+            /*
+             * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+             * settings as most of the text on the site, manually set the text color for
+             * '.collapsible' to match the text around it
+             */
             this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
         }
         setupObserver() {
@@ -4331,14 +5055,7 @@ $(function () {
             } // if
         } // moveEnableReleaseAll
     }
-    /* globals PrivateFieldsPageBase */
-    // eslint-disable-next-line no-unused-vars
-    class PrivateFieldsPage extends PrivateFieldsPageBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
-            super(jQuery, localStorageMgr, HELPERS, GLOBALS);
-        }
-    }
-    /* globals Page */
+
     // eslint-disable-next-line no-unused-vars
     class PublicFieldsPage extends Page {
         constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
@@ -4444,9 +5161,11 @@ $(function () {
             this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
             this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
-            /* Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-           settings as most of the text on the site, manually set the text color for
-           '.collapsible' to match the text around it */
+            /*
+             * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+             * settings as most of the text on the site, manually set the text color for
+             * '.collapsible' to match the text around it
+             */
             this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
         }
         setupObserver() {
@@ -4934,84 +5653,104 @@ $(function () {
             }
         }
     }
-    /* globals Page */
+
     // eslint-disable-next-line no-unused-vars
-    class LabPageBase extends Page {
+    class ShelterPageBase extends Page {
         constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
-                findLabEgg: '', // same as findCustom in shelter
-                customEgg: true,
-                findLabType: '', // same as findType in shelter
+            super(jQuery, localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
+                findCustom: '',
+                findType: '',
                 findTypeEgg: true,
-            }, '/lab');
-            this.searchArray = [];
+                findTypePokemon: false,
+                findNewEgg: true,
+                findNewPokemon: true,
+                findShiny: true,
+                findAlbino: true,
+                findMelanistic: true,
+                findPrehistoric: true,
+                findDelta: true,
+                findMega: true,
+                findStarter: true,
+                findCustomSprite: true,
+                findLegendary: false,
+                findMale: true,
+                findFemale: true,
+                findNoGender: true,
+                customEgg: true,
+                customPokemon: true,
+                customPng: false,
+                shelterGrid: true,
+            }, '/shelter');
+            this.customArray = [];
             this.typeArray = [];
-            this.globals = GLOBALS;
             const obj = this;
             this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
                 mutations.forEach(function (mutation) {
-                    obj.customSearch();
+                    obj.customSearch(GLOBALS);
                 });
             });
+
+            /*
+             * used to keep track of the currently selected match
+             * matches can be selected via a shortcut key, specified via this.selectNextMatchKey
+             */
+            this.selectNextMatchKey = 78; // 'n'
+            this.currentlySelectedMatch = undefined;
         }
 
         setupHTML(GLOBALS) {
-            document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.labOptionsHTML);
-            document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
+            this.jQuery('.tabbed_interface.horizontal>div').removeClass('tab-active');
+            this.jQuery('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
+            document.querySelector('.tabbed_interface.horizontal>ul>li').insertAdjacentHTML('afterend', '<li class=""><label>Sort</label></li>');
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
+            document.querySelector('#shelteroptionsqol').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
+            this.jQuery('#shelteroptionsqol').addClass('tab-active');
 
-            const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
-                'removeLabTypeList', 'labTypes', 'typeArray');
+            document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
-            this.searchArray = this.settings.findLabEgg.split(',');
-            this.typeArray = this.settings.findLabType.split(',');
+            const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+                'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'labTypes', theType, 'typeNumber');
+            this.customArray = this.settings.findCustom.split(',');
+            this.typeArray = this.settings.findType.split(',');
+
+            this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
+
+            this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
+            this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
+            this.jQuery('[data-shelter=blackflute]').addClass('customSearchOnClick');
         }
         setupCSS() {
-        //lab css
-            const labSuccessCss = this.jQuery('#labpage>div').css('background-color');
-            this.jQuery('#labsuccess').css('background-color', labSuccessCss);
+            const shelterSuccessCss = this.jQuery('#sheltercommands').css('background-color');
+            this.jQuery('#sheltersuccess').css('background-color', shelterSuccessCss);
+            this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
+            const background = this.jQuery('#shelterpage>.panel').eq(0).css('border');
+            this.jQuery('.tooltiptext').css('border', '' + background + '');
         }
         setupObserver() {
-            this.observer.observe(document.querySelector('#labpage>div>div>div'), {
+            this.observer.observe(document.querySelector('#shelterarea'), {
                 childList: true,
-                characterdata: true,
-                subtree: true,
-                characterDataOldValue: true,
             });
         }
         setupHandlers(GLOBALS) {
             const obj = this;
-            obj.jQuery(document).on('click', '#addLabSearch', (function () { //add lab text field
-                obj.addTextField();
-            }));
-
-            obj.jQuery(document).on('click', '#removeLabSearch', (function () { //remove lab text field
-                obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
+            this.jQuery(document).on('change', '#shelteroptionsqol input', (function () { //shelter search
+                obj.loadSettings();
+                obj.customSearch(GLOBALS);
                 obj.saveSettings();
             }));
 
-            obj.jQuery(document).on('click', '#addLabTypeList', (function () { //add lab type list
-                obj.addTypeList(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#removeLabTypeList', (function () { //remove lab type list
-                obj.removeTypeList(this, obj.jQuery(this).parent().find('select').val());
+            this.jQuery(document).on('change', '.qolsetting', (function () {
+                obj.loadSettings();
+                obj.customSearch(GLOBALS);
                 obj.saveSettings();
             }));
 
-            obj.jQuery(document).on('change', '#labCustomSearch input', (function () { //lab search
-                obj.customSearch(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#labpage', (function () { //shelter search
-                obj.customSearch(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+            this.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
                 obj.settingsChange(this.getAttribute('data-key'),
                     obj.jQuery(this).val(),
                     obj.jQuery(this).parent().parent().attr('class'),
@@ -5021,36 +5760,86 @@ $(function () {
                 obj.saveSettings();
             }));
 
-            obj.jQuery(window).on('load', (function () {
+            this.jQuery('.customSearchOnClick').on('click', (function () {
                 obj.loadSettings();
                 obj.customSearch(GLOBALS);
+                obj.saveSettings();
             }));
+
+            this.jQuery(document).on('click', '#addShelterTextfield', (function () { //add shelter text field
+                obj.addTextField();
+                obj.saveSettings();
+            }));
+
+            this.jQuery(document).on('click', '#removeShelterTextfield', (function () { //remove shelter text field
+                obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
+                obj.saveSettings();
+                obj.customSearch(GLOBALS);
+            }));
+
+            this.jQuery(document).on('click', '#addShelterTypeList', (function () { //add shelter type list
+                obj.addTypeList(GLOBALS);
+                obj.customSearch(GLOBALS);
+            }));
+
+            this.jQuery(document).on('click', '#removeShelterTypeList', (function () { //remove shelter type list
+                obj.removeTypeList(this, obj.jQuery(this).parent().find('select').val());
+                obj.saveSettings();
+                obj.customSearch(GLOBALS);
+            }));
+
+            this.jQuery(window).on('keyup.qol_shelter_shortcuts', function (a) {
+                if (0 == obj.jQuery(a.target).closest('input, textarea').length) {
+                    switch (a.keyCode) {
+                    case obj.selectNextMatchKey: {
+                        const numMatches = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
+
+                        // remove all existing locks
+                        obj.jQuery('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
+
+                        // default is undefined, so set the value to either 0 or 1+current
+                        obj.currentlySelectedMatch = (obj.currentlySelectedMatch + 1) || 0;
+
+                        if (numMatches) {
+                            const modIndex = (numMatches == 1) ? 0 : (obj.currentlySelectedMatch + 1) % numMatches - 1;
+                            const selected = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(modIndex);
+                            // these steps mimic clicking on the pokemon/egg
+                            selected.parent().addClass('selected');
+                            selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
+                            selected.next().find('[data-shelter=adopt]').focus();
+                        } else {
+                            obj.currentlySelectedMatch = undefined;
+                        }
+                    }
+                    }
+                }
+            });
         }
         addTextField() {
-            const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+            const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
             const numberDiv = this.jQuery('#searchkeys>div').length;
             this.jQuery('#searchkeys').append(theField);
             this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
         }
         removeTextField(byebye, key) {
-        // when textfield is removed, the value will be deleted from the localstorage
-            this.searchArray = this.jQuery.grep(this.searchArray, function (value) {
+            this.customArray = this.jQuery.grep(this.customArray, function (value) { //when textfield is removed, the value will be deleted from the localstorage
                 return value != key;
             });
-            this.settings.findCustom = this.searchArray.toString();
+            this.settings.findCustom = this.customArray.toString();
 
             this.jQuery(byebye).parent().remove();
 
-            for (let i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
+            let i;
+            for (i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
                 const rightDiv = i + 1;
                 this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
             }
         }
         addTypeList(GLOBALS) {
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
-                'removeLabTypeList', 'labTypes', 'typeArray');
-            const numberTypes = this.jQuery('#labTypes>div').length;
-            this.jQuery('#labTypes').append(theType);
+            const theList = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+                'removeShelterTypeList', 'fieldTypes', 'typeArray');
+            const numberTypes = this.jQuery('#shelterTypes>div').length;
+            this.jQuery('#shelterTypes').append(theList);
             this.jQuery('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
         }
         removeTypeList(byebye, key) {
@@ -5061,1319 +5850,324 @@ $(function () {
 
             this.jQuery(byebye).parent().remove();
 
-            for (let i = 0; i < this.jQuery('#labTypes>div').length; i++) {
+            let i;
+            for (i = 0; i < this.jQuery('#shelterTypes>div').length; i++) {
                 const rightDiv = i + 1;
                 this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
             }
         }
-        getTypesForEgg(searchPokemon) {
-            const data = this.globals.DEX_DATA;
-            const searchPokemonIndex = data.indexOf('"' + searchPokemon + '"');
-            return [data[searchPokemonIndex + 1], data[searchPokemonIndex + 2]];
+        insertShelterFoundDiv(number, name, img) {
+            document.querySelector('#sheltersuccess').
+                insertAdjacentHTML('beforeend',
+                    '<div id="shelterfound">' + name + ((number !== 1) ? 's' : '') + ' found ' + img + '</div>');
         }
-        searchForEggsMatchingTypes() {
-            const GLOBALS = this.globals;
-            const jQuery = this.jQuery;
-            const obj = this;
-            const enabled = ((this.settings.findTypeEgg === true) &&
-            (!(this.typeArray.length == 1 && this.typeArray[0] == '')));
-            if (enabled) {
-                const typesArrayNoEmptySpace = this.typeArray.filter(v => v != '');
-                for (let i = 0; i < typesArrayNoEmptySpace.length; i++) {
-                    const value = typesArrayNoEmptySpace[i];
-                    const amountOfTypesFound = [];
-                    const typePokemonNames = [];
-
-                    jQuery('#egglist>div>h3').each(function () {
-                        const searchPokemon = jQuery(this).text().split(' ')[0];
-                        const [searchTypeOne, searchTypeTwo] = obj.getTypesForEgg(searchPokemon);
-                        if (searchTypeOne === value) {
-                            amountOfTypesFound.push('found');
-                            typePokemonNames.push(searchPokemon);
-                        }
-
-                        if (searchTypeTwo === value) {
-                            amountOfTypesFound.push('found');
-                            typePokemonNames.push(searchPokemon);
-                        }
-                    }); // each
-
-                    const foundType = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
-
-                    const typeImgStandOutLength = typePokemonNames.length;
-                    for (let o = 0; o < typeImgStandOutLength; o++) {
-                        const value = typePokemonNames[o];
-                        const shelterImgSearch = this.jQuery('#egglist>div>h3:containsIN(' + value + ')');
-                        const shelterBigImg = shelterImgSearch.next();
-                        jQuery(shelterBigImg).addClass('labfoundme');
-                    }
-
-                    if (amountOfTypesFound.length > 1) {
-                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + amountOfTypesFound.length + ' ' + foundType + ' egg types found! (' + typePokemonNames.toString() + ')</div>');
-                    } else if (amountOfTypesFound.length == 1) {
-                        document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + amountOfTypesFound.length + ' ' + foundType + ' egg type found! (' + typePokemonNames.toString() + ')</div>');
-                    }
-                } // for
-            } // if
-        }
-        searchForEggsMatchingCustom() {
-            const jQuery = this.jQuery;
-            if (!(this.searchArray.length == 1 && this.searchArray[0] == '')) {
-                if (this.settings.customEgg === true) {
-                    const searchArrayNoEmptySpace = this.searchArray.filter(v => v != '');
-                    for (let i = 0; i < searchArrayNoEmptySpace.length; i++) {
-                        const value = searchArrayNoEmptySpace[i];
-                        if (jQuery('#egglist>div>h3:containsIN(' + value + ')').length) {
-                            const searchResult = value;
-
-                            const shelterImgSearch = jQuery('#egglist>div>h3:containsIN(' + value + ')');
-                            const shelterBigImg = shelterImgSearch.next();
-                            jQuery(shelterBigImg).addClass('labfoundme');
-
-                            if (jQuery('#egglist>div>h3:containsIN(' + value + ')').length > 1) {
-                                document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                            } else {
-                                document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                            }
-                        } // if
-
-                        if (jQuery('#egglist>div img[src*="' + value + '"]').length) {
-                            const searchResult = jQuery('#egglist>div img[src*="' + value + '"]').prev().text();
-
-                            const shelterImgSearch = jQuery('#egglist>div img[src*="' + value + '"]');
-                            jQuery(shelterImgSearch).addClass('labfoundme');
-
-                            if (jQuery('#egglist>div img[src*="' + value + '"]').length > 1) {
-                                document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                            } else {
-                                document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                            }
-                        } // if
-                    } // for
-                } // if
-            } // else
-        }
-        customSearch() {
-            document.querySelector('#labsuccess').innerHTML = '';
-            this.jQuery('#egglist>div>img').removeClass('labfoundme');
-
-            this.searchForEggsMatchingTypes();
-            this.searchForEggsMatchingCustom();
-        }
-    }
-    /* globals LabPageBase */
-    // eslint-disable-next-line no-unused-vars
-    class LabPage extends LabPageBase {}
-    /* globals Page */
-    // eslint-disable-next-line no-unused-vars
-    class FishingPage extends Page {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
-        // no observer
-        }
-        setupHTML(GLOBALS) {
-        // fishing select all button on caught fishing
-            document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.massReleaseSelectHTML);
-        }
-        setupHandlers() {
-            const obj = this;
-            obj.jQuery('#selectallfishcheckbox').on('click', function () {
-                obj.jQuery('li[data-flavour]>label>input').prop('checked', this.checked);
-            });
-
-            obj.jQuery('#movefishselectanycheckbox').on('click', function () {
-                obj.jQuery('li[data-flavour=Any]>label>input').prop('checked', this.checked);
-            });
-
-            obj.jQuery('#movefishselectsourcheckbox').on('click', function () {
-                obj.jQuery('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
-            });
-
-            obj.jQuery('#movefishselectspicycheckbox').on('click', function () {
-                obj.jQuery('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
-            });
-
-            obj.jQuery('#movefishselectdrycheckbox').on('click', function () {
-                obj.jQuery('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
-            });
-
-            obj.jQuery('#movefishselectsweetcheckbox').on('click', function () {
-                obj.jQuery('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
-            });
-
-            obj.jQuery('#movefishselectbittercheckbox').on('click', function () {
-                obj.jQuery('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
-            });
-        }
-    }
-    /* globals Page */
-    // eslint-disable-next-line no-unused-vars
-    class MultiuserPage extends Page {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
-                hideDislike: false,
-                hideAll: false,
-                niceTable: false,
-            }, 'users/');
-            const obj = this;
-            this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-                mutations.forEach(function (mutation) {
-                    obj.partyModification();
-                });
-            });
-        }
-
-        settingsChange(element, textElement, customClass, typeClass, arrayName) {
-            if (super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
-                return false;
+        insertShelterTypeFoundDiv(number, type, stage, names) {
+            let stageNoun = '';
+            if (stage === 'egg') {
+                stageNoun = stage + (number !== 1 ? 's' : '');
+            } else { // i.e. stage === 'Pokemon'
+                stageNoun = stage;
             }
+            document.querySelector('#sheltersuccess').
+                insertAdjacentHTML('beforeend',
+                    '<div id="shelterfound">' + number + ' ' + type + ' type ' +
+                stageNoun + ' found!' + (names.length > 0 ? '(' + names.toString() + ')' : '') + '</div>');
+        }
 
-            const mutuallyExclusive = ['hideAll', 'hideDislike', 'niceTable'];
-            const idx = mutuallyExclusive.indexOf(element);
-            if (idx > -1) {
-                for (let i = 0; i < mutuallyExclusive.length; i++) {
-                    if (i !== idx) {
-                        this.settings[mutuallyExclusive[i]] = false;
-                    }
+        searchForImgTitle(GLOBALS, key) {
+            const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+            const keyIndex = SEARCH_DATA.indexOf(key);
+            const value = SEARCH_DATA[keyIndex + 1];
+            const selected = this.jQuery('img[title*="' + value + '"]');
+            const cls = this.helpers.getPokemonImageClass();
+            if (selected.length) {
+                const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
+                const imgResult = selected.length + ' ' + searchResult; //amount + type found
+                const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
+                const shelterBigImg = selected.parent().prev().children(`img.${cls}`);
+                this.jQuery(shelterBigImg).addClass('shelterfoundme');
+
+                this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
+            }
+        }
+
+        searchForTooltipText(GLOBALS, key) {
+            const LIST = GLOBALS.SHELTER_SEARCH_LISTS[key];
+            const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+            const keyIndex = SEARCH_DATA.indexOf(key);
+            for (let i = 0; i < LIST.length; i++) {
+                const entry = LIST[i];
+                const selected = this.jQuery(`div.pokemon+div.tooltip_content:contains('${entry}')`);
+                if (selected.length) {
+                    const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
+                    const imgResult = selected.length + ' ' + searchResult; //amount + type found
+                    const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
+                    const shelterBigImg = selected.prev().children('img.big');
+                    shelterBigImg.addClass('shelterfoundme');
+
+                    this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
                 }
-                return true;
-            }
-            else { return false; }
-        }
-        setupHTML(GLOBALS) {
-            document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.partyModHTML);
-        }
-        setupCSS() {
-            const menuBackground = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
-            this.jQuery('#qolpartymod').css('background-color', '' + menuBackground + '');
-            const menuColor = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
-            this.jQuery('#qolpartymod').css('color', '' + menuColor + '');
-        }
-        setupObserver() {
-            this.observer.observe(document.querySelector('#multiuser'), {
-                childList: true,
-                subtree: true,
-            });
-        }
-        setupHandlers() {
-            const obj = this;
-            obj.jQuery(window).on('load', (function () {
-                obj.loadSettings();
-                obj.partyModification();
-            }));
-
-            obj.jQuery(document).on('click input', '#qolpartymod', (function () {
-                obj.partyModification();
-            }));
-
-            obj.jQuery(document).on('click', '.tabbed_interface', (function () {
-                obj.partyModification();
-            }));
-
-            obj.jQuery(document).on('change', '.qolsetting', (function () {
-                obj.loadSettings();
-                obj.settingsChange(this.getAttribute('data-key'),
-                    obj.jQuery(this).val(),
-                    obj.jQuery(this).parent().parent().attr('class'),
-                    obj.jQuery(this).parent().attr('class'));
-                obj.partyModification();
-                obj.saveSettings();
-            }));
-
-            obj.jQuery('input.qolalone').on('change', function () { //only 1 textbox may be true
-                obj.jQuery('input.qolalone').not(this).prop('checked', false);
-            });
-        }
-        partyModification() {
-            if (this.settings.hideDislike === false && this.settings.hideAll === false && this.settings.niceTable === false) {
-                this.jQuery('#trainerimage').removeClass('qolpartyclickhide');
-                this.jQuery('#profilebox').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
-                this.jQuery('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').removeClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
-                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
-                this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
-                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
-                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-                this.jQuery('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
-                this.jQuery('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
-                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
-            }
-
-            if (this.settings.hideDislike === true) {
-                this.jQuery('#trainerimage').removeClass('qolpartyclickhide');
-                this.jQuery('#profilebox').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
-                this.jQuery('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').removeClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
-                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
-                this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
-                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
-                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-                this.jQuery('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
-                this.jQuery('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
-                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons').addClass('qolpartyclicktextalign');
-                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').addClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').addClass('qolpartyclickwidth');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').addClass('qolpartyclickblock');
-            }
-
-            if (this.settings.niceTable === true) {
-                this.jQuery('#trainerimage').removeClass('qolpartyclickhide');
-                this.jQuery('#profilebox').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
-                this.jQuery('#partybox .party>div>.action.working').removeClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').removeClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
-                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
-                this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
-                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
-                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-                this.jQuery('#multiuser.tabbed_interface.horizontal>ul').removeClass('qolpartyclickul');
-                this.jQuery('#multiuser.tabbed_interface>ul>li>label').removeClass('qolpartyclicklilabel');
-                this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
-                this.jQuery('#multiuser .pkmn').addClass('qolpartyclickhide');
-                this.jQuery('#multiuser .name').addClass('qolpartyclickhide');
-                this.jQuery('#multiuser .expbar').addClass('qolpartyclickhide');
-                this.jQuery('#multiuser .taste').addClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party').addClass('qolpartyclickpartywidth');
-                this.jQuery('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
-                this.jQuery('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
-                this.jQuery('#multiuser .party>div:nth-child(2)').addClass('qolpartyclickbordertwo');
-                this.jQuery('#multiuser .party>div:nth-child(5)').addClass('qolpartyclickborderthree');
-                this.jQuery('#multiuser .party>div:nth-child(6)').addClass('qolpartyclickborderfour');
-                this.jQuery('#multiuser .party>div:nth-child(2n+1)').addClass('qolpartyclickborderfive');
-                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons').addClass('qolpartyclicktextalign');
-                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').addClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').addClass('qolpartyclickwidth');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').addClass('qolpartyclickblock');
-            }
-
-
-            if (this.settings.hideAll === true) {
-                this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
-                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').removeClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
-                this.jQuery('#multiuser .pkmn').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .name').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .expbar').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .taste').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
-                this.jQuery('#multiuser .party>div:nth-child(1)').removeClass('qolpartyclickborderone');
-                this.jQuery('#multiuser .party>div:nth-child(2)').removeClass('qolpartyclickbordertwo');
-                this.jQuery('#multiuser .party>div:nth-child(5)').removeClass('qolpartyclickborderthree');
-                this.jQuery('#multiuser .party>div:nth-child(6)').removeClass('qolpartyclickborderfour');
-                this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
-                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-                this.jQuery('#trainerimage').addClass('qolpartyclickhide');
-                this.jQuery('#profilebox').addClass('qolpartyclickhide');
-                this.jQuery('#multiuser .pkmn').addClass('qolpartyclickhide');
-                this.jQuery('#multiuser .name').addClass('qolpartyclickhide');
-                this.jQuery('#multiuser .expbar').addClass('qolpartyclickhide');
-                this.jQuery('#multiuser .taste').addClass('qolpartyclickhide');
-                this.jQuery('#partybox .party>div>.action.working').addClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons:not([data-up=\'sour\'])>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons:not([data-up=\'spicy\'])>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons:not([data-up=\'dry\'])>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons:not([data-up=\'sweet\'])>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons:not([data-up=\'bitter\'])>[data-berry=\'rawst\']').addClass('qolpartyclickhide');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').addClass('qolpartyclickwidth');
-                this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').addClass('qolpartyclickblock');
-                this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party>div').addClass('qolpartyclickalot');
-                this.jQuery('#multiuser .party>div>.action a[data-berry]').addClass('qolpartyclickz');
-                this.jQuery('.mu_navlink.next').addClass('qolpartyclicknav');
-                this.jQuery('#multiuser .party').addClass('qolpartyclickpartywidth');
-                this.jQuery('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
-                this.jQuery('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
-                this.jQuery('#multiuser .party>div:nth-child(2)').addClass('qolpartyclickbordertwo');
-                this.jQuery('#multiuser .party>div:nth-child(5)').addClass('qolpartyclickborderthree');
-                this.jQuery('#multiuser .party>div:nth-child(6)').addClass('qolpartyclickborderfour');
-                this.jQuery('#multiuser .party>div:nth-child(2n+1)').addClass('qolpartyclickborderfive');
-                this.jQuery('#multiuser.tabbed_interface.horizontal>ul').addClass('qolpartyclickul');
-                this.jQuery('#multiuser.tabbed_interface>ul>li>label').addClass('qolpartyclicklilabel');
             }
         }
-    }
 
-    /* globals Page */
-    // eslint-disable-next-line no-unused-vars
-    class FarmPageBase extends Page {
-        DEFAULT_SETTINGS(GLOBALS) {
-            const d = {
-                TYPE_APPEND: {}
-            };
-            // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
-            for (let i = 0; i < GLOBALS.TYPE_LIST.length; i++) {
-                const type = GLOBALS.TYPE_LIST[i];
-                d.TYPE_APPEND[type.toUpperCase()] = '' + i;
-            }
-            d.TYPE_APPEND['NONE'] = '.' + GLOBALS.TYPE_LIST.length;
-            d.KNOWN_EXCEPTIONS = {
-                'Gastrodon [Occident]': [
-                    '2',
-                    '8'
-                ],
-                'Gastrodon [Orient]': [
-                    '2',
-                    '8'
-                ],
-                'Wormadam [Plant Cloak]': [
-                    '11',
-                    '4'
-                ],
-                'Wormadam [Trash Cloak]':[
-                    '11',
-                    '16'
-                ],
-                'Wormadam [Sandy Cloak]': [
-                    '11',
-                    '8'
-                ],
-                'Raticate [Alolan Forme]': [
-                    '15',
-                    '0'
-                ],
-                'Ninetales [Alolan Forme]': [
-                    '5',
-                    '17'
-                ],
-                'Exeggutor [Alolan Forme]': [
-                    '4',
-                    '14'
-                ],
-                'Marowak [Alolan Forme]': [
-                    '1',
-                    '13'
-                ],
-                'Dugtrio [Alolan Forme]': [
-                    '8',
-                    '16'
-                ],
-                'Graveler [Alolan Forme]': [
-                    '12',
-                    '3'
-                ],
-                'Golem [Alolan Forme]': [
-                    '12',
-                    '3'
-                ],
-                'Muk [Alolan Forme]': [
-                    '7',
-                    '15'
-                ],
-                'Raichu [Alolan Forme]': [
-                    '3',
-                    '10'
-                ],
-                'Linoone [Galarian Forme]': [
-                    '15',
-                    '0'
-                ],
-                'Gourgeist [Small Size]': [
-                    '13',
-                    '4'
-                ],
-                'Gourgeist [Average Size]': [
-                    '13',
-                    '4'
-                ],
-                'Gourgeist [Large Size]': [
-                    '13',
-                    '4'
-                ],
-                'Gourgeist [Super Size]': [
-                    '13',
-                    '4'
-                ],
-                'Persian [Alolan Forme]': [
-                    '15'
-                ],
-            };
-            return d;
-        }
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
-            this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
-            this.settings = this.defaultSettings;
-            this.evolveListCache = '';
-            const obj = this;
-            this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-                mutations.forEach(function (mutation) {
-                    obj.easyQuickEvolve();
-                });
-            });
-        }
-        setupHTML() {
-            const obj = this;
-            this.jQuery(document).ready(function () {
-                obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-                document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend',
-                    '<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"/></label><label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"/></label><label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"/></label><label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"/>');
-                // use the evolve button
-                obj.jQuery('#farmnews-evolutions>p>label>input').addClass('qolquickevo');
-            });
-        }
-        setupObserver() {
-            this.observer.observe(document.querySelector('#farmnews-evolutions'), {
-                childList: true,
-                characterdata: true,
-                subtree: true,
-                characterDataOldValue: true,
-            });
-        }
-        setupHandlers(GLOBALS) {
-            const obj = this;
-            obj.jQuery(document).on('click', '#qolevolvenormal', (function () {
-                obj.easyEvolveNormalList(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#qolchangesletype', (function () {
-                obj.easyEvolveTypeList(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#qolsortevolvename', (function () {
-                obj.easyEvolveNameList(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#qolevolvenew', (function () {
-                obj.easyEvolveNewList(GLOBALS);
-            }));
-        }
-        clearSortedEvolveLists() {
-        // first remove the sorted pokemon type list to avoid duplicates
-            this.jQuery('.evolvepkmnlist').show();
-            this.jQuery('.evolvepkmnlist').removeAttr('class');
-            if (document.querySelector('.qolEvolveTypeList')) {
-                document.querySelector('.qolEvolveTypeList').remove();
-            }
-            if (document.querySelector('.qolEvolveNameList')) {
-                document.querySelector('.qolEvolveNameList').remove();
-            }
-            if (document.querySelector('.qolEvolveNewList')) {
-                document.querySelector('.qolEvolveNewList').remove();
-            }
-        }
-        easyEvolveNormalList() {
-            this.clearSortedEvolveLists();
-        }
-        easyEvolveNameList() {
-            const obj = this;
-            this.clearSortedEvolveLists();
-
-            this.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNameList">');
-
-            let errorOccurred = false;
-            this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index) {
-            // getting the <li> element from the pokemon & the pokemon evolved name
-                const getEvolveString = obj.jQuery(this).html();
-                if (getEvolveString === undefined || getEvolveString === '') {
-                    console.error(`Unable to parse html from <li> at index ${index}`);
-                    errorOccurred = true;
-                } else {
-                    let beforeEvolvePokemon = obj.jQuery(this).children().children().text().slice(0, -6);
-                    if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
-                        console.error(`Unable to parse pokemon-evolving-from from <li> at index ${index}`);
-                        errorOccurred = true;
-                    } else {
-                    // remove extraneous whitespace
-                        beforeEvolvePokemon = beforeEvolvePokemon.trim();
-                        // use a regex to find extra whitespace between words
-                        let whitespace = beforeEvolvePokemon.match(/\s{2,}/g);
-                        while (whitespace) {
-                            for (let i = whitespace.length - 1; i >= 0; i--) {
-                                const match = whitespace[i];
-                                beforeEvolvePokemon = beforeEvolvePokemon.replace(match, ' ');
-                            }
-                            whitespace = beforeEvolvePokemon.match(/\s{2,}/g);
-                        }
-                        let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 12);
-                        if (evolvePokemon === undefined || evolvePokemon === '') {
-                            console.error(`Unable to parse pokemon-evolving-to from <li> at index ${index}`);
-                            errorOccurred = true;
-                        } else {
-                        // remove extraneous whitespace
-                            evolvePokemon = evolvePokemon.trim();
-                            // use a regex to find extra whitespace between words
-                            whitespace = evolvePokemon.match(/\s{2,}/g);
-                            while (whitespace) {
-                                for (let i = whitespace.length - 1; i >= 0; i--) {
-                                    const match = whitespace[i];
-                                    evolvePokemon = evolvePokemon.replace(match, ' ');
-                                }
-                                whitespace = evolvePokemon.match(/\s{2,}/g);
-                            }
-                            // Replace all spaces with a character that is not part of any Pokemon's name, but is valid in a CSS selector
-                            const evolvePokemonClass = evolvePokemon.replace(/ /g, '_').replace('[', '').replace(']', '').replace(/\./g, '');
-                            if (evolvePokemonClass === undefined || evolvePokemonClass === '') {
-                                console.error(`Unable to create valid CSS class for pokemon-evolving-to from <li> at index ${index}`);
-                                errorOccurred = true;
-                            } else {
-                                if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(evolvePokemonClass) === false) {
-                                    document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">' +
-                                    beforeEvolvePokemon + ' > ' + evolvePokemon +
-                                    '</h3><ul class="' + evolvePokemonClass +
-                                    ' qolChangeLogContent"></ul></li><br>');
-                                } // class
-                                obj.jQuery(this).clone().appendTo('.' + evolvePokemonClass + '');
-                            } // evolvePokemonClass
-                        } // evolvePokemon
-                    } // beforeEvolvePokemon
-                } // getEvolveString
-            });
-
-            if (errorOccurred) {
-                window.alert('Error occurred while sorting pokemon by name');
-                return;
-            }
-
-            obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li').each(function (index) {
-                const amountOfEvolves = obj.jQuery(this).children().children().length;
-                if (amountOfEvolves === 0) {
-                    console.error(`Found 0 evolutions for <li> at ${index} of evolve name list`);
-                    errorOccurred = true;
-                } else {
-                    const getEvolveString = obj.jQuery(this).children().children().html();
-                    if (getEvolveString === undefined || getEvolveString === '') {
-                        console.error(`Unable to parse evolve string from <li> at ${index} from evolve name list`);
-                        errorOccurred = true;
-                    } else {
-                        const beforeEvolvePokemon = obj.jQuery(this).children().children().children().children().first().text(); // .split(' ').join('');
-
-                        if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
-                            console.error(`Unable to parse pokemon-evolving-from from <li> at ${index} from evolve name list`);
-                            errorOccurred = true;
-                        } else {
-                            const evolvePokemon = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 'into</span> '.length);
-                            if (evolvePokemon === undefined || evolvePokemon === '') {
-                                console.error(`Unable to parse pokemon-evolving-to from <li> at ${index} from evolve name list`);
-                                errorOccurred = true;
-                            } else {
-                                obj.jQuery(this).children('.slidermenu').html(beforeEvolvePokemon + ' > ' + evolvePokemon + ' (' + amountOfEvolves + ')');
-                            }
-                        }
-                    } // getEvolveString
-                } // amountOfEvolves
-            });
-
-            obj.jQuery('.evolvepkmnlist').hide();
-
-            if (errorOccurred) {
-                window.alert('Error occurred while sorting pokemon by name');
-                return;
-            }
-
-            //layout of the created html
-            const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-            const typeBorder = obj.jQuery('.panel>h3').css('border');
-            const typeColor = obj.jQuery('.panel>h3').css('color');
-            obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-            obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-            obj.jQuery('.expandlist').css('color', '' + typeColor + '');
-
-            const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-            const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-            obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-            obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
-        }
-        easyEvolveNewList(GLOBALS) {
+        searchForTypes(GLOBALS, types) {
             const obj = this;
             const dexData = GLOBALS.DEX_DATA;
+            const cls = this.helpers.getPokemonImageClass();
+            for (let i = 0; i < types.length; i++) {
+                const value = types[i];
+                const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
 
-            this.clearSortedEvolveLists();
+                let typePokemonNames = [];
+                let selected = undefined;
+                if (this.settings.findTypeEgg === true) {
+                    const pokemonElems = [];
+                    typePokemonNames = [];
+                    selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
+                    selected.each(function () {
+                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                        let searchTypeOne = '';
+                        let searchTypeTwo = '';
 
-            // add a class to the original pokemon evolve list to be able to manipulate the element more easily and add the ul for the new dex search
-            this.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNewList">');
+                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                        searchTypeOne = dexData[searchPokemonIndex + 1];
+                        searchTypeTwo = dexData[searchPokemonIndex + 2];
 
-            const getNewCheckData = (name) => {
-                const nameIndex = dexData.indexOf('"' + name + '"');
-                const checkData = (nameIndex > -1 && dexData.length > nameIndex + 9) ?
-                    dexData.slice(nameIndex + 5, nameIndex + 10) :
-                    [undefined, undefined, undefined, undefined, undefined];
-                if (checkData[4] !== undefined) {
-                    checkData[4] = checkData[4].replace(']', '');
-                }
-                return checkData;
-            };
-
-            const createListElements = (jQuery, cls, header, name, elem) => {
-                if (jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass(cls) === false) {
-                    const html = '<li class="expandlist">' +
-                    `<h3 class="slidermenu">${header}</h3>` +
-                    `<ul class="${cls} qolChangeLogContent"></ul></li><br>`;
-                    document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', html);
-                }
-
-                if (jQuery(`#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.${cls}>li:contains(${name})`).length == 0) {
-                    jQuery(elem).clone().appendTo(`.${cls}`);
-                }
-            };
-
-            this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () { //the actual search
-            // getting the <li> element from the pokemon & the pokemon evolved name
-                const getEvolveString = obj.jQuery(this).html();
-
-                // every pokemon is a normal unless shiny, albino or melanistic pokemon is found
-                let pokemonIsNormal = true;
-                let pokemonIsShiny = false;
-                let pokemonIsAlbino = false;
-                let pokemonIsMelanistic = false;
-
-                if (getEvolveString.includes('title="[SHINY]')) {
-                    pokemonIsShiny = true;
-                    pokemonIsNormal = false;
-                }
-                if (getEvolveString.includes('title="[ALBINO]')) {
-                    pokemonIsAlbino = true;
-                    pokemonIsNormal = false;
-                }
-                if (getEvolveString.includes('title="[MELANISTIC]')) {
-                    pokemonIsMelanistic = true;
-                    pokemonIsNormal = false;
-                }
-
-                let evolvePokemonName = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 'into</span>'.length).trim();
-                // use a regex to find extra whitespace between words
-                let whitespace = evolvePokemonName.match(/\s{2,}/g);
-                while (whitespace) {
-                    for (let i = whitespace.length - 1; i >= 0; i--) {
-                        const match = whitespace[i];
-                        evolvePokemonName = evolvePokemonName.replace(match, ' ');
-                    }
-                    whitespace = evolvePokemonName.match(/\s{2,}/g);
-                }
-                const evolvePokemonNameIndex = dexData.indexOf('"' + evolvePokemonName + '"');
-                const evolvePokemonNameInDex = evolvePokemonNameIndex != -1;
-
-                const [evolveNewTotal, evolveNewCheck,
-                    evolveNewShinyCheck, evolveNewAlbinoCheck,
-                    evolveNewMelaCheck] = getNewCheckData(evolvePokemonName);
-
-                const [evolvePokemonNameOne, pokemonDexKeepSecondName,
-                    pokemonDexKeepThirdName, pokemonDexKeepFourthName,
-                    pokemonDexKeepFifthName, pokemonDexKeepSixthName] = evolvePokemonName.split(' ');
-                const [evolveNewTotalOne, evolveNewCheckOne, /* ignore */, /* ignore */, /* ignore */] = getNewCheckData(evolvePokemonNameOne);
-                /* if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
-               The remaining checks are a (not great) way of checking for names with '/' in them.
-               PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
-               Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
-               Regex: \w+/\w+ */
-                const evolvePokemonNameTwo = (evolvePokemonNameOne + '/' + pokemonDexKeepSecondName).replace('[', '').replace(']', '');
-                const [evolveNewTotalTwo, evolveNewCheckTwo,
-                    evolveNewShinyCheckTwo, evolveNewAlbinoCheckTwo,
-                    evolveNewMelaCheckTwo] = getNewCheckData(evolvePokemonNameTwo);
-
-                /* Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
-               Regex: \w+/\w+ \w+ */
-                const evolvePokemonNameThree = (evolvePokemonNameOne + '/' +
-                pokemonDexKeepSecondName + ' ' +
-                pokemonDexKeepThirdName).replace('[', '').replace(']', '');
-                const [evolveNewTotalThree, evolveNewCheckThree,
-                    evolveNewShinyCheckThree, evolveNewAlbinoCheckThree,
-                    evolveNewMelaCheckThree] = getNewCheckData(evolvePokemonNameThree);
-
-                /* Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
-               Regex: \w+/\w+ \w+ \w+ */
-                const evolvePokemonNameFour = (evolvePokemonNameOne + '/' +
-                pokemonDexKeepSecondName + ' ' +
-                pokemonDexKeepThirdName + ' ' +
-                pokemonDexKeepFourthName).replace('[', '').replace(']', '');
-                const [evolveNewTotalFour, evolveNewCheckFour,
-                    evolveNewShinyCheckFour, evolveNewAlbinoCheckFour,
-                    evolveNewMelaCheckFour] = getNewCheckData(evolvePokemonNameFour);
-
-                /* Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
-               Regex: \w+/\w+ \w+ \w+ \w+ */
-                const evolvePokemonNameFive = (evolvePokemonNameOne + '/' +
-                pokemonDexKeepSecondName + ' ' +
-                pokemonDexKeepThirdName + ' ' +
-                pokemonDexKeepFourthName + ' ' +
-                pokemonDexKeepFifthName).replace('[', '').replace(']', '');
-                const [evolveNewTotalFive, evolveNewCheckFive,
-                    evolveNewShinyCheckFive, evolveNewAlbinoCheckFive,
-                    evolveNewMelaCheckFive] = getNewCheckData(evolvePokemonNameFive);
-
-                /* Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
-               Regex: \w+/\w+ \w+ \w+ \w+ \w+ */
-                const evolvePokemonNameSix = (evolvePokemonNameOne + '/' +
-                pokemonDexKeepSecondName + ' ' +
-                pokemonDexKeepThirdName + ' ' +
-                pokemonDexKeepFourthName + ' ' +
-                pokemonDexKeepFifthName + ' ' +
-                pokemonDexKeepSixthName).replace('[', '').replace(']', '');
-                const [evolveNewTotalSix, evolveNewCheckSix,
-                    evolveNewShinyCheckSix, evolveNewAlbinoCheckSix,
-                    evolveNewMelaCheckSix] = getNewCheckData(evolvePokemonNameSix);
-
-                //prep done now the search
-                if (evolvePokemonNameInDex) { //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
-                    if (pokemonIsNormal == true) { //normal Pokémon search
-                        if (evolveNewCheckOne == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                            createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
-                        } else if (evolveNewTotal > evolveNewCheck && evolveNewCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                            createListElements(obj.jQuery, 'newpossiblepokedexentry', 'Possible Mega/Totem forme', evolvePokemonName, this);
+                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                            typePokemonNames.push(searchPokemon);
+                            pokemonElems.push(this);
                         }
-                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
-                    } else if (pokemonIsShiny == true) { //shiny Pokemon search
-                        if (evolveNewShinyCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                            createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
-                        } else if (evolveNewTotal > evolveNewShinyCheck && evolveNewShinyCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                            createListElements(obj.jQuery, 'newpossibleshinypokedexentry', 'Possible Shiny Mega/Totem forme', evolvePokemonName, this);
-                        }
-                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
-                    } else if (pokemonIsAlbino == true) { //albino pokemon search
-                        if (evolveNewAlbinoCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                            createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
-                        } else if (evolveNewTotal > evolveNewAlbinoCheck && evolveNewAlbinoCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                            createListElements(obj.jQuery, 'newpossiblealbinopokedexentry', 'Possible Albino Mega/Totem forme', evolvePokemonName, this);
-                        }
-                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
-                    } else if (pokemonIsMelanistic == true) { //melanistic pokemon search
-                        if (evolveNewMelaCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                            createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
-                        } else if (evolveNewTotal > evolveNewMelaCheck && evolveNewMelaCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                            createListElements(obj.jQuery, 'newpossiblemelanisticpokedexentry', 'Possible Melanistic Mega/Totem forme', evolvePokemonName, this);
-                        }
-                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
+                    });
+
+                    for (let o = 0; o < pokemonElems.length; o++) {
+                        const shelterImgSearch = this.jQuery(pokemonElems[o]);
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
                     }
 
-                //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
-                } else {
-                    if (pokemonIsNormal == true) {
-                        if (evolveNewCheckTwo == 0 || evolveNewCheckThree == 0 || evolveNewCheckFour == 0 || evolveNewCheckFive == 0 || evolveNewCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                            createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
-                        } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
-                            if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                                createListElements(obj.jQuery, 'possiblealolan', 'Possible new Alolan entry', evolvePokemonName, this);
-                            }
-                        } else if (evolvePokemonName.indexOf('[') >= 0) {
-                            if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                                createListElements(obj.jQuery, 'possibledifferent', 'Possible new forme/cloak entry', evolvePokemonName, this);
-                            } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                                createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
-                            }
-
-                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
-                        } else {
-                            createListElements(obj.jQuery, 'errornotfound', 'Error contact ECEInTheHole!', evolvePokemonName, this);
-                        }
-                    } else if (pokemonIsShiny == true) {
-                        if (evolveNewShinyCheckTwo == 0 || evolveNewShinyCheckThree == 0 || evolveNewShinyCheckFour == 0 || evolveNewShinyCheckFive == 0 || evolveNewShinyCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                            createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
-                        } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
-                            if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                                createListElements(obj.jQuery, 'possibleshinyalolan', 'Possible new Shiny Alolan entry', evolvePokemonName, this);
-                            }
-                        } else if (evolvePokemonName.indexOf('[') >= 0) {
-                            if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                                createListElements(obj.jQuery, 'possibleshinydifferent', 'Possible new Shiny forme/cloak entry', evolvePokemonName, this);
-                            } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                                createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
-                            }
-                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
-                        } else {
-                            createListElements(obj.jQuery, 'errornotfound', 'Error contact ECEInTheHole!', evolvePokemonName, this);
-                        }
-                    } else if (pokemonIsAlbino == true) {
-                        if (evolveNewAlbinoCheckTwo == 0 || evolveNewAlbinoCheckThree == 0 || evolveNewAlbinoCheckFour == 0 || evolveNewAlbinoCheckFive == 0 || evolveNewAlbinoCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                            createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
-                        } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
-                            if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                                createListElements(obj.jQuery, 'possiblealbinoalolan', 'Possible new Albino Alolan entry', evolvePokemonName, this);
-                            }
-                        } else if (evolvePokemonName.indexOf('[') >= 0) {
-                            if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                                createListElements(obj.jQuery, 'possiblealbinodifferent', 'Possible new Albino forme/cloak entry', evolvePokemonName, this);
-                            } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                                createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
-                            }
-                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
-                        } else {
-                            createListElements(obj.jQuery, 'errornotfound', 'Error contact ECEInTheHole!', evolvePokemonName, this);
-                        }
-
-                    } else if (pokemonIsMelanistic == true) {
-                        if (evolveNewMelaCheckTwo == 0 || evolveNewMelaCheckThree == 0 || evolveNewMelaCheckFour == 0 || evolveNewMelaCheckFive == 0 || evolveNewMelaCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                            createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
-                        } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
-                            if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                                createListElements(obj.jQuery, 'possiblemelanalolan', 'Possible new Melanistic Alolan entry', evolvePokemonName, this);
-                            }
-                        } else if (evolvePokemonName.indexOf('[') >= 0) {
-                            if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                                createListElements(obj.jQuery, 'possiblemelandifferent', 'Possible new Melanistic forme/cloak entry', evolvePokemonName, this);
-                            } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                                createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
-                            }
-                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
-                        } else {
-                            createListElements(obj.jQuery, 'errornotfound', 'Error contact ECEInTheHole!', evolvePokemonName, this);
-                        }
-                    }
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
                 }
-            });
 
-            obj.jQuery('.evolvepkmnlist').hide();
+                if (this.settings.findTypePokemon === true) {
+                    typePokemonNames = [];
+                    selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
+                    selected.each(function () {
+                        const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                        const searchTypeOne = dexData[searchPokemonIndex + 1];
+                        const searchTypeTwo = dexData[searchPokemonIndex + 2];
+                        if ((searchTypeOne === value) || (searchTypeTwo === value)) {
+                            typePokemonNames.push(searchPokemon);
+                        }
+                    });
 
-            //layout
-            const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-            const typeBorder = obj.jQuery('.panel>h3').css('border');
-            const typeColor = obj.jQuery('.panel>h3').css('color');
-            obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-            obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-            obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+                    for (let o = 0; o < typePokemonNames.length; o++) {
+                        const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    }
 
-            const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-            const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-            obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-            obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
-        }
-        easyQuickEvolve() {
-            if (this.jQuery('.canevolve:contains("evolved into")').parent().length != 0) {
-                this.jQuery('.canevolve:contains("evolved into")').parent().remove();
+                    this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
+                }
             }
+
         }
-    }
-    /* globals FarmPageBase */
-    // eslint-disable-next-line no-unused-vars
-    class FarmPage extends FarmPageBase {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS, externals) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS, externals);
-        }
-        easyEvolveTypeList(GLOBALS) {
-            const obj = this;
-            const dexData = GLOBALS.DEX_DATA;
 
-            this.clearSortedEvolveLists();
-
-            const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-            obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
-
-            const typeBorder = obj.jQuery('.panel>h3').css('border');
-            const typeColor = obj.jQuery('.panel>h3').css('color');
-            obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-            obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-            obj.jQuery('.expandlist').css('color', '' + typeColor + '');
-
-            const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-            const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-            obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-            obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
-
-            /* Nested helper function */
-            const getEvolutionOrigin = function (evoString) {
-                const summary = '/summary/';
-                const originStart = evoString.indexOf(summary) + summary.length + 7;
-                const originEnd = evoString.indexOf('</a>');
-                return evoString.substring(originStart, originEnd);
-            };
-
-            const getEvolutionDestination = function (evoString) {
-                const destStart = evoString.indexOf('into</span>') + 'into</span>'.length;
-                return evoString.substr(destStart).trim();
-            };
-
-            const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
-                if (evoString.includes('title="[DELTA')) {
-                    const deltaType = evoString.match('DELTA-(.*)]">');
-                    $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
-                }
-            };
-
-            obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
-            // getting the <li> element from the pokemon & the pokemon evolved name
-                const getEvolveString = obj.jQuery(this).html();
-                let previousPokemon = getEvolutionOrigin(getEvolveString);
-                const evolvePokemon = getEvolutionDestination(getEvolveString);
-
-                // Handle unicode characters
-                previousPokemon = previousPokemon
-                    .replace(/é/g, '\\u00e9')
-                    .replace(/í/g, '\\u00ed')
-                    .replace(/ñ/g, '\\u00f1');
-
-                // Handle evolvePokemon name formatting
-                let evolveFormatted = evolvePokemon.replace(' [', '/');
-                evolveFormatted = evolveFormatted.replace(']', '');
-
-                const previousIndex = dexData.indexOf('"' + previousPokemon + '"');
-                const evolveIndex = dexData.indexOf('"' + evolveFormatted + '"');
-
-                const previousInDex = previousIndex != -1;
-                const evolveInDex = evolveIndex != -1;
-                const evolveInExceptions = evolvePokemon in obj.settings.KNOWN_EXCEPTIONS;
-                let evolveTypesPrevious = [];
-                let evolveTypes = [];
-
-                /* Procedure
-               1. If the evolution destination is in the known exceptions list
-                  a. Load the types from KNOWN_EXCEPTIONS
-               2. Else:
-                  a. If the evolution origin is in the dex, load the types from the dex
-                  b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
-                  c. If the destination pokemon is in the dex, load the types from the dex
-                  d. Else, mark the type as '18' (not a valid type)
-               3. Use types to apply HTML classes to the list item that contains the current evolution
-                  a. Use the evolution origin's and destination's types as HTML classes
-                  b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well */
-
-                if(evolveInExceptions) {
-                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
-                    // short circuit the previous pokemon's types, since the KNOWN_EXCEPTIONS table will have everything
-                    evolveTypesPrevious = evolveTypes;
-                }
-                else {
-                    if (previousInDex) {
-                        evolveTypesPrevious = [1, 2].map((i) => dexData[previousIndex + i]);
-                    }
-                    else {
-                        evolveTypesPrevious = ['18', '-1'];
-                    }
-
-                    if (evolveInDex) {
-                        evolveTypes = [1, 2].map((i) => dexData[evolveIndex + i]);
-                    }
-                    else {
-                        evolveTypes = ['18', '-1'];
-                    }
-                }
-
-                /* the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-               in some cases. Just strip it off */
-                evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
-                evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
-
-                // filter out invalid 2nd types (will be -1)
-                evolveTypesPrevious = evolveTypesPrevious.filter((t) => t !== '-1');
-                evolveTypes = evolveTypes.filter((t) => t !== '-1');
-
-                // append types to DOM
-                const elem = this;
-                // add unknown source types
-                if(evolveTypesPrevious   .includes('18')) {
-                    obj.jQuery(elem).clone().appendTo('.18source');
-                }
-                // add unknown target types
-                if(evolveTypes.includes('18')) {
-                    obj.jQuery(elem).clone().appendTo('.18target');
-                }
-                const combinedValidTypes = [...evolveTypesPrevious, ...evolveTypes]
-                    .filter((t, i, self) => t != '18' && self.indexOf(t) === i);
-                combinedValidTypes.map((t) => {
-                    obj.jQuery(elem).clone().appendTo(`.${t}`);
-                });
-
-                appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
-            }); // each
-
-            obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
-                const amountOfEvolves = obj.jQuery(this).children().children().length;
-                const evolveTypeName = obj.jQuery(this).children('.slidermenu').html();
-
-                // hide the types with no evolutions
-                if (amountOfEvolves === 0) {
-                    this.nextSibling.hidden = true;
-                    this.hidden = true;
-                } else {
-                    obj.jQuery(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
-                }
-            });
-
-            obj.jQuery('.evolvepkmnlist').hide();
-        }
-    }
-    /* globals Page */
-    // eslint-disable-next-line no-unused-vars
-    class DaycarePage extends Page {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
-            const obj = this;
-            this.observer = new MutationObserver(function (mutations) {
-                mutations.forEach(function (mutation) {
-                // const fsPokemon = document.querySelector('#fs_pokemon');
-                    const fsPokemon = obj.jQuery('#fs_pokemon');
-                    if (fsPokemon.length > 0 &&
-                    obj.jQuery.contains(fsPokemon[0], mutation.target)) {
-                        obj.customSearch(GLOBALS);
-                    }
-                });
-            });
-        } // constructor
-
-        setupObserver() {
-            this.observer.observe(document.querySelector('body'), {
-                childList: true,
-                subtree: true
-            });
-        }
         customSearch(GLOBALS) {
             const obj = this;
-            const button = document.querySelector('#pkmnadd');
+            const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+            const cls = this.helpers.getPokemonImageClass();
 
-            let gender = null;
-            let eggGroup1 = null, eggGroup2 = null;
+            // search whatever you want to find in the shelter & grid
 
-            if (button !== null) {
-                if (button.attributes['data-gender'] !== undefined) {
-                    gender = button.attributes['data-gender'].value;
+            //sort in grid
+            this.jQuery('#shelterarea').removeClass('qolshelterareagrid');
+            this.jQuery('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
+            this.jQuery('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
+            this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
+            this.jQuery('#sheltergridthingy').remove();
+
+            if (this.settings.shelterGrid === true) { //shelter grid
+                this.jQuery('#shelterarea').addClass('qolshelterareagrid');
+                this.jQuery('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
+                this.jQuery('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
+                this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
+                this.jQuery('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
+            }
+
+            /*
+             * search values depending on settings
+             * emptying the sheltersuccess div to avoid duplicates
+             */
+            document.querySelector('#sheltersuccess').innerHTML = '';
+            this.jQuery('#shelterarea>div>img').removeClass('shelterfoundme');
+
+            if (this.settings.findShiny === true) {
+                this.searchForImgTitle(GLOBALS, 'findShiny');
+            }
+            if (this.settings.findAlbino === true) {
+                this.searchForImgTitle(GLOBALS, 'findAlbino');
+            }
+            if (this.settings.findMelanistic === true) {
+                this.searchForImgTitle(GLOBALS, 'findMelanistic');
+            }
+            if (this.settings.findPrehistoric === true) {
+                this.searchForImgTitle(GLOBALS, 'findPrehistoric');
+            }
+            if (this.settings.findDelta === true) {
+                this.searchForImgTitle(GLOBALS, 'findDelta');
+            }
+            if (this.settings.findMega === true) {
+                this.searchForImgTitle(GLOBALS, 'findMega');
+            }
+            if (this.settings.findStarter === true) {
+                this.searchForImgTitle(GLOBALS, 'findStarter');
+            }
+            if (this.settings.findCustomSprite === true) {
+                this.searchForImgTitle(GLOBALS, 'findCustomSprite');
+            }
+            if (this.settings.findLegendary === true) {
+                this.searchForTooltipText(GLOBALS, 'findLegendary');
+            }
+
+            if (this.settings.findNewPokemon === true) {
+                const key = 'findNewPokemon';
+                const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
+                const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')');
+                if (selected.length) {
+                    const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
+                    const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
+                    const tooltipResult = selected.length + ' ' + searchResult;
+                    const shelterImgSearch = selected;
+                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
+
+                    this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
                 }
-                /* the egg group is binary coded decimal
-                   if a pokemon has two egg groups, the leftmost 4 bits of the number returned
-                   are the first egg group and the rightmost 4 bits are the second egg group */
-                if (button.attributes['data-egggroup'] !== undefined) {
-                    eggGroup1 = parseInt(button.attributes['data-egggroup'].value);
-                    if (eggGroup1 > 15) { // two egg groups
-                        eggGroup2 = eggGroup1 & 15;
-                        eggGroup1 = eggGroup1 >> 4;
+            }
+
+            if (this.settings.findNewEgg === true) {
+                const key = 'findNewEgg';
+                const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
+                const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')').filter(function () {
+                // .text() will include the text in the View/Adopt and Hide buttons, so there will be a space
+                    return obj.jQuery(this).text().startsWith(value + ' ');
+                });
+
+                if (selected.length) {
+                    const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
+                    const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
+                    if (selected.length >= 1) {
+                        const shelterImgSearch = selected;
+                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    }
+                    this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
+                }
+            }
+
+            //loop to find all search genders for the custom
+            const shelterValueArrayCustom = [];
+            for (const key in this.settings) {
+                const value = this.settings[key];
+                if (value === true) {
+                    if (key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
+                        const searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
+                        shelterValueArrayCustom.push(searchKey);
                     }
                 }
             }
 
-            const EGG_ID_TO_NAME = GLOBALS.EGG_GROUP_ID_TO_NAME;
-            if (eggGroup1 !== null) { eggGroup1 = EGG_ID_TO_NAME[eggGroup1]; }
-            if (eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2]; }
-
-            // clear matches
-            obj.jQuery('.daycarefoundme').removeClass('daycarefoundme');
-
-            if (gender !== null && eggGroup1 !== null) {
-                const fieldmons = document.querySelectorAll('.fieldmon');
-                if (fieldmons !== null) {
-                    for (let m = 0; m < fieldmons.length; m++) {
-                        const mon = fieldmons[m];
-                        const searchPokemonBigImg = obj.jQuery(mon)[0].childNodes[0];
-                        const searchPokemon = searchPokemonBigImg.alt;
-
-                        const tooltip = obj.jQuery(mon).next();
-                        const fieldmontip = tooltip[0].querySelector('.fieldmontip');
-                        const speciesDiv = obj.jQuery(fieldmontip).children(':contains(Species)')[0];
-                        const eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0];
-                        const searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
-
-                        /* There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
-                           The gender title can be "[M], [F], [N]" */
-                        const searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
-                        const searchEggGroups = obj.jQuery(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
-
-                        // Match Ditto in Daycare to anything that can breed
-                        if (gender === 'd' && eggGroup1 === 'Ditto' &&
-                        searchPokemon !== 'Ditto' && searchEggGroups[0] !== 'Undiscovered') {
-                            obj.jQuery(searchPokemonBigImg).addClass('daycarefoundme');
+            //loop to find all the custom search parameters
+            const customSearchAmount = this.customArray.length;
+            const heartPng = '<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">';
+            const eggPng = '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">';
+            for (let i = 0; i < customSearchAmount; i++) {
+                const customValue = this.customArray[i];
+                if (customValue != '') {
+                //custom pokemon search
+                    if (this.settings.customPokemon === true) {
+                        const genderMatches = [];
+                        if (shelterValueArrayCustom.indexOf('[M]') > -1) {
+                            genderMatches.push('[M]');
                         }
-                        // Match Ditto in field to anything that can breed
-                        else if (eggGroup1 !== 'Ditto' && searchPokemon === 'Ditto' && eggGroup1 !== 'Undiscovered') {
-                            obj.jQuery(searchPokemonBigImg).addClass('daycarefoundme');
+                        if (shelterValueArrayCustom.indexOf('[F]') > -1) {
+                            genderMatches.push('[F]');
                         }
-                        // Match correct gender
-                        else {
-                            const genderCorrect = (gender === 'f' && searchGender === 'm') ||
-                            (gender === 'm' && searchGender === 'f');
-                            const group1Correct = searchEggGroups.reduce((res, curr) => { res = res || (eggGroup1 === curr); return res; }, false);
-                            let group2Correct = false;
-                            if (eggGroup2 !== null) {
-                                group2Correct = searchEggGroups.reduce((res, curr) => { res = res || (eggGroup2 === curr); return res; }, false);
-                            }
+                        if (shelterValueArrayCustom.indexOf('[N]') > -1) {
+                            genderMatches.push('[N]');
+                        }
 
-                            if (genderCorrect && (group1Correct || group2Correct)) {
-                                obj.jQuery(searchPokemonBigImg).addClass('daycarefoundme');
+                        if (genderMatches.length > 0) {
+                            for (let i = 0; i < genderMatches.length; i++) {
+                                const genderMatch = genderMatches[i];
+                                const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + ') img[title*=\'' + genderMatch + '\']');
+                                if (selected.length) {
+                                    const searchResult = customValue;
+                                    const genderName = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
+                                    const imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
+                                    const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
+                                    const shelterImgSearch = selected;
+                                    const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
+
+                                    this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                                }
                             }
                         }
 
-                    } // for
+                        //No genders
+                        else if (shelterValueArrayCustom.length === 0) {
+                            const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):not(:containsIN("Egg"))');
+                            if (selected.length) {
+                                const searchResult = customValue;
+                                const tooltipResult = selected.length + ' ' + searchResult;
+                                const shelterImgSearch = selected;
+                                const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                                this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                            }
+                        }
+                    }
+
+                    //custom egg
+                    if (this.settings.customEgg === true) {
+                        const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):contains("Egg")');
+                        if (selected.length) {
+                            const searchResult = customValue;
+                            const tooltipResult = selected.length + ' ' + searchResult;
+                            const shelterImgSearch = selected;
+                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                            this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
+                        }
+                    }
+
+                    //imgSearch with Pokémon
+                    if (this.settings.customPng === true) {
+                        const selected = this.jQuery(`#shelterarea img.${cls}[src*="${customValue}"]`);
+                        if (selected.length) {
+                            const searchResult = selected.parent().next().text().split('(')[0];
+                            const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
+                            const shelterImgSearch = selected;
+                            this.jQuery(shelterImgSearch).addClass('shelterfoundme');
+                            this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                        }
+                    }
                 }
-            } // if
+            }
+
+            //loop to find all the types
+
+            const filteredTypeArray = this.typeArray.filter(v => v != '');
+
+            if (filteredTypeArray.length > 0) {
+                obj.searchForTypes(GLOBALS, filteredTypeArray);
+            }
         } // customSearch
     }
-    /* globals Page */
-    // eslint-disable-next-line no-unused-vars
-    class DexPageBase extends Page {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, '/dex');
-            const obj = this;
-            this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-                mutations.forEach(function (mutation) {
-                    obj.applyTypeFilters();
-                });
-            });
-            this.typeArray = [];
-        }
-        setupObserver() {
-            this.observer.observe(document.querySelector('#regionslist'), {
-                childList: true,
-                subtree: true,
-            });
-        }
-        setupHTML() {
-            const elem = document.querySelector('.filter-type');
-            const clone = elem.cloneNode(true);
-            elem.parentNode.appendChild(clone);
-            /* can't remove filter-type class or else the filtering
-               won't look right */
-            this.jQuery(clone).addClass('filter-type-2');
-        }
 
-        setupHandlers() {
-            const obj = this;
-            let h = obj.jQuery.parseJSON(obj.jQuery('#dexdata').html());
-            const type2 = obj.jQuery('.filter-type-2');
-            const l = obj.jQuery('.filter-type-2 .types');
-            const c = l.children();
 
-            const typesSpan = obj.jQuery('.filter-type-2 .types');
-
-            type2.on('mousedown.dextfilter touchstart.dextfilter', function (event) {
-                event.preventDefault();
-                const leftedge = typesSpan.offset().left;
-                const width = typesSpan.width();
-                const rightedge = leftedge + width;
-                let xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
-                if (xLocation >= leftedge & xLocation < rightedge) {
-                    xLocation -= leftedge;
-                    xLocation = Math.floor(xLocation / width * c.length);
-                    xLocation = c.eq(xLocation);
-                    if (xLocation.data('type') == h) {
-                        h = null;
-                        obj.toggleSelectedTypes();
-                        obj.applyTypeFilters();
-                    } else {
-                        h = xLocation.data('type');
-                        obj.toggleSelectedTypes(xLocation);
-                        obj.applyTypeFilters();
-                    }
-                } else {
-                    obj.toggleSelectedTypes();
-                    obj.applyTypeFilters();
-                }
-            });
-        }
-
-        toggleSelectedTypes(b) {
-            const g = this.jQuery('.filter-type-2 .name i');
-            const l = this.jQuery('.filter-type-2 .types');
-            const c = l.children();
-
-            l.addClass('selected');
-            c.removeClass('selected');
-            if (b && b.length && !b.hasClass('selected')) {
-                b.addClass('selected');
-                g.text(b.data('type').charAt(0).toUpperCase() + b.data('type').slice(1));
-            } else {
-                l.removeClass('selected');
-                g.text('');
-            }
-        }
-
-        applyTypeFilters() {
-            const l1 = this.jQuery('.entry.filter-type:not(.filter-type-2) .types');
-            const l = this.jQuery('.entry.filter-type-2 .types');
-            const c1 = l1.children();
-            const c = l.children();
-
-            // get the first filter type
-            const a1 = c1.filter('.selected').data('type');
-            const a = c.filter('.selected').data('type');
-
-            let selector = '.region-entries>li.entry';
-            if (a1 !== undefined) {
-                selector += '.t-' + a1;
-            }
-            if (a !== undefined) {
-                selector += '.t-' + a;
-            }
-            if (a1 || a) {
-            // Set "display" to "none" for all elements
-                this.jQuery('.region-entries>li.entry').css('display', 'none');
-                // Set "display" to "inline-block" for elements matching selector
-                this.jQuery(selector).css('display', 'inline-block');
-            } else {
-                this.jQuery(selector).css('display', 'inline-block');
-            }
-        }
-    }
-    /* globals DexPageBase */
-    // eslint-disable-next-line no-unused-vars
-    class DexPage extends DexPageBase {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS);
-
-            /* when entering the dex page, update the local storage QoLPokedex
-               so the user can update their information */
-            if (jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
-                const text = jQuery('script#dexdata').text();
-                GLOBALS.DEX_DATA = text.split(',');
-                this.localStorageMgr.updateLocalStorageDex(this.jQuery, document, undefined, GLOBALS);
-            }
-        }
-    }
-    /* globals Page */
     // eslint-disable-next-line no-unused-vars
     class WishforgePage extends Page {
         constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
@@ -6487,10 +6281,7 @@ $(function () {
             });
         }
     }
-    /* globals
-   DaycarePage FarmPage LabPage PublicFieldsPage PrivateFieldsPage
-   ShelterPage FishingPage MultiuserPage DexPage WishforgePage
- */
+
     // eslint-disable-next-line no-unused-vars
     class PagesManager {
         constructor(jQuery, localStorageMgr, globals, HELPERS) {
@@ -6624,8 +6415,7 @@ $(function () {
             }
         }
     }
-    /* globals addGlobalStyle QoLHub
-        Globals Resources Helpers PagesManager LocalStorageManager */
+
     // eslint-disable-next-line no-unused-vars
     class PFQoLBase {
         constructor($) {
@@ -6710,18 +6500,269 @@ $(function () {
             }
         }
     }
-    /* globals jQuery PFQoLBase */
+    /**
+     * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
+     */
+
+    // eslint-disable-next-line no-unused-vars
+    class Resources extends ResourcesBase {
+        constructor() {
+            super();
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    class Globals extends GlobalsBase {
+        constructor(jQuery, localStorageMgr, helpers) {
+            super(helpers);
+            this.jQuery = jQuery;
+            this.localStorageMgr = localStorageMgr;
+        }
+    }
+
+
+    // eslint-disable-next-line no-unused-vars
+    class LocalStorageManager extends LocalStorageManagerBase {
+        constructor(keyPrefix, storage, helpers) {
+            super(keyPrefix, storage, helpers);
+        }
+    }
+    /*
+     * This class handles creating, removing, and handling the DOM object actions
+     * for the QoL Hub.
+     */
+
+    // eslint-disable-next-line no-unused-vars
+    class QoLHub extends QoLHubBase {
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
+            super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
+        }
+        resetDex() {
+            this.jQuery('#clearCachedDex').next().remove();
+            this.GLOBALS.DEX_UPDATE_DATE = null;
+            this.GLOBALS.DEX_DATA = null;
+            this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
+            this.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
+        }
+        build(document) {
+            super.build(document);
+
+            const dexUpdateRowContents = `<td colspan="2" class="qolAllSettings">
+          <span>Notice that you can't find the newly added Eggs or Pokemon in shelter?
+          You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with
+          the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.</span><br>
+          <span>Date last updated:<span class="qolDate">""</span></span>
+          </td>`;
+            this.jQuery('#qolDexUpdateRow').append(dexUpdateRowContents);
+
+            const dexUpdateDate = (this.GLOBALS.DEX_UPDATE_DATE === null) ?
+                'Not updated since installation' :
+                this.GLOBALS.DEX_UPDATE_DATE;
+            this.jQuery('.qolDate', document).text(dexUpdateDate);
+
+        }
+    } // QoLHub
+
+    // eslint-disable-next-line no-unused-vars
+    class ShelterPage extends ShelterPageBase {
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
+            super(jQuery, localStorageMgr, HELPERS, GLOBALS);
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    class PrivateFieldsPage extends PrivateFieldsPageBase {
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
+            super(jQuery, localStorageMgr, HELPERS, GLOBALS);
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    class LabPage extends LabPageBase {}
+
+    // eslint-disable-next-line no-unused-vars
+    class FarmPage extends FarmPageBase {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS, externals) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS, externals);
+        }
+        easyEvolveTypeList(GLOBALS) {
+            const obj = this;
+            const dexData = GLOBALS.DEX_DATA;
+
+            this.clearSortedEvolveLists();
+
+            const typeBackground = obj.jQuery('.panel>h3').css('background-color');
+            obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+            document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
+
+            const typeBorder = obj.jQuery('.panel>h3').css('border');
+            const typeColor = obj.jQuery('.panel>h3').css('color');
+            obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
+            obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
+            obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+
+            const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
+            const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
+            obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+            obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+
+            /* Nested helper function */
+            const getEvolutionOrigin = function (evoString) {
+                const summary = '/summary/';
+                const originStart = evoString.indexOf(summary) + summary.length + 7;
+                const originEnd = evoString.indexOf('</a>');
+                return evoString.substring(originStart, originEnd);
+            };
+
+            const getEvolutionDestination = function (evoString) {
+                const destStart = evoString.indexOf('into</span>') + 'into</span>'.length;
+                return evoString.substr(destStart).trim();
+            };
+
+            const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
+                if (evoString.includes('title="[DELTA')) {
+                    const deltaType = evoString.match('DELTA-(.*)]">');
+                    $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
+                }
+            };
+
+            obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
+            // getting the <li> element from the pokemon & the pokemon evolved name
+                const getEvolveString = obj.jQuery(this).html();
+                let previousPokemon = getEvolutionOrigin(getEvolveString);
+                const evolvePokemon = getEvolutionDestination(getEvolveString);
+
+                // Handle unicode characters
+                previousPokemon = previousPokemon
+                    .replace(/é/g, '\\u00e9')
+                    .replace(/í/g, '\\u00ed')
+                    .replace(/ñ/g, '\\u00f1');
+
+                // Handle evolvePokemon name formatting
+                let evolveFormatted = evolvePokemon.replace(' [', '/');
+                evolveFormatted = evolveFormatted.replace(']', '');
+
+                const previousIndex = dexData.indexOf('"' + previousPokemon + '"');
+                const evolveIndex = dexData.indexOf('"' + evolveFormatted + '"');
+
+                const previousInDex = previousIndex != -1;
+                const evolveInDex = evolveIndex != -1;
+                const evolveInExceptions = evolvePokemon in obj.settings.KNOWN_EXCEPTIONS;
+                let evolveTypesPrevious = [];
+                let evolveTypes = [];
+
+                /*
+                 * Procedure
+                 * 1. If the evolution destination is in the known exceptions list
+                 *    a. Load the types from KNOWN_EXCEPTIONS
+                 * 2. Else:
+                 *    a. If the evolution origin is in the dex, load the types from the dex
+                 *    b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
+                 *    c. If the destination pokemon is in the dex, load the types from the dex
+                 *    d. Else, mark the type as '18' (not a valid type)
+                 * 3. Use types to apply HTML classes to the list item that contains the current evolution
+                 *    a. Use the evolution origin's and destination's types as HTML classes
+                 *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
+                 */
+
+                if(evolveInExceptions) {
+                    evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
+                    // short circuit the previous pokemon's types, since the KNOWN_EXCEPTIONS table will have everything
+                    evolveTypesPrevious = evolveTypes;
+                }
+                else {
+                    if (previousInDex) {
+                        evolveTypesPrevious = [1, 2].map((i) => dexData[previousIndex + i]);
+                    }
+                    else {
+                        evolveTypesPrevious = ['18', '-1'];
+                    }
+
+                    if (evolveInDex) {
+                        evolveTypes = [1, 2].map((i) => dexData[evolveIndex + i]);
+                    }
+                    else {
+                        evolveTypes = ['18', '-1'];
+                    }
+                }
+
+                /*
+                 * the evolveTypes and evolveTypesPrevious entries can begin with a '.'
+                 * in some cases. Just strip it off
+                 */
+                evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
+                evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
+
+                // filter out invalid 2nd types (will be -1)
+                evolveTypesPrevious = evolveTypesPrevious.filter((t) => t !== '-1');
+                evolveTypes = evolveTypes.filter((t) => t !== '-1');
+
+                // append types to DOM
+                const elem = this;
+                // add unknown source types
+                if(evolveTypesPrevious   .includes('18')) {
+                    obj.jQuery(elem).clone().appendTo('.18source');
+                }
+                // add unknown target types
+                if(evolveTypes.includes('18')) {
+                    obj.jQuery(elem).clone().appendTo('.18target');
+                }
+                const combinedValidTypes = [...evolveTypesPrevious, ...evolveTypes]
+                    .filter((t, i, self) => t != '18' && self.indexOf(t) === i);
+                combinedValidTypes.map((t) => {
+                    obj.jQuery(elem).clone().appendTo(`.${t}`);
+                });
+
+                appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
+            }); // each
+
+            obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
+                const amountOfEvolves = obj.jQuery(this).children().children().length;
+                const evolveTypeName = obj.jQuery(this).children('.slidermenu').html();
+
+                // hide the types with no evolutions
+                if (amountOfEvolves === 0) {
+                    this.nextSibling.hidden = true;
+                    this.hidden = true;
+                } else {
+                    obj.jQuery(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
+                }
+            });
+
+            obj.jQuery('.evolvepkmnlist').hide();
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    class DexPage extends DexPageBase {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS);
+
+            /*
+             * when entering the dex page, update the local storage QoLPokedex
+             * so the user can update their information
+             */
+            if (jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
+                const text = jQuery('script#dexdata').text();
+                GLOBALS.DEX_DATA = text.split(',');
+                this.localStorageMgr.updateLocalStorageDex(this.jQuery, document, undefined, GLOBALS);
+            }
+        }
+    }
+
     // eslint-disable-next-line no-unused-vars
     class PFQoL extends PFQoLBase {
         constructor($) {
             super($);
-            /* set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
-               GLOBALS.DEX_DATA is the data loaded directly from the script contained in
-               the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
-               - their types
-               - if they hatch from an egg,
-               - if you have the eggdex, and
-               - if you have the regular, shiny, albino, and melanistic pokedex entries */
+            /*
+             * set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE
+             * GLOBALS.DEX_DATA is the data loaded directly from the script contained in
+             * the pokefarm.com/dex HTML. It contains the list of pokemon, and for each:
+             * - their types
+             * - if they hatch from an egg,
+             * - if you have the eggdex, and
+             * - if you have the regular, shiny, albino, and melanistic pokedex entries
+             */
             this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS);
         }
     }
@@ -6729,6 +6770,6 @@ $(function () {
     if (typeof(module) !== 'undefined') {
         module.exports.pfqol = PFQoL;
     } else {
+    // eslint-disable-next-line no-undef
         new PFQoL(jQuery);
-    }
-});
+    }});
