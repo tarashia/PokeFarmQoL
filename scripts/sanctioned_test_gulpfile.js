@@ -5,7 +5,7 @@ const replace = require('gulp-replace');
 const eslint = require('gulp-eslint');
 const fs = require('fs');
 const path = require('path');
-const sources = require('./sources');
+const sources = require('./common_gulpfile');
 
 const output = 'Poke-Farm-QoL.sanctioned.test.user.js';
 const outputDir = path.join(__dirname, '..');
@@ -13,6 +13,7 @@ const outputFullPath = path.join(outputDir, output);
 
 const commonSources = sources.commonSources;
 const sanctionedSources = sources.sanctionedSources;
+const headerPath = sources.sanctionedHeaderPath;
 
 function concatenate() {
     return src(
@@ -30,7 +31,7 @@ function removeComments() {
 
 function addHeader() {
     return src(outputFullPath)
-        .pipe(header(fs.readFileSync(path.join(__dirname, '..', 'requires', 'user', 'header.txt'), 'utf8')))
+        .pipe(header(fs.readFileSync(headerPath, 'utf8')))
         .pipe(dest(outputDir));
 }
 
