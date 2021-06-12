@@ -1,6 +1,7 @@
 const { series, src, dest } = require('gulp');
 const concat = require('gulp-concat');
 const header = require('gulp-header');
+const footer = require('gulp-footer');
 const replace = require('gulp-replace');
 const eslint = require('gulp-eslint');
 const fs = require('fs');
@@ -28,6 +29,19 @@ function removeComments() {
         .pipe(dest(outputDir));
 }
 
+function addFunctionWrap() {
+    return src(outputFullPath)
+        .pipe(header([
+            '// eslint-disable-next-line no-undef',
+            '$(function () {',
+            '(\'use strict\');'
+        ].join('\n')))
+        .pipe(footer([
+            '});'
+        ]))
+        .pipe(dest(outputDir));
+}
+
 function addHeader() {
     return src(outputFullPath)
         .pipe(header(fs.readFileSync(path.join(__dirname, '..', 'requires', 'user', 'header.txt'), 'utf8')))
@@ -45,4 +59,4 @@ function runEslint() {
         .pipe(dest(outputDir));
 }
 
-exports.default = series(concatenate, removeComments, addHeader, runEslint);
+exports.default = series(concatenate, removeComments, addFunctionWrap, addHeader, runEslint);
