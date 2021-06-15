@@ -358,18 +358,22 @@ class FarmPageBase extends Page {
                 pokemonDexKeepThirdName, pokemonDexKeepFourthName,
                 pokemonDexKeepFifthName, pokemonDexKeepSixthName] = evolvePokemonName.split(' ');
             const [evolveNewTotalOne, evolveNewCheckOne, /* ignore */, /* ignore */, /* ignore */] = getNewCheckData(evolvePokemonNameOne);
-            /* if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
-               The remaining checks are a (not great) way of checking for names with '/' in them.
-               PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
-               Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
-               Regex: \w+/\w+ */
+            /*
+             * if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
+             * The remaining checks are a (not great) way of checking for names with '/' in them.
+             * PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
+             * Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
+             * Regex: \w+/\w+
+             */
             const evolvePokemonNameTwo = (evolvePokemonNameOne + '/' + pokemonDexKeepSecondName).replace('[', '').replace(']', '');
             const [evolveNewTotalTwo, evolveNewCheckTwo,
                 evolveNewShinyCheckTwo, evolveNewAlbinoCheckTwo,
                 evolveNewMelaCheckTwo] = getNewCheckData(evolvePokemonNameTwo);
 
-            /* Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
-               Regex: \w+/\w+ \w+ */
+            /*
+             * Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
+             * Regex: \w+/\w+ \w+
+             */
             const evolvePokemonNameThree = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName).replace('[', '').replace(']', '');
@@ -377,8 +381,10 @@ class FarmPageBase extends Page {
                 evolveNewShinyCheckThree, evolveNewAlbinoCheckThree,
                 evolveNewMelaCheckThree] = getNewCheckData(evolvePokemonNameThree);
 
-            /* Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
-               Regex: \w+/\w+ \w+ \w+ */
+            /*
+             * Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
+             * Regex: \w+/\w+ \w+ \w+
+             */
             const evolvePokemonNameFour = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -387,8 +393,10 @@ class FarmPageBase extends Page {
                 evolveNewShinyCheckFour, evolveNewAlbinoCheckFour,
                 evolveNewMelaCheckFour] = getNewCheckData(evolvePokemonNameFour);
 
-            /* Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
-               Regex: \w+/\w+ \w+ \w+ \w+ */
+            /*
+             * Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
+             * Regex: \w+/\w+ \w+ \w+ \w+
+             */
             const evolvePokemonNameFive = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +
@@ -398,8 +406,10 @@ class FarmPageBase extends Page {
                 evolveNewShinyCheckFive, evolveNewAlbinoCheckFive,
                 evolveNewMelaCheckFive] = getNewCheckData(evolvePokemonNameFive);
 
-            /* Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
-               Regex: \w+/\w+ \w+ \w+ \w+ \w+ */
+            /*
+             * Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
+             * Regex: \w+/\w+ \w+ \w+ \w+ \w+
+             */
             const evolvePokemonNameSix = (evolvePokemonNameOne + '/' +
                 pokemonDexKeepSecondName + ' ' +
                 pokemonDexKeepThirdName + ' ' +

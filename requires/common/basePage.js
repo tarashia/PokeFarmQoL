@@ -11,7 +11,7 @@ class Page {
     }
 
     onPage(w) {
-        return w.location.href.indexOf(`pokefarm.com${this.url}`) != -1;
+        return w.location.href.indexOf(`pokefarm.com/${this.url}`) != -1;
     }
 
     loadSettings() {

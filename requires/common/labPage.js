@@ -7,7 +7,7 @@ class LabPageBase extends Page {
             customEgg: true,
             findLabType: '', // same as findType in shelter
             findTypeEgg: true,
-        }, '/lab');
+        }, 'lab');
         this.searchArray = [];
         this.typeArray = [];
         this.globals = GLOBALS;

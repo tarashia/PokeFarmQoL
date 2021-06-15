@@ -3176,7 +3176,7 @@ $(function () {
         }
 
         onPage(w) {
-            return w.location.href.indexOf(`pokefarm.com${this.url}`) != -1;
+            return w.location.href.indexOf(`pokefarm.com/${this.url}`) != -1;
         }
 
         loadSettings() {
@@ -3362,7 +3362,7 @@ $(function () {
     // eslint-disable-next-line no-unused-vars
     class DexPageBase extends Page {
         constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-            super(jQuery, localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, '/dex');
+            super(jQuery, localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
             const obj = this;
             this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -4073,7 +4073,7 @@ $(function () {
                 customEgg: true,
                 findLabType: '', // same as findType in shelter
                 findTypeEgg: true,
-            }, '/lab');
+            }, 'lab');
             this.searchArray = [];
             this.typeArray = [];
             this.globals = GLOBALS;
@@ -5717,7 +5717,7 @@ $(function () {
                 customPokemon: true,
                 customPng: false,
                 shelterGrid: true,
-            }, '/shelter');
+            }, 'shelter');
             this.customArray = [];
             this.typeArray = [];
             const obj = this;

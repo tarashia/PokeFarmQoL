@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 class DexPageBase extends Page {
     constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, '/dex');
+        super(jQuery, localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -22,8 +22,10 @@ class DexPageBase extends Page {
         const elem = document.querySelector('.filter-type');
         const clone = elem.cloneNode(true);
         elem.parentNode.appendChild(clone);
-        // can't remove filter-type class or else the filtering
-        // won't look right
+        /*
+         * can't remove filter-type class or else the filtering
+         * won't look right
+         */
         this.jQuery(clone).addClass('filter-type-2');
     }
 
