@@ -33,9 +33,11 @@ class DaycarePage extends Page {
             if (button.attributes['data-gender'] !== undefined) {
                 gender = button.attributes['data-gender'].value;
             }
-            // the egg group is binary coded decimal
-            // if a pokemon has two egg groups, the leftmost 4 bits of the number returned
-            // are the first egg group and the rightmost 4 bits are the second egg group
+            /*
+             * the egg group is binary coded decimal
+             * if a pokemon has two egg groups, the leftmost 4 bits of the number returned
+             * are the first egg group and the rightmost 4 bits are the second egg group
+             */
             if (button.attributes['data-egggroup'] !== undefined) {
                 eggGroup1 = parseInt(button.attributes['data-egggroup'].value);
                 if (eggGroup1 > 15) { // two egg groups
@@ -66,8 +68,10 @@ class DaycarePage extends Page {
                     const eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0];
                     const searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
 
-                    // There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
-                    // The gender title can be "[M], [F], [N]"
+                    /*
+                     * There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
+                     * The gender title can be "[M], [F], [N]"
+                     */
                     const searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
                     const searchEggGroups = obj.jQuery(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
 

@@ -25,7 +25,7 @@ class ShelterPageBase extends Page {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
-        }, '/shelter');
+        }, 'shelter');
         this.customArray = [];
         this.typeArray = [];
         const obj = this;

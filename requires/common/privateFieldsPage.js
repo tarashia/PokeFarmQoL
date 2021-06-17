@@ -88,9 +88,11 @@ class PrivateFieldsPageBase extends Page {
         this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
         this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
-        /* Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-           settings as most of the text on the site, manually set the text color for
-           '.collapsible' to match the text around it */
+        /*
+         * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
+         * settings as most of the text on the site, manually set the text color for
+         * '.collapsible' to match the text around it
+         */
         this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
     }
     setupObserver() {
