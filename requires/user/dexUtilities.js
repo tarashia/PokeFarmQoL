@@ -178,8 +178,12 @@ class DexUtilities {
             if(!(pokemon in maxEvoTreeDepth)) {
                 if(evolutions.length) {
                     // initialize new entries in the structure
-                    maxEvoTreeDepth[pokemon] = {'remaining': 0, 'total': 0};
-                    maxEvoTreeDepth[dexIDs[pokemon]] = {'remaining': 0, 'total': 0};
+                    maxEvoTreeDepth[pokemon] = {
+                        'remaining': 0, 'total': 0
+                    };
+                    maxEvoTreeDepth[dexIDs[pokemon]] = {
+                        'remaining': 0, 'total': 0
+                    };
 
                     const sourcesList = evolutions.map( el => el.source );
 
@@ -197,11 +201,15 @@ class DexUtilities {
                         const target = evolution.target;
 
                         if(sourcesList.indexOf(target) == -1) {
-                            evoTree[target] = {[target]: []};
+                            evoTree[target] = {
+                                [target]: []
+                            };
                         }
 
                         if(!(source in evoTree)) {
-                            evoTree[source] = {[source]: [evoTree[target]]};
+                            evoTree[source] = {
+                                [source]: [evoTree[target]]
+                            };
                         } else {
                             evoTree[source][source].push(evoTree[target]);
                         }
@@ -241,7 +249,9 @@ class DexUtilities {
                             for(let m = 0; m < mons.length; m++) {
                                 // first or only appearance
                                 if(!(mons[m] in pokemonPathData)) {
-                                    pokemonPathData[mons[m]] = {'remaining': m, 'total': mons.length - 1};
+                                    pokemonPathData[mons[m]] = {
+                                        'remaining': m, 'total': mons.length - 1
+                                    };
                                 }
                                 // pokemon has multiple evolution paths
                                 else {
@@ -269,7 +279,9 @@ class DexUtilities {
                 } // if evolutions.length
                 // add pokemon that don't evolve
                 else {
-                    maxEvoTreeDepth[pokemon] = {'remaining': 0, 'total': 0};
+                    maxEvoTreeDepth[pokemon] = {
+                        'remaining': 0, 'total': 0
+                    };
                     maxEvoTreeDepth[dexIDs[pokemon]] = maxEvoTreeDepth[pokemon];
                 }
             } // if not in maxEvoTreeDepth

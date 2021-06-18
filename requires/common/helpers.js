@@ -77,8 +77,10 @@ class Helpers {
         }
         index++;
 
-        // Issue #59 - Pokefarm added a new h3 element after the nickname
-        // that contains no data
+        /*
+         * Issue #59 - Pokefarm added a new h3 element after the nickname
+         * that contains no data
+         */
         index++;
 
         // species

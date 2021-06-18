@@ -6,9 +6,11 @@ class PrivateFieldsPage extends PrivateFieldsPageBase {
         this.settings.fieldNFE = false;
     }
     highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
-        // if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
-        // will not exist. If this occurs. don't try highlighting anything until the
-        // pokemon is "put down"
+        /*
+         * if a pokemon is clicked-and-dragged, the tooltip element after the pokemon
+         * will not exist. If this occurs. don't try highlighting anything until the
+         * pokemon is "put down"
+         */
         if (!this.jQuery(pokemonElem).next().length) { return; }
 
         const tooltip = this.helpers.parseFieldPokemonTooltip(this.jQuery, GLOBALS, this.jQuery(pokemonElem).next()[0]);

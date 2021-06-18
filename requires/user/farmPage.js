@@ -103,8 +103,10 @@ class FarmPage extends FarmPageBase {
             let types = [];
 
             loadDexPage($, number, name, (data) => {
-                /* Kill two birds with one stone: 1) get the evolutions, and 2) check that
-                   evolveTypePrevOne and evolveTypePrevTwo are correct */
+                /*
+                 * Kill two birds with one stone: 1) get the evolutions, and 2) check that
+                 * evolveTypePrevOne and evolveTypePrevTwo are correct
+                 */
                 let html = $.parseHTML(data);
                 // first find the right element in html to read from
                 const htmlIndex = findDivCoreIndex($, html);
@@ -270,21 +272,23 @@ class FarmPage extends FarmPageBase {
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
-            /* Procedure
-               1. Load types for the evolution origin
-                  a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
-                  b. If it is in the dex and if it does not have regional forms, load the types from the dex data
-               2. If step 1.a or 1.b succeeded, load types for the evolution destination
-                  a. If the destination pokemon is in the dex, load the types from the dex
-                  b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
-                  c. Else, load the destination pokemon's types by:
-                     i. Getting the origin pokemon's dex number from its summary page
-                     ii. Loading the list of the origin pokemon's evolutions from its dex page
-                     iii. Finding the dex number for the destination pokemon from the list
-                     iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
-               3. Use types to apply HTML classes to the list item that contains the current evolution
-                  a. Use the evolution origin's and destination's types as HTML classes
-                  b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well */
+            /*
+             * Procedure
+             * 1. Load types for the evolution origin
+             *    a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
+             *    b. If it is in the dex and if it does not have regional forms, load the types from the dex data
+             * 2. If step 1.a or 1.b succeeded, load types for the evolution destination
+             *    a. If the destination pokemon is in the dex, load the types from the dex
+             *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
+             *    c. Else, load the destination pokemon's types by:
+             *       i. Getting the origin pokemon's dex number from its summary page
+             *       ii. Loading the list of the origin pokemon's evolutions from its dex page
+             *       iii. Finding the dex number for the destination pokemon from the list
+             *       iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
+             * 3. Use types to apply HTML classes to the list item that contains the current evolution
+             *    a. Use the evolution origin's and destination's types as HTML classes
+             *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
+             */
 
             // Step 1.a
             if (!previousInDex || previousHasRegionalForms) {
@@ -356,8 +360,10 @@ class FarmPage extends FarmPageBase {
                 return; // 'continue' for .each()
             }
 
-            /* the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-               in some cases. Just strip it off */
+            /*
+             * the evolveTypes and evolveTypesPrevious entries can begin with a '.'
+             * in some cases. Just strip it off
+             */
             evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
             evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
 

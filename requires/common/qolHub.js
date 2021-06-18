@@ -1,4 +1,5 @@
-/* This class handles creating, removing, and handling the DOM object actions
+/*
+ * This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
 // eslint-disable-next-line no-unused-vars
@@ -99,8 +100,10 @@ class QoLHubBase {
                 }
                 // removes objects from the local storage if they don't exist anymore. Not yet possible..
                 if (countLocalStorageSettings > countScriptSettings) {
-                    //let defaultsSetting = QOLHUB.USER_SETTINGS;
-                    //let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                    /*
+                     * let defaultsSetting = QOLHUB.USER_SETTINGS;
+                     * let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
+                     */
                     this.saveSettings();
                 }
             }
