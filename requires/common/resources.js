@@ -1097,9 +1097,27 @@ class ResourcesBase {
                               <label>
                                 <input type="checkbox" class="qolsetting" data-key="shelterEnable"/>
                                 <span>
-                                  Advanced Shelter Search
+                                  Enable All Shelter QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="shelterEnable.search"/>
+                                    <span>
+                                      Advanced Shelter Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="shelterEnable.sort"/>
+                                    <span>
+                                      Advanced Shelter Sorting
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>
@@ -1113,17 +1131,69 @@ class ResourcesBase {
                               <label>
                                 <input type="checkbox" class="qolsetting" data-key="publicFieldEnable"/>
                                 <span>
-                                  Sort & Search Fields (Public View)
+                                  Enable All Public Fields QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="publicFieldEnable.search"/>
+                                    <span>
+                                      Advanced Public Fields Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="publicFieldEnable.sort"/>
+                                    <span>
+                                      Advanced Public Fields Sorting
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="publicFieldEnable.tooltip"/>
+                                    <span>
+                                      Public Fields Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>
                                 <input type="checkbox" class="qolsetting" data-key="privateFieldEnable"/>
                                 <span>
-                                  Search Fields (Private View)
+                                Enable All Private Fields QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="privateFieldEnable.search"/>
+                                    <span>
+                                      Advanced Private Fields Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="privateFieldEnable.release"/>
+                                    <span>
+                                      Private Fields Multi-Select Controls
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="privateFieldEnable.tooltip"/>
+                                    <span>
+                                      Private Fields Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>

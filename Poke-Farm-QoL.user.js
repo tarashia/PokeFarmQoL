@@ -1122,9 +1122,27 @@ $(function () {
                               <label>
                                 <input type="checkbox" class="qolsetting" data-key="shelterEnable"/>
                                 <span>
-                                  Advanced Shelter Search
+                                  Enable All Shelter QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="shelterEnable.search"/>
+                                    <span>
+                                      Advanced Shelter Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="shelterEnable.sort"/>
+                                    <span>
+                                      Advanced Shelter Sorting
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>
@@ -1138,17 +1156,69 @@ $(function () {
                               <label>
                                 <input type="checkbox" class="qolsetting" data-key="publicFieldEnable"/>
                                 <span>
-                                  Sort & Search Fields (Public View)
+                                  Enable All Public Fields QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="publicFieldEnable.search"/>
+                                    <span>
+                                      Advanced Public Fields Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="publicFieldEnable.sort"/>
+                                    <span>
+                                      Advanced Public Fields Sorting
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="publicFieldEnable.tooltip"/>
+                                    <span>
+                                      Public Fields Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>
                                 <input type="checkbox" class="qolsetting" data-key="privateFieldEnable"/>
                                 <span>
-                                  Search Fields (Private View)
+                                Enable All Private Fields QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="privateFieldEnable.search"/>
+                                    <span>
+                                      Advanced Private Fields Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="privateFieldEnable.release"/>
+                                    <span>
+                                      Private Fields Multi-Select Controls
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolsetting" data-key="privateFieldEnable.tooltip"/>
+                                    <span>
+                                      Private Fields Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>
@@ -3002,7 +3072,22 @@ $(function () {
                 easyEvolve: true,
                 labNotifier: true,
                 dexFilterEnable: true,
-                condenseWishforge: true
+                condenseWishforge: true,
+                shelterFeatureEnables: {
+                    search: true,
+                    sort: true,
+                },
+                publicFieldFeatureEnables: {
+                    search: true,
+                    sort: true,
+                    release: true,
+                    tooltip: true
+                },
+                privateFieldFeatureEnables: {
+                    search: true,
+                    release: true,
+                    tooltip: true
+                }
             };
             this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
             if (SETTINGS) {
@@ -8069,7 +8154,7 @@ $(function () {
     } // DexUtilities
     /*
      * This class handles creating, removing, and handling the DOM object actions
-     * for the QoL Hub. 
+     * for the QoL Hub.
      */
 
     // eslint-disable-next-line no-unused-vars
@@ -8125,7 +8210,7 @@ $(function () {
 
             /*
              * obj.GLOBALS.DEX_DATA will contain the latest info as is read from local storage
-             * this handler updates the local storage 
+             * this handler updates the local storage
              */
             const progressSpan = obj.jQuery('span.qolDexUpdateProgress', document)[0];
             progressSpan.textContent = 'Loading...';
@@ -8137,7 +8222,7 @@ $(function () {
 
             /*
              * this will update the obj.GLOBALS.EVOLVE_BY_LEVEL_LIST
-             * and local storage 
+             * and local storage
              */
             const virtualDocument = document.implementation.createHTMLDocument('virtual');
             DexUtilities.getMainDexPage(obj.jQuery).then((data) => {
@@ -8602,7 +8687,7 @@ $(function () {
                 loadDexPage($, number, name, (data) => {
                 /*
                  * Kill two birds with one stone: 1) get the evolutions, and 2) check that
-                 * evolveTypePrevOne and evolveTypePrevTwo are correct 
+                 * evolveTypePrevOne and evolveTypePrevTwo are correct
                  */
                     let html = $.parseHTML(data);
                     // first find the right element in html to read from
@@ -8784,7 +8869,7 @@ $(function () {
                  *       iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
                  * 3. Use types to apply HTML classes to the list item that contains the current evolution
                  *    a. Use the evolution origin's and destination's types as HTML classes
-                 *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well 
+                 *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
                  */
 
                 // Step 1.a
@@ -8859,7 +8944,7 @@ $(function () {
 
                 /*
                  * the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-                 * in some cases. Just strip it off 
+                 * in some cases. Just strip it off
                  */
                 evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
                 evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
@@ -8925,7 +9010,7 @@ $(function () {
              * - their types
              * - if they hatch from an egg,
              * - if you have the eggdex, and
-             * - if you have the regular, shiny, albino, and melanistic pokedex entries 
+             * - if you have the regular, shiny, albino, and melanistic pokedex entries
              */
             if (!this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS)) { // can't load it from storage
                 this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromWeb($, document, DexUtilities, this.GLOBALS); // so load it from the web

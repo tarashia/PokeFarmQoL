@@ -21,7 +21,22 @@ class QoLHubBase {
             easyEvolve: true,
             labNotifier: true,
             dexFilterEnable: true,
-            condenseWishforge: true
+            condenseWishforge: true,
+            shelterFeatureEnables: {
+                search: true,
+                sort: true,
+            },
+            publicFieldFeatureEnables: {
+                search: true,
+                sort: true,
+                release: true,
+                tooltip: true
+            },
+            privateFieldFeatureEnables: {
+                search: true,
+                release: true,
+                tooltip: true
+            }
         };
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
         if (SETTINGS) {
