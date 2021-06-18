@@ -1190,7 +1190,7 @@ $(function () {
                               <label>
                                 <input type="checkbox" class="qolsetting" data-key="privateFieldEnable"/>
                                 <span>
-                                Enable All Private Fields QoL Features
+                                  Enable All Private Fields QoL Features
                                 </span>
                               </label>
                               <ul>
