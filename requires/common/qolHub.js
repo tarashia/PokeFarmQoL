@@ -147,16 +147,51 @@ class QoLHubBase {
         }
     }
     settingsChange(element, textElement) {
-        if (JSON.stringify(this.USER_SETTINGS).indexOf(element) >= 0) { // userscript settings
-            if (this.USER_SETTINGS[element] === false) {
-                this.USER_SETTINGS[element] = true;
-            } else if (this.USER_SETTINGS[element] === true) {
-                this.USER_SETTINGS[element] = false;
-            } else if (typeof this.USER_SETTINGS[element] === 'string') {
-                this.USER_SETTINGS[element] = textElement;
+        function getProperty( propertyName, object ) {
+            const parts = propertyName.split( '.' );
+            const length = parts.length;
+            let property = object || this;
+
+            for (let i = 0; i < length; i++ ) {
+                if ( ! Object.hasOwnProperty.call(property, parts[i])) {
+                    return null;
+                }
+                property = property[parts[i]];
             }
-            this.saveSettings();
-            return true;
+            return property;
+        }
+
+        function setProperty( propertyName, object, newValue) {
+            const parts = propertyName.split('.');
+            const first = parts[0];
+            const rest = parts.slice(1);
+
+            if ( !Object.hasOwnProperty.call(object, first)) {
+                return false;
+            }
+            else if (rest.length == 0) {
+                object[first] = newValue;
+            } else {
+                return setProperty(rest.join('.'), object[first], newValue);
+            }
+        }
+
+        const oldValue = getProperty(element, this.USER_SETTINGS);
+        let newValue;
+        if (oldValue) { // userscript settings
+            if (oldValue === false) {
+                newValue = true;
+            } else if (oldValue === true) {
+                newValue = false;
+            } else if (typeof oldValue === 'string') {
+                newValue = textElement;
+            }
+            if(!setProperty(element, this.USER_SETTINGS, newValue)) {
+                return false;
+            } else {
+                this.saveSettings();
+                return true;
+            }
         }
         return false;
     }
