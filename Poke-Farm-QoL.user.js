@@ -1128,17 +1128,17 @@ $(function () {
                               <ul>
                                 <li>
                                   <label>
-                                    <input type="checkbox" class="qolsetting" data-key="shelterEnable.search"/>
+                                    <input type="checkbox" class="qolsetting" data-key="shelterFeatureEnables.search"/>
                                     <span>
-                                      Advanced Shelter Searching
+                                      Advanced Searching
                                     </span>
                                   </label>
                                 </li>
                                 <li>
                                   <label>
-                                    <input type="checkbox" class="qolsetting" data-key="shelterEnable.sort"/>
+                                    <input type="checkbox" class="qolsetting" data-key="shelterFeatureEnables.sort"/>
                                     <span>
-                                      Advanced Shelter Sorting
+                                      Advanced Sorting
                                     </span>
                                   </label>
                                 </li>
@@ -1162,25 +1162,25 @@ $(function () {
                               <ul>
                                 <li>
                                   <label>
-                                    <input type="checkbox" class="qolsetting" data-key="publicFieldEnable.search"/>
+                                    <input type="checkbox" class="qolsetting" data-key="publicFieldFeatureEnables.search"/>
                                     <span>
-                                      Advanced Public Fields Searching
+                                      Advanced Searching
                                     </span>
                                   </label>
                                 </li>
                                 <li>
                                   <label>
-                                    <input type="checkbox" class="qolsetting" data-key="publicFieldEnable.sort"/>
+                                    <input type="checkbox" class="qolsetting" data-key="publicFieldFeatureEnables.sort"/>
                                     <span>
-                                      Advanced Public Fields Sorting
+                                      Advanced Sorting
                                     </span>
                                   </label>
                                 </li>
                                 <li>
                                   <label>
-                                    <input type="checkbox" class="qolsetting" data-key="publicFieldEnable.tooltip"/>
+                                    <input type="checkbox" class="qolsetting" data-key="publicFieldFeatureEnables.tooltip"/>
                                     <span>
-                                      Public Fields Tooltips Enable/Disable
+                                      Tooltips Enable/Disable
                                     </span>
                                   </label>
                                 </li>
@@ -1196,25 +1196,25 @@ $(function () {
                               <ul>
                                 <li>
                                   <label>
-                                    <input type="checkbox" class="qolsetting" data-key="privateFieldEnable.search"/>
+                                    <input type="checkbox" class="qolsetting" data-key="privateFieldFeatureEnables.search"/>
                                     <span>
-                                      Advanced Private Fields Searching
+                                      Advanced Searching
                                     </span>
                                   </label>
                                 </li>
                                 <li>
                                   <label>
-                                    <input type="checkbox" class="qolsetting" data-key="privateFieldEnable.release"/>
+                                    <input type="checkbox" class="qolsetting" data-key="privateFieldFeatureEnables.release"/>
                                     <span>
-                                      Private Fields Multi-Select Controls
+                                      Multi-Select Controls
                                     </span>
                                   </label>
                                 </li>
                                 <li>
                                   <label>
-                                    <input type="checkbox" class="qolsetting" data-key="privateFieldEnable.tooltip"/>
+                                    <input type="checkbox" class="qolsetting" data-key="privateFieldFeatureEnables.tooltip"/>
                                     <span>
-                                      Private Fields Tooltips Enable/Disable
+                                      Tooltips Enable/Disable
                                     </span>
                                   </label>
                                 </li>
