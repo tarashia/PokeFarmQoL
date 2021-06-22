@@ -171,6 +171,7 @@ class QoLHubBase {
             }
             else if (rest.length == 0) {
                 object[first] = newValue;
+                return true;
             } else {
                 return setProperty(rest.join('.'), object[first], newValue);
             }
@@ -178,7 +179,7 @@ class QoLHubBase {
 
         const oldValue = getProperty(element, this.USER_SETTINGS);
         let newValue;
-        if (oldValue) { // userscript settings
+        if (oldValue !== undefined) { // userscript settings
             if (oldValue === false) {
                 newValue = true;
             } else if (oldValue === true) {
