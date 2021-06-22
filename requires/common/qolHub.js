@@ -134,15 +134,26 @@ class QoLHubBase {
         this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
     }
     populateSettings() {
+        function populateSetting(object, key, self, oldKeys) {
+            oldKeys = oldKeys || [];
+            const _object = object[key];
+            const newKeys = [...oldKeys, key];
+            if (typeof _object === 'boolean') {
+                const _key = newKeys.join('.');
+                self.HELPERS.toggleSetting(_key, _object);
+            }
+            else if (typeof _object === 'string') {
+                const _key = newKeys.join('.');
+                self.HELPERS.toggleSetting(_key, _object);
+            } else if (typeof _object === 'object') {
+                for (const _key in _object) {
+                    populateSetting(_object, _key, self, newKeys);
+                }
+            }
+        }
         for (const key in this.USER_SETTINGS) {
             if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
-                const value = this.USER_SETTINGS[key];
-                if (typeof value === 'boolean') {
-                    this.HELPERS.toggleSetting(key, value);
-                }
-                else if (typeof value === 'string') {
-                    this.HELPERS.toggleSetting(key, value);
-                }
+                populateSetting(this.USER_SETTINGS, key, this);
             }
         }
     }
