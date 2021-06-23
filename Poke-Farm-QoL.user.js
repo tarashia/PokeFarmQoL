@@ -3096,6 +3096,24 @@ $(function () {
             else {
                 this.USER_SETTINGS = this.DEFAULT_USER_SETTINGS;
             }
+            /*
+             * used to tie "global" enable settings in USER_SETTINGS to the more
+             * granular settings that are related to the same page
+             */
+            this.LINKED_SETTINGS = [
+                {
+                    'manager': 'shelterEnable',
+                    'managed': 'shelterFeatureEnables'
+                },
+                {
+                    'manager': 'publicFieldEnable',
+                    'managed': 'publicFieldFeatureEnables'
+                },
+                {
+                    'manager': 'privateFieldEnable',
+                    'managed': 'privateFieldFeatureEnables'
+                },
+            ];
         }
         setupCSS() {
         //custom user css
@@ -3117,11 +3135,13 @@ $(function () {
             });
 
             obj.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+                const dataKey = this.getAttribute('data-key');
                 obj.settingsChange(this.getAttribute('data-key'),
                     obj.jQuery(this).val(),
                     obj.jQuery(this).parent().parent().attr('class'),
                     obj.jQuery(this).parent().attr('class'),
                     (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
+                obj.handleLinkedSetting(dataKey);
             }));
 
             obj.jQuery(document).on('click', '.closeHub', (function () { //close QoL hub
@@ -3206,6 +3226,7 @@ $(function () {
                 if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
                     populateSetting(this.USER_SETTINGS, key, this);
                 }
+                this.handleLinkedSetting(key);
             }
         }
         settingsChange(element, textElement) {
@@ -3261,6 +3282,22 @@ $(function () {
         clearPageSettings(pageName) {
             if (pageName !== 'None') { // "None" matches option in HTML
                 this.PAGES.clearPageSettings(pageName);
+            }
+        }
+        handleLinkedSetting(possibleManager) {
+            const linkedSettingIndex = this.LINKED_SETTINGS.findIndex(ls => ls.manager === possibleManager);
+            if(linkedSettingIndex > -1) {
+                const managed = this.LINKED_SETTINGS[linkedSettingIndex].managed;
+                const userSettings = this.USER_SETTINGS[managed];
+                if(this.jQuery(`[data-key=${possibleManager}]`).prop('checked') === false) {
+                    for(const setting in userSettings) {
+                        this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', true);
+                    }
+                } else {
+                    for(const setting in userSettings) {
+                        this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', false);
+                    }
+                }
             }
         }
         build(document) {
