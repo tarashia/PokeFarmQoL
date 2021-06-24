@@ -4,65 +4,21 @@
  */
 // eslint-disable-next-line no-unused-vars
 class QoLHubBase {
-    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, DEFAULT_SETTINGS, SETTINGS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
         this.HELPERS = HELPERS;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
-        this.DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
-            customCss: '',
-            enableDaycare: true,
-            shelterEnable: true,
-            fishingEnable: true,
-            publicFieldEnable: true,
-            privateFieldEnable: true,
-            partyMod: true,
-            easyEvolve: true,
-            labNotifier: true,
-            dexFilterEnable: true,
-            condenseWishforge: true,
-            shelterFeatureEnables: {
-                search: true,
-                sort: true,
-            },
-            publicFieldFeatureEnables: {
-                search: true,
-                sort: true,
-                release: true,
-                tooltip: true
-            },
-            privateFieldFeatureEnables: {
-                search: true,
-                release: true,
-                tooltip: true
-            }
-        };
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
+        this.DEFAULT_USER_SETTINGS = DEFAULT_SETTINGS;
         if (SETTINGS) {
             this.USER_SETTINGS = SETTINGS;
         }
         else {
             this.USER_SETTINGS = this.DEFAULT_USER_SETTINGS;
         }
-        /*
-         * used to tie "global" enable settings in USER_SETTINGS to the more
-         * granular settings that are related to the same page
-         */
-        this.LINKED_SETTINGS = [
-            {
-                'manager': 'shelterEnable',
-                'managed': 'shelterFeatureEnables'
-            },
-            {
-                'manager': 'publicFieldEnable',
-                'managed': 'publicFieldFeatureEnables'
-            },
-            {
-                'manager': 'privateFieldEnable',
-                'managed': 'privateFieldFeatureEnables'
-            },
-        ];
+        this.LINKED_SETTINGS = this.USER_SETTINGS.LINKED_SETTINGS;
     }
     setupCSS() {
         //custom user css

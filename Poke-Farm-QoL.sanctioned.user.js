@@ -2954,6 +2954,58 @@ $(function () {
         }
     }
     // eslint-disable-next-line no-unused-vars
+    class UserSettings {
+        constructor() {
+        // default settings when the script gets loaded the first time
+            this.customCss = '';
+            this.enableDaycare = true;
+            this.shelterEnable = true;
+            this.fishingEnable = true;
+            this.publicFieldEnable = true;
+            this.privateFieldEnable = true;
+            this.partyMod = true;
+            this.easyEvolve = true;
+            this.labNotifier = true;
+            this.dexFilterEnable = true;
+            this.condenseWishforge = true;
+            this.shelterFeatureEnables = {
+                search: true,
+                sort: true,
+            };
+            this.publicFieldFeatureEnables = {
+                search: true,
+                sort: true,
+                release: true,
+                tooltip: true
+            };
+            this.privateFieldFeatureEnables = {
+                search: true,
+                release: true,
+                tooltip: true
+            };
+
+            /*
+             * used to tie "global" enable settings in USER_SETTINGS to the more
+             * granular settings that are related to the same page
+             */
+            this.LINKED_SETTINGS = [
+                {
+                    'manager': 'shelterEnable',
+                    'managed': 'shelterFeatureEnables'
+                },
+                {
+                    'manager': 'publicFieldEnable',
+                    'managed': 'publicFieldFeatureEnables'
+                },
+                {
+                    'manager': 'privateFieldEnable',
+                    'managed': 'privateFieldFeatureEnables'
+                },
+            ];
+        }
+
+    }
+    // eslint-disable-next-line no-unused-vars
     class LocalStorageManagerBase {
         constructor(keyPrefix, storage, helpers) {
             this.keyPrefix = keyPrefix;
@@ -3055,65 +3107,21 @@ $(function () {
      */
     // eslint-disable-next-line no-unused-vars
     class QoLHubBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, DEFAULT_SETTINGS, SETTINGS) {
             this.jQuery = jQuery;
             this.localStorageMgr = localStorageMgr;
             this.HELPERS = HELPERS;
             this.GLOBALS = GLOBALS;
             this.PAGES = PAGES;
-            this.DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
-                customCss: '',
-                enableDaycare: true,
-                shelterEnable: true,
-                fishingEnable: true,
-                publicFieldEnable: true,
-                privateFieldEnable: true,
-                partyMod: true,
-                easyEvolve: true,
-                labNotifier: true,
-                dexFilterEnable: true,
-                condenseWishforge: true,
-                shelterFeatureEnables: {
-                    search: true,
-                    sort: true,
-                },
-                publicFieldFeatureEnables: {
-                    search: true,
-                    sort: true,
-                    release: true,
-                    tooltip: true
-                },
-                privateFieldFeatureEnables: {
-                    search: true,
-                    release: true,
-                    tooltip: true
-                }
-            };
             this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
+            this.DEFAULT_USER_SETTINGS = DEFAULT_SETTINGS;
             if (SETTINGS) {
                 this.USER_SETTINGS = SETTINGS;
             }
             else {
                 this.USER_SETTINGS = this.DEFAULT_USER_SETTINGS;
             }
-            /*
-             * used to tie "global" enable settings in USER_SETTINGS to the more
-             * granular settings that are related to the same page
-             */
-            this.LINKED_SETTINGS = [
-                {
-                    'manager': 'shelterEnable',
-                    'managed': 'shelterFeatureEnables'
-                },
-                {
-                    'manager': 'publicFieldEnable',
-                    'managed': 'publicFieldFeatureEnables'
-                },
-                {
-                    'manager': 'privateFieldEnable',
-                    'managed': 'privateFieldFeatureEnables'
-                },
-            ];
+            this.LINKED_SETTINGS = this.USER_SETTINGS.LINKED_SETTINGS;
         }
         setupCSS() {
         //custom user css
@@ -6490,11 +6498,12 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class PagesManager {
-        constructor(jQuery, localStorageMgr, globals, HELPERS) {
+        constructor(jQuery, localStorageMgr, globals, HELPERS, SETTINGS) {
             this.jQuery = jQuery;
             this.localStorageMgr = localStorageMgr;
             this.GLOBALS = globals;
             this.HELPERS = HELPERS;
+            this.SETTINGS = SETTINGS;
             this.pages = {
                 'Daycare': {
                     class: DaycarePage,
@@ -6552,7 +6561,7 @@ $(function () {
             for (const key of Object.keys(this.pages)) {
                 const pg = this.pages[key];
                 if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                    this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS);
+                    this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
                 }
             }
         }
@@ -6638,10 +6647,11 @@ $(function () {
             this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
             this.LOCAL_STORAGE_MANAGER.migrateSettings();
 
+            this.SETTINGS = new UserSettings();
             this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS);
             this.RESOURCES = new Resources();
-            this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS);
-            this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES);
+            this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
+            this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
             this.GLOBALS.fillTemplates(this.RESOURCES);
             this.GLOBALS.fillOptionsLists();
 
@@ -6740,8 +6750,8 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class QoLHub extends QoLHubBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
-            super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, DEFAULT_SETTINGS, SETTINGS) {
+            super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, DEFAULT_SETTINGS, SETTINGS);
         }
         resetDex() {
             this.jQuery('#clearCachedDex').next().remove();

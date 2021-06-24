@@ -7,6 +7,7 @@ exports.commonSources = [
     path.join(root, 'requires', 'common', 'resources.js'),
     path.join(root, 'requires', 'common', 'helpers.js'),
     path.join(root, 'requires', 'common', 'globals.js'),
+    path.join(root, 'requires', 'common', 'userSettings.js'),
     path.join(root, 'requires', 'common', 'localStorageManager.js'),
     path.join(root, 'requires', 'common', 'qolHub.js'),
     path.join(root, 'requires', 'common', 'basePage.js'),
