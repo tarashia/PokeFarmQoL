@@ -1,7 +1,7 @@
 /* globals Page */
 // eslint-disable-next-line no-unused-vars
 class ShelterPageBase extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS, globalSettings) {
         super(jQuery, localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
@@ -25,7 +25,7 @@ class ShelterPageBase extends Page {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
-        }, 'shelter');
+        }, 'shelter', globalSettings);
         this.customArray = [];
         this.typeArray = [];
         const obj = this;

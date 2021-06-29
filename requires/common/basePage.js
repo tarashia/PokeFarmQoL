@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 class Page {
-    constructor(jQuery, localStorageMgr, helpers, ssk, ds, url) {
+    constructor(jQuery, localStorageMgr, helpers, ssk, ds, url, globalSettings) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
         this.helpers = helpers;
@@ -8,6 +8,7 @@ class Page {
         this.defaultSettings = ds;
         this.url = url;
         this.settings = this.defaultSettings;
+        this.globalSettings = globalSettings;
     }
 
     onPage(w) {
