@@ -3342,7 +3342,7 @@ $(function () {
     } // QoLHubBase
     // eslint-disable-next-line no-unused-vars
     class Page {
-        constructor(jQuery, localStorageMgr, helpers, ssk, ds, url) {
+        constructor(jQuery, localStorageMgr, helpers, ssk, ds, url, globalSettings) {
             this.jQuery = jQuery;
             this.localStorageMgr = localStorageMgr;
             this.helpers = helpers;
@@ -3350,6 +3350,7 @@ $(function () {
             this.defaultSettings = ds;
             this.url = url;
             this.settings = this.defaultSettings;
+            this.globalSettings = globalSettings;
         }
 
         onPage(w) {
@@ -5870,7 +5871,7 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class ShelterPageBase extends Page {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS, globalSettings) {
             super(jQuery, localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
                 findCustom: '',
                 findType: '',
@@ -5894,7 +5895,7 @@ $(function () {
                 customPokemon: true,
                 customPng: false,
                 shelterGrid: true,
-            }, 'shelter');
+            }, 'shelter', globalSettings);
             this.customArray = [];
             this.typeArray = [];
             const obj = this;
@@ -6781,8 +6782,8 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class ShelterPage extends ShelterPageBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
-            super(jQuery, localStorageMgr, HELPERS, GLOBALS);
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, settings) {
+            super(jQuery, localStorageMgr, HELPERS, GLOBALS, settings);
         }
     }
 
