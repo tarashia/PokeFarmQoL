@@ -4,12 +4,11 @@
  */
 // eslint-disable-next-line no-unused-vars
 class PagesManager {
-    constructor(jQuery, localStorageMgr, globals, HELPERS, SETTINGS) {
+    constructor(jQuery, localStorageMgr, globals, HELPERS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
         this.GLOBALS = globals;
         this.HELPERS = HELPERS;
-        this.SETTINGS = SETTINGS;
         this.pages = {
             'Daycare': {
                 class: DaycarePage,
@@ -67,7 +66,7 @@ class PagesManager {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
+                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS);
             }
         }
     }

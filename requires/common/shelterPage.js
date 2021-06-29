@@ -1,7 +1,7 @@
 /* globals Page */
 // eslint-disable-next-line no-unused-vars
 class ShelterPageBase extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS, globalSettings) {
+    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
         super(jQuery, localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
@@ -25,7 +25,7 @@ class ShelterPageBase extends Page {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
-        }, 'shelter', globalSettings);
+        }, 'shelter');
         this.customArray = [];
         this.typeArray = [];
         const obj = this;
@@ -45,29 +45,34 @@ class ShelterPageBase extends Page {
     }
 
     setupHTML(GLOBALS) {
-        this.jQuery('.tabbed_interface.horizontal>div').removeClass('tab-active');
-        this.jQuery('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
-        document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
-        document.querySelector('.tabbed_interface.horizontal>ul>li').insertAdjacentHTML('afterend', '<li class=""><label>Sort</label></li>');
-        document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
-        document.querySelector('#shelteroptionsqol').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
-        this.jQuery('#shelteroptionsqol').addClass('tab-active');
+        const globalSettings = JSON.parse(this.localStorageMgr.getItem(this.GLOBALS.SETTINGS_SAVE_KEY));
+        if(globalSettings.shelterFeatureEnables.search) {
+            this.jQuery('.tabbed_interface.horizontal>div').removeClass('tab-active');
+            this.jQuery('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
+            this.jQuery('#shelteroptionsqol').addClass('tab-active');
 
-        document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
+            document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
-        const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
-            'removeShelterTypeList', 'fieldTypes', 'typeArray');
+            const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+                'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
-        this.customArray = this.settings.findCustom.split(',');
-        this.typeArray = this.settings.findType.split(',');
+            this.customArray = this.settings.findCustom.split(',');
+            this.typeArray = this.settings.findType.split(',');
 
-        this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-        this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
+            this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
 
-        this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
-        this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
-        this.jQuery('[data-shelter=blackflute]').addClass('customSearchOnClick');
+            this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
+            this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
+            this.jQuery('[data-shelter=blackflute]').addClass('customSearchOnClick');
+        }
+        if(globalSettings.shelterFeatureEnables.sort) {
+            document.querySelector('.tabbed_interface.horizontal>ul>li').insertAdjacentHTML('afterend', '<li class=""><label>Sort</label></li>');
+            document.querySelector('#shelteroptionsqol').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
+        }
     }
     setupCSS() {
         const shelterSuccessCss = this.jQuery('#sheltercommands').css('background-color');
