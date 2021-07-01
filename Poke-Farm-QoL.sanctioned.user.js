@@ -3003,7 +3003,44 @@ $(function () {
                 },
             ];
         }
-
+        /// load settings from an object that is not of type UserSettings
+        load(settingsObj) {
+            try {
+                const countScriptSettings = Object.keys(this).length;
+                const localStorageString = settingsObj;
+                const countLocalStorageSettings = Object.keys(localStorageString).length;
+                // adds new settings to this class
+                if (countLocalStorageSettings < countScriptSettings) {
+                    const newSettings = this.jQuery.extend(true, this, settingsObj);
+                    this.copyFields(newSettings);
+                }
+                // removes objects from the local storage if they don't exist anymore. Not yet possible..
+                if (countLocalStorageSettings > countScriptSettings) {
+                /* do nothing at the moment */
+                }
+            }
+            catch (err) {
+            /* do nothing at the moment */
+            }
+            if (settingsObj != this) {
+                this.copyFields(settingsObj);
+            // this = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
+            }
+        }
+        copyFields(settingsObj) {
+            const recursiveCopy = (object, key, value) => {
+                if (typeof value === 'object') {
+                    for (const [_key, _value] in Object.entries(value)) {
+                        recursiveCopy(object[key], _key, _value);
+                    }
+                } else {
+                    this[key] = value;
+                }
+            };
+            for (const [key, value] in Object.entries(settingsObj)) {
+                recursiveCopy(this, key, value);
+            }
+        }
     }
     // eslint-disable-next-line no-unused-vars
     class LocalStorageManagerBase {
@@ -3179,33 +3216,8 @@ $(function () {
             if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
                 this.saveSettings();
             } else {
-                try {
-                    const countScriptSettings = Object.keys(this.USER_SETTINGS).length;
-                    const localStorageString = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
-                    const countLocalStorageSettings = Object.keys(localStorageString).length;
-                    // adds new objects (settings) to the local storage
-                    if (countLocalStorageSettings < countScriptSettings) {
-                        const defaultsSetting = this.USER_SETTINGS;
-                        const userSetting = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
-                        const newSetting = this.jQuery.extend(true, {}, defaultsSetting, userSetting);
-
-                        this.USER_SETTINGS = newSetting;
-                        this.saveSettings();
-                    }
-                    // removes objects from the local storage if they don't exist anymore. Not yet possible..
-                    if (countLocalStorageSettings > countScriptSettings) {
-                    /*
-                     * let defaultsSetting = QOLHUB.USER_SETTINGS;
-                     * let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
-                     */
-                        this.saveSettings();
-                    }
-                }
-                catch (err) {
+                if(this.USER_SETTINGS.load(JSON.parse(JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY))))) {
                     this.saveSettings();
-                }
-                if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
-                    this.USER_SETTINGS = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
                 }
             }
         }

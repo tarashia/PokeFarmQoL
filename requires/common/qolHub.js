@@ -76,33 +76,8 @@ class QoLHubBase {
         if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
             this.saveSettings();
         } else {
-            try {
-                const countScriptSettings = Object.keys(this.USER_SETTINGS).length;
-                const localStorageString = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
-                const countLocalStorageSettings = Object.keys(localStorageString).length;
-                // adds new objects (settings) to the local storage
-                if (countLocalStorageSettings < countScriptSettings) {
-                    const defaultsSetting = this.USER_SETTINGS;
-                    const userSetting = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
-                    const newSetting = this.jQuery.extend(true, {}, defaultsSetting, userSetting);
-
-                    this.USER_SETTINGS = newSetting;
-                    this.saveSettings();
-                }
-                // removes objects from the local storage if they don't exist anymore. Not yet possible..
-                if (countLocalStorageSettings > countScriptSettings) {
-                    /*
-                     * let defaultsSetting = QOLHUB.USER_SETTINGS;
-                     * let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
-                     */
-                    this.saveSettings();
-                }
-            }
-            catch (err) {
+            if(this.USER_SETTINGS.load(JSON.parse(JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY))))) {
                 this.saveSettings();
-            }
-            if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
-                this.USER_SETTINGS = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
             }
         }
     }
