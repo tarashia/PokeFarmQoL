@@ -75,14 +75,14 @@ class UserSettings {
     copyFields(settingsObj) {
         const recursiveCopy = (object, key, value) => {
             if (typeof value === 'object') {
-                for (const [_key, _value] in Object.entries(value)) {
+                for (const [_key, _value] of Object.entries(value)) {
                     recursiveCopy(object[key], _key, _value);
                 }
             } else {
-                this[key] = value;
+                object[key] = value;
             }
         };
-        for (const [key, value] in Object.entries(settingsObj)) {
+        for (const [key, value] of Object.entries(settingsObj)) {
             recursiveCopy(this, key, value);
         }
     }

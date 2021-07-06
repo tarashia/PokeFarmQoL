@@ -76,7 +76,7 @@ class QoLHubBase {
         if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
             this.saveSettings();
         } else {
-            if(this.USER_SETTINGS.load(JSON.parse(JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY))))) {
+            if(this.USER_SETTINGS.load(JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY)))) {
                 this.saveSettings();
             }
         }
