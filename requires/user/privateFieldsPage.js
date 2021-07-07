@@ -1,8 +1,8 @@
 /* globals PrivateFieldsPageBase */
 // eslint-disable-next-line no-unused-vars
 class PrivateFieldsPage extends PrivateFieldsPageBase {
-    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
-        super(jQuery, localStorageMgr, HELPERS, GLOBALS);
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, settings) {
+        super(jQuery, localStorageMgr, HELPERS, GLOBALS, settings);
         this.settings.fieldNFE = false;
     }
     highlightByHowFullyEvolved(GLOBALS, pokemonElem) {
@@ -48,17 +48,19 @@ class PrivateFieldsPage extends PrivateFieldsPageBase {
     customSearch(GLOBALS) {
         super.customSearch(GLOBALS);
         const obj = this;
-        if (this.settings.fieldNFE === true) {
-            obj.jQuery('.fieldmon').each(function () {
-                obj.highlightByHowFullyEvolved(GLOBALS, this);
-            });
-        } else {
-            obj.jQuery('.oneevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('oneevolutionleft');
-            });
-            obj.jQuery('.twoevolutionleft').each((k, v) => {
-                obj.jQuery(v).removeClass('twoevolutionleft');
-            });
+        if(this.globalSettings.privateFieldFeatureEnables.search) {
+            if (this.settings.fieldNFE === true) {
+                obj.jQuery('.fieldmon').each(function () {
+                    obj.highlightByHowFullyEvolved(GLOBALS, this);
+                });
+            } else {
+                obj.jQuery('.oneevolutionleft').each((k, v) => {
+                    obj.jQuery(v).removeClass('oneevolutionleft');
+                });
+                obj.jQuery('.twoevolutionleft').each((k, v) => {
+                    obj.jQuery(v).removeClass('twoevolutionleft');
+                });
+            }
         }
     }
 }
