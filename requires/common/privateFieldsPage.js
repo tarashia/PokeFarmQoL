@@ -117,7 +117,9 @@ class PrivateFieldsPageBase extends Page {
         this.jQuery(window).on('load', (() => {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
-            obj.handleTooltipSettings();
+            if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+                obj.handleTooltipSettings();
+            }
             obj.saveSettings();
         }));
 
