@@ -39,7 +39,9 @@ class PrivateFieldsPageBase extends Page {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach((mutation) => {
                 obj.customSearch(GLOBALS);
-                obj.handleTooltipSettings();
+                if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+                    obj.handleTooltipSettings();
+                }
             });
         });
     }
