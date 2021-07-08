@@ -1123,7 +1123,7 @@ class ResourcesBase {
                               <label>
                                 <input type="checkbox" class="qolsetting" data-key="fishingEnable"/>
                                 <span>
-                                  Release/Fishing select all
+                                  Fishing Multi-Select Controls
                                 </span>
                               </label>
                             </li>
@@ -1181,7 +1181,7 @@ class ResourcesBase {
                                   <label>
                                     <input type="checkbox" class="qolsetting" data-key="privateFieldFeatureEnables.release"/>
                                     <span>
-                                      Multi-Select Controls
+                                      Multi-Select Controls (Move & Release)
                                     </span>
                                   </label>
                                 </li>
