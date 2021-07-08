@@ -130,7 +130,9 @@ class PublicFieldsPage extends Page {
         obj.jQuery(window).on('load', (function() {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
-            obj.handleTooltipSettings();
+            if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
+                obj.handleTooltipSettings();
+            }
             obj.saveSettings();
         }));
 
