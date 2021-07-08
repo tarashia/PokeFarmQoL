@@ -1236,6 +1236,7 @@ class ResourcesBase {
                               </label>
                             </li>
                           </ul>
+                          <span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span>
                         </td>
                         <td class="qolChangeLog">
                           <ul class="qolChangeLogList">
