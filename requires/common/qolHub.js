@@ -39,7 +39,7 @@ class QoLHubBase {
             }
         });
 
-        obj.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+        obj.jQuery(document).on('input', '.qolhubsetting', (function () { //Changes QoL settings
             const dataKey = this.getAttribute('data-key');
             obj.settingsChange(this.getAttribute('data-key'),
                 obj.jQuery(this).val(),
@@ -200,7 +200,7 @@ class QoLHubBase {
 
         const customCss = this.USER_SETTINGS.customCss;
 
-        this.jQuery('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolsetting" data-key="customCss"/></textarea>');
+        this.jQuery('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolhubsetting" data-key="customCss"/></textarea>');
         if (customCss === '') {
             this.jQuery('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
         } else {
