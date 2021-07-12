@@ -109,7 +109,6 @@ class PagesManager {
                 pg.object.setupHTML(GLOBALS);
             }
         }
-        this.populateSettings(QOLHUB);
     }
     setupCSS(QOLHUB) {
         for (const key of Object.keys(this.pages)) {
