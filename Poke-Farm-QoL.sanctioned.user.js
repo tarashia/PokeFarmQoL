@@ -1408,10 +1408,12 @@ $(function () {
             }
             return str;
         }
-        toggleSetting(key, set) {
-        // update values for checkboxes
+        toggleSetting(key, set, cls) {
+        // provide default value for cls
+            cls = cls || 'qolsetting';
+            // update values for checkboxes
             if (typeof set === 'boolean') {
-                const element = document.querySelector(`.qolsetting[data-key="${key}"]`);
+                const element = document.querySelector(`.${cls}[data-key="${key}"]`);
                 if (element && element.type === 'checkbox') {
                     element.checked = set;
                 }
@@ -3232,11 +3234,11 @@ $(function () {
                 const newKeys = [...oldKeys, key];
                 if (typeof _object === 'boolean') {
                     const _key = newKeys.join('.');
-                    self.HELPERS.toggleSetting(_key, _object);
+                    self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
                 }
                 else if (typeof _object === 'string') {
                     const _key = newKeys.join('.');
-                    self.HELPERS.toggleSetting(_key, _object);
+                    self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
                 } else if (typeof _object === 'object') {
                     for (const _key in _object) {
                         populateSetting(_object, _key, self, newKeys);
@@ -6665,7 +6667,6 @@ $(function () {
                     pg.object.setupHTML(GLOBALS);
                 }
             }
-            this.populateSettings(QOLHUB);
         }
         setupCSS(QOLHUB) {
             for (const key of Object.keys(this.pages)) {
