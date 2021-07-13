@@ -279,7 +279,7 @@ function getSummaryUID(json, sourceID, sourceName, targetID, targetName) {
 }
 
 describe('Test Farm Page', () => {
-    it.skip('Should be setup correctly', () => {
+    it('Should be setup correctly', () => {
         const htmlpath = path.join(__dirname, '../data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
