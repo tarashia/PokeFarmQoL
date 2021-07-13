@@ -294,7 +294,7 @@ describe('Test Farm Page', () => {
         expect($('.qolsortnew').length).toBe(1);
     });
 
-    it.skip('Should show normal list when "Normal list" is clicked', () => {
+    it('Should show normal list when "Normal list" is clicked', () => {
         const htmlpath = path.join(__dirname, '../data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
