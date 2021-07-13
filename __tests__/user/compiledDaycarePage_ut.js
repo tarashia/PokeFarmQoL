@@ -29,8 +29,9 @@ beforeAll(() => {
 });
 
 describe('Test Daycare Page', () => {
-    test('Test controls on Daycare page', () => {
-        /* Test HTML is crafted to have different amounts of pokemon for the cases listed below
+    test.skip('Test controls on Daycare page', () => {
+        /*
+         * Test HTML is crafted to have different amounts of pokemon for the cases listed below
          * - Ditto: Match everything that is not Undiscovered and not Ditto (12 should be matched)
          * - Undiscovered: Match nothing (2 Undiscovered in the HTML, 0 should be matched)
          * - Male w/ 2 Egg Group: Match Females in either Egg Group (2 Mineral, 3 Amorphous)
@@ -49,12 +50,16 @@ describe('Test Daycare Page', () => {
         $('#pkmnadd').attr('data-gender', 'd');
         $('#pkmnadd').attr('data-egggroup', '15');
         new pfqol.pfqol($);
-        // pfqol.pfqol($);
-        // add a dummy element to trigger customSearch
+        /*
+         * pfqol.pfqol($);
+         * add a dummy element to trigger customSearch
+         */
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
-        // this expect won't work, because the MutationObserver is triggered asynchronously,
-        // and based on research online, there is no way to test MutationObserver's reliably with jest
-        // expect($('.daycarefoundme').length).toBe(12);
+        /*
+         * this expect won't work, because the MutationObserver is triggered asynchronously,
+         * and based on research online, there is no way to test MutationObserver's reliably with jest
+         * expect($('.daycarefoundme').length).toBe(12);
+         */
 
         // test Undiscovered in Daycare
         $('#pkmnadd').attr('data-gender', 'f');
@@ -64,8 +69,10 @@ describe('Test Daycare Page', () => {
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // expect($('.daycarefoundme').length).toBe(0);
 
-        // test Male non-Undiscovered in Daycare
-        // test pokemon with 2 egg groups
+        /*
+         * test Male non-Undiscovered in Daycare
+         * test pokemon with 2 egg groups
+         */
         $('#pkmnadd').attr('data-gender', 'm');
         $('#pkmnadd').attr('data-egggroup', '201'); // Mineral+Amorphous
         new pfqol.pfqol($);
@@ -73,8 +80,10 @@ describe('Test Daycare Page', () => {
         $('#fs_pokemon').children().eq(0).append('<p>Test</p>');
         // expect($('.daycarefoundme').length).toBe(5);
 
-        // test Female non-Undiscovered in Daycare
-        // test pokemon with 1 egg group
+        /*
+         * test Female non-Undiscovered in Daycare
+         * test pokemon with 1 egg group
+         */
         $('#pkmnadd').attr('data-gender', 'f');
         $('#pkmnadd').attr('data-egggroup', '3'); // Field
         new pfqol.pfqol($);

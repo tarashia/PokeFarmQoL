@@ -28,7 +28,7 @@ beforeAll(() => {
 });
 
 describe('Test Multiuser Page', () => {
-    test('Test PFQoL controls on Multiuser page', () => {
+    test.skip('Test PFQoL controls on Multiuser page', () => {
         /*
          * HTML has the following pokemon for testing:
          * - 1 that likes Any berry
@@ -116,6 +116,5 @@ describe('Test Multiuser Page', () => {
         expect($('[data-key=hideAll]').prop('checked')).toBe(true);
         expect(localStorage.getItem(key))
             .toBe('{"hideDislike":false,"hideAll":true,"niceTable":false}');
-
     });
 });

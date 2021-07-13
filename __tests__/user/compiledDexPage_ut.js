@@ -29,7 +29,7 @@ beforeAll(() => {
 });
 
 describe('Test Dex Page', () => {
-    test('Test mousedown event handler on Dex page', () => {
+    test.skip('Test mousedown event handler on Dex page', () => {
         const htmlpath = path.join(__dirname, '../data/', 'dex.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -86,9 +86,11 @@ describe('Test Dex Page', () => {
         type2.trigger(event);
         expect($('.type.selected').length).toBe(0);
 
-        // mimic click inside the types list to enable 2nd type search when
-        // a type is selected from the first 1 type search
-        // select a type in the first type list
+        /*
+         * mimic click inside the types list to enable 2nd type search when
+         * a type is selected from the first 1 type search
+         * select a type in the first type list
+         */
         const types1Span = $('.filter-type:not(.filter-type-2) .types');
         const normal = types1Span.children().eq(0);
         normal.addClass('selected');
@@ -107,7 +109,7 @@ describe('Test Dex Page', () => {
 
     });
 
-    test('Test touch event handler on Dex page', () => {
+    test.skip('Test touch event handler on Dex page', () => {
         const htmlpath = path.join(__dirname, '../data/', 'dex.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
