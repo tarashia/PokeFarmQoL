@@ -294,7 +294,7 @@ describe('Test Farm Page', () => {
         expect($('.qolsortnew').length).toBe(1);
     });
 
-    it('Should show normal list when "Normal list" is clicked', () => {
+    it.skip('Should show normal list when "Normal list" is clicked', () => {
         const htmlpath = path.join(__dirname, '../data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -332,7 +332,7 @@ describe('Test Farm Page', () => {
     });
 
     describe('Test "Sort on Types"', () => {
-        it('Should correctly sort all evolutions on types when "Sort on types" is clicked', () => {
+        it.skip('Should correctly sort all evolutions on types when "Sort on types" is clicked', () => {
             const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
             const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
             const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -416,7 +416,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
 
         });
-        it('Should correctly sort all evolutions on types when pokemon are nicknamed and "Sort on types" is clicked', () => {
+        it.skip('Should correctly sort all evolutions on types when pokemon are nicknamed and "Sort on types" is clicked', () => {
             const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
             const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
             const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -499,7 +499,7 @@ describe('Test Farm Page', () => {
             fs.writeFileSync('./expectedHTML.html', expectedHTML.html());
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
-        it('Should correctly sort all evolutions on types when pokemon are delta mons and "Sort on types" is clicked', () => {
+        it.skip('Should correctly sort all evolutions on types when pokemon are delta mons and "Sort on types" is clicked', () => {
             const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
             const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
             const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -593,7 +593,7 @@ describe('Test Farm Page', () => {
     });
 
     describe('Test "Sort on Name"', () => {
-        it('Should sort on names when "Sort on name" is clicked', () => {
+        it.skip('Should sort on names when "Sort on name" is clicked', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -667,7 +667,7 @@ describe('Test Farm Page', () => {
     });
 
     describe('Test "Sort on New"', () => {
-        it('Should only show new pokemon when "New dex entry" is clicked', () => {
+        it.skip('Should only show new pokemon when "New dex entry" is clicked', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -923,7 +923,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it('Test when normal pokemon with multiple words in its name is not in the dex', () => {
+        it.skip('Test when normal pokemon with multiple words in its name is not in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1159,7 +1159,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it('Test when normal pokemon with multiple words and [ in its name is not in the dex', () => {
+        it.skip('Test when normal pokemon with multiple words and [ in its name is not in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1395,7 +1395,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it('Test when normal pokemon with a regular name is not in the dex', () => {
+        it.skip('Test when normal pokemon with a regular name is not in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1606,7 +1606,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it('Test when melanistic pokemon with a regular name is not in the dex', () => {
+        it.skip('Test when melanistic pokemon with a regular name is not in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1807,7 +1807,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it('Test the error case where a normal pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
+        it.skip('Test the error case where a normal pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeNormalPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -1906,7 +1906,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it('Test the error case where a shiny pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
+        it.skip('Test the error case where a shiny pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeShinyPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -2005,7 +2005,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it('Test the error case where an albino pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
+        it.skip('Test the error case where an albino pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeAlbinoPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -2104,7 +2104,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
 
-        it('Test the error case where a melanistic pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
+        it.skip('Test the error case where a melanistic pokemon with a name that doesn\'t meet any criteria is found in the dex', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farmWithFakeMelanisticPokemon.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
