@@ -332,7 +332,7 @@ describe('Test Farm Page', () => {
     });
 
     describe('Test "Sort on Types"', () => {
-        it.skip('Should correctly sort all evolutions on types when "Sort on types" is clicked', () => {
+        it('Should correctly sort all evolutions on types when "Sort on types" is clicked', () => {
             const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
             const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
             const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
