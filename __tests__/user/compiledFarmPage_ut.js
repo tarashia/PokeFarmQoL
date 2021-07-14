@@ -416,7 +416,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
 
         });
-        it.skip('Should correctly sort all evolutions on types when pokemon are nicknamed and "Sort on types" is clicked', () => {
+        it('Should correctly sort all evolutions on types when pokemon are nicknamed and "Sort on types" is clicked', () => {
             const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
             const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
             const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
