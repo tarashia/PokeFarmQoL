@@ -279,7 +279,7 @@ function getSummaryUID(json, sourceID, sourceName, targetID, targetName) {
 }
 
 describe('Test Farm Page', () => {
-    it('Should be setup correctly', () => {
+    it.skip('Should be setup correctly', () => {
         const htmlpath = path.join(__dirname, '../data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -294,7 +294,7 @@ describe('Test Farm Page', () => {
         expect($('.qolsortnew').length).toBe(1);
     });
 
-    it('Should show normal list when "Normal list" is clicked', () => {
+    it.skip('Should show normal list when "Normal list" is clicked', () => {
         const htmlpath = path.join(__dirname, '../data/', 'farm.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -332,7 +332,7 @@ describe('Test Farm Page', () => {
     });
 
     describe('Test "Sort on Types"', () => {
-        it('Should correctly sort all evolutions on types when "Sort on types" is clicked', () => {
+        it.skip('Should correctly sort all evolutions on types when "Sort on types" is clicked', () => {
             const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
             const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
             const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -416,7 +416,7 @@ describe('Test Farm Page', () => {
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
 
         });
-        it('Should correctly sort all evolutions on types when pokemon are nicknamed and "Sort on types" is clicked', () => {
+        it.skip('Should correctly sort all evolutions on types when pokemon are nicknamed and "Sort on types" is clicked', () => {
             const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
             const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
             const innerHTML = emptyFarmHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
