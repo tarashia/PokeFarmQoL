@@ -499,6 +499,7 @@ describe('Test Farm Page', () => {
             fs.writeFileSync('./expectedHTML.html', expectedHTML.html());
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
+        /* this test is failing due to maximum stack size exceeded */
         it('Should correctly sort all evolutions on types when pokemon are delta mons and "Sort on types" is clicked', () => {
             const emptyFarmFile = path.join(__dirname, '..', 'data', 'emptyFarm.html');
             const emptyFarmHTML = fs.readFileSync(emptyFarmFile, 'utf8', 'r');
@@ -571,29 +572,33 @@ describe('Test Farm Page', () => {
               <h3 class="slidermenu">Unknown Types</h3>
               <ul class="Unknown 18 qolChangeLogContent"></ul>
             </li>`);
+            // eslint-disable-next-line no-unused-vars
             const expectedOutputUl = `<ul class="qolEvolveTypeList">${outputHTMLEntries.join(' ')}</ul>`;
 
             new pfqol.pfqol($);
 
             // trigger '#qolchangesletype' click handler
-            $('#qolchangesletype').trigger('click');
+
+            $('#qolchangesletype').trigger('click'); // takes about 11 seconds
 
             expect($('.qolEvolveTypeList').length).toBe(1);
             expect($('.evolvepkmnlist').length).toBe(1);
             expect($('.qolEvolveTypeList').css('display')).toBe('block');
             expect($('.evolvepkmnlist').css('display')).toBe('none');
-            const actualHTML = $('#farmnews-evolutions .scrollable').children().eq(0);
 
+            const actualHTML = $('#farmnews-evolutions .scrollable').children().eq(0);
             const expectedHTML = $(expectedOutputUl);
-            // Write out to files for debugging
-            fs.writeFileSync('./actualHTML.html', actualHTML.html());
-            fs.writeFileSync('./expectedHTML.html', expectedHTML.html());
+            // // Write out to files for debugging
+            // /*
+            //  * fs.writeFileSync('./actualHTML.html', actualHTML.html());
+            //  * fs.writeFileSync('./expectedHTML.html', expectedHTML.html());
+            //  */
             expect(actualHTML.equivalent(expectedHTML)).toBeTruthy();
         });
     });
 
     describe('Test "Sort on Name"', () => {
-        it.skip('Should sort on names when "Sort on name" is clicked', () => {
+        it('Should sort on names when "Sort on name" is clicked', () => {
             const htmlpath = path.join(__dirname, '../data/', 'farm.html');
             const html = fs.readFileSync(htmlpath, 'utf8', 'r');
             const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
