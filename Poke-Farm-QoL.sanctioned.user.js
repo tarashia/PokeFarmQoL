@@ -3762,12 +3762,13 @@ $(function () {
             this.settings = this.defaultSettings;
             this.evolveListCache = '';
             const obj = this;
-            this.observer = new MutationObserver(function (mutations) {
+            function observeFunc(mutations) {
             // eslint-disable-next-line no-unused-vars
                 mutations.forEach(function (mutation) {
                     obj.easyQuickEvolve();
                 });
-            });
+            }
+            this.observer = new MutationObserver(observeFunc);
         }
         setupHTML() {
             const obj = this;
@@ -3807,8 +3808,9 @@ $(function () {
         }
         clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
-            this.jQuery('.evolvepkmnlist').show();
-            this.jQuery('.evolvepkmnlist').removeAttr('class');
+            const list$ = this.jQuery('.evolvepkmnlist');
+            list$.show();
+            list$.removeAttr('class');
             if (document.querySelector('.qolEvolveTypeList')) {
                 document.querySelector('.qolEvolveTypeList').remove();
             }
@@ -4210,8 +4212,9 @@ $(function () {
             obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
         }
         easyQuickEvolve() {
-            if (this.jQuery('.canevolve:contains("evolved into")').parent().length != 0) {
-                this.jQuery('.canevolve:contains("evolved into")').parent().remove();
+            const parent = this.jQuery('.canevolve:contains("evolved into")').parent();
+            if (parent.length != 0) {
+                parent.remove();
             }
         }
     }

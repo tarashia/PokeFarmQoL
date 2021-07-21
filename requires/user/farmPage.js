@@ -241,12 +241,19 @@ class FarmPage extends FarmPageBase {
             obj.saveSettings();
         };
 
-        const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
+        const appendDeltaTypeIfDelta = function ($, evoString, typesLis$, elemToAppendTo$) {
             if (evoString.includes('title="[DELTA')) {
                 const deltaType = evoString.match('DELTA-(.*?)]">');
-                $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
+                typesLis$[obj.settings.TYPE_APPEND[deltaType[1]]].append(elemToAppendTo$.clone());
+                // elemToAppendTo$.clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
             }
         };
+
+        // look up the <li> for each type here instead of in each iteration of the .each() function
+        const typesLis$ = {};
+        for(let i = 0; i < 18; i++) {
+            typesLis$[`.${i}`] = obj.jQuery(`.${i}`);
+        }
 
         obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
             // getting the <li> element from the pokemon & the pokemon evolved name
@@ -380,17 +387,19 @@ class FarmPage extends FarmPageBase {
             evolveTypes = evolveTypes.filter((t) => t !== '-1');
 
             // append types to DOM
-            const elem = this;
+            const elem$ = obj.jQuery(this);
             evolveTypes.map((t) => {
-                obj.jQuery(elem).clone().appendTo('.' + t);
+                typesLis$[`.${t}`].append(elem$.clone());
+                // elem$.clone().appendTo('.' + t);
             });
             evolveTypesPrevious.map((t) => {
                 if (!isNaN(parseInt(t)) && parseInt(t) > -1 && evolveTypes.indexOf(t) == -1) {
-                    obj.jQuery(elem).clone().appendTo('.' + t);
+                    typesLis$[`.${t}`].append(elem$.clone());
+                    // elem$.clone().appendTo('.' + t);
                 }
             });
 
-            appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
+            appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, typesLis$, elem$);
         }); // each
 
         obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {

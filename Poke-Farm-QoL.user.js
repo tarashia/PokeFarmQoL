@@ -3762,12 +3762,13 @@ $(function () {
             this.settings = this.defaultSettings;
             this.evolveListCache = '';
             const obj = this;
-            this.observer = new MutationObserver(function (mutations) {
+            function observeFunc(mutations) {
             // eslint-disable-next-line no-unused-vars
                 mutations.forEach(function (mutation) {
                     obj.easyQuickEvolve();
                 });
-            });
+            }
+            this.observer = new MutationObserver(observeFunc);
         }
         setupHTML() {
             const obj = this;
@@ -3807,8 +3808,9 @@ $(function () {
         }
         clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
-            this.jQuery('.evolvepkmnlist').show();
-            this.jQuery('.evolvepkmnlist').removeAttr('class');
+            const list$ = this.jQuery('.evolvepkmnlist');
+            list$.show();
+            list$.removeAttr('class');
             if (document.querySelector('.qolEvolveTypeList')) {
                 document.querySelector('.qolEvolveTypeList').remove();
             }
@@ -4210,8 +4212,9 @@ $(function () {
             obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
         }
         easyQuickEvolve() {
-            if (this.jQuery('.canevolve:contains("evolved into")').parent().length != 0) {
-                this.jQuery('.canevolve:contains("evolved into")').parent().remove();
+            const parent = this.jQuery('.canevolve:contains("evolved into")').parent();
+            if (parent.length != 0) {
+                parent.remove();
             }
         }
     }
@@ -8982,12 +8985,19 @@ $(function () {
                 obj.saveSettings();
             };
 
-            const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
+            const appendDeltaTypeIfDelta = function ($, evoString, typesLis$, elemToAppendTo$) {
                 if (evoString.includes('title="[DELTA')) {
                     const deltaType = evoString.match('DELTA-(.*?)]">');
-                    $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
+                    typesLis$[obj.settings.TYPE_APPEND[deltaType[1]]].append(elemToAppendTo$.clone());
+                // elemToAppendTo$.clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
                 }
             };
+
+            // look up the <li> for each type here instead of in each iteration of the .each() function
+            const typesLis$ = {};
+            for(let i = 0; i < 18; i++) {
+                typesLis$[`.${i}`] = obj.jQuery(`.${i}`);
+            }
 
             obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
             // getting the <li> element from the pokemon & the pokemon evolved name
@@ -9121,17 +9131,19 @@ $(function () {
                 evolveTypes = evolveTypes.filter((t) => t !== '-1');
 
                 // append types to DOM
-                const elem = this;
+                const elem$ = obj.jQuery(this);
                 evolveTypes.map((t) => {
-                    obj.jQuery(elem).clone().appendTo('.' + t);
+                    typesLis$[`.${t}`].append(elem$.clone());
+                // elem$.clone().appendTo('.' + t);
                 });
                 evolveTypesPrevious.map((t) => {
                     if (!isNaN(parseInt(t)) && parseInt(t) > -1 && evolveTypes.indexOf(t) == -1) {
-                        obj.jQuery(elem).clone().appendTo('.' + t);
+                        typesLis$[`.${t}`].append(elem$.clone());
+                    // elem$.clone().appendTo('.' + t);
                     }
                 });
 
-                appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
+                appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, typesLis$, elem$);
             }); // each
 
             obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
