@@ -244,7 +244,16 @@ class FarmPage extends FarmPageBase {
         const appendDeltaTypeIfDelta = function ($, evoString, typesLis$, elemToAppendTo$) {
             if (evoString.includes('title="[DELTA')) {
                 const deltaType = evoString.match('DELTA-(.*?)]">');
-                typesLis$[obj.settings.TYPE_APPEND[deltaType[1]]].append(elemToAppendTo$.clone());
+                let type = obj.settings.TYPE_APPEND[deltaType[1]];
+                if(!type.startsWith('.')) {
+                    type = `.${type}`;
+                }
+                if(typesLis$[type]) {
+                    typesLis$[type].append(elemToAppendTo$.clone());
+                }
+                else {
+                    throw Error(`Unable to find type <li> matching class '${type}'`);
+                }
                 // elemToAppendTo$.clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
             }
         };
@@ -319,7 +328,11 @@ class FarmPage extends FarmPageBase {
             }
 
             // will only get here if 1.a or 1.b succeeded
-            if (!evolveInDex || evolveHasRegionalForms) {
+            if(evolveInDex && !evolveHasRegionalForms) {
+                // Step 2.a
+                evolveTypes = [1, 2].map((i) => dexData[dexData.indexOf('"' + evolvePokemon + '"') + i]);
+            }
+            else /* if (!evolveInDex || evolveHasRegionalForms) */ {
                 // Step 2.b
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
                     evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
@@ -340,25 +353,21 @@ class FarmPage extends FarmPageBase {
                         evolveTypesPrevious = dexInfo.types;
                     }
 
-                    if (!evolveInDex) {
-                        if(loadStatus && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
-                            const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
-                            if (info.status) {
-                                evolveInDex = info.status;
-                                evolveTypes = info.types;
-                                addToKnownExceptions(evolvePokemon, evolveTypes[0],
-                                    evolveTypes.length > 1 && evolveTypes[1]);
-                            }
-                        } else {
-                            const msg = `An error occurred when processing ${evolvePokemon}`;
-                            console.error(msg);
+                    // if (!evolveInDex) {
+                    if(loadStatus && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
+                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
+                        if (info.status) {
+                            evolveInDex = info.status;
+                            evolveTypes = info.types;
+                            addToKnownExceptions(evolvePokemon, evolveTypes[0],
+                                evolveTypes.length > 1 && evolveTypes[1]);
                         }
+                    } else {
+                        const msg = `An error occurred when processing ${evolvePokemon}`;
+                        console.error(msg);
                     }
+                    // }
                 } // else ( if(evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) )
-            }
-            // Step 2.a
-            else {
-                evolveTypes = [1, 2].map((i) => dexData[dexData.indexOf('"' + evolvePokemon + '"') + i]);
             }
 
             if (!evolveInDex) {
@@ -389,12 +398,22 @@ class FarmPage extends FarmPageBase {
             // append types to DOM
             const elem$ = obj.jQuery(this);
             evolveTypes.map((t) => {
-                typesLis$[`.${t}`].append(elem$.clone());
+                if(typesLis$[`.${t}`]) {
+                    typesLis$[`.${t}`].append(elem$.clone());
+                }
+                else {
+                    throw Error(`Unable to find type <li> matching class '${t}'`);
+                }
                 // elem$.clone().appendTo('.' + t);
             });
             evolveTypesPrevious.map((t) => {
                 if (!isNaN(parseInt(t)) && parseInt(t) > -1 && evolveTypes.indexOf(t) == -1) {
-                    typesLis$[`.${t}`].append(elem$.clone());
+                    if(typesLis$[`.${t}`]) {
+                        typesLis$[`.${t}`].append(elem$.clone());
+                    }
+                    else {
+                        throw Error(`Unable to find type <li> matching class '${t}'`);
+                    }
                     // elem$.clone().appendTo('.' + t);
                 }
             });
