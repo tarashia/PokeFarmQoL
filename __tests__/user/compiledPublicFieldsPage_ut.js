@@ -101,9 +101,11 @@ describe('Test Public Fields Page', () => {
      *   15. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false, no berry selected
      *   16. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false,    berry selected
      */
-    test('Test Tooltip controls on Public Fields page when no Berry is Selected', () => {
-        ////////////////////////////////////////
-        // setup
+    test.skip('Test Tooltip controls on Public Fields page when no Berry is Selected', () => {
+        /*
+         * ////////////////////////////////////////
+         * // setup
+         */
         const NUM_POKEMON = 28;
         const htmlpath = path.join(__dirname, '../data/', 'publicFieldsForTooltipTestsNoBerrySelected.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
@@ -147,50 +149,64 @@ describe('Test Public Fields Page', () => {
         // check that setup worked
         expectTooltipsExist(1, 1, 1, true, true, false, true, false);
         checkLocalSettings(true, true, true);
-        // check that no berry is selected by showing that the cormyr, nothungry, and goaway classes
-        // are not present
+        /*
+         * check that no berry is selected by showing that the cormyr, nothungry, and goaway classes
+         * are not present
+         */
         checkFieldmonClasses(0, 0, 0);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // get coverage for '.collapsible' click handler
+        /*
+         * ////////////////////////////////////////
+         * // get coverage for '.collapsible' click handler
+         */
         $('.collapsible').trigger('click');
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // 1. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = true , no berry selected
+        /*
+         * ////////////////////////////////////////
+         * // 1. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = true , no berry selected
+         */
         setupTooltipValues(true, true, false, true, false);
         checkLocalSettings(true, true, true);
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(0);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        //  3. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = false, no berry selected
+        /*
+         * ////////////////////////////////////////
+         * //  3. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = false, no berry selected
+         */
         setupTooltipValues(true, true, false, false, false);
         checkLocalSettings(true, true, false);
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(0);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        //  5. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = true , no berry selected
+        /*
+         * ////////////////////////////////////////
+         * //  5. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = true , no berry selected
+         */
         setupTooltipValues(true, false, false, true, false);
         checkLocalSettings(true, false, true);
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        //  7. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = false, no berry selected
+        /*
+         * ////////////////////////////////////////
+         * //  7. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = false, no berry selected
+         */
         setupTooltipValues(true, false, false, false, false);
         checkLocalSettings(true, false, false);
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        //  9. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = true , no berry selected
+        /*
+         * ////////////////////////////////////////
+         * //  9. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = true , no berry selected
+         */
         setupTooltipValues(true, true, false, true, false);
         setupTooltipValues(false, true, true, true, true);
         checkLocalSettings(false, true, true);
@@ -198,8 +214,10 @@ describe('Test Public Fields Page', () => {
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // 11. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = false, no berry selected
+        /*
+         * ////////////////////////////////////////
+         * // 11. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = false, no berry selected
+         */
         setupTooltipValues(true, true, false, false, false);
         setupTooltipValues(false, true, true, false, true);
         checkLocalSettings(false, true, false);
@@ -207,8 +225,10 @@ describe('Test Public Fields Page', () => {
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // 13. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = true , no berry selected
+        /*
+         * ////////////////////////////////////////
+         * // 13. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = true , no berry selected
+         */
         setupTooltipValues(true, false, false, true, false);
         setupTooltipValues(false, false, true, true, true);
         checkLocalSettings(false, false, true);
@@ -216,8 +236,10 @@ describe('Test Public Fields Page', () => {
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // 15. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false, no berry selected
+        /*
+         * ////////////////////////////////////////
+         * // 15. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false, no berry selected
+         */
         setupTooltipValues(true, false, false, false, false);
         setupTooltipValues(false, false, true, false, true);
         checkLocalSettings(false, false, false);
@@ -225,18 +247,20 @@ describe('Test Public Fields Page', () => {
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // // trigger else portion of handleTooltipSettings()
-        // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
+        /*
+         * ////////////////////////////////////////
+         * // // trigger else portion of handleTooltipSettings()
+         * // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
+         * // check that the correct changes were applied
+         * // check that the rest stayed the same
+         * ////////////////////////////////////////
+         */
     });
 
-    test('Test Tooltip controls on Public Fields page when a Berry is Selected', () => {
-        ////////////////////////////////////////
-        // setup
+    test.skip('Test Tooltip controls on Public Fields page when a Berry is Selected', () => {
         /*
+         * ////////////////////////////////////////
+         * // setup
          * HTML is setup to simulate the Aspear berry (Sour) being selected.
          * The following quantities of pokemon are relevant:
          * - 4 pokemon like Sour
@@ -295,45 +319,57 @@ describe('Test Public Fields Page', () => {
         expect($('#field_berries').hasClass('selected')).toBe(true);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // get coverage for '.collapsible' click handler
+        /*
+         * ////////////////////////////////////////
+         * // get coverage for '.collapsible' click handler
+         */
         $('.collapsible').trigger('click');
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        //  2. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = true ,    berry selected
+        /*
+         * ////////////////////////////////////////
+         * //  2. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = true ,    berry selected
+         */
         setupTooltipValues(true, true, false, true, false);
         checkLocalSettings(true, true, true);
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(0);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        //  4. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = false,    berry selected
+        /*
+         * ////////////////////////////////////////
+         * //  4. tooltipEnableMods = true , tooltipNoBerry = true , tooltipBerry = false,    berry selected
+         */
         setupTooltipValues(true, true, false, false, false);
         checkLocalSettings(true, true, false);
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        //  6. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = true ,    berry selected
+        /*
+         * ////////////////////////////////////////
+         * //  6. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = true ,    berry selected
+         */
         setupTooltipValues(true, false, false, true, false);
         checkLocalSettings(true, false, true);
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(0);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        //  8. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = false,    berry selected
+        /*
+         * ////////////////////////////////////////
+         * //  8. tooltipEnableMods = true , tooltipNoBerry = false, tooltipBerry = false,    berry selected
+         */
         setupTooltipValues(true, false, false, false, false);
         checkLocalSettings(true, false, false);
         // check that the right number of tooltips exist
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // 10. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = true ,    berry selected
+        /*
+         * ////////////////////////////////////////
+         * // 10. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = true ,    berry selected
+         */
         setupTooltipValues(true, true, false, true, false);
         setupTooltipValues(false, true, true, true, true);
         checkLocalSettings(false, true, true);
@@ -341,8 +377,10 @@ describe('Test Public Fields Page', () => {
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // 12. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = false,    berry selected
+        /*
+         * ////////////////////////////////////////
+         * // 12. tooltipEnableMods = false, tooltipNoBerry = true , tooltipBerry = false,    berry selected
+         */
         setupTooltipValues(true, true, false, false, false);
         setupTooltipValues(false, true, true, false, true);
         checkLocalSettings(false, true, false);
@@ -350,8 +388,10 @@ describe('Test Public Fields Page', () => {
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // 14. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = true ,    berry selected
+        /*
+         * ////////////////////////////////////////
+         * // 14. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = true ,    berry selected
+         */
         setupTooltipValues(true, false, false, true, false);
         setupTooltipValues(false, false, true, true, true);
         checkLocalSettings(false, false, true);
@@ -359,8 +399,10 @@ describe('Test Public Fields Page', () => {
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // 16. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false,    berry selected
+        /*
+         * ////////////////////////////////////////
+         * // 16. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false,    berry selected
+         */
         setupTooltipValues(true, false, false, false, false);
         setupTooltipValues(false, false, true, false, true);
         checkLocalSettings(false, false, false);
@@ -368,17 +410,21 @@ describe('Test Public Fields Page', () => {
         expect($('.fieldmon[data-tooltip]').length).toBe(NUM_POKEMON);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // // trigger else portion of handleTooltipSettings()
-        // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
-        // check that the correct changes were applied
-        // check that the rest stayed the same
-        ////////////////////////////////////////
+        /*
+         * ////////////////////////////////////////
+         * // // trigger else portion of handleTooltipSettings()
+         * // $('.tooltipsetting[data-key=tooltipEnableMods]').trigger('click');
+         * // check that the correct changes were applied
+         * // check that the rest stayed the same
+         * ////////////////////////////////////////
+         */
     });
 
-    test('Test Search controls on Public Fields page', () => {
-        ////////////////////////////////////////
-        // remove handlers that linger from the previous test
+    test.skip('Test Search controls on Public Fields page', () => {
+        /*
+         * ////////////////////////////////////////
+         * // remove handlers that linger from the previous test
+         */
         $(document).off('click', '#addFieldTypeSearch');
         $(document).off('click', '#removeFieldTypeSearch');
         $(document).off('click', '#addFieldNatureSearch');
@@ -388,8 +434,9 @@ describe('Test Public Fields Page', () => {
         $(document).off('click', '#addTextField');
         $(document).off('click', '#removeTextField');
 
-        // setup HTML
-        /* HTML is setup to have the following:
+        /*
+         * // setup HTML
+         * HTML is setup to have the following:
          * - 1 Shinys
          * - 2 Albinos
          * - 3 Melanistics
@@ -410,13 +457,15 @@ describe('Test Public Fields Page', () => {
         const NUM_STARTER = 7;
         const NUM_CS = 8;
         const NUM_HOLDING_ITEM = 9;
-        /* For testing natures, HTML has:
+        /*
+         * For testing natures, HTML has:
          * - 7 Mild nature
          * - 1 Bold nature
          */
         const NUM_MILD = 7;
         const NUM_BOLD = 1;
-        /* For testing egg groups, HTML has:
+        /*
+         * For testing egg groups, HTML has:
          * - 45 Amorphous
          * - 10 Monster
          */
@@ -461,8 +510,10 @@ describe('Test Public Fields Page', () => {
         new pfqol.pfqol($);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // check that settings were loaded correctly
+        /*
+         * ////////////////////////////////////////
+         * // check that settings were loaded correctly
+         */
         const loadedSettings = JSON.parse(localStorage.getItem(key));
         expect($('[data-key=fieldShiny]').length).toBe(1);
         expect($('[data-key=fieldShiny]').prop('checked')).toBe(false);
@@ -524,14 +575,18 @@ describe('Test Public Fields Page', () => {
         expect($('input').filter('#removeTextField').length).toBe(1);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // Execute load handlers
+        /*
+         * ////////////////////////////////////////
+         * // Execute load handlers
+         */
         $(window).trigger('load');
         $('.field', document).trigger('load');
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // test selecting shiny pokemon
+        /*
+         * ////////////////////////////////////////
+         * // test selecting shiny pokemon
+         */
         $('[data-key=fieldShiny]').trigger('click');
         expect($('[data-key=fieldShiny]').prop('checked')).toBe(true);
         expect(JSON.parse(localStorage.getItem(key)).fieldShiny).toBe(true);
@@ -641,8 +696,10 @@ describe('Test Public Fields Page', () => {
         expect($('[data-key=fieldType]').eq(1).val()).toBe('none');
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // test selecting a type from the list
+        /*
+         * ////////////////////////////////////////
+         * // test selecting a type from the list
+         */
         $('[data-key=fieldType]').eq(0).prop('selectedIndex', 9); // Ground
         $('[data-key=fieldType]').eq(0).trigger('input');
         expect($('.publicfoundme').length).toBe(45); // just Ground
@@ -680,8 +737,10 @@ describe('Test Public Fields Page', () => {
         expect(JSON.parse(localStorage.getItem(key)).fieldNature).toBe('');
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // test selecting a nature from the list
+        /*
+         * ////////////////////////////////////////
+         * // test selecting a nature from the list
+         */
         $('[data-key=fieldNature]').eq(0).prop('selectedIndex', 2); // Mild
         $('[data-key=fieldNature]').eq(0).trigger('input');
         expect($('.publicfoundme').length).toBe(NUM_MILD); // just Mild
@@ -719,8 +778,10 @@ describe('Test Public Fields Page', () => {
         expect(JSON.parse(localStorage.getItem(key)).fieldEggGroup).toBe('');
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // test selecting an egg group from the list
+        /*
+         * ////////////////////////////////////////
+         * // test selecting an egg group from the list
+         */
         $('[data-key=fieldEggGroup]').eq(0).prop('selectedIndex', 10); // Amorphous
         $('[data-key=fieldEggGroup]').eq(0).trigger('input');
         expect($('.publicfoundme').length).toBe(NUM_AMORPHOUS); // just Amorphous
@@ -747,8 +808,10 @@ describe('Test Public Fields Page', () => {
         expect(JSON.parse(localStorage.getItem(key)).fieldEggGroup).toBe('');
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // testing adding custom search fields
+        /*
+         * ////////////////////////////////////////
+         * // testing adding custom search fields
+         */
         $('#addTextField').trigger('click');
         expect($('[data-key=fieldCustom]').length).toBe(2);
         expect($('[id=removeTextField]').length).toBe(2);
@@ -757,9 +820,11 @@ describe('Test Public Fields Page', () => {
         expect(JSON.parse(localStorage.getItem(key)).fieldCustom).toBe('');
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // test custom pokemon search by text
-        // enable the fieldCustomPokemon button
+        /*
+         * ////////////////////////////////////////
+         * // test custom pokemon search by text
+         * // enable the fieldCustomPokemon button
+         */
         $('[data-key=fieldCustomPokemon]').trigger('click');
         expect($('[data-key=fieldCustomPokemon]').prop('checked')).toBe(true);
         expect(JSON.parse(localStorage.getItem(key)).fieldCustomPokemon).toBe(true);
@@ -789,9 +854,11 @@ describe('Test Public Fields Page', () => {
         expect(JSON.parse(localStorage.getItem(key)).fieldFemale).toBe(false);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // test custom search by PNG URL
-        // enable the fieldCustomPng button
+        /*
+         * ////////////////////////////////////////
+         * // test custom search by PNG URL
+         * // enable the fieldCustomPng button
+         */
         $('[data-key=fieldCustomPng]').trigger('click');
         expect($('[data-key=fieldCustomPng]').prop('checked')).toBe(true);
         expect(JSON.parse(localStorage.getItem(key)).fieldCustomPng).toBe(true);
@@ -806,8 +873,10 @@ describe('Test Public Fields Page', () => {
         expect(JSON.parse(localStorage.getItem(key)).fieldCustomPng).toBe(false);
         ////////////////////////////////////////
 
-        ////////////////////////////////////////
-        // test removing custom fields
+        /*
+         * ////////////////////////////////////////
+         * // test removing custom fields
+         */
         $('#removeTextField').eq(0).trigger('click');
         // check that the correct changes were applied
         expect($('[data-key=fieldCustom]').length).toBe(1);
@@ -821,7 +890,7 @@ describe('Test Public Fields Page', () => {
         ////////////////////////////////////////
     });
 
-    test('Test loadSettings when local storage has less settings', () => {
+    test.skip('Test loadSettings when local storage has less settings', () => {
         const htmlpath = path.join(__dirname, '../data/', 'publicFields.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -860,7 +929,7 @@ describe('Test Public Fields Page', () => {
 
     });
 
-    test('Test loadSettings when local storage has more settings', () => {
+    test.skip('Test loadSettings when local storage has more settings', () => {
         const htmlpath = path.join(__dirname, '../data/', 'publicFields.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();

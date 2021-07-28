@@ -1112,7 +1112,7 @@ $(function () {
                           <ul>
                             <li>
                               <label>
-                                <input type='checkbox' class='qolsetting' data-key='enableDaycare'/>
+                                <input type='checkbox' class='qolhubsetting' data-key='enableDaycare'/>
                                 <span>
                                   Highlight Breeding Matches
                                 </span>
@@ -1120,39 +1120,109 @@ $(function () {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="shelterEnable"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="shelterEnable"/>
                                 <span>
-                                  Advanced Shelter Search
+                                  Enable All Shelter QoL Features
+                                </span>
+                              </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"/>
+                                    <span>
+                                      Advanced Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"/>
+                                    <span>
+                                      Advanced Sorting
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolhubsetting" data-key="fishingEnable"/>
+                                <span>
+                                  Fishing Multi-Select Controls
                                 </span>
                               </label>
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="fishingEnable"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"/>
                                 <span>
-                                  Release/Fishing select all
+                                  Enable All Public Fields QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"/>
+                                    <span>
+                                      Advanced Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"/>
+                                    <span>
+                                      Advanced Sorting
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"/>
+                                    <span>
+                                      Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="publicFieldEnable"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"/>
                                 <span>
-                                  Sort & Search Fields (Public View)
+                                  Enable All Private Fields QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"/>
+                                    <span>
+                                      Advanced Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"/>
+                                    <span>
+                                      Multi-Select Controls (Move & Release)
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"/>
+                                    <span>
+                                      Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="privateFieldEnable"/>
-                                <span>
-                                  Search Fields (Private View)
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="partyMod"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="partyMod"/>
                                 <span>
                                   Party click mod
                                 </span>
@@ -1160,7 +1230,7 @@ $(function () {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="easyEvolve"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="easyEvolve"/>
                                 <span>
                                   Easy evolving
                                 </span>
@@ -1168,7 +1238,7 @@ $(function () {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="labNotifier"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="labNotifier"/>
                                 <span>
                                   Lab Notifier
                                 </span>
@@ -1176,7 +1246,7 @@ $(function () {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="dexFilterEnable"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"/>
                                 <span>
                                   Multiple Types Filtering
                                 </span>
@@ -1184,13 +1254,14 @@ $(function () {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="condenseWishforge"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"/>
                                 <span>
                                   Smaller Crafted Badges List
                                 </span>
                               </label>
                             </li>
                           </ul>
+                          <span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span>
                         </td>
                         <td class="qolChangeLog">
                           <ul class="qolChangeLogList">
@@ -1337,10 +1408,12 @@ $(function () {
             }
             return str;
         }
-        toggleSetting(key, set) {
-        // update values for checkboxes
+        toggleSetting(key, set, cls) {
+        // provide default value for cls
+            cls = cls || 'qolsetting';
+            // update values for checkboxes
             if (typeof set === 'boolean') {
-                const element = document.querySelector(`.qolsetting[data-key="${key}"]`);
+                const element = document.querySelector(`.${cls}[data-key="${key}"]`);
                 if (element && element.type === 'checkbox') {
                     element.checked = set;
                 }
@@ -2884,6 +2957,95 @@ $(function () {
         }
     }
     // eslint-disable-next-line no-unused-vars
+    class UserSettings {
+        constructor() {
+        // default settings when the script gets loaded the first time
+            this.customCss = '';
+            this.enableDaycare = true;
+            this.shelterEnable = true;
+            this.fishingEnable = true;
+            this.publicFieldEnable = true;
+            this.privateFieldEnable = true;
+            this.partyMod = true;
+            this.easyEvolve = true;
+            this.labNotifier = true;
+            this.dexFilterEnable = true;
+            this.condenseWishforge = true;
+            this.shelterFeatureEnables = {
+                search: true,
+                sort: true,
+            };
+            this.publicFieldFeatureEnables = {
+                search: true,
+                sort: true,
+                release: true,
+                tooltip: true
+            };
+            this.privateFieldFeatureEnables = {
+                search: true,
+                release: true,
+                tooltip: true
+            };
+
+            /*
+             * used to tie "global" enable settings in USER_SETTINGS to the more
+             * granular settings that are related to the same page
+             */
+            this.LINKED_SETTINGS = [
+                {
+                    'manager': 'shelterEnable',
+                    'managed': 'shelterFeatureEnables'
+                },
+                {
+                    'manager': 'publicFieldEnable',
+                    'managed': 'publicFieldFeatureEnables'
+                },
+                {
+                    'manager': 'privateFieldEnable',
+                    'managed': 'privateFieldFeatureEnables'
+                },
+            ];
+        }
+        /// load settings from an object that is not of type UserSettings
+        load(settingsObj) {
+            try {
+                const countScriptSettings = Object.keys(this).length;
+                const localStorageString = settingsObj;
+                const countLocalStorageSettings = Object.keys(localStorageString).length;
+                // adds new settings to this class
+                if (countLocalStorageSettings < countScriptSettings) {
+                    const newSettings = this.jQuery.extend(true, this, settingsObj);
+                    this.copyFields(newSettings);
+                }
+                // removes objects from the local storage if they don't exist anymore. Not yet possible..
+                if (countLocalStorageSettings > countScriptSettings) {
+                /* do nothing at the moment */
+                }
+            }
+            catch (err) {
+            /* do nothing at the moment */
+            }
+            if (settingsObj != this) {
+                this.copyFields(settingsObj);
+            // this = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
+            }
+        }
+        copyFields(settingsObj) {
+            const recursiveCopy = (object, key, value) => {
+                if (typeof value === 'object') {
+                    for (const [_key, _value] of Object.entries(value)) {
+                        recursiveCopy(object[key], _key, _value);
+                    }
+                } else {
+                    object[key] = value;
+                }
+            };
+            for (const [key, value] of Object.entries(settingsObj)) {
+                recursiveCopy(this, key, value);
+            }
+        }
+    }
+    // eslint-disable-next-line no-unused-vars
     class LocalStorageManagerBase {
         constructor(keyPrefix, storage, helpers) {
             this.keyPrefix = keyPrefix;
@@ -2985,32 +3147,21 @@ $(function () {
      */
     // eslint-disable-next-line no-unused-vars
     class QoLHubBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, DEFAULT_SETTINGS, SETTINGS) {
             this.jQuery = jQuery;
             this.localStorageMgr = localStorageMgr;
             this.HELPERS = HELPERS;
             this.GLOBALS = GLOBALS;
             this.PAGES = PAGES;
-            this.DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
-                customCss: '',
-                enableDaycare: true,
-                shelterEnable: true,
-                fishingEnable: true,
-                publicFieldEnable: true,
-                privateFieldEnable: true,
-                partyMod: true,
-                easyEvolve: true,
-                labNotifier: true,
-                dexFilterEnable: true,
-                condenseWishforge: true
-            };
             this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
+            this.DEFAULT_USER_SETTINGS = DEFAULT_SETTINGS;
             if (SETTINGS) {
                 this.USER_SETTINGS = SETTINGS;
             }
             else {
                 this.USER_SETTINGS = this.DEFAULT_USER_SETTINGS;
             }
+            this.LINKED_SETTINGS = this.USER_SETTINGS.LINKED_SETTINGS;
         }
         setupCSS() {
         //custom user css
@@ -3031,12 +3182,14 @@ $(function () {
                 }
             });
 
-            obj.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+            obj.jQuery(document).on('input', '.qolhubsetting', (function () { //Changes QoL settings
+                const dataKey = this.getAttribute('data-key');
                 obj.settingsChange(this.getAttribute('data-key'),
                     obj.jQuery(this).val(),
                     obj.jQuery(this).parent().parent().attr('class'),
                     obj.jQuery(this).parent().attr('class'),
                     (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
+                obj.handleLinkedSetting(dataKey);
             }));
 
             obj.jQuery(document).on('click', '.closeHub', (function () { //close QoL hub
@@ -3066,33 +3219,8 @@ $(function () {
             if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
                 this.saveSettings();
             } else {
-                try {
-                    const countScriptSettings = Object.keys(this.USER_SETTINGS).length;
-                    const localStorageString = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
-                    const countLocalStorageSettings = Object.keys(localStorageString).length;
-                    // adds new objects (settings) to the local storage
-                    if (countLocalStorageSettings < countScriptSettings) {
-                        const defaultsSetting = this.USER_SETTINGS;
-                        const userSetting = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
-                        const newSetting = this.jQuery.extend(true, {}, defaultsSetting, userSetting);
-
-                        this.USER_SETTINGS = newSetting;
-                        this.saveSettings();
-                    }
-                    // removes objects from the local storage if they don't exist anymore. Not yet possible..
-                    if (countLocalStorageSettings > countScriptSettings) {
-                    /*
-                     * let defaultsSetting = QOLHUB.USER_SETTINGS;
-                     * let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
-                     */
-                        this.saveSettings();
-                    }
-                }
-                catch (err) {
+                if(this.USER_SETTINGS.load(JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY)))) {
                     this.saveSettings();
-                }
-                if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
-                    this.USER_SETTINGS = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
                 }
             }
         }
@@ -3100,35 +3228,99 @@ $(function () {
             this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
         }
         populateSettings() {
-            for (const key in this.USER_SETTINGS) {
-                if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
-                    const value = this.USER_SETTINGS[key];
-                    if (typeof value === 'boolean') {
-                        this.HELPERS.toggleSetting(key, value);
-                    }
-                    else if (typeof value === 'string') {
-                        this.HELPERS.toggleSetting(key, value);
+            function populateSetting(object, key, self, oldKeys) {
+                oldKeys = oldKeys || [];
+                const _object = object[key];
+                const newKeys = [...oldKeys, key];
+                if (typeof _object === 'boolean') {
+                    const _key = newKeys.join('.');
+                    self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+                }
+                else if (typeof _object === 'string') {
+                    const _key = newKeys.join('.');
+                    self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+                } else if (typeof _object === 'object') {
+                    for (const _key in _object) {
+                        populateSetting(_object, _key, self, newKeys);
                     }
                 }
             }
+            for (const key in this.USER_SETTINGS) {
+                if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
+                    populateSetting(this.USER_SETTINGS, key, this);
+                }
+                this.handleLinkedSetting(key);
+            }
         }
         settingsChange(element, textElement) {
-            if (JSON.stringify(this.USER_SETTINGS).indexOf(element) >= 0) { // userscript settings
-                if (this.USER_SETTINGS[element] === false) {
-                    this.USER_SETTINGS[element] = true;
-                } else if (this.USER_SETTINGS[element] === true) {
-                    this.USER_SETTINGS[element] = false;
-                } else if (typeof this.USER_SETTINGS[element] === 'string') {
-                    this.USER_SETTINGS[element] = textElement;
+            function getProperty( propertyName, object ) {
+                const parts = propertyName.split( '.' );
+                const length = parts.length;
+                let property = object || this;
+
+                for (let i = 0; i < length; i++ ) {
+                    if ( ! Object.hasOwnProperty.call(property, parts[i])) {
+                        return null;
+                    }
+                    property = property[parts[i]];
                 }
-                this.saveSettings();
-                return true;
+                return property;
+            }
+
+            function setProperty( propertyName, object, newValue) {
+                const parts = propertyName.split('.');
+                const first = parts[0];
+                const rest = parts.slice(1);
+
+                if ( !Object.hasOwnProperty.call(object, first)) {
+                    return false;
+                }
+                else if (rest.length == 0) {
+                    object[first] = newValue;
+                    return true;
+                } else {
+                    return setProperty(rest.join('.'), object[first], newValue);
+                }
+            }
+
+            const oldValue = getProperty(element, this.USER_SETTINGS);
+            let newValue;
+            if (oldValue !== undefined) { // userscript settings
+                if (oldValue === false) {
+                    newValue = true;
+                } else if (oldValue === true) {
+                    newValue = false;
+                } else if (typeof oldValue === 'string') {
+                    newValue = textElement;
+                }
+                if(!setProperty(element, this.USER_SETTINGS, newValue)) {
+                    return false;
+                } else {
+                    this.saveSettings();
+                    return true;
+                }
             }
             return false;
         }
         clearPageSettings(pageName) {
             if (pageName !== 'None') { // "None" matches option in HTML
                 this.PAGES.clearPageSettings(pageName);
+            }
+        }
+        handleLinkedSetting(possibleManager) {
+            const linkedSettingIndex = this.LINKED_SETTINGS.findIndex(ls => ls.manager === possibleManager);
+            if(linkedSettingIndex > -1) {
+                const managed = this.LINKED_SETTINGS[linkedSettingIndex].managed;
+                const userSettings = this.USER_SETTINGS[managed];
+                if(this.jQuery(`[data-key=${possibleManager}]`).prop('checked') === false) {
+                    for(const setting in userSettings) {
+                        this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', true);
+                    }
+                } else {
+                    for(const setting in userSettings) {
+                        this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', false);
+                    }
+                }
             }
         }
         build(document) {
@@ -3151,7 +3343,7 @@ $(function () {
 
             const customCss = this.USER_SETTINGS.customCss;
 
-            this.jQuery('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolsetting" data-key="customCss"/></textarea>');
+            this.jQuery('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolhubsetting" data-key="customCss"/></textarea>');
             if (customCss === '') {
                 this.jQuery('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
             } else {
@@ -3165,7 +3357,7 @@ $(function () {
     } // QoLHubBase
     // eslint-disable-next-line no-unused-vars
     class Page {
-        constructor(jQuery, localStorageMgr, helpers, ssk, ds, url) {
+        constructor(jQuery, localStorageMgr, helpers, ssk, ds, url, globalSettings) {
             this.jQuery = jQuery;
             this.localStorageMgr = localStorageMgr;
             this.helpers = helpers;
@@ -3173,6 +3365,7 @@ $(function () {
             this.defaultSettings = ds;
             this.url = url;
             this.settings = this.defaultSettings;
+            this.globalSettings = globalSettings;
         }
 
         onPage(w) {
@@ -3569,12 +3762,13 @@ $(function () {
             this.settings = this.defaultSettings;
             this.evolveListCache = '';
             const obj = this;
-            this.observer = new MutationObserver(function (mutations) {
+            function observeFunc(mutations) {
             // eslint-disable-next-line no-unused-vars
                 mutations.forEach(function (mutation) {
                     obj.easyQuickEvolve();
                 });
-            });
+            }
+            this.observer = new MutationObserver(observeFunc);
         }
         setupHTML() {
             const obj = this;
@@ -3614,8 +3808,9 @@ $(function () {
         }
         clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
-            this.jQuery('.evolvepkmnlist').show();
-            this.jQuery('.evolvepkmnlist').removeAttr('class');
+            const list$ = this.jQuery('.evolvepkmnlist');
+            list$.show();
+            list$.removeAttr('class');
             if (document.querySelector('.qolEvolveTypeList')) {
                 document.querySelector('.qolEvolveTypeList').remove();
             }
@@ -4017,8 +4212,9 @@ $(function () {
             obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
         }
         easyQuickEvolve() {
-            if (this.jQuery('.canevolve:contains("evolved into")').parent().length != 0) {
-                this.jQuery('.canevolve:contains("evolved into")').parent().remove();
+            const parent = this.jQuery('.canevolve:contains("evolved into")').parent();
+            if (parent.length != 0) {
+                parent.remove();
             }
         }
     }
@@ -4574,7 +4770,7 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class PrivateFieldsPageBase extends Page {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS, settings) {
             super(jQuery, localStorageMgr, helpers, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
                 fieldCustom: '',
                 fieldType: '',
@@ -4602,7 +4798,7 @@ $(function () {
                 tooltipEnableMods: false,
                 tooltipNoBerry: false,
                 tooltipBerry: false,
-            }, 'fields');
+            }, 'fields', settings);
             this.customArray = [];
             this.typeArray = [];
             this.natureArray = [];
@@ -4612,7 +4808,9 @@ $(function () {
             // eslint-disable-next-line no-unused-vars
                 mutations.forEach((mutation) => {
                     obj.customSearch(GLOBALS);
-                    obj.handleTooltipSettings();
+                    if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+                        obj.handleTooltipSettings();
+                    }
                 });
             });
         }
@@ -4623,26 +4821,33 @@ $(function () {
         }
 
         setupHTML(GLOBALS) {
-            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.privateFieldTooltipModHTML);
-            document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.privateFieldSearchHTML);
+            if(this.globalSettings.privateFieldFeatureEnables.search) {
+                document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.privateFieldSearchHTML);
+                const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+                const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+                    'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
+                const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+                    'removePrivateFieldNature', 'natureTypes', 'natureArray');
+                const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+                    'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
+                this.customArray = this.settings.fieldCustom.split(',');
+                this.typeArray = this.settings.fieldType.split(',');
+                this.natureArray = this.settings.fieldNature.split(',');
+                this.eggGroupArray = this.settings.fieldEggGroup.split(',');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+            }
 
-            const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
-                'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
-            const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
-                'removePrivateFieldNature', 'natureTypes', 'natureArray');
-            const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
-                'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
-            this.customArray = this.settings.fieldCustom.split(',');
-            this.typeArray = this.settings.fieldType.split(',');
-            this.natureArray = this.settings.fieldNature.split(',');
-            this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+            if(this.globalSettings.privateFieldFeatureEnables.release) {
+            /* nothing here */
+            }
 
-            this.handleTooltipSettings();
+            if(this.globalSettings.privateFieldFeatureEnables.tooltip) {
+                document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.privateFieldTooltipModHTML);
+                this.handleTooltipSettings();
+            }
         }
         setupCSS() {
         // same as public fields
@@ -4681,7 +4886,9 @@ $(function () {
             this.jQuery(window).on('load', (() => {
                 obj.loadSettings();
                 obj.customSearch(GLOBALS);
-                obj.handleTooltipSettings();
+                if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+                    obj.handleTooltipSettings();
+                }
                 obj.saveSettings();
             }));
 
@@ -4689,62 +4896,83 @@ $(function () {
                 obj.customSearch(GLOBALS);
             }));
 
-            this.jQuery(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
-                e.stopPropagation();
-                obj.releaseEnableReleaseAll();
-            }));
+            if(obj.globalSettings.privateFieldFeatureEnables.release) {
+                this.jQuery(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
+                    e.stopPropagation();
+                    obj.releaseEnableReleaseAll();
+                }));
+                this.jQuery(document).on('click', '*[data-menu="bulkmove"]', (function () { // select all feature
+                    obj.moveEnableReleaseAll();
+                }));
+            }
 
-            this.jQuery(document).on('click', '#addPrivateFieldTypeSearch', (function (e) { //add field type list
-                e.stopPropagation();
-                obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
-                obj.customSearch(GLOBALS);
-            }));
+            if(obj.globalSettings.privateFieldFeatureEnables.search) {
+                this.jQuery(document).on('click', '#addPrivateFieldTypeSearch', (function (e) { //add field type list
+                    e.stopPropagation();
+                    obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
+                    obj.customSearch(GLOBALS);
+                }));
 
-            this.jQuery(document).on('click', '#removePrivateFieldTypeSearch', (function (e) { //remove field type list
-                e.stopPropagation();
-                obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
+                this.jQuery(document).on('click', '#removePrivateFieldTypeSearch', (function (e) { //remove field type list
+                    e.stopPropagation();
+                    obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
+                    obj.saveSettings();
+                    obj.customSearch(GLOBALS);
+                }));
 
-            this.jQuery(document).on('click', '#addPrivateFieldNatureSearch', (function (e) { //add field nature search
-                e.stopPropagation();
-                obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes', 'natureArray');
-                obj.customSearch(GLOBALS);
-            }));
+                this.jQuery(document).on('click', '#addPrivateFieldNatureSearch', (function (e) { //add field nature search
+                    e.stopPropagation();
+                    obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes', 'natureArray');
+                    obj.customSearch(GLOBALS);
+                }));
 
-            this.jQuery(document).on('click', '#removePrivateFieldNature', (function (e) { //remove field nature search
-                e.stopPropagation();
-                obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
+                this.jQuery(document).on('click', '#removePrivateFieldNature', (function (e) { //remove field nature search
+                    e.stopPropagation();
+                    obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
+                    obj.saveSettings();
+                    obj.customSearch(GLOBALS);
+                }));
 
-            this.jQuery(document).on('click', '#addPrivateFieldEggGroupSearch', (function (e) { //add egg group nature search
-                e.stopPropagation();
-                obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
-                obj.customSearch(GLOBALS);
-            }));
+                this.jQuery(document).on('click', '#addPrivateFieldEggGroupSearch', (function (e) { //add egg group nature search
+                    e.stopPropagation();
+                    obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
+                    obj.customSearch(GLOBALS);
+                }));
 
-            this.jQuery(document).on('click', '#removePrivateFieldEggGroup', (function (e) { //remove egg group nature search
-                e.stopPropagation();
-                obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
+                this.jQuery(document).on('click', '#removePrivateFieldEggGroup', (function (e) { //remove egg group nature search
+                    e.stopPropagation();
+                    obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
+                    obj.saveSettings();
+                    obj.customSearch(GLOBALS);
+                }));
 
-            this.jQuery(document).on('click', '#addTextField', (function (e) {
-                e.stopPropagation();
-                obj.addTextField();
-                obj.saveSettings();
-            }));
+                this.jQuery(document).on('click', '#addTextField', (function (e) {
+                    e.stopPropagation();
+                    obj.addTextField();
+                    obj.saveSettings();
+                }));
 
-            this.jQuery(document).on('click', '#removeTextField', (function (e) {
-                e.stopPropagation();
-                obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
+                this.jQuery(document).on('click', '#removeTextField', (function (e) {
+                    e.stopPropagation();
+                    obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
+                    obj.saveSettings();
+                    obj.customSearch(GLOBALS);
+                }));
+            }
+
+            if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+                this.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function () {
+                    obj.loadSettings();
+                    obj.handleTooltipSettings();
+                    obj.saveSettings();
+                });
+
+                this.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function () {
+                    obj.loadSettings();
+                    obj.handleTooltipSettings();
+                    obj.saveSettings();
+                });
+            }
 
             this.jQuery(document).on('change', '.qolsetting', (function () {
                 obj.loadSettings();
@@ -4762,10 +4990,6 @@ $(function () {
                 obj.saveSettings();
             }));
 
-            this.jQuery(document).on('click', '*[data-menu="bulkmove"]', (function () { // select all feature
-                obj.moveEnableReleaseAll();
-            }));
-
             this.jQuery('.collapsible').on('click', function () {
                 this.classList.toggle('active');
                 const content = this.nextElementSibling;
@@ -4774,18 +4998,6 @@ $(function () {
                 } else {
                     content.style.display = 'block';
                 }
-            });
-
-            this.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function () {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
-
-            this.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function () {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
             });
         }
         handleTooltipSettings() {
@@ -4867,105 +5079,107 @@ $(function () {
             }
         }
         customSearch(GLOBALS) {
-            const obj = this;
-            const cls = this.helpers.getPokemonImageClass();
-            const bigImgs = document.querySelectorAll('.privatefoundme');
-            if (bigImgs !== null) {
-                bigImgs.forEach((b) => { obj.jQuery(b).removeClass('privatefoundme'); });
-            }
-
-            if (this.settings.fieldShiny === true) {
-                this.searchForImgTitle(GLOBALS, 'findShiny');
-            }
-            if (this.settings.fieldAlbino === true) {
-                this.searchForImgTitle(GLOBALS, 'findAlbino');
-            }
-            if (this.settings.fieldMelanistic === true) {
-                this.searchForImgTitle(GLOBALS, 'findMelanistic');
-            }
-            if (this.settings.fieldPrehistoric === true) {
-                this.searchForImgTitle(GLOBALS, 'findPrehistoric');
-            }
-            if (this.settings.fieldDelta === true) {
-                this.searchForImgTitle(GLOBALS, 'findDelta');
-            }
-            if (this.settings.fieldMega === true) {
-                this.searchForImgTitle(GLOBALS, 'findMega');
-            }
-            if (this.settings.fieldStarter === true) {
-                this.searchForImgTitle(GLOBALS, 'findStarter');
-            }
-            if (this.settings.fieldCustomSprite === true) {
-                this.searchForImgTitle(GLOBALS, 'findCustomSprite');
-            }
-            if (this.settings.fieldItem === true) {
-            // pokemon that hold items will have HTML that matches the following selector
-                const items = obj.jQuery('.tooltip_content .item>div>.tooltip_item');
-                if (items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
-                    obj.jQuery(itemBigImgs).addClass('privatefoundme');
+            if(this.globalSettings.privateFieldFeatureEnables.search) {
+                const obj = this;
+                const cls = this.helpers.getPokemonImageClass();
+                const bigImgs = document.querySelectorAll('.privatefoundme');
+                if (bigImgs !== null) {
+                    bigImgs.forEach((b) => { obj.jQuery(b).removeClass('privatefoundme'); });
                 }
-            }
-            const filteredTypeArray = this.typeArray.filter(v => v != '');
-            const filteredNatureArray = this.natureArray.filter(v => v != '');
-            const filteredEggGroupArray = this.eggGroupArray.filter(v => v != '');
 
-            //loop to find all the types
-            if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
-                obj.jQuery('.fieldmon').each(function () {
-                    const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
-                    const tooltipData = obj.helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
-
-                    const searchTypeOne = tooltipData.types[0] + '';
-                    const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
-
-                    const searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
-
-                    const searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
-                        children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
-
-                    for (let i = 0; i < filteredTypeArray.length; i++) {
-                        if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            obj.jQuery(searchPokemonBigImg).addClass('privatefoundme');
-                        }
+                if (this.settings.fieldShiny === true) {
+                    this.searchForImgTitle(GLOBALS, 'findShiny');
+                }
+                if (this.settings.fieldAlbino === true) {
+                    this.searchForImgTitle(GLOBALS, 'findAlbino');
+                }
+                if (this.settings.fieldMelanistic === true) {
+                    this.searchForImgTitle(GLOBALS, 'findMelanistic');
+                }
+                if (this.settings.fieldPrehistoric === true) {
+                    this.searchForImgTitle(GLOBALS, 'findPrehistoric');
+                }
+                if (this.settings.fieldDelta === true) {
+                    this.searchForImgTitle(GLOBALS, 'findDelta');
+                }
+                if (this.settings.fieldMega === true) {
+                    this.searchForImgTitle(GLOBALS, 'findMega');
+                }
+                if (this.settings.fieldStarter === true) {
+                    this.searchForImgTitle(GLOBALS, 'findStarter');
+                }
+                if (this.settings.fieldCustomSprite === true) {
+                    this.searchForImgTitle(GLOBALS, 'findCustomSprite');
+                }
+                if (this.settings.fieldItem === true) {
+                    // pokemon that hold items will have HTML that matches the following selector
+                    const items = obj.jQuery('.tooltip_content .item>div>.tooltip_item');
+                    if (items.length) {
+                        const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                        obj.jQuery(itemBigImgs).addClass('privatefoundme');
                     }
+                }
+                const filteredTypeArray = this.typeArray.filter(v => v != '');
+                const filteredNatureArray = this.natureArray.filter(v => v != '');
+                const filteredEggGroupArray = this.eggGroupArray.filter(v => v != '');
 
-                    for (let i = 0; i < filteredNatureArray.length; i++) {
-                        if (searchNature === GLOBALS.NATURE_LIST[filteredNatureArray[i]]) {
-                            obj.jQuery(searchPokemonBigImg).addClass('privatefoundme');
+                //loop to find all the types
+                if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
+                    obj.jQuery('.fieldmon').each(function () {
+                        const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
+                        const tooltipData = obj.helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+
+                        const searchTypeOne = tooltipData.types[0] + '';
+                        const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
+
+                        const searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
+
+                        const searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
+                            children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
+
+                        for (let i = 0; i < filteredTypeArray.length; i++) {
+                            if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
+                                obj.jQuery(searchPokemonBigImg).addClass('privatefoundme');
+                            }
                         }
-                    }
 
-                    for (let i = 0; i < filteredEggGroupArray.length; i++) {
-                        const value = GLOBALS.EGG_GROUP_LIST[filteredEggGroupArray[i]];
-                        if (searchEggGroup === value ||
+                        for (let i = 0; i < filteredNatureArray.length; i++) {
+                            if (searchNature === GLOBALS.NATURE_LIST[filteredNatureArray[i]]) {
+                                obj.jQuery(searchPokemonBigImg).addClass('privatefoundme');
+                            }
+                        }
+
+                        for (let i = 0; i < filteredEggGroupArray.length; i++) {
+                            const value = GLOBALS.EGG_GROUP_LIST[filteredEggGroupArray[i]];
+                            if (searchEggGroup === value ||
                         searchEggGroup.indexOf(value + '/') > -1 ||
                         searchEggGroup.indexOf('/' + value) > -1) {
-                            obj.jQuery(searchPokemonBigImg).addClass('privatefoundme');
+                                obj.jQuery(searchPokemonBigImg).addClass('privatefoundme');
+                            }
                         }
-                    }
-                }); // each
-            } // end
+                    }); // each
+                } // end
 
-            // custom search
-            for (let i = 0; i < this.customArray.length; i++) {
-                const value = this.customArray[i];
-                if (value != '') {
-                //custom pokemon search
-                    if (this.settings.customPokemon === true) {
-                        this.searchForCustomPokemon(value, this.settings.fieldMale,
-                            this.settings.fieldFemale,
-                            this.settings.fieldNoGender);
-                    }
+                // custom search
+                for (let i = 0; i < this.customArray.length; i++) {
+                    const value = this.customArray[i];
+                    if (value != '') {
+                        //custom pokemon search
+                        if (this.settings.customPokemon === true) {
+                            this.searchForCustomPokemon(value, this.settings.fieldMale,
+                                this.settings.fieldFemale,
+                                this.settings.fieldNoGender);
+                        }
 
-                    //custom egg
-                    if (this.settings.customEgg === true) {
-                        this.searchForCustomEgg(value);
-                    }
+                        //custom egg
+                        if (this.settings.customEgg === true) {
+                            this.searchForCustomEgg(value);
+                        }
 
-                    //imgSearch with Pokémon
-                    if (this.settings.customPng === true) {
-                        this.searchForCustomPng(value);
+                        //imgSearch with Pokémon
+                        if (this.settings.customPng === true) {
+                            this.searchForCustomPng(value);
+                        }
                     }
                 }
             }
@@ -5095,7 +5309,7 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class PublicFieldsPage extends Page {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS, settings) {
             super(jQuery, localStorageMgr, helpers, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
                 fieldByBerry: false,
                 fieldByMiddle: false,
@@ -5126,7 +5340,7 @@ $(function () {
                 tooltipEnableMods: false,
                 tooltipNoBerry: false,
                 tooltipBerry: false,
-            }, 'fields/');
+            }, 'fields/', settings);
             this.customArray = [];
             this.typeArray = [];
             this.natureArray = [];
@@ -5136,7 +5350,9 @@ $(function () {
             // eslint-disable-next-line no-unused-vars
                 mutations.forEach(function(mutation) {
                     obj.customSearch(GLOBALS);
-                    obj.handleTooltipSettings();
+                    if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
+                        obj.handleTooltipSettings();
+                    }
                 });
             });
         }
@@ -5160,27 +5376,31 @@ $(function () {
         }
 
         setupHTML(GLOBALS) {
-            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.publicFieldTooltipModHTML);
-            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.fieldSortHTML);
-            document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.fieldSearchHTML);
-
-            const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
-                'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-            const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
-                'removeFieldNature', 'natureTypes', 'natureArray');
-            const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
-                'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
-            this.customArray = this.settings.fieldCustom.split(',');
-            this.typeArray = this.settings.fieldType.split(',');
-            this.natureArray = this.settings.fieldNature.split(',');
-            this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
-
-            this.handleTooltipSettings();
+            if(this.globalSettings.publicFieldFeatureEnables.search) {
+                document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.fieldSearchHTML);
+                const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+                const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+                    'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
+                const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+                    'removeFieldNature', 'natureTypes', 'natureArray');
+                const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+                    'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
+                this.customArray = this.settings.fieldCustom.split(',');
+                this.typeArray = this.settings.fieldType.split(',');
+                this.natureArray = this.settings.fieldNature.split(',');
+                this.eggGroupArray = this.settings.fieldEggGroup.split(',');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+            }
+            if(this.globalSettings.publicFieldFeatureEnables.sort) {
+                document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.fieldSortHTML);
+            }
+            if(this.globalSettings.publicFieldFeatureEnables.tooltip) {
+                document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.publicFieldTooltipModHTML);
+                this.handleTooltipSettings();
+            }
         }
         setupCSS() {
             const fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
@@ -5218,7 +5438,9 @@ $(function () {
             obj.jQuery(window).on('load', (function() {
                 obj.loadSettings();
                 obj.customSearch(GLOBALS);
-                obj.handleTooltipSettings();
+                if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
+                    obj.handleTooltipSettings();
+                }
                 obj.saveSettings();
             }));
 
@@ -5229,50 +5451,6 @@ $(function () {
             document.addEventListener('keydown', function() {
                 obj.customSearch(GLOBALS);
             });
-
-            obj.jQuery(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
-                obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-                obj.customSearch(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
-                obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
-                obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes', 'natureArray');
-                obj.customSearch(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#removeFieldNature', (function() { //remove field nature search
-                obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
-                obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
-                obj.customSearch(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
-                obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
-
-            obj.jQuery(document).on('click', '#addTextField', (function() {
-                obj.addTextField();
-                obj.saveSettings();
-            }));
-
-            obj.jQuery(document).on('click', '#removeTextField', (function() {
-                obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
-                obj.saveSettings();
-                obj.customSearch(GLOBALS);
-            }));
 
             obj.jQuery(document).on('change', '.qolsetting', (function() {
                 obj.loadSettings();
@@ -5290,42 +5468,92 @@ $(function () {
                 obj.saveSettings();
             }));
 
-            obj.jQuery('input.qolalone').on('change', function() { //only 1 textbox may be true
-                obj.jQuery('input.qolalone').not(this).prop('checked', false);
-            });
+            if(this.globalSettings.publicFieldFeatureEnables.search) {
+                obj.jQuery(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
+                    obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
+                    obj.customSearch(GLOBALS);
+                }));
 
-            obj.jQuery('.collapsible').on('click', function() {
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                if(content.style.display === 'block') {
-                    content.style.display = 'none';
-                } else {
-                    content.style.display = 'block';
-                }
-            });
+                obj.jQuery(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
+                    obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
+                    obj.saveSettings();
+                    obj.customSearch(GLOBALS);
+                }));
 
-            obj.jQuery('#field_berries').on('click', function() {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-            });
+                obj.jQuery(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
+                    obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes', 'natureArray');
+                    obj.customSearch(GLOBALS);
+                }));
 
-            obj.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function() {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
+                obj.jQuery(document).on('click', '#removeFieldNature', (function() { //remove field nature search
+                    obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
+                    obj.saveSettings();
+                    obj.customSearch(GLOBALS);
+                }));
 
-            obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
+                obj.jQuery(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
+                    obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
+                    obj.customSearch(GLOBALS);
+                }));
 
-            obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
+                obj.jQuery(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
+                    obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
+                    obj.saveSettings();
+                    obj.customSearch(GLOBALS);
+                }));
+
+                obj.jQuery(document).on('click', '#addTextField', (function() {
+                    obj.addTextField();
+                    obj.saveSettings();
+                }));
+
+                obj.jQuery(document).on('click', '#removeTextField', (function() {
+                    obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
+                    obj.saveSettings();
+                    obj.customSearch(GLOBALS);
+                }));
+            }
+
+            if(this.globalSettings.publicFieldFeatureEnables.sort) {
+                obj.jQuery('input.qolalone').on('change', function() { //only 1 textbox may be true
+                    obj.jQuery('input.qolalone').not(this).prop('checked', false);
+                });
+            }
+
+            if(this.globalSettings.publicFieldFeatureEnables.tooltip) {
+                obj.jQuery('.collapsible').on('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if(content.style.display === 'block') {
+                        content.style.display = 'none';
+                    } else {
+                        content.style.display = 'block';
+                    }
+                });
+
+                obj.jQuery('#field_berries').on('click', function() {
+                    obj.loadSettings();
+                    obj.handleTooltipSettings();
+                });
+
+                obj.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function() {
+                    obj.loadSettings();
+                    obj.handleTooltipSettings();
+                    obj.saveSettings();
+                });
+
+                obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
+                    obj.loadSettings();
+                    obj.handleTooltipSettings();
+                    obj.saveSettings();
+                });
+
+                obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
+                    obj.loadSettings();
+                    obj.handleTooltipSettings();
+                    obj.saveSettings();
+                });
+            }
 
             // based on PFQ's code in fields_public.min.js
             obj.jQuery(window).on('keyup.field_shortcuts', function (a) {
@@ -5449,203 +5677,208 @@ $(function () {
             const obj = this;
             const cls = this.helpers.getPokemonImageClass();
 
-            //////////////////// sorting ////////////////////
-            if (this.settings.fieldByBerry === true) { //sort field by berries
-                this.jQuery('.fieldmon').removeClass('qolSortMiddle');
-                this.jQuery('.field').removeClass('qolGridField');
-                this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
-                this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
+            if(obj.globalSettings.publicFieldFeatureEnables.sort) {
 
-                if(this.jQuery('#field_field [data-flavour*="any-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="any-"]').addClass('qolAnyBerry');
-                }
-                if(this.jQuery('#field_field [data-flavour*="sour-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="sour-"]').addClass('qolSourBerry');
-                }
-                if(this.jQuery('#field_field [data-flavour*="spicy-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="spicy-"]').addClass('qolSpicyBerry');
-                }
-                if(this.jQuery('#field_field [data-flavour*="dry-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="dry-"]').addClass('qolDryBerry');
-                }
-                if(this.jQuery('#field_field [data-flavour*="sweet-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="sweet-"]').addClass('qolSweetBerry');
-                }
-                if(this.jQuery('#field_field [data-flavour*="bitter-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="bitter-"]').addClass('qolBitterBerry');
-                }
-            }
-            else if (this.settings.fieldByMiddle === true) { //sort field in the middle
-                this.jQuery('#field_field [data-flavour*="any-"]').removeClass('qolAnyBerry');
-                this.jQuery('#field_field [data-flavour*="sour-"]').removeClass('qolSourBerry');
-                this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass('qolSpicyBerry');
-                this.jQuery('#field_field [data-flavour*="dry-"]').removeClass('qolDryBerry');
-                this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass('qolSweetBerry');
-                this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass('qolBitterBerry');
-                this.jQuery('.field').removeClass('qolGridField');
-                this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
-                this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
+                //////////////////// sorting ////////////////////
+                if (this.settings.fieldByBerry === true) { //sort field by berries
+                    this.jQuery('.fieldmon').removeClass('qolSortMiddle');
+                    this.jQuery('.field').removeClass('qolGridField');
+                    this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
+                    this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
 
-                this.jQuery('.fieldmon').addClass('qolSortMiddle');
-            }
-            else if (this.settings.fieldByGrid === true) { //sort field in a grid
-                this.jQuery('#field_field [data-flavour*="any-"]').removeClass('qolAnyBerry');
-                this.jQuery('#field_field [data-flavour*="sour-"]').removeClass('qolSourBerry');
-                this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass('qolSpicyBerry');
-                this.jQuery('#field_field [data-flavour*="dry-"]').removeClass('qolDryBerry');
-                this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass('qolSweetBerry');
-                this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass('qolBitterBerry');
-                this.jQuery('.fieldmon').removeClass('qolSortMiddle');
-
-                this.jQuery('.field').addClass('qolGridField');
-                this.jQuery('.fieldmon').addClass('qolGridPokeSize');
-                this.jQuery('.fieldmon>img').addClass('qolGridPokeImg');
-            }
-            else {
-                this.jQuery('#field_field [data-flavour*="any-"]').removeClass('qolAnyBerry');
-                this.jQuery('#field_field [data-flavour*="sour-"]').removeClass('qolSourBerry');
-                this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass('qolSpicyBerry');
-                this.jQuery('#field_field [data-flavour*="dry-"]').removeClass('qolDryBerry');
-                this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass('qolSweetBerry');
-                this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass('qolBitterBerry');
-                this.jQuery('.fieldmon').removeClass('qolSortMiddle');
-                this.jQuery('.field').removeClass('qolGridField');
-                this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
-                this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
-            }
-
-            //Pokémon click counter
-            if (this.settings.fieldClickCount === false) {
-                this.jQuery('#pokemonclickcount').remove();
-            } else if (this.settings.fieldClickCount === true) {
-                const pokemonFed = this.jQuery('.fieldmon').map(function() { return obj.jQuery(this).attr('data-fed'); }).get();
-
-                let pokemonClicked = 0;
-                for (let i = 0; i < pokemonFed.length; i++) {
-                    pokemonClicked += pokemonFed[i] << 0;
-                }
-
-                const pokemonInField = this.jQuery('.fieldpkmncount').text();
-
-                if (this.jQuery('#pokemonclickcount').length === 0) {
-                    document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
-                } else if(this.jQuery('#pokemonclickcount').text() !== (pokemonClicked+' / '+pokemonInField+' Clicked')) {
-                    this.jQuery('#pokemonclickcount').text(pokemonClicked+' / '+pokemonInField+' Clicked');
-                }
-
-                if(pokemonInField !== '') {
-                    if (JSON.stringify(pokemonClicked) === pokemonInField) {
-                        this.jQuery('#pokemonclickcount').css({
-                            'color' : '#059121'
-                        });
+                    if(this.jQuery('#field_field [data-flavour*="any-"]').length) {
+                        this.jQuery('#field_field [data-flavour*="any-"]').addClass('qolAnyBerry');
                     }
-                    if (pokemonClicked !== JSON.parse(pokemonInField)) {
-                        this.jQuery('#pokemonclickcount').css({
-                            'color' : '#a30323'
-                        });
+                    if(this.jQuery('#field_field [data-flavour*="sour-"]').length) {
+                        this.jQuery('#field_field [data-flavour*="sour-"]').addClass('qolSourBerry');
+                    }
+                    if(this.jQuery('#field_field [data-flavour*="spicy-"]').length) {
+                        this.jQuery('#field_field [data-flavour*="spicy-"]').addClass('qolSpicyBerry');
+                    }
+                    if(this.jQuery('#field_field [data-flavour*="dry-"]').length) {
+                        this.jQuery('#field_field [data-flavour*="dry-"]').addClass('qolDryBerry');
+                    }
+                    if(this.jQuery('#field_field [data-flavour*="sweet-"]').length) {
+                        this.jQuery('#field_field [data-flavour*="sweet-"]').addClass('qolSweetBerry');
+                    }
+                    if(this.jQuery('#field_field [data-flavour*="bitter-"]').length) {
+                        this.jQuery('#field_field [data-flavour*="bitter-"]').addClass('qolBitterBerry');
                     }
                 }
-            }
+                else if (this.settings.fieldByMiddle === true) { //sort field in the middle
+                    this.jQuery('#field_field [data-flavour*="any-"]').removeClass('qolAnyBerry');
+                    this.jQuery('#field_field [data-flavour*="sour-"]').removeClass('qolSourBerry');
+                    this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass('qolSpicyBerry');
+                    this.jQuery('#field_field [data-flavour*="dry-"]').removeClass('qolDryBerry');
+                    this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass('qolSweetBerry');
+                    this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass('qolBitterBerry');
+                    this.jQuery('.field').removeClass('qolGridField');
+                    this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
+                    this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
 
-            /////////////////// searching ///////////////////
-            const bigImgs = document.querySelectorAll('.publicfoundme');
-            if(bigImgs !== null) {
-                bigImgs.forEach((b) => {obj.jQuery(b).removeClass('publicfoundme');});
-            }
-
-            if(this.settings.fieldShiny === true) {
-                this.searchForImgTitle(GLOBALS, 'findShiny');
-            }
-            if(this.settings.fieldAlbino === true) {
-                this.searchForImgTitle(GLOBALS, 'findAlbino');
-            }
-            if(this.settings.fieldMelanistic === true) {
-                this.searchForImgTitle(GLOBALS, 'findMelanistic');
-            }
-            if(this.settings.fieldPrehistoric === true) {
-                this.searchForImgTitle(GLOBALS, 'findPrehistoric');
-            }
-            if(this.settings.fieldDelta === true) {
-                this.searchForImgTitle(GLOBALS, 'findDelta');
-            }
-            if(this.settings.fieldMega === true) {
-                this.searchForImgTitle(GLOBALS, 'findMega');
-            }
-            if(this.settings.fieldStarter === true) {
-                this.searchForImgTitle(GLOBALS, 'findStarter');
-            }
-            if(this.settings.fieldCustomSprite === true) {
-                this.searchForImgTitle(GLOBALS, 'findCustomSprite');
-            }
-            if(this.settings.fieldItem === true) {
-            // pokemon that hold items will have HTML that matches the following selector
-                const items = this.jQuery('.tooltip_content .item>div>.tooltip_item');
-                if(items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
-                    this.jQuery(itemBigImgs).addClass('publicfoundme');
+                    this.jQuery('.fieldmon').addClass('qolSortMiddle');
                 }
-            }
+                else if (this.settings.fieldByGrid === true) { //sort field in a grid
+                    this.jQuery('#field_field [data-flavour*="any-"]').removeClass('qolAnyBerry');
+                    this.jQuery('#field_field [data-flavour*="sour-"]').removeClass('qolSourBerry');
+                    this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass('qolSpicyBerry');
+                    this.jQuery('#field_field [data-flavour*="dry-"]').removeClass('qolDryBerry');
+                    this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass('qolSweetBerry');
+                    this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass('qolBitterBerry');
+                    this.jQuery('.fieldmon').removeClass('qolSortMiddle');
 
-            const filteredTypeArray = this.typeArray.filter(v=>v!='');
-            const filteredNatureArray = this.natureArray.filter(v=>v!='');
-            const filteredEggGroupArray = this.eggGroupArray.filter(v=>v!='');
+                    this.jQuery('.field').addClass('qolGridField');
+                    this.jQuery('.fieldmon').addClass('qolGridPokeSize');
+                    this.jQuery('.fieldmon>img').addClass('qolGridPokeImg');
+                }
+                else {
+                    this.jQuery('#field_field [data-flavour*="any-"]').removeClass('qolAnyBerry');
+                    this.jQuery('#field_field [data-flavour*="sour-"]').removeClass('qolSourBerry');
+                    this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass('qolSpicyBerry');
+                    this.jQuery('#field_field [data-flavour*="dry-"]').removeClass('qolDryBerry');
+                    this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass('qolSweetBerry');
+                    this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass('qolBitterBerry');
+                    this.jQuery('.fieldmon').removeClass('qolSortMiddle');
+                    this.jQuery('.field').removeClass('qolGridField');
+                    this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
+                    this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
+                }
 
-            //loop to find all the types
-            if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
-                this.jQuery('.fieldmon').each(function() {
-                    const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
-                    const tooltipData = obj.helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+                //Pokémon click counter
+                if (this.settings.fieldClickCount === false) {
+                    this.jQuery('#pokemonclickcount').remove();
+                } else if (this.settings.fieldClickCount === true) {
+                    const pokemonFed = this.jQuery('.fieldmon').map(function() { return obj.jQuery(this).attr('data-fed'); }).get();
 
-                    const searchTypeOne = tooltipData.types[0] + '';
-                    const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '': '';
+                    let pokemonClicked = 0;
+                    for (let i = 0; i < pokemonFed.length; i++) {
+                        pokemonClicked += pokemonFed[i] << 0;
+                    }
 
-                    const searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
+                    const pokemonInField = this.jQuery('.fieldpkmncount').text();
 
-                    const searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
-                        children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
+                    if (this.jQuery('#pokemonclickcount').length === 0) {
+                        document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
+                    } else if(this.jQuery('#pokemonclickcount').text() !== (pokemonClicked+' / '+pokemonInField+' Clicked')) {
+                        this.jQuery('#pokemonclickcount').text(pokemonClicked+' / '+pokemonInField+' Clicked');
+                    }
 
-                    for (let i = 0; i < filteredTypeArray.length; i++) {
-                        if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
+                    if(pokemonInField !== '') {
+                        if (JSON.stringify(pokemonClicked) === pokemonInField) {
+                            this.jQuery('#pokemonclickcount').css({
+                                'color' : '#059121'
+                            });
+                        }
+                        if (pokemonClicked !== JSON.parse(pokemonInField)) {
+                            this.jQuery('#pokemonclickcount').css({
+                                'color' : '#a30323'
+                            });
                         }
                     }
+                }
+            }
 
-                    for (let i = 0; i < filteredNatureArray.length; i++) {
-                        if(searchNature === GLOBALS.NATURE_LIST[filteredNatureArray[i]]) {
-                            obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
-                        }
+            if(obj.globalSettings.publicFieldFeatureEnables.search) {
+                /////////////////// searching ///////////////////
+                const bigImgs = document.querySelectorAll('.publicfoundme');
+                if(bigImgs !== null) {
+                    bigImgs.forEach((b) => {obj.jQuery(b).removeClass('publicfoundme');});
+                }
+
+                if(this.settings.fieldShiny === true) {
+                    this.searchForImgTitle(GLOBALS, 'findShiny');
+                }
+                if(this.settings.fieldAlbino === true) {
+                    this.searchForImgTitle(GLOBALS, 'findAlbino');
+                }
+                if(this.settings.fieldMelanistic === true) {
+                    this.searchForImgTitle(GLOBALS, 'findMelanistic');
+                }
+                if(this.settings.fieldPrehistoric === true) {
+                    this.searchForImgTitle(GLOBALS, 'findPrehistoric');
+                }
+                if(this.settings.fieldDelta === true) {
+                    this.searchForImgTitle(GLOBALS, 'findDelta');
+                }
+                if(this.settings.fieldMega === true) {
+                    this.searchForImgTitle(GLOBALS, 'findMega');
+                }
+                if(this.settings.fieldStarter === true) {
+                    this.searchForImgTitle(GLOBALS, 'findStarter');
+                }
+                if(this.settings.fieldCustomSprite === true) {
+                    this.searchForImgTitle(GLOBALS, 'findCustomSprite');
+                }
+                if(this.settings.fieldItem === true) {
+                    // pokemon that hold items will have HTML that matches the following selector
+                    const items = this.jQuery('.tooltip_content .item>div>.tooltip_item');
+                    if(items.length) {
+                        const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                        this.jQuery(itemBigImgs).addClass('publicfoundme');
                     }
+                }
 
-                    for (let i = 0; i < filteredEggGroupArray.length; i++) {
-                        const value = GLOBALS.EGG_GROUP_LIST[filteredEggGroupArray[i]];
-                        if(searchEggGroup === value ||
+                const filteredTypeArray = this.typeArray.filter(v=>v!='');
+                const filteredNatureArray = this.natureArray.filter(v=>v!='');
+                const filteredEggGroupArray = this.eggGroupArray.filter(v=>v!='');
+
+                //loop to find all the types
+                if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
+                    this.jQuery('.fieldmon').each(function() {
+                        const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
+                        const tooltipData = obj.helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+
+                        const searchTypeOne = tooltipData.types[0] + '';
+                        const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '': '';
+
+                        const searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
+
+                        const searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
+                            children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
+
+                        for (let i = 0; i < filteredTypeArray.length; i++) {
+                            if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
+                                obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
+                            }
+                        }
+
+                        for (let i = 0; i < filteredNatureArray.length; i++) {
+                            if(searchNature === GLOBALS.NATURE_LIST[filteredNatureArray[i]]) {
+                                obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
+                            }
+                        }
+
+                        for (let i = 0; i < filteredEggGroupArray.length; i++) {
+                            const value = GLOBALS.EGG_GROUP_LIST[filteredEggGroupArray[i]];
+                            if(searchEggGroup === value ||
                        searchEggGroup.indexOf(value + '/') > -1 ||
                        searchEggGroup.indexOf('/' + value) > -1) {
-                            obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
+                                obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
+                            }
                         }
-                    }
-                }); // each
-            } // end
+                    }); // each
+                } // end
 
-            // custom search
-            for (let i = 0; i < this.customArray.length; i++) {
-                const value = this.customArray[i];
-                if (value != '') {
-                //custom pokemon search
-                    if (this.settings.fieldCustomPokemon === true) {
-                        this.searchForCustomPokemon(value, this.settings.fieldMale,
-                            this.settings.fieldFemale,
-                            this.settings.fieldNoGender);
-                    }
+                // custom search
+                for (let i = 0; i < this.customArray.length; i++) {
+                    const value = this.customArray[i];
+                    if (value != '') {
+                        //custom pokemon search
+                        if (this.settings.fieldCustomPokemon === true) {
+                            this.searchForCustomPokemon(value, this.settings.fieldMale,
+                                this.settings.fieldFemale,
+                                this.settings.fieldNoGender);
+                        }
 
-                    //custom egg
-                    if (this.settings.fieldCustomEgg === true) {
-                        this.searchForCustomEgg(value);
-                    }
+                        //custom egg
+                        if (this.settings.fieldCustomEgg === true) {
+                            this.searchForCustomEgg(value);
+                        }
 
-                    //imgSearch with Pokémon
-                    if (this.settings.fieldCustomPng === true) {
-                        this.searchForCustomPng(value);
+                        //imgSearch with Pokémon
+                        if (this.settings.fieldCustomPng === true) {
+                            this.searchForCustomPng(value);
+                        }
                     }
                 }
             }
@@ -5693,7 +5926,7 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class ShelterPageBase extends Page {
-        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS, SETTINGS) {
             super(jQuery, localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
                 findCustom: '',
                 findType: '',
@@ -5717,7 +5950,7 @@ $(function () {
                 customPokemon: true,
                 customPng: false,
                 shelterGrid: true,
-            }, 'shelter');
+            }, 'shelter', SETTINGS);
             this.customArray = [];
             this.typeArray = [];
             const obj = this;
@@ -5737,36 +5970,43 @@ $(function () {
         }
 
         setupHTML(GLOBALS) {
-            this.jQuery('.tabbed_interface.horizontal>div').removeClass('tab-active');
-            this.jQuery('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul>li').insertAdjacentHTML('afterend', '<li class=""><label>Sort</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
-            document.querySelector('#shelteroptionsqol').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
-            this.jQuery('#shelteroptionsqol').addClass('tab-active');
+            if(this.globalSettings.shelterFeatureEnables.search) {
+                this.jQuery('.tabbed_interface.horizontal>div').removeClass('tab-active');
+                this.jQuery('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
+                document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
+                document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
+                this.jQuery('#shelteroptionsqol').addClass('tab-active');
 
-            document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
+                document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
-            const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
-                'removeShelterTypeList', 'fieldTypes', 'typeArray');
+                const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+                const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+                    'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
-            this.customArray = this.settings.findCustom.split(',');
-            this.typeArray = this.settings.findType.split(',');
+                this.customArray = this.settings.findCustom.split(',');
+                this.typeArray = this.settings.findType.split(',');
 
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
+                this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
 
-            this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
-            this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
-            this.jQuery('[data-shelter=blackflute]').addClass('customSearchOnClick');
+                this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
+                this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
+                this.jQuery('[data-shelter=blackflute]').addClass('customSearchOnClick');
+            }
+            if(this.globalSettings.shelterFeatureEnables.sort) {
+                document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
+                document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
+            }
         }
         setupCSS() {
-            const shelterSuccessCss = this.jQuery('#sheltercommands').css('background-color');
-            this.jQuery('#sheltersuccess').css('background-color', shelterSuccessCss);
-            this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
-            const background = this.jQuery('#shelterpage>.panel').eq(0).css('border');
-            this.jQuery('.tooltiptext').css('border', '' + background + '');
+            if(this.globalSettings.shelterFeatureEnables.search ||
+            this.globalSettings.shelterFeatureEnables.sort) {
+                const shelterSuccessCss = this.jQuery('#sheltercommands').css('background-color');
+                this.jQuery('#sheltersuccess').css('background-color', shelterSuccessCss);
+                this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
+                const background = this.jQuery('#shelterpage>.panel').eq(0).css('border');
+                this.jQuery('.tooltiptext').css('border', '' + background + '');
+            }
         }
         setupObserver() {
             this.observer.observe(document.querySelector('#shelterarea'), {
@@ -6017,189 +6257,193 @@ $(function () {
 
             // search whatever you want to find in the shelter & grid
 
+            if(this.globalSettings.shelterFeatureEnables.sort) {
             //sort in grid
-            this.jQuery('#shelterarea').removeClass('qolshelterareagrid');
-            this.jQuery('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
-            this.jQuery('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
-            this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
-            this.jQuery('#sheltergridthingy').remove();
+                this.jQuery('#shelterarea').removeClass('qolshelterareagrid');
+                this.jQuery('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
+                this.jQuery('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
+                this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
+                this.jQuery('#sheltergridthingy').remove();
 
-            if (this.settings.shelterGrid === true) { //shelter grid
-                this.jQuery('#shelterarea').addClass('qolshelterareagrid');
-                this.jQuery('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
-                this.jQuery('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
-                this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
-                this.jQuery('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
-            }
-
-            /*
-             * search values depending on settings
-             * emptying the sheltersuccess div to avoid duplicates
-             */
-            document.querySelector('#sheltersuccess').innerHTML = '';
-            this.jQuery('#shelterarea>div>img').removeClass('shelterfoundme');
-
-            if (this.settings.findShiny === true) {
-                this.searchForImgTitle(GLOBALS, 'findShiny');
-            }
-            if (this.settings.findAlbino === true) {
-                this.searchForImgTitle(GLOBALS, 'findAlbino');
-            }
-            if (this.settings.findMelanistic === true) {
-                this.searchForImgTitle(GLOBALS, 'findMelanistic');
-            }
-            if (this.settings.findPrehistoric === true) {
-                this.searchForImgTitle(GLOBALS, 'findPrehistoric');
-            }
-            if (this.settings.findDelta === true) {
-                this.searchForImgTitle(GLOBALS, 'findDelta');
-            }
-            if (this.settings.findMega === true) {
-                this.searchForImgTitle(GLOBALS, 'findMega');
-            }
-            if (this.settings.findStarter === true) {
-                this.searchForImgTitle(GLOBALS, 'findStarter');
-            }
-            if (this.settings.findCustomSprite === true) {
-                this.searchForImgTitle(GLOBALS, 'findCustomSprite');
-            }
-            if (this.settings.findLegendary === true) {
-                this.searchForTooltipText(GLOBALS, 'findLegendary');
-            }
-
-            if (this.settings.findNewPokemon === true) {
-                const key = 'findNewPokemon';
-                const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
-                const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')');
-                if (selected.length) {
-                    const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
-                    const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
-                    const tooltipResult = selected.length + ' ' + searchResult;
-                    const shelterImgSearch = selected;
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
-
-                    this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
+                if (this.settings.shelterGrid === true) { //shelter grid
+                    this.jQuery('#shelterarea').addClass('qolshelterareagrid');
+                    this.jQuery('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
+                    this.jQuery('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
+                    this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
+                    this.jQuery('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
                 }
             }
 
-            if (this.settings.findNewEgg === true) {
-                const key = 'findNewEgg';
-                const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
-                const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')').filter(function () {
-                // .text() will include the text in the View/Adopt and Hide buttons, so there will be a space
-                    return obj.jQuery(this).text().startsWith(value + ' ');
-                });
+            if(this.globalSettings.shelterFeatureEnables.search) {
+                /*
+                 * search values depending on settings
+                 * emptying the sheltersuccess div to avoid duplicates
+                 */
+                document.querySelector('#sheltersuccess').innerHTML = '';
+                this.jQuery('#shelterarea>div>img').removeClass('shelterfoundme');
 
-                if (selected.length) {
-                    const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
-                    const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
-                    if (selected.length >= 1) {
+                if (this.settings.findShiny === true) {
+                    this.searchForImgTitle(GLOBALS, 'findShiny');
+                }
+                if (this.settings.findAlbino === true) {
+                    this.searchForImgTitle(GLOBALS, 'findAlbino');
+                }
+                if (this.settings.findMelanistic === true) {
+                    this.searchForImgTitle(GLOBALS, 'findMelanistic');
+                }
+                if (this.settings.findPrehistoric === true) {
+                    this.searchForImgTitle(GLOBALS, 'findPrehistoric');
+                }
+                if (this.settings.findDelta === true) {
+                    this.searchForImgTitle(GLOBALS, 'findDelta');
+                }
+                if (this.settings.findMega === true) {
+                    this.searchForImgTitle(GLOBALS, 'findMega');
+                }
+                if (this.settings.findStarter === true) {
+                    this.searchForImgTitle(GLOBALS, 'findStarter');
+                }
+                if (this.settings.findCustomSprite === true) {
+                    this.searchForImgTitle(GLOBALS, 'findCustomSprite');
+                }
+                if (this.settings.findLegendary === true) {
+                    this.searchForTooltipText(GLOBALS, 'findLegendary');
+                }
+
+                if (this.settings.findNewPokemon === true) {
+                    const key = 'findNewPokemon';
+                    const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
+                    const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')');
+                    if (selected.length) {
+                        const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
+                        const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
+                        const tooltipResult = selected.length + ' ' + searchResult;
                         const shelterImgSearch = selected;
                         const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                         this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                    }
-                    this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
-                }
-            }
 
-            //loop to find all search genders for the custom
-            const shelterValueArrayCustom = [];
-            for (const key in this.settings) {
-                const value = this.settings[key];
-                if (value === true) {
-                    if (key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
-                        const searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
-                        shelterValueArrayCustom.push(searchKey);
+                        this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
                     }
                 }
-            }
 
-            //loop to find all the custom search parameters
-            const customSearchAmount = this.customArray.length;
-            const heartPng = '<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">';
-            const eggPng = '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">';
-            for (let i = 0; i < customSearchAmount; i++) {
-                const customValue = this.customArray[i];
-                if (customValue != '') {
-                //custom pokemon search
-                    if (this.settings.customPokemon === true) {
-                        const genderMatches = [];
-                        if (shelterValueArrayCustom.indexOf('[M]') > -1) {
-                            genderMatches.push('[M]');
-                        }
-                        if (shelterValueArrayCustom.indexOf('[F]') > -1) {
-                            genderMatches.push('[F]');
-                        }
-                        if (shelterValueArrayCustom.indexOf('[N]') > -1) {
-                            genderMatches.push('[N]');
-                        }
+                if (this.settings.findNewEgg === true) {
+                    const key = 'findNewEgg';
+                    const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
+                    const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')').filter(function () {
+                        // .text() will include the text in the View/Adopt and Hide buttons, so there will be a space
+                        return obj.jQuery(this).text().startsWith(value + ' ');
+                    });
 
-                        if (genderMatches.length > 0) {
-                            for (let i = 0; i < genderMatches.length; i++) {
-                                const genderMatch = genderMatches[i];
-                                const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + ') img[title*=\'' + genderMatch + '\']');
+                    if (selected.length) {
+                        const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
+                        const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
+                        if (selected.length >= 1) {
+                            const shelterImgSearch = selected;
+                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                        }
+                        this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
+                    }
+                }
+
+                //loop to find all search genders for the custom
+                const shelterValueArrayCustom = [];
+                for (const key in this.settings) {
+                    const value = this.settings[key];
+                    if (value === true) {
+                        if (key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
+                            const searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
+                            shelterValueArrayCustom.push(searchKey);
+                        }
+                    }
+                }
+
+                //loop to find all the custom search parameters
+                const customSearchAmount = this.customArray.length;
+                const heartPng = '<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">';
+                const eggPng = '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">';
+                for (let i = 0; i < customSearchAmount; i++) {
+                    const customValue = this.customArray[i];
+                    if (customValue != '') {
+                        //custom pokemon search
+                        if (this.settings.customPokemon === true) {
+                            const genderMatches = [];
+                            if (shelterValueArrayCustom.indexOf('[M]') > -1) {
+                                genderMatches.push('[M]');
+                            }
+                            if (shelterValueArrayCustom.indexOf('[F]') > -1) {
+                                genderMatches.push('[F]');
+                            }
+                            if (shelterValueArrayCustom.indexOf('[N]') > -1) {
+                                genderMatches.push('[N]');
+                            }
+
+                            if (genderMatches.length > 0) {
+                                for (let i = 0; i < genderMatches.length; i++) {
+                                    const genderMatch = genderMatches[i];
+                                    const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + ') img[title*=\'' + genderMatch + '\']');
+                                    if (selected.length) {
+                                        const searchResult = customValue;
+                                        const genderName = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
+                                        const imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
+                                        const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
+                                        const shelterImgSearch = selected;
+                                        const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+
+                                        this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                                    }
+                                }
+                            }
+
+                            //No genders
+                            else if (shelterValueArrayCustom.length === 0) {
+                                const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):not(:containsIN("Egg"))');
                                 if (selected.length) {
                                     const searchResult = customValue;
-                                    const genderName = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
-                                    const imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
-                                    const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
+                                    const tooltipResult = selected.length + ' ' + searchResult;
                                     const shelterImgSearch = selected;
                                     const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
                                     this.jQuery(shelterBigImg).addClass('shelterfoundme');
-
                                     this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                                 }
                             }
                         }
 
-                        //No genders
-                        else if (shelterValueArrayCustom.length === 0) {
-                            const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):not(:containsIN("Egg"))');
+                        //custom egg
+                        if (this.settings.customEgg === true) {
+                            const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):contains("Egg")');
                             if (selected.length) {
                                 const searchResult = customValue;
                                 const tooltipResult = selected.length + ' ' + searchResult;
                                 const shelterImgSearch = selected;
-                                const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                                 this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                                this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
+                            }
+                        }
+
+                        //imgSearch with Pokémon
+                        if (this.settings.customPng === true) {
+                            const selected = this.jQuery(`#shelterarea img.${cls}[src*="${customValue}"]`);
+                            if (selected.length) {
+                                const searchResult = selected.parent().next().text().split('(')[0];
+                                const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
+                                const shelterImgSearch = selected;
+                                this.jQuery(shelterImgSearch).addClass('shelterfoundme');
                                 this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                             }
                         }
                     }
-
-                    //custom egg
-                    if (this.settings.customEgg === true) {
-                        const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):contains("Egg")');
-                        if (selected.length) {
-                            const searchResult = customValue;
-                            const tooltipResult = selected.length + ' ' + searchResult;
-                            const shelterImgSearch = selected;
-                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
-                        }
-                    }
-
-                    //imgSearch with Pokémon
-                    if (this.settings.customPng === true) {
-                        const selected = this.jQuery(`#shelterarea img.${cls}[src*="${customValue}"]`);
-                        if (selected.length) {
-                            const searchResult = selected.parent().next().text().split('(')[0];
-                            const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
-                            const shelterImgSearch = selected;
-                            this.jQuery(shelterImgSearch).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
-                        }
-                    }
                 }
-            }
 
-            //loop to find all the types
+                //loop to find all the types
 
-            const filteredTypeArray = this.typeArray.filter(v => v != '');
+                const filteredTypeArray = this.typeArray.filter(v => v != '');
 
-            if (filteredTypeArray.length > 0) {
-                obj.searchForTypes(GLOBALS, filteredTypeArray);
+                if (filteredTypeArray.length > 0) {
+                    obj.searchForTypes(GLOBALS, filteredTypeArray);
+                }
             }
         } // customSearch
     }
@@ -6321,11 +6565,12 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class PagesManager {
-        constructor(jQuery, localStorageMgr, globals, HELPERS) {
+        constructor(jQuery, localStorageMgr, globals, HELPERS, SETTINGS) {
             this.jQuery = jQuery;
             this.localStorageMgr = localStorageMgr;
             this.GLOBALS = globals;
             this.HELPERS = HELPERS;
+            this.SETTINGS = SETTINGS;
             this.pages = {
                 'Daycare': {
                     class: DaycarePage,
@@ -6383,7 +6628,7 @@ $(function () {
             for (const key of Object.keys(this.pages)) {
                 const pg = this.pages[key];
                 if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                    this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS);
+                    this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
                 }
             }
         }
@@ -6425,7 +6670,6 @@ $(function () {
                     pg.object.setupHTML(GLOBALS);
                 }
             }
-            this.populateSettings(QOLHUB);
         }
         setupCSS(QOLHUB) {
             for (const key of Object.keys(this.pages)) {
@@ -6469,10 +6713,11 @@ $(function () {
             this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
             this.LOCAL_STORAGE_MANAGER.migrateSettings();
 
+            this.SETTINGS = new UserSettings();
             this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS);
             this.RESOURCES = new Resources();
-            this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS);
-            this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES);
+            this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
+            this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
             this.GLOBALS.fillTemplates(this.RESOURCES);
             this.GLOBALS.fillOptionsLists();
 
@@ -6571,8 +6816,8 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class QoLHub extends QoLHubBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
-            super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS);
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, DEFAULT_SETTINGS, SETTINGS) {
+            super(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, DEFAULT_SETTINGS, SETTINGS);
         }
         resetDex() {
             this.jQuery('#clearCachedDex').next().remove();
@@ -6602,15 +6847,15 @@ $(function () {
 
     // eslint-disable-next-line no-unused-vars
     class ShelterPage extends ShelterPageBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
-            super(jQuery, localStorageMgr, HELPERS, GLOBALS);
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, settings) {
+            super(jQuery, localStorageMgr, HELPERS, GLOBALS, settings);
         }
     }
 
     // eslint-disable-next-line no-unused-vars
     class PrivateFieldsPage extends PrivateFieldsPageBase {
-        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS) {
-            super(jQuery, localStorageMgr, HELPERS, GLOBALS);
+        constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, settings) {
+            super(jQuery, localStorageMgr, HELPERS, GLOBALS, settings);
         }
     }
 

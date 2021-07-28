@@ -42,8 +42,10 @@ class GlobalsBase {
         this.POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
         this.POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
         this.POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
-        /* Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
-           Don't change the order without looking for where this array is used */
+        /*
+         * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
+         * Don't change the order without looking for where this array is used
+         */
         this.TYPE_LIST = ['Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'];
         this.NATURE_LIST = ['Lonely', 'Mild', 'Hasty', 'Gentle', 'Bold', 'Modest', 'Timid', 'Calm',
             'Impish', 'Adamant', 'Jolly', 'Careful', 'Relaxed', 'Brave', 'Quiet', 'Sassy',
@@ -121,9 +123,11 @@ class GlobalsBase {
         ];
         this.SHELTER_SEARCH_LISTS = {
             'findLegendary': [
-                /* List of official legendaries more or less based on
-                   https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
-                   Kanto */
+                /*
+                 * List of official legendaries more or less based on
+                 * https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
+                 * Kanto
+                 */
                 'Articuno', 'Zapdos', 'Moltres', 'Mewtwo', 'Mew',
                 // Johto
                 'Raikou', 'Entei', 'Suicune', 'Lugia', 'Ho-oh', 'Celebi',
@@ -155,8 +159,10 @@ class GlobalsBase {
         // filled in by LocalStorageManager
         this.DEX_UPDATE_DATE = null;
 
-        /* a static copy of the <script id="dexdata"> tag from Feb 16, 2021
-           this is updated every time the user visits the dex page */
+        /*
+         * a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+         * this is updated every time the user visits the dex page
+         */
         this.DEX_DATA = ('{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],' +
             '"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],' +
             '"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,1,1,0],' +

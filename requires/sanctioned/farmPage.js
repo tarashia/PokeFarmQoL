@@ -70,17 +70,19 @@ class FarmPage extends FarmPageBase {
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
-            /* Procedure
-               1. If the evolution destination is in the known exceptions list
-                  a. Load the types from KNOWN_EXCEPTIONS
-               2. Else:
-                  a. If the evolution origin is in the dex, load the types from the dex
-                  b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
-                  c. If the destination pokemon is in the dex, load the types from the dex
-                  d. Else, mark the type as '18' (not a valid type)
-               3. Use types to apply HTML classes to the list item that contains the current evolution
-                  a. Use the evolution origin's and destination's types as HTML classes
-                  b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well */
+            /*
+             * Procedure
+             * 1. If the evolution destination is in the known exceptions list
+             *    a. Load the types from KNOWN_EXCEPTIONS
+             * 2. Else:
+             *    a. If the evolution origin is in the dex, load the types from the dex
+             *    b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
+             *    c. If the destination pokemon is in the dex, load the types from the dex
+             *    d. Else, mark the type as '18' (not a valid type)
+             * 3. Use types to apply HTML classes to the list item that contains the current evolution
+             *    a. Use the evolution origin's and destination's types as HTML classes
+             *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
+             */
 
             if(evolveInExceptions) {
                 evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
@@ -103,8 +105,10 @@ class FarmPage extends FarmPageBase {
                 }
             }
 
-            /* the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-               in some cases. Just strip it off */
+            /*
+             * the evolveTypes and evolveTypesPrevious entries can begin with a '.'
+             * in some cases. Just strip it off
+             */
             evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
             evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
 

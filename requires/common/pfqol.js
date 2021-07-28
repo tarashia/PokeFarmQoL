@@ -1,4 +1,4 @@
-/* globals addGlobalStyle QoLHub
+/* globals addGlobalStyle QoLHub UserSettings
         Globals Resources Helpers PagesManager LocalStorageManager */
 // eslint-disable-next-line no-unused-vars
 class PFQoLBase {
@@ -16,10 +16,11 @@ class PFQoLBase {
         this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
         this.LOCAL_STORAGE_MANAGER.migrateSettings();
 
+        this.SETTINGS = new UserSettings();
         this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS);
         this.RESOURCES = new Resources();
-        this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS);
-        this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES);
+        this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
+        this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
         this.GLOBALS.fillTemplates(this.RESOURCES);
         this.GLOBALS.fillOptionsLists();
 

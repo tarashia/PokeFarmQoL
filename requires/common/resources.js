@@ -1087,7 +1087,7 @@ class ResourcesBase {
                           <ul>
                             <li>
                               <label>
-                                <input type='checkbox' class='qolsetting' data-key='enableDaycare'/>
+                                <input type='checkbox' class='qolhubsetting' data-key='enableDaycare'/>
                                 <span>
                                   Highlight Breeding Matches
                                 </span>
@@ -1095,39 +1095,109 @@ class ResourcesBase {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="shelterEnable"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="shelterEnable"/>
                                 <span>
-                                  Advanced Shelter Search
+                                  Enable All Shelter QoL Features
+                                </span>
+                              </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"/>
+                                    <span>
+                                      Advanced Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"/>
+                                    <span>
+                                      Advanced Sorting
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolhubsetting" data-key="fishingEnable"/>
+                                <span>
+                                  Fishing Multi-Select Controls
                                 </span>
                               </label>
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="fishingEnable"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"/>
                                 <span>
-                                  Release/Fishing select all
+                                  Enable All Public Fields QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"/>
+                                    <span>
+                                      Advanced Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"/>
+                                    <span>
+                                      Advanced Sorting
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"/>
+                                    <span>
+                                      Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="publicFieldEnable"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"/>
                                 <span>
-                                  Sort & Search Fields (Public View)
+                                  Enable All Private Fields QoL Features
                                 </span>
                               </label>
+                              <ul>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"/>
+                                    <span>
+                                      Advanced Searching
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"/>
+                                    <span>
+                                      Multi-Select Controls (Move & Release)
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"/>
+                                    <span>
+                                      Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                              </ul>
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="privateFieldEnable"/>
-                                <span>
-                                  Search Fields (Private View)
-                                </span>
-                              </label>
-                            </li>
-                            <li>
-                              <label>
-                                <input type="checkbox" class="qolsetting" data-key="partyMod"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="partyMod"/>
                                 <span>
                                   Party click mod
                                 </span>
@@ -1135,7 +1205,7 @@ class ResourcesBase {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="easyEvolve"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="easyEvolve"/>
                                 <span>
                                   Easy evolving
                                 </span>
@@ -1143,7 +1213,7 @@ class ResourcesBase {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="labNotifier"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="labNotifier"/>
                                 <span>
                                   Lab Notifier
                                 </span>
@@ -1151,7 +1221,7 @@ class ResourcesBase {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="dexFilterEnable"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"/>
                                 <span>
                                   Multiple Types Filtering
                                 </span>
@@ -1159,13 +1229,14 @@ class ResourcesBase {
                             </li>
                             <li>
                               <label>
-                                <input type="checkbox" class="qolsetting" data-key="condenseWishforge"/>
+                                <input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"/>
                                 <span>
                                   Smaller Crafted Badges List
                                 </span>
                               </label>
                             </li>
                           </ul>
+                          <span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span>
                         </td>
                         <td class="qolChangeLog">
                           <ul class="qolChangeLogList">

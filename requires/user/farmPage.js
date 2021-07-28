@@ -103,8 +103,10 @@ class FarmPage extends FarmPageBase {
             let types = [];
 
             loadDexPage($, number, name, (data) => {
-                /* Kill two birds with one stone: 1) get the evolutions, and 2) check that
-                   evolveTypePrevOne and evolveTypePrevTwo are correct */
+                /*
+                 * Kill two birds with one stone: 1) get the evolutions, and 2) check that
+                 * evolveTypePrevOne and evolveTypePrevTwo are correct
+                 */
                 let html = $.parseHTML(data);
                 // first find the right element in html to read from
                 const htmlIndex = findDivCoreIndex($, html);
@@ -239,12 +241,28 @@ class FarmPage extends FarmPageBase {
             obj.saveSettings();
         };
 
-        const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
+        const appendDeltaTypeIfDelta = function ($, evoString, typesLis$, elemToAppendTo$) {
             if (evoString.includes('title="[DELTA')) {
                 const deltaType = evoString.match('DELTA-(.*?)]">');
-                $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
+                let type = obj.settings.TYPE_APPEND[deltaType[1]];
+                if(!type.startsWith('.')) {
+                    type = `.${type}`;
+                }
+                if(typesLis$[type]) {
+                    typesLis$[type].append(elemToAppendTo$.clone());
+                }
+                else {
+                    throw Error(`Unable to find type <li> matching class '${type}'`);
+                }
+                // elemToAppendTo$.clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
             }
         };
+
+        // look up the <li> for each type here instead of in each iteration of the .each() function
+        const typesLis$ = {};
+        for(let i = 0; i < 18; i++) {
+            typesLis$[`.${i}`] = obj.jQuery(`.${i}`);
+        }
 
         obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
             // getting the <li> element from the pokemon & the pokemon evolved name
@@ -270,21 +288,23 @@ class FarmPage extends FarmPageBase {
             let evolveTypesPrevious = [];
             let evolveTypes = [];
 
-            /* Procedure
-               1. Load types for the evolution origin
-                  a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
-                  b. If it is in the dex and if it does not have regional forms, load the types from the dex data
-               2. If step 1.a or 1.b succeeded, load types for the evolution destination
-                  a. If the destination pokemon is in the dex, load the types from the dex
-                  b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
-                  c. Else, load the destination pokemon's types by:
-                     i. Getting the origin pokemon's dex number from its summary page
-                     ii. Loading the list of the origin pokemon's evolutions from its dex page
-                     iii. Finding the dex number for the destination pokemon from the list
-                     iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
-               3. Use types to apply HTML classes to the list item that contains the current evolution
-                  a. Use the evolution origin's and destination's types as HTML classes
-                  b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well */
+            /*
+             * Procedure
+             * 1. Load types for the evolution origin
+             *    a. If it is not in the dex, or if it has regional forms, load the types from the pokemon's summary page
+             *    b. If it is in the dex and if it does not have regional forms, load the types from the dex data
+             * 2. If step 1.a or 1.b succeeded, load types for the evolution destination
+             *    a. If the destination pokemon is in the dex, load the types from the dex
+             *    b. Else, if the destination pokemon is one of the "known exceptions", load the types from KNOWN_EXCEPTIONS
+             *    c. Else, load the destination pokemon's types by:
+             *       i. Getting the origin pokemon's dex number from its summary page
+             *       ii. Loading the list of the origin pokemon's evolutions from its dex page
+             *       iii. Finding the dex number for the destination pokemon from the list
+             *       iv. Loading the destination pokemon's type from its dex page using the dex number found in step 2.c.iii
+             * 3. Use types to apply HTML classes to the list item that contains the current evolution
+             *    a. Use the evolution origin's and destination's types as HTML classes
+             *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
+             */
 
             // Step 1.a
             if (!previousInDex || previousHasRegionalForms) {
@@ -308,7 +328,11 @@ class FarmPage extends FarmPageBase {
             }
 
             // will only get here if 1.a or 1.b succeeded
-            if (!evolveInDex || evolveHasRegionalForms) {
+            if(evolveInDex && !evolveHasRegionalForms) {
+                // Step 2.a
+                evolveTypes = [1, 2].map((i) => dexData[dexData.indexOf('"' + evolvePokemon + '"') + i]);
+            }
+            else /* if (!evolveInDex || evolveHasRegionalForms) */ {
                 // Step 2.b
                 if (evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) {
                     evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
@@ -329,25 +353,21 @@ class FarmPage extends FarmPageBase {
                         evolveTypesPrevious = dexInfo.types;
                     }
 
-                    if (!evolveInDex) {
-                        if(loadStatus && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
-                            const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
-                            if (info.status) {
-                                evolveInDex = info.status;
-                                evolveTypes = info.types;
-                                addToKnownExceptions(evolvePokemon, evolveTypes[0],
-                                    evolveTypes.length > 1 && evolveTypes[1]);
-                            }
-                        } else {
-                            const msg = `An error occurred when processing ${evolvePokemon}`;
-                            console.error(msg);
+                    // if (!evolveInDex) {
+                    if(loadStatus && Object.keys(evolutions).indexOf(evolvePokemon) > -1) {
+                        const info = loadDataFromEvolutionDestinationDexPage(obj.jQuery, GLOBALS.TYPE_LIST, evolutions[evolvePokemon], evolvePokemon);
+                        if (info.status) {
+                            evolveInDex = info.status;
+                            evolveTypes = info.types;
+                            addToKnownExceptions(evolvePokemon, evolveTypes[0],
+                                evolveTypes.length > 1 && evolveTypes[1]);
                         }
+                    } else {
+                        const msg = `An error occurred when processing ${evolvePokemon}`;
+                        console.error(msg);
                     }
+                    // }
                 } // else ( if(evolvePokemon in obj.settings.KNOWN_EXCEPTIONS) )
-            }
-            // Step 2.a
-            else {
-                evolveTypes = [1, 2].map((i) => dexData[dexData.indexOf('"' + evolvePokemon + '"') + i]);
             }
 
             if (!evolveInDex) {
@@ -356,8 +376,10 @@ class FarmPage extends FarmPageBase {
                 return; // 'continue' for .each()
             }
 
-            /* the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-               in some cases. Just strip it off */
+            /*
+             * the evolveTypes and evolveTypesPrevious entries can begin with a '.'
+             * in some cases. Just strip it off
+             */
             evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
             evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
 
@@ -374,17 +396,29 @@ class FarmPage extends FarmPageBase {
             evolveTypes = evolveTypes.filter((t) => t !== '-1');
 
             // append types to DOM
-            const elem = this;
+            const elem$ = obj.jQuery(this);
             evolveTypes.map((t) => {
-                obj.jQuery(elem).clone().appendTo('.' + t);
+                if(typesLis$[`.${t}`]) {
+                    typesLis$[`.${t}`].append(elem$.clone());
+                }
+                else {
+                    throw Error(`Unable to find type <li> matching class '${t}'`);
+                }
+                // elem$.clone().appendTo('.' + t);
             });
             evolveTypesPrevious.map((t) => {
                 if (!isNaN(parseInt(t)) && parseInt(t) > -1 && evolveTypes.indexOf(t) == -1) {
-                    obj.jQuery(elem).clone().appendTo('.' + t);
+                    if(typesLis$[`.${t}`]) {
+                        typesLis$[`.${t}`].append(elem$.clone());
+                    }
+                    else {
+                        throw Error(`Unable to find type <li> matching class '${t}'`);
+                    }
+                    // elem$.clone().appendTo('.' + t);
                 }
             });
 
-            appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
+            appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, typesLis$, elem$);
         }); // each
 
         obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {

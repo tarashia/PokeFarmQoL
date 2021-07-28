@@ -7,10 +7,12 @@ class Helpers {
         }
         return str;
     }
-    toggleSetting(key, set) {
+    toggleSetting(key, set, cls) {
+        // provide default value for cls
+        cls = cls || 'qolsetting';
         // update values for checkboxes
         if (typeof set === 'boolean') {
-            const element = document.querySelector(`.qolsetting[data-key="${key}"]`);
+            const element = document.querySelector(`.${cls}[data-key="${key}"]`);
             if (element && element.type === 'checkbox') {
                 element.checked = set;
             }
@@ -77,8 +79,10 @@ class Helpers {
         }
         index++;
 
-        // Issue #59 - Pokefarm added a new h3 element after the nickname
-        // that contains no data
+        /*
+         * Issue #59 - Pokefarm added a new h3 element after the nickname
+         * that contains no data
+         */
         index++;
 
         // species

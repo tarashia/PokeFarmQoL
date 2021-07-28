@@ -176,7 +176,9 @@ class EvolutionTreeParser {
         const markerIndex = textContent.indexOf(doesNotEvolveMarker);
         if(markerIndex > -1) {
             // mimic the format of the output of flattenEvolutionFamily
-            return {'members': ['Ditto'], 'evolutions': []};
+            return {
+                'members': ['Ditto'], 'evolutions': []
+            };
         }
 
         // TODO: Pull this side effect out of this function
@@ -314,11 +316,15 @@ class EvolutionTreeParser {
                     clearCurrentCondition = false;
                     if(words[w] === 'Level') {
                         clearCurrentCondition = true;
-                        flattened.evolutions[e].condition.push({'condition': words[w], 'data': words[w+1]});
+                        flattened.evolutions[e].condition.push({
+                            'condition': words[w], 'data': words[w+1]
+                        });
                         w++;
                     } else if(words[w] === 'Happiness') {
                         clearCurrentCondition = true;
-                        flattened.evolutions[e].condition.push({'condition': words[w], 'data': ''});
+                        flattened.evolutions[e].condition.push({
+                            'condition': words[w], 'data': ''
+                        });
                     } else { // catch-all for now
                         clearCurrentCondition = false;
                         cond = cond + ' ' + words[w];
@@ -326,7 +332,9 @@ class EvolutionTreeParser {
 
                     if(clearCurrentCondition) {
                         if(cond !== '') {
-                            flattened.evolutions[e].condition.push({'condition': cond.trim(), 'data': ''});
+                            flattened.evolutions[e].condition.push({
+                                'condition': cond.trim(), 'data': ''
+                            });
                         }
                         cond = '';
                     }
@@ -334,7 +342,9 @@ class EvolutionTreeParser {
 
                 // if there's any leftover conditions, add it into the list
                 if(cond !== '') {
-                    flattened.evolutions[e].condition.push({'condition': cond.trim(), 'data': ''});
+                    flattened.evolutions[e].condition.push({
+                        'condition': cond.trim(), 'data': ''
+                    });
                 }
             } // if level
             else {

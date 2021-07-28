@@ -52,7 +52,8 @@ class LocalStorageManagerBase {
         this.storage.removeItem(this.translateKey(key));
     }
 
-    /* Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
+    /*
+     * Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
      * Inputs:
      * - globals - reference to the GLOBALS settings object
      */

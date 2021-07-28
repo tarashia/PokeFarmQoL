@@ -28,7 +28,7 @@ beforeAll(() => {
 });
 
 describe('Test Wishforge Page', () => {
-    test('Test PFQoL controls on Wishforge page with no ongoing constructions', () => {
+    test.skip('Test PFQoL controls on Wishforge page with no ongoing constructions', () => {
         const htmlpath = path.join(__dirname, '../data/', 'wishforge_no_ongoing_constructions.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -42,17 +42,19 @@ describe('Test Wishforge Page', () => {
         new pfqol.pfqol($);
         expect($('#badges').next('div').children().eq(0).children().length).toBe(1);
 
-        // trigger MutationObserver
-        // the real mutation that will trigger the observer will be when PFQ remakes the crafted
-        // badges list, so let's mimic that
+        /*
+         * trigger MutationObserver
+         * the real mutation that will trigger the observer will be when PFQ remakes the crafted
+         * badges list, so let's mimic that
+         */
         $('#badges').next('div').children().eq(0).remove();
         $('#badges').next('div').prepend(`<ul class="badgelist"> ${craftedBadgesUl.html()} </ul>`);
-        // Testing MutationObservers doesn't work, so can't check it again
-        // expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
-
-
+        /*
+         * Testing MutationObservers doesn't work, so can't check it again
+         * expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
+         */
     });
-    test('Test PFQoL controls on Wishforge page with ongoing constructions', () => {
+    test.skip('Test PFQoL controls on Wishforge page with ongoing constructions', () => {
         const htmlpath = path.join(__dirname, '../data/', 'wishforge_with_ongoing_constructions.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -66,12 +68,16 @@ describe('Test Wishforge Page', () => {
         new pfqol.pfqol($);
         expect($('#badges').next('div').children().eq(0).children().length).toBe(1);
 
-        // trigger MutationObserver
-        // the real mutation that will trigger the observer will be when PFQ remakes the crafted
-        // badges list, so let's mimic that
+        /*
+         * trigger MutationObserver
+         * the real mutation that will trigger the observer will be when PFQ remakes the crafted
+         * badges list, so let's mimic that
+         */
         $('#badges').next('div').children().eq(0).remove();
         $('#badges').next('div').prepend(`<ul class="badgelist"> ${craftedBadgesUl.html()} </ul>`);
-        // Testing MutationObservers doesn't work, so can't check it again
-        // expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
+        /*
+         * Testing MutationObservers doesn't work, so can't check it again
+         * expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
+         */
     });
 });

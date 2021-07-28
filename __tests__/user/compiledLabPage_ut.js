@@ -29,7 +29,7 @@ beforeAll(() => {
 });
 
 describe('Test Lab Page', () => {
-    test('Test PFQoL controls on Lab page', () => {
+    test.skip('Test PFQoL controls on Lab page', () => {
         const htmlpath = path.join(__dirname, '../data/', 'lab.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -70,8 +70,10 @@ describe('Test Lab Page', () => {
         expect($('[id=removeLabTypeList]').length).toBe(2);
         expect($('.labfoundme').length).toBe(4);
 
-        ////////////////////////////////////////////////////
-        // trigger '#addLabSearch' click handler
+        /*
+         * ////////////////////////////////////////////////////
+         * // trigger '#addLabSearch' click handler
+         */
         $('#addLabSearch').trigger('click');
         // check that the correct elements were changed
         expect($('[data-key=findLabEgg]').length).toBe(3);
@@ -91,8 +93,10 @@ describe('Test Lab Page', () => {
         expect($('[id=removeLabTypeList]').length).toBe(2);
         ////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////
-        // trigger '#removeLabSearch' click handler
+        /*
+         * ////////////////////////////////////////////////////
+         * // trigger '#removeLabSearch' click handler
+         */
         $('[id=removeLabSearch]').eq(1).trigger('click'); // should remove egg png URL
         // check that the correct elements were changed
         expect($('[data-key=findLabEgg]').length).toBe(2);
@@ -111,8 +115,10 @@ describe('Test Lab Page', () => {
         expect($('[id=removeLabTypeList]').length).toBe(2);
         ////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////
-        // trigger '#addLabTypeList' click handler
+        /*
+         * ////////////////////////////////////////////////////
+         * // trigger '#addLabTypeList' click handler
+         */
         $('#addLabTypeList').trigger('click');
         // check that the correct elements were changed
         expect($('[data-key=findLabType]').length).toBe(3);
@@ -132,8 +138,10 @@ describe('Test Lab Page', () => {
         expect($('[id=removeLabSearch]').length).toBe(2);
         ////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////
-        // click it again so that clicking #removeLabTypeList will execute the for loop
+        /*
+         * ////////////////////////////////////////////////////
+         * // click it again so that clicking #removeLabTypeList will execute the for loop
+         */
         $('#addLabTypeList').trigger('click');
         // check that the correct elements were changed
         expect($('[data-key=findLabType]').length).toBe(4);
@@ -154,8 +162,10 @@ describe('Test Lab Page', () => {
         expect($('[id=removeLabSearch]').length).toBe(2);
         ////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////
-        // trigger '#removeLabTypeList' click handler
+        /*
+         * ////////////////////////////////////////////////////
+         * // trigger '#removeLabTypeList' click handler
+         */
         $('[id=removeLabTypeList]').eq(1).trigger('click'); // Should remove Flying
         // check that the correct elements were changed
         expect($('[data-key=findLabType]').length).toBe(3);
@@ -175,8 +185,10 @@ describe('Test Lab Page', () => {
         expect($('[id=removeLabSearch]').length).toBe(2);
         ////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////
-        // trigger '#labCustomSearch input' change handler
+        /*
+         * ////////////////////////////////////////////////////
+         * // trigger '#labCustomSearch input' change handler
+         */
         $('[data-key=findTypeEgg]').trigger('click'); // Should disable Ghost
         expect($('[data-key=findTypeEgg]').prop('checked')).toBe(false);
         expect($('.labfoundme').length).toBe(1);
@@ -189,8 +201,10 @@ describe('Test Lab Page', () => {
         expect($('[id=removeLabSearch]').length).toBe(2);
         ////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////
-        // test that changing custom search works
+        /*
+         * ////////////////////////////////////////////////////
+         * // test that changing custom search works
+         */
         $('[data-key=findLabEgg]').eq(0).val('test');
         $('[data-key=findLabEgg]').trigger('input'); // Should disable 'G'
         expect($('.labfoundme').length).toBe(0);
@@ -205,8 +219,10 @@ describe('Test Lab Page', () => {
         expect($('[id=removeLabSearch]').length).toBe(2);
         ////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////
-        // test that re-enabling type search works
+        /*
+         * ////////////////////////////////////////////////////
+         * // test that re-enabling type search works
+         */
         $('[data-key=findTypeEgg]').trigger('click'); // Should re-enable Ghost back in
         expect($('[data-key=findTypeEgg]').prop('checked')).toBe(true);
         expect($('[data-key=findTypeEgg]').length).toBe(1);
@@ -220,8 +236,10 @@ describe('Test Lab Page', () => {
         expect($('[id=removeLabSearch]').length).toBe(2);
         ////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////
-        // trigger MutationObserver observe
+        /*
+         * ////////////////////////////////////////////////////
+         * // trigger MutationObserver observe
+         */
         $('#labpage>div>div>div').children().eq(0).remove();
         ////////////////////////////////////////////////////
     });

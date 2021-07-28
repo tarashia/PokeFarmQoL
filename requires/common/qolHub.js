@@ -1,34 +1,24 @@
-/* This class handles creating, removing, and handling the DOM object actions
+/*
+ * This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
 // eslint-disable-next-line no-unused-vars
 class QoLHubBase {
-    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, DEFAULT_SETTINGS, SETTINGS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
         this.HELPERS = HELPERS;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
-        this.DEFAULT_USER_SETTINGS = { // default settings when the script gets loaded the first time
-            customCss: '',
-            enableDaycare: true,
-            shelterEnable: true,
-            fishingEnable: true,
-            publicFieldEnable: true,
-            privateFieldEnable: true,
-            partyMod: true,
-            easyEvolve: true,
-            labNotifier: true,
-            dexFilterEnable: true,
-            condenseWishforge: true
-        };
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
+        this.DEFAULT_USER_SETTINGS = DEFAULT_SETTINGS;
         if (SETTINGS) {
             this.USER_SETTINGS = SETTINGS;
         }
         else {
             this.USER_SETTINGS = this.DEFAULT_USER_SETTINGS;
         }
+        this.LINKED_SETTINGS = this.USER_SETTINGS.LINKED_SETTINGS;
     }
     setupCSS() {
         //custom user css
@@ -49,12 +39,14 @@ class QoLHubBase {
             }
         });
 
-        obj.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+        obj.jQuery(document).on('input', '.qolhubsetting', (function () { //Changes QoL settings
+            const dataKey = this.getAttribute('data-key');
             obj.settingsChange(this.getAttribute('data-key'),
                 obj.jQuery(this).val(),
                 obj.jQuery(this).parent().parent().attr('class'),
                 obj.jQuery(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
+            obj.handleLinkedSetting(dataKey);
         }));
 
         obj.jQuery(document).on('click', '.closeHub', (function () { //close QoL hub
@@ -84,31 +76,8 @@ class QoLHubBase {
         if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
             this.saveSettings();
         } else {
-            try {
-                const countScriptSettings = Object.keys(this.USER_SETTINGS).length;
-                const localStorageString = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
-                const countLocalStorageSettings = Object.keys(localStorageString).length;
-                // adds new objects (settings) to the local storage
-                if (countLocalStorageSettings < countScriptSettings) {
-                    const defaultsSetting = this.USER_SETTINGS;
-                    const userSetting = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
-                    const newSetting = this.jQuery.extend(true, {}, defaultsSetting, userSetting);
-
-                    this.USER_SETTINGS = newSetting;
-                    this.saveSettings();
-                }
-                // removes objects from the local storage if they don't exist anymore. Not yet possible..
-                if (countLocalStorageSettings > countScriptSettings) {
-                    //let defaultsSetting = QOLHUB.USER_SETTINGS;
-                    //let userSetting = JSON.parse(this.localStorageMgr.getItem(QOLHUB.SETTINGS_SAVE_KEY));
-                    this.saveSettings();
-                }
-            }
-            catch (err) {
+            if(this.USER_SETTINGS.load(JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY)))) {
                 this.saveSettings();
-            }
-            if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) != this.USER_SETTINGS) {
-                this.USER_SETTINGS = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
             }
         }
     }
@@ -116,35 +85,99 @@ class QoLHubBase {
         this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
     }
     populateSettings() {
-        for (const key in this.USER_SETTINGS) {
-            if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
-                const value = this.USER_SETTINGS[key];
-                if (typeof value === 'boolean') {
-                    this.HELPERS.toggleSetting(key, value);
-                }
-                else if (typeof value === 'string') {
-                    this.HELPERS.toggleSetting(key, value);
+        function populateSetting(object, key, self, oldKeys) {
+            oldKeys = oldKeys || [];
+            const _object = object[key];
+            const newKeys = [...oldKeys, key];
+            if (typeof _object === 'boolean') {
+                const _key = newKeys.join('.');
+                self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+            }
+            else if (typeof _object === 'string') {
+                const _key = newKeys.join('.');
+                self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+            } else if (typeof _object === 'object') {
+                for (const _key in _object) {
+                    populateSetting(_object, _key, self, newKeys);
                 }
             }
         }
+        for (const key in this.USER_SETTINGS) {
+            if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
+                populateSetting(this.USER_SETTINGS, key, this);
+            }
+            this.handleLinkedSetting(key);
+        }
     }
     settingsChange(element, textElement) {
-        if (JSON.stringify(this.USER_SETTINGS).indexOf(element) >= 0) { // userscript settings
-            if (this.USER_SETTINGS[element] === false) {
-                this.USER_SETTINGS[element] = true;
-            } else if (this.USER_SETTINGS[element] === true) {
-                this.USER_SETTINGS[element] = false;
-            } else if (typeof this.USER_SETTINGS[element] === 'string') {
-                this.USER_SETTINGS[element] = textElement;
+        function getProperty( propertyName, object ) {
+            const parts = propertyName.split( '.' );
+            const length = parts.length;
+            let property = object || this;
+
+            for (let i = 0; i < length; i++ ) {
+                if ( ! Object.hasOwnProperty.call(property, parts[i])) {
+                    return null;
+                }
+                property = property[parts[i]];
             }
-            this.saveSettings();
-            return true;
+            return property;
+        }
+
+        function setProperty( propertyName, object, newValue) {
+            const parts = propertyName.split('.');
+            const first = parts[0];
+            const rest = parts.slice(1);
+
+            if ( !Object.hasOwnProperty.call(object, first)) {
+                return false;
+            }
+            else if (rest.length == 0) {
+                object[first] = newValue;
+                return true;
+            } else {
+                return setProperty(rest.join('.'), object[first], newValue);
+            }
+        }
+
+        const oldValue = getProperty(element, this.USER_SETTINGS);
+        let newValue;
+        if (oldValue !== undefined) { // userscript settings
+            if (oldValue === false) {
+                newValue = true;
+            } else if (oldValue === true) {
+                newValue = false;
+            } else if (typeof oldValue === 'string') {
+                newValue = textElement;
+            }
+            if(!setProperty(element, this.USER_SETTINGS, newValue)) {
+                return false;
+            } else {
+                this.saveSettings();
+                return true;
+            }
         }
         return false;
     }
     clearPageSettings(pageName) {
         if (pageName !== 'None') { // "None" matches option in HTML
             this.PAGES.clearPageSettings(pageName);
+        }
+    }
+    handleLinkedSetting(possibleManager) {
+        const linkedSettingIndex = this.LINKED_SETTINGS.findIndex(ls => ls.manager === possibleManager);
+        if(linkedSettingIndex > -1) {
+            const managed = this.LINKED_SETTINGS[linkedSettingIndex].managed;
+            const userSettings = this.USER_SETTINGS[managed];
+            if(this.jQuery(`[data-key=${possibleManager}]`).prop('checked') === false) {
+                for(const setting in userSettings) {
+                    this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', true);
+                }
+            } else {
+                for(const setting in userSettings) {
+                    this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', false);
+                }
+            }
         }
     }
     build(document) {
@@ -167,7 +200,7 @@ class QoLHubBase {
 
         const customCss = this.USER_SETTINGS.customCss;
 
-        this.jQuery('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolsetting" data-key="customCss"/></textarea>');
+        this.jQuery('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolhubsetting" data-key="customCss"/></textarea>');
         if (customCss === '') {
             this.jQuery('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
         } else {
