@@ -352,16 +352,6 @@ $(function () {
             z-index: 100!important;
         }
 
-        .qolpartyclickbigscreen {
-          left: 50%!important;
-          top: 50%!important;
-        }
-
-        .qolpartyclicksmallscreen {
-          left: 50%!important;
-          top: 75%!important;
-        }
-        
         .qolpartyclickalot {
             position: absolute!important;
             background-color: transparent!important;
@@ -1598,7 +1588,7 @@ $(function () {
         } // parseFieldPokemonToolTip
         getPokemonImageClass() {
         // this seems like PFQ's threshold based on my experimentation
-            if (window.innerWidth >= 650) {
+            if (window.innerWidth >= 650 && window.innerHeight >= 650) {
                 return 'big';
             } else {
                 return 'small';
@@ -4544,6 +4534,15 @@ $(function () {
                 obj.partyModification();
             }));
 
+            let resizeTimer;
+            obj.jQuery(window).resize(function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    obj.loadSettings();
+                    obj.partyModification();
+                }, 100);
+            });
+
             obj.jQuery(document).on('click input', '#qolpartymod', (function () {
                 obj.partyModification();
             }));
@@ -4565,6 +4564,32 @@ $(function () {
             obj.jQuery('input.qolalone').on('change', function () { //only 1 textbox may be true
                 obj.jQuery('input.qolalone').not(this).prop('checked', false);
             });
+
+            /*
+             * Sometimes clicks happen to fast for Pokefarm to add the 'working' class
+             * so, instead of waiting for that class to exist, add the qolpartyclickhide
+             * class here if Hide All mode is enabled
+             */
+            obj.jQuery(document).on('click','#partybox>div.party>div', (e) => {
+                if (obj.settings.hideAll === true) {
+                // sometimes the target is the div, sometimes it's the div.action
+                    const target$ = obj.jQuery(e.target);
+                    let divPkmn$;
+                    let divAction$;
+                    if(target$.hasClass('action')) {
+                        divPkmn$ = target$.parent().children('div.pkmn');
+                        divAction$ = target$;
+                    } else if(target$.attr('data-berry') !== undefined) {
+                        divPkmn$ = target$.parent().parent().parent().children('div.pkmn');
+                        divAction$ = target$.parent().parent().parent().children('div.action');
+                    } else {
+                        divPkmn$ = target$.children('div.pkmn');
+                        divAction$ = target$.children('div.action');
+                    }
+                    divPkmn$.children().remove();
+                    divAction$.addClass('qolpartyclickhide').removeClass('working');
+                }
+            });
         }
         partyModification() {
             if (this.settings.hideDislike === false && this.settings.hideAll === false && this.settings.niceTable === false) {
@@ -4579,12 +4604,8 @@ $(function () {
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
                 this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickbigscreen');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
                 this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
-                this.jQuery('.mu_navlink.next').removeClass('qolpartyclickbigscreen');
-                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
                 this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
@@ -4622,12 +4643,8 @@ $(function () {
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
                 this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickbigscreen');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
                 this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
-                this.jQuery('.mu_navlink.next').removeClass('qolpartyclickbigscreen');
-                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
                 this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
@@ -4668,12 +4685,8 @@ $(function () {
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').removeClass('qolpartyclickwidth');
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').removeClass('qolpartyclickblock');
                 this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclickbigscreen');
-                this.jQuery('#multiuser .party>div').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickalot');
                 this.jQuery('#multiuser .party>div>.action a[data-berry]').removeClass('qolpartyclickz');
-                this.jQuery('.mu_navlink.next').removeClass('qolpartyclickbigscreen');
-                this.jQuery('.mu_navlink.next').removeClass('qolpartyclicksmallscreen');
                 this.jQuery('.mu_navlink.next').removeClass('qolpartyclicknav');
                 this.jQuery('#multiuser .party').removeClass('qolpartyclickpartywidth');
                 this.jQuery('#multiuser .party>div').removeClass('qolpartyclickpartydivwidth');
@@ -4732,28 +4745,12 @@ $(function () {
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'sour\']>[data-berry=\'aspear\'], .party>div>.action>.berrybuttons[data-up=\'spicy\']>[data-berry=\'cheri\'], .party>div>.action>.berrybuttons[data-up=\'dry\']>[data-berry=\'chesto\'], .party>div>.action>.berrybuttons[data-up=\'sweet\']>[data-berry=\'pecha\'], .party>div>.action>.berrybuttons[data-up=\'bitter\']>[data-berry=\'rawst\']').addClass('qolpartyclickwidth');
                 this.jQuery('.party>div>.action>.berrybuttons[data-up=\'any\']>[data-berry]').addClass('qolpartyclickblock');
                 this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').addClass('qolpartyclickhide');
+                if(this.jQuery('.mu_navlink.next').length) {
+                    this.jQuery('#multiuser .party>div').css(this.jQuery('.mu_navlink.next').position());
+                }
 
-                // desktop
-                if(window.innerWidth > 650) {
-                    this.jQuery('#multiuser .party>div').addClass('qolpartyclickbigscreen');
-                }
-                // mobile
-                else {
-                    this.jQuery('#multiuser .party>div').addClass('qolpartyclicksmallscreen');
-                }
                 this.jQuery('#multiuser .party>div').addClass('qolpartyclickalot');
                 this.jQuery('#multiuser .party>div>.action a[data-berry]').addClass('qolpartyclickz');
-
-                // desktop
-                if(window.innerWidth > 650) {
-                    this.jQuery('.mu_navlink.next').addClass('qolpartyclickbigscreen');
-                }
-                // mobile
-                else {
-                    this.jQuery('.mu_navlink.next').addClass('qolpartyclicksmallscreen');
-                }
-                this.jQuery('.mu_navlink.next').addClass('qolpartyclicknav');
-
                 this.jQuery('#multiuser .party').addClass('qolpartyclickpartywidth');
                 this.jQuery('#multiuser .party>div').addClass('qolpartyclickpartydivwidth');
                 this.jQuery('#multiuser .party>div:nth-child(1)').addClass('qolpartyclickborderone');
