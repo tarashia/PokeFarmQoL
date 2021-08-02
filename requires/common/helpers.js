@@ -197,7 +197,7 @@ class Helpers {
     } // parseFieldPokemonToolTip
     getPokemonImageClass() {
         // this seems like PFQ's threshold based on my experimentation
-        if (window.innerWidth >= 650) {
+        if (window.innerWidth >= 650 && window.innerHeight >= 650) {
             return 'big';
         } else {
             return 'small';
