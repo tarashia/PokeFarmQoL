@@ -327,16 +327,6 @@ class ResourcesBase {
             z-index: 100!important;
         }
 
-        .qolpartyclickbigscreen {
-          left: 50%!important;
-          top: 50%!important;
-        }
-
-        .qolpartyclicksmallscreen {
-          left: 50%!important;
-          top: 75%!important;
-        }
-        
         .qolpartyclickalot {
             position: absolute!important;
             background-color: transparent!important;
