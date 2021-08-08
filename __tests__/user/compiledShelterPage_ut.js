@@ -1,6 +1,7 @@
 const $ = require('../../__mocks__/jquery_files').jQuery;
 $.USERID = '';
 const key = `${$.USERID}.QoLShelter`;
+const dexKey = `${$.USERID}.QoLPokedex`;
 // eslint-disable-next-line no-unused-vars
 const console = require('../../__mocks__/console_suppress').console;
 const fs = require('fs');
@@ -8,6 +9,14 @@ const path = require('path');
 const appRoot = require('app-root-path');
 const pfqol = require(appRoot + '/Poke-Farm-QoL.test.user');
 const oldWindowLocation = window.location;
+
+const TYPES_LIST = [
+    'Normal', 'Fire', 'Water', 'Electric',
+    'Grass', 'Ice', 'Fighting', 'Poison',
+    'Ground', 'Flying', 'Psychic', 'Bug',
+    'Rock', 'Ghost', 'Dragon', 'Dark',
+    'Steel', 'Fairy',
+];
 
 beforeAll(() => {
     delete window.location;
@@ -86,7 +95,7 @@ const verifyRemoveTextField = function (dataKey, localStorageKey, removeButtonID
 };
 
 describe('Test Shelter page', () => {
-    test.skip('Test Search controls on Shelter Page', () => {
+    test('Test Search controls on Shelter Page', () => {
         /*
          * //////////////////////////////////////
          *  remove handlers that linger from the previous test
@@ -293,7 +302,143 @@ describe('Test Shelter page', () => {
         ////////////////////////////////////////
     });
 
-    test.skip('Test Search for Legendaries on Shelter Page', () => {
+    test('Test type matching for all pokemon in dex', () => {
+        const emptyShelterFile = path.join(__dirname, '..', 'data', 'emptyShelter.html');
+        const emptyShelterHTML = fs.readFileSync(emptyShelterFile, 'utf8', 'r');
+        const innerHTML = emptyShelterHTML.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
+        global.location.href = 'https://pokefarm.com/shelter';
+        document.documentElement.innerHTML = innerHTML;
+
+        // load pokedex
+        const dexPath = path.join(__dirname, '../data/', 'dex.json');
+        const dex = fs.readFileSync(dexPath, 'utf8', 'r');
+        const parsedDex = JSON.parse(dex);
+        localStorage.setItem(dexKey, dex);
+
+        // set the default settings
+        localStorage.setItem(key,
+            '{"findCustom":"",' +
+            '"findType":"",' +
+            '"findTypeEgg":true,' + // enable this from the get-go
+            '"findTypePokemon":true,' + // enable this from the get-go
+            '"findNewEgg":false,' +
+            '"findNewPokemon":false,' +
+            '"findShiny":false,' +
+            '"findAlbino":false,' +
+            '"findMelanistic":false,' +
+            '"findPrehistoric":false,' +
+            '"findDelta":false,' +
+            '"findMega":false,' +
+            '"findStarter":false,' +
+            '"findCustomSprite":false,' +
+            '"findLegendary":false,' +
+            '"findMale":false,' +
+            '"findFemale":false,' +
+            '"findNoGender":false,' +
+            '"customEgg":false,' +
+            '"customPokemon":false,' +
+            '"customPng":false,' +
+            '"shelterGrid":false}');
+
+        // get list of pokemon and build a map of types to pokemon
+        const pokemon = [];
+        const type1 = [];
+        const type2 = [];
+        // initialize the types as 2d arrays
+        for(let t = 0; t < TYPES_LIST.length; t++) {
+            type1[t] = [];
+            type2[t] = [];
+        }
+        for(let i = 31; i < parsedDex.length; i += 11) {
+            const [ name, t1, t2 ] = [parsedDex[i], parsedDex[i+1], parsedDex[i+2]];
+            const parsedName = name
+                .replace(/\\u00e9/g, 'é')
+                .replace(/\\u00ed/g, 'í')
+                .replace(/\\u00f1/g, 'ñ');
+            pokemon.push(parsedName);
+            type1[t1].push(parsedName);
+            if(t2 != '-1') {
+                type2[t2].push(parsedName);
+            }
+        }
+
+        // build HTML elements for each pokemon
+        const inputHTMLEntries = [];
+        for(let i = 0; i < pokemon.length; i++) {
+            // remove the double quotes
+            const pkmn = pokemon[i].slice(1).slice(0, -1);
+            /*
+             * build an HTML entry for an egg
+             * add pokemon name to data-adopt value to make it easier to filter later
+             */
+            inputHTMLEntries.push(`
+              <div class="pokemon tooltip_trigger" style="left: 4.4342%; top: 61.2656%;" data-stage="egg">
+                  <img src="https://pfq-static.com/img/pkmn/c/0/7.png/t=1478697860" class="big">
+                  <img src="https://pfq-static.com/img/pkmn/c/0/7.png/t=1478697860" class="small">
+              </div>
+              <div class="tooltip_content" data-adopt="${pkmn}">${pkmn} Egg
+                  <span class="buttons">
+                      <button data-shelter="adopt">View / Adopt</button>
+                      <button data-shelter="hide">Hide</button>
+                  </span>
+              </div>`);
+
+            /*
+             * build an HTML entry for a pokemon
+             * add pokemon name to data-adopt value to make it easier to filter later
+             */
+            inputHTMLEntries.push(`
+              <div class="pokemon tooltip_trigger" style="left: 4.4342%; top: 61.2656%;" data-stage="pokemon">
+                  <img src="https://pfq-static.com/img/pkmn/c/0/7.png/t=1478697860" class="big">
+                  <img src="https://pfq-static.com/img/pkmn/c/0/7.png/t=1478697860" class="small">
+              </div>
+              <div class="tooltip_content" data-adopt="${pkmn}">${pkmn} (Lv. 10
+                  <img src="https://pfq-static.com/img/pkmn/gender_m.png/t=1401213006" title="[M]">)
+                  <span class="buttons">
+                      <button data-shelter="adopt">View / Adopt</button>
+                      <button data-shelter="hide">Hide</button>
+                  </span>
+              </div>`);
+        } // for
+
+        // add input HTML elements to page
+        const root$ = $('#shelterarea');
+        expect(root$.length).toBe(1);
+        for(let i = 0; i < inputHTMLEntries.length; i++) {
+            root$.append(inputHTMLEntries[i]);
+        }
+
+        // create PFQoL
+        new pfqol.pfqol($);
+
+        // iterate over each type
+        for(let t = 0; t < TYPES_LIST.length; t++) {
+            // add the type to type search and mimic the browser events to cause updates
+            $('#addShelterTypeList').trigger('click');
+            $('[data-key=findType]').eq(0).val(t);
+            $('[data-key=findType]').eq(0).trigger('input');
+            $('[data-key=findType]').eq(0).trigger('change');
+
+            // Write out to files for debugging
+            const actualHTML = $('#shelterarea').eq(0);
+            fs.writeFileSync('./actualHTML.html', actualHTML.html());
+
+            // check that each pokemon that has the type was highlighted
+            const typePokemon = new Set(type1[t].concat(type2[t]));
+            for(const pkmn of typePokemon) {
+                const pkmn$ = $(`[data-adopt="${pkmn.slice(1).slice(0, -1)}"]`).prev().children('img.big');
+                expect(pkmn$.length).toBe(2);
+                pkmn$.each(( index ) => {
+                    expect(pkmn$.eq(index).hasClass('shelterfoundme')).toBeTruthy();
+                });
+            }
+
+            // remove type from type search
+            $('#removeShelterTypeList').eq(0).trigger('click');
+        } // for
+    });
+
+    test('Test Search for Legendaries on Shelter Page', () => {
         /*
          * //////////////////////////////////////
          *  remove handlers that linger from the previous test
@@ -400,7 +545,7 @@ describe('Test Shelter page', () => {
         verifyCheckbox(checkboxDataKeys[0], key, 'shelterfoundme', 7);
     });
 
-    test.skip('Test Sort controls on Shelter Page', () => {
+    test('Test Sort controls on Shelter Page', () => {
         /*
          * //////////////////////////////////////
          *  setup
