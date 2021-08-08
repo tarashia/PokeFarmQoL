@@ -6,16 +6,16 @@
         "jest": true
     },
     "extends": [
-        "eslint:recommended",
-        // jsdoc
-        "plugin:jsdoc/recommended"
+        "eslint:recommended" // ,
+        // // jsdoc
+        // "plugin:jsdoc/recommended"
     ],
     "parserOptions": {
         "ecmaVersion": 2018
     },
     "plugins": [
-        // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-installation
-        "jsdoc"
+        // // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-installation
+        // "jsdoc"
     ],
     "rules": {
         "indent": [
