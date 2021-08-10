@@ -34,7 +34,7 @@ beforeAll(() => {
 });
 
 describe('Test that PFQoL compiles', () => {
-    test.skip('Test QoL Hub controls', () => {
+    test('Test QoL Hub controls', () => {
         const htmlpath = path.join(__dirname, '../data/', 'party.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -190,7 +190,7 @@ describe('Test that PFQoL compiles', () => {
         expect(lastChild && lastChild.attr('class')).not.toBe('dialog');
         ////////////////////////////////////////
     });
-    test.skip('Test Local Storage Migration', () => {
+    test('Test Local Storage Migration', () => {
         const htmlpath = path.join(__dirname, '../data/', 'party.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();

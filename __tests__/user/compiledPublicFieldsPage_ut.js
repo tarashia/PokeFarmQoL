@@ -101,7 +101,7 @@ describe('Test Public Fields Page', () => {
      *   15. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false, no berry selected
      *   16. tooltipEnableMods = false, tooltipNoBerry = false, tooltipBerry = false,    berry selected
      */
-    test.skip('Test Tooltip controls on Public Fields page when no Berry is Selected', () => {
+    test('Test Tooltip controls on Public Fields page when no Berry is Selected', () => {
         /*
          * ////////////////////////////////////////
          * // setup
@@ -257,7 +257,7 @@ describe('Test Public Fields Page', () => {
          */
     });
 
-    test.skip('Test Tooltip controls on Public Fields page when a Berry is Selected', () => {
+    test('Test Tooltip controls on Public Fields page when a Berry is Selected', () => {
         /*
          * ////////////////////////////////////////
          * // setup
@@ -420,7 +420,7 @@ describe('Test Public Fields Page', () => {
          */
     });
 
-    test.skip('Test Search controls on Public Fields page', () => {
+    test('Test Search controls on Public Fields page', () => {
         /*
          * ////////////////////////////////////////
          * // remove handlers that linger from the previous test
@@ -890,7 +890,7 @@ describe('Test Public Fields Page', () => {
         ////////////////////////////////////////
     });
 
-    test.skip('Test loadSettings when local storage has less settings', () => {
+    test('Test loadSettings when local storage has less settings', () => {
         const htmlpath = path.join(__dirname, '../data/', 'publicFields.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -929,7 +929,7 @@ describe('Test Public Fields Page', () => {
 
     });
 
-    test.skip('Test loadSettings when local storage has more settings', () => {
+    test('Test loadSettings when local storage has more settings', () => {
         const htmlpath = path.join(__dirname, '../data/', 'publicFields.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();

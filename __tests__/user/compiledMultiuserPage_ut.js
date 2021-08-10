@@ -28,7 +28,7 @@ beforeAll(() => {
 });
 
 describe('Test Multiuser Page', () => {
-    test.skip('Test PFQoL controls on Multiuser page', () => {
+    test('Test PFQoL controls on Multiuser page', () => {
         /*
          * HTML has the following pokemon for testing:
          * - 1 that likes Any berry
