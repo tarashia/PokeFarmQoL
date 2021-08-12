@@ -44,29 +44,19 @@ const initialFarmSettings = {
     KNOWN_EXCEPTIONS: JSON.parse(fs.readFileSync(path.join(__dirname, '../data/', 'knownExceptions.json'), 'utf8', 'r'))
 };
 
-// print full stack trace
-Error.stackTraceLimit = Infinity;
-
 function internalTrim(jObj) {
     // trim self
-    const re = RegExp('>(.*?)<', 'g');
+    const reBetweenBrackets = />(.*?)</smg;
+    const reWhitespace = /(\s+)/mg;
+    function replacer(match, p1 /*, offset, string */) {
+        const trimmed = p1.trim().replace(reWhitespace, ' ');
+        return `>${trimmed}<`;
+    }
     for (let i = 0; i < jObj.length; i++) {
         const currentHTML = jObj.eq(i).html().trim();
         if (currentHTML.length) {
-            let textBetweenTags;
-            if (re.test(currentHTML)) {
-                while ((textBetweenTags = re.exec(currentHTML)) !== null) {
-                    const [tagAndText, justText] = textBetweenTags;
-                    const htmlBeforeText = currentHTML.substring(0, textBetweenTags.index + 1);
-                    const textTrimmed = justText.replace(/\s{1,}/g, ' ').trim();
-                    const htmlAfterText = currentHTML.substring(textBetweenTags.index + tagAndText.length - 1);
-                    const newHTML = (htmlBeforeText + textTrimmed + htmlAfterText).trim();
-                    jObj.eq(i).html(newHTML);
-                }
-            }
-            else {
-                jObj.eq(i).html(currentHTML.replace(/\s{1,}/g, ' ').trim());
-            }
+            const newHTML = currentHTML.replace(reBetweenBrackets, replacer);
+            jObj.eq(i).html(newHTML);
         }
     }
     // trim children

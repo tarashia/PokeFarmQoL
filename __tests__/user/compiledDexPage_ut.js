@@ -29,7 +29,7 @@ beforeAll(() => {
 });
 
 describe('Test Dex Page', () => {
-    test.skip('Test mousedown event handler on Dex page', () => {
+    test('Test mousedown event handler on Dex page', () => {
         const htmlpath = path.join(__dirname, '../data/', 'dex.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -109,7 +109,7 @@ describe('Test Dex Page', () => {
 
     });
 
-    test.skip('Test touch event handler on Dex page', () => {
+    test('Test touch event handler on Dex page', () => {
         const htmlpath = path.join(__dirname, '../data/', 'dex.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();

@@ -29,7 +29,7 @@ beforeAll(() => {
 });
 
 describe('Test Lab Page', () => {
-    test.skip('Test PFQoL controls on Lab page', () => {
+    test('Test PFQoL controls on Lab page', () => {
         const htmlpath = path.join(__dirname, '../data/', 'lab.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();

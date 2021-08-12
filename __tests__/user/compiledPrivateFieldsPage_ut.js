@@ -29,7 +29,7 @@ beforeAll(() => {
 });
 
 describe('Test Private Fields Page', () => {
-    test.skip('Test Tooltip controls on Private Fields page', () => {
+    test('Test Tooltip controls on Private Fields page', () => {
         /*
          * ////////////////////////////////////////
          * // setup
@@ -143,7 +143,7 @@ describe('Test Private Fields Page', () => {
          */
     });
 
-    test.skip('Test Search controls on Private Fields page', () => {
+    test('Test Search controls on Private Fields page', () => {
         /*
          * ////////////////////////////////////////
          * // remove handlers that linger from the previous test
@@ -637,7 +637,7 @@ describe('Test Private Fields Page', () => {
         ////////////////////////////////////////
     });
 
-    test.skip('Test Release controls on Private Fields Release dialog', () => {
+    test('Test Release controls on Private Fields Release dialog', () => {
         /*
          * ////////////////////////////////////////
          * // setup
@@ -787,7 +787,7 @@ describe('Test Private Fields Page', () => {
 
     });
 
-    test.skip('Test Move controls on Private Fields Bulk Move dialog', () => {
+    test('Test Move controls on Private Fields Bulk Move dialog', () => {
         /*
          * ////////////////////////////////////////
          * // setup
@@ -936,7 +936,7 @@ describe('Test Private Fields Page', () => {
         ////////////////////////////////////////
     });
 
-    test.skip('Corner case test cases for coverage', () => {
+    test('Corner case test cases for coverage', () => {
         const htmlpath = path.join(__dirname, '../data/', 'privateFieldsForSearchTests.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();

@@ -14,11 +14,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js 12.x
+    - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: "12.x"
-    - name: npm install and test
+        node-version: "10.19.0"
+        
+    - name: npm install
+      run: npm install -g npm@7.6.1
+      
+    - name: npm test
       run: |
         npm install
         npm run sanctioned_test

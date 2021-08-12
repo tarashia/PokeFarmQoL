@@ -28,7 +28,7 @@ beforeAll(() => {
 });
 
 describe('Test Wishforge Page', () => {
-    test.skip('Test PFQoL controls on Wishforge page with no ongoing constructions', () => {
+    test('Test PFQoL controls on Wishforge page with no ongoing constructions', () => {
         const htmlpath = path.join(__dirname, '../data/', 'wishforge_no_ongoing_constructions.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();
@@ -54,7 +54,7 @@ describe('Test Wishforge Page', () => {
          * expect($('#badges').next("div").children().eq(0).children().length).toBe(1);
          */
     });
-    test.skip('Test PFQoL controls on Wishforge page with ongoing constructions', () => {
+    test('Test PFQoL controls on Wishforge page with ongoing constructions', () => {
         const htmlpath = path.join(__dirname, '../data/', 'wishforge_with_ongoing_constructions.html');
         const html = fs.readFileSync(htmlpath, 'utf8', 'r');
         const innerHTML = html.replace(/<html .*?>/, '').replace(/<\/html>/, '').trim();

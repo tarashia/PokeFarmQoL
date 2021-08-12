@@ -276,18 +276,24 @@ class ShelterPageBase extends Page {
                 const pokemonElems = [];
                 typePokemonNames = [];
                 selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
-                selected.each(function () {
-                    const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
+                selected.each((i, e) => {
+                    const allText = obj.jQuery(e).text();
+                    const justParentText = allText.replace(obj.jQuery(e).children().text(), '').trim();
+                    const searchPokemon = justParentText.replace('Egg', '').trim();
+                    const dexifiedPokemon = searchPokemon
+                        .replace(/é/g, '\\u00e9')
+                        .replace(/í/g, '\\u00ed')
+                        .replace(/ñ/g, '\\u00f1');
                     let searchTypeOne = '';
                     let searchTypeTwo = '';
 
-                    const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                    const searchPokemonIndex = dexData.indexOf('"' + dexifiedPokemon + '"');
                     searchTypeOne = dexData[searchPokemonIndex + 1];
                     searchTypeTwo = dexData[searchPokemonIndex + 2];
 
                     if ((searchTypeOne === value) || (searchTypeTwo === value)) {
                         typePokemonNames.push(searchPokemon);
-                        pokemonElems.push(this);
+                        pokemonElems.push(e);
                     }
                 });
 
@@ -303,9 +309,16 @@ class ShelterPageBase extends Page {
             if (this.settings.findTypePokemon === true) {
                 typePokemonNames = [];
                 selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
-                selected.each(function () {
-                    const searchPokemon = (obj.jQuery(this).text().split(' ')[0]);
-                    const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
+                selected.each((i, e) => {
+                    const allText = obj.jQuery(e).text();
+                    const justParentText = allText.replace(obj.jQuery(e).children().text(), '').trim()
+                        .replace(/\n/g, '');
+                    const searchPokemon = justParentText.replace(/\(Lv\..*/g, '').trim();
+                    const dexifiedPokemon = searchPokemon
+                        .replace(/é/g, '\\u00e9')
+                        .replace(/í/g, '\\u00ed')
+                        .replace(/ñ/g, '\\u00f1');
+                    const searchPokemonIndex = dexData.indexOf('"' + dexifiedPokemon + '"');
                     const searchTypeOne = dexData[searchPokemonIndex + 1];
                     const searchTypeTwo = dexData[searchPokemonIndex + 2];
                     if ((searchTypeOne === value) || (searchTypeTwo === value)) {
@@ -314,7 +327,10 @@ class ShelterPageBase extends Page {
                 });
 
                 for (let o = 0; o < typePokemonNames.length; o++) {
-                    const shelterImgSearch = this.jQuery('#shelterarea .tooltip_content:containsIN(\'' + typePokemonNames[o] + ' (\')');
+                    const name = typePokemonNames[o];
+                    const shelterImgSearch = this.jQuery(
+                        `#shelterarea .tooltip_content:containsIN("${name} (")`
+                    );
                     const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
                     this.jQuery(shelterBigImg).addClass('shelterfoundme');
                 }

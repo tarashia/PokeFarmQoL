@@ -29,7 +29,7 @@ beforeAll(() => {
 });
 
 describe('Test Daycare Page', () => {
-    test.skip('Test controls on Daycare page', () => {
+    test('Test controls on Daycare page', () => {
         /*
          * Test HTML is crafted to have different amounts of pokemon for the cases listed below
          * - Ditto: Match everything that is not Undiscovered and not Ditto (12 should be matched)

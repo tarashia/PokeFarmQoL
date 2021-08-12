@@ -29,7 +29,7 @@ beforeAll(() => {
 });
 
 describe('Test Fishing Page', () => {
-    test.skip('Test PFQoL controls on Fishing page', () => {
+    test('Test PFQoL controls on Fishing page', () => {
         /*
          * Test HTML has unique numbers of each flavor to facilitate testing:
          * - 1 Any
