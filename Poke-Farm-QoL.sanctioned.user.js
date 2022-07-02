@@ -1,11 +1,11 @@
 // eslint-disable-next-line multiline-comment-style
 // ==UserScript==
 // @name         Poké Farm QoL
-// @namespace    https://github.com/jpgualdarrama/
+// @namespace    https://github.com/tarashia/
 // @author       Bentomon
-// @homepage     https://github.com/jpgualdarrama/PokeFarmQoL
-// @downloadURL  https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
-// @updateURL    https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
+// @homepage     https://github.com/tarashia/PokeFarmQoL
+// @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
+// @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.sanctioned.user.js
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.6.9
 // @match        https://pokefarm.com/*
@@ -460,7 +460,18 @@ $(function () {
         .badgelist>table>tbody>tr>td>p {
             margin-block-start: 0;
             margin-block-end: 0;
-        }`;
+        }
+        .qolBadges { 
+          border-collapse: collapse; 
+        } 
+        .qolBadgesTop td { 
+          border-top: 1px solid; 
+        }
+        .qolBadgesBot td:nth-of-type(1) img {
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+        `;
         }
 
         fieldSearchHTML() {
@@ -1258,7 +1269,7 @@ $(function () {
                             <li class="expandlist">
                               <span>
                                 Change log was removed as of April 2021. Visit
-                                <a href="https://github.com/jpgualdarrama/PokeFarmQoL">GitHub</a>
+                                <a href="https://github.com/tarashia/PokeFarmQoL">GitHub</a>
                                 for the latest list of features
                               </span>
                             </li>
@@ -1594,6 +1605,13 @@ $(function () {
                 return 'small';
             }
         }
+        /*
+         * returns true if the page is equal to or smaller to the given size class
+         * mobile cutoff (point when header changes): "mq2"
+         */
+        detectPageSize($, size) {
+            return $('html').hasClass(size);
+        }
     }
     // eslint-disable-next-line no-unused-vars
     class GlobalsBase {
@@ -1601,7 +1619,7 @@ $(function () {
             this.HELPERS = helpers;
             this.TEMPLATES = { // all the new/changed HTML for the userscript
                 qolHubLinkHTML: '<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL</a></li>',
-                qolHubUpdateLinkHTML: '<li data-name="QoLupdate"><a href="https://github.com/jpgualdarrama/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js" target="_blank"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>',
+                qolHubUpdateLinkHTML: '<li data-name="QoLupdate"><a href="https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js" target="_blank"><img src="https://i.imgur.com/SJhgsU8.png" alt="QoL Update">QoL Update Available!</a></li>',
                 massReleaseSelectHTML: '<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label>' +
                 '<label id="movefishselectany"><input class="qolsetting" id="movefishselectanycheckbox" type="checkbox">Select Any  </label>' +
                 '<label id="movefishselectsour"><input class="qolsetting" id="movefishselectsourcheckbox" type="checkbox">Select Sour  </label>' +
@@ -6479,8 +6497,23 @@ $(function () {
 
         setupHTML(GLOBALS) {
             const obj = this;
+            const isMobile = obj.helpers.detectPageSize(obj.jQuery, 'mq2');
             // setup table format
-            const header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
+            let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
+            let columns =
+            '<col style="width: 10%;">' +
+            '<col style="width: 20%;">' +
+            '<col style="width: 20%;">' +
+            '<col style="width: 20%;">' +
+            '<col style="width: 10%;">' +
+            '<col style="width: 10%;">';
+            if(isMobile) {
+                header = '<th>Type</th> <th>Gem Progress</th> <th>Item</th>';
+                columns =
+                '<col style="width: 34%;">' +
+                '<col style="width: 33%;">' +
+                '<col style="width: 33%;">';
+            }
 
             // use GLOBALS.TYPE_LIST to get list of types
             const types = GLOBALS.TYPE_LIST;
@@ -6488,20 +6521,19 @@ $(function () {
             // build HTML table
             const rows = {};
             for (let i = 0; i < types.length; i++) {
-                rows[types[i]] = `<td>${types[i]}</td> <td></td> <td></td> <td></td> <td></td> <td></td>`;
+                if(!isMobile) {
+                    rows[types[i]] = `<tr id=${types[i]}> <td>${types[i]}</td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>`;
+                }
+                else {
+                    rows[types[i]] = `<tr id="${types[i]}-top" class="qolBadgesTop"> <td>${types[i]}</td> <td></td> <td></td> </tr>`
+                               + `<tr id="${types[i]}-bot" class="qolBadgesBot"> <td></td> <td></td> <td></td> </tr>`;
+                }
             }
-            let table = '<table style="width: 100%">' +
-            '<colgroup>' +
-            '<col span="1" style="width: 10%;">' +
-            '<col span="1" style="width: 20%;">' +
-            '<col span="1" style="width: 20%;">' +
-            '<col span="1" style="width: 20%;">' +
-            '<col span="1" style="width: 10%;">' +
-            '<col span="1" style="width: 10%;">' +
-            '</colgroup>' +
-            `<tr id="head"> ${header}</tr>`;
+            let table = '<table style="width: 100%" class="qolBadges">' +
+            `<colgroup> ${columns} </colgroup>` +
+            `<tr id="head"> ${header} </tr>`;
             for (let i = 0; i < types.length; i++) {
-                table += `<tr id=${types[i]}> ${rows[types[i]]} </tr>`;
+                table += rows[types[i]];
             }
             table += '</table>';
 
@@ -6510,11 +6542,23 @@ $(function () {
             craftedBadgesList.prepend(table);
 
             // define column aliases to make the movements more logical
-            const LEVEL_COL = 2;
-            const GEM_COL = 3;
-            const ITEM_COL = 4;
-            const UPDATE_COL = 5;
-            const NOTIFY_COL = 6;
+            let LEVEL_COL = 2;
+            let GEM_COL = 3;
+            let ITEM_COL = 4;
+            let UPDATE_COL = 5;
+            let NOTIFY_COL = 6;
+            let MOB_TOP = '';
+            let MOB_BOT = '';
+            if(isMobile) {
+                LEVEL_COL = 1;
+                GEM_COL = 2;
+                ITEM_COL = 3;
+                UPDATE_COL = 2;
+                NOTIFY_COL = 3;
+                // row specifiers for mobile
+                MOB_TOP = '-top';
+                MOB_BOT = '-bot';
+            }
 
             // move elements from original elements to table
             for (let j = 0; j < types.length; j++) {
@@ -6524,41 +6568,41 @@ $(function () {
 
                 // get badge image
                 const badgeImg = obj.jQuery(obj.jQuery(li.children()[0]).children()[0]);
-                badgeImg.appendTo(`tr#${type}>td:nth-child(${LEVEL_COL})`);
+                badgeImg.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${LEVEL_COL})`);
 
                 // get badge name
                 const badgeName = obj.jQuery(li.children()[0]);
                 badgeName.text(' ' + badgeName.text().replace(` ${type} Badge`, ''));
                 badgeName.css('display', 'inline-block');
-                badgeName.appendTo(`tr#${type}>td:nth-child(${LEVEL_COL})`);
+                badgeName.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${LEVEL_COL})`);
 
                 // get gem progress bar
                 const gemProgress = obj.jQuery(li.children()[0]);
-                gemProgress.appendTo(`tr#${type}>td:nth-child(${GEM_COL})`);
+                gemProgress.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${GEM_COL})`);
 
                 // if the badge is under construction, the tooltip will not be there
                 if(obj.jQuery(li.children()[0]).hasClass('itemtooltip')) {
                     const gemTooltip = obj.jQuery(li.children()[0]);
-                    gemTooltip.appendTo(`tr#${type}>td:nth-child(${GEM_COL})`);
+                    gemTooltip.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${GEM_COL})`);
                 }
 
                 // get item progress bar
                 const itemProgress = obj.jQuery(li.children()[0]);
-                itemProgress.appendTo(`tr#${type}>td:nth-child(${ITEM_COL})`);
+                itemProgress.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${ITEM_COL})`);
 
                 // if the badge is under construction, the tooltip will not be there
                 if(obj.jQuery(li.children()[0]).hasClass('itemtooltip')) {
                     const itemTooltip = obj.jQuery(li.children()[0]);
-                    itemTooltip.appendTo(`tr#${type}>td:nth-child(${ITEM_COL})`);
+                    itemTooltip.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${ITEM_COL})`);
                 }
 
                 // get notify button
                 const notifyBtn = obj.jQuery(li.children()[0]);
-                notifyBtn.appendTo(`tr#${type}>td:nth-child(${NOTIFY_COL})`);
+                notifyBtn.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${NOTIFY_COL})`);
 
                 // get upgrade button
                 const updateBtn = obj.jQuery(li.children()[0]);
-                updateBtn.appendTo(`tr#${type}>td:nth-child(${UPDATE_COL})`);
+                updateBtn.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${UPDATE_COL})`);
             }
 
             // remove the li's left over

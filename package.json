@@ -15,15 +15,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/jpgualdarrama/PokeFarmQoL.git"
+        "url": "git+https://github.com/tarashia/PokeFarmQoL.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/jpgualdarrama/PokeFarmQoL/issues"
+        "url": "https://github.com/tarashia/PokeFarmQoL/issues"
     },
-    "homepage": "https://github.com/jpgualdarrama/PokeFarmQoL#readme",
+    "homepage": "https://github.com/tarashia/PokeFarmQoL#readme",
     "devDependencies": {
         "app-root-path": "^3.0.0",
         "eslint": "^7.16.0",

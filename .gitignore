@@ -20,3 +20,6 @@ output
 # testing debug files
 actualHTML.html
 expectedHTML.html
+
+# macos
+.DS_Store

@@ -435,7 +435,18 @@ class ResourcesBase {
         .badgelist>table>tbody>tr>td>p {
             margin-block-start: 0;
             margin-block-end: 0;
-        }`;
+        }
+        .qolBadges { 
+          border-collapse: collapse; 
+        } 
+        .qolBadgesTop td { 
+          border-top: 1px solid; 
+        }
+        .qolBadgesBot td:nth-of-type(1) img {
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+        `;
     }
 
     fieldSearchHTML() {
@@ -1233,7 +1244,7 @@ class ResourcesBase {
                             <li class="expandlist">
                               <span>
                                 Change log was removed as of April 2021. Visit
-                                <a href="https://github.com/jpgualdarrama/PokeFarmQoL">GitHub</a>
+                                <a href="https://github.com/tarashia/PokeFarmQoL">GitHub</a>
                                 for the latest list of features
                               </span>
                             </li>

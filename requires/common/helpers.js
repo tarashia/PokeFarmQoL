@@ -203,4 +203,9 @@ class Helpers {
             return 'small';
         }
     }
+    // returns true if the page is equal to or smaller to the given size class
+    // mobile cutoff (point when header changes): "mq2"
+    detectPageSize($, size) {
+        return $('html').hasClass(size);
+    }
 }

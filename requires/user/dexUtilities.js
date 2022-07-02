@@ -153,7 +153,7 @@ class DexUtilities {
         /*
          * store the maximum depth of the evolution tree for each pokemon
          * for highlighting each pokemon based on how fully evolved they are
-         * https://github.com/jpgualdarrama/PokeFarmQoL/issues/11
+         * https://github.com/tarashia/PokeFarmQoL/issues/11
          */
         const maxEvoTreeDepth = {};
         for(const pokemon in parsedFamilies) {
