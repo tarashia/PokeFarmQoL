@@ -1283,6 +1283,14 @@ $(function () {
                                 </span>
                               </label>
                             </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolhubsetting" data-key="summaryEnable"/>
+                                <span>
+                                  Summary page (pkmnpanel code)
+                                </span>
+                              </label>
+                            </li>
                           </ul>
                           <span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span>
                         </td>
@@ -1687,6 +1695,7 @@ $(function () {
             this.POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
             this.POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
             this.INTERACTIONS_PAGE_SETTINGS_KEY = 'QoLInteractions';
+            this.SUMMARY_PAGE_SETTINGS_KEY = 'QoLSummary';
             /*
              * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
              * Don't change the order without looking for where this array is used
@@ -3010,6 +3019,7 @@ $(function () {
             this.dexFilterEnable = true;
             this.condenseWishforge = true;
             this.interactionsEnable = true;
+            this.summaryEnable = true;
             this.shelterFeatureEnables = {
                 search: true,
                 sort: true,
@@ -6725,7 +6735,6 @@ $(function () {
         } // constructor
 
         setupHTML() {
-            console.log('50 clickback');
             // add 50 clickback link to sent interactions section
             let names = '';
             const lists = document.getElementsByClassName('userlist');
@@ -6745,7 +6754,6 @@ $(function () {
                     const name = userUrl.split('/user/')[1];
                     names+=name;
                 }
-                console.log(names);
                 const url = 'https://pokefarm.com/users/'+names;
                 const newP = document.createElement('p');
                 const newLink = document.createElement('a');
@@ -6761,6 +6769,25 @@ $(function () {
             }
         }
     }
+
+
+    // eslint-disable-next-line no-unused-vars
+    class SummaryPage extends Page {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
+        } // constructor
+
+        setupHTML() {
+            const pkmnID = this.jQuery('.party div')[0].getAttribute('data-pid');
+            const displayAccordion = this.jQuery('#displaycodelist').parent();
+            const newHTML =
+      '<p>Display an interactive panel in Pokefarm\'s forums!</p>'+
+      '<p class="displaycode" style="user-select:all";>[pkmnpanel='+pkmnID+']</p>'+
+      '<div style="border-bottom: 1px solid;margin-top: 1rem;"></div>';
+            displayAccordion.prepend(newHTML);
+        }
+    }
+
 
     // eslint-disable-next-line no-unused-vars
     class PagesManager {
@@ -6825,6 +6852,11 @@ $(function () {
                     class: InteractionsPage,
                     object: undefined,
                     setting: 'interactionsEnable'
+                },
+                'Summary': {
+                    class: SummaryPage,
+                    object: undefined,
+                    setting: 'summaryEnable'
                 },
             };
         }

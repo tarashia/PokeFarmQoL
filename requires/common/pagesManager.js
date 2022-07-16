@@ -66,6 +66,11 @@ class PagesManager {
                 object: undefined,
                 setting: 'interactionsEnable'
             },
+            'Summary': {
+                class: SummaryPage,
+                object: undefined,
+                setting: 'summaryEnable'
+            },
         };
     }
     instantiatePages(QOLHUB) {

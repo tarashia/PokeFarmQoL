@@ -14,6 +14,7 @@ class UserSettings {
         this.dexFilterEnable = true;
         this.condenseWishforge = true;
         this.interactionsEnable = true;
+        this.summaryEnable = true;
         this.shelterFeatureEnables = {
             search: true,
             sort: true,

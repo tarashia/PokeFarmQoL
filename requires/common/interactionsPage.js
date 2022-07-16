@@ -6,7 +6,6 @@ class InteractionsPage extends Page {
   } // constructor
 
   setupHTML() {
-    console.log('50 clickback');
     // add 50 clickback link to sent interactions section
     let names = "";
     let lists = document.getElementsByClassName('userlist');
@@ -26,7 +25,6 @@ class InteractionsPage extends Page {
         let name = userUrl.split("/user/")[1];
         names+=name;
       }
-      console.log(names);
       let url = "https://pokefarm.com/users/"+names;
       let newP = document.createElement("p");
       let newLink = document.createElement("a");
