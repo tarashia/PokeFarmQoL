@@ -19,6 +19,7 @@ exports.commonSources = [
     path.join(root, 'requires', 'common', 'multiuserPage.js'),
     path.join(root, 'requires', 'common', 'privateFieldsPage.js'),
     path.join(root, 'requires', 'common', 'publicFieldsPage.js'),
+    path.join(root, 'requires', 'common', 'sharedFieldsLib.js'),
     path.join(root, 'requires', 'common', 'shelterPage.js'),
     path.join(root, 'requires', 'common', 'wishforgePage.js'),
     path.join(root, 'requires', 'common', 'pagesManager.js'),

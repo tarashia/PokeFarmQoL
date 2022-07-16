@@ -270,6 +270,7 @@ class ResourcesBase {
         .qolHubTable {
             border-spacing: 0px 0px;
             border-collapse: collapse;
+            width: 100%;
         }
         
         .qolChangeLogList {
@@ -1079,9 +1080,6 @@ class ResourcesBase {
                         <td>
                           <h3 class="qolHubHead">Settings</h3>
                         </td>
-                        <td>
-                          <h3 class="qolHubHead">Change log</h3>
-                        </td>
                       </tr>
                       <tr>
                         <td class="qolAllSettings">
@@ -1160,6 +1158,14 @@ class ResourcesBase {
                                     </span>
                                   </label>
                                 </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"/>
+                                    <span>
+                                      Pokemon Link List
+                                    </span>
+                                  </label>
+                                </li>
                               </ul>
                             </li>
                             <li>
@@ -1191,6 +1197,14 @@ class ResourcesBase {
                                     <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"/>
                                     <span>
                                       Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"/>
+                                    <span>
+                                      Pokemon Link List
                                     </span>
                                   </label>
                                 </li>
@@ -1239,6 +1253,13 @@ class ResourcesBase {
                           </ul>
                           <span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span>
                         </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <h3 class="qolHubHead">Change log</h3>
+                        </td>
+                      </tr>
+                      <tr>
                         <td class="qolChangeLog">
                           <ul class="qolChangeLogList">
                             <li class="expandlist">

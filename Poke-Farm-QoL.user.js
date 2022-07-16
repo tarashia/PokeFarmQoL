@@ -295,6 +295,7 @@ $(function () {
         .qolHubTable {
             border-spacing: 0px 0px;
             border-collapse: collapse;
+            width: 100%;
         }
         
         .qolChangeLogList {
@@ -1104,9 +1105,6 @@ $(function () {
                         <td>
                           <h3 class="qolHubHead">Settings</h3>
                         </td>
-                        <td>
-                          <h3 class="qolHubHead">Change log</h3>
-                        </td>
                       </tr>
                       <tr>
                         <td class="qolAllSettings">
@@ -1185,6 +1183,14 @@ $(function () {
                                     </span>
                                   </label>
                                 </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"/>
+                                    <span>
+                                      Pokemon Link List
+                                    </span>
+                                  </label>
+                                </li>
                               </ul>
                             </li>
                             <li>
@@ -1216,6 +1222,14 @@ $(function () {
                                     <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"/>
                                     <span>
                                       Tooltips Enable/Disable
+                                    </span>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label>
+                                    <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"/>
+                                    <span>
+                                      Pokemon Link List
                                     </span>
                                   </label>
                                 </li>
@@ -1264,6 +1278,13 @@ $(function () {
                           </ul>
                           <span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span>
                         </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <h3 class="qolHubHead">Change log</h3>
+                        </td>
+                      </tr>
+                      <tr>
                         <td class="qolChangeLog">
                           <ul class="qolChangeLogList">
                             <li class="expandlist">
@@ -2987,12 +3008,14 @@ $(function () {
                 search: true,
                 sort: true,
                 release: true,
-                tooltip: true
+                tooltip: true,
+                pkmnlinks: true
             };
             this.privateFieldFeatureEnables = {
                 search: true,
                 release: true,
-                tooltip: true
+                tooltip: true,
+                pkmnlinks: true
             };
 
             /*
@@ -4864,6 +4887,10 @@ $(function () {
                 document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.privateFieldTooltipModHTML);
                 this.handleTooltipSettings();
             }
+
+            if(this.globalSettings.privateFieldFeatureEnables.pkmnlinks) {
+                SharedFieldsLib.addPkmnLinksPopup();
+            }
         }
         setupCSS() {
         // same as public fields
@@ -5417,6 +5444,10 @@ $(function () {
                 document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.publicFieldTooltipModHTML);
                 this.handleTooltipSettings();
             }
+
+            if(this.globalSettings.publicFieldFeatureEnables.pkmnlinks) {
+                SharedFieldsLib.addPkmnLinksPopup();
+            }
         }
         setupCSS() {
             const fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
@@ -5939,6 +5970,62 @@ $(function () {
             }
         }
     }
+    // Shared functions for the publicFieldsPage/privateFieldsPage
+
+    class SharedFieldsLib {
+        static addPkmnLinksPopup() {
+            const body = document.getElementsByTagName('body')[0];
+            const header = document.getElementsByTagName('h1')[0];
+            const core = document.getElementById('core');
+            const newBtn = document.createElement('button');
+            header.appendChild(newBtn);
+            newBtn.innerText = 'View links';
+            newBtn.style= 'vertical-align:middle;margin-left: 10px;';
+            newBtn.onclick = function(){
+
+                let content = '<h3>Pokemon links</h3><table style="border-collapse:collapse;">';
+                const fieldmon = document.getElementsByClassName('fieldmon');
+                for(let i=0; i<fieldmon.length; i++){
+                    if(i%4==0) {
+                        content += '<tr>';
+                    }
+                    const pkmnID = fieldmon[i].getAttribute('data-id');
+                    const small = fieldmon[i].children[1];
+                    const imgSRC = small.getAttribute('src');
+                    const pkmnName = small.getAttribute('alt');
+                    content += '<td style="padding:5px;border:1px solid;">' +
+                   '<img style="vertical-align:middle;" src="'+imgSRC+'"> ' +
+                   '<a href="/summary/'+pkmnID+'">'+pkmnName+'</a></td>';
+                    if(i%4==3) {
+                        content += '</tr>';
+                    }
+                }
+                content += '</table>';
+
+                const dialog = document.createElement('div');
+                const dialogDiv1 = document.createElement('div');
+                const dialogDiv2 = document.createElement('div');
+                const dialogDiv3 = document.createElement('div');
+                const closeBtn = document.createElement('button');
+                closeBtn.setAttribute('type','button');
+                closeBtn.style = 'float:right;margin:8px;';
+                closeBtn.innerText = 'Close';
+                closeBtn.onclick = function() {
+                    dialog.remove();
+                    core.classList.remove('scrolllock');
+                };
+                dialog.classList.add('dialog');
+                dialog.appendChild(dialogDiv1);
+                dialogDiv1.appendChild(dialogDiv2);
+                dialogDiv2.appendChild(dialogDiv3);
+                dialogDiv3.innerHTML = content;
+                dialogDiv3.appendChild(closeBtn);
+                body.prepend(dialog);
+                core.classList.add('scrolllock');
+            };
+        }
+    }
+
 
     // eslint-disable-next-line no-unused-vars
     class ShelterPageBase extends Page {

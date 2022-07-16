@@ -93,6 +93,10 @@ class PublicFieldsPage extends Page {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.publicFieldTooltipModHTML);
             this.handleTooltipSettings();
         }
+
+        if(this.globalSettings.publicFieldFeatureEnables.pkmnlinks) {
+            SharedFieldsLib.addPkmnLinksPopup();
+        }
     }
     setupCSS() {
         const fieldOrderCssColor = this.jQuery('#field_field').css('background-color');

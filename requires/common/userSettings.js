@@ -21,12 +21,14 @@ class UserSettings {
             search: true,
             sort: true,
             release: true,
-            tooltip: true
+            tooltip: true,
+            pkmnlinks: true
         };
         this.privateFieldFeatureEnables = {
             search: true,
             release: true,
-            tooltip: true
+            tooltip: true,
+            pkmnlinks: true
         };
 
         /*

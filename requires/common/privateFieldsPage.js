@@ -79,6 +79,10 @@ class PrivateFieldsPageBase extends Page {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.privateFieldTooltipModHTML);
             this.handleTooltipSettings();
         }
+
+        if(this.globalSettings.privateFieldFeatureEnables.pkmnlinks) {
+            SharedFieldsLib.addPkmnLinksPopup();
+        }
     }
     setupCSS() {
         // same as public fields
