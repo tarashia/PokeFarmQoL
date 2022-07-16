@@ -13,6 +13,7 @@ class UserSettings {
         this.labNotifier = true;
         this.dexFilterEnable = true;
         this.condenseWishforge = true;
+        this.interactionsEnable = true;
         this.shelterFeatureEnables = {
             search: true,
             sort: true,

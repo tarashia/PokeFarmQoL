@@ -61,6 +61,11 @@ class PagesManager {
                 object: undefined,
                 setting: 'condenseWishforge'
             },
+            'Interactions': {
+                class: InteractionsPage,
+                object: undefined,
+                setting: 'interactionsEnable'
+            },
         };
     }
     instantiatePages(QOLHUB) {

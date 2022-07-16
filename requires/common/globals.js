@@ -42,6 +42,7 @@ class GlobalsBase {
         this.POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
         this.POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
         this.POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
+        this.INTERACTIONS_PAGE_SETTINGS_KEY = 'QoLInteractions';
         /*
          * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
          * Don't change the order without looking for where this array is used

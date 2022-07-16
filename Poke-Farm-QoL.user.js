@@ -1275,6 +1275,14 @@ $(function () {
                                 </span>
                               </label>
                             </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"/>
+                                <span>
+                                  Interactions page (sent multi-link)
+                                </span>
+                              </label>
+                            </li>
                           </ul>
                           <span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span>
                         </td>
@@ -1678,6 +1686,7 @@ $(function () {
             this.POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
             this.POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
             this.POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
+            this.INTERACTIONS_PAGE_SETTINGS_KEY = 'QoLInteractions';
             /*
              * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
              * Don't change the order without looking for where this array is used
@@ -3000,6 +3009,7 @@ $(function () {
             this.labNotifier = true;
             this.dexFilterEnable = true;
             this.condenseWishforge = true;
+            this.interactionsEnable = true;
             this.shelterFeatureEnables = {
                 search: true,
                 sort: true,
@@ -6709,6 +6719,50 @@ $(function () {
     }
 
     // eslint-disable-next-line no-unused-vars
+    class InteractionsPage extends Page {
+        constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
+            super(jQuery, localStorageMgr, helpers, GLOBALS.INTERACTIONS_PAGE_SETTINGS_KEY, {}, 'interactions');
+        } // constructor
+
+        setupHTML() {
+            console.log('50 clickback');
+            // add 50 clickback link to sent interactions section
+            let names = '';
+            const lists = document.getElementsByClassName('userlist');
+            const lastList = lists[lists.length-1];
+            if(lastList.parentElement.previousElementSibling.innerText == 'Sent'){
+                const nameElements = lastList.childNodes;
+                let overFifty = false;
+                for(let i=0; i<nameElements.length; i++){
+                    if(i>=50){
+                        overFifty = true;
+                        break;
+                    }
+                    if(i!=0){
+                        names+=',';
+                    }
+                    const userUrl = nameElements[i].lastChild.href;
+                    const name = userUrl.split('/user/')[1];
+                    names+=name;
+                }
+                console.log(names);
+                const url = 'https://pokefarm.com/users/'+names;
+                const newP = document.createElement('p');
+                const newLink = document.createElement('a');
+                newLink.href = url;
+                if(overFifty){
+                    newLink.innerText = 'Open top 50 users';
+                }
+                else{
+                    newLink.innerText = 'Open all users';
+                }
+                newP.appendChild(newLink);
+                lastList.parentNode.insertBefore(newP,lastList);
+            }
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
     class PagesManager {
         constructor(jQuery, localStorageMgr, globals, HELPERS, SETTINGS) {
             this.jQuery = jQuery;
@@ -6766,6 +6820,11 @@ $(function () {
                     class: WishforgePage,
                     object: undefined,
                     setting: 'condenseWishforge'
+                },
+                'Interactions': {
+                    class: InteractionsPage,
+                    object: undefined,
+                    setting: 'interactionsEnable'
                 },
             };
         }

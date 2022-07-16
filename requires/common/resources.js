@@ -1250,6 +1250,14 @@ class ResourcesBase {
                                 </span>
                               </label>
                             </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"/>
+                                <span>
+                                  Interactions page (sent multi-link)
+                                </span>
+                              </label>
+                            </li>
                           </ul>
                           <span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span>
                         </td>
