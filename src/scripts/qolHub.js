@@ -22,8 +22,21 @@ class QoLHub {
     setupCSS() {
         //custom user css
         const customUserCss = this.USER_SETTINGS.customCss;
-        //document.querySelector('head').append();
-        this.jQuery('head').append('<style type="text/css">' + customUserCss + '</style>');
+        const obj = this;
+        // eslint-disable-next-line no-undef
+        less.render(customUserCss)
+            .then(function(newCSS) {
+                if(newCSS.css) {
+                    obj.jQuery('head').append('<style type="text/css">' + newCSS.css + '</style>');
+                }
+                else {
+                    console.warn('Could not load custom CSS from LESS parser.');
+                }
+            })
+            .catch(function(error) {
+                console.error('Failed to parse LESS: ');
+                console.error(error);
+            });
     }
     setupHandlers() {
         const obj = this;
@@ -199,7 +212,6 @@ class QoLHub {
 
         const customCss = this.USER_SETTINGS.customCss;
 
-        this.jQuery('.textareahub', document).append('<textarea id="qolcustomcss" rows="15" cols="60" class="qolhubsetting" data-key="customCss"/></textarea>');
         if (customCss === '') {
             this.jQuery('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
         } else {
