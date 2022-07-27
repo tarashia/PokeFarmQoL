@@ -1,0 +1,18 @@
+{
+  "0": "Undiscovered",
+  "1": "Monster",
+  "2": "Dragon",
+  "3": "Field",
+  "4": "Bug",
+  "5": "Grass",
+  "6": "Water 1",
+  "7": "Water 2",
+  "8": "Water 3",
+  "9": "Amorphous",
+  "10": "Fairy",
+  "11": "Human-Like",
+  "12": "Mineral",
+  "13": "Flying",
+  // 14 is intentionally skipped
+  "15": "Ditto"
+}

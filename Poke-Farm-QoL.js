@@ -1,16 +1,3 @@
-// ==UserScript==
-// @name         Poké Farm QoL
-// @namespace    https://github.com/tarashia/
-// @author       Bentomon, ECEInTheHole, Tarashia
-// @homepage     https://github.com/tarashia/PokeFarmQoL
-// @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
-// @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
-// @description  Quality of Life changes to Pokéfarm!
-// @version      1.6.9
-// @match        https://pokefarm.com/*
-// @connect      github.com
-// @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js
-// ==/UserScript==
 
 class Page {
     constructor(jQuery, localStorageMgr, helpers, ssk, ds, url, globalSettings) {

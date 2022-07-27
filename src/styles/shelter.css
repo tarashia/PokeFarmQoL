@@ -1,0 +1,79 @@
+/* tooltip */
+.qoltooltip_trigger {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+ /* If you want dots under the hoverable text */
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 500px;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: 0px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.customsearchtooltip {
+  width: 400px;
+}
+/* shelter notification wrap */
+#sheltersuccess {
+  text-align: center;
+}
+/* shelter notification */
+#shelterfound {
+  padding-top: 20px;
+}
+/* shelter Pokemon/egg found background */
+.publicfoundme, .privatefoundme, .shelterfoundme, .daycarefoundme, .labfoundme {
+  box-shadow: 0px 0px 25px 15px #d5e265;
+  background-color: #d5e265;
+  border-radius: 100%;
+}
+/*shelterSort */
+/* shelter grid sort */
+.qolshelterareagrid {
+  min-height: 350px;
+  display: flex!important;
+  flex-direction:row;
+  flex-flow: row wrap;
+  display: grid!important;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 70px);
+}
+.qolshelterareagridmq2 {
+  min-height: 175px;
+  grid-template-rows: repeat(5, 35px);
+}
+.qoltooltipgrid {
+  position: absolute!important;
+  bottom: 0;
+  transform: translate(0, 100%);
+}
+.qolpokemongrid {
+  position: static!important;
+  flex: 1 1 16%;
+  display: inline-block!important;
+  display: inline-flex!important;
+  justify-content: center;
+  align-items: center;
+}

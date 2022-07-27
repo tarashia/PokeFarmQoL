@@ -1,0 +1,18 @@
+.badgelist>table>tbody>tr>td>.itemtooltip {
+  position: relative;
+  margin-top: -28px;
+}
+.badgelist>table>tbody>tr>td>p {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+.qolBadges {
+  border-collapse: collapse;
+}
+.qolBadgesTop td {
+  border-top: 1px solid;
+}
+.qolBadgesBot td:nth-of-type(1) img {
+  vertical-align: middle;
+  margin-right: 5px;
+}
