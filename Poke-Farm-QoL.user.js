@@ -6,7 +6,7 @@
 // @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      1.6.9
+// @version      1.7.0
 // @match        https://pokefarm.com/*
 // @connect      github.com
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js
