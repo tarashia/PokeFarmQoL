@@ -26,16 +26,17 @@ class QoLHub {
         // eslint-disable-next-line no-undef
         less.render(customUserCss)
             .then(function(newCSS) {
-                if(newCSS.css) {
-                    obj.jQuery('head').append('<style type="text/css">' + newCSS.css + '</style>');
+                if('css' in newCSS) {
+                    if(newCSS.css.trim()!=='') {
+                        obj.jQuery('head').append('<style type="text/css">' + newCSS.css + '</style>');
+                    }
                 }
                 else {
                     console.warn('Could not load custom CSS from LESS parser.');
                 }
             })
             .catch(function(error) {
-                console.error('Failed to parse LESS: ');
-                console.error(error);
+                console.error('Failed to parse LESS: '+error.message);
             });
     }
     setupHandlers() {
