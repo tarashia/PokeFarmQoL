@@ -1,0 +1,15 @@
+Short-term goals:
+- Initial testing as a userscript
+- Update dex-data.txt, after loading base formes
+
+Medium-term goals:
+- Talk to staff, post in forums
+- Figure out a way to test pages like wishforge
+  in alternate configurations (ex: in-progress badges)
+  (similarly to the old tests directories?)
+
+Long-term goals:
+- Bug fixes
+- Change dex handling to be more flexible?
+  Could this be crowdsourced like the wiki?
+  What's the likelihood it dies?
