@@ -22,32 +22,12 @@ import htmlMinify from 'html-minifier';
 import replaceAsync from 'string-replace-async';
 import { ESLint } from 'eslint';
 
-const args = process.argv.slice(2);
-var isUserscript = undefined;
-switch (args[0]) {
-    case '--javascript':
-    case '-j':
-        console.log('Running in javascript mode');
-        isUserscript = false;
-        break;
-    case '--userscript':
-    case '-u':
-        console.log('Running in userscript mode');
-        isUserscript = true;
-        break;
-    default:    
-        throw new Error(usage);
-}
-
 runBuild();
 
 async function runBuild() {
-    var output = 'Poke-Farm-QoL.js';
-    var initContent = '';
-    if(isUserscript) {
-        output = 'Poke-Farm-QoL.user.js';
-        initContent = await fs.promises.readFile('src/resources/header.txt', 'utf8');
-    }
+    var output = 'Poke-Farm-QoL.user.js';
+    var initContent = await fs.promises.readFile('src/resources/header.txt', 'utf8');
+
     await fs.promises.writeFile(output, initContent);
     console.log('Initialized '+output);
     await concatFiles('src/scripts', output);

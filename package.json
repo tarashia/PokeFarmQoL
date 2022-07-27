@@ -5,16 +5,14 @@
     "description": "Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pokéfarm experience even more!",
     "main": "Poke-Farm-QoL.user.js",
     "scripts": {
-        "build-j": "node build.js --javascript",
-        "build-u": "node build.js --userscript",
-        "build": "npm run build-j && npm run build-u"
+        "build": "node build.js"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/tarashia/PokeFarmQoL.git"
     },
     "keywords": [],
-    "author": "",
+    "author": "Bentomon, ECEInTheHole, Tarashia (Mirzam)",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/tarashia/PokeFarmQoL/issues"

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Poké Farm QoL
 // @namespace    https://github.com/tarashia/
-// @author       Bentomon, ECEInTheHole, Tarashia
+// @author       Bentomon, ECEInTheHole, Tarashia (Mirzam)
 // @homepage     https://github.com/tarashia/PokeFarmQoL
 // @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
