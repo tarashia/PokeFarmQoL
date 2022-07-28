@@ -12,6 +12,7 @@
 // @require      https://cdn.jsdelivr.net/npm/less
 // ==/UserScript==
 
+
 class Page {
     constructor(jQuery, localStorageMgr, helpers, ssk, ds, url, globalSettings) {
         this.jQuery = jQuery;

@@ -21,34 +21,45 @@ import cssnano from 'cssnano';
 import htmlMinify from 'html-minifier';
 import replaceAsync from 'string-replace-async';
 import { ESLint } from 'eslint';
+import UglifyJS from 'uglify-js';
 
 runBuild();
 
 async function runBuild() {
-    var output = 'Poke-Farm-QoL.user.js';
-    var initContent = await fs.promises.readFile('src/resources/header.txt', 'utf8');
+    const output = 'Poke-Farm-QoL.user.js';
+    const minOutput = 'Poke-Farm-QoL.min.user.js';
 
-    await fs.promises.writeFile(output, initContent);
+    await fs.promises.truncate(output,0);
     console.log('Initialized '+output);
     await concatFiles('src/scripts', output);
+
     console.log('Adding entry point');
-    var entry = await fs.promises.readFile('src/resources/script-entry.js', 'utf8');
+    const entry = await fs.promises.readFile('src/resources/script-entry.js', 'utf8');
     fs.promises.appendFile(output, '\n'+entry+'\n');
+
     console.log('Linting...');
     // https://eslint.org/docs/latest/developer-guide/nodejs-api
     const eslint = new ESLint({ fix: true });
     const results = await eslint.lintFiles([output]);
     const formatter = await eslint.loadFormatter("stylish");
-    const resultText = formatter.format(results);
-    console.log(resultText);
+    console.log(formatter.format(results));
+
+    console.log('Creating minified version');
+    const lintContent = await fs.promises.readFile(output, 'utf8');
+    const minified = UglifyJS.minify(lintContent);
+
+    console.log('Adding headers');
+    const headerContent = await fs.promises.readFile('src/resources/header.txt', 'utf8');
+    fs.promises.writeFile(output, headerContent+'\n'+lintContent);
+    fs.promises.writeFile(minOutput, headerContent+'\n'+minified.code);
     console.log('Done!');
 }
 
 // Based on https://stackoverflow.com/a/53960687
 async function concatFiles(directory, destination) {
-    var files = await fs.promises.readdir(directory);
+    const files = await fs.promises.readdir(directory);
     for(var i=0;i<files.length;i++) {
-        var filePath = path.join(directory, files[i]);
+        const filePath = path.join(directory, files[i]);
         var content = await fs.promises.readFile(filePath, 'utf8');
         console.log('Processing '+filePath);
         content = await loadResources(content);
@@ -61,9 +72,9 @@ async function concatFiles(directory, destination) {
 async function loadResources(content) {
     return replaceAsync(content, /"?<%([^"<>%]+)%>"?/g, async function(match, replacePath) {
         replacePath = replacePath.trim();
-        var replaceContent = fs.readFileSync(replacePath, 'utf8');
+        const replaceContent = fs.readFileSync(replacePath, 'utf8');
         // https://stackoverflow.com/a/4695156
-        var fileExt = replacePath.split('.').pop();
+        const fileExt = replacePath.split('.').pop();
         console.log('  Adding '+replacePath);
         switch (fileExt) {
             case 'html':
@@ -89,8 +100,8 @@ export function processContent(content) {
 
 // Pre-process style content
 export async function processStyle(content) {
-    var css = await less.render(content);
-    var nano = await postcss([cssnano()]).process(css.css, {from: undefined});
+    const css = await less.render(content);
+    const nano = await postcss([cssnano()]).process(css.css, {from: undefined});
     return nano.css;
 }
 
