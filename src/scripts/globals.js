@@ -61,7 +61,7 @@ class Globals {
          * a static copy of the <script id="dexdata"> tag from Feb 16, 2021
          * this is updated every time the user visits the dex page
          */
-        this.DEX_DATA = (`<% src/resources/dex-data.txt %>`).split(',');
+        this.DEX_DATA = (`<% src/resources/dex-data.jsonc %>`).split(',');
     }
     // eslint-disable-next-line camelcase
     fillTemplates(TEMPLATES) {
