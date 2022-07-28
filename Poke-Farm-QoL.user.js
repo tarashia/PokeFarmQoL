@@ -1712,7 +1712,11 @@ class MultiuserPage extends Page {
         });
 
         obj.jQuery(document).on('click input', '#qolpartymod', (function () {
-            obj.partyModification();
+            // the hide all option needs a delay like the resize timer to work when first clicked
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                obj.partyModification();
+            }, 100);
         }));
 
         obj.jQuery(document).on('click', '.tabbed_interface', (function () {
@@ -1797,6 +1801,8 @@ class MultiuserPage extends Page {
             this.jQuery('#multiuser .party>div:nth-child(2n+1)').removeClass('qolpartyclickborderfive');
             this.jQuery('#multiuser .party>div>.action>.berrybuttons>.tooltip_content').removeClass('qolpartyclickhide');
             this.jQuery('.party>div>.action>.berrybuttons').removeClass('qolpartyclicktextalign');
+            // remove any position settings from the hide all setting
+            this.jQuery('#multiuser .party>div').css({"top":0,"left":0});;
         }
 
         if (this.settings.hideDislike === true) {
