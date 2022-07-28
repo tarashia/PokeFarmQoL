@@ -460,7 +460,7 @@ class PrivateFieldsPage extends Page {
         const obj = this;
         if (this.settings.releaseSelectAll === true &&
             !this.jQuery('#selectallfield').length) {
-            const checkboxes = `<% src/html/move-field-selects.html %>`;
+            const checkboxes = `<% src/html/mass-release-fields.html %>`;
             this.jQuery('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
             this.jQuery('#selectallfieldcheckbox').click(function () {
                 obj.jQuery('#massreleaselist>ul>li>label>input').not(this).prop('checked', this.checked);
