@@ -1,0 +1,58 @@
+/* settings menu */
+#qolpartymod {
+  text-align: center;
+}
+.qolpartyclickhide {
+  display: none!important;
+}
+.qolpartyclickwidth {
+  width: 100%!important;
+}
+.qolpartyclickblock {
+  display: inline-block!important;
+}
+.qolpartyclickz {
+  z-index: 100!important;
+}
+.qolpartyclickalot {
+  position: absolute!important;
+  background-color: transparent!important;
+  border: none!important;
+}
+.qolpartyclicknav {
+  position: absolute!important;
+}
+.qolpartyclickpartywidth {
+  width: 300px!important;
+}
+.qolpartyclickpartydivwidth {
+  width: 211px!important;
+}
+.qolpartyclickborderone {
+  border-top-right-radius: 6px!important;
+}
+.qolpartyclickbordertwo {
+  border-top-right-radius: 0px!important;
+  border-top-width: 0px!important;
+}
+.qolpartyclickborderthree {
+  border-bottom-left-radius: 0px!important;
+}
+.qolpartyclickborderfour {
+  border-bottom-left-radius: 6px!important;
+}
+.qolpartyclickborderfive {
+  border-right-width: 1px!important;
+}
+.qolpartyclickul {
+  height: 35px!important;
+  overflow: hidden!important;
+}
+.qolpartyclicklilabel {
+  width: 5px!important;
+  padding: 2px!important;
+}
+/* hide dislike */
+.qolpartyclicktextalign {
+  text-align: center!important;
+}

@@ -1,0 +1,46 @@
+/* Pokefarm QoL style sheet */
+/* Announcement bar */
+#announcements li[data-name="QoL"] {
+  cursor: pointer;
+}
+/* lab */
+/* lab notification wrap */
+#labsuccess {
+  text-align: center;
+}
+/* lab notification div */
+#labfound {
+  padding-top: 20px;
+}
+/* lab <p> bold */
+.boldp {
+  font-weight: bold;
+}
+.collapsible {
+  cursor: pointer;
+  padding: 4px;
+  width: 100%;
+  text-align: left;
+  max-width: 600px;
+  position: relative;
+  border-radius: 6px;
+}
+/* Style the collapsible content. Note: hidden by default */
+.collapsible_content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
+/* evolutions left highlighting */
+.oneevolutionleft {
+  box-shadow: 0px 0px 25px 15px #f36971;
+ /* light red */
+  background-color: #f36971;
+  border-radius: 100%;
+}
+.twoevolutionleft {
+  box-shadow: 0px 0px 25px 15px #6a6df2;
+ /* light blue */
+  background-color: #6a6df2;
+  border-radius: 100%;
+}

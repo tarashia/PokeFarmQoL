@@ -1,0 +1,20 @@
+[
+  "0", "Normal", "<img src='//pfq-static.com/img/types/normal.png/t=1262702646'>",
+  "1", "Fire", "<img src='//pfq-static.com/img/types/fire.png/t=1262702645'>",
+  "2", "Water", "<img src='//pfq-static.com/img/types/water.png/t=1262702646'>",
+  "3", "Electric", "<img src='//pfq-static.com/img/types/electric.png/t=1262702645'>",
+  "4", "Grass", "<img src='//pfq-static.com/img/types/grass.png/t=1262702645'>",
+  "5", "Ice", "<img src='//pfq-static.com/img/types/ice.png/t=1262702646'>",
+  "6", "fighting", "<img src='//pfq-static.com/img/types/fighting.png/t=1262702645'>",
+  "7", "Poison", "<img src='//pfq-static.com/img/types/poison.png/t=1262702646'>",
+  "8", "Ground", "<img src='//pfq-static.com/img/types/ground.png/t=1262702646'>",
+  "9", "Flying", "<img src='//pfq-static.com/img/types/flying.png/t=1262702645'>",
+  "10", "Psychic", "<img src='//pfq-static.com/img/types/psychic.png/t=1262702646'>",
+  "11", "Bug", "<img src='//pfq-static.com/img/types/bug.png/t=1262702645'>",
+  "12", "Rock", "<img src='//pfq-static.com/img/types/rock.png/t=1262702646'>",
+  "13", "Ghost", "<img src='//pfq-static.com/img/types/ghost.png/t=1262702645'>",
+  "14", "Dragon", "<img src='//pfq-static.com/img/types/dragon.png/t=1263605747'>",
+  "15", "Dark", "<img src='//pfq-static.com/img/types/dark.png/t=1262702645'>",
+  "16", "Steel", "<img src='//pfq-static.com/img/types/steel.png/t=1262702646'>",
+  "17", "Fairy", "<img src='//pfq-static.com/img/types/fairy.png/t=1374419124'>"
+]

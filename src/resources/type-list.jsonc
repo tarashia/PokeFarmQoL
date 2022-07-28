@@ -1,0 +1,25 @@
+  /*
+   * Note - the order of these is important
+   * It looks like PFQ uses an array in this order in its code
+   * Don't change the order without looking for where this array is used
+   */
+[
+  "Normal", 
+  "Fire", 
+  "Water", 
+  "Electric", 
+  "Grass", 
+  "Ice", 
+  "Fighting", 
+  "Poison", 
+  "Ground", 
+  "Flying", 
+  "Psychic", 
+  "Bug", 
+  "Rock", 
+  "Ghost", 
+  "Dragon", 
+  "Dark", 
+  "Steel", 
+  "Fairy"
+]

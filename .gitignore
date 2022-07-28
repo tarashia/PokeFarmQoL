@@ -1,25 +1,13 @@
-# coverage reports
-coverage
 
 # dependency directories
 node_modules
 
 # compiled JS for testing
 Poke-Farm-QoL.test.user.js
-Poke-Farm-QoL.sanctioned.test.user.js
-
-# notes
-notes.txt
-
-# config
-.env
-
-# output files
-output
-
-# testing debug files
-actualHTML.html
-expectedHTML.html
 
 # macos
 .DS_Store
+
+# notes etc
+TODO
+notes.txt
