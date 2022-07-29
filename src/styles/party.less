@@ -1,0 +1,97 @@
+/* settings menu */
+#qolpartymod {
+  text-align: center;
+}
+
+// show only liked berry
+.qolPartyHideDislike,
+.qolPartyNiceTable,
+.qolPartyHideAll {
+  #partybox .party {
+    .action {
+      a {
+        position: absolute;
+        width: 100%;
+      }
+
+      .berrybuttons[data-up='sour']>[data-berry='aspear'],
+      .berrybuttons[data-up='spicy']>[data-berry='cheri'],
+      .berrybuttons[data-up='dry']>[data-berry='chesto'],
+      .berrybuttons[data-up='sweet']>[data-berry='pecha'],
+      .berrybuttons[data-up='bitter']>[data-berry='rawst'] {
+        z-index: 99;
+      }
+    }
+  }
+}
+
+// hide everything except the buttons
+.qolPartyNiceTable,
+.qolPartyHideAll {
+  #partybox .party > div > *:not(.action) {
+    display: none;
+  }
+}
+
+.qolPartyNiceTable {
+  // include #profilepage to override the base PFQ CSS
+  #profilepage #partybox .party {
+    width: 250px;
+    box-shadow: none;
+
+    > div {
+      width: 210px;
+      border-radius: 0;
+      border-width: 1px 1px 0 1px;
+    }
+
+    > div:nth-child(1) {
+      border-radius: 6px 6px 0 0;
+    }
+    > div:nth-child(6) {
+      border-radius: 0 0 6px 6px;
+      border-bottom-width: 1px;
+    }
+  }
+}
+
+.qolPartyHideAll {
+  #profilepage #partybox .party {
+    box-shadow: none;
+
+    > div {
+      background: transparent;
+      border: none;
+      position: unset;
+      height: 0;
+      width: 0;
+      padding: 0;
+      // these codes allow the JS that lines up the click buttons with
+      // the next button to work without interference
+      .action {
+        &, .berrybuttons {
+          height: 0;
+          position: unset !important;
+        }
+
+        a {
+          position: absolute;
+          width: 200px;
+          // fine-tune position; top/left set in JS
+          margin-top: 3px;
+          margin-left: 10px;
+        }
+
+        table {
+          display: none;
+        }
+      }
+    }
+  }
+
+  #profilebox,
+  #trainerimage,
+  .working {
+    display: none;
+  }
+}

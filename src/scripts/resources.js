@@ -7,7 +7,7 @@ class Resources {
                `<% src/styles/shelter.css %> `+
                `<% src/styles/fields.css %> `+
                `<% src/styles/hub.css %> `+
-               `<% src/styles/party.css %> `+
+               `<% src/styles/party.less %> `+
                `<% src/styles/forge.css %> `;
     }
 
