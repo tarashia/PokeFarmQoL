@@ -8,7 +8,7 @@
 // @description  Quality of Life changes to Pokéfarm!
 // @version      1.7.1
 // @match        https://pokefarm.com/*
-// @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js
+// @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // @require      https://cdn.jsdelivr.net/npm/less
 // ==/UserScript==
 
