@@ -30,6 +30,7 @@ Does not currently have the ability to sort Nicknamed pokemon by type. This woul
 - Select all Pokémon and select by berry preference for moving/releasing
 - Advanced searching with custom search parameters
 - Options for hiding Pokémon tooltips
+- View list of all Pokemon in field, with links to their summary pages
 ## Lab Page (/lab)
 - Advanced searching with custom search parameters
 - Advanced Fields sorting & Pokémon clicked counter in fields
