@@ -21,15 +21,14 @@ import cssnano from 'cssnano';
 import htmlMinify from 'html-minifier';
 import replaceAsync from 'string-replace-async';
 import { ESLint } from 'eslint';
-import UglifyJS from 'uglify-js';
 
 runBuild();
 
 async function runBuild() {
     const output = 'Poke-Farm-QoL.user.js';
-    const minOutput = 'Poke-Farm-QoL.min.user.js';
 
-    await fs.promises.truncate(output,0);
+    var initContent = await fs.promises.readFile('src/resources/header.txt', 'utf8');
+    await fs.promises.writeFile(output, initContent);
     console.log('Initialized '+output);
     await concatFiles('src/scripts', output);
 
@@ -44,14 +43,6 @@ async function runBuild() {
     const formatter = await eslint.loadFormatter("stylish");
     console.log(formatter.format(results));
 
-    console.log('Creating minified version');
-    const lintContent = await fs.promises.readFile(output, 'utf8');
-    const minified = UglifyJS.minify(lintContent);
-
-    console.log('Adding headers');
-    const headerContent = await fs.promises.readFile('src/resources/header.txt', 'utf8');
-    fs.promises.writeFile(output, headerContent+'\n'+lintContent);
-    fs.promises.writeFile(minOutput, headerContent+'\n'+minified.code);
     console.log('Done!');
 }
 
