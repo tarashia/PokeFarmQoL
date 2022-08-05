@@ -3,20 +3,14 @@
  * for the QoL Hub.
  */
 class QoLHub {
-    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, DEFAULT_SETTINGS, SETTINGS) {
+    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
         this.jQuery = jQuery;
         this.localStorageMgr = localStorageMgr;
         this.HELPERS = HELPERS;
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
-        this.DEFAULT_USER_SETTINGS = DEFAULT_SETTINGS;
-        if (SETTINGS) {
-            this.USER_SETTINGS = SETTINGS;
-        }
-        else {
-            this.USER_SETTINGS = this.DEFAULT_USER_SETTINGS;
-        }
+        this.USER_SETTINGS = SETTINGS;
         this.LINKED_SETTINGS = this.USER_SETTINGS.LINKED_SETTINGS;
     }
     setupCSS() {
@@ -71,6 +65,12 @@ class QoLHub {
             obj.clearPageSettings(page);
         }));
 
+        obj.jQuery(document).on('click', '#resetAllSettings', (function () {
+            if(window.confirm('Are you sure? All settings, including your custom CSS, will be reset.')) {
+                obj.clearAllSettings();
+            }
+        }))
+
         obj.jQuery(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
             obj.jQuery(this).next().slideToggle();
         }));
@@ -93,6 +93,11 @@ class QoLHub {
                 this.saveSettings();
             }
         }
+    }
+    clearAllSettings() {
+        this.USER_SETTINGS.setDefaults();
+        this.saveSettings();
+        location.reload(); 
     }
     saveSettings() {
         this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));

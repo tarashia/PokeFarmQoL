@@ -1,5 +1,27 @@
 class UserSettings {
     constructor() {
+        this.setDefaults();
+
+        /*
+         * used to tie "global" enable settings in USER_SETTINGS to the more
+         * granular settings that are related to the same page
+         */
+        this.LINKED_SETTINGS = [
+            {
+                'manager': 'shelterEnable',
+                'managed': 'shelterFeatureEnables'
+            },
+            {
+                'manager': 'publicFieldEnable',
+                'managed': 'publicFieldFeatureEnables'
+            },
+            {
+                'manager': 'privateFieldEnable',
+                'managed': 'privateFieldFeatureEnables'
+            },
+        ];
+    }
+    setDefaults() {
         // default settings when the script gets loaded the first time
         this.customCss = '';
         this.enableDaycare = true;
@@ -31,25 +53,6 @@ class UserSettings {
             tooltip: true,
             pkmnlinks: true
         };
-
-        /*
-         * used to tie "global" enable settings in USER_SETTINGS to the more
-         * granular settings that are related to the same page
-         */
-        this.LINKED_SETTINGS = [
-            {
-                'manager': 'shelterEnable',
-                'managed': 'shelterFeatureEnables'
-            },
-            {
-                'manager': 'publicFieldEnable',
-                'managed': 'publicFieldFeatureEnables'
-            },
-            {
-                'manager': 'privateFieldEnable',
-                'managed': 'privateFieldFeatureEnables'
-            },
-        ];
     }
     /// load settings from an object that is not of type UserSettings
     load(settingsObj) {
