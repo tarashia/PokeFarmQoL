@@ -107,6 +107,11 @@ class PagesManager {
             this.pages[pageName].object.resetSettings();
         }
     }
+    clearAllPageSettings() {
+        for(var pageName in this.pages) {
+            this.clearPageSettings(pageName);
+        }
+    }
     setupHTML(GLOBALS, QOLHUB) {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];

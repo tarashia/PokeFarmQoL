@@ -95,6 +95,7 @@ class QoLHub {
         }
     }
     clearAllSettings() {
+        this.PAGES.clearAllPageSettings();
         this.USER_SETTINGS.setDefaults();
         this.saveSettings();
         location.reload(); 
