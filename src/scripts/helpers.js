@@ -1,4 +1,16 @@
 class Helpers {
+    /** TamperMonkey polyfill to replace GM_addStyle function */
+    addGlobalStyle(css) {
+        const head = document.getElementsByTagName('head')[0];
+        const style = document.createElement('style');
+        try {
+            style.innerHTML = css;
+            head.appendChild(style);
+        } catch(err) {
+            console.error('Error while applying global styling');
+            console.log(err);
+        }
+    }
     buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
         for (let i = 0; i < arr.length; i++) {

@@ -1073,6 +1073,18 @@ class Globals {
 }
 
 class Helpers {
+    /** TamperMonkey polyfill to replace GM_addStyle function */
+    addGlobalStyle(css) {
+        const head = document.getElementsByTagName('head')[0];
+        const style = document.createElement('style');
+        try {
+            style.innerHTML = css;
+            head.appendChild(style);
+        } catch(err) {
+            console.error('Error while applying global styling');
+            console.log(err);
+        }
+    }
     buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
         for (let i = 0; i < arr.length; i++) {
@@ -1959,7 +1971,7 @@ class PFQoL {
       obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
   }
   setupCSS(obj) { // All the CSS changes are added here
-      addGlobalStyle(obj.RESOURCES.css());
+      obj.HELPERS.addGlobalStyle(obj.RESOURCES.css());
       obj.PAGES.setupCSS(obj.QOLHUB);
       obj.QOLHUB.setupCSS();
   }
@@ -1995,15 +2007,6 @@ class PFQoL {
           }
       }
   }
-}
-
-/** TamperMonkey polyfill to replace GM_addStyle function */
-function addGlobalStyle(css) {
-    const head = document.getElementsByTagName('head')[0];
-    const style = document.createElement('style');
-    if (!head) { return; }
-    style.innerHTML = css;
-    head.appendChild(style);
 }
 
 class PrivateFieldsPage extends Page {
