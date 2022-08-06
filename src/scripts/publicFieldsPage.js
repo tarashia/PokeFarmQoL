@@ -371,6 +371,12 @@ class PublicFieldsPage extends Page {
         const obj = this;
         const cls = this.helpers.getPokemonImageClass();
 
+        this.jQuery('.fieldmon').removeClass('qolSortBerry');
+        this.jQuery('.fieldmon').removeClass('qolSortMiddle');
+        this.jQuery('.field').removeClass('qolGridField');
+        this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
+        this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
+
         if(obj.globalSettings.publicFieldFeatureEnables.sort) {
 
             //////////////////// sorting ////////////////////
@@ -380,6 +386,7 @@ class PublicFieldsPage extends Page {
                 this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
                 this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
 
+                this.jQuery('.fieldmon').addClass('qolSortBerry');
                 if(this.jQuery('#field_field [data-flavour*="any-"]').length) {
                     this.jQuery('#field_field [data-flavour*="any-"]').addClass('qolAnyBerry');
                 }
@@ -400,42 +407,12 @@ class PublicFieldsPage extends Page {
                 }
             }
             else if (this.settings.fieldByMiddle === true) { //sort field in the middle
-                this.jQuery('#field_field [data-flavour*="any-"]').removeClass('qolAnyBerry');
-                this.jQuery('#field_field [data-flavour*="sour-"]').removeClass('qolSourBerry');
-                this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass('qolSpicyBerry');
-                this.jQuery('#field_field [data-flavour*="dry-"]').removeClass('qolDryBerry');
-                this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass('qolSweetBerry');
-                this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass('qolBitterBerry');
-                this.jQuery('.field').removeClass('qolGridField');
-                this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
-                this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
-
                 this.jQuery('.fieldmon').addClass('qolSortMiddle');
             }
             else if (this.settings.fieldByGrid === true) { //sort field in a grid
-                this.jQuery('#field_field [data-flavour*="any-"]').removeClass('qolAnyBerry');
-                this.jQuery('#field_field [data-flavour*="sour-"]').removeClass('qolSourBerry');
-                this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass('qolSpicyBerry');
-                this.jQuery('#field_field [data-flavour*="dry-"]').removeClass('qolDryBerry');
-                this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass('qolSweetBerry');
-                this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass('qolBitterBerry');
-                this.jQuery('.fieldmon').removeClass('qolSortMiddle');
-
                 this.jQuery('.field').addClass('qolGridField');
                 this.jQuery('.fieldmon').addClass('qolGridPokeSize');
                 this.jQuery('.fieldmon>img').addClass('qolGridPokeImg');
-            }
-            else {
-                this.jQuery('#field_field [data-flavour*="any-"]').removeClass('qolAnyBerry');
-                this.jQuery('#field_field [data-flavour*="sour-"]').removeClass('qolSourBerry');
-                this.jQuery('#field_field [data-flavour*="spicy-"]').removeClass('qolSpicyBerry');
-                this.jQuery('#field_field [data-flavour*="dry-"]').removeClass('qolDryBerry');
-                this.jQuery('#field_field [data-flavour*="sweet-"]').removeClass('qolSweetBerry');
-                this.jQuery('#field_field [data-flavour*="bitter-"]').removeClass('qolBitterBerry');
-                this.jQuery('.fieldmon').removeClass('qolSortMiddle');
-                this.jQuery('.field').removeClass('qolGridField');
-                this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
-                this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
             }
 
             //Pokémon click counter

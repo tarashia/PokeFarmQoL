@@ -1,0 +1,93 @@
+/* Field settings div */
+#fieldorder {
+  margin: 16px auto;
+  padding: 4px;
+  border-radius: 4px;
+  max-width: 600px;
+  position: relative;
+}
+#fieldsearch {
+  margin: 16px auto;
+  max-width: 600px;
+  position: relative;
+}
+/* sort by berry */
+.qolSortBerry {
+  top: 45%!important;
+  margin: -10px!important;
+  transition: none!important;
+
+  >img.big {
+    animation: none!important;
+    padding: 25px!important;
+  }
+
+  &.qolAnyBerry,
+  &.qolSourBerry {
+    left: 0%!important;
+  }
+  &.qolSpicyBerry {
+    left: 20%!important;
+  }
+  &.qolDryBerry {
+    left: 40%!important;
+  }
+  &.qolSweetBerry {
+    left: 60%!important;
+  }
+  &.qolBitterBerry {
+    left: 80%!important;
+  }
+}
+.mq2 .qolSortBerry {
+  transition: none !important;
+  top: 45% !important;
+  width: 16%;
+  margin: -10px 2% !important;
+  overflow: hidden;
+  // using this % strategy makes the clickable area 
+  // much bigger on mobile, without risking overlap
+  >img.small {
+    animation: none!important;
+    padding: 50%!important;
+    margin-left: -13px!important;
+  }
+}
+/* sort in middle */
+.qolSortMiddle {
+  left: 40%!important;
+  top: 35%!important;
+  margin: -10px!important;
+  transition: none!important;
+}
+.qolSortMiddle>img {
+  animation: none!important;
+  padding: 40px!important;
+}
+/* field sort in grid */
+.qolGridField {
+  min-height: 345px;
+  display: flex!important;
+  flex-flow: row wrap;
+  display: grid;
+  grid-template-columns: repeat(8,12.5%);
+  grid-template-rows: repeat(5,69px);
+  padding-top: 0%!important;
+}
+.mq25 .qolGridField {
+  min-height: 180px;
+  grid-template-rows: repeat(5, 36px);
+}
+.qolGridPokeSize {
+  margin: 0 !important;
+  position: static!important;
+  flex: 1 1 12.5%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.qolGridPokeImg {
+  max-width: 75px;
+  max-height: 70px;
+  animation: none!important;
+}

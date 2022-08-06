@@ -5,7 +5,7 @@ class Resources {
     css() {
         return `<% src/styles/core.css %> `+
                `<% src/styles/shelter.css %> `+
-               `<% src/styles/fields.css %> `+
+               `<% src/styles/fields.less %> `+
                `<% src/styles/hub.css %> `+
                `<% src/styles/party.less %> `+
                `<% src/styles/forge.css %> `;
