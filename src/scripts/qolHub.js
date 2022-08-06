@@ -15,23 +15,7 @@ class QoLHub {
     }
     setupCSS() {
         //custom user css
-        const customUserCss = this.USER_SETTINGS.customCss;
-        const obj = this;
-        // eslint-disable-next-line no-undef
-        less.render(customUserCss)
-            .then(function(newCSS) {
-                if('css' in newCSS) {
-                    if(newCSS.css.trim()!=='') {
-                        obj.jQuery('head').append('<style type="text/css">' + newCSS.css + '</style>');
-                    }
-                }
-                else {
-                    console.warn('Could not load custom CSS from LESS parser.');
-                }
-            })
-            .catch(function(error) {
-                console.error('Failed to parse LESS: '+error.message);
-            });
+        this.jQuery('head').append('<style type="text/css">' + this.USER_SETTINGS.customCss + '</style>');
     }
     setupHandlers() {
         const obj = this;
