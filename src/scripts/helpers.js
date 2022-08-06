@@ -1,13 +1,38 @@
 class Helpers {
+    // Custom error handler to output in the QoL error console
+    // Level should be info, warn, or error; default is info
+    // Message is also written to the JavaScript console
+    writeCustomError(message,level='info') {
+        const logElement = document.getElementById('qolConsoleHolder');
+        let prefix = undefined;
+        if(level=='warn') {
+            prefix = 'WARN: ';
+            console.warn('QoL: '+message);
+        }
+        else if(level=='error') {
+            prefix = 'ERROR: ';
+            console.error('QoL: '+message);
+        }
+        else {
+            prefix = 'INFO: ';
+            console.log('QoL: '+message);
+        }
+        if(logElement) {
+            logElement.innerHTML += '<li>' + prefix + message + '</li>';
+        }
+        else {
+            console.error('Could not add custom log to log element');
+        }
+    }
     /** TamperMonkey polyfill to replace GM_addStyle function */
     addGlobalStyle(css) {
-        const head = document.getElementsByTagName('head')[0];
-        const style = document.createElement('style');
         try {
+            const head = document.getElementsByTagName('head')[0];
+            const style = document.createElement('style');
             style.innerHTML = css;
             head.appendChild(style);
         } catch(err) {
-            console.error('Error while applying global styling');
+            this.writeCustomError('Error while applying global styling: '+err,'error');
             console.log(err);
         }
     }

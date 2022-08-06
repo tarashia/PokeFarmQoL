@@ -4,7 +4,7 @@ class Globals {
         this.localStorageMgr = localStorageMgr;
         this.HELPERS = helpers;
         this.TEMPLATES = { // all the new/changed HTML for the userscript
-            qolHubLinkHTML: `<% src/html/qol-hub-link.html %>`,
+            qolHubLinkHTML: `<% src/html/qol-hub-icon.html %>`,
             massReleaseSelectHTML: `<% src/html/mass-release-fishing.html %>`,
             partyModHTML: `<% src/html/party-mod.html %>`,
             // filled in by fillTemplates

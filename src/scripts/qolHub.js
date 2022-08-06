@@ -68,6 +68,14 @@ class QoLHub {
         obj.jQuery(document).on('click', '#clearCachedDex', (function () {
             obj.resetDex();
         }));
+
+        obj.jQuery(document).on('click', '#qolErrorConsole', (function() {
+            let consoleContent = obj.jQuery('#qolConsoleHolder').html();
+            if(consoleContent.trim() == '') {
+                consoleContent = '[ No errors to display ]';
+            }
+            obj.jQuery('#qolConsoleContent').html(consoleContent);
+        }));
     }
     loadSettings() {
         if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {

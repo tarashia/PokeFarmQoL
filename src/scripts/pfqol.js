@@ -40,10 +40,13 @@ class PFQoL {
       obj.QOLHUB.populateSettings();
       obj.PAGES.populateSettings(obj.QOLHUB);
   }
+  addIcon(obj) { // inject the QoL icon into the icon bar
+    // this is done separately from the main HTML to ensure it's always added first,
+    // as there's a custom error handler that relies on it existing
+    document.querySelector('#announcements li.spacer')
+          .insertAdjacentHTML('beforebegin', obj.GLOBALS.TEMPLATES.qolHubLinkHTML);
+  }
   setupHTML(obj) { // injects the HTML changes from GLOBALS.TEMPLATES into the site
-      // Header link to Userscript settings
-      document.querySelector('li[data-name*=\'Lucky Egg\']')
-          .insertAdjacentHTML('afterend', obj.GLOBALS.TEMPLATES.qolHubLinkHTML);
       obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
   }
   setupCSS(obj) { // All the CSS changes are added here
@@ -64,6 +67,7 @@ class PFQoL {
   }
   startup() { // All the functions that are run to start the script on Pokéfarm
       return {
+          'adding QoL icon': this.addIcon,
           'creating Page handlers': this.instantiatePages,
           'loading Settings': this.loadSettings,
           'setting up HTML': this.setupHTML,

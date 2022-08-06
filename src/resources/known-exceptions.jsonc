@@ -1,3 +1,5 @@
+// This is used to improve matching for evolutions on the farm page
+// See scripts/farmPage.js for more details
 {
   "Gastrodon [Occident]": [
       "2",
