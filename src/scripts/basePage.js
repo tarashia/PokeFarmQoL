@@ -37,7 +37,7 @@ class Page {
                 this.populateSettings(obj[key]);
             }
             else if (typeof value === 'boolean') {
-                this.helpers.toggleSetting(key, value);//, false);
+                Helpers.toggleSetting(key, value);//, false);
             }
             else if (typeof value === 'string') {
                 console.log('TODO - split and populate');

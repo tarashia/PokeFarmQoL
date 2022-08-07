@@ -68,21 +68,21 @@ class PublicFieldsPage extends Page {
     setupHTML(GLOBALS) {
         if(this.globalSettings.publicFieldFeatureEnables.search) {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.fieldSearchHTML);
-            const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+            const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
                 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-            const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+            const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
                 'removeFieldNature', 'natureTypes', 'natureArray');
-            const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+            const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
                 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
             this.customArray = this.settings.fieldCustom.split(',');
             this.typeArray = this.settings.fieldType.split(',');
             this.natureArray = this.settings.fieldNature.split(',');
             this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-            this.helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
-            this.helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
-            this.helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+            Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
+            Helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
+            Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
+            Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
         if(this.globalSettings.publicFieldFeatureEnables.sort) {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.fieldSortHTML);
@@ -317,7 +317,7 @@ class PublicFieldsPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="'+value+'"]');
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
             const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
@@ -329,7 +329,7 @@ class PublicFieldsPage extends Page {
         if (male) { genderMatches.push('[M]'); }
         if(female) { genderMatches.push('[F]'); }
         if(nogender) { genderMatches.push('[N]'); }
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
 
         if(genderMatches.length > 0) {
             for(let i = 0; i < genderMatches.length; i++) {
@@ -354,7 +354,7 @@ class PublicFieldsPage extends Page {
     }
     searchForCustomEgg(value) {
         const selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
             $(shelterBigImg).addClass('publicfoundme');
@@ -369,7 +369,7 @@ class PublicFieldsPage extends Page {
     }
     customSearch(GLOBALS) {
         const obj = this;
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
 
         $('.fieldmon').removeClass('qolSortBerry');
         $('.fieldmon').removeClass('qolSortMiddle');
@@ -497,7 +497,7 @@ class PublicFieldsPage extends Page {
             if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
                 $('.fieldmon').each(function() {
                     const searchPokemonBigImg = $(this)[0].childNodes[0];
-                    const tooltipData = obj.helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0]);
+                    const tooltipData = Helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0]);
 
                     const searchTypeOne = tooltipData.types[0] + '';
                     const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '': '';
@@ -555,7 +555,7 @@ class PublicFieldsPage extends Page {
         }
     } // customSearch
     addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
-        const theList = this.helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
+        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
         const number = $(`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(''+number+'');
@@ -574,7 +574,7 @@ class PublicFieldsPage extends Page {
         return arr;
     }
     addTextField() {
-        const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
         const numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(''+numberDiv+'');

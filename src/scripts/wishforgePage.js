@@ -12,8 +12,7 @@ class WishforgePage extends Page {
     } // constructor
 
     setupHTML(GLOBALS) {
-        const obj = this;
-        const isMobile = obj.helpers.detectPageSize('mq2');
+        const isMobile = Helpers.detectPageSize('mq2');
         // setup table format
         let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
         let columns = 

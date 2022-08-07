@@ -22,15 +22,15 @@ class LabPage extends Page {
         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.labOptionsHTML);
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
 
-        const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
 
         this.searchArray = this.settings.findLabEgg.split(',');
         this.typeArray = this.settings.findLabType.split(',');
 
-        this.helpers.setupFieldArrayHTML(this.searchArray, 'searchkeys', theField, 'numberDiv');
-        this.helpers.setupFieldArrayHTML(this.typeArray, 'labTypes', theType, 'typeNumber');
+        Helpers.setupFieldArrayHTML(this.searchArray, 'searchkeys', theField, 'numberDiv');
+        Helpers.setupFieldArrayHTML(this.typeArray, 'labTypes', theType, 'typeNumber');
     }
     setupCSS() {
         //lab css
@@ -89,7 +89,7 @@ class LabPage extends Page {
         }));
     }
     addTextField() {
-        const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
         const numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
@@ -109,7 +109,7 @@ class LabPage extends Page {
         }
     }
     addTypeList(GLOBALS) {
-        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
         const numberTypes = $('#labTypes>div').length;
         $('#labTypes').append(theType);

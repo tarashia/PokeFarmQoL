@@ -101,11 +101,11 @@ class QoLHub {
             const newKeys = [...oldKeys, key];
             if (typeof _object === 'boolean') {
                 const _key = newKeys.join('.');
-                self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+                Helpers.toggleSetting(_key, _object, 'qolhubsetting');
             }
             else if (typeof _object === 'string') {
                 const _key = newKeys.join('.');
-                self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+                Helpers.toggleSetting(_key, _object, 'qolhubsetting');
             } else if (typeof _object === 'object') {
                 for (const _key in _object) {
                     populateSetting(_object, _key, self, newKeys);

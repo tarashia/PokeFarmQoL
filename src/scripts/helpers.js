@@ -2,7 +2,7 @@ class Helpers {
     // Custom error handler to output in the QoL error console
     // Level should be info, warn, or error; default is info
     // Message is also written to the JavaScript console
-    writeCustomError(message,level='info') {
+    static writeCustomError(message,level='info') {
         const logElement = document.getElementById('qolConsoleHolder');
         let prefix = undefined;
         if(level=='warn') {
@@ -25,25 +25,25 @@ class Helpers {
         }
     }
     /** TamperMonkey polyfill to replace GM_addStyle function */
-    addGlobalStyle(css) {
+    static addGlobalStyle(css) {
         try {
             const head = document.getElementsByTagName('head')[0];
             const style = document.createElement('style');
             style.innerHTML = css;
             head.appendChild(style);
         } catch(err) {
-            this.writeCustomError('Error while applying global styling: '+err,'error');
+            Helpers.writeCustomError('Error while applying global styling: '+err,'error');
             console.log(err);
         }
     }
-    buildOptionsString(arr) {
+    static buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
         for (let i = 0; i < arr.length; i++) {
             str += `<option value="${i}">${arr[i]}</option> `;
         }
         return str;
     }
-    toggleSetting(key, set, cls) {
+    static toggleSetting(key, set, cls) {
         // provide default value for cls
         cls = cls || 'qolsetting';
         // update values for checkboxes
@@ -54,7 +54,7 @@ class Helpers {
             }
         }
     } // toggleSetting
-    setupFieldArrayHTML(arr, id, div, cls) {
+    static setupFieldArrayHTML(arr, id, div, cls) {
         const n = arr.length;
         for (let i = 0; i < n; i++) {
             const rightDiv = i + 1;
@@ -96,16 +96,16 @@ class Helpers {
     saveSettings(key, obj) {
         localStorage.setItem(key, JSON.stringify(obj));
     }
-    textSearchDiv(cls, dataKey, id, arrayName) {
+    static textSearchDiv(cls, dataKey, id, arrayName) {
         return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${dataKey}" ` +
             `array-name='${arrayName}'` +
             `/></label><input type='button' value='Remove' id='${id}'></div>`;
     }
-    selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
+    static selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
         return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
             `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
     }
-    parseFieldPokemonTooltip(GLOBALS, tooltip) {
+    static parseFieldPokemonTooltip(GLOBALS, tooltip) {
         const dataElements = $(tooltip).children(0).children();
         let index = 1;
         // nickname
@@ -231,7 +231,7 @@ class Helpers {
         }
         return ret;
     } // parseFieldPokemonToolTip
-    getPokemonImageClass() {
+    static getPokemonImageClass() {
         // this seems like PFQ's threshold based on my experimentation
         if (window.innerWidth >= 650 && window.innerHeight >= 650) {
             return 'big';
@@ -241,7 +241,7 @@ class Helpers {
     }
     // returns true if the page is equal to or smaller to the given size class
     // mobile cutoff (point when header changes): "mq2"
-    detectPageSize(size) {
+    static detectPageSize(size) {
         return $('html').hasClass(size);
     }
 }

@@ -49,7 +49,7 @@ class PFQoL {
       obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
   }
   setupCSS(obj) { // All the CSS changes are added here
-      obj.HELPERS.addGlobalStyle(obj.RESOURCES.css());
+      Helpers.addGlobalStyle(obj.RESOURCES.css());
       obj.PAGES.setupCSS(obj.QOLHUB);
       obj.QOLHUB.setupCSS();
   }

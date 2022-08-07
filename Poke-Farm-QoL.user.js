@@ -52,7 +52,7 @@ class Page {
                 this.populateSettings(obj[key]);
             }
             else if (typeof value === 'boolean') {
-                this.helpers.toggleSetting(key, value);//, false);
+                Helpers.toggleSetting(key, value);//, false);
             }
             else if (typeof value === 'string') {
                 console.log('TODO - split and populate');
@@ -1060,9 +1060,9 @@ class Globals {
         this.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
     }
     fillOptionsLists() {
-        this.TYPE_OPTIONS = this.HELPERS.buildOptionsString(this.TYPE_LIST);
-        this.NATURE_OPTIONS = this.HELPERS.buildOptionsString(this.NATURE_LIST);
-        this.EGG_GROUP_OPTIONS = this.HELPERS.buildOptionsString(this.EGG_GROUP_LIST);
+        this.TYPE_OPTIONS = Helpers.buildOptionsString(this.TYPE_LIST);
+        this.NATURE_OPTIONS = Helpers.buildOptionsString(this.NATURE_LIST);
+        this.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(this.EGG_GROUP_LIST);
     }
 }
 
@@ -1070,7 +1070,7 @@ class Helpers {
     // Custom error handler to output in the QoL error console
     // Level should be info, warn, or error; default is info
     // Message is also written to the JavaScript console
-    writeCustomError(message,level='info') {
+    static writeCustomError(message,level='info') {
         const logElement = document.getElementById('qolConsoleHolder');
         let prefix = undefined;
         if(level=='warn') {
@@ -1093,25 +1093,25 @@ class Helpers {
         }
     }
     /** TamperMonkey polyfill to replace GM_addStyle function */
-    addGlobalStyle(css) {
+    static addGlobalStyle(css) {
         try {
             const head = document.getElementsByTagName('head')[0];
             const style = document.createElement('style');
             style.innerHTML = css;
             head.appendChild(style);
         } catch(err) {
-            this.writeCustomError('Error while applying global styling: '+err,'error');
+            Helpers.writeCustomError('Error while applying global styling: '+err,'error');
             console.log(err);
         }
     }
-    buildOptionsString(arr) {
+    static buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
         for (let i = 0; i < arr.length; i++) {
             str += `<option value="${i}">${arr[i]}</option> `;
         }
         return str;
     }
-    toggleSetting(key, set, cls) {
+    static toggleSetting(key, set, cls) {
         // provide default value for cls
         cls = cls || 'qolsetting';
         // update values for checkboxes
@@ -1122,7 +1122,7 @@ class Helpers {
             }
         }
     } // toggleSetting
-    setupFieldArrayHTML(arr, id, div, cls) {
+    static setupFieldArrayHTML(arr, id, div, cls) {
         const n = arr.length;
         for (let i = 0; i < n; i++) {
             const rightDiv = i + 1;
@@ -1164,16 +1164,16 @@ class Helpers {
     saveSettings(key, obj) {
         localStorage.setItem(key, JSON.stringify(obj));
     }
-    textSearchDiv(cls, dataKey, id, arrayName) {
+    static textSearchDiv(cls, dataKey, id, arrayName) {
         return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${dataKey}" ` +
             `array-name='${arrayName}'` +
             `/></label><input type='button' value='Remove' id='${id}'></div>`;
     }
-    selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
+    static selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
         return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
             `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
     }
-    parseFieldPokemonTooltip(GLOBALS, tooltip) {
+    static parseFieldPokemonTooltip(GLOBALS, tooltip) {
         const dataElements = $(tooltip).children(0).children();
         let index = 1;
         // nickname
@@ -1299,7 +1299,7 @@ class Helpers {
         }
         return ret;
     } // parseFieldPokemonToolTip
-    getPokemonImageClass() {
+    static getPokemonImageClass() {
         // this seems like PFQ's threshold based on my experimentation
         if (window.innerWidth >= 650 && window.innerHeight >= 650) {
             return 'big';
@@ -1309,7 +1309,7 @@ class Helpers {
     }
     // returns true if the page is equal to or smaller to the given size class
     // mobile cutoff (point when header changes): "mq2"
-    detectPageSize(size) {
+    static detectPageSize(size) {
         return $('html').hasClass(size);
     }
 }
@@ -1380,15 +1380,15 @@ class LabPage extends Page {
         document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.labOptionsHTML);
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
 
-        const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
 
         this.searchArray = this.settings.findLabEgg.split(',');
         this.typeArray = this.settings.findLabType.split(',');
 
-        this.helpers.setupFieldArrayHTML(this.searchArray, 'searchkeys', theField, 'numberDiv');
-        this.helpers.setupFieldArrayHTML(this.typeArray, 'labTypes', theType, 'typeNumber');
+        Helpers.setupFieldArrayHTML(this.searchArray, 'searchkeys', theField, 'numberDiv');
+        Helpers.setupFieldArrayHTML(this.typeArray, 'labTypes', theType, 'typeNumber');
     }
     setupCSS() {
         //lab css
@@ -1447,7 +1447,7 @@ class LabPage extends Page {
         }));
     }
     addTextField() {
-        const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
+        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
         const numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
@@ -1467,7 +1467,7 @@ class LabPage extends Page {
         }
     }
     addTypeList(GLOBALS) {
-        const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
         const numberTypes = $('#labTypes>div').length;
         $('#labTypes').append(theType);
@@ -1989,7 +1989,7 @@ class PFQoL {
       obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
   }
   setupCSS(obj) { // All the CSS changes are added here
-      obj.HELPERS.addGlobalStyle(obj.RESOURCES.css());
+      Helpers.addGlobalStyle(obj.RESOURCES.css());
       obj.PAGES.setupCSS(obj.QOLHUB);
       obj.QOLHUB.setupCSS();
   }
@@ -2082,21 +2082,21 @@ class PrivateFieldsPage extends Page {
     setupHTML(GLOBALS) {
         if(this.globalSettings.privateFieldFeatureEnables.search) {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.privateFieldSearchHTML);
-            const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+            const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
                 'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
-            const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+            const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
                 'removePrivateFieldNature', 'natureTypes', 'natureArray');
-            const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+            const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
                 'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
             this.customArray = this.settings.fieldCustom.split(',');
             this.typeArray = this.settings.fieldType.split(',');
             this.natureArray = this.settings.fieldNature.split(',');
             this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-            this.helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
-            this.helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
-            this.helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+            Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
+            Helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
+            Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
+            Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
 
         if(this.globalSettings.privateFieldFeatureEnables.release) {
@@ -2291,7 +2291,7 @@ class PrivateFieldsPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="' + value + '"]');
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
             const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
@@ -2303,7 +2303,7 @@ class PrivateFieldsPage extends Page {
         if (male) { genderMatches.push('[M]'); }
         if (female) { genderMatches.push('[F]'); }
         if (nogender) { genderMatches.push('[N]'); }
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
 
         if (genderMatches.length > 0) {
             for (let i = 0; i < genderMatches.length; i++) {
@@ -2327,7 +2327,7 @@ class PrivateFieldsPage extends Page {
 
     }
     searchForCustomEgg(value) {
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
         const selected = $('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
         if (selected.length) {
             const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
@@ -2343,8 +2343,7 @@ class PrivateFieldsPage extends Page {
     }
     customSearch(GLOBALS) {
         if(this.globalSettings.privateFieldFeatureEnables.search) {
-            const obj = this;
-            const cls = this.helpers.getPokemonImageClass();
+            const cls = Helpers.getPokemonImageClass();
             const bigImgs = document.querySelectorAll('.privatefoundme');
             if (bigImgs !== null) {
                 bigImgs.forEach((b) => { $(b).removeClass('privatefoundme'); });
@@ -2390,7 +2389,7 @@ class PrivateFieldsPage extends Page {
             if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
                 $('.fieldmon').each(function () {
                     const searchPokemonBigImg = $(this)[0].childNodes[0];
-                    const tooltipData = obj.helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0]);
+                    const tooltipData = Helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0]);
 
                     const searchTypeOne = tooltipData.types[0] + '';
                     const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
@@ -2448,7 +2447,7 @@ class PrivateFieldsPage extends Page {
         }
     }
     addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
-        const theList = this.helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
+        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
         const number = $(`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass('' + number + '');
@@ -2467,7 +2466,7 @@ class PrivateFieldsPage extends Page {
         return arr;
     }
     addTextField() {
-        const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
         const numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
@@ -2638,21 +2637,21 @@ class PublicFieldsPage extends Page {
     setupHTML(GLOBALS) {
         if(this.globalSettings.publicFieldFeatureEnables.search) {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.fieldSearchHTML);
-            const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+            const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
                 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-            const theNature = this.helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+            const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
                 'removeFieldNature', 'natureTypes', 'natureArray');
-            const theEggGroup = this.helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+            const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
                 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
             this.customArray = this.settings.fieldCustom.split(',');
             this.typeArray = this.settings.fieldType.split(',');
             this.natureArray = this.settings.fieldNature.split(',');
             this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-            this.helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
-            this.helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
-            this.helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+            Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
+            Helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
+            Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
+            Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
         if(this.globalSettings.publicFieldFeatureEnables.sort) {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.fieldSortHTML);
@@ -2887,7 +2886,7 @@ class PublicFieldsPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="'+value+'"]');
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
             const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
@@ -2899,7 +2898,7 @@ class PublicFieldsPage extends Page {
         if (male) { genderMatches.push('[M]'); }
         if(female) { genderMatches.push('[F]'); }
         if(nogender) { genderMatches.push('[N]'); }
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
 
         if(genderMatches.length > 0) {
             for(let i = 0; i < genderMatches.length; i++) {
@@ -2924,7 +2923,7 @@ class PublicFieldsPage extends Page {
     }
     searchForCustomEgg(value) {
         const selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
             $(shelterBigImg).addClass('publicfoundme');
@@ -2939,7 +2938,7 @@ class PublicFieldsPage extends Page {
     }
     customSearch(GLOBALS) {
         const obj = this;
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
 
         $('.fieldmon').removeClass('qolSortBerry');
         $('.fieldmon').removeClass('qolSortMiddle');
@@ -3067,7 +3066,7 @@ class PublicFieldsPage extends Page {
             if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
                 $('.fieldmon').each(function() {
                     const searchPokemonBigImg = $(this)[0].childNodes[0];
-                    const tooltipData = obj.helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0]);
+                    const tooltipData = Helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0]);
 
                     const searchTypeOne = tooltipData.types[0] + '';
                     const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '': '';
@@ -3125,7 +3124,7 @@ class PublicFieldsPage extends Page {
         }
     } // customSearch
     addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
-        const theList = this.helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
+        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
         const number = $(`#${divParent}>div`).length;
         $(`#${divParent}`).append(theList);
         $(`.${cls}`).removeClass(cls).addClass(''+number+'');
@@ -3144,7 +3143,7 @@ class PublicFieldsPage extends Page {
         return arr;
     }
     addTextField() {
-        const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
+        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
         const numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass(''+numberDiv+'');
@@ -3268,11 +3267,11 @@ class QoLHub {
             const newKeys = [...oldKeys, key];
             if (typeof _object === 'boolean') {
                 const _key = newKeys.join('.');
-                self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+                Helpers.toggleSetting(_key, _object, 'qolhubsetting');
             }
             else if (typeof _object === 'string') {
                 const _key = newKeys.join('.');
-                self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+                Helpers.toggleSetting(_key, _object, 'qolhubsetting');
             } else if (typeof _object === 'object') {
                 for (const _key in _object) {
                     populateSetting(_object, _key, self, newKeys);
@@ -3561,15 +3560,15 @@ class ShelterPage extends Page {
 
             document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
-            const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-            const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+            const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
                 'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
             this.customArray = this.settings.findCustom.split(',');
             this.typeArray = this.settings.findType.split(',');
 
-            this.helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.typeArray, 'shelterTypes', theType, 'typeNumber');
+            Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
+            Helpers.setupFieldArrayHTML(this.typeArray, 'shelterTypes', theType, 'typeNumber');
 
             $('[data-shelter=reload]').addClass('customSearchOnClick');
             $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
@@ -3675,7 +3674,7 @@ class ShelterPage extends Page {
         });
     }
     addTextField() {
-        const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
+        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
         const numberDiv = $('#searchkeys>div').length;
         $('#searchkeys').append(theField);
         $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
@@ -3695,7 +3694,7 @@ class ShelterPage extends Page {
         }
     }
     addTypeList(GLOBALS) {
-        const theList = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+        const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
             'removeShelterTypeList', 'fieldTypes', 'typeArray');
         const numberTypes = $('#shelterTypes>div').length;
         $('#shelterTypes').append(theList);
@@ -3738,7 +3737,7 @@ class ShelterPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="' + value + '"]');
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
             const imgResult = selected.length + ' ' + searchResult; //amount + type found
@@ -3771,7 +3770,7 @@ class ShelterPage extends Page {
 
     searchForTypes(GLOBALS, types) {
         const dexData = GLOBALS.DEX_DATA;
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
         for (let i = 0; i < types.length; i++) {
             const value = types[i];
             const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
@@ -3850,7 +3849,7 @@ class ShelterPage extends Page {
     customSearch(GLOBALS) {
         const obj = this;
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
-        const cls = this.helpers.getPokemonImageClass();
+        const cls = Helpers.getPokemonImageClass();
 
         // search whatever you want to find in the shelter & grid
 
@@ -4173,8 +4172,7 @@ class WishforgePage extends Page {
     } // constructor
 
     setupHTML(GLOBALS) {
-        const obj = this;
-        const isMobile = obj.helpers.detectPageSize('mq2');
+        const isMobile = Helpers.detectPageSize('mq2');
         // setup table format
         let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
         let columns = 

@@ -75,8 +75,8 @@ class Globals {
         this.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
     }
     fillOptionsLists() {
-        this.TYPE_OPTIONS = this.HELPERS.buildOptionsString(this.TYPE_LIST);
-        this.NATURE_OPTIONS = this.HELPERS.buildOptionsString(this.NATURE_LIST);
-        this.EGG_GROUP_OPTIONS = this.HELPERS.buildOptionsString(this.EGG_GROUP_LIST);
+        this.TYPE_OPTIONS = Helpers.buildOptionsString(this.TYPE_LIST);
+        this.NATURE_OPTIONS = Helpers.buildOptionsString(this.NATURE_LIST);
+        this.EGG_GROUP_OPTIONS = Helpers.buildOptionsString(this.EGG_GROUP_LIST);
     }
 }
