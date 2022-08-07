@@ -1,6 +1,5 @@
 class Page {
-    constructor(jQuery, localStorageMgr, helpers, ssk, ds, url, globalSettings) {
-        this.jQuery = jQuery;
+    constructor(localStorageMgr, helpers, ssk, ds, url, globalSettings) {
         this.localStorageMgr = localStorageMgr;
         this.helpers = helpers;
         this.settingsSaveKey = ssk;
@@ -16,7 +15,7 @@ class Page {
 
     loadSettings() {
         this.settings = this.localStorageMgr.loadSettings(
-            this.jQuery,this.settingsSaveKey,
+            this.settingsSaveKey,
             this.defaultSettings,
             this.settings);
     }

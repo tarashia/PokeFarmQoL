@@ -1,6 +1,5 @@
 class PagesManager {
-    constructor(jQuery, localStorageMgr, globals, HELPERS, SETTINGS) {
-        this.jQuery = jQuery;
+    constructor(localStorageMgr, globals, HELPERS, SETTINGS) {
         this.localStorageMgr = localStorageMgr;
         this.GLOBALS = globals;
         this.HELPERS = HELPERS;
@@ -72,7 +71,7 @@ class PagesManager {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
+                this.pages[key].object = new this.pages[key].class(this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
             }
         }
     }

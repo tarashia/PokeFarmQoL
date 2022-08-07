@@ -1,6 +1,5 @@
 class Globals {
-    constructor(jQuery, localStorageMgr, helpers) {
-        this.jQuery = jQuery;
+    constructor(localStorageMgr, helpers) {
         this.localStorageMgr = localStorageMgr;
         this.HELPERS = helpers;
         this.TEMPLATES = { // all the new/changed HTML for the userscript

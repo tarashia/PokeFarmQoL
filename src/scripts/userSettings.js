@@ -62,7 +62,7 @@ class UserSettings {
             const countLocalStorageSettings = Object.keys(localStorageString).length;
             // adds new settings to this class
             if (countLocalStorageSettings < countScriptSettings) {
-                const newSettings = this.jQuery.extend(true, this, settingsObj);
+                const newSettings = $.extend(true, this, settingsObj);
                 this.copyFields(newSettings);
             }
             // removes objects from the local storage if they don't exist anymore. Not yet possible..

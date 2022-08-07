@@ -11,9 +11,10 @@
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // ==/UserScript==
 
+// Tell ESLint that jQuery's $ is defined elsewhere
+/* global $ */
 class Page {
-    constructor(jQuery, localStorageMgr, helpers, ssk, ds, url, globalSettings) {
-        this.jQuery = jQuery;
+    constructor(localStorageMgr, helpers, ssk, ds, url, globalSettings) {
         this.localStorageMgr = localStorageMgr;
         this.helpers = helpers;
         this.settingsSaveKey = ssk;
@@ -29,7 +30,7 @@ class Page {
 
     loadSettings() {
         this.settings = this.localStorageMgr.loadSettings(
-            this.jQuery,this.settingsSaveKey,
+            this.settingsSaveKey,
             this.defaultSettings,
             this.settings);
     }
@@ -102,15 +103,15 @@ class Page {
 } // Page
 
 class DaycarePage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 // const fsPokemon = document.querySelector('#fs_pokemon');
-                const fsPokemon = obj.jQuery('#fs_pokemon');
+                const fsPokemon = $('#fs_pokemon');
                 if (fsPokemon.length > 0 &&
-                    obj.jQuery.contains(fsPokemon[0], mutation.target)) {
+                    $.contains(fsPokemon[0], mutation.target)) {
                     obj.customSearch(GLOBALS);
                 }
             });
@@ -124,7 +125,6 @@ class DaycarePage extends Page {
         });
     }
     customSearch(GLOBALS) {
-        const obj = this;
         const button = document.querySelector('#pkmnadd');
 
         let gender = null;
@@ -153,20 +153,20 @@ class DaycarePage extends Page {
         if (eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2]; }
 
         // clear matches
-        obj.jQuery('.daycarefoundme').removeClass('daycarefoundme');
+        $('.daycarefoundme').removeClass('daycarefoundme');
 
         if (gender !== null && eggGroup1 !== null) {
             const fieldmons = document.querySelectorAll('.fieldmon');
             if (fieldmons !== null) {
                 for (let m = 0; m < fieldmons.length; m++) {
                     const mon = fieldmons[m];
-                    const searchPokemonBigImg = obj.jQuery(mon)[0].childNodes[0];
+                    const searchPokemonBigImg = $(mon)[0].childNodes[0];
                     const searchPokemon = searchPokemonBigImg.alt;
 
-                    const tooltip = obj.jQuery(mon).next();
+                    const tooltip = $(mon).next();
                     const fieldmontip = tooltip[0].querySelector('.fieldmontip');
-                    const speciesDiv = obj.jQuery(fieldmontip).children(':contains(Species)')[0];
-                    const eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0];
+                    const speciesDiv = $(fieldmontip).children(':contains(Species)')[0];
+                    const eggGroupDiv = $(fieldmontip).children(':contains(Egg Group)')[0];
                     const searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
 
                     /*
@@ -174,16 +174,16 @@ class DaycarePage extends Page {
                      * The gender title can be "[M], [F], [N]"
                      */
                     const searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
-                    const searchEggGroups = obj.jQuery(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
+                    const searchEggGroups = $(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
 
                     // Match Ditto in Daycare to anything that can breed
                     if (gender === 'd' && eggGroup1 === 'Ditto' &&
                         searchPokemon !== 'Ditto' && searchEggGroups[0] !== 'Undiscovered') {
-                        obj.jQuery(mon).addClass('daycarefoundme');
+                        $(mon).addClass('daycarefoundme');
                     }
                     // Match Ditto in field to anything that can breed
                     else if (eggGroup1 !== 'Ditto' && searchPokemon === 'Ditto' && eggGroup1 !== 'Undiscovered') {
-                        obj.jQuery(mon).addClass('daycarefoundme');
+                        $(mon).addClass('daycarefoundme');
                     }
                     // Match correct gender
                     else {
@@ -196,7 +196,7 @@ class DaycarePage extends Page {
                         }
 
                         if (genderCorrect && (group1Correct || group2Correct)) {
-                            obj.jQuery(mon).addClass('daycarefoundme');
+                            $(mon).addClass('daycarefoundme');
                         }
                     }
 
@@ -207,8 +207,8 @@ class DaycarePage extends Page {
 }
 
 class DexPage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -222,10 +222,10 @@ class DexPage extends Page {
          * when entering the dex page, update the local storage QoLPokedex
          * so the user can update their information
          */
-        if (jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
-            const text = jQuery('script#dexdata').text();
+        if ($('script#dexdata') && $('script#dexdata').text()) {
+            const text = $('script#dexdata').text();
             GLOBALS.DEX_DATA = text.split(',');
-            this.localStorageMgr.updateLocalStorageDex(this.jQuery, document, undefined, GLOBALS);
+            this.localStorageMgr.updateLocalStorageDex(document, undefined, GLOBALS);
         }
     }
     setupObserver() {
@@ -242,17 +242,17 @@ class DexPage extends Page {
          * can't remove filter-type class or else the filtering
          * won't look right
          */
-        this.jQuery(clone).addClass('filter-type-2');
+        $(clone).addClass('filter-type-2');
     }
 
     setupHandlers() {
         const obj = this;
-        let h = obj.jQuery.parseJSON(obj.jQuery('#dexdata').html());
-        const type2 = obj.jQuery('.filter-type-2');
-        const l = obj.jQuery('.filter-type-2 .types');
+        let h = $.parseJSON($('#dexdata').html());
+        const type2 = $('.filter-type-2');
+        const l = $('.filter-type-2 .types');
         const c = l.children();
 
-        const typesSpan = obj.jQuery('.filter-type-2 .types');
+        const typesSpan = $('.filter-type-2 .types');
 
         type2.on('mousedown.dextfilter touchstart.dextfilter', function (event) {
             event.preventDefault();
@@ -281,8 +281,8 @@ class DexPage extends Page {
     }
 
     toggleSelectedTypes(b) {
-        const g = this.jQuery('.filter-type-2 .name i');
-        const l = this.jQuery('.filter-type-2 .types');
+        const g = $('.filter-type-2 .name i');
+        const l = $('.filter-type-2 .types');
         const c = l.children();
 
         l.addClass('selected');
@@ -297,8 +297,8 @@ class DexPage extends Page {
     }
 
     applyTypeFilters() {
-        const l1 = this.jQuery('.entry.filter-type:not(.filter-type-2) .types');
-        const l = this.jQuery('.entry.filter-type-2 .types');
+        const l1 = $('.entry.filter-type:not(.filter-type-2) .types');
+        const l = $('.entry.filter-type-2 .types');
         const c1 = l1.children();
         const c = l.children();
 
@@ -315,11 +315,11 @@ class DexPage extends Page {
         }
         if (a1 || a) {
             // Set "display" to "none" for all elements
-            this.jQuery('.region-entries>li.entry').css('display', 'none');
+            $('.region-entries>li.entry').css('display', 'none');
             // Set "display" to "inline-block" for elements matching selector
-            this.jQuery(selector).css('display', 'inline-block');
+            $(selector).css('display', 'inline-block');
         } else {
-            this.jQuery(selector).css('display', 'inline-block');
+            $(selector).css('display', 'inline-block');
         }
     }
 }
@@ -338,8 +338,8 @@ class FarmPage extends Page {
         d.KNOWN_EXCEPTIONS = {"Gastrodon [Occident]":["2","8"],"Gastrodon [Orient]":["2","8"],"Wormadam [Plant Cloak]":["11","4"],"Wormadam [Trash Cloak]":["11","16"],"Wormadam [Sandy Cloak]":["11","8"],"Raticate [Alolan Forme]":["15","0"],"Ninetales [Alolan Forme]":["5","17"],"Exeggutor [Alolan Forme]":["4","14"],"Marowak [Alolan Forme]":["1","13"],"Dugtrio [Alolan Forme]":["8","16"],"Graveler [Alolan Forme]":["12","3"],"Golem [Alolan Forme]":["12","3"],"Muk [Alolan Forme]":["7","15"],"Raichu [Alolan Forme]":["3","10"],"Linoone [Galarian Forme]":["15","0"],"Gourgeist [Small Size]":["13","4"],"Gourgeist [Average Size]":["13","4"],"Gourgeist [Large Size]":["13","4"],"Gourgeist [Super Size]":["13","4"],"Persian [Alolan Forme]":["15"]};
         return d;
     }
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
@@ -353,12 +353,11 @@ class FarmPage extends Page {
         this.observer = new MutationObserver(observeFunc);
     }
     setupHTML() {
-        const obj = this;
-        this.jQuery(document).ready(function () {
-            obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+        $(document).ready(function () {
+            $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
             document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend',`<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"></label> <label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"></label> <label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"></label> <label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"></label>`);
             // use the evolve button
-            obj.jQuery('#farmnews-evolutions>p>label>input').addClass('qolquickevo');
+            $('#farmnews-evolutions>p>label>input').addClass('qolquickevo');
         });
     }
     setupObserver() {
@@ -371,27 +370,27 @@ class FarmPage extends Page {
     }
     setupHandlers(GLOBALS) {
         const obj = this;
-        obj.jQuery(document).on('click', '#qolevolvenormal', (function () {
+        $(document).on('click', '#qolevolvenormal', (function () {
             obj.easyEvolveNormalList(GLOBALS);
         }));
 
-        obj.jQuery(document).on('click', '#qolchangesletype', (function () {
+        $(document).on('click', '#qolchangesletype', (function () {
             obj.easyEvolveTypeList(GLOBALS);
         }));
 
-        obj.jQuery(document).on('click', '#qolsortevolvename', (function () {
+        $(document).on('click', '#qolsortevolvename', (function () {
             obj.easyEvolveNameList(GLOBALS);
         }));
 
-        obj.jQuery(document).on('click', '#qolevolvenew', (function () {
+        $(document).on('click', '#qolevolvenew', (function () {
             obj.easyEvolveNewList(GLOBALS);
         }));
     }
     clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
-        const list$ = this.jQuery('.evolvepkmnlist');
-        list$.show();
-        list$.removeAttr('class');
+        const evoList = $('.evolvepkmnlist');
+        evoList.show();
+        evoList.removeAttr('class');
         if (document.querySelector('.qolEvolveTypeList')) {
             document.querySelector('.qolEvolveTypeList').remove();
         }
@@ -406,21 +405,20 @@ class FarmPage extends Page {
         this.clearSortedEvolveLists();
     }
     easyEvolveNameList() {
-        const obj = this;
         this.clearSortedEvolveLists();
 
-        this.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+        $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
         document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNameList">');
 
         let errorOccurred = false;
-        this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index) {
+        $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index) {
             // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = obj.jQuery(this).html();
+            const getEvolveString = $(this).html();
             if (getEvolveString === undefined || getEvolveString === '') {
                 console.error(`Unable to parse html from <li> at index ${index}`);
                 errorOccurred = true;
             } else {
-                let beforeEvolvePokemon = obj.jQuery(this).children().children().text().slice(0, -6);
+                let beforeEvolvePokemon = $(this).children().children().text().slice(0, -6);
                 if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
                     console.error(`Unable to parse pokemon-evolving-from from <li> at index ${index}`);
                     errorOccurred = true;
@@ -458,13 +456,13 @@ class FarmPage extends Page {
                             console.error(`Unable to create valid CSS class for pokemon-evolving-to from <li> at index ${index}`);
                             errorOccurred = true;
                         } else {
-                            if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(evolvePokemonClass) === false) {
+                            if ($('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(evolvePokemonClass) === false) {
                                 document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">' +
                                     beforeEvolvePokemon + ' > ' + evolvePokemon +
                                     '</h3><ul class="' + evolvePokemonClass +
                                     ' qolChangeLogContent"></ul></li><br>');
                             } // class
-                            obj.jQuery(this).clone().appendTo('.' + evolvePokemonClass + '');
+                            $(this).clone().appendTo('.' + evolvePokemonClass + '');
                         } // evolvePokemonClass
                     } // evolvePokemon
                 } // beforeEvolvePokemon
@@ -476,18 +474,18 @@ class FarmPage extends Page {
             return;
         }
 
-        obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li').each(function (index) {
-            const amountOfEvolves = obj.jQuery(this).children().children().length;
+        $('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li').each(function (index) {
+            const amountOfEvolves = $(this).children().children().length;
             if (amountOfEvolves === 0) {
                 console.error(`Found 0 evolutions for <li> at ${index} of evolve name list`);
                 errorOccurred = true;
             } else {
-                const getEvolveString = obj.jQuery(this).children().children().html();
+                const getEvolveString = $(this).children().children().html();
                 if (getEvolveString === undefined || getEvolveString === '') {
                     console.error(`Unable to parse evolve string from <li> at ${index} from evolve name list`);
                     errorOccurred = true;
                 } else {
-                    const beforeEvolvePokemon = obj.jQuery(this).children().children().children().children().first().text(); // .split(' ').join('');
+                    const beforeEvolvePokemon = $(this).children().children().children().children().first().text(); // .split(' ').join('');
 
                     if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
                         console.error(`Unable to parse pokemon-evolving-from from <li> at ${index} from evolve name list`);
@@ -498,14 +496,14 @@ class FarmPage extends Page {
                             console.error(`Unable to parse pokemon-evolving-to from <li> at ${index} from evolve name list`);
                             errorOccurred = true;
                         } else {
-                            obj.jQuery(this).children('.slidermenu').html(beforeEvolvePokemon + ' > ' + evolvePokemon + ' (' + amountOfEvolves + ')');
+                            $(this).children('.slidermenu').html(beforeEvolvePokemon + ' > ' + evolvePokemon + ' (' + amountOfEvolves + ')');
                         }
                     }
                 } // getEvolveString
             } // amountOfEvolves
         });
 
-        obj.jQuery('.evolvepkmnlist').hide();
+        $('.evolvepkmnlist').hide();
 
         if (errorOccurred) {
             window.alert('Error occurred while sorting pokemon by name');
@@ -513,26 +511,25 @@ class FarmPage extends Page {
         }
 
         //layout of the created html
-        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-        const typeBorder = obj.jQuery('.panel>h3').css('border');
-        const typeColor = obj.jQuery('.panel>h3').css('color');
-        obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-        obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-        obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+        const typeBackground = $('.panel>h3').css('background-color');
+        const typeBorder = $('.panel>h3').css('border');
+        const typeColor = $('.panel>h3').css('color');
+        $('.expandlist').css('background-color', '' + typeBackground + '');
+        $('.expandlist').css('border', '' + typeBorder + '');
+        $('.expandlist').css('color', '' + typeColor + '');
 
-        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-        obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        const typeListBackground = $('.tabbed_interface>div').css('background-color');
+        const typeListColor = $('.tabbed_interface>div').css('color');
+        $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+        $('.qolChangeLogContent').css('color', '' + typeListColor + '');
     }
     easyEvolveNewList(GLOBALS) {
-        const obj = this;
         const dexData = GLOBALS.DEX_DATA;
 
         this.clearSortedEvolveLists();
 
         // add a class to the original pokemon evolve list to be able to manipulate the element more easily and add the ul for the new dex search
-        this.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+        $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
         document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNewList">');
 
         const getNewCheckData = (name) => {
@@ -546,22 +543,22 @@ class FarmPage extends Page {
             return checkData;
         };
 
-        const createListElements = (jQuery, cls, header, name, elem) => {
-            if (jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass(cls) === false) {
+        const createListElements = (cls, header, name, elem) => {
+            if ($('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass(cls) === false) {
                 const html = '<li class="expandlist">' +
                     `<h3 class="slidermenu">${header}</h3>` +
                     `<ul class="${cls} qolChangeLogContent"></ul></li><br>`;
                 document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', html);
             }
 
-            if (jQuery(`#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.${cls}>li:contains(${name})`).length == 0) {
-                jQuery(elem).clone().appendTo(`.${cls}`);
+            if ($(`#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.${cls}>li:contains(${name})`).length == 0) {
+                $(elem).clone().appendTo(`.${cls}`);
             }
         };
 
-        this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () { //the actual search
+        $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () { //the actual search
             // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = obj.jQuery(this).html();
+            const getEvolveString = $(this).html();
 
             // every pokemon is a normal unless shiny, albino or melanistic pokemon is found
             let pokemonIsNormal = true;
@@ -669,30 +666,30 @@ class FarmPage extends Page {
             if (evolvePokemonNameInDex) { //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
                 if (pokemonIsNormal == true) { //normal Pokémon search
                     if (evolveNewCheckOne == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                        createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
                     } else if (evolveNewTotal > evolveNewCheck && evolveNewCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements(obj.jQuery, 'newpossiblepokedexentry', 'Possible Mega/Totem forme', evolvePokemonName, this);
+                        createListElements('newpossiblepokedexentry', 'Possible Mega/Totem forme', evolvePokemonName, this);
                     }
                     // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
                 } else if (pokemonIsShiny == true) { //shiny Pokemon search
                     if (evolveNewShinyCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                        createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
                     } else if (evolveNewTotal > evolveNewShinyCheck && evolveNewShinyCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements(obj.jQuery, 'newpossibleshinypokedexentry', 'Possible Shiny Mega/Totem forme', evolvePokemonName, this);
+                        createListElements('newpossibleshinypokedexentry', 'Possible Shiny Mega/Totem forme', evolvePokemonName, this);
                     }
                     // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
                 } else if (pokemonIsAlbino == true) { //albino pokemon search
                     if (evolveNewAlbinoCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                        createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
                     } else if (evolveNewTotal > evolveNewAlbinoCheck && evolveNewAlbinoCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements(obj.jQuery, 'newpossiblealbinopokedexentry', 'Possible Albino Mega/Totem forme', evolvePokemonName, this);
+                        createListElements('newpossiblealbinopokedexentry', 'Possible Albino Mega/Totem forme', evolvePokemonName, this);
                     }
                     // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
                 } else if (pokemonIsMelanistic == true) { //melanistic pokemon search
                     if (evolveNewMelaCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                        createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
                     } else if (evolveNewTotal > evolveNewMelaCheck && evolveNewMelaCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements(obj.jQuery, 'newpossiblemelanisticpokedexentry', 'Possible Melanistic Mega/Totem forme', evolvePokemonName, this);
+                        createListElements('newpossiblemelanisticpokedexentry', 'Possible Melanistic Mega/Totem forme', evolvePokemonName, this);
                     }
                     // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
                 }
@@ -701,99 +698,99 @@ class FarmPage extends Page {
             } else {
                 if (pokemonIsNormal == true) {
                     if (evolveNewCheckTwo == 0 || evolveNewCheckThree == 0 || evolveNewCheckFour == 0 || evolveNewCheckFive == 0 || evolveNewCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                        createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
                     } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
                         if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements(obj.jQuery, 'possiblealolan', 'Possible new Alolan entry', evolvePokemonName, this);
+                            createListElements('possiblealolan', 'Possible new Alolan entry', evolvePokemonName, this);
                         }
                     } else if (evolvePokemonName.indexOf('[') >= 0) {
                         if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements(obj.jQuery, 'possibledifferent', 'Possible new forme/cloak entry', evolvePokemonName, this);
+                            createListElements('possibledifferent', 'Possible new forme/cloak entry', evolvePokemonName, this);
                         } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                            createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
                         }
 
                     } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                        createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
                     } else {
-                        createListElements(obj.jQuery, 'errornotfound', 'Error: not found', evolvePokemonName, this);
+                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
                     }
                 } else if (pokemonIsShiny == true) {
                     if (evolveNewShinyCheckTwo == 0 || evolveNewShinyCheckThree == 0 || evolveNewShinyCheckFour == 0 || evolveNewShinyCheckFive == 0 || evolveNewShinyCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                        createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
                     } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
                         if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements(obj.jQuery, 'possibleshinyalolan', 'Possible new Shiny Alolan entry', evolvePokemonName, this);
+                            createListElements('possibleshinyalolan', 'Possible new Shiny Alolan entry', evolvePokemonName, this);
                         }
                     } else if (evolvePokemonName.indexOf('[') >= 0) {
                         if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements(obj.jQuery, 'possibleshinydifferent', 'Possible new Shiny forme/cloak entry', evolvePokemonName, this);
+                            createListElements('possibleshinydifferent', 'Possible new Shiny forme/cloak entry', evolvePokemonName, this);
                         } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                            createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
                         }
                     } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                        createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
                     } else {
-                        createListElements(obj.jQuery, 'errornotfound', 'Error: not found', evolvePokemonName, this);
+                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
                     }
                 } else if (pokemonIsAlbino == true) {
                     if (evolveNewAlbinoCheckTwo == 0 || evolveNewAlbinoCheckThree == 0 || evolveNewAlbinoCheckFour == 0 || evolveNewAlbinoCheckFive == 0 || evolveNewAlbinoCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                        createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
                     } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
                         if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements(obj.jQuery, 'possiblealbinoalolan', 'Possible new Albino Alolan entry', evolvePokemonName, this);
+                            createListElements('possiblealbinoalolan', 'Possible new Albino Alolan entry', evolvePokemonName, this);
                         }
                     } else if (evolvePokemonName.indexOf('[') >= 0) {
                         if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements(obj.jQuery, 'possiblealbinodifferent', 'Possible new Albino forme/cloak entry', evolvePokemonName, this);
+                            createListElements('possiblealbinodifferent', 'Possible new Albino forme/cloak entry', evolvePokemonName, this);
                         } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                            createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
                         }
                     } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                        createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
                     } else {
-                        createListElements(obj.jQuery, 'errornotfound', 'Error: not found', evolvePokemonName, this);
+                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
                     }
 
                 } else if (pokemonIsMelanistic == true) {
                     if (evolveNewMelaCheckTwo == 0 || evolveNewMelaCheckThree == 0 || evolveNewMelaCheckFour == 0 || evolveNewMelaCheckFive == 0 || evolveNewMelaCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                        createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
                     } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
                         if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements(obj.jQuery, 'possiblemelanalolan', 'Possible new Melanistic Alolan entry', evolvePokemonName, this);
+                            createListElements('possiblemelanalolan', 'Possible new Melanistic Alolan entry', evolvePokemonName, this);
                         }
                     } else if (evolvePokemonName.indexOf('[') >= 0) {
                         if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements(obj.jQuery, 'possiblemelandifferent', 'Possible new Melanistic forme/cloak entry', evolvePokemonName, this);
+                            createListElements('possiblemelandifferent', 'Possible new Melanistic forme/cloak entry', evolvePokemonName, this);
                         } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                            createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
                         }
                     } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                        createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
                     } else {
-                        createListElements(obj.jQuery, 'errornotfound', 'Error: not found', evolvePokemonName, this);
+                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
                     }
                 }
             }
         });
 
-        obj.jQuery('.evolvepkmnlist').hide();
+        $('.evolvepkmnlist').hide();
 
         //layout
-        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-        const typeBorder = obj.jQuery('.panel>h3').css('border');
-        const typeColor = obj.jQuery('.panel>h3').css('color');
-        obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-        obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-        obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+        const typeBackground = $('.panel>h3').css('background-color');
+        const typeBorder = $('.panel>h3').css('border');
+        const typeColor = $('.panel>h3').css('color');
+        $('.expandlist').css('background-color', '' + typeBackground + '');
+        $('.expandlist').css('border', '' + typeBorder + '');
+        $('.expandlist').css('color', '' + typeColor + '');
 
-        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-        obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        const typeListBackground = $('.tabbed_interface>div').css('background-color');
+        const typeListColor = $('.tabbed_interface>div').css('color');
+        $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+        $('.qolChangeLogContent').css('color', '' + typeListColor + '');
     }
     easyQuickEvolve() {
-        const parent = this.jQuery('.canevolve:contains("evolved into")').parent();
+        const parent = $('.canevolve:contains("evolved into")').parent();
         if (parent.length != 0) {
             parent.remove();
         }
@@ -804,20 +801,20 @@ class FarmPage extends Page {
 
         this.clearSortedEvolveLists();
 
-        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-        obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+        const typeBackground = $('.panel>h3').css('background-color');
+        $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
         document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
 
-        const typeBorder = obj.jQuery('.panel>h3').css('border');
-        const typeColor = obj.jQuery('.panel>h3').css('color');
-        obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-        obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-        obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+        const typeBorder = $('.panel>h3').css('border');
+        const typeColor = $('.panel>h3').css('color');
+        $('.expandlist').css('background-color', '' + typeBackground + '');
+        $('.expandlist').css('border', '' + typeBorder + '');
+        $('.expandlist').css('color', '' + typeColor + '');
 
-        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-        obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        const typeListBackground = $('.tabbed_interface>div').css('background-color');
+        const typeListColor = $('.tabbed_interface>div').css('color');
+        $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+        $('.qolChangeLogContent').css('color', '' + typeListColor + '');
 
         /* Nested helper function */
         const getEvolutionOrigin = function (evoString) {
@@ -832,16 +829,16 @@ class FarmPage extends Page {
             return evoString.substr(destStart).trim();
         };
 
-        const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
+        const appendDeltaTypeIfDelta = function (evoString, elemToAppendTo) {
             if (evoString.includes('title="[DELTA')) {
                 const deltaType = evoString.match('DELTA-(.*)]">');
                 $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
             }
         };
 
-        obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
+        $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
             // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = obj.jQuery(this).html();
+            const getEvolveString = $(this).html();
             let previousPokemon = getEvolutionOrigin(getEvolveString);
             const evolvePokemon = getEvolutionDestination(getEvolveString);
 
@@ -914,41 +911,41 @@ class FarmPage extends Page {
             const elem = this;
             // add unknown source types
             if(evolveTypesPrevious   .includes('18')) {
-                obj.jQuery(elem).clone().appendTo('.18source');
+                $(elem).clone().appendTo('.18source');
             }
             // add unknown target types
             if(evolveTypes.includes('18')) {
-                obj.jQuery(elem).clone().appendTo('.18target');
+                $(elem).clone().appendTo('.18target');
             }
             const combinedValidTypes = [...evolveTypesPrevious, ...evolveTypes]
                 .filter((t, i, self) => t != '18' && self.indexOf(t) === i);
             combinedValidTypes.map((t) => {
-                obj.jQuery(elem).clone().appendTo(`.${t}`);
+                $(elem).clone().appendTo(`.${t}`);
             });
 
-            appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
+            appendDeltaTypeIfDelta(getEvolveString, this);
         }); // each
 
-        obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
-            const amountOfEvolves = obj.jQuery(this).children().children().length;
-            const evolveTypeName = obj.jQuery(this).children('.slidermenu').html();
+        $('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
+            const amountOfEvolves = $(this).children().children().length;
+            const evolveTypeName = $(this).children('.slidermenu').html();
 
             // hide the types with no evolutions
             if (amountOfEvolves === 0) {
                 this.nextSibling.hidden = true;
                 this.hidden = true;
             } else {
-                obj.jQuery(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
+                $(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
             }
         });
 
-        obj.jQuery('.evolvepkmnlist').hide();
+        $('.evolvepkmnlist').hide();
     }
 }
 
 class FishingPage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
         // no observer
     }
     setupHTML(GLOBALS) {
@@ -956,40 +953,38 @@ class FishingPage extends Page {
         document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.massReleaseSelectHTML);
     }
     setupHandlers() {
-        const obj = this;
-        obj.jQuery('#selectallfishcheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour]>label>input').prop('checked', this.checked);
+        $('#selectallfishcheckbox').on('click', function () {
+            $('li[data-flavour]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectanycheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Any]>label>input').prop('checked', this.checked);
+        $('#movefishselectanycheckbox').on('click', function () {
+            $('li[data-flavour=Any]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectsourcheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
+        $('#movefishselectsourcheckbox').on('click', function () {
+            $('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectspicycheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
+        $('#movefishselectspicycheckbox').on('click', function () {
+            $('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectdrycheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
+        $('#movefishselectdrycheckbox').on('click', function () {
+            $('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectsweetcheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
+        $('#movefishselectsweetcheckbox').on('click', function () {
+            $('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectbittercheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
+        $('#movefishselectbittercheckbox').on('click', function () {
+            $('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
         });
     }
 }
 
 class Globals {
-    constructor(jQuery, localStorageMgr, helpers) {
-        this.jQuery = jQuery;
+    constructor(localStorageMgr, helpers) {
         this.localStorageMgr = localStorageMgr;
         this.HELPERS = helpers;
         this.TEMPLATES = { // all the new/changed HTML for the userscript
@@ -1127,7 +1122,7 @@ class Helpers {
             }
         }
     } // toggleSetting
-    setupFieldArrayHTML($, arr, id, div, cls) {
+    setupFieldArrayHTML(arr, id, div, cls) {
         const n = arr.length;
         for (let i = 0; i < n; i++) {
             const rightDiv = i + 1;
@@ -1136,7 +1131,7 @@ class Helpers {
             $(`.${cls}`).removeClass(cls).addClass('' + rightDiv + '').find('.qolsetting').val(rightValue);
         }
     }
-    loadSettings($, KEY, DEFAULT, obj) {
+    loadSettings(KEY, DEFAULT, obj) {
         if (localStorage.getItem(KEY) === null) {
             this.saveSettings(KEY);
         } else {
@@ -1178,7 +1173,7 @@ class Helpers {
         return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
             `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
     }
-    parseFieldPokemonTooltip($, GLOBALS, tooltip) {
+    parseFieldPokemonTooltip(GLOBALS, tooltip) {
         const dataElements = $(tooltip).children(0).children();
         let index = 1;
         // nickname
@@ -1314,14 +1309,14 @@ class Helpers {
     }
     // returns true if the page is equal to or smaller to the given size class
     // mobile cutoff (point when header changes): "mq2"
-    detectPageSize($, size) {
+    detectPageSize(size) {
         return $('html').hasClass(size);
     }
 }
 
 class InteractionsPage extends Page {
-  constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-      super(jQuery, localStorageMgr, helpers, GLOBALS.INTERACTIONS_PAGE_SETTINGS_KEY, {}, 'interactions');
+  constructor(localStorageMgr, helpers, GLOBALS) {
+      super(localStorageMgr, helpers, GLOBALS.INTERACTIONS_PAGE_SETTINGS_KEY, {}, 'interactions');
   } // constructor
 
   setupHTML() {
@@ -1362,8 +1357,8 @@ class InteractionsPage extends Page {
 
 
 class LabPage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
@@ -1392,13 +1387,13 @@ class LabPage extends Page {
         this.searchArray = this.settings.findLabEgg.split(',');
         this.typeArray = this.settings.findLabType.split(',');
 
-        this.helpers.setupFieldArrayHTML(this.jQuery, this.searchArray, 'searchkeys', theField, 'numberDiv');
-        this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'labTypes', theType, 'typeNumber');
+        this.helpers.setupFieldArrayHTML(this.searchArray, 'searchkeys', theField, 'numberDiv');
+        this.helpers.setupFieldArrayHTML(this.typeArray, 'labTypes', theType, 'typeNumber');
     }
     setupCSS() {
         //lab css
-        const labSuccessCss = this.jQuery('#labpage>div').css('background-color');
-        this.jQuery('#labsuccess').css('background-color', labSuccessCss);
+        const labSuccessCss = $('#labpage>div').css('background-color');
+        $('#labsuccess').css('background-color', labSuccessCss);
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#labpage>div>div>div'), {
@@ -1410,85 +1405,85 @@ class LabPage extends Page {
     }
     setupHandlers(GLOBALS) {
         const obj = this;
-        obj.jQuery(document).on('click', '#addLabSearch', (function () { //add lab text field
+        $(document).on('click', '#addLabSearch', (function () { //add lab text field
             obj.addTextField();
         }));
 
-        obj.jQuery(document).on('click', '#removeLabSearch', (function () { //remove lab text field
-            obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
+        $(document).on('click', '#removeLabSearch', (function () { //remove lab text field
+            obj.removeTextField(this, $(this).parent().find('input').val());
             obj.saveSettings();
         }));
 
-        obj.jQuery(document).on('click', '#addLabTypeList', (function () { //add lab type list
+        $(document).on('click', '#addLabTypeList', (function () { //add lab type list
             obj.addTypeList(GLOBALS);
         }));
 
-        obj.jQuery(document).on('click', '#removeLabTypeList', (function () { //remove lab type list
-            obj.removeTypeList(this, obj.jQuery(this).parent().find('select').val());
+        $(document).on('click', '#removeLabTypeList', (function () { //remove lab type list
+            obj.removeTypeList(this, $(this).parent().find('select').val());
             obj.saveSettings();
         }));
 
-        obj.jQuery(document).on('change', '#labCustomSearch input', (function () { //lab search
+        $(document).on('change', '#labCustomSearch input', (function () { //lab search
             obj.customSearch(GLOBALS);
         }));
 
-        obj.jQuery(document).on('click', '#labpage', (function () { //shelter search
+        $(document).on('click', '#labpage', (function () { //shelter search
             obj.customSearch(GLOBALS);
         }));
 
-        obj.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-                obj.jQuery(this).val(),
-                obj.jQuery(this).parent().parent().attr('class'),
-                obj.jQuery(this).parent().attr('class'),
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        obj.jQuery(window).on('load', (function () {
+        $(window).on('load', (function () {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
         }));
     }
     addTextField() {
         const theField = this.helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-        const numberDiv = this.jQuery('#searchkeys>div').length;
-        this.jQuery('#searchkeys').append(theField);
-        this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
+        const numberDiv = $('#searchkeys>div').length;
+        $('#searchkeys').append(theField);
+        $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
     }
     removeTextField(byebye, key) {
         // when textfield is removed, the value will be deleted from the localstorage
-        this.searchArray = this.jQuery.grep(this.searchArray, function (value) {
+        this.searchArray = $.grep(this.searchArray, function (value) {
             return value != key;
         });
         this.settings.findCustom = this.searchArray.toString();
 
-        this.jQuery(byebye).parent().remove();
+        $(byebye).parent().remove();
 
-        for (let i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
+        for (let i = 0; i < $('#searchkeys>div').length; i++) {
             const rightDiv = i + 1;
-            this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
+            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
     addTypeList(GLOBALS) {
         const theType = this.helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
-        const numberTypes = this.jQuery('#labTypes>div').length;
-        this.jQuery('#labTypes').append(theType);
-        this.jQuery('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
+        const numberTypes = $('#labTypes>div').length;
+        $('#labTypes').append(theType);
+        $('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
     }
     removeTypeList(byebye, key) {
-        this.typeArray = this.jQuery.grep(this.typeArray, function (value) {
+        this.typeArray = $.grep(this.typeArray, function (value) {
             return value != key;
         });
         this.settings.findType = this.typeArray.toString();
 
-        this.jQuery(byebye).parent().remove();
+        $(byebye).parent().remove();
 
-        for (let i = 0; i < this.jQuery('#labTypes>div').length; i++) {
+        for (let i = 0; i < $('#labTypes>div').length; i++) {
             const rightDiv = i + 1;
-            this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
+            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
     getTypesForEgg(searchPokemon) {
@@ -1498,7 +1493,6 @@ class LabPage extends Page {
     }
     searchForEggsMatchingTypes() {
         const GLOBALS = this.globals;
-        const jQuery = this.jQuery;
         const obj = this;
         const enabled = ((this.settings.findTypeEgg === true) &&
             (!(this.typeArray.length == 1 && this.typeArray[0] == '')));
@@ -1509,8 +1503,8 @@ class LabPage extends Page {
                 const amountOfTypesFound = [];
                 const typePokemonNames = [];
 
-                jQuery('#egglist>div>h3').each(function () {
-                    const searchPokemon = jQuery(this).text().split(' ')[0];
+                $('#egglist>div>h3').each(function () {
+                    const searchPokemon = $(this).text().split(' ')[0];
                     const [searchTypeOne, searchTypeTwo] = obj.getTypesForEgg(searchPokemon);
                     if (searchTypeOne === value) {
                         amountOfTypesFound.push('found');
@@ -1528,9 +1522,9 @@ class LabPage extends Page {
                 const typeImgStandOutLength = typePokemonNames.length;
                 for (let o = 0; o < typeImgStandOutLength; o++) {
                     const value = typePokemonNames[o];
-                    const shelterImgSearch = this.jQuery('#egglist>div>h3:containsIN(' + value + ')');
+                    const shelterImgSearch = $('#egglist>div>h3:containsIN(' + value + ')');
                     const shelterBigImg = shelterImgSearch.next();
-                    jQuery(shelterBigImg).addClass('labfoundme');
+                    $(shelterBigImg).addClass('labfoundme');
                 }
 
                 if (amountOfTypesFound.length > 1) {
@@ -1542,33 +1536,32 @@ class LabPage extends Page {
         } // if
     }
     searchForEggsMatchingCustom() {
-        const jQuery = this.jQuery;
         if (!(this.searchArray.length == 1 && this.searchArray[0] == '')) {
             if (this.settings.customEgg === true) {
                 const searchArrayNoEmptySpace = this.searchArray.filter(v => v != '');
                 for (let i = 0; i < searchArrayNoEmptySpace.length; i++) {
                     const value = searchArrayNoEmptySpace[i];
-                    if (jQuery('#egglist>div>h3:containsIN(' + value + ')').length) {
+                    if ($('#egglist>div>h3:containsIN(' + value + ')').length) {
                         const searchResult = value;
 
-                        const shelterImgSearch = jQuery('#egglist>div>h3:containsIN(' + value + ')');
+                        const shelterImgSearch = $('#egglist>div>h3:containsIN(' + value + ')');
                         const shelterBigImg = shelterImgSearch.next();
-                        jQuery(shelterBigImg).addClass('labfoundme');
+                        $(shelterBigImg).addClass('labfoundme');
 
-                        if (jQuery('#egglist>div>h3:containsIN(' + value + ')').length > 1) {
+                        if ($('#egglist>div>h3:containsIN(' + value + ')').length > 1) {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
                         } else {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
                         }
                     } // if
 
-                    if (jQuery('#egglist>div img[src*="' + value + '"]').length) {
-                        const searchResult = jQuery('#egglist>div img[src*="' + value + '"]').prev().text();
+                    if ($('#egglist>div img[src*="' + value + '"]').length) {
+                        const searchResult = $('#egglist>div img[src*="' + value + '"]').prev().text();
 
-                        const shelterImgSearch = jQuery('#egglist>div img[src*="' + value + '"]');
-                        jQuery(shelterImgSearch).addClass('labfoundme');
+                        const shelterImgSearch = $('#egglist>div img[src*="' + value + '"]');
+                        $(shelterImgSearch).addClass('labfoundme');
 
-                        if (jQuery('#egglist>div img[src*="' + value + '"]').length > 1) {
+                        if ($('#egglist>div img[src*="' + value + '"]').length > 1) {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
                         } else {
                             document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
@@ -1580,7 +1573,7 @@ class LabPage extends Page {
     }
     customSearch() {
         document.querySelector('#labsuccess').innerHTML = '';
-        this.jQuery('#egglist>div>img').removeClass('labfoundme');
+        $('#egglist>div>img').removeClass('labfoundme');
 
         this.searchForEggsMatchingTypes();
         this.searchForEggsMatchingCustom();
@@ -1627,8 +1620,8 @@ class LocalStorageManager {
     saveSettings(key, obj) {
         this.helpers.saveSettings(this.translateKey(key), obj);
     }
-    loadSettings($, KEY, DEFAULT, obj) {
-        return this.helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
+    loadSettings(KEY, DEFAULT, obj) {
+        return this.helpers.loadSettings(this.translateKey(KEY), DEFAULT, obj);
     }
     getItem(key) {
         return this.storage.getItem(this.translateKey(key));
@@ -1669,7 +1662,7 @@ class LocalStorageManager {
         return true;
     }
 
-    updateLocalStorageDex($, document, updateDate, globals) {
+    updateLocalStorageDex(document, updateDate, globals) {
         let dateString = '';
         if(updateDate === undefined) {
             dateString = (new Date()).toUTCString();
@@ -1684,8 +1677,8 @@ class LocalStorageManager {
 
 
 class MultiuserPage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
@@ -1720,10 +1713,10 @@ class MultiuserPage extends Page {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.partyModHTML);
     }
     setupCSS() {
-        const menuBackground = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
-        this.jQuery('#qolpartymod').css('background-color', '' + menuBackground + '');
-        const menuColor = this.jQuery('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
-        this.jQuery('#qolpartymod').css('color', '' + menuColor + '');
+        const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
+        $('#qolpartymod').css('background-color', '' + menuBackground + '');
+        const menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
+        $('#qolpartymod').css('color', '' + menuColor + '');
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#multiuser'), {
@@ -1733,13 +1726,13 @@ class MultiuserPage extends Page {
     }
     setupHandlers() {
         const obj = this;
-        obj.jQuery(window).on('load', (function () {
+        $(window).on('load', (function () {
             obj.loadSettings();
             obj.partyModification();
         }));
 
         let resizeTimer;
-        obj.jQuery(window).resize(function() {
+        $(window).resize(function() {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
                 obj.loadSettings();
@@ -1747,7 +1740,7 @@ class MultiuserPage extends Page {
             }, 100);
         });
 
-        obj.jQuery(document).on('click input', '#qolpartymod', (function () {
+        $(document).on('click input', '#qolpartymod', (function () {
             // the hide all option needs a delay like the resize timer to work when first clicked
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
@@ -1755,52 +1748,51 @@ class MultiuserPage extends Page {
             }, 100);
         }));
 
-        obj.jQuery(document).on('click', '.tabbed_interface', (function () {
+        $(document).on('click', '.tabbed_interface', (function () {
             obj.partyModification();
         }));
 
-        obj.jQuery(document).on('change', '.qolsetting', (function () {
+        $(document).on('change', '.qolsetting', (function () {
             obj.loadSettings();
             obj.settingsChange(this.getAttribute('data-key'),
-                obj.jQuery(this).val(),
-                obj.jQuery(this).parent().parent().attr('class'),
-                obj.jQuery(this).parent().attr('class'));
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'));
             obj.partyModification();
             obj.saveSettings();
         }));
 
-        obj.jQuery('input.qolalone').on('change', function () { //only 1 checkbox may be true
-            obj.jQuery('input.qolalone').not(this).prop('checked', false);
+        $('input.qolalone').on('change', function () { //only 1 checkbox may be true
+            $('input.qolalone').not(this).prop('checked', false);
         });
 
     }
     partyModification() {
         // first, remove any existing selection
         const btns = '#multiuser .party>div .action a';
-        this.jQuery('#multiuser').removeClass('qolPartyHideDislike');
-        this.jQuery('#multiuser').removeClass('qolPartyNiceTable');
-        this.jQuery('#multiuser').removeClass('qolPartyHideAll');
-        this.jQuery(btns).css({"top":0,"left":0});;
+        $('#multiuser').removeClass('qolPartyHideDislike');
+        $('#multiuser').removeClass('qolPartyNiceTable');
+        $('#multiuser').removeClass('qolPartyHideAll');
+        $(btns).css({"top":0,"left":0});;
 
         if (this.settings.hideDislike === true) {
-            this.jQuery('#multiuser').addClass('qolPartyHideDislike');
+            $('#multiuser').addClass('qolPartyHideDislike');
         }
 
         if (this.settings.niceTable === true) {
-            this.jQuery('#multiuser').addClass('qolPartyNiceTable');
+            $('#multiuser').addClass('qolPartyNiceTable');
         }
 
         if (this.settings.hideAll === true) {
-            this.jQuery('#multiuser').addClass('qolPartyHideAll');
-            this.jQuery(btns).css(this.jQuery('.mu_navlink.next').position());
+            $('#multiuser').addClass('qolPartyHideAll');
+            $(btns).css($('.mu_navlink.next').position());
         }
     }
 }
 
 
 class PagesManager {
-    constructor(jQuery, localStorageMgr, globals, HELPERS, SETTINGS) {
-        this.jQuery = jQuery;
+    constructor(localStorageMgr, globals, HELPERS, SETTINGS) {
         this.localStorageMgr = localStorageMgr;
         this.GLOBALS = globals;
         this.HELPERS = HELPERS;
@@ -1872,7 +1864,7 @@ class PagesManager {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
+                this.pages[key].object = new this.pages[key].class(this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
             }
         }
     }
@@ -1948,7 +1940,7 @@ class PagesManager {
 
 // eslint-disable-next-line no-unused-vars
 class PFQoL {
-  constructor($) {
+  constructor() {
       // :contains to case insensitive
       $.extend($.expr[':'], {
           // eslint-disable-next-line no-unused-vars
@@ -1957,16 +1949,15 @@ class PFQoL {
           }
       });
 
-      this.jQuery = $;
       this.HELPERS = new Helpers();
       this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
       this.LOCAL_STORAGE_MANAGER.migrateSettings();
 
       this.SETTINGS = new UserSettings();
-      this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS);
+      this.GLOBALS = new Globals(this.LOCAL_STORAGE_MANAGER, this.HELPERS);
       this.RESOURCES = new Resources();
-      this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
-      this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
+      this.PAGES = new PagesManager(this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
+      this.QOLHUB = new QoLHub(this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
       this.GLOBALS.fillTemplates(this.RESOURCES);
       this.GLOBALS.fillOptionsLists();
       this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS);
@@ -2006,7 +1997,7 @@ class PFQoL {
       obj.PAGES.setupObservers(obj.QOLHUB);
   }
   setupHandlers(obj) { // all the event handlers
-      obj.jQuery(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
+      $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
           obj.QOLHUB.build(document);
           obj.populateSettingsPage(obj);
       }));
@@ -2038,8 +2029,8 @@ class PFQoL {
 }
 
 class PrivateFieldsPage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS, settings) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(localStorageMgr, helpers, GLOBALS, settings) {
+        super(localStorageMgr, helpers, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
@@ -2102,10 +2093,10 @@ class PrivateFieldsPage extends Page {
             this.typeArray = this.settings.fieldType.split(',');
             this.natureArray = this.settings.fieldNature.split(',');
             this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+            this.helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
+            this.helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
+            this.helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
+            this.helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
 
         if(this.globalSettings.privateFieldFeatureEnables.release) {
@@ -2123,27 +2114,27 @@ class PrivateFieldsPage extends Page {
     }
     setupCSS() {
         // same as public fields
-        const fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
-        const fieldOrderCssBorder = this.jQuery('#field_field').css('border');
-        this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
-        this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('#tooltipenable').css('max-width', '600px');
-        this.jQuery('#tooltipenable').css('position', 'relative');
-        this.jQuery('#tooltipenable').css('margin', '16px auto');
-        this.jQuery('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('.collapsible').css('border', '' + fieldOrderCssBorder + '');
-        this.jQuery('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
+        const fieldOrderCssColor = $('#field_field').css('background-color');
+        const fieldOrderCssBorder = $('#field_field').css('border');
+        $('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
+        $('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
+        $('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
+        $('#tooltipenable').css('max-width', '600px');
+        $('#tooltipenable').css('position', 'relative');
+        $('#tooltipenable').css('margin', '16px auto');
+        $('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
+        $('.collapsible').css('border', '' + fieldOrderCssBorder + '');
+        $('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
 
-        this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
-        this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
+        $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
+        $('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
         /*
          * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
          * settings as most of the text on the site, manually set the text color for
          * '.collapsible' to match the text around it
          */
-        this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
+        $('.collapsible').css('color', $('#content').find('h1').eq(0).css('color'));
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#field_field'), {
@@ -2155,7 +2146,7 @@ class PrivateFieldsPage extends Page {
     }
     setupHandlers(GLOBALS) {
         const obj = this;
-        this.jQuery(window).on('load', (() => {
+        $(window).on('load', (() => {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
@@ -2164,105 +2155,105 @@ class PrivateFieldsPage extends Page {
             obj.saveSettings();
         }));
 
-        this.jQuery(document).on('load', '.field', (function () {
+        $(document).on('load', '.field', (function () {
             obj.customSearch(GLOBALS);
         }));
 
         if(obj.globalSettings.privateFieldFeatureEnables.release) {
-            this.jQuery(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
+            $(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
                 e.stopPropagation();
                 obj.releaseEnableReleaseAll();
             }));
-            this.jQuery(document).on('click', '*[data-menu="bulkmove"]', (function () { // select all feature
+            $(document).on('click', '*[data-menu="bulkmove"]', (function () { // select all feature
                 obj.moveEnableReleaseAll();
             }));
         }
 
         if(obj.globalSettings.privateFieldFeatureEnables.search) {
-            this.jQuery(document).on('click', '#addPrivateFieldTypeSearch', (function (e) { //add field type list
+            $(document).on('click', '#addPrivateFieldTypeSearch', (function (e) { //add field type list
                 e.stopPropagation();
                 obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
                 obj.customSearch(GLOBALS);
             }));
 
-            this.jQuery(document).on('click', '#removePrivateFieldTypeSearch', (function (e) { //remove field type list
+            $(document).on('click', '#removePrivateFieldTypeSearch', (function (e) { //remove field type list
                 e.stopPropagation();
-                obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
+                obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
                 obj.saveSettings();
                 obj.customSearch(GLOBALS);
             }));
 
-            this.jQuery(document).on('click', '#addPrivateFieldNatureSearch', (function (e) { //add field nature search
+            $(document).on('click', '#addPrivateFieldNatureSearch', (function (e) { //add field nature search
                 e.stopPropagation();
                 obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes', 'natureArray');
                 obj.customSearch(GLOBALS);
             }));
 
-            this.jQuery(document).on('click', '#removePrivateFieldNature', (function (e) { //remove field nature search
+            $(document).on('click', '#removePrivateFieldNature', (function (e) { //remove field nature search
                 e.stopPropagation();
-                obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
+                obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
                 obj.saveSettings();
                 obj.customSearch(GLOBALS);
             }));
 
-            this.jQuery(document).on('click', '#addPrivateFieldEggGroupSearch', (function (e) { //add egg group nature search
+            $(document).on('click', '#addPrivateFieldEggGroupSearch', (function (e) { //add egg group nature search
                 e.stopPropagation();
                 obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
                 obj.customSearch(GLOBALS);
             }));
 
-            this.jQuery(document).on('click', '#removePrivateFieldEggGroup', (function (e) { //remove egg group nature search
+            $(document).on('click', '#removePrivateFieldEggGroup', (function (e) { //remove egg group nature search
                 e.stopPropagation();
-                obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
+                obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
                 obj.saveSettings();
                 obj.customSearch(GLOBALS);
             }));
 
-            this.jQuery(document).on('click', '#addTextField', (function (e) {
+            $(document).on('click', '#addTextField', (function (e) {
                 e.stopPropagation();
                 obj.addTextField();
                 obj.saveSettings();
             }));
 
-            this.jQuery(document).on('click', '#removeTextField', (function (e) {
+            $(document).on('click', '#removeTextField', (function (e) {
                 e.stopPropagation();
-                obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
+                obj.removeTextField(this, $(this).parent().find('input').val());
                 obj.saveSettings();
                 obj.customSearch(GLOBALS);
             }));
         }
 
         if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
-            this.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function () {
+            $('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function () {
                 obj.loadSettings();
                 obj.handleTooltipSettings();
                 obj.saveSettings();
             });
 
-            this.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function () {
+            $('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function () {
                 obj.loadSettings();
                 obj.handleTooltipSettings();
                 obj.saveSettings();
             });
         }
 
-        this.jQuery(document).on('change', '.qolsetting', (function () {
+        $(document).on('change', '.qolsetting', (function () {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        this.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-                obj.jQuery(this).val(),
-                obj.jQuery(this).parent().parent().attr('class'),
-                obj.jQuery(this).parent().attr('class'),
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        this.jQuery('.collapsible').on('click', function () {
+        $('.collapsible').on('click', function () {
             this.classList.toggle('active');
             const content = this.nextElementSibling;
             if (content.style.display === 'block') {
@@ -2274,37 +2265,37 @@ class PrivateFieldsPage extends Page {
     }
     handleTooltipSettings() {
         const obj = this;
-        if (obj.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
+        if ($('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
             // make sure checkboxes are enabled
-            obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false);
+            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false);
 
             // use the correct setting to turn on the tooltips based on the berries
-            if (obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
+            if ($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
             else { obj.enableTooltips(); }
         } else {
-            obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true);
+            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true);
             // if tooltipNoBerry was checked before the mods were disabled, reenable the tooltips
-            if (obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) {
+            if ($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) {
                 obj.enableTooltips();
             }
         }
     }
     disableTooltips() {
-        this.jQuery('#field_field>div.field>.fieldmon').removeAttr('data-tooltip').removeClass('tooltip_trigger');
+        $('#field_field>div.field>.fieldmon').removeAttr('data-tooltip').removeClass('tooltip_trigger');
     }
     enableTooltips() {
-        this.jQuery('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
+        $('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
     }
     searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
-        const selected = this.jQuery('img[title*="' + value + '"]');
+        const selected = $('img[title*="' + value + '"]');
         const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
             const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
-            this.jQuery(bigImg).addClass('privatefoundme');
+            $(bigImg).addClass('privatefoundme');
         }
     }
     searchForCustomPokemon(value, male, female, nogender) {
@@ -2317,37 +2308,37 @@ class PrivateFieldsPage extends Page {
         if (genderMatches.length > 0) {
             for (let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
-                const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
+                const selected = $('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
                     const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
-                    this.jQuery(shelterBigImg).addClass('privatefoundme');
+                    $(shelterBigImg).addClass('privatefoundme');
                 }
             }
         }
 
         //No genders
         else {
-            const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + ')');
+            const selected = $('#field_field .tooltip_content:containsIN(' + value + ')');
             if (selected.length) {
                 const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
-                this.jQuery(shelterBigImg).addClass('privatefoundme');
+                $(shelterBigImg).addClass('privatefoundme');
             }
         }
 
     }
     searchForCustomEgg(value) {
         const cls = this.helpers.getPokemonImageClass();
-        const selected = this.jQuery('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
+        const selected = $('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
         if (selected.length) {
             const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
-            this.jQuery(shelterBigImg).addClass('privatefoundme');
+            $(shelterBigImg).addClass('privatefoundme');
         }
     }
     searchForCustomPng(value) {
-        const selected = this.jQuery('#field_field img[src*="' + value + '"]');
+        const selected = $('#field_field img[src*="' + value + '"]');
         if (selected.length) {
             const shelterImgSearch = selected;
-            this.jQuery(shelterImgSearch).addClass('privatefoundme');
+            $(shelterImgSearch).addClass('privatefoundme');
         }
     }
     customSearch(GLOBALS) {
@@ -2356,7 +2347,7 @@ class PrivateFieldsPage extends Page {
             const cls = this.helpers.getPokemonImageClass();
             const bigImgs = document.querySelectorAll('.privatefoundme');
             if (bigImgs !== null) {
-                bigImgs.forEach((b) => { obj.jQuery(b).removeClass('privatefoundme'); });
+                bigImgs.forEach((b) => { $(b).removeClass('privatefoundme'); });
             }
 
             if (this.settings.fieldShiny === true) {
@@ -2385,10 +2376,10 @@ class PrivateFieldsPage extends Page {
             }
             if (this.settings.fieldItem === true) {
             // pokemon that hold items will have HTML that matches the following selector
-                const items = obj.jQuery('.tooltip_content .item>div>.tooltip_item');
+                const items = $('.tooltip_content .item>div>.tooltip_item');
                 if (items.length) {
                     const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
-                    obj.jQuery(itemBigImgs).addClass('privatefoundme');
+                    $(itemBigImgs).addClass('privatefoundme');
                 }
             }
             const filteredTypeArray = this.typeArray.filter(v => v != '');
@@ -2397,27 +2388,27 @@ class PrivateFieldsPage extends Page {
 
             //loop to find all the types
             if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
-                obj.jQuery('.fieldmon').each(function () {
-                    const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
-                    const tooltipData = obj.helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+                $('.fieldmon').each(function () {
+                    const searchPokemonBigImg = $(this)[0].childNodes[0];
+                    const tooltipData = obj.helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0]);
 
                     const searchTypeOne = tooltipData.types[0] + '';
                     const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
 
                     const searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
 
-                    const searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
+                    const searchEggGroup = $(this).next().find('.fieldmontip').
                         children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
 
                     for (let i = 0; i < filteredTypeArray.length; i++) {
                         if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            obj.jQuery(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).addClass('privatefoundme');
                         }
                     }
 
                     for (let i = 0; i < filteredNatureArray.length; i++) {
                         if (searchNature === GLOBALS.NATURE_LIST[filteredNatureArray[i]]) {
-                            obj.jQuery(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).addClass('privatefoundme');
                         }
                     }
 
@@ -2426,7 +2417,7 @@ class PrivateFieldsPage extends Page {
                         if (searchEggGroup === value ||
                         searchEggGroup.indexOf(value + '/') > -1 ||
                         searchEggGroup.indexOf('/' + value) > -1) {
-                            obj.jQuery(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).addClass('privatefoundme');
                         }
                     }
                 }); // each
@@ -2458,130 +2449,128 @@ class PrivateFieldsPage extends Page {
     }
     addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
         const theList = this.helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
-        const number = this.jQuery(`#${divParent}>div`).length;
-        this.jQuery(`#${divParent}`).append(theList);
-        this.jQuery(`.${cls}`).removeClass(cls).addClass('' + number + '');
+        const number = $(`#${divParent}>div`).length;
+        $(`#${divParent}`).append(theList);
+        $(`.${cls}`).removeClass(cls).addClass('' + number + '');
     }
     removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
-        arr = this.jQuery.grep(arr, function (value) { return value != key; });
+        arr = $.grep(arr, function (value) { return value != key; });
         this.settings[settingsKey] = arr.toString();
 
-        this.jQuery(byebye).parent().remove();
+        $(byebye).parent().remove();
 
-        for (let i = 0; i < this.jQuery(`#${divParent}>div`).length; i++) {
+        for (let i = 0; i < $(`#${divParent}>div`).length; i++) {
             const rightDiv = i + 1;
-            this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
+            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
 
         return arr;
     }
     addTextField() {
         const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-        const numberDiv = this.jQuery('#searchkeys>div').length;
-        this.jQuery('#searchkeys').append(theField);
-        this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
+        const numberDiv = $('#searchkeys>div').length;
+        $('#searchkeys').append(theField);
+        $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
     }
     removeTextField(byebye, key) {
-        this.customArray = this.jQuery.grep(this.customArray, function (value) {
+        this.customArray = $.grep(this.customArray, function (value) {
             return value != key;
         });
         this.settings.fieldCustom = this.customArray.toString();
 
-        this.jQuery(byebye).parent().remove();
+        $(byebye).parent().remove();
 
         let i;
-        for (i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
+        for (i = 0; i < $('#searchkeys>div').length; i++) {
             const rightDiv = i + 1;
-            this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
+            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
     releaseEnableReleaseAll() {
-        const obj = this;
         if (this.settings.releaseSelectAll === true &&
-            !this.jQuery('#selectallfield').length) {
+            !$('#selectallfield').length) {
             const checkboxes = `<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all</label> <label id="selectallfieldany"><input id="selectallfieldanycheckbox" type="checkbox">Select Any</label> <label id="selectallfieldsour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour</label> <label id="selectallfieldspicy"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label> <label id="selectallfielddry"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry</label> <label id="selectallfieldsweet"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet</label> <label id="selectallfieldbitter"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter</label>`;
-            this.jQuery('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
-            this.jQuery('#selectallfieldcheckbox').click(function () {
-                obj.jQuery('#massreleaselist>ul>li>label>input').not(this).prop('checked', this.checked);
+            $('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
+            $('#selectallfieldcheckbox').click(function () {
+                $('#massreleaselist>ul>li>label>input').not(this).prop('checked', this.checked);
             });
 
-            this.jQuery('#selectallfieldanycheckbox').click(function () {
-                const selectAny = obj.jQuery('.icons:contains("Any")').prev().prev().prev('input');
-                obj.jQuery(selectAny).not(this).prop('checked', this.checked);
+            $('#selectallfieldanycheckbox').click(function () {
+                const selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
+                $(selectAny).not(this).prop('checked', this.checked);
             });
 
-            this.jQuery('#selectallfieldsourcheckbox').click(function () {
-                const selectSour = obj.jQuery('.icons:contains("Sour")').prev().prev().prev('input');
-                obj.jQuery(selectSour).not(this).prop('checked', this.checked);
+            $('#selectallfieldsourcheckbox').click(function () {
+                const selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
+                $(selectSour).not(this).prop('checked', this.checked);
             });
 
-            this.jQuery('#selectallfieldspicycheckbox').click(function () {
-                const selectSpicy = obj.jQuery('.icons:contains("Spicy")').prev().prev().prev('input');
-                obj.jQuery(selectSpicy).not(this).prop('checked', this.checked);
+            $('#selectallfieldspicycheckbox').click(function () {
+                const selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
+                $(selectSpicy).not(this).prop('checked', this.checked);
             });
 
-            this.jQuery('#selectallfielddrycheckbox').click(function () {
-                const selectDry = obj.jQuery('.icons:contains("Dry")').prev().prev().prev('input');
-                obj.jQuery(selectDry).not(this).prop('checked', this.checked);
+            $('#selectallfielddrycheckbox').click(function () {
+                const selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
+                $(selectDry).not(this).prop('checked', this.checked);
             });
 
-            this.jQuery('#selectallfieldsweetcheckbox').click(function () {
-                const selectSweet = obj.jQuery('.icons:contains("Sweet")').prev().prev().prev('input');
-                obj.jQuery(selectSweet).not(this).prop('checked', this.checked);
+            $('#selectallfieldsweetcheckbox').click(function () {
+                const selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
+                $(selectSweet).not(this).prop('checked', this.checked);
             });
 
-            this.jQuery('#selectallfieldbittercheckbox').click(function () {
-                const selectBitter = obj.jQuery('.icons:contains("Bitter")').prev().prev().prev('input');
-                obj.jQuery(selectBitter).not(this).prop('checked', this.checked);
+            $('#selectallfieldbittercheckbox').click(function () {
+                const selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
+                $(selectBitter).not(this).prop('checked', this.checked);
             });
         } // if
     } // releaseAll
     moveEnableReleaseAll() {
-        const obj = this;
         if (this.settings.releaseSelectAll === true &&
-            !this.jQuery('#movefieldselectall').length) {
+            !$('#movefieldselectall').length) {
             const checkboxes = `<label id="movefieldselectall"><input id="movefieldselectallcheckbox" type="checkbox">Select all</label> <label id="movefieldselectany"><input id="movefieldselectanycheckbox" type="checkbox">Select Any</label> <label id="movefieldselectsour"><input id="movefieldselectsourcheckbox" type="checkbox">Select Sour</label> <label id="movefieldselectspicy"><input id="movefieldselectspicycheckbox" type="checkbox">Select Spicy</label> <label id="movefieldselectdry"><input id="movefieldselectdrycheckbox" type="checkbox">Select Dry</label> <label id="movefieldselectsweet"><input id="movefieldselectsweetcheckbox" type="checkbox">Select Sweet</label> <label id="movefieldselectbitter"><input id="movefieldselectbittercheckbox" type="checkbox">Select Bitter</label>`;
-            obj.jQuery('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
-            obj.jQuery('#movefieldselectallcheckbox').click(function () {
-                obj.jQuery('#massmovelist>ul>li>label>input').not(this).prop('checked', this.checked);
+            $('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
+            $('#movefieldselectallcheckbox').click(function () {
+                $('#massmovelist>ul>li>label>input').not(this).prop('checked', this.checked);
             });
 
-            obj.jQuery('#movefieldselectanycheckbox').click(function () {
-                const selectAny = obj.jQuery('.icons:contains("Any")').prev().prev().prev('input');
-                obj.jQuery(selectAny).not(this).prop('checked', this.checked);
+            $('#movefieldselectanycheckbox').click(function () {
+                const selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
+                $(selectAny).not(this).prop('checked', this.checked);
             });
 
-            obj.jQuery('#movefieldselectsourcheckbox').click(function () {
-                const selectSour = obj.jQuery('.icons:contains("Sour")').prev().prev().prev('input');
-                obj.jQuery(selectSour).not(this).prop('checked', this.checked);
+            $('#movefieldselectsourcheckbox').click(function () {
+                const selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
+                $(selectSour).not(this).prop('checked', this.checked);
             });
 
-            obj.jQuery('#movefieldselectspicycheckbox').click(function () {
-                const selectSpicy = obj.jQuery('.icons:contains("Spicy")').prev().prev().prev('input');
-                obj.jQuery(selectSpicy).not(this).prop('checked', this.checked);
+            $('#movefieldselectspicycheckbox').click(function () {
+                const selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
+                $(selectSpicy).not(this).prop('checked', this.checked);
             });
 
-            obj.jQuery('#movefieldselectdrycheckbox').click(function () {
-                const selectDry = obj.jQuery('.icons:contains("Dry")').prev().prev().prev('input');
-                obj.jQuery(selectDry).not(this).prop('checked', this.checked);
+            $('#movefieldselectdrycheckbox').click(function () {
+                const selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
+                $(selectDry).not(this).prop('checked', this.checked);
             });
 
-            obj.jQuery('#movefieldselectsweetcheckbox').click(function () {
-                const selectSweet = obj.jQuery('.icons:contains("Sweet")').prev().prev().prev('input');
-                obj.jQuery(selectSweet).not(this).prop('checked', this.checked);
+            $('#movefieldselectsweetcheckbox').click(function () {
+                const selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
+                $(selectSweet).not(this).prop('checked', this.checked);
             });
 
-            obj.jQuery('#movefieldselectbittercheckbox').click(function () {
-                const selectBitter = obj.jQuery('.icons:contains("Bitter")').prev().prev().prev('input');
-                obj.jQuery(selectBitter).not(this).prop('checked', this.checked);
+            $('#movefieldselectbittercheckbox').click(function () {
+                const selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
+                $(selectBitter).not(this).prop('checked', this.checked);
             });
         } // if
     } // moveEnableReleaseAll
 }
 
 class PublicFieldsPage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS, settings) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(localStorageMgr, helpers, GLOBALS, settings) {
+        super(localStorageMgr, helpers, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,
@@ -2660,10 +2649,10 @@ class PublicFieldsPage extends Page {
             this.typeArray = this.settings.fieldType.split(',');
             this.natureArray = this.settings.fieldNature.split(',');
             this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'fieldTypes', theType, 'typeNumber');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.natureArray, 'natureTypes', theNature, 'natureNumber');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
+            this.helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
+            this.helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
+            this.helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
+            this.helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
         if(this.globalSettings.publicFieldFeatureEnables.sort) {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.fieldSortHTML);
@@ -2678,27 +2667,27 @@ class PublicFieldsPage extends Page {
         }
     }
     setupCSS() {
-        const fieldOrderCssColor = this.jQuery('#field_field').css('background-color');
-        const fieldOrderCssBorder = this.jQuery('#field_field').css('border');
-        this.jQuery('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
-        this.jQuery('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('#tooltipenable').css('max-width', '600px');
-        this.jQuery('#tooltipenable').css('position', 'relative');
-        this.jQuery('#tooltipenable').css('margin', '16px auto');
-        this.jQuery('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
-        this.jQuery('.collapsible').css('border', '' + fieldOrderCssBorder + '');
-        this.jQuery('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
+        const fieldOrderCssColor = $('#field_field').css('background-color');
+        const fieldOrderCssBorder = $('#field_field').css('border');
+        $('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
+        $('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
+        $('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
+        $('#tooltipenable').css('max-width', '600px');
+        $('#tooltipenable').css('position', 'relative');
+        $('#tooltipenable').css('margin', '16px auto');
+        $('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
+        $('.collapsible').css('border', '' + fieldOrderCssBorder + '');
+        $('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
 
-        this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
-        this.jQuery('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
+        $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
+        $('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
 
         /*
          * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
          * settings as most of the text on the site, manually set the text color for
          * '.collapsible' to match the text around it
          */
-        this.jQuery('.collapsible').css('color', this.jQuery('#content').find('h1').eq(0).css('color'));
+        $('.collapsible').css('color', $('#content').find('h1').eq(0).css('color'));
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#field_field'), {
@@ -2710,7 +2699,7 @@ class PublicFieldsPage extends Page {
     }
     setupHandlers(GLOBALS) {
         const obj = this;
-        obj.jQuery(window).on('load', (function() {
+        $(window).on('load', (function() {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
@@ -2719,7 +2708,7 @@ class PublicFieldsPage extends Page {
             obj.saveSettings();
         }));
 
-        obj.jQuery(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
+        $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
             obj.customSearch(GLOBALS);
         }));
 
@@ -2727,76 +2716,76 @@ class PublicFieldsPage extends Page {
             obj.customSearch(GLOBALS);
         });
 
-        obj.jQuery(document).on('change', '.qolsetting', (function() {
+        $(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        obj.jQuery(document).on('input', '.qolsetting', (function() { //Changes QoL settings
+        $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-                obj.jQuery(this).val(),
-                obj.jQuery(this).parent().parent().attr('class'),
-                obj.jQuery(this).parent().attr('class'),
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
         if(this.globalSettings.publicFieldFeatureEnables.search) {
-            obj.jQuery(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
+            $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
                 obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
                 obj.customSearch(GLOBALS);
             }));
 
-            obj.jQuery(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
-                obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
+            $(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
+                obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
                 obj.saveSettings();
                 obj.customSearch(GLOBALS);
             }));
 
-            obj.jQuery(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
+            $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
                 obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes', 'natureArray');
                 obj.customSearch(GLOBALS);
             }));
 
-            obj.jQuery(document).on('click', '#removeFieldNature', (function() { //remove field nature search
-                obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
+            $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
+                obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
                 obj.saveSettings();
                 obj.customSearch(GLOBALS);
             }));
 
-            obj.jQuery(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
+            $(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
                 obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
                 obj.customSearch(GLOBALS);
             }));
 
-            obj.jQuery(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
-                obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, obj.jQuery(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
+            $(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
+                obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
                 obj.saveSettings();
                 obj.customSearch(GLOBALS);
             }));
 
-            obj.jQuery(document).on('click', '#addTextField', (function() {
+            $(document).on('click', '#addTextField', (function() {
                 obj.addTextField();
                 obj.saveSettings();
             }));
 
-            obj.jQuery(document).on('click', '#removeTextField', (function() {
-                obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
+            $(document).on('click', '#removeTextField', (function() {
+                obj.removeTextField(this, $(this).parent().find('input').val());
                 obj.saveSettings();
                 obj.customSearch(GLOBALS);
             }));
         }
 
         if(this.globalSettings.publicFieldFeatureEnables.sort) {
-            obj.jQuery('input.qolalone').on('change', function() { //only 1 textbox may be true
-                obj.jQuery('input.qolalone').not(this).prop('checked', false);
+            $('input.qolalone').on('change', function() { //only 1 textbox may be true
+                $('input.qolalone').not(this).prop('checked', false);
             });
         }
 
         if(this.globalSettings.publicFieldFeatureEnables.tooltip) {
-            obj.jQuery('.collapsible').on('click', function() {
+            $('.collapsible').on('click', function() {
                 this.classList.toggle('active');
                 const content = this.nextElementSibling;
                 if(content.style.display === 'block') {
@@ -2806,24 +2795,24 @@ class PublicFieldsPage extends Page {
                 }
             });
 
-            obj.jQuery('#field_berries').on('click', function() {
+            $('#field_berries').on('click', function() {
                 obj.loadSettings();
                 obj.handleTooltipSettings();
             });
 
-            obj.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function() {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
-
-            obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
+            $('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function() {
                 obj.loadSettings();
                 obj.handleTooltipSettings();
                 obj.saveSettings();
             });
 
-            obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
+            $('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
+                obj.loadSettings();
+                obj.handleTooltipSettings();
+                obj.saveSettings();
+            });
+
+            $('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
                 obj.loadSettings();
                 obj.handleTooltipSettings();
                 obj.saveSettings();
@@ -2831,9 +2820,9 @@ class PublicFieldsPage extends Page {
         }
 
         // based on PFQ's code in fields_public.min.js
-        obj.jQuery(window).on('keyup.field_shortcuts', function (a) {
-            const k = obj.jQuery('#field_berries');
-            if (0 == obj.jQuery(a.target).closest('input, textarea').length) {
+        $(window).on('keyup.field_shortcuts', function (a) {
+            const k = $('#field_berries');
+            if (0 == $(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
                 case 49: // 1
                 case 97: // Num-1
@@ -2861,48 +2850,48 @@ class PublicFieldsPage extends Page {
     // specific
     handleTooltipSettings() {
         const obj = this;
-        if(obj.jQuery('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
+        if($('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
             // make sure checkboxes are enabled
-            obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false);
-            obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', false);
+            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false);
+            $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', false);
 
             // use the correct setting to turn on the tooltips based on the berries
-            if(obj.jQuery('#field_berries').hasClass('selected')) {
-                if(obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) { obj.disableTooltips(); }
+            if($('#field_berries').hasClass('selected')) {
+                if($('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) { obj.disableTooltips(); }
                 else { obj.enableTooltips(); }
             } else {
-                if(obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
+                if($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
                 else { obj.enableTooltips(); }
             }
         } else {
-            obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true);
-            obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', true);
+            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true);
+            $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', true);
             // if tooltipNoBerry was checked before the mods were disabled, reenable the tooltips
-            if(obj.jQuery('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) {
+            if($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) {
                 obj.enableTooltips();
             }
             // same for tooltipBerry
-            if(obj.jQuery('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) {
+            if($('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) {
                 obj.enableTooltips();
             }
         }
     }
     disableTooltips() {
-        this.jQuery('#field_field>div.field>.fieldmon').removeAttr('data-tooltip').removeClass('tooltip_trigger');
+        $('#field_field>div.field>.fieldmon').removeAttr('data-tooltip').removeClass('tooltip_trigger');
     }
     enableTooltips() {
-        this.jQuery('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
+        $('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
     }
     searchForImgTitle(GLOBALS, key) {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
-        const selected = this.jQuery('img[title*="'+value+'"]');
+        const selected = $('img[title*="'+value+'"]');
         const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
             const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
-            this.jQuery(bigImg).addClass('publicfoundme');
+            $(bigImg).addClass('publicfoundme');
         }
     }
     searchForCustomPokemon(value, male, female, nogender) {
@@ -2915,114 +2904,114 @@ class PublicFieldsPage extends Page {
         if(genderMatches.length > 0) {
             for(let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
-                const selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+') img[title*=\'' + genderMatch + '\']');
+                const selected = $('#field_field .tooltip_content:containsIN('+value+') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
                     const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
-                    this.jQuery(shelterBigImg).addClass('publicfoundme');
+                    $(shelterBigImg).addClass('publicfoundme');
                 }
             }
         }
 
         //No genders
         else {
-            const selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))');
+            const selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))');
             if (selected.length) {
                 const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
-                this.jQuery(shelterBigImg).addClass('publicfoundme');
+                $(shelterBigImg).addClass('publicfoundme');
             }
         }
 
     }
     searchForCustomEgg(value) {
-        const selected = this.jQuery('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
+        const selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
         const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
             const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
-            this.jQuery(shelterBigImg).addClass('publicfoundme');
+            $(shelterBigImg).addClass('publicfoundme');
         }
     }
     searchForCustomPng(value) {
-        const selected = this.jQuery('#field_field img[src*="'+value+'"]');
+        const selected = $('#field_field img[src*="'+value+'"]');
         if (selected.length) {
             const shelterImgSearch = selected;
-            this.jQuery(shelterImgSearch).addClass('publicfoundme');
+            $(shelterImgSearch).addClass('publicfoundme');
         }
     }
     customSearch(GLOBALS) {
         const obj = this;
         const cls = this.helpers.getPokemonImageClass();
 
-        this.jQuery('.fieldmon').removeClass('qolSortBerry');
-        this.jQuery('.fieldmon').removeClass('qolSortMiddle');
-        this.jQuery('.field').removeClass('qolGridField');
-        this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
-        this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
+        $('.fieldmon').removeClass('qolSortBerry');
+        $('.fieldmon').removeClass('qolSortMiddle');
+        $('.field').removeClass('qolGridField');
+        $('.fieldmon').removeClass('qolGridPokeSize');
+        $('.fieldmon>img').removeClass('qolGridPokeImg');
 
         if(obj.globalSettings.publicFieldFeatureEnables.sort) {
 
             //////////////////// sorting ////////////////////
             if (this.settings.fieldByBerry === true) { //sort field by berries
-                this.jQuery('.fieldmon').removeClass('qolSortMiddle');
-                this.jQuery('.field').removeClass('qolGridField');
-                this.jQuery('.fieldmon').removeClass('qolGridPokeSize');
-                this.jQuery('.fieldmon>img').removeClass('qolGridPokeImg');
+                $('.fieldmon').removeClass('qolSortMiddle');
+                $('.field').removeClass('qolGridField');
+                $('.fieldmon').removeClass('qolGridPokeSize');
+                $('.fieldmon>img').removeClass('qolGridPokeImg');
 
-                this.jQuery('.fieldmon').addClass('qolSortBerry');
-                if(this.jQuery('#field_field [data-flavour*="any-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="any-"]').addClass('qolAnyBerry');
+                $('.fieldmon').addClass('qolSortBerry');
+                if($('#field_field [data-flavour*="any-"]').length) {
+                    $('#field_field [data-flavour*="any-"]').addClass('qolAnyBerry');
                 }
-                if(this.jQuery('#field_field [data-flavour*="sour-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="sour-"]').addClass('qolSourBerry');
+                if($('#field_field [data-flavour*="sour-"]').length) {
+                    $('#field_field [data-flavour*="sour-"]').addClass('qolSourBerry');
                 }
-                if(this.jQuery('#field_field [data-flavour*="spicy-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="spicy-"]').addClass('qolSpicyBerry');
+                if($('#field_field [data-flavour*="spicy-"]').length) {
+                    $('#field_field [data-flavour*="spicy-"]').addClass('qolSpicyBerry');
                 }
-                if(this.jQuery('#field_field [data-flavour*="dry-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="dry-"]').addClass('qolDryBerry');
+                if($('#field_field [data-flavour*="dry-"]').length) {
+                    $('#field_field [data-flavour*="dry-"]').addClass('qolDryBerry');
                 }
-                if(this.jQuery('#field_field [data-flavour*="sweet-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="sweet-"]').addClass('qolSweetBerry');
+                if($('#field_field [data-flavour*="sweet-"]').length) {
+                    $('#field_field [data-flavour*="sweet-"]').addClass('qolSweetBerry');
                 }
-                if(this.jQuery('#field_field [data-flavour*="bitter-"]').length) {
-                    this.jQuery('#field_field [data-flavour*="bitter-"]').addClass('qolBitterBerry');
+                if($('#field_field [data-flavour*="bitter-"]').length) {
+                    $('#field_field [data-flavour*="bitter-"]').addClass('qolBitterBerry');
                 }
             }
             else if (this.settings.fieldByMiddle === true) { //sort field in the middle
-                this.jQuery('.fieldmon').addClass('qolSortMiddle');
+                $('.fieldmon').addClass('qolSortMiddle');
             }
             else if (this.settings.fieldByGrid === true) { //sort field in a grid
-                this.jQuery('.field').addClass('qolGridField');
-                this.jQuery('.fieldmon').addClass('qolGridPokeSize');
-                this.jQuery('.fieldmon>img').addClass('qolGridPokeImg');
+                $('.field').addClass('qolGridField');
+                $('.fieldmon').addClass('qolGridPokeSize');
+                $('.fieldmon>img').addClass('qolGridPokeImg');
             }
 
             //Pokémon click counter
             if (this.settings.fieldClickCount === false) {
-                this.jQuery('#pokemonclickcount').remove();
+                $('#pokemonclickcount').remove();
             } else if (this.settings.fieldClickCount === true) {
-                const pokemonFed = this.jQuery('.fieldmon').map(function() { return obj.jQuery(this).attr('data-fed'); }).get();
+                const pokemonFed = $('.fieldmon').map(function() { return $(this).attr('data-fed'); }).get();
 
                 let pokemonClicked = 0;
                 for (let i = 0; i < pokemonFed.length; i++) {
                     pokemonClicked += pokemonFed[i] << 0;
                 }
 
-                const pokemonInField = this.jQuery('.fieldpkmncount').text();
+                const pokemonInField = $('.fieldpkmncount').text();
 
-                if (this.jQuery('#pokemonclickcount').length === 0) {
+                if ($('#pokemonclickcount').length === 0) {
                     document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
-                } else if(this.jQuery('#pokemonclickcount').text() !== (pokemonClicked+' / '+pokemonInField+' Clicked')) {
-                    this.jQuery('#pokemonclickcount').text(pokemonClicked+' / '+pokemonInField+' Clicked');
+                } else if($('#pokemonclickcount').text() !== (pokemonClicked+' / '+pokemonInField+' Clicked')) {
+                    $('#pokemonclickcount').text(pokemonClicked+' / '+pokemonInField+' Clicked');
                 }
 
                 if(pokemonInField !== '') {
                     if (JSON.stringify(pokemonClicked) === pokemonInField) {
-                        this.jQuery('#pokemonclickcount').css({
+                        $('#pokemonclickcount').css({
                             'color' : '#059121'
                         });
                     }
                     if (pokemonClicked !== JSON.parse(pokemonInField)) {
-                        this.jQuery('#pokemonclickcount').css({
+                        $('#pokemonclickcount').css({
                             'color' : '#a30323'
                         });
                     }
@@ -3034,7 +3023,7 @@ class PublicFieldsPage extends Page {
         /////////////////// searching ///////////////////
             const bigImgs = document.querySelectorAll('.publicfoundme');
             if(bigImgs !== null) {
-                bigImgs.forEach((b) => {obj.jQuery(b).removeClass('publicfoundme');});
+                bigImgs.forEach((b) => {$(b).removeClass('publicfoundme');});
             }
 
             if(this.settings.fieldShiny === true) {
@@ -3063,10 +3052,10 @@ class PublicFieldsPage extends Page {
             }
             if(this.settings.fieldItem === true) {
             // pokemon that hold items will have HTML that matches the following selector
-                const items = this.jQuery('.tooltip_content .item>div>.tooltip_item');
+                const items = $('.tooltip_content .item>div>.tooltip_item');
                 if(items.length) {
                     const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
-                    this.jQuery(itemBigImgs).addClass('publicfoundme');
+                    $(itemBigImgs).addClass('publicfoundme');
                 }
             }
 
@@ -3076,27 +3065,27 @@ class PublicFieldsPage extends Page {
 
             //loop to find all the types
             if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
-                this.jQuery('.fieldmon').each(function() {
-                    const searchPokemonBigImg = obj.jQuery(this)[0].childNodes[0];
-                    const tooltipData = obj.helpers.parseFieldPokemonTooltip(obj.jQuery, GLOBALS, obj.jQuery(searchPokemonBigImg).parent().next()[0]);
+                $('.fieldmon').each(function() {
+                    const searchPokemonBigImg = $(this)[0].childNodes[0];
+                    const tooltipData = obj.helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0]);
 
                     const searchTypeOne = tooltipData.types[0] + '';
                     const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '': '';
 
                     const searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
 
-                    const searchEggGroup = obj.jQuery(this).next().find('.fieldmontip').
+                    const searchEggGroup = $(this).next().find('.fieldmontip').
                         children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
 
                     for (let i = 0; i < filteredTypeArray.length; i++) {
                         if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
+                            $(searchPokemonBigImg).addClass('publicfoundme');
                         }
                     }
 
                     for (let i = 0; i < filteredNatureArray.length; i++) {
                         if(searchNature === GLOBALS.NATURE_LIST[filteredNatureArray[i]]) {
-                            obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
+                            $(searchPokemonBigImg).addClass('publicfoundme');
                         }
                     }
 
@@ -3105,7 +3094,7 @@ class PublicFieldsPage extends Page {
                         if(searchEggGroup === value ||
                        searchEggGroup.indexOf(value + '/') > -1 ||
                        searchEggGroup.indexOf('/' + value) > -1) {
-                            obj.jQuery(searchPokemonBigImg).addClass('publicfoundme');
+                            $(searchPokemonBigImg).addClass('publicfoundme');
                         }
                     }
                 }); // each
@@ -3137,41 +3126,41 @@ class PublicFieldsPage extends Page {
     } // customSearch
     addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
         const theList = this.helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
-        const number = this.jQuery(`#${divParent}>div`).length;
-        this.jQuery(`#${divParent}`).append(theList);
-        this.jQuery(`.${cls}`).removeClass(cls).addClass(''+number+'');
+        const number = $(`#${divParent}>div`).length;
+        $(`#${divParent}`).append(theList);
+        $(`.${cls}`).removeClass(cls).addClass(''+number+'');
     }
     removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
-        arr = this.jQuery.grep(arr, function(value) { return value != key; });
+        arr = $.grep(arr, function(value) { return value != key; });
         this.settings[settingsKey] = arr.toString();
 
-        this.jQuery(byebye).parent().remove();
+        $(byebye).parent().remove();
 
-        for(let i = 0; i < this.jQuery(`#${divParent}>div`).length; i++) {
+        for(let i = 0; i < $(`#${divParent}>div`).length; i++) {
             const rightDiv = i + 1;
-            this.jQuery('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
 
         return arr;
     }
     addTextField() {
         const theField = this.helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-        const numberDiv = this.jQuery('#searchkeys>div').length;
-        this.jQuery('#searchkeys').append(theField);
-        this.jQuery('.numberDiv').removeClass('numberDiv').addClass(''+numberDiv+'');
+        const numberDiv = $('#searchkeys>div').length;
+        $('#searchkeys').append(theField);
+        $('.numberDiv').removeClass('numberDiv').addClass(''+numberDiv+'');
     }
     removeTextField(byebye, key) {
-        this.customArray = this.jQuery.grep(this.customArray, function(value) {
+        this.customArray = $.grep(this.customArray, function(value) {
             return value != key;
         });
         this.settings.fieldCustom = this.customArray.toString();
 
-        this.jQuery(byebye).parent().remove();
+        $(byebye).parent().remove();
 
         let i;
-        for(i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
+        for(i = 0; i < $('#searchkeys>div').length; i++) {
             const rightDiv = i + 1;
-            this.jQuery('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
+            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
         }
     }
 }
@@ -3181,8 +3170,7 @@ class PublicFieldsPage extends Page {
  * for the QoL Hub.
  */
 class QoLHub {
-    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
-        this.jQuery = jQuery;
+    constructor(localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
         this.localStorageMgr = localStorageMgr;
         this.HELPERS = HELPERS;
         this.GLOBALS = GLOBALS;
@@ -3193,66 +3181,66 @@ class QoLHub {
     }
     setupCSS() {
         //custom user css
-        this.jQuery('head').append('<style type="text/css">' + this.USER_SETTINGS.customCss + '</style>');
+        $('head').append('<style type="text/css">' + this.USER_SETTINGS.customCss + '</style>');
     }
     setupHandlers() {
         const obj = this;
-        obj.jQuery('#qolcustomcss', document).on('keydown', function (e) {
+        $('#qolcustomcss', document).on('keydown', function (e) {
             if (e.keyCode == 9 || e.which == 9) {
                 e.preventDefault();
                 const s = this.selectionStart;
-                obj.jQuery(this).val(function (i, v) {
+                $(this).val(function (i, v) {
                     return v.substring(0, s) + '\t' + v.substring(this.selectionEnd);
                 });
                 this.selectionEnd = s + 1;
             }
         });
 
-        obj.jQuery(document).on('input', '.qolhubsetting', (function () { //Changes QoL settings
+        $(document).on('input', '.qolhubsetting', (function () { //Changes QoL settings
             const dataKey = this.getAttribute('data-key');
             obj.settingsChange(this.getAttribute('data-key'),
-                obj.jQuery(this).val(),
-                obj.jQuery(this).parent().parent().attr('class'),
-                obj.jQuery(this).parent().attr('class'),
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.handleLinkedSetting(dataKey);
         }));
 
-        obj.jQuery(document).on('click', '.closeHub', (function () { //close QoL hub
+        $(document).on('click', '.closeHub', (function () { //close QoL hub
             obj.close(document);
         }));
 
-        obj.jQuery(document).on('click', '#resetPageSettings', (function () {
-            const page = obj.jQuery(this).parent().find('select').val();
+        $(document).on('click', '#resetPageSettings', (function () {
+            const page = $(this).parent().find('select').val();
             obj.clearPageSettings(page);
         }));
 
-        obj.jQuery(document).on('click', '#resetAllSettings', (function () {
+        $(document).on('click', '#resetAllSettings', (function () {
             if(window.confirm('Are you sure? All settings, including your custom CSS, will be reset.')) {
                 obj.clearAllSettings();
             }
         }))
 
-        obj.jQuery(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
-            obj.jQuery(this).next().slideToggle();
+        $(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
+            $(this).next().slideToggle();
         }));
 
         // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
-        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
-            obj.jQuery('#clearCachedDex').next().remove();
+        $(document).on('mouseover', '#clearCachedDex', (function () {
+            $('#clearCachedDex').next().remove();
         }));
 
         // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
-        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
+        $(document).on('click', '#clearCachedDex', (function () {
             obj.resetDex();
         }));
 
-        obj.jQuery(document).on('click', '#qolErrorConsole', (function() {
-            let consoleContent = obj.jQuery('#qolConsoleHolder').html();
+        $(document).on('click', '#qolErrorConsole', (function() {
+            let consoleContent = $('#qolConsoleHolder').html();
             if(consoleContent.trim() == '') {
                 consoleContent = '[ No errors to display ]';
             }
-            obj.jQuery('#qolConsoleContent').html(consoleContent);
+            $('#qolConsoleContent').html(consoleContent);
         }));
     }
     loadSettings() {
@@ -3358,58 +3346,58 @@ class QoLHub {
         if(linkedSettingIndex > -1) {
             const managed = this.LINKED_SETTINGS[linkedSettingIndex].managed;
             const userSettings = this.USER_SETTINGS[managed];
-            if(this.jQuery(`[data-key=${possibleManager}]`).prop('checked') === false) {
+            if($(`[data-key=${possibleManager}]`).prop('checked') === false) {
                 for(const setting in userSettings) {
-                    this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', true);
+                    $(`[data-key="${managed}.${setting}"]`).prop('disabled', true);
                 }
             } else {
                 for(const setting in userSettings) {
-                    this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', false);
+                    $(`[data-key="${managed}.${setting}"]`).prop('disabled', false);
                 }
             }
         }
     }
     build(document) {
-        this.jQuery('body', document).append(this.GLOBALS.TEMPLATES.qolHubHTML);
-        this.jQuery('#core', document).addClass('scrolllock');
-        const qolHubCssBackgroundHead = this.jQuery('.qolHubHead.qolHubSuperHead').css('background-color');
-        const qolHubCssTextColorHead = this.jQuery('.qolHubHead.qolHubSuperHead').css('color');
-        const qolHubCssBackground = this.jQuery('.qolHubTable').css('background-color');
-        const qolHubCssTextColor = this.jQuery('.qolHubTable').css('color');
-        const qolHubDialogBorder = this.jQuery('.dialog>div>div>div').css('border');
-        this.jQuery('.qolHubHead').css('background-color', qolHubCssBackgroundHead);
-        this.jQuery('.qolHubHead').css('color', qolHubCssTextColorHead);
-        this.jQuery('.qolChangeLogHead').css('background-color', qolHubCssBackgroundHead);
-        this.jQuery('.qolChangeLogHead').css('color', qolHubCssTextColorHead);
-        this.jQuery('.qolChangeLogHead').css('border', qolHubDialogBorder);
-        this.jQuery('.qolopencloselist.qolChangeLogContent').css('background-color', qolHubCssBackground);
-        this.jQuery('.qolopencloselist.qolChangeLogContent').css('color', qolHubCssTextColor);
+        $('body', document).append(this.GLOBALS.TEMPLATES.qolHubHTML);
+        $('#core', document).addClass('scrolllock');
+        const qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead').css('background-color');
+        const qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead').css('color');
+        const qolHubCssBackground = $('.qolHubTable').css('background-color');
+        const qolHubCssTextColor = $('.qolHubTable').css('color');
+        const qolHubDialogBorder = $('.dialog>div>div>div').css('border');
+        $('.qolHubHead').css('background-color', qolHubCssBackgroundHead);
+        $('.qolHubHead').css('color', qolHubCssTextColorHead);
+        $('.qolChangeLogHead').css('background-color', qolHubCssBackgroundHead);
+        $('.qolChangeLogHead').css('color', qolHubCssTextColorHead);
+        $('.qolChangeLogHead').css('border', qolHubDialogBorder);
+        $('.qolopencloselist.qolChangeLogContent').css('background-color', qolHubCssBackground);
+        $('.qolopencloselist.qolChangeLogContent').css('color', qolHubCssTextColor);
 
-        this.jQuery('.qolAllSettings').css('border', qolHubDialogBorder);
+        $('.qolAllSettings').css('border', qolHubDialogBorder);
 
         const customCss = this.USER_SETTINGS.customCss;
 
         if (customCss === '') {
-            this.jQuery('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
+            $('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
         } else {
-            this.jQuery('.textareahub textarea', document).val(customCss);
+            $('.textareahub textarea', document).val(customCss);
         }
 
         const dexUpdateDate = (this.GLOBALS.DEX_UPDATE_DATE === null) ?
             'Not updated since installation' :
             this.GLOBALS.DEX_UPDATE_DATE;
-        this.jQuery('.qolDate', document).text(dexUpdateDate);
+        $('.qolDate', document).text(dexUpdateDate);
     }
     close(document) {
-        this.jQuery('.dialog', document).remove();
-        this.jQuery('#core', document).removeClass('scrolllock');
+        $('.dialog', document).remove();
+        $('#core', document).removeClass('scrolllock');
     }
     resetDex() {
-        this.jQuery('#clearCachedDex').next().remove();
+        $('#clearCachedDex').next().remove();
         this.GLOBALS.DEX_UPDATE_DATE = null;
         this.GLOBALS.DEX_DATA = null;
         this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
-        this.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
+        $('#clearCachedDex').after('<span> Cleared!</span>');
     }
 } // QoLHub
 
@@ -3520,8 +3508,8 @@ class SharedFieldsLib {
 
 
 class ShelterPage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS, SETTINGS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
+    constructor(localStorageMgr, helpers, GLOBALS, SETTINGS) {
+        super(localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
             findTypeEgg: true,
@@ -3565,11 +3553,11 @@ class ShelterPage extends Page {
 
     setupHTML(GLOBALS) {
         if(this.globalSettings.shelterFeatureEnables.search) {
-            this.jQuery('.tabbed_interface.horizontal>div').removeClass('tab-active');
-            this.jQuery('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
+            $('.tabbed_interface.horizontal>div').removeClass('tab-active');
+            $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
-            this.jQuery('#shelteroptionsqol').addClass('tab-active');
+            $('#shelteroptionsqol').addClass('tab-active');
 
             document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
@@ -3580,12 +3568,12 @@ class ShelterPage extends Page {
             this.customArray = this.settings.findCustom.split(',');
             this.typeArray = this.settings.findType.split(',');
 
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.customArray, 'searchkeys', theField, 'numberDiv');
-            this.helpers.setupFieldArrayHTML(this.jQuery, this.typeArray, 'shelterTypes', theType, 'typeNumber');
+            this.helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
+            this.helpers.setupFieldArrayHTML(this.typeArray, 'shelterTypes', theType, 'typeNumber');
 
-            this.jQuery('[data-shelter=reload]').addClass('customSearchOnClick');
-            this.jQuery('[data-shelter=whiteflute]').addClass('customSearchOnClick');
-            this.jQuery('[data-shelter=blackflute]').addClass('customSearchOnClick');
+            $('[data-shelter=reload]').addClass('customSearchOnClick');
+            $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
+            $('[data-shelter=blackflute]').addClass('customSearchOnClick');
         }
         if(this.globalSettings.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
@@ -3595,11 +3583,11 @@ class ShelterPage extends Page {
     setupCSS() {
         if(this.globalSettings.shelterFeatureEnables.search ||
             this.globalSettings.shelterFeatureEnables.sort) {
-            const shelterSuccessCss = this.jQuery('#sheltercommands').css('background-color');
-            this.jQuery('#sheltersuccess').css('background-color', shelterSuccessCss);
-            this.jQuery('.tooltiptext').css('background-color', this.jQuery('.tooltip_content').eq(0).css('background-color'));
-            const background = this.jQuery('#shelterpage>.panel').eq(0).css('border');
-            this.jQuery('.tooltiptext').css('border', '' + background + '');
+            const shelterSuccessCss = $('#sheltercommands').css('background-color');
+            $('#sheltersuccess').css('background-color', shelterSuccessCss);
+            $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
+            const background = $('#shelterpage>.panel').eq(0).css('border');
+            $('.tooltiptext').css('border', '' + background + '');
         }
     }
     setupObserver() {
@@ -3609,71 +3597,71 @@ class ShelterPage extends Page {
     }
     setupHandlers(GLOBALS) {
         const obj = this;
-        this.jQuery(document).on('change', '#shelteroptionsqol input', (function () { //shelter search
+        $(document).on('change', '#shelteroptionsqol input', (function () { //shelter search
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        this.jQuery(document).on('change', '.qolsetting', (function () {
+        $(document).on('change', '.qolsetting', (function () {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        this.jQuery(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
             obj.settingsChange(this.getAttribute('data-key'),
-                obj.jQuery(this).val(),
-                obj.jQuery(this).parent().parent().attr('class'),
-                obj.jQuery(this).parent().attr('class'),
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        this.jQuery('.customSearchOnClick').on('click', (function () {
+        $('.customSearchOnClick').on('click', (function () {
             obj.loadSettings();
             obj.customSearch(GLOBALS);
             obj.saveSettings();
         }));
 
-        this.jQuery(document).on('click', '#addShelterTextfield', (function () { //add shelter text field
+        $(document).on('click', '#addShelterTextfield', (function () { //add shelter text field
             obj.addTextField();
             obj.saveSettings();
         }));
 
-        this.jQuery(document).on('click', '#removeShelterTextfield', (function () { //remove shelter text field
-            obj.removeTextField(this, obj.jQuery(this).parent().find('input').val());
+        $(document).on('click', '#removeShelterTextfield', (function () { //remove shelter text field
+            obj.removeTextField(this, $(this).parent().find('input').val());
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(document).on('click', '#addShelterTypeList', (function () { //add shelter type list
+        $(document).on('click', '#addShelterTypeList', (function () { //add shelter type list
             obj.addTypeList(GLOBALS);
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(document).on('click', '#removeShelterTypeList', (function () { //remove shelter type list
-            obj.removeTypeList(this, obj.jQuery(this).parent().find('select').val());
+        $(document).on('click', '#removeShelterTypeList', (function () { //remove shelter type list
+            obj.removeTypeList(this, $(this).parent().find('select').val());
             obj.saveSettings();
             obj.customSearch(GLOBALS);
         }));
 
-        this.jQuery(window).on('keyup.qol_shelter_shortcuts', function (a) {
-            if (0 == obj.jQuery(a.target).closest('input, textarea').length) {
+        $(window).on('keyup.qol_shelter_shortcuts', function (a) {
+            if (0 == $(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
                 case obj.selectNextMatchKey: {
-                    const numMatches = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
+                    const numMatches = $('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
 
                     // remove all existing locks
-                    obj.jQuery('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
+                    $('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
 
                     // default is undefined, so set the value to either 0 or 1+current
                     obj.currentlySelectedMatch = (obj.currentlySelectedMatch + 1) || 0;
 
                     if (numMatches) {
                         const modIndex = (numMatches == 1) ? 0 : (obj.currentlySelectedMatch + 1) % numMatches - 1;
-                        const selected = obj.jQuery('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(modIndex);
+                        const selected = $('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(modIndex);
                         // these steps mimic clicking on the pokemon/egg
                         selected.parent().addClass('selected');
                         selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
@@ -3688,43 +3676,43 @@ class ShelterPage extends Page {
     }
     addTextField() {
         const theField = this.helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-        const numberDiv = this.jQuery('#searchkeys>div').length;
-        this.jQuery('#searchkeys').append(theField);
-        this.jQuery('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
+        const numberDiv = $('#searchkeys>div').length;
+        $('#searchkeys').append(theField);
+        $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
     }
     removeTextField(byebye, key) {
-        this.customArray = this.jQuery.grep(this.customArray, function (value) { //when textfield is removed, the value will be deleted from the localstorage
+        this.customArray = $.grep(this.customArray, function (value) { //when textfield is removed, the value will be deleted from the localstorage
             return value != key;
         });
         this.settings.findCustom = this.customArray.toString();
 
-        this.jQuery(byebye).parent().remove();
+        $(byebye).parent().remove();
 
         let i;
-        for (i = 0; i < this.jQuery('#searchkeys>div').length; i++) {
+        for (i = 0; i < $('#searchkeys>div').length; i++) {
             const rightDiv = i + 1;
-            this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
+            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
     addTypeList(GLOBALS) {
         const theList = this.helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
             'removeShelterTypeList', 'fieldTypes', 'typeArray');
-        const numberTypes = this.jQuery('#shelterTypes>div').length;
-        this.jQuery('#shelterTypes').append(theList);
-        this.jQuery('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
+        const numberTypes = $('#shelterTypes>div').length;
+        $('#shelterTypes').append(theList);
+        $('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
     }
     removeTypeList(byebye, key) {
-        this.typeArray = this.jQuery.grep(this.typeArray, function (value) {
+        this.typeArray = $.grep(this.typeArray, function (value) {
             return value != key;
         });
         this.settings.findType = this.typeArray.toString();
 
-        this.jQuery(byebye).parent().remove();
+        $(byebye).parent().remove();
 
         let i;
-        for (i = 0; i < this.jQuery('#shelterTypes>div').length; i++) {
+        for (i = 0; i < $('#shelterTypes>div').length; i++) {
             const rightDiv = i + 1;
-            this.jQuery('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
+            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
     insertShelterFoundDiv(number, name, img) {
@@ -3749,14 +3737,14 @@ class ShelterPage extends Page {
         const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
-        const selected = this.jQuery('img[title*="' + value + '"]');
+        const selected = $('img[title*="' + value + '"]');
         const cls = this.helpers.getPokemonImageClass();
         if (selected.length) {
             const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
             const imgResult = selected.length + ' ' + searchResult; //amount + type found
             const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
             const shelterBigImg = selected.parent().prev().children(`img.${cls}`);
-            this.jQuery(shelterBigImg).addClass('shelterfoundme');
+            $(shelterBigImg).addClass('shelterfoundme');
 
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
         }
@@ -3768,7 +3756,7 @@ class ShelterPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         for (let i = 0; i < LIST.length; i++) {
             const entry = LIST[i];
-            const selected = this.jQuery(`div.pokemon+div.tooltip_content:contains('${entry}')`);
+            const selected = $(`div.pokemon+div.tooltip_content:contains('${entry}')`);
             if (selected.length) {
                 const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
                 const imgResult = selected.length + ' ' + searchResult; //amount + type found
@@ -3782,7 +3770,6 @@ class ShelterPage extends Page {
     }
 
     searchForTypes(GLOBALS, types) {
-        const obj = this;
         const dexData = GLOBALS.DEX_DATA;
         const cls = this.helpers.getPokemonImageClass();
         for (let i = 0; i < types.length; i++) {
@@ -3794,10 +3781,10 @@ class ShelterPage extends Page {
             if (this.settings.findTypeEgg === true) {
                 const pokemonElems = [];
                 typePokemonNames = [];
-                selected = this.jQuery('#shelterarea>.tooltip_content:contains("Egg")');
+                selected = $('#shelterarea>.tooltip_content:contains("Egg")');
                 selected.each((i, e) => {
-                    const allText = obj.jQuery(e).text();
-                    const justParentText = allText.replace(obj.jQuery(e).children().text(), '').trim();
+                    const allText = $(e).text();
+                    const justParentText = allText.replace($(e).children().text(), '').trim();
                     const searchPokemon = justParentText.replace('Egg', '').trim();
                     const dexifiedPokemon = searchPokemon
                         .replace(/é/g, '\\u00e9')
@@ -3817,9 +3804,9 @@ class ShelterPage extends Page {
                 });
 
                 for (let o = 0; o < pokemonElems.length; o++) {
-                    const shelterImgSearch = this.jQuery(pokemonElems[o]);
+                    const shelterImgSearch = $(pokemonElems[o]);
                     const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    $(shelterBigImg).addClass('shelterfoundme');
                 }
 
                 this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
@@ -3827,10 +3814,10 @@ class ShelterPage extends Page {
 
             if (this.settings.findTypePokemon === true) {
                 typePokemonNames = [];
-                selected = this.jQuery('#shelterarea>.tooltip_content').not(':contains("Egg")');
+                selected = $('#shelterarea>.tooltip_content').not(':contains("Egg")');
                 selected.each((i, e) => {
-                    const allText = obj.jQuery(e).text();
-                    const justParentText = allText.replace(obj.jQuery(e).children().text(), '').trim()
+                    const allText = $(e).text();
+                    const justParentText = allText.replace($(e).children().text(), '').trim()
                         .replace(/\n/g, '');
                     const searchPokemon = justParentText.replace(/\(Lv\..*/g, '').trim();
                     const dexifiedPokemon = searchPokemon
@@ -3847,11 +3834,11 @@ class ShelterPage extends Page {
 
                 for (let o = 0; o < typePokemonNames.length; o++) {
                     const name = typePokemonNames[o];
-                    const shelterImgSearch = this.jQuery(
+                    const shelterImgSearch = $(
                         `#shelterarea .tooltip_content:containsIN("${name} (")`
                     );
                     const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    $(shelterBigImg).addClass('shelterfoundme');
                 }
 
                 this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
@@ -3869,18 +3856,18 @@ class ShelterPage extends Page {
 
         if(this.globalSettings.shelterFeatureEnables.sort) {
             //sort in grid
-            this.jQuery('#shelterarea').removeClass('qolshelterareagrid');
-            this.jQuery('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
-            this.jQuery('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
-            this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
-            this.jQuery('#sheltergridthingy').remove();
+            $('#shelterarea').removeClass('qolshelterareagrid');
+            $('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
+            $('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
+            $('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
+            $('#sheltergridthingy').remove();
 
             if (this.settings.shelterGrid === true) { //shelter grid
-                this.jQuery('#shelterarea').addClass('qolshelterareagrid');
-                this.jQuery('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
-                this.jQuery('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
-                this.jQuery('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
-                this.jQuery('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
+                $('#shelterarea').addClass('qolshelterareagrid');
+                $('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
+                $('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
+                $('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
+                $('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
             }
         }
 
@@ -3890,7 +3877,7 @@ class ShelterPage extends Page {
          * emptying the sheltersuccess div to avoid duplicates
          */
             document.querySelector('#sheltersuccess').innerHTML = '';
-            this.jQuery('#shelterarea>div>img').removeClass('shelterfoundme');
+            $('#shelterarea>div>img').removeClass('shelterfoundme');
 
             if (this.settings.findShiny === true) {
                 this.searchForImgTitle(GLOBALS, 'findShiny');
@@ -3923,14 +3910,14 @@ class ShelterPage extends Page {
             if (this.settings.findNewPokemon === true) {
                 const key = 'findNewPokemon';
                 const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
-                const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')');
+                const selected = $('#shelterarea .tooltip_content:contains(' + value + ')');
                 if (selected.length) {
                     const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
                     const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                     const tooltipResult = selected.length + ' ' + searchResult;
                     const shelterImgSearch = selected;
                     const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                    $(shelterBigImg).addClass('shelterfoundme');
 
                     this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
                 }
@@ -3939,9 +3926,9 @@ class ShelterPage extends Page {
             if (this.settings.findNewEgg === true) {
                 const key = 'findNewEgg';
                 const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
-                const selected = this.jQuery('#shelterarea .tooltip_content:contains(' + value + ')').filter(function () {
+                const selected = $('#shelterarea .tooltip_content:contains(' + value + ')').filter(function () {
                 // .text() will include the text in the View/Adopt and Hide buttons, so there will be a space
-                    return obj.jQuery(this).text().startsWith(value + ' ');
+                    return $(this).text().startsWith(value + ' ');
                 });
 
                 if (selected.length) {
@@ -3950,7 +3937,7 @@ class ShelterPage extends Page {
                     if (selected.length >= 1) {
                         const shelterImgSearch = selected;
                         const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                        this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                        $(shelterBigImg).addClass('shelterfoundme');
                     }
                     this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
                 }
@@ -3991,7 +3978,7 @@ class ShelterPage extends Page {
                         if (genderMatches.length > 0) {
                             for (let i = 0; i < genderMatches.length; i++) {
                                 const genderMatch = genderMatches[i];
-                                const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + ') img[title*=\'' + genderMatch + '\']');
+                                const selected = $('#shelterarea .tooltip_content:containsIN(' + customValue + ') img[title*=\'' + genderMatch + '\']');
                                 if (selected.length) {
                                     const searchResult = customValue;
                                     const genderName = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
@@ -3999,7 +3986,7 @@ class ShelterPage extends Page {
                                     const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
                                     const shelterImgSearch = selected;
                                     const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
-                                    this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                                    $(shelterBigImg).addClass('shelterfoundme');
 
                                     this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                                 }
@@ -4008,13 +3995,13 @@ class ShelterPage extends Page {
 
                         //No genders
                         else if (shelterValueArrayCustom.length === 0) {
-                            const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):not(:containsIN("Egg"))');
+                            const selected = $('#shelterarea .tooltip_content:containsIN(' + customValue + '):not(:containsIN("Egg"))');
                             if (selected.length) {
                                 const searchResult = customValue;
                                 const tooltipResult = selected.length + ' ' + searchResult;
                                 const shelterImgSearch = selected;
                                 const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
-                                this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                                $(shelterBigImg).addClass('shelterfoundme');
                                 this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                             }
                         }
@@ -4022,25 +4009,25 @@ class ShelterPage extends Page {
 
                     //custom egg
                     if (this.settings.customEgg === true) {
-                        const selected = this.jQuery('#shelterarea .tooltip_content:containsIN(' + customValue + '):contains("Egg")');
+                        const selected = $('#shelterarea .tooltip_content:containsIN(' + customValue + '):contains("Egg")');
                         if (selected.length) {
                             const searchResult = customValue;
                             const tooltipResult = selected.length + ' ' + searchResult;
                             const shelterImgSearch = selected;
                             const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
-                            this.jQuery(shelterBigImg).addClass('shelterfoundme');
+                            $(shelterBigImg).addClass('shelterfoundme');
                             this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
                         }
                     }
 
                     //imgSearch with Pokémon
                     if (this.settings.customPng === true) {
-                        const selected = this.jQuery(`#shelterarea img.${cls}[src*="${customValue}"]`);
+                        const selected = $(`#shelterarea img.${cls}[src*="${customValue}"]`);
                         if (selected.length) {
                             const searchResult = selected.parent().next().text().split('(')[0];
                             const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
                             const shelterImgSearch = selected;
-                            this.jQuery(shelterImgSearch).addClass('shelterfoundme');
+                            $(shelterImgSearch).addClass('shelterfoundme');
                             this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                         }
                     }
@@ -4060,13 +4047,13 @@ class ShelterPage extends Page {
 
 
 class SummaryPage extends Page {
-  constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-      super(jQuery, localStorageMgr, helpers, GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
+  constructor(localStorageMgr, helpers, GLOBALS) {
+      super(localStorageMgr, helpers, GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
   } // constructor
 
   setupHTML() {
-    const pkmnID = this.jQuery('.party div')[0].getAttribute('data-pid');
-    const displayAccordion = this.jQuery('#displaycodelist').parent();
+    const pkmnID = $('.party div')[0].getAttribute('data-pid');
+    const displayAccordion = $('#displaycodelist').parent();
     const newHTML = 
       "<p>Display an interactive panel in Pokefarm's forums!</p>"+
       '<p class="displaycode" style="user-select:all";>[pkmnpanel='+pkmnID+']</p>'+
@@ -4140,7 +4127,7 @@ class UserSettings {
             const countLocalStorageSettings = Object.keys(localStorageString).length;
             // adds new settings to this class
             if (countLocalStorageSettings < countScriptSettings) {
-                const newSettings = this.jQuery.extend(true, this, settingsObj);
+                const newSettings = $.extend(true, this, settingsObj);
                 this.copyFields(newSettings);
             }
             // removes objects from the local storage if they don't exist anymore. Not yet possible..
@@ -4173,8 +4160,8 @@ class UserSettings {
 }
 
 class WishforgePage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
@@ -4187,7 +4174,7 @@ class WishforgePage extends Page {
 
     setupHTML(GLOBALS) {
         const obj = this;
-        const isMobile = obj.helpers.detectPageSize(obj.jQuery, 'mq2');
+        const isMobile = obj.helpers.detectPageSize('mq2');
         // setup table format
         let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
         let columns = 
@@ -4228,7 +4215,7 @@ class WishforgePage extends Page {
         table += '</table>';
 
         // add table to page
-        const craftedBadgesList = obj.jQuery('#badges').next().find('ul.badgelist');
+        const craftedBadgesList = $('#badges').next().find('ul.badgelist');
         craftedBadgesList.prepend(table);
 
         // define column aliases to make the movements more logical
@@ -4254,57 +4241,56 @@ class WishforgePage extends Page {
         for (let j = 0; j < types.length; j++) {
             const type = types[j];
             const index = j + 1;
-            const li = obj.jQuery(craftedBadgesList.children()[index]);
+            const li = $(craftedBadgesList.children()[index]);
 
             // get badge image
-            const badgeImg = obj.jQuery(obj.jQuery(li.children()[0]).children()[0]);
+            const badgeImg = $($(li.children()[0]).children()[0]);
             badgeImg.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${LEVEL_COL})`);
 
             // get badge name
-            const badgeName = obj.jQuery(li.children()[0]);
+            const badgeName = $(li.children()[0]);
             badgeName.text(' ' + badgeName.text().replace(` ${type} Badge`, ''));
             badgeName.css('display', 'inline-block');
             badgeName.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${LEVEL_COL})`);
 
             // get gem progress bar
-            const gemProgress = obj.jQuery(li.children()[0]);
+            const gemProgress = $(li.children()[0]);
             gemProgress.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${GEM_COL})`);
 
             // if the badge is under construction, the tooltip will not be there
-            if(obj.jQuery(li.children()[0]).hasClass('itemtooltip')) {
-                const gemTooltip = obj.jQuery(li.children()[0]);
+            if($(li.children()[0]).hasClass('itemtooltip')) {
+                const gemTooltip = $(li.children()[0]);
                 gemTooltip.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${GEM_COL})`);
             }
 
             // get item progress bar
-            const itemProgress = obj.jQuery(li.children()[0]);
+            const itemProgress = $(li.children()[0]);
             itemProgress.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${ITEM_COL})`);
 
             // if the badge is under construction, the tooltip will not be there
-            if(obj.jQuery(li.children()[0]).hasClass('itemtooltip')) {
-                const itemTooltip = obj.jQuery(li.children()[0]);
+            if($(li.children()[0]).hasClass('itemtooltip')) {
+                const itemTooltip = $(li.children()[0]);
                 itemTooltip.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${ITEM_COL})`);
             }
 
             // get notify button
-            const notifyBtn = obj.jQuery(li.children()[0]);
+            const notifyBtn = $(li.children()[0]);
             notifyBtn.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${NOTIFY_COL})`);
 
             // get upgrade button
-            const updateBtn = obj.jQuery(li.children()[0]);
+            const updateBtn = $(li.children()[0]);
             updateBtn.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${UPDATE_COL})`);
         }
 
         // remove the li's left over
         const children = craftedBadgesList.children();
         for (let i = types.length; i >= 1; i--) {
-            obj.jQuery(children[i]).remove();
+            $(children[i]).remove();
         }
     }
 
     setupObserver() {
-        const obj = this;
-        const target = obj.jQuery('#badges').next('div')[0];
+        const target = $('#badges').next('div')[0];
         this.observer.observe(target, {
             childList: true
         });
@@ -4317,7 +4303,6 @@ $(function () {
   if (typeof(module) !== 'undefined') {
     module.exports.pfqol = PFQoL;
   } else {
-    // eslint-disable-next-line no-undef
-    new PFQoL(jQuery);
+    new PFQoL();
   }
 });

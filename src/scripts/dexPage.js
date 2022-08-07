@@ -1,6 +1,6 @@
 class DexPage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -14,10 +14,10 @@ class DexPage extends Page {
          * when entering the dex page, update the local storage QoLPokedex
          * so the user can update their information
          */
-        if (jQuery('script#dexdata') && jQuery('script#dexdata').text()) {
-            const text = jQuery('script#dexdata').text();
+        if ($('script#dexdata') && $('script#dexdata').text()) {
+            const text = $('script#dexdata').text();
             GLOBALS.DEX_DATA = text.split(',');
-            this.localStorageMgr.updateLocalStorageDex(this.jQuery, document, undefined, GLOBALS);
+            this.localStorageMgr.updateLocalStorageDex(document, undefined, GLOBALS);
         }
     }
     setupObserver() {
@@ -34,17 +34,17 @@ class DexPage extends Page {
          * can't remove filter-type class or else the filtering
          * won't look right
          */
-        this.jQuery(clone).addClass('filter-type-2');
+        $(clone).addClass('filter-type-2');
     }
 
     setupHandlers() {
         const obj = this;
-        let h = obj.jQuery.parseJSON(obj.jQuery('#dexdata').html());
-        const type2 = obj.jQuery('.filter-type-2');
-        const l = obj.jQuery('.filter-type-2 .types');
+        let h = $.parseJSON($('#dexdata').html());
+        const type2 = $('.filter-type-2');
+        const l = $('.filter-type-2 .types');
         const c = l.children();
 
-        const typesSpan = obj.jQuery('.filter-type-2 .types');
+        const typesSpan = $('.filter-type-2 .types');
 
         type2.on('mousedown.dextfilter touchstart.dextfilter', function (event) {
             event.preventDefault();
@@ -73,8 +73,8 @@ class DexPage extends Page {
     }
 
     toggleSelectedTypes(b) {
-        const g = this.jQuery('.filter-type-2 .name i');
-        const l = this.jQuery('.filter-type-2 .types');
+        const g = $('.filter-type-2 .name i');
+        const l = $('.filter-type-2 .types');
         const c = l.children();
 
         l.addClass('selected');
@@ -89,8 +89,8 @@ class DexPage extends Page {
     }
 
     applyTypeFilters() {
-        const l1 = this.jQuery('.entry.filter-type:not(.filter-type-2) .types');
-        const l = this.jQuery('.entry.filter-type-2 .types');
+        const l1 = $('.entry.filter-type:not(.filter-type-2) .types');
+        const l = $('.entry.filter-type-2 .types');
         const c1 = l1.children();
         const c = l.children();
 
@@ -107,11 +107,11 @@ class DexPage extends Page {
         }
         if (a1 || a) {
             // Set "display" to "none" for all elements
-            this.jQuery('.region-entries>li.entry').css('display', 'none');
+            $('.region-entries>li.entry').css('display', 'none');
             // Set "display" to "inline-block" for elements matching selector
-            this.jQuery(selector).css('display', 'inline-block');
+            $(selector).css('display', 'inline-block');
         } else {
-            this.jQuery(selector).css('display', 'inline-block');
+            $(selector).css('display', 'inline-block');
         }
     }
 }

@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 class PFQoL {
-  constructor($) {
+  constructor() {
       // :contains to case insensitive
       $.extend($.expr[':'], {
           // eslint-disable-next-line no-unused-vars
@@ -9,16 +9,15 @@ class PFQoL {
           }
       });
 
-      this.jQuery = $;
       this.HELPERS = new Helpers();
       this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
       this.LOCAL_STORAGE_MANAGER.migrateSettings();
 
       this.SETTINGS = new UserSettings();
-      this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS);
+      this.GLOBALS = new Globals(this.LOCAL_STORAGE_MANAGER, this.HELPERS);
       this.RESOURCES = new Resources();
-      this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
-      this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
+      this.PAGES = new PagesManager(this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
+      this.QOLHUB = new QoLHub(this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
       this.GLOBALS.fillTemplates(this.RESOURCES);
       this.GLOBALS.fillOptionsLists();
       this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS);
@@ -58,7 +57,7 @@ class PFQoL {
       obj.PAGES.setupObservers(obj.QOLHUB);
   }
   setupHandlers(obj) { // all the event handlers
-      obj.jQuery(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
+      $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
           obj.QOLHUB.build(document);
           obj.populateSettingsPage(obj);
       }));

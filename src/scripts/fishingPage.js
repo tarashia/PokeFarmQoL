@@ -1,6 +1,6 @@
 class FishingPage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
         // no observer
     }
     setupHTML(GLOBALS) {
@@ -8,33 +8,32 @@ class FishingPage extends Page {
         document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.massReleaseSelectHTML);
     }
     setupHandlers() {
-        const obj = this;
-        obj.jQuery('#selectallfishcheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour]>label>input').prop('checked', this.checked);
+        $('#selectallfishcheckbox').on('click', function () {
+            $('li[data-flavour]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectanycheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Any]>label>input').prop('checked', this.checked);
+        $('#movefishselectanycheckbox').on('click', function () {
+            $('li[data-flavour=Any]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectsourcheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
+        $('#movefishselectsourcheckbox').on('click', function () {
+            $('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectspicycheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
+        $('#movefishselectspicycheckbox').on('click', function () {
+            $('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectdrycheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
+        $('#movefishselectdrycheckbox').on('click', function () {
+            $('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectsweetcheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
+        $('#movefishselectsweetcheckbox').on('click', function () {
+            $('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
         });
 
-        obj.jQuery('#movefishselectbittercheckbox').on('click', function () {
-            obj.jQuery('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
+        $('#movefishselectbittercheckbox').on('click', function () {
+            $('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
         });
     }
 }

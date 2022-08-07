@@ -1,6 +1,6 @@
 class WishforgePage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
+    constructor(localStorageMgr, helpers, GLOBALS) {
+        super(localStorageMgr, helpers, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
@@ -13,7 +13,7 @@ class WishforgePage extends Page {
 
     setupHTML(GLOBALS) {
         const obj = this;
-        const isMobile = obj.helpers.detectPageSize(obj.jQuery, 'mq2');
+        const isMobile = obj.helpers.detectPageSize('mq2');
         // setup table format
         let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
         let columns = 
@@ -54,7 +54,7 @@ class WishforgePage extends Page {
         table += '</table>';
 
         // add table to page
-        const craftedBadgesList = obj.jQuery('#badges').next().find('ul.badgelist');
+        const craftedBadgesList = $('#badges').next().find('ul.badgelist');
         craftedBadgesList.prepend(table);
 
         // define column aliases to make the movements more logical
@@ -80,57 +80,56 @@ class WishforgePage extends Page {
         for (let j = 0; j < types.length; j++) {
             const type = types[j];
             const index = j + 1;
-            const li = obj.jQuery(craftedBadgesList.children()[index]);
+            const li = $(craftedBadgesList.children()[index]);
 
             // get badge image
-            const badgeImg = obj.jQuery(obj.jQuery(li.children()[0]).children()[0]);
+            const badgeImg = $($(li.children()[0]).children()[0]);
             badgeImg.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${LEVEL_COL})`);
 
             // get badge name
-            const badgeName = obj.jQuery(li.children()[0]);
+            const badgeName = $(li.children()[0]);
             badgeName.text(' ' + badgeName.text().replace(` ${type} Badge`, ''));
             badgeName.css('display', 'inline-block');
             badgeName.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${LEVEL_COL})`);
 
             // get gem progress bar
-            const gemProgress = obj.jQuery(li.children()[0]);
+            const gemProgress = $(li.children()[0]);
             gemProgress.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${GEM_COL})`);
 
             // if the badge is under construction, the tooltip will not be there
-            if(obj.jQuery(li.children()[0]).hasClass('itemtooltip')) {
-                const gemTooltip = obj.jQuery(li.children()[0]);
+            if($(li.children()[0]).hasClass('itemtooltip')) {
+                const gemTooltip = $(li.children()[0]);
                 gemTooltip.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${GEM_COL})`);
             }
 
             // get item progress bar
-            const itemProgress = obj.jQuery(li.children()[0]);
+            const itemProgress = $(li.children()[0]);
             itemProgress.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${ITEM_COL})`);
 
             // if the badge is under construction, the tooltip will not be there
-            if(obj.jQuery(li.children()[0]).hasClass('itemtooltip')) {
-                const itemTooltip = obj.jQuery(li.children()[0]);
+            if($(li.children()[0]).hasClass('itemtooltip')) {
+                const itemTooltip = $(li.children()[0]);
                 itemTooltip.appendTo(`tr#${type}${MOB_TOP}>td:nth-child(${ITEM_COL})`);
             }
 
             // get notify button
-            const notifyBtn = obj.jQuery(li.children()[0]);
+            const notifyBtn = $(li.children()[0]);
             notifyBtn.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${NOTIFY_COL})`);
 
             // get upgrade button
-            const updateBtn = obj.jQuery(li.children()[0]);
+            const updateBtn = $(li.children()[0]);
             updateBtn.appendTo(`tr#${type}${MOB_BOT}>td:nth-child(${UPDATE_COL})`);
         }
 
         // remove the li's left over
         const children = craftedBadgesList.children();
         for (let i = types.length; i >= 1; i--) {
-            obj.jQuery(children[i]).remove();
+            $(children[i]).remove();
         }
     }
 
     setupObserver() {
-        const obj = this;
-        const target = obj.jQuery('#badges').next('div')[0];
+        const target = $('#badges').next('div')[0];
         this.observer.observe(target, {
             childList: true
         });

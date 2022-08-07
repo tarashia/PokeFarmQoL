@@ -1,11 +1,11 @@
 class SummaryPage extends Page {
-  constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-      super(jQuery, localStorageMgr, helpers, GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
+  constructor(localStorageMgr, helpers, GLOBALS) {
+      super(localStorageMgr, helpers, GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
   } // constructor
 
   setupHTML() {
-    const pkmnID = this.jQuery('.party div')[0].getAttribute('data-pid');
-    const displayAccordion = this.jQuery('#displaycodelist').parent();
+    const pkmnID = $('.party div')[0].getAttribute('data-pid');
+    const displayAccordion = $('#displaycodelist').parent();
     const newHTML = 
       "<p>Display an interactive panel in Pokefarm's forums!</p>"+
       '<p class="displaycode" style="user-select:all";>[pkmnpanel='+pkmnID+']</p>'+

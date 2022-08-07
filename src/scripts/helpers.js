@@ -54,7 +54,7 @@ class Helpers {
             }
         }
     } // toggleSetting
-    setupFieldArrayHTML($, arr, id, div, cls) {
+    setupFieldArrayHTML(arr, id, div, cls) {
         const n = arr.length;
         for (let i = 0; i < n; i++) {
             const rightDiv = i + 1;
@@ -63,7 +63,7 @@ class Helpers {
             $(`.${cls}`).removeClass(cls).addClass('' + rightDiv + '').find('.qolsetting').val(rightValue);
         }
     }
-    loadSettings($, KEY, DEFAULT, obj) {
+    loadSettings(KEY, DEFAULT, obj) {
         if (localStorage.getItem(KEY) === null) {
             this.saveSettings(KEY);
         } else {
@@ -105,7 +105,7 @@ class Helpers {
         return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
             `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
     }
-    parseFieldPokemonTooltip($, GLOBALS, tooltip) {
+    parseFieldPokemonTooltip(GLOBALS, tooltip) {
         const dataElements = $(tooltip).children(0).children();
         let index = 1;
         // nickname
@@ -241,7 +241,7 @@ class Helpers {
     }
     // returns true if the page is equal to or smaller to the given size class
     // mobile cutoff (point when header changes): "mq2"
-    detectPageSize($, size) {
+    detectPageSize(size) {
         return $('html').hasClass(size);
     }
 }

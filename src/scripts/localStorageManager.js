@@ -38,8 +38,8 @@ class LocalStorageManager {
     saveSettings(key, obj) {
         this.helpers.saveSettings(this.translateKey(key), obj);
     }
-    loadSettings($, KEY, DEFAULT, obj) {
-        return this.helpers.loadSettings($, this.translateKey(KEY), DEFAULT, obj);
+    loadSettings(KEY, DEFAULT, obj) {
+        return this.helpers.loadSettings(this.translateKey(KEY), DEFAULT, obj);
     }
     getItem(key) {
         return this.storage.getItem(this.translateKey(key));
@@ -80,7 +80,7 @@ class LocalStorageManager {
         return true;
     }
 
-    updateLocalStorageDex($, document, updateDate, globals) {
+    updateLocalStorageDex(document, updateDate, globals) {
         let dateString = '';
         if(updateDate === undefined) {
             dateString = (new Date()).toUTCString();
