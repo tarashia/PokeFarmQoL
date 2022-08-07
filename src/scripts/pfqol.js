@@ -15,10 +15,9 @@ class PFQoL {
 
       this.SETTINGS = new UserSettings();
       this.GLOBALS = new Globals(this.LOCAL_STORAGE_MANAGER, this.HELPERS);
-      this.RESOURCES = new Resources();
       this.PAGES = new PagesManager(this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
       this.QOLHUB = new QoLHub(this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
-      this.GLOBALS.fillTemplates(this.RESOURCES);
+      this.GLOBALS.fillTemplates();
       this.GLOBALS.fillOptionsLists();
       this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS);
 
@@ -49,7 +48,7 @@ class PFQoL {
       obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
   }
   setupCSS(obj) { // All the CSS changes are added here
-      Helpers.addGlobalStyle(obj.RESOURCES.css());
+      Helpers.addGlobalStyle(Resources.css());
       obj.PAGES.setupCSS(obj.QOLHUB);
       obj.QOLHUB.setupCSS();
   }

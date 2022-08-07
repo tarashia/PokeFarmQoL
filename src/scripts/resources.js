@@ -2,7 +2,7 @@
  * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
  */
 class Resources {
-    css() {
+    static css() {
         return `<% src/styles/core.css %> `+
                `<% src/styles/shelter.css %> `+
                `<% src/styles/fields.less %> `+
@@ -11,39 +11,39 @@ class Resources {
                `<% src/styles/forge.css %> `;
     }
 
-    fieldSearchHTML() {
+    static fieldSearchHTML() {
         return `<% src/html/field-search.html %>`;
     }
 
-    fieldSortHTML() {
+    static fieldSortHTML() {
         return `<% src/html/field-sort.html %>`;
     }
 
-    labOptionsHTML() {
+    static labOptionsHTML() {
         return `<% src/html/lab-options.html %>`;
     }
 
-    evolveFastHTML() {
+    static evolveFastHTML() {
         return `<% src/html/evolve-fast.html %>`;
     }
 
-    privateFieldSearchHTML() {
+    static privateFieldSearchHTML() {
         return `<% src/html/private-field-search.html %>`;
     }
 
-    shelterOptionsHTML() {
+    static shelterOptionsHTML() {
         return `<% src/html/shelter-options.html %>`;
     }
 
-    qolHubHTML() {
+    static qolHubHTML() {
         return `<% src/html/qol-hub.html %>`;
     }
 
-    publicFieldTooltipModHTML() {
+    static publicFieldTooltipModHTML() {
         return `<% src/html/public-field-tooltip.html %>`;
     }
 
-    privateFieldTooltipModHTML() {
+    static privateFieldTooltipModHTML() {
         return `<% src/html/private-field-tooltip.html %>`;
     }
 }

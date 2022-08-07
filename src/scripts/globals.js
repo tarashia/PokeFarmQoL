@@ -63,16 +63,16 @@ class Globals {
         this.DEX_DATA = (`<% src/resources/dex-data.jsonc %>`).split(',');
     }
     // eslint-disable-next-line camelcase
-    fillTemplates(TEMPLATES) {
-        this.TEMPLATES.shelterOptionsHTML = TEMPLATES.shelterOptionsHTML();
-        this.TEMPLATES.fieldSortHTML = TEMPLATES.fieldSortHTML();
-        this.TEMPLATES.fieldSearchHTML = TEMPLATES.fieldSearchHTML();
-        this.TEMPLATES.privateFieldSearchHTML = TEMPLATES.privateFieldSearchHTML();
-        this.TEMPLATES.qolHubHTML = TEMPLATES.qolHubHTML();
-        this.TEMPLATES.evolveFastHTML = TEMPLATES.evolveFastHTML();
-        this.TEMPLATES.labOptionsHTML = TEMPLATES.labOptionsHTML();
-        this.TEMPLATES.publicFieldTooltipModHTML = TEMPLATES.publicFieldTooltipModHTML();
-        this.TEMPLATES.privateFieldTooltipModHTML = TEMPLATES.privateFieldTooltipModHTML();
+    fillTemplates() {
+        this.TEMPLATES.shelterOptionsHTML = Resources.shelterOptionsHTML();
+        this.TEMPLATES.fieldSortHTML = Resources.fieldSortHTML();
+        this.TEMPLATES.fieldSearchHTML = Resources.fieldSearchHTML();
+        this.TEMPLATES.privateFieldSearchHTML = Resources.privateFieldSearchHTML();
+        this.TEMPLATES.qolHubHTML = Resources.qolHubHTML();
+        this.TEMPLATES.evolveFastHTML = Resources.evolveFastHTML();
+        this.TEMPLATES.labOptionsHTML = Resources.labOptionsHTML();
+        this.TEMPLATES.publicFieldTooltipModHTML = Resources.publicFieldTooltipModHTML();
+        this.TEMPLATES.privateFieldTooltipModHTML = Resources.privateFieldTooltipModHTML();
     }
     fillOptionsLists() {
         this.TYPE_OPTIONS = Helpers.buildOptionsString(this.TYPE_LIST);
