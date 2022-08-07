@@ -14,9 +14,7 @@
 // Tell ESLint that jQuery's $ is defined elsewhere
 /* global $ */
 class Page {
-    constructor(localStorageMgr, helpers, ssk, ds, url, globalSettings) {
-        this.localStorageMgr = localStorageMgr;
-        this.helpers = helpers;
+    constructor(ssk, ds, url, globalSettings) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
@@ -29,14 +27,14 @@ class Page {
     }
 
     loadSettings() {
-        this.settings = this.localStorageMgr.loadSettings(
+        this.settings = LocalStorageManager.loadSettings(
             this.settingsSaveKey,
             this.defaultSettings,
             this.settings);
     }
 
     saveSettings() {
-        this.localStorageMgr.saveSettings(this.settingsSaveKey, this.settings);
+        LocalStorageManager.saveSettings(this.settingsSaveKey, this.settings);
     }
 
     populateSettings(obj) {
@@ -103,8 +101,8 @@ class Page {
 } // Page
 
 class DaycarePage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
+    constructor(GLOBALS) {
+        super(GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -207,8 +205,8 @@ class DaycarePage extends Page {
 }
 
 class DexPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
+    constructor(GLOBALS) {
+        super(GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -225,7 +223,7 @@ class DexPage extends Page {
         if ($('script#dexdata') && $('script#dexdata').text()) {
             const text = $('script#dexdata').text();
             GLOBALS.DEX_DATA = text.split(',');
-            this.localStorageMgr.updateLocalStorageDex(document, undefined, GLOBALS);
+            LocalStorageManager.updateLocalStorageDex(document, undefined, GLOBALS);
         }
     }
     setupObserver() {
@@ -338,8 +336,8 @@ class FarmPage extends Page {
         d.KNOWN_EXCEPTIONS = {"Gastrodon [Occident]":["2","8"],"Gastrodon [Orient]":["2","8"],"Wormadam [Plant Cloak]":["11","4"],"Wormadam [Trash Cloak]":["11","16"],"Wormadam [Sandy Cloak]":["11","8"],"Raticate [Alolan Forme]":["15","0"],"Ninetales [Alolan Forme]":["5","17"],"Exeggutor [Alolan Forme]":["4","14"],"Marowak [Alolan Forme]":["1","13"],"Dugtrio [Alolan Forme]":["8","16"],"Graveler [Alolan Forme]":["12","3"],"Golem [Alolan Forme]":["12","3"],"Muk [Alolan Forme]":["7","15"],"Raichu [Alolan Forme]":["3","10"],"Linoone [Galarian Forme]":["15","0"],"Gourgeist [Small Size]":["13","4"],"Gourgeist [Average Size]":["13","4"],"Gourgeist [Large Size]":["13","4"],"Gourgeist [Super Size]":["13","4"],"Persian [Alolan Forme]":["15"]};
         return d;
     }
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+    constructor(GLOBALS) {
+        super(GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
@@ -944,8 +942,8 @@ class FarmPage extends Page {
 }
 
 class FishingPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+    constructor(GLOBALS) {
+        super(GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
         // no observer
     }
     setupHTML(GLOBALS) {
@@ -984,9 +982,7 @@ class FishingPage extends Page {
 }
 
 class Globals {
-    constructor(localStorageMgr, helpers) {
-        this.localStorageMgr = localStorageMgr;
-        this.HELPERS = helpers;
+    constructor() {
         this.TEMPLATES = { // all the new/changed HTML for the userscript
             qolHubLinkHTML: `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL </a><!-- The QoL hub doesn't exist until opened; store custom errors here initially instead --><ul style="display: none;" id="qolConsoleHolder"></ul></li>`,
             massReleaseSelectHTML: `<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label> <label id="movefishselectany"><input class="qolsetting" id="movefishselectanycheckbox" type="checkbox">Select Any</label> <label id="movefishselectsour"><input class="qolsetting" id="movefishselectsourcheckbox" type="checkbox">Select Sour</label> <label id="movefishselectspicy"><input class="qolsetting" id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label> <label id="movefishselectdry"><input class="qolsetting" id="movefishselectdrycheckbox" type="checkbox">Select Dry</label> <label id="movefishselectsweet"><input class="qolsetting" id="movefishselectsweetcheckbox" type="checkbox">Select Sweet</label> <label id="movefishselectbitter"><input class="qolsetting" id="movefishselectbittercheckbox" type="checkbox">Select Bitter</label>`,
@@ -1131,7 +1127,7 @@ class Helpers {
             $(`.${cls}`).removeClass(cls).addClass('' + rightDiv + '').find('.qolsetting').val(rightValue);
         }
     }
-    loadSettings(KEY, DEFAULT, obj) {
+    static loadSettings(KEY, DEFAULT, obj) {
         if (localStorage.getItem(KEY) === null) {
             this.saveSettings(KEY);
         } else {
@@ -1161,7 +1157,7 @@ class Helpers {
 
         return obj;
     }
-    saveSettings(key, obj) {
+    static saveSettings(key, obj) {
         localStorage.setItem(key, JSON.stringify(obj));
     }
     static textSearchDiv(cls, dataKey, id, arrayName) {
@@ -1315,8 +1311,8 @@ class Helpers {
 }
 
 class InteractionsPage extends Page {
-  constructor(localStorageMgr, helpers, GLOBALS) {
-      super(localStorageMgr, helpers, GLOBALS.INTERACTIONS_PAGE_SETTINGS_KEY, {}, 'interactions');
+  constructor(GLOBALS) {
+      super(GLOBALS.INTERACTIONS_PAGE_SETTINGS_KEY, {}, 'interactions');
   } // constructor
 
   setupHTML() {
@@ -1357,8 +1353,8 @@ class InteractionsPage extends Page {
 
 
 class LabPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS) {
+        super(GLOBALS.LAB_PAGE_SETTINGS_KEY, {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
@@ -1581,56 +1577,51 @@ class LabPage extends Page {
 }
 
 class LocalStorageManager {
-    constructor(keyPrefix, storage, helpers) {
-        this.keyPrefix = keyPrefix;
-        this.storage = storage;
-        this.helpers = helpers;
-    }
     /**
      * This function helps users use the updated script without having to
      * clear their settings by looking for items in local storage that
      * start with 'QoL...' and moving the settings to the correct
      * translated local storage key
      */
-    migrateSettings() {
+    static migrateSettings() {
         const newItems = {};
         const keysToRemove = [];
         // find the items that need to be replaced
-        for (let i = 0, len = this.storage.length; i < len; ++i) {
-            const match = this.storage.key(i).match(/^QoL.*/);
+        for (let i = 0, len = localStorage.length; i < len; ++i) {
+            const match = localStorage.key(i).match(/^QoL.*/);
             if(match) {
                 const oldKey = match.input;
-                const newKey = this.translateKey(oldKey);
-                newItems[newKey] = this.storage.getItem(oldKey);
+                const newKey = LocalStorageManager.translateKey(oldKey);
+                newItems[newKey] = localStorage.getItem(oldKey);
                 keysToRemove.push(oldKey);
             }
         }
         // remove the old style keys
         for(let j = 0; j < keysToRemove.length; j++) {
-            this.storage.removeItem(keysToRemove[j]);
+            localStorage.removeItem(keysToRemove[j]);
         }
         // add the new style keys
         for(const newKey in newItems) {
-            this.storage.setItem(newKey, newItems[newKey]);
+            localStorage.setItem(newKey, newItems[newKey]);
         }
     }
-    translateKey(key) {
-        return `${this.keyPrefix}.${key}`;
+    static translateKey(key) {
+        return `${$.USERID}.${key}`;
     }
-    saveSettings(key, obj) {
-        this.helpers.saveSettings(this.translateKey(key), obj);
+    static saveSettings(key, obj) {
+        Helpers.saveSettings(LocalStorageManager.translateKey(key), obj);
     }
-    loadSettings(KEY, DEFAULT, obj) {
-        return this.helpers.loadSettings(this.translateKey(KEY), DEFAULT, obj);
+    static loadSettings(KEY, DEFAULT, obj) {
+        return Helpers.loadSettings(LocalStorageManager.translateKey(KEY), DEFAULT, obj);
     }
-    getItem(key) {
-        return this.storage.getItem(this.translateKey(key));
+    static getItem(key) {
+        return localStorage.getItem(LocalStorageManager.translateKey(key));
     }
-    setItem(key, value) {
-        this.storage.setItem(this.translateKey(key), value);
+    static setItem(key, value) {
+        localStorage.setItem(LocalStorageManager.translateKey(key), value);
     }
-    removeItem(key) {
-        this.storage.removeItem(this.translateKey(key));
+    static removeItem(key) {
+        localStorage.removeItem(LocalStorageManager.translateKey(key));
     }
 
     /*
@@ -1638,16 +1629,16 @@ class LocalStorageManager {
      * Inputs:
      * - globals - reference to the GLOBALS settings object
      */
-    loadDexIntoGlobalsFromStorage(globals) {
-        const key = this.translateKey(globals.POKEDEX_DATA_KEY);
-        if(this.storage.getItem(key) === null) {
+    static loadDexIntoGlobalsFromStorage(globals) {
+        const key = LocalStorageManager.translateKey(globals.POKEDEX_DATA_KEY);
+        if(localStorage.getItem(key) === null) {
             return false;
         }
-        if(Object.keys(JSON.parse(this.storage.getItem(key))).length === 0) {
+        if(Object.keys(JSON.parse(localStorage.getItem(key))).length === 0) {
             return false;
         }
 
-        const dateAndDex = JSON.parse(this.storage.getItem(key));
+        const dateAndDex = JSON.parse(localStorage.getItem(key));
         // if QoLPokedex only contains date
         if((dateAndDex.length === 1) ||
            // or if the dex part of the array is empty
@@ -1662,7 +1653,7 @@ class LocalStorageManager {
         return true;
     }
 
-    updateLocalStorageDex(document, updateDate, globals) {
+    static updateLocalStorageDex(document, updateDate, globals) {
         let dateString = '';
         if(updateDate === undefined) {
             dateString = (new Date()).toUTCString();
@@ -1670,15 +1661,15 @@ class LocalStorageManager {
             dateString = updateDate;
         }
         const datePlusDex = [dateString].concat(globals.DEX_DATA);
-        this.storage.setItem(this.translateKey(globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
+        localStorage.setItem(LocalStorageManager.translateKey(globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
         $('.qolDate', document).val(dateString);
     }
 }
 
 
 class MultiuserPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS) {
+        super(GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
@@ -1792,10 +1783,8 @@ class MultiuserPage extends Page {
 
 
 class PagesManager {
-    constructor(localStorageMgr, globals, HELPERS, SETTINGS) {
-        this.localStorageMgr = localStorageMgr;
+    constructor(globals, SETTINGS) {
         this.GLOBALS = globals;
-        this.HELPERS = HELPERS;
         this.SETTINGS = SETTINGS;
         this.pages = {
             'Daycare': {
@@ -1864,7 +1853,8 @@ class PagesManager {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
+                //console.log('instantiate page: '+key);
+                pg.object = new pg.class(this.GLOBALS, this.SETTINGS);
             }
         }
     }
@@ -1949,17 +1939,15 @@ class PFQoL {
           }
       });
 
-      this.HELPERS = new Helpers();
-      this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
-      this.LOCAL_STORAGE_MANAGER.migrateSettings();
+      LocalStorageManager.migrateSettings();
 
       this.SETTINGS = new UserSettings();
-      this.GLOBALS = new Globals(this.LOCAL_STORAGE_MANAGER, this.HELPERS);
-      this.PAGES = new PagesManager(this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
-      this.QOLHUB = new QoLHub(this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
+      this.GLOBALS = new Globals();
+      this.PAGES = new PagesManager(this.GLOBALS, this.SETTINGS);
+      this.QOLHUB = new QoLHub(this.GLOBALS, this.PAGES, this.SETTINGS);
       this.GLOBALS.fillTemplates();
       this.GLOBALS.fillOptionsLists();
-      this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS);
+      LocalStorageManager.loadDexIntoGlobalsFromStorage(this.GLOBALS);
 
       this.init();
   }
@@ -2028,8 +2016,8 @@ class PFQoL {
 }
 
 class PrivateFieldsPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS, settings) {
-        super(localStorageMgr, helpers, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS, settings) {
+        super(GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
@@ -2567,8 +2555,8 @@ class PrivateFieldsPage extends Page {
 }
 
 class PublicFieldsPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS, settings) {
-        super(localStorageMgr, helpers, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS, settings) {
+        super(GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,
@@ -3168,9 +3156,7 @@ class PublicFieldsPage extends Page {
  * for the QoL Hub.
  */
 class QoLHub {
-    constructor(localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
-        this.localStorageMgr = localStorageMgr;
-        this.HELPERS = HELPERS;
+    constructor(GLOBALS, PAGES, SETTINGS) {
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
@@ -3242,10 +3228,10 @@ class QoLHub {
         }));
     }
     loadSettings() {
-        if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
+        if (LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY) === null) {
             this.saveSettings();
         } else {
-            if(this.USER_SETTINGS.load(JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY)))) {
+            if(this.USER_SETTINGS.load(JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY)))) {
                 this.saveSettings();
             }
         }
@@ -3257,7 +3243,7 @@ class QoLHub {
         location.reload(); 
     }
     saveSettings() {
-        this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
+        LocalStorageManager.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
     }
     populateSettings() {
         function populateSetting(object, key, self, oldKeys) {
@@ -3394,7 +3380,7 @@ class QoLHub {
         $('#clearCachedDex').next().remove();
         this.GLOBALS.DEX_UPDATE_DATE = null;
         this.GLOBALS.DEX_DATA = null;
-        this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
+        LocalStorageManager.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
         $('#clearCachedDex').after('<span> Cleared!</span>');
     }
 } // QoLHub
@@ -3506,8 +3492,8 @@ class SharedFieldsLib {
 
 
 class ShelterPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS, SETTINGS) {
-        super(localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS, SETTINGS) {
+        super(GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
             findTypeEgg: true,
@@ -4045,8 +4031,8 @@ class ShelterPage extends Page {
 
 
 class SummaryPage extends Page {
-  constructor(localStorageMgr, helpers, GLOBALS) {
-      super(localStorageMgr, helpers, GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
+  constructor(GLOBALS) {
+      super(GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
   } // constructor
 
   setupHTML() {
@@ -4138,7 +4124,7 @@ class UserSettings {
         }
         if (settingsObj != this) {
             this.copyFields(settingsObj);
-            // this = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
+            // this = JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY));
         }
     }
     copyFields(settingsObj) {
@@ -4158,8 +4144,8 @@ class UserSettings {
 }
 
 class WishforgePage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
+    constructor(GLOBALS) {
+        super(GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {

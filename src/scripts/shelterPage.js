@@ -1,6 +1,6 @@
 class ShelterPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS, SETTINGS) {
-        super(localStorageMgr, helpers, GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS, SETTINGS) {
+        super(GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
             findTypeEgg: true,

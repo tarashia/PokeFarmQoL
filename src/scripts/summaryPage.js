@@ -1,6 +1,6 @@
 class SummaryPage extends Page {
-  constructor(localStorageMgr, helpers, GLOBALS) {
-      super(localStorageMgr, helpers, GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
+  constructor(GLOBALS) {
+      super(GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
   } // constructor
 
   setupHTML() {

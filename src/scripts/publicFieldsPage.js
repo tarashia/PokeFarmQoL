@@ -1,6 +1,6 @@
 class PublicFieldsPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS, settings) {
-        super(localStorageMgr, helpers, GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS, settings) {
+        super(GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,

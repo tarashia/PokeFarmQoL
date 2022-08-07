@@ -1,6 +1,6 @@
 class MultiuserPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS) {
+        super(GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
             hideDislike: false,
             hideAll: false,
             niceTable: false,

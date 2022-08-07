@@ -1,6 +1,6 @@
 class WishforgePage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
+    constructor(GLOBALS) {
+        super(GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {

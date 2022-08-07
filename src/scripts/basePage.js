@@ -1,7 +1,5 @@
 class Page {
-    constructor(localStorageMgr, helpers, ssk, ds, url, globalSettings) {
-        this.localStorageMgr = localStorageMgr;
-        this.helpers = helpers;
+    constructor(ssk, ds, url, globalSettings) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
@@ -14,14 +12,14 @@ class Page {
     }
 
     loadSettings() {
-        this.settings = this.localStorageMgr.loadSettings(
+        this.settings = LocalStorageManager.loadSettings(
             this.settingsSaveKey,
             this.defaultSettings,
             this.settings);
     }
 
     saveSettings() {
-        this.localStorageMgr.saveSettings(this.settingsSaveKey, this.settings);
+        LocalStorageManager.saveSettings(this.settingsSaveKey, this.settings);
     }
 
     populateSettings(obj) {

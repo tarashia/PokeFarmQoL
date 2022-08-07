@@ -63,7 +63,7 @@ class Helpers {
             $(`.${cls}`).removeClass(cls).addClass('' + rightDiv + '').find('.qolsetting').val(rightValue);
         }
     }
-    loadSettings(KEY, DEFAULT, obj) {
+    static loadSettings(KEY, DEFAULT, obj) {
         if (localStorage.getItem(KEY) === null) {
             this.saveSettings(KEY);
         } else {
@@ -93,7 +93,7 @@ class Helpers {
 
         return obj;
     }
-    saveSettings(key, obj) {
+    static saveSettings(key, obj) {
         localStorage.setItem(key, JSON.stringify(obj));
     }
     static textSearchDiv(cls, dataKey, id, arrayName) {

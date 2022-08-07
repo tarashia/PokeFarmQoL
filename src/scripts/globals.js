@@ -1,7 +1,5 @@
 class Globals {
-    constructor(localStorageMgr, helpers) {
-        this.localStorageMgr = localStorageMgr;
-        this.HELPERS = helpers;
+    constructor() {
         this.TEMPLATES = { // all the new/changed HTML for the userscript
             qolHubLinkHTML: `<% src/html/qol-hub-icon.html %>`,
             massReleaseSelectHTML: `<% src/html/mass-release-fishing.html %>`,

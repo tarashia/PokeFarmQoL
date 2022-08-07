@@ -1,8 +1,6 @@
 class PagesManager {
-    constructor(localStorageMgr, globals, HELPERS, SETTINGS) {
-        this.localStorageMgr = localStorageMgr;
+    constructor(globals, SETTINGS) {
         this.GLOBALS = globals;
-        this.HELPERS = HELPERS;
         this.SETTINGS = SETTINGS;
         this.pages = {
             'Daycare': {
@@ -71,7 +69,8 @@ class PagesManager {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
+                //console.log('instantiate page: '+key);
+                pg.object = new pg.class(this.GLOBALS, this.SETTINGS);
             }
         }
     }

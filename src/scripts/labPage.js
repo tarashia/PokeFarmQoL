@@ -1,6 +1,6 @@
 class LabPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.LAB_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS) {
+        super(GLOBALS.LAB_PAGE_SETTINGS_KEY, {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter

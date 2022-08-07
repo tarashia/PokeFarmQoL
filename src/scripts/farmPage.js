@@ -12,8 +12,8 @@ class FarmPage extends Page {
         d.KNOWN_EXCEPTIONS = "<% src/resources/known-exceptions.jsonc %>";
         return d;
     }
-    constructor(localStorageMgr, helpers, GLOBALS) {
-        super(localStorageMgr, helpers, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+    constructor(GLOBALS) {
+        super(GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';

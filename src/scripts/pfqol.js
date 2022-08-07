@@ -9,17 +9,15 @@ class PFQoL {
           }
       });
 
-      this.HELPERS = new Helpers();
-      this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
-      this.LOCAL_STORAGE_MANAGER.migrateSettings();
+      LocalStorageManager.migrateSettings();
 
       this.SETTINGS = new UserSettings();
-      this.GLOBALS = new Globals(this.LOCAL_STORAGE_MANAGER, this.HELPERS);
-      this.PAGES = new PagesManager(this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
-      this.QOLHUB = new QoLHub(this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
+      this.GLOBALS = new Globals();
+      this.PAGES = new PagesManager(this.GLOBALS, this.SETTINGS);
+      this.QOLHUB = new QoLHub(this.GLOBALS, this.PAGES, this.SETTINGS);
       this.GLOBALS.fillTemplates();
       this.GLOBALS.fillOptionsLists();
-      this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS);
+      LocalStorageManager.loadDexIntoGlobalsFromStorage(this.GLOBALS);
 
       this.init();
   }

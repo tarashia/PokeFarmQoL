@@ -3,9 +3,7 @@
  * for the QoL Hub.
  */
 class QoLHub {
-    constructor(localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
-        this.localStorageMgr = localStorageMgr;
-        this.HELPERS = HELPERS;
+    constructor(GLOBALS, PAGES, SETTINGS) {
         this.GLOBALS = GLOBALS;
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
@@ -77,10 +75,10 @@ class QoLHub {
         }));
     }
     loadSettings() {
-        if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
+        if (LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY) === null) {
             this.saveSettings();
         } else {
-            if(this.USER_SETTINGS.load(JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY)))) {
+            if(this.USER_SETTINGS.load(JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY)))) {
                 this.saveSettings();
             }
         }
@@ -92,7 +90,7 @@ class QoLHub {
         location.reload(); 
     }
     saveSettings() {
-        this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
+        LocalStorageManager.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
     }
     populateSettings() {
         function populateSetting(object, key, self, oldKeys) {
@@ -229,7 +227,7 @@ class QoLHub {
         $('#clearCachedDex').next().remove();
         this.GLOBALS.DEX_UPDATE_DATE = null;
         this.GLOBALS.DEX_DATA = null;
-        this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
+        LocalStorageManager.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
         $('#clearCachedDex').after('<span> Cleared!</span>');
     }
 } // QoLHub

@@ -75,7 +75,7 @@ class UserSettings {
         }
         if (settingsObj != this) {
             this.copyFields(settingsObj);
-            // this = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
+            // this = JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY));
         }
     }
     copyFields(settingsObj) {

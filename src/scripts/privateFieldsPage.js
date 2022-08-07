@@ -1,6 +1,6 @@
 class PrivateFieldsPage extends Page {
-    constructor(localStorageMgr, helpers, GLOBALS, settings) {
-        super(localStorageMgr, helpers, GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(GLOBALS, settings) {
+        super(GLOBALS.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
