@@ -19,7 +19,7 @@
       .berrybuttons[data-up='dry']>[data-berry='chesto'],
       .berrybuttons[data-up='sweet']>[data-berry='pecha'],
       .berrybuttons[data-up='bitter']>[data-berry='rawst'] {
-        z-index: 99;
+        z-index: 99 !important;
       }
     }
   }
@@ -77,6 +77,8 @@
         a {
           position: absolute;
           width: 112px;
+          // prevent an error where hold egg buttons show underneath the disabled next button
+          z-index: 1; 
           // fine-tune position; top/left set in JS
           margin-left: 10px;
           overflow: hidden;
@@ -95,10 +97,17 @@
     }
   }
 
+  .compact-view-toggle + label {
+    // make the auto-scroll checkbox look normal on mobile
+    margin: 0 4px 8px;
+    display: inline-block;
+  }
+
   #profilebox,
   #trainerimage,
   .fieldslink,
+  .tooltip_content,
   .working {
-    display: none;
+    display: none !important;
   }
 }
