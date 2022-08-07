@@ -3,11 +3,10 @@
  * for the QoL Hub.
  */
 class QoLHub {
-    constructor(GLOBALS, PAGES, SETTINGS) {
-        this.GLOBALS = GLOBALS;
+    constructor(PAGES, USER_SETTINGS) {
         this.PAGES = PAGES;
-        this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
-        this.USER_SETTINGS = SETTINGS;
+        this.SETTINGS_SAVE_KEY = Globals.SETTINGS_SAVE_KEY;
+        this.USER_SETTINGS = USER_SETTINGS;
         this.LINKED_SETTINGS = this.USER_SETTINGS.LINKED_SETTINGS;
     }
     setupCSS() {
@@ -176,20 +175,20 @@ class QoLHub {
         const linkedSettingIndex = this.LINKED_SETTINGS.findIndex(ls => ls.manager === possibleManager);
         if(linkedSettingIndex > -1) {
             const managed = this.LINKED_SETTINGS[linkedSettingIndex].managed;
-            const userSettings = this.USER_SETTINGS[managed];
+            const USER_SETTINGS = this.USER_SETTINGS[managed];
             if($(`[data-key=${possibleManager}]`).prop('checked') === false) {
-                for(const setting in userSettings) {
+                for(const setting in USER_SETTINGS) {
                     $(`[data-key="${managed}.${setting}"]`).prop('disabled', true);
                 }
             } else {
-                for(const setting in userSettings) {
+                for(const setting in USER_SETTINGS) {
                     $(`[data-key="${managed}.${setting}"]`).prop('disabled', false);
                 }
             }
         }
     }
     build(document) {
-        $('body', document).append(this.GLOBALS.TEMPLATES.qolHubHTML);
+        $('body', document).append(Resources.qolHubHTML());
         $('#core', document).addClass('scrolllock');
         const qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead').css('background-color');
         const qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead').css('color');
@@ -214,9 +213,9 @@ class QoLHub {
             $('.textareahub textarea', document).val(customCss);
         }
 
-        const dexUpdateDate = (this.GLOBALS.DEX_UPDATE_DATE === null) ?
+        const dexUpdateDate = (this.USER_SETTINGS.DEX_UPDATE_DATE === null) ?
             'Not updated since installation' :
-            this.GLOBALS.DEX_UPDATE_DATE;
+            this.USER_SETTINGS.DEX_UPDATE_DATE;
         $('.qolDate', document).text(dexUpdateDate);
     }
     close(document) {
@@ -225,9 +224,9 @@ class QoLHub {
     }
     resetDex() {
         $('#clearCachedDex').next().remove();
-        this.GLOBALS.DEX_UPDATE_DATE = null;
-        this.GLOBALS.DEX_DATA = null;
-        LocalStorageManager.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
+        this.USER_SETTINGS.DEX_UPDATE_DATE = null;
+        this.USER_SETTINGS.DEX_DATA = null;
+        LocalStorageManager.removeItem(Globals.POKEDEX_DATA_KEY);
         $('#clearCachedDex').after('<span> Cleared!</span>');
     }
 } // QoLHub

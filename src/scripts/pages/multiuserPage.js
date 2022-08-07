@@ -1,6 +1,6 @@
 class MultiuserPage extends Page {
-    constructor(GLOBALS) {
-        super(GLOBALS.MULTIUSER_PAGE_SETTINGS_KEY, {
+    constructor() {
+        super(Globals.MULTIUSER_PAGE_SETTINGS_KEY, {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
@@ -31,8 +31,8 @@ class MultiuserPage extends Page {
         }
         else { return false; }
     }
-    setupHTML(GLOBALS) {
-        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.partyModHTML);
+    setupHTML() {
+        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.partyModHTML());
     }
     setupCSS() {
         const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');

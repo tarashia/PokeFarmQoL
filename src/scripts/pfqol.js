@@ -11,13 +11,10 @@ class PFQoL {
 
       LocalStorageManager.migrateSettings();
 
-      this.SETTINGS = new UserSettings();
-      this.GLOBALS = new Globals();
-      this.PAGES = new PagesManager(this.GLOBALS, this.SETTINGS);
-      this.QOLHUB = new QoLHub(this.GLOBALS, this.PAGES, this.SETTINGS);
-      this.GLOBALS.fillTemplates();
-      this.GLOBALS.fillOptionsLists();
-      LocalStorageManager.loadDexIntoGlobalsFromStorage(this.GLOBALS);
+      this.USER_SETTINGS = new UserSettings();
+      this.PAGES = new PagesManager(this.USER_SETTINGS);
+      this.QOLHUB = new QoLHub(this.PAGES, this.USER_SETTINGS);
+      LocalStorageManager.loadDexIntoSettingsFromStorage(this.USER_SETTINGS);
 
       this.init();
   }
@@ -36,14 +33,14 @@ class PFQoL {
       obj.QOLHUB.populateSettings();
       obj.PAGES.populateSettings(obj.QOLHUB);
   }
-  addIcon(obj) { // inject the QoL icon into the icon bar
+  addIcon() { // inject the QoL icon into the icon bar
     // this is done separately from the main HTML to ensure it's always added first,
     // as there's a custom error handler that relies on it existing
     document.querySelector('#announcements li.spacer')
-          .insertAdjacentHTML('beforebegin', obj.GLOBALS.TEMPLATES.qolHubLinkHTML);
+          .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
   }
-  setupHTML(obj) { // injects the HTML changes from GLOBALS.TEMPLATES into the site
-      obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
+  setupHTML(obj) { // injects the HTML changes into the site
+      obj.PAGES.setupHTML(obj.QOLHUB);
   }
   setupCSS(obj) { // All the CSS changes are added here
       Helpers.addGlobalStyle(Resources.css());
@@ -59,7 +56,7 @@ class PFQoL {
           obj.populateSettingsPage(obj);
       }));
       obj.QOLHUB.setupHandlers();
-      obj.PAGES.setupHandlers(obj.GLOBALS, obj.QOLHUB);
+      obj.PAGES.setupHandlers(obj.QOLHUB);
   }
   startup() { // All the functions that are run to start the script on Pokéfarm
       return {
@@ -79,7 +76,7 @@ class PFQoL {
       for (const message in startup) {
           if (Object.hasOwnProperty.call(startup, message)) {
               console.log(message);
-              startup[message](this, this.GLOBALS);
+              startup[message](this);
           }
       }
   }

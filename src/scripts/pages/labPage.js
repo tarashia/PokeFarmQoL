@@ -1,6 +1,6 @@
 class LabPage extends Page {
-    constructor(GLOBALS) {
-        super(GLOBALS.LAB_PAGE_SETTINGS_KEY, {
+    constructor(USER_SETTINGS) {
+        super(Globals.LAB_PAGE_SETTINGS_KEY, {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
@@ -8,7 +8,7 @@ class LabPage extends Page {
         }, 'lab');
         this.searchArray = [];
         this.typeArray = [];
-        this.globals = GLOBALS;
+        this.USER_SETTINGS = USER_SETTINGS;
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -18,12 +18,12 @@ class LabPage extends Page {
         });
     }
 
-    setupHTML(GLOBALS) {
-        document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.labOptionsHTML);
+    setupHTML() {
+        document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', Resources.labOptionsHTML());
         document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
 
         const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', Globals.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
 
         this.searchArray = this.settings.findLabEgg.split(',');
@@ -45,7 +45,7 @@ class LabPage extends Page {
             characterDataOldValue: true,
         });
     }
-    setupHandlers(GLOBALS) {
+    setupHandlers() {
         const obj = this;
         $(document).on('click', '#addLabSearch', (function () { //add lab text field
             obj.addTextField();
@@ -57,7 +57,7 @@ class LabPage extends Page {
         }));
 
         $(document).on('click', '#addLabTypeList', (function () { //add lab type list
-            obj.addTypeList(GLOBALS);
+            obj.addTypeList();
         }));
 
         $(document).on('click', '#removeLabTypeList', (function () { //remove lab type list
@@ -66,11 +66,11 @@ class LabPage extends Page {
         }));
 
         $(document).on('change', '#labCustomSearch input', (function () { //lab search
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
         }));
 
         $(document).on('click', '#labpage', (function () { //shelter search
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
         }));
 
         $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
@@ -79,13 +79,13 @@ class LabPage extends Page {
                 $(this).parent().parent().attr('class'),
                 $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
             obj.saveSettings();
         }));
 
         $(window).on('load', (function () {
             obj.loadSettings();
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
         }));
     }
     addTextField() {
@@ -108,8 +108,8 @@ class LabPage extends Page {
             $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
-    addTypeList(GLOBALS) {
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', GLOBALS.TYPE_OPTIONS,
+    addTypeList() {
+        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', Globals.TYPE_OPTIONS,
             'removeLabTypeList', 'labTypes', 'typeArray');
         const numberTypes = $('#labTypes>div').length;
         $('#labTypes').append(theType);
@@ -129,12 +129,11 @@ class LabPage extends Page {
         }
     }
     getTypesForEgg(searchPokemon) {
-        const dexData = this.globals.DEX_DATA;
+        const dexData = this.USER_SETTINGS.DEX_DATA;
         const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
         return [dexData[searchPokemonIndex + 1], dexData[searchPokemonIndex + 2]];
     }
     searchForEggsMatchingTypes() {
-        const GLOBALS = this.globals;
         const obj = this;
         const enabled = ((this.settings.findTypeEgg === true) &&
             (!(this.typeArray.length == 1 && this.typeArray[0] == '')));
@@ -159,7 +158,7 @@ class LabPage extends Page {
                     }
                 }); // each
 
-                const foundType = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+                const foundType = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(value) + 2];
 
                 const typeImgStandOutLength = typePokemonNames.length;
                 for (let o = 0; o < typeImgStandOutLength; o++) {

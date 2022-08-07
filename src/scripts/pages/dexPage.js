@@ -1,6 +1,6 @@
 class DexPage extends Page {
-    constructor(GLOBALS) {
-        super(GLOBALS.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
+    constructor(USER_SETTINGS) {
+        super(Globals.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -16,8 +16,8 @@ class DexPage extends Page {
          */
         if ($('script#dexdata') && $('script#dexdata').text()) {
             const text = $('script#dexdata').text();
-            GLOBALS.DEX_DATA = text.split(',');
-            LocalStorageManager.updateLocalStorageDex(document, undefined, GLOBALS);
+            USER_SETTINGS.DEX_DATA = text.split(',');
+            LocalStorageManager.updateLocalStorageDex(document, undefined, USER_SETTINGS);
         }
     }
     setupObserver() {

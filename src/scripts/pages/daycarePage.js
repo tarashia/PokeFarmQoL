@@ -1,6 +1,6 @@
 class DaycarePage extends Page {
-    constructor(GLOBALS) {
-        super(GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
+    constructor() {
+        super(Globals.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -8,7 +8,7 @@ class DaycarePage extends Page {
                 const fsPokemon = $('#fs_pokemon');
                 if (fsPokemon.length > 0 &&
                     $.contains(fsPokemon[0], mutation.target)) {
-                    obj.customSearch(GLOBALS);
+                    obj.customSearch();
                 }
             });
         });
@@ -20,7 +20,7 @@ class DaycarePage extends Page {
             subtree: true
         });
     }
-    customSearch(GLOBALS) {
+    customSearch() {
         const button = document.querySelector('#pkmnadd');
 
         let gender = null;
@@ -44,7 +44,7 @@ class DaycarePage extends Page {
             }
         }
 
-        const EGG_ID_TO_NAME = GLOBALS.EGG_GROUP_LIST;
+        const EGG_ID_TO_NAME = Globals.EGG_GROUP_LIST;
         if (eggGroup1 !== null) { eggGroup1 = EGG_ID_TO_NAME[eggGroup1]; }
         if (eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2]; }
 

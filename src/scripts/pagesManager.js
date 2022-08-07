@@ -1,6 +1,5 @@
 class PagesManager {
-    constructor(globals, SETTINGS) {
-        this.GLOBALS = globals;
+    constructor(SETTINGS) {
         this.SETTINGS = SETTINGS;
         this.pages = {
             'Daycare': {
@@ -70,7 +69,7 @@ class PagesManager {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
                 //console.log('instantiate page: '+key);
-                pg.object = new pg.class(this.GLOBALS, this.SETTINGS);
+                pg.object = new pg.class(this.SETTINGS);
             }
         }
     }
@@ -110,11 +109,11 @@ class PagesManager {
             this.clearPageSettings(pageName);
         }
     }
-    setupHTML(GLOBALS, QOLHUB) {
+    setupHTML(QOLHUB) {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHTML(GLOBALS);
+                pg.object.setupHTML();
             }
         }
     }
@@ -134,11 +133,11 @@ class PagesManager {
             }
         }
     }
-    setupHandlers(GLOBALS, QOLHUB) {
+    setupHandlers(QOLHUB) {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHandlers(GLOBALS);
+                pg.object.setupHandlers();
             }
         }
     }

@@ -47,12 +47,10 @@ class LocalStorageManager {
     }
 
     /*
-     * Set GLOBALS.DEX_DATA and GLOBALS.DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
-     * Inputs:
-     * - globals - reference to the GLOBALS settings object
+     * Set DEX_DATA and DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
      */
-    static loadDexIntoGlobalsFromStorage(globals) {
-        const key = LocalStorageManager.translateKey(globals.POKEDEX_DATA_KEY);
+    static loadDexIntoSettingsFromStorage(USER_SETTINGS) {
+        const key = LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY);
         if(localStorage.getItem(key) === null) {
             return false;
         }
@@ -69,21 +67,21 @@ class LocalStorageManager {
             return false;
         }
 
-        globals.DEX_UPDATE_DATE = dateAndDex[0];
+        USER_SETTINGS.DEX_UPDATE_DATE = dateAndDex[0];
         const dex = dateAndDex.slice(1);
-        globals.DEX_DATA = dex;
+        USER_SETTINGS.DEX_DATA = dex;
         return true;
     }
 
-    static updateLocalStorageDex(document, updateDate, globals) {
+    static updateLocalStorageDex(document, updateDate, USER_SETTINGS) {
         let dateString = '';
         if(updateDate === undefined) {
             dateString = (new Date()).toUTCString();
         } else {
             dateString = updateDate;
         }
-        const datePlusDex = [dateString].concat(globals.DEX_DATA);
-        localStorage.setItem(LocalStorageManager.translateKey(globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
+        const datePlusDex = [dateString].concat(USER_SETTINGS.DEX_DATA);
+        localStorage.setItem(LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
         $('.qolDate', document).val(dateString);
     }
 }

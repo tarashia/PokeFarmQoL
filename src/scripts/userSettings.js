@@ -20,6 +20,15 @@ class UserSettings {
                 'managed': 'privateFieldFeatureEnables'
             },
         ];
+
+        // filled in by LocalStorageManager
+        this.DEX_UPDATE_DATE = null;
+
+        /*
+         * a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+         * this is updated every time the user visits the dex page
+         */
+        this.DEX_DATA = (`<% src/resources/dex-data.jsonc %>`).split(',');
     }
     setDefaults() {
         // default settings when the script gets loaded the first time

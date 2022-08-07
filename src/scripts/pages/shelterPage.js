@@ -1,6 +1,6 @@
 class ShelterPage extends Page {
-    constructor(GLOBALS, SETTINGS) {
-        super(GLOBALS.SHELTER_PAGE_SETTINGS_KEY, {
+    constructor(USER_SETTINGS, SETTINGS) {
+        super(Globals.SHELTER_PAGE_SETTINGS_KEY, {
             findCustom: '',
             findType: '',
             findTypeEgg: true,
@@ -26,11 +26,12 @@ class ShelterPage extends Page {
         }, 'shelter', SETTINGS);
         this.customArray = [];
         this.typeArray = [];
+        this.USER_SETTINGS = USER_SETTINGS;
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
-                obj.customSearch(GLOBALS);
+                obj.customSearch();
             });
         });
 
@@ -42,18 +43,18 @@ class ShelterPage extends Page {
         this.currentlySelectedMatch = undefined;
     }
 
-    setupHTML(GLOBALS) {
+    setupHTML() {
         if(this.globalSettings.shelterFeatureEnables.search) {
             $('.tabbed_interface.horizontal>div').removeClass('tab-active');
             $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.shelterOptionsHTML);
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterOptionsHTML());
             $('#shelteroptionsqol').addClass('tab-active');
 
             document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
             const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', Globals.TYPE_OPTIONS,
                 'removeShelterTypeList', 'fieldTypes', 'typeArray');
 
             this.customArray = this.settings.findCustom.split(',');
@@ -86,17 +87,17 @@ class ShelterPage extends Page {
             childList: true,
         });
     }
-    setupHandlers(GLOBALS) {
+    setupHandlers() {
         const obj = this;
         $(document).on('change', '#shelteroptionsqol input', (function () { //shelter search
             obj.loadSettings();
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
             obj.saveSettings();
         }));
 
         $(document).on('change', '.qolsetting', (function () {
             obj.loadSettings();
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
             obj.saveSettings();
         }));
 
@@ -106,13 +107,13 @@ class ShelterPage extends Page {
                 $(this).parent().parent().attr('class'),
                 $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
             obj.saveSettings();
         }));
 
         $('.customSearchOnClick').on('click', (function () {
             obj.loadSettings();
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
             obj.saveSettings();
         }));
 
@@ -124,18 +125,18 @@ class ShelterPage extends Page {
         $(document).on('click', '#removeShelterTextfield', (function () { //remove shelter text field
             obj.removeTextField(this, $(this).parent().find('input').val());
             obj.saveSettings();
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
         }));
 
         $(document).on('click', '#addShelterTypeList', (function () { //add shelter type list
-            obj.addTypeList(GLOBALS);
-            obj.customSearch(GLOBALS);
+            obj.addTypeList();
+            obj.customSearch();
         }));
 
         $(document).on('click', '#removeShelterTypeList', (function () { //remove shelter type list
             obj.removeTypeList(this, $(this).parent().find('select').val());
             obj.saveSettings();
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
         }));
 
         $(window).on('keyup.qol_shelter_shortcuts', function (a) {
@@ -185,8 +186,8 @@ class ShelterPage extends Page {
             $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
-    addTypeList(GLOBALS) {
-        const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', GLOBALS.TYPE_OPTIONS,
+    addTypeList() {
+        const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', Globals.TYPE_OPTIONS,
             'removeShelterTypeList', 'fieldTypes', 'typeArray');
         const numberTypes = $('#shelterTypes>div').length;
         $('#shelterTypes').append(theList);
@@ -224,8 +225,8 @@ class ShelterPage extends Page {
                 stageNoun + ' found!' + (names.length > 0 ? '(' + names.toString() + ')' : '') + '</div>');
     }
 
-    searchForImgTitle(GLOBALS, key) {
-        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+    searchForImgTitle(key) {
+        const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="' + value + '"]');
@@ -241,9 +242,9 @@ class ShelterPage extends Page {
         }
     }
 
-    searchForTooltipText(GLOBALS, key) {
-        const LIST = GLOBALS.SHELTER_SEARCH_LISTS[key];
-        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+    searchForTooltipText(key) {
+        const LIST = Globals.SHELTER_SEARCH_LISTS[key];
+        const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
         for (let i = 0; i < LIST.length; i++) {
             const entry = LIST[i];
@@ -260,12 +261,12 @@ class ShelterPage extends Page {
         }
     }
 
-    searchForTypes(GLOBALS, types) {
-        const dexData = GLOBALS.DEX_DATA;
+    searchForTypes(USER_SETTINGS, types) {
+        const dexData = USER_SETTINGS.DEX_DATA;
         const cls = Helpers.getPokemonImageClass();
         for (let i = 0; i < types.length; i++) {
             const value = types[i];
-            const foundType = GLOBALS.SHELTER_TYPE_TABLE[GLOBALS.SHELTER_TYPE_TABLE.indexOf(value) + 2];
+            const foundType = Globals.SHELTER_TYPE_TABLE[Globals.SHELTER_TYPE_TABLE.indexOf(value) + 2];
 
             let typePokemonNames = [];
             let selected = undefined;
@@ -338,9 +339,9 @@ class ShelterPage extends Page {
 
     }
 
-    customSearch(GLOBALS) {
+    customSearch() {
         const obj = this;
-        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+        const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
         const cls = Helpers.getPokemonImageClass();
 
         // search whatever you want to find in the shelter & grid
@@ -371,31 +372,31 @@ class ShelterPage extends Page {
             $('#shelterarea>div>img').removeClass('shelterfoundme');
 
             if (this.settings.findShiny === true) {
-                this.searchForImgTitle(GLOBALS, 'findShiny');
+                this.searchForImgTitle('findShiny');
             }
             if (this.settings.findAlbino === true) {
-                this.searchForImgTitle(GLOBALS, 'findAlbino');
+                this.searchForImgTitle('findAlbino');
             }
             if (this.settings.findMelanistic === true) {
-                this.searchForImgTitle(GLOBALS, 'findMelanistic');
+                this.searchForImgTitle('findMelanistic');
             }
             if (this.settings.findPrehistoric === true) {
-                this.searchForImgTitle(GLOBALS, 'findPrehistoric');
+                this.searchForImgTitle('findPrehistoric');
             }
             if (this.settings.findDelta === true) {
-                this.searchForImgTitle(GLOBALS, 'findDelta');
+                this.searchForImgTitle('findDelta');
             }
             if (this.settings.findMega === true) {
-                this.searchForImgTitle(GLOBALS, 'findMega');
+                this.searchForImgTitle('findMega');
             }
             if (this.settings.findStarter === true) {
-                this.searchForImgTitle(GLOBALS, 'findStarter');
+                this.searchForImgTitle('findStarter');
             }
             if (this.settings.findCustomSprite === true) {
-                this.searchForImgTitle(GLOBALS, 'findCustomSprite');
+                this.searchForImgTitle('findCustomSprite');
             }
             if (this.settings.findLegendary === true) {
-                this.searchForTooltipText(GLOBALS, 'findLegendary');
+                this.searchForTooltipText('findLegendary');
             }
 
             if (this.settings.findNewPokemon === true) {
@@ -440,7 +441,7 @@ class ShelterPage extends Page {
                 const value = this.settings[key];
                 if (value === true) {
                     if (key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
-                        const searchKey = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(key) + 1];
+                        const searchKey = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(key) + 1];
                         shelterValueArrayCustom.push(searchKey);
                     }
                 }
@@ -472,8 +473,8 @@ class ShelterPage extends Page {
                                 const selected = $('#shelterarea .tooltip_content:containsIN(' + customValue + ') img[title*=\'' + genderMatch + '\']');
                                 if (selected.length) {
                                     const searchResult = customValue;
-                                    const genderName = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
-                                    const imgGender = GLOBALS.SHELTER_SEARCH_DATA[GLOBALS.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
+                                    const genderName = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
+                                    const imgGender = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
                                     const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
                                     const shelterImgSearch = selected;
                                     const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
@@ -530,7 +531,7 @@ class ShelterPage extends Page {
             const filteredTypeArray = this.typeArray.filter(v => v != '');
 
             if (filteredTypeArray.length > 0) {
-                obj.searchForTypes(GLOBALS, filteredTypeArray);
+                obj.searchForTypes(filteredTypeArray);
             }
         }
     } // customSearch

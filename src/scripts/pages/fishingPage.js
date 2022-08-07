@@ -1,11 +1,11 @@
 class FishingPage extends Page {
-    constructor(GLOBALS) {
-        super(GLOBALS.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+    constructor() {
+        super(Globals.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
         // no observer
     }
-    setupHTML(GLOBALS) {
+    setupHTML() {
         // fishing select all button on caught fishing
-        document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.massReleaseSelectHTML);
+        document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('afterend', Resources.massReleaseSelectHTML());
     }
     setupHandlers() {
         $('#selectallfishcheckbox').on('click', function () {

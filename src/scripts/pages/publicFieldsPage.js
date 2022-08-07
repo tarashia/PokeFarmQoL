@@ -1,6 +1,6 @@
 class PublicFieldsPage extends Page {
-    constructor(GLOBALS, settings) {
-        super(GLOBALS.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(settings) {
+        super(Globals.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,
@@ -39,7 +39,7 @@ class PublicFieldsPage extends Page {
         this.observer = new MutationObserver(function(mutations) {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach(function(mutation) {
-                obj.customSearch(GLOBALS);
+                obj.customSearch();
                 if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
                     obj.handleTooltipSettings();
                 }
@@ -65,15 +65,15 @@ class PublicFieldsPage extends Page {
         else { return false; }
     }
 
-    setupHTML(GLOBALS) {
+    setupHTML() {
         if(this.globalSettings.publicFieldFeatureEnables.search) {
-            document.querySelector('#field_field').insertAdjacentHTML('afterend', GLOBALS.TEMPLATES.fieldSearchHTML);
+            document.querySelector('#field_field').insertAdjacentHTML('afterend', Resources.fieldSearchHTML());
             const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS,
+            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS,
                 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-            const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS,
+            const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', Globals.NATURE_OPTIONS,
                 'removeFieldNature', 'natureTypes', 'natureArray');
-            const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS,
+            const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', Globals.EGG_GROUP_OPTIONS,
                 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
             this.customArray = this.settings.fieldCustom.split(',');
             this.typeArray = this.settings.fieldType.split(',');
@@ -85,10 +85,10 @@ class PublicFieldsPage extends Page {
             Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
         if(this.globalSettings.publicFieldFeatureEnables.sort) {
-            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.fieldSortHTML);
+            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.fieldSortHTML());
         }
         if(this.globalSettings.publicFieldFeatureEnables.tooltip) {
-            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', GLOBALS.TEMPLATES.publicFieldTooltipModHTML);
+            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.publicFieldTooltipModHTML());
             this.handleTooltipSettings();
         }
 
@@ -127,11 +127,11 @@ class PublicFieldsPage extends Page {
             characterDataOldValue: true,
         });
     }
-    setupHandlers(GLOBALS) {
+    setupHandlers() {
         const obj = this;
         $(window).on('load', (function() {
             obj.loadSettings();
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
             if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
                 obj.handleTooltipSettings();
             }
@@ -139,16 +139,16 @@ class PublicFieldsPage extends Page {
         }));
 
         $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
         }));
 
         document.addEventListener('keydown', function() {
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
         });
 
         $(document).on('change', '.qolsetting', (function() {
             obj.loadSettings();
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
             obj.saveSettings();
         }));
 
@@ -158,42 +158,42 @@ class PublicFieldsPage extends Page {
                 $(this).parent().parent().attr('class'),
                 $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.customSearch(GLOBALS);
+            obj.customSearch();
             obj.saveSettings();
         }));
 
         if(this.globalSettings.publicFieldFeatureEnables.search) {
             $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
-                obj.addSelectSearch('typeNumber', 'types', 'fieldType', GLOBALS.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-                obj.customSearch(GLOBALS);
+                obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
+                obj.customSearch();
             }));
 
             $(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
                 obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
                 obj.saveSettings();
-                obj.customSearch(GLOBALS);
+                obj.customSearch();
             }));
 
             $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
-                obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', GLOBALS.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes', 'natureArray');
-                obj.customSearch(GLOBALS);
+                obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', Globals.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes', 'natureArray');
+                obj.customSearch();
             }));
 
             $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
                 obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
                 obj.saveSettings();
-                obj.customSearch(GLOBALS);
+                obj.customSearch();
             }));
 
             $(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
-                obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', GLOBALS.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
-                obj.customSearch(GLOBALS);
+                obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', Globals.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
+                obj.customSearch();
             }));
 
             $(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
                 obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
                 obj.saveSettings();
-                obj.customSearch(GLOBALS);
+                obj.customSearch();
             }));
 
             $(document).on('click', '#addTextField', (function() {
@@ -204,7 +204,7 @@ class PublicFieldsPage extends Page {
             $(document).on('click', '#removeTextField', (function() {
                 obj.removeTextField(this, $(this).parent().find('input').val());
                 obj.saveSettings();
-                obj.customSearch(GLOBALS);
+                obj.customSearch();
             }));
         }
 
@@ -312,8 +312,8 @@ class PublicFieldsPage extends Page {
     enableTooltips() {
         $('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
     }
-    searchForImgTitle(GLOBALS, key) {
-        const SEARCH_DATA = GLOBALS.SHELTER_SEARCH_DATA;
+    searchForImgTitle(key) {
+        const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="'+value+'"]');
@@ -367,7 +367,7 @@ class PublicFieldsPage extends Page {
             $(shelterImgSearch).addClass('publicfoundme');
         }
     }
-    customSearch(GLOBALS) {
+    customSearch() {
         const obj = this;
         const cls = Helpers.getPokemonImageClass();
 
@@ -457,28 +457,28 @@ class PublicFieldsPage extends Page {
             }
 
             if(this.settings.fieldShiny === true) {
-                this.searchForImgTitle(GLOBALS, 'findShiny');
+                this.searchForImgTitle('findShiny');
             }
             if(this.settings.fieldAlbino === true) {
-                this.searchForImgTitle(GLOBALS, 'findAlbino');
+                this.searchForImgTitle('findAlbino');
             }
             if(this.settings.fieldMelanistic === true) {
-                this.searchForImgTitle(GLOBALS, 'findMelanistic');
+                this.searchForImgTitle('findMelanistic');
             }
             if(this.settings.fieldPrehistoric === true) {
-                this.searchForImgTitle(GLOBALS, 'findPrehistoric');
+                this.searchForImgTitle('findPrehistoric');
             }
             if(this.settings.fieldDelta === true) {
-                this.searchForImgTitle(GLOBALS, 'findDelta');
+                this.searchForImgTitle('findDelta');
             }
             if(this.settings.fieldMega === true) {
-                this.searchForImgTitle(GLOBALS, 'findMega');
+                this.searchForImgTitle('findMega');
             }
             if(this.settings.fieldStarter === true) {
-                this.searchForImgTitle(GLOBALS, 'findStarter');
+                this.searchForImgTitle('findStarter');
             }
             if(this.settings.fieldCustomSprite === true) {
-                this.searchForImgTitle(GLOBALS, 'findCustomSprite');
+                this.searchForImgTitle('findCustomSprite');
             }
             if(this.settings.fieldItem === true) {
             // pokemon that hold items will have HTML that matches the following selector
@@ -497,12 +497,12 @@ class PublicFieldsPage extends Page {
             if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
                 $('.fieldmon').each(function() {
                     const searchPokemonBigImg = $(this)[0].childNodes[0];
-                    const tooltipData = Helpers.parseFieldPokemonTooltip(GLOBALS, $(searchPokemonBigImg).parent().next()[0]);
+                    const tooltipData = Helpers.parseFieldPokemonTooltip($(searchPokemonBigImg).parent().next()[0]);
 
                     const searchTypeOne = tooltipData.types[0] + '';
                     const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '': '';
 
-                    const searchNature = GLOBALS.NATURE_LIST[tooltipData.nature];
+                    const searchNature = Globals.NATURE_LIST[tooltipData.nature];
 
                     const searchEggGroup = $(this).next().find('.fieldmontip').
                         children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
@@ -514,13 +514,13 @@ class PublicFieldsPage extends Page {
                     }
 
                     for (let i = 0; i < filteredNatureArray.length; i++) {
-                        if(searchNature === GLOBALS.NATURE_LIST[filteredNatureArray[i]]) {
+                        if(searchNature === Globals.NATURE_LIST[filteredNatureArray[i]]) {
                             $(searchPokemonBigImg).addClass('publicfoundme');
                         }
                     }
 
                     for (let i = 0; i < filteredEggGroupArray.length; i++) {
-                        const value = GLOBALS.EGG_GROUP_LIST[filteredEggGroupArray[i]];
+                        const value = Globals.EGG_GROUP_LIST[filteredEggGroupArray[i]];
                         if(searchEggGroup === value ||
                        searchEggGroup.indexOf(value + '/') > -1 ||
                        searchEggGroup.indexOf('/' + value) > -1) {

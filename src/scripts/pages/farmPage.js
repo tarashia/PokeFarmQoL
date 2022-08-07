@@ -1,21 +1,22 @@
 class FarmPage extends Page {
-    DEFAULT_SETTINGS(GLOBALS) {
+    DEFAULT_SETTINGS() {
         const d = {
             TYPE_APPEND: {}
         };
         // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
-        for (let i = 0; i < GLOBALS.TYPE_LIST.length; i++) {
-            const type = GLOBALS.TYPE_LIST[i];
+        for (let i = 0; i < Globals.TYPE_LIST.length; i++) {
+            const type = Globals.TYPE_LIST[i];
             d.TYPE_APPEND[type.toUpperCase()] = '' + i;
         }
-        d.TYPE_APPEND['NONE'] = '.' + GLOBALS.TYPE_LIST.length;
+        d.TYPE_APPEND['NONE'] = '.' + Globals.TYPE_LIST.length;
         d.KNOWN_EXCEPTIONS = "<% src/resources/known-exceptions.jsonc %>";
         return d;
     }
-    constructor(GLOBALS) {
-        super(GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
-        this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
+    constructor(USER_SETTINGS) {
+        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+        this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
         this.settings = this.defaultSettings;
+        this.USER_SETTINGS = USER_SETTINGS;
         this.evolveListCache = '';
         const obj = this;
         function observeFunc(mutations) {
@@ -42,22 +43,22 @@ class FarmPage extends Page {
             characterDataOldValue: true,
         });
     }
-    setupHandlers(GLOBALS) {
+    setupHandlers() {
         const obj = this;
         $(document).on('click', '#qolevolvenormal', (function () {
-            obj.easyEvolveNormalList(GLOBALS);
+            obj.easyEvolveNormalList();
         }));
 
         $(document).on('click', '#qolchangesletype', (function () {
-            obj.easyEvolveTypeList(GLOBALS);
+            obj.easyEvolveTypeList();
         }));
 
         $(document).on('click', '#qolsortevolvename', (function () {
-            obj.easyEvolveNameList(GLOBALS);
+            obj.easyEvolveNameList();
         }));
 
         $(document).on('click', '#qolevolvenew', (function () {
-            obj.easyEvolveNewList(GLOBALS);
+            obj.easyEvolveNewList();
         }));
     }
     clearSortedEvolveLists() {
@@ -197,8 +198,8 @@ class FarmPage extends Page {
         $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
         $('.qolChangeLogContent').css('color', '' + typeListColor + '');
     }
-    easyEvolveNewList(GLOBALS) {
-        const dexData = GLOBALS.DEX_DATA;
+    easyEvolveNewList() {
+        const dexData = this.USER_SETTINGS.DEX_DATA;
 
         this.clearSortedEvolveLists();
 
@@ -469,15 +470,15 @@ class FarmPage extends Page {
             parent.remove();
         }
     }
-    easyEvolveTypeList(GLOBALS) {
+    easyEvolveTypeList() {
         const obj = this;
-        const dexData = GLOBALS.DEX_DATA;
+        const dexData = this.USER_SETTINGS.DEX_DATA;
 
         this.clearSortedEvolveLists();
 
         const typeBackground = $('.panel>h3').css('background-color');
         $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-        document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
+        document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', Resources.evolveFastHTML());
 
         const typeBorder = $('.panel>h3').css('border');
         const typeColor = $('.panel>h3').css('color');

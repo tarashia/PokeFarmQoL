@@ -105,7 +105,7 @@ class Helpers {
         return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
             `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
     }
-    static parseFieldPokemonTooltip(GLOBALS, tooltip) {
+    static parseFieldPokemonTooltip(tooltip) {
         const dataElements = $(tooltip).children(0).children();
         let index = 1;
         // nickname
@@ -150,7 +150,7 @@ class Helpers {
             typeUrls[idx].substring(typeUrls[idx].indexOf('types/') + 'types/'.length,
                 typeUrls[idx].indexOf('.png')));
         types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1));
-        types = types.map(idx => GLOBALS.TYPE_LIST.indexOf(types[idx]));
+        types = types.map(idx => Globals.TYPE_LIST.indexOf(types[idx]));
         index++;
 
         // level
@@ -190,7 +190,7 @@ class Helpers {
             const tcSplit = dataElements[index].textContent.split(' ');
             if (tcSplit.length > 1) {
                 nature = tcSplit[1].replace('(', '').trim();
-                nature = GLOBALS.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
+                nature = Globals.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
             }
         } else {
             console.error('Helpers.parseFieldPokemonToolTip - could not load nature because text was empty');

@@ -1,6 +1,6 @@
 class SummaryPage extends Page {
-  constructor(GLOBALS) {
-      super(GLOBALS.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
+  constructor() {
+      super(Globals.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
   } // constructor
 
   setupHTML() {

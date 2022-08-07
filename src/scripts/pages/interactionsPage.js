@@ -1,6 +1,6 @@
 class InteractionsPage extends Page {
-  constructor(GLOBALS) {
-      super(GLOBALS.INTERACTIONS_PAGE_SETTINGS_KEY, {}, 'interactions');
+  constructor() {
+      super(Globals.INTERACTIONS_PAGE_SETTINGS_KEY, {}, 'interactions');
   } // constructor
 
   setupHTML() {

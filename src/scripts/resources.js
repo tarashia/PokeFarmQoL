@@ -46,4 +46,16 @@ class Resources {
     static privateFieldTooltipModHTML() {
         return `<% src/html/private-field-tooltip.html %>`;
     }
+
+    static qolHubLinkHTML() {
+        return `<% src/html/qol-hub-icon.html %>`;
+    }
+
+    static massReleaseSelectHTML() {
+        return `<% src/html/mass-release-fishing.html %>`;
+    }
+
+    static partyModHTML() {
+        return `<% src/html/party-mod.html %>`;
+    }
 }

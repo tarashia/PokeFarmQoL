@@ -1,17 +1,17 @@
 class WishforgePage extends Page {
-    constructor(GLOBALS) {
-        super(GLOBALS.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
+    constructor() {
+        super(Globals.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if(mutation.type === 'childList' && mutation.addedNodes.length) {
-                    obj.setupHTML(GLOBALS);
+                    obj.setupHTML();
                 }
             });
         });
     } // constructor
 
-    setupHTML(GLOBALS) {
+    setupHTML() {
         const isMobile = Helpers.detectPageSize('mq2');
         // setup table format
         let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
@@ -30,8 +30,8 @@ class WishforgePage extends Page {
                 '<col style="width: 33%;">';
         }
 
-        // use GLOBALS.TYPE_LIST to get list of types
-        const types = GLOBALS.TYPE_LIST;
+        // use Globals.TYPE_LIST to get list of types
+        const types = Globals.TYPE_LIST;
 
         // build HTML table
         let rows = {};
