@@ -4,9 +4,8 @@
     - Adds the appropriate userscript header (src/resources/header[-test].txt)
     - Concatenates all files in src/scripts
     - Replaces all resource placeholders "<% path %>" with the specified file's content
-      (pre-process file content like LESS/jsonc, minimize if release?)
-    - Remove comments? lint? minimize if release?
-    - Saves result in index[-test].js
+      (compiles and minimizes content like LESS/jsonc first)
+    - Lints & saves result in the main user.js file
 
 */
 
@@ -21,9 +20,9 @@ import replaceAsync from 'string-replace-async';
 import { ESLint } from 'eslint';
 
 // Unfortunately, order is important for some of these files,
-//   so instead of just going over the whole directory, define all
-//   scripts to be included, and their order, here
-// In general, I've put library-type scripts (only static content) first
+//   so instead of just going over the whole directory, define 
+//   all scripts to be included, and their order, here
+// Library-type scripts (only static content) should go first
 // <PAGES> is where all files in scripts/pages will be added, alphabetically
 const scriptFiles = [
     // Static classes
