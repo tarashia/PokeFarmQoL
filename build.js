@@ -30,7 +30,6 @@ const scriptFiles = [
     'globals.js',
     'localStorageManager.js',
     'resources.js',
-    'sharedFieldsLib.js',
     // Non-static classes
     'userSettings.js',
     'pagesManager.js',

@@ -79,7 +79,7 @@ class PrivateFieldsPage extends Page {
         }
 
         if(this.globalSettings.privateFieldFeatureEnables.pkmnlinks) {
-            SharedFieldsLib.addPkmnLinksPopup();
+            Helpers.addPkmnLinksPopup();
         }
     }
     setupCSS() {
