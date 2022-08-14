@@ -1,6 +1,6 @@
 class PublicFieldsPage extends Page {
-    constructor(settings) {
-        super(Globals.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(USER_SETTINGS) {
+        const defaultPageSettings = {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,
@@ -30,7 +30,8 @@ class PublicFieldsPage extends Page {
             tooltipEnableMods: false,
             tooltipNoBerry: false,
             tooltipBerry: false,
-        }, 'fields/', settings);
+        };
+        super(Globals.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, defaultPageSettings, 'fields/', USER_SETTINGS);
         this.customArray = [];
         this.typeArray = [];
         this.natureArray = [];
@@ -40,7 +41,7 @@ class PublicFieldsPage extends Page {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach(function(mutation) {
                 obj.customSearch();
-                if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
+                if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
                     obj.handleTooltipSettings();
                 }
             });
@@ -66,7 +67,7 @@ class PublicFieldsPage extends Page {
     }
 
     setupHTML() {
-        if(this.globalSettings.publicFieldFeatureEnables.search) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.search) {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', Resources.fieldSearchHTML());
             const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
             const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS,
@@ -84,15 +85,15 @@ class PublicFieldsPage extends Page {
             Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
             Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
-        if(this.globalSettings.publicFieldFeatureEnables.sort) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.sort) {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.fieldSortHTML());
         }
-        if(this.globalSettings.publicFieldFeatureEnables.tooltip) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.publicFieldTooltipModHTML());
             this.handleTooltipSettings();
         }
 
-        if(this.globalSettings.publicFieldFeatureEnables.pkmnlinks) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.pkmnlinks) {
             Helpers.addPkmnLinksPopup();
         }
     }
@@ -132,7 +133,7 @@ class PublicFieldsPage extends Page {
         $(window).on('load', (function() {
             obj.loadSettings();
             obj.customSearch();
-            if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
+            if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
                 obj.handleTooltipSettings();
             }
             obj.saveSettings();
@@ -162,7 +163,7 @@ class PublicFieldsPage extends Page {
             obj.saveSettings();
         }));
 
-        if(this.globalSettings.publicFieldFeatureEnables.search) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.search) {
             $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
                 obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
                 obj.customSearch();
@@ -208,13 +209,13 @@ class PublicFieldsPage extends Page {
             }));
         }
 
-        if(this.globalSettings.publicFieldFeatureEnables.sort) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.sort) {
             $('input.qolalone').on('change', function() { //only 1 textbox may be true
                 $('input.qolalone').not(this).prop('checked', false);
             });
         }
 
-        if(this.globalSettings.publicFieldFeatureEnables.tooltip) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
             $('.collapsible').on('click', function() {
                 this.classList.toggle('active');
                 const content = this.nextElementSibling;
@@ -377,7 +378,7 @@ class PublicFieldsPage extends Page {
         $('.fieldmon').removeClass('qolGridPokeSize');
         $('.fieldmon>img').removeClass('qolGridPokeImg');
 
-        if(obj.globalSettings.publicFieldFeatureEnables.sort) {
+        if(obj.USER_SETTINGS.publicFieldFeatureEnables.sort) {
 
             //////////////////// sorting ////////////////////
             if (this.settings.fieldByBerry === true) { //sort field by berries
@@ -449,7 +450,7 @@ class PublicFieldsPage extends Page {
             }
         }
 
-        if(obj.globalSettings.publicFieldFeatureEnables.search) {
+        if(obj.USER_SETTINGS.publicFieldFeatureEnables.search) {
         /////////////////// searching ///////////////////
             const bigImgs = document.querySelectorAll('.publicfoundme');
             if(bigImgs !== null) {

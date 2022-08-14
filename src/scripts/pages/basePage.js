@@ -1,10 +1,10 @@
 class Page {
-    constructor(ssk, ds, url, globalSettings) {
+    constructor(ssk, ds, url, USER_SETTINGS) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
         this.settings = this.defaultSettings;
-        this.globalSettings = globalSettings;
+        this.USER_SETTINGS = USER_SETTINGS;
     }
 
     onPage(w) {

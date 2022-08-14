@@ -1,6 +1,6 @@
 class ShelterPage extends Page {
-    constructor(USER_SETTINGS, SETTINGS) {
-        super(Globals.SHELTER_PAGE_SETTINGS_KEY, {
+    constructor(USER_SETTINGS) {
+        const defaultPageSettings = {
             findCustom: '',
             findType: '',
             findTypeEgg: true,
@@ -23,10 +23,10 @@ class ShelterPage extends Page {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
-        }, 'shelter', SETTINGS);
+        };
+        super(Globals.SHELTER_PAGE_SETTINGS_KEY, defaultPageSettings, 'shelter', USER_SETTINGS);
         this.customArray = [];
         this.typeArray = [];
-        this.USER_SETTINGS = USER_SETTINGS;
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -44,7 +44,7 @@ class ShelterPage extends Page {
     }
 
     setupHTML() {
-        if(this.globalSettings.shelterFeatureEnables.search) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.search) {
             $('.tabbed_interface.horizontal>div').removeClass('tab-active');
             $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
@@ -67,14 +67,14 @@ class ShelterPage extends Page {
             $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
             $('[data-shelter=blackflute]').addClass('customSearchOnClick');
         }
-        if(this.globalSettings.shelterFeatureEnables.sort) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
         }
     }
     setupCSS() {
-        if(this.globalSettings.shelterFeatureEnables.search ||
-            this.globalSettings.shelterFeatureEnables.sort) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.search ||
+            this.USER_SETTINGS.shelterFeatureEnables.sort) {
             const shelterSuccessCss = $('#sheltercommands').css('background-color');
             $('#sheltersuccess').css('background-color', shelterSuccessCss);
             $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
@@ -261,8 +261,8 @@ class ShelterPage extends Page {
         }
     }
 
-    searchForTypes(USER_SETTINGS, types) {
-        const dexData = USER_SETTINGS.DEX_DATA;
+    searchForTypes(types) {
+        const dexData = this.USER_SETTINGS.DEX_DATA;
         const cls = Helpers.getPokemonImageClass();
         for (let i = 0; i < types.length; i++) {
             const value = types[i];
@@ -346,7 +346,7 @@ class ShelterPage extends Page {
 
         // search whatever you want to find in the shelter & grid
 
-        if(this.globalSettings.shelterFeatureEnables.sort) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.sort) {
             //sort in grid
             $('#shelterarea').removeClass('qolshelterareagrid');
             $('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
@@ -363,7 +363,7 @@ class ShelterPage extends Page {
             }
         }
 
-        if(this.globalSettings.shelterFeatureEnables.search) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.search) {
         /*
          * search values depending on settings
          * emptying the sheltersuccess div to avoid duplicates

@@ -19,19 +19,34 @@ class PFQoL {
       this.init();
   }
   instantiatePages(obj) {
-      obj.PAGES.instantiatePages(obj.QOLHUB);
+    try {
+        obj.PAGES.instantiatePages();
+    } catch(err) {
+        Helpers.writeCustomError('Error while instantiating pages: '+err,'error');
+        console.log(err);
+    }
   }
   loadSettings(obj) { // initial settings on first run and setting the variable settings key
-      obj.QOLHUB.loadSettings();
-      obj.PAGES.loadSettings(obj.QOLHUB);
+    try {
+        obj.QOLHUB.loadSettings();
+        obj.PAGES.loadSettings();
+    } catch(err) {
+        Helpers.writeCustomError('Error while loading settings during startup: '+err,'error');
+        console.log(err);
+    }
   } // loadSettings
-  saveSettings() { // Save changed settings
-      this.QOLHUB.saveSettings();
-      this.PAGES.saveSettings(this.QOLHUB);
+  saveSettings(obj) { // Save changed settings
+      obj.QOLHUB.saveSettings();
+      obj.PAGES.saveSettings();
   } // saveSettings
   populateSettingsPage(obj) { // checks all settings checkboxes that are true in the settings
-      obj.QOLHUB.populateSettings();
-      obj.PAGES.populateSettings(obj.QOLHUB);
+    try {
+        obj.QOLHUB.populateSettings();
+        obj.PAGES.populateSettings();
+    } catch(err) {
+        Helpers.writeCustomError('Error while populating settings page: '+err,'error');
+        console.log(err);
+    }
   }
   addIcon() { // inject the QoL icon into the icon bar
     // this is done separately from the main HTML to ensure it's always added first,
@@ -40,23 +55,43 @@ class PFQoL {
           .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
   }
   setupHTML(obj) { // injects the HTML changes into the site
-      obj.PAGES.setupHTML(obj.QOLHUB);
+    try {
+        obj.PAGES.setupHTML();
+    } catch(err) {
+        Helpers.writeCustomError('Error while setting up HTML: '+err,'error');
+        console.log(err);
+    }
   }
   setupCSS(obj) { // All the CSS changes are added here
-      Helpers.addGlobalStyle(Resources.css());
-      obj.PAGES.setupCSS(obj.QOLHUB);
-      obj.QOLHUB.setupCSS();
+    try {
+        Helpers.addGlobalStyle(Resources.css());
+        obj.PAGES.setupCSS();
+        obj.QOLHUB.setupCSS();
+    } catch(err) {
+        Helpers.writeCustomError('Error while applying global styling: '+err,'error');
+        console.log(err);
+    }
   }
   setupObservers(obj) { // all the Observers that needs to run
-      obj.PAGES.setupObservers(obj.QOLHUB);
+    try {
+        obj.PAGES.setupObservers();
+    } catch(err) {
+        Helpers.writeCustomError('Error while setting up observers: '+err,'error');
+        console.log(err);
+    }
   }
   setupHandlers(obj) { // all the event handlers
-      $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
-          obj.QOLHUB.build(document);
-          obj.populateSettingsPage(obj);
-      }));
-      obj.QOLHUB.setupHandlers();
-      obj.PAGES.setupHandlers(obj.QOLHUB);
+    try {
+        $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
+            obj.QOLHUB.build(document);
+            obj.populateSettingsPage();
+        }));
+        obj.QOLHUB.setupHandlers();
+        obj.PAGES.setupHandlers();
+    } catch(err) {
+        Helpers.writeCustomError('Error while setting up handlers: '+err,'error');
+        console.log(err);
+    }
   }
   startup() { // All the functions that are run to start the script on Pokéfarm
       return {
@@ -79,5 +114,6 @@ class PFQoL {
               startup[message](this);
           }
       }
+      console.log('Finished startup');
   }
 }

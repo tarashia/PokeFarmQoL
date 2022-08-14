@@ -13,10 +13,9 @@ class FarmPage extends Page {
         return d;
     }
     constructor(USER_SETTINGS) {
-        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1', USER_SETTINGS);
         this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
         this.settings = this.defaultSettings;
-        this.USER_SETTINGS = USER_SETTINGS;
         this.evolveListCache = '';
         const obj = this;
         function observeFunc(mutations) {

@@ -80,7 +80,8 @@ class UserSettings {
             }
         }
         catch (err) {
-            /* do nothing at the moment */
+            Helpers.writeCustomError('Error while loading settings object: '+err,'error');
+            console.log(err);
         }
         if (settingsObj != this) {
             this.copyFields(settingsObj);
@@ -89,7 +90,8 @@ class UserSettings {
     }
     copyFields(settingsObj) {
         const recursiveCopy = (object, key, value) => {
-            if (typeof value === 'object') {
+            // typeof null returns "object" - disclude it explicitly
+            if (value !== null && typeof value === 'object') {
                 for (const [_key, _value] of Object.entries(value)) {
                     recursiveCopy(object[key], _key, _value);
                 }

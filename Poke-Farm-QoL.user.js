@@ -41,15 +41,10 @@ class Helpers {
     }
     /** TamperMonkey polyfill to replace GM_addStyle function */
     static addGlobalStyle(css) {
-        try {
-            const head = document.getElementsByTagName('head')[0];
-            const style = document.createElement('style');
-            style.innerHTML = css;
-            head.appendChild(style);
-        } catch(err) {
-            Helpers.writeCustomError('Error while applying global styling: '+err,'error');
-            console.log(err);
-        }
+        const head = document.getElementsByTagName('head')[0];
+        const style = document.createElement('style');
+        style.innerHTML = css;
+        head.appendChild(style);
     }
     static buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
@@ -582,7 +577,8 @@ class UserSettings {
             }
         }
         catch (err) {
-            /* do nothing at the moment */
+            Helpers.writeCustomError('Error while loading settings object: '+err,'error');
+            console.log(err);
         }
         if (settingsObj != this) {
             this.copyFields(settingsObj);
@@ -591,7 +587,8 @@ class UserSettings {
     }
     copyFields(settingsObj) {
         const recursiveCopy = (object, key, value) => {
-            if (typeof value === 'object') {
+            // typeof null returns "object" - disclude it explicitly
+            if (value !== null && typeof value === 'object') {
                 for (const [_key, _value] of Object.entries(value)) {
                     recursiveCopy(object[key], _key, _value);
                 }
@@ -606,8 +603,8 @@ class UserSettings {
 }
 
 class PagesManager {
-    constructor(SETTINGS) {
-        this.SETTINGS = SETTINGS;
+    constructor(USER_SETTINGS) {
+        this.USER_SETTINGS = USER_SETTINGS;
         this.pages = {
             'Daycare': {
                 class: DaycarePage,
@@ -671,34 +668,34 @@ class PagesManager {
             }
         };
     }
-    instantiatePages(QOLHUB) {
+    instantiatePages() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                pg.object = new pg.class(this.SETTINGS);
+            if (this.USER_SETTINGS[pg.setting] === true) {
+                pg.object = new pg.class(this.USER_SETTINGS);
             }
         }
     }
-    loadSettings(QOLHUB) {
+    loadSettings() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.loadSettings();
             }
         }
     }
-    saveSettings(QOLHUB) {
+    saveSettings() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.saveSettings();
             }
         }
     }
-    populateSettings(QOLHUB) {
+    populateSettings() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.populateSettings();
             }
         }
@@ -715,34 +712,34 @@ class PagesManager {
             this.clearPageSettings(pageName);
         }
     }
-    setupHTML(QOLHUB) {
+    setupHTML() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.setupHTML();
             }
         }
     }
-    setupCSS(QOLHUB) {
+    setupCSS() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.setupCSS();
             }
         }
     }
-    setupObservers(QOLHUB) {
+    setupObservers() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.setupObserver();
             }
         }
     }
-    setupHandlers(QOLHUB) {
+    setupHandlers() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.setupHandlers();
             }
         }
@@ -1008,19 +1005,34 @@ class PFQoL {
       this.init();
   }
   instantiatePages(obj) {
-      obj.PAGES.instantiatePages(obj.QOLHUB);
+    try {
+        obj.PAGES.instantiatePages();
+    } catch(err) {
+        Helpers.writeCustomError('Error while instantiating pages: '+err,'error');
+        console.log(err);
+    }
   }
   loadSettings(obj) { // initial settings on first run and setting the variable settings key
-      obj.QOLHUB.loadSettings();
-      obj.PAGES.loadSettings(obj.QOLHUB);
+    try {
+        obj.QOLHUB.loadSettings();
+        obj.PAGES.loadSettings();
+    } catch(err) {
+        Helpers.writeCustomError('Error while loading settings during startup: '+err,'error');
+        console.log(err);
+    }
   } // loadSettings
-  saveSettings() { // Save changed settings
-      this.QOLHUB.saveSettings();
-      this.PAGES.saveSettings(this.QOLHUB);
+  saveSettings(obj) { // Save changed settings
+      obj.QOLHUB.saveSettings();
+      obj.PAGES.saveSettings();
   } // saveSettings
   populateSettingsPage(obj) { // checks all settings checkboxes that are true in the settings
-      obj.QOLHUB.populateSettings();
-      obj.PAGES.populateSettings(obj.QOLHUB);
+    try {
+        obj.QOLHUB.populateSettings();
+        obj.PAGES.populateSettings();
+    } catch(err) {
+        Helpers.writeCustomError('Error while populating settings page: '+err,'error');
+        console.log(err);
+    }
   }
   addIcon() { // inject the QoL icon into the icon bar
     // this is done separately from the main HTML to ensure it's always added first,
@@ -1029,23 +1041,43 @@ class PFQoL {
           .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
   }
   setupHTML(obj) { // injects the HTML changes into the site
-      obj.PAGES.setupHTML(obj.QOLHUB);
+    try {
+        obj.PAGES.setupHTML();
+    } catch(err) {
+        Helpers.writeCustomError('Error while setting up HTML: '+err,'error');
+        console.log(err);
+    }
   }
   setupCSS(obj) { // All the CSS changes are added here
-      Helpers.addGlobalStyle(Resources.css());
-      obj.PAGES.setupCSS(obj.QOLHUB);
-      obj.QOLHUB.setupCSS();
+    try {
+        Helpers.addGlobalStyle(Resources.css());
+        obj.PAGES.setupCSS();
+        obj.QOLHUB.setupCSS();
+    } catch(err) {
+        Helpers.writeCustomError('Error while applying global styling: '+err,'error');
+        console.log(err);
+    }
   }
   setupObservers(obj) { // all the Observers that needs to run
-      obj.PAGES.setupObservers(obj.QOLHUB);
+    try {
+        obj.PAGES.setupObservers();
+    } catch(err) {
+        Helpers.writeCustomError('Error while setting up observers: '+err,'error');
+        console.log(err);
+    }
   }
   setupHandlers(obj) { // all the event handlers
-      $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
-          obj.QOLHUB.build(document);
-          obj.populateSettingsPage(obj);
-      }));
-      obj.QOLHUB.setupHandlers();
-      obj.PAGES.setupHandlers(obj.QOLHUB);
+    try {
+        $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
+            obj.QOLHUB.build(document);
+            obj.populateSettingsPage();
+        }));
+        obj.QOLHUB.setupHandlers();
+        obj.PAGES.setupHandlers();
+    } catch(err) {
+        Helpers.writeCustomError('Error while setting up handlers: '+err,'error');
+        console.log(err);
+    }
   }
   startup() { // All the functions that are run to start the script on Pokéfarm
       return {
@@ -1068,16 +1100,17 @@ class PFQoL {
               startup[message](this);
           }
       }
+      console.log('Finished startup');
   }
 }
 
 class Page {
-    constructor(ssk, ds, url, globalSettings) {
+    constructor(ssk, ds, url, USER_SETTINGS) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
         this.settings = this.defaultSettings;
-        this.globalSettings = globalSettings;
+        this.USER_SETTINGS = USER_SETTINGS;
     }
 
     onPage(w) {
@@ -1395,10 +1428,9 @@ class FarmPage extends Page {
         return d;
     }
     constructor(USER_SETTINGS) {
-        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1', USER_SETTINGS);
         this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
         this.settings = this.defaultSettings;
-        this.USER_SETTINGS = USER_SETTINGS;
         this.evolveListCache = '';
         const obj = this;
         function observeFunc(mutations) {
@@ -2421,8 +2453,8 @@ class MultiuserPage extends Page {
 
 
 class PrivateFieldsPage extends Page {
-    constructor(settings) {
-        super(Globals.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(USER_SETTINGS) {
+        const defaultPageSettings = {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
@@ -2449,7 +2481,8 @@ class PrivateFieldsPage extends Page {
             tooltipEnableMods: false,
             tooltipNoBerry: false,
             tooltipBerry: false,
-        }, 'fields', settings);
+        };
+        super(Globals.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, defaultPageSettings, 'fields', USER_SETTINGS);
         this.customArray = [];
         this.typeArray = [];
         this.natureArray = [];
@@ -2459,7 +2492,7 @@ class PrivateFieldsPage extends Page {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach((mutation) => {
                 obj.customSearch();
-                if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+                if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
                     obj.handleTooltipSettings();
                 }
             });
@@ -2472,7 +2505,7 @@ class PrivateFieldsPage extends Page {
     }
 
     setupHTML() {
-        if(this.globalSettings.privateFieldFeatureEnables.search) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.search) {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', Resources.privateFieldSearchHTML());
             const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
             const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS,
@@ -2491,16 +2524,16 @@ class PrivateFieldsPage extends Page {
             Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
 
-        if(this.globalSettings.privateFieldFeatureEnables.release) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.release) {
             /* nothing here */
         }
 
-        if(this.globalSettings.privateFieldFeatureEnables.tooltip) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.privateFieldTooltipModHTML());
             this.handleTooltipSettings();
         }
 
-        if(this.globalSettings.privateFieldFeatureEnables.pkmnlinks) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.pkmnlinks) {
             Helpers.addPkmnLinksPopup();
         }
     }
@@ -2541,7 +2574,7 @@ class PrivateFieldsPage extends Page {
         $(window).on('load', (() => {
             obj.loadSettings();
             obj.customSearch();
-            if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+            if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
                 obj.handleTooltipSettings();
             }
             obj.saveSettings();
@@ -2551,7 +2584,7 @@ class PrivateFieldsPage extends Page {
             obj.customSearch();
         }));
 
-        if(obj.globalSettings.privateFieldFeatureEnables.release) {
+        if(obj.USER_SETTINGS.privateFieldFeatureEnables.release) {
             $(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
                 e.stopPropagation();
                 obj.releaseEnableReleaseAll();
@@ -2561,7 +2594,7 @@ class PrivateFieldsPage extends Page {
             }));
         }
 
-        if(obj.globalSettings.privateFieldFeatureEnables.search) {
+        if(obj.USER_SETTINGS.privateFieldFeatureEnables.search) {
             $(document).on('click', '#addPrivateFieldTypeSearch', (function (e) { //add field type list
                 e.stopPropagation();
                 obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
@@ -2615,7 +2648,7 @@ class PrivateFieldsPage extends Page {
             }));
         }
 
-        if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+        if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
             $('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function () {
                 obj.loadSettings();
                 obj.handleTooltipSettings();
@@ -2734,7 +2767,7 @@ class PrivateFieldsPage extends Page {
         }
     }
     customSearch() {
-        if(this.globalSettings.privateFieldFeatureEnables.search) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.search) {
             const cls = Helpers.getPokemonImageClass();
             const bigImgs = document.querySelectorAll('.privatefoundme');
             if (bigImgs !== null) {
@@ -2960,8 +2993,8 @@ class PrivateFieldsPage extends Page {
 }
 
 class PublicFieldsPage extends Page {
-    constructor(settings) {
-        super(Globals.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(USER_SETTINGS) {
+        const defaultPageSettings = {
             fieldByBerry: false,
             fieldByMiddle: false,
             fieldByGrid: false,
@@ -2991,7 +3024,8 @@ class PublicFieldsPage extends Page {
             tooltipEnableMods: false,
             tooltipNoBerry: false,
             tooltipBerry: false,
-        }, 'fields/', settings);
+        };
+        super(Globals.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, defaultPageSettings, 'fields/', USER_SETTINGS);
         this.customArray = [];
         this.typeArray = [];
         this.natureArray = [];
@@ -3001,7 +3035,7 @@ class PublicFieldsPage extends Page {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach(function(mutation) {
                 obj.customSearch();
-                if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
+                if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
                     obj.handleTooltipSettings();
                 }
             });
@@ -3027,7 +3061,7 @@ class PublicFieldsPage extends Page {
     }
 
     setupHTML() {
-        if(this.globalSettings.publicFieldFeatureEnables.search) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.search) {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', Resources.fieldSearchHTML());
             const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
             const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS,
@@ -3045,15 +3079,15 @@ class PublicFieldsPage extends Page {
             Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
             Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
-        if(this.globalSettings.publicFieldFeatureEnables.sort) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.sort) {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.fieldSortHTML());
         }
-        if(this.globalSettings.publicFieldFeatureEnables.tooltip) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.publicFieldTooltipModHTML());
             this.handleTooltipSettings();
         }
 
-        if(this.globalSettings.publicFieldFeatureEnables.pkmnlinks) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.pkmnlinks) {
             Helpers.addPkmnLinksPopup();
         }
     }
@@ -3093,7 +3127,7 @@ class PublicFieldsPage extends Page {
         $(window).on('load', (function() {
             obj.loadSettings();
             obj.customSearch();
-            if(obj.globalSettings.publicFieldFeatureEnables.tooltip) {
+            if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
                 obj.handleTooltipSettings();
             }
             obj.saveSettings();
@@ -3123,7 +3157,7 @@ class PublicFieldsPage extends Page {
             obj.saveSettings();
         }));
 
-        if(this.globalSettings.publicFieldFeatureEnables.search) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.search) {
             $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
                 obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
                 obj.customSearch();
@@ -3169,13 +3203,13 @@ class PublicFieldsPage extends Page {
             }));
         }
 
-        if(this.globalSettings.publicFieldFeatureEnables.sort) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.sort) {
             $('input.qolalone').on('change', function() { //only 1 textbox may be true
                 $('input.qolalone').not(this).prop('checked', false);
             });
         }
 
-        if(this.globalSettings.publicFieldFeatureEnables.tooltip) {
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
             $('.collapsible').on('click', function() {
                 this.classList.toggle('active');
                 const content = this.nextElementSibling;
@@ -3338,7 +3372,7 @@ class PublicFieldsPage extends Page {
         $('.fieldmon').removeClass('qolGridPokeSize');
         $('.fieldmon>img').removeClass('qolGridPokeImg');
 
-        if(obj.globalSettings.publicFieldFeatureEnables.sort) {
+        if(obj.USER_SETTINGS.publicFieldFeatureEnables.sort) {
 
             //////////////////// sorting ////////////////////
             if (this.settings.fieldByBerry === true) { //sort field by berries
@@ -3410,7 +3444,7 @@ class PublicFieldsPage extends Page {
             }
         }
 
-        if(obj.globalSettings.publicFieldFeatureEnables.search) {
+        if(obj.USER_SETTINGS.publicFieldFeatureEnables.search) {
         /////////////////// searching ///////////////////
             const bigImgs = document.querySelectorAll('.publicfoundme');
             if(bigImgs !== null) {
@@ -3557,8 +3591,8 @@ class PublicFieldsPage extends Page {
 }
 
 class ShelterPage extends Page {
-    constructor(USER_SETTINGS, SETTINGS) {
-        super(Globals.SHELTER_PAGE_SETTINGS_KEY, {
+    constructor(USER_SETTINGS) {
+        const defaultPageSettings = {
             findCustom: '',
             findType: '',
             findTypeEgg: true,
@@ -3581,10 +3615,10 @@ class ShelterPage extends Page {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
-        }, 'shelter', SETTINGS);
+        };
+        super(Globals.SHELTER_PAGE_SETTINGS_KEY, defaultPageSettings, 'shelter', USER_SETTINGS);
         this.customArray = [];
         this.typeArray = [];
-        this.USER_SETTINGS = USER_SETTINGS;
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -3602,7 +3636,7 @@ class ShelterPage extends Page {
     }
 
     setupHTML() {
-        if(this.globalSettings.shelterFeatureEnables.search) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.search) {
             $('.tabbed_interface.horizontal>div').removeClass('tab-active');
             $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
@@ -3625,14 +3659,14 @@ class ShelterPage extends Page {
             $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
             $('[data-shelter=blackflute]').addClass('customSearchOnClick');
         }
-        if(this.globalSettings.shelterFeatureEnables.sort) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
         }
     }
     setupCSS() {
-        if(this.globalSettings.shelterFeatureEnables.search ||
-            this.globalSettings.shelterFeatureEnables.sort) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.search ||
+            this.USER_SETTINGS.shelterFeatureEnables.sort) {
             const shelterSuccessCss = $('#sheltercommands').css('background-color');
             $('#sheltersuccess').css('background-color', shelterSuccessCss);
             $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
@@ -3819,8 +3853,8 @@ class ShelterPage extends Page {
         }
     }
 
-    searchForTypes(USER_SETTINGS, types) {
-        const dexData = USER_SETTINGS.DEX_DATA;
+    searchForTypes(types) {
+        const dexData = this.USER_SETTINGS.DEX_DATA;
         const cls = Helpers.getPokemonImageClass();
         for (let i = 0; i < types.length; i++) {
             const value = types[i];
@@ -3904,7 +3938,7 @@ class ShelterPage extends Page {
 
         // search whatever you want to find in the shelter & grid
 
-        if(this.globalSettings.shelterFeatureEnables.sort) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.sort) {
             //sort in grid
             $('#shelterarea').removeClass('qolshelterareagrid');
             $('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
@@ -3921,7 +3955,7 @@ class ShelterPage extends Page {
             }
         }
 
-        if(this.globalSettings.shelterFeatureEnables.search) {
+        if(this.USER_SETTINGS.shelterFeatureEnables.search) {
         /*
          * search values depending on settings
          * emptying the sheltersuccess div to avoid duplicates

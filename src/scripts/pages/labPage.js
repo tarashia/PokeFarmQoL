@@ -1,14 +1,14 @@
 class LabPage extends Page {
     constructor(USER_SETTINGS) {
-        super(Globals.LAB_PAGE_SETTINGS_KEY, {
+        const defaultPageSettings = {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
             findTypeEgg: true,
-        }, 'lab');
+        };
+        super(Globals.LAB_PAGE_SETTINGS_KEY, defaultPageSettings, 'lab', USER_SETTINGS);
         this.searchArray = [];
         this.typeArray = [];
-        this.USER_SETTINGS = USER_SETTINGS;
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars

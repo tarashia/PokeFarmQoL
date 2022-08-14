@@ -26,15 +26,10 @@ class Helpers {
     }
     /** TamperMonkey polyfill to replace GM_addStyle function */
     static addGlobalStyle(css) {
-        try {
-            const head = document.getElementsByTagName('head')[0];
-            const style = document.createElement('style');
-            style.innerHTML = css;
-            head.appendChild(style);
-        } catch(err) {
-            Helpers.writeCustomError('Error while applying global styling: '+err,'error');
-            console.log(err);
-        }
+        const head = document.getElementsByTagName('head')[0];
+        const style = document.createElement('style');
+        style.innerHTML = css;
+        head.appendChild(style);
     }
     static buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';

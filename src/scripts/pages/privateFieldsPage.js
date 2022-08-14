@@ -1,6 +1,6 @@
 class PrivateFieldsPage extends Page {
-    constructor(settings) {
-        super(Globals.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, {
+    constructor(USER_SETTINGS) {
+        const defaultPageSettings = {
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
@@ -27,7 +27,8 @@ class PrivateFieldsPage extends Page {
             tooltipEnableMods: false,
             tooltipNoBerry: false,
             tooltipBerry: false,
-        }, 'fields', settings);
+        };
+        super(Globals.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, defaultPageSettings, 'fields', USER_SETTINGS);
         this.customArray = [];
         this.typeArray = [];
         this.natureArray = [];
@@ -37,7 +38,7 @@ class PrivateFieldsPage extends Page {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach((mutation) => {
                 obj.customSearch();
-                if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+                if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
                     obj.handleTooltipSettings();
                 }
             });
@@ -50,7 +51,7 @@ class PrivateFieldsPage extends Page {
     }
 
     setupHTML() {
-        if(this.globalSettings.privateFieldFeatureEnables.search) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.search) {
             document.querySelector('#field_field').insertAdjacentHTML('afterend', Resources.privateFieldSearchHTML());
             const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
             const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS,
@@ -69,16 +70,16 @@ class PrivateFieldsPage extends Page {
             Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
         }
 
-        if(this.globalSettings.privateFieldFeatureEnables.release) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.release) {
             /* nothing here */
         }
 
-        if(this.globalSettings.privateFieldFeatureEnables.tooltip) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
             document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.privateFieldTooltipModHTML());
             this.handleTooltipSettings();
         }
 
-        if(this.globalSettings.privateFieldFeatureEnables.pkmnlinks) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.pkmnlinks) {
             Helpers.addPkmnLinksPopup();
         }
     }
@@ -119,7 +120,7 @@ class PrivateFieldsPage extends Page {
         $(window).on('load', (() => {
             obj.loadSettings();
             obj.customSearch();
-            if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+            if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
                 obj.handleTooltipSettings();
             }
             obj.saveSettings();
@@ -129,7 +130,7 @@ class PrivateFieldsPage extends Page {
             obj.customSearch();
         }));
 
-        if(obj.globalSettings.privateFieldFeatureEnables.release) {
+        if(obj.USER_SETTINGS.privateFieldFeatureEnables.release) {
             $(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
                 e.stopPropagation();
                 obj.releaseEnableReleaseAll();
@@ -139,7 +140,7 @@ class PrivateFieldsPage extends Page {
             }));
         }
 
-        if(obj.globalSettings.privateFieldFeatureEnables.search) {
+        if(obj.USER_SETTINGS.privateFieldFeatureEnables.search) {
             $(document).on('click', '#addPrivateFieldTypeSearch', (function (e) { //add field type list
                 e.stopPropagation();
                 obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
@@ -193,7 +194,7 @@ class PrivateFieldsPage extends Page {
             }));
         }
 
-        if(obj.globalSettings.privateFieldFeatureEnables.tooltip) {
+        if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
             $('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function () {
                 obj.loadSettings();
                 obj.handleTooltipSettings();
@@ -312,7 +313,7 @@ class PrivateFieldsPage extends Page {
         }
     }
     customSearch() {
-        if(this.globalSettings.privateFieldFeatureEnables.search) {
+        if(this.USER_SETTINGS.privateFieldFeatureEnables.search) {
             const cls = Helpers.getPokemonImageClass();
             const bigImgs = document.querySelectorAll('.privatefoundme');
             if (bigImgs !== null) {
