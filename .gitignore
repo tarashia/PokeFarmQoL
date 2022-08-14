@@ -2,9 +2,6 @@
 # dependency directories
 node_modules
 
-# compiled JS for testing
-Poke-Farm-QoL.test.user.js
-
 # macos
 .DS_Store
 

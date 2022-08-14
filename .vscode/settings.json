@@ -1,6 +1,13 @@
 {
   "search.exclude": {
-    // Prevent duplicate search results when searching the whole project
-    "Poke-Farm-QoL.user.js": true,
+    // Prevent duplicate search results in compiled file
+    "/Poke-Farm-QoL.user.js": true,
+    // Non-source files
+    "/.eslintrc.json": true,
+    "/.gitignore": true,
+    "/build.js": true,
+    "/package-lock.json": true,
+    "/package.json": true,
+    "/README.md": true,
   }
 }
