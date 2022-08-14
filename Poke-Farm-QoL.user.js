@@ -591,7 +591,7 @@ class UserSettings {
     }
     copyFields(settingsObj) {
         const recursiveCopy = (object, key, value) => {
-            if (typeof value === 'object') {
+            if (value !== null && typeof value === 'object') {
                 for (const [_key, _value] of Object.entries(value)) {
                     recursiveCopy(object[key], _key, _value);
                 }
@@ -675,7 +675,6 @@ class PagesManager {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                //console.log('instantiate page: '+key);
                 pg.object = new pg.class(this.SETTINGS);
             }
         }
@@ -826,12 +825,17 @@ class QoLHub {
         }));
     }
     loadSettings() {
-        if (LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY) === null) {
-            this.saveSettings();
-        } else {
-            if(this.USER_SETTINGS.load(JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY)))) {
+        try {
+            if (LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY) === null) {
                 this.saveSettings();
+            } else {
+                if(this.USER_SETTINGS.load(JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY)))) {
+                    this.saveSettings();
+                }
             }
+        } catch(err) {
+            Helpers.writeCustomError('Error while loading user settings: '+err,'error');
+            console.log(err);
         }
     }
     clearAllSettings() {

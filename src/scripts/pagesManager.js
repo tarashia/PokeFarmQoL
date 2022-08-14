@@ -68,7 +68,6 @@ class PagesManager {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
             if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                //console.log('instantiate page: '+key);
                 pg.object = new pg.class(this.SETTINGS);
             }
         }

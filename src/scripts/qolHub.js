@@ -74,12 +74,17 @@ class QoLHub {
         }));
     }
     loadSettings() {
-        if (LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY) === null) {
-            this.saveSettings();
-        } else {
-            if(this.USER_SETTINGS.load(JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY)))) {
+        try {
+            if (LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY) === null) {
                 this.saveSettings();
+            } else {
+                if(this.USER_SETTINGS.load(JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY)))) {
+                    this.saveSettings();
+                }
             }
+        } catch(err) {
+            Helpers.writeCustomError('Error while loading user settings: '+err,'error');
+            console.log(err);
         }
     }
     clearAllSettings() {

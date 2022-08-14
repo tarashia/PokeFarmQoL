@@ -1,0 +1,6 @@
+{
+  "search.exclude": {
+    // Prevent duplicate search results when searching the whole project
+    "Poke-Farm-QoL.user.js": true,
+  }
+}
