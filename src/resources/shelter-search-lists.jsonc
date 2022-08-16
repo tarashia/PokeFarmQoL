@@ -3,8 +3,8 @@
       /*
        * List of official legendaries more or less based on
        * https://bulbapedia.bulbagarden.net/wiki/Legendary_Pok%C3%A9mon#Generation_IV
-       * Kanto
        */
+      // Kanto
       "Articuno", "Zapdos", "Moltres", "Mewtwo", "Mew",
       // Johto
       "Raikou", "Entei", "Suicune", "Lugia", "Ho-oh", "Celebi",
@@ -22,8 +22,7 @@
       "Type: Null", "Silvally", "Tapu Koko", "Tapu Lele", "Tapu Bulu", "Tapu Fini",
       "Cosmog", "Cosmoem", "Solgaleo", "Lunala", "Necrozma",
       // Galar
-      "Zacian", "Zamazenta", "Eternatus"
-      // PFQ
-      /* None */
+      "Zacian", "Zamazenta", "Eternatus", "Kubfu", "Urshifu", "Zarude",
+      "Regieleki", "Regidrago", "Glastrier", "Spectrier", "Calyrex"
   ]
 }
