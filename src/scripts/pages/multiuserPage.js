@@ -91,11 +91,13 @@ class MultiuserPage extends Page {
     }
     partyModification() {
         // first, remove any existing selection
-        const btns = '#multiuser .party>div .action a';
+        const btns = $('#multiuser .party>div .action a');
         $('#multiuser').removeClass('qolPartyHideDislike');
         $('#multiuser').removeClass('qolPartyNiceTable');
         $('#multiuser').removeClass('qolPartyHideAll');
-        $(btns).css({"top":0,"left":0});;
+        if(btns) {
+            btns.css({"top":0,"left":0});
+        }
 
         if (this.settings.hideDislike === true) {
             $('#multiuser').addClass('qolPartyHideDislike');
@@ -107,7 +109,11 @@ class MultiuserPage extends Page {
 
         if (this.settings.hideAll === true) {
             $('#multiuser').addClass('qolPartyHideAll');
-            $(btns).css($('.mu_navlink.next').position());
+            const nextLink = $('.mu_navlink.next');
+            // on chrome, sometimes .position() is undefined on load
+            if(btns && nextLink && nextLink.position()) {
+                btns.css(nextLink.position());
+            }
         }
     }
 }

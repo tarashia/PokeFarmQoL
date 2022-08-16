@@ -158,7 +158,7 @@ class LabPage extends Page {
                     }
                 }); // each
 
-                const foundType = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(value) + 2];
+                const foundType = Globals.TYPE_LIST[value];
 
                 const typeImgStandOutLength = typePokemonNames.length;
                 for (let o = 0; o < typeImgStandOutLength; o++) {
