@@ -22,8 +22,7 @@ class PFQoL {
     try {
         obj.PAGES.instantiatePages();
     } catch(err) {
-        Helpers.writeCustomError('Error while instantiating pages: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while instantiating pages: '+err,'error',err);
     }
   }
   loadSettings(obj) { // initial settings on first run and setting the variable settings key
@@ -31,8 +30,7 @@ class PFQoL {
         obj.QOLHUB.loadSettings();
         obj.PAGES.loadSettings();
     } catch(err) {
-        Helpers.writeCustomError('Error while loading settings during startup: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while loading settings during startup: '+err,'error',err);
     }
   } // loadSettings
   saveSettings(obj) { // Save changed settings
@@ -44,8 +42,7 @@ class PFQoL {
         obj.QOLHUB.populateSettings();
         obj.PAGES.populateSettings();
     } catch(err) {
-        Helpers.writeCustomError('Error while populating settings page: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while populating settings page: '+err,'error',err);
     }
   }
   addIcon() { // inject the QoL icon into the icon bar
@@ -58,8 +55,7 @@ class PFQoL {
     try {
         obj.PAGES.setupHTML();
     } catch(err) {
-        Helpers.writeCustomError('Error while setting up HTML: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while setting up HTML: '+err,'error',err);
     }
   }
   setupCSS(obj) { // All the CSS changes are added here
@@ -68,29 +64,26 @@ class PFQoL {
         obj.PAGES.setupCSS();
         obj.QOLHUB.setupCSS();
     } catch(err) {
-        Helpers.writeCustomError('Error while applying global styling: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while applying global styling: '+err,'error',err);
     }
   }
   setupObservers(obj) { // all the Observers that needs to run
     try {
         obj.PAGES.setupObservers();
     } catch(err) {
-        Helpers.writeCustomError('Error while setting up observers: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while setting up observers: '+err,'error',err);
     }
   }
   setupHandlers(obj) { // all the event handlers
     try {
         $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
             obj.QOLHUB.build(document);
-            obj.populateSettingsPage();
+            obj.populateSettingsPage(obj);
         }));
         obj.QOLHUB.setupHandlers();
         obj.PAGES.setupHandlers();
     } catch(err) {
-        Helpers.writeCustomError('Error while setting up handlers: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while setting up handlers: '+err,'error',err);
     }
   }
   startup() { // All the functions that are run to start the script on Pokéfarm

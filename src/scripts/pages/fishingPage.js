@@ -4,8 +4,10 @@ class FishingPage extends Page {
         // no observer
     }
     setupHTML() {
-        // fishing select all button on caught fishing
-        document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('afterend', Resources.massReleaseSelectHTML());
+        const caughtFishLabel = document.querySelector('#caughtfishcontainer label');
+        if(caughtFishLabel) {
+            caughtFishLabel.insertAdjacentHTML('afterend', Resources.massReleaseSelectHTML());
+        }
     }
     setupHandlers() {
         $('#selectallfishcheckbox').on('click', function () {

@@ -2,9 +2,15 @@ class Helpers {
     // Custom error handler to output in the QoL error console
     // Level should be info, warn, or error; default is info
     // Message is also written to the JavaScript console
-    static writeCustomError(message,level='info') {
+    // err should be the full Error object - if provided and supported, the 
+    //     stack trace for this error will be Base 64 encoded and included for the user
+    static writeCustomError(message,level='info',err=undefined) {
         const logElement = document.getElementById('qolConsoleHolder');
         let prefix = undefined;
+        let stackTrace = '';
+        if(err && err.stack) {
+            stackTrace = '<br>'+btoa(err.stack);
+        }
         if(level=='warn') {
             prefix = 'WARN: ';
             console.warn('QoL: '+message);
@@ -18,7 +24,7 @@ class Helpers {
             console.log('QoL: '+message);
         }
         if(logElement) {
-            logElement.innerHTML += '<li>' + prefix + message + '</li>';
+            logElement.innerHTML += '<li>' + prefix + message + stackTrace +'</li>';
         }
         else {
             console.error('Could not add custom log to log element');

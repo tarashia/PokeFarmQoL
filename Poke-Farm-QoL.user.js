@@ -17,9 +17,15 @@ class Helpers {
     // Custom error handler to output in the QoL error console
     // Level should be info, warn, or error; default is info
     // Message is also written to the JavaScript console
-    static writeCustomError(message,level='info') {
+    // err should be the full Error object - if provided and supported, the 
+    //     stack trace for this error will be Base 64 encoded and included for the user
+    static writeCustomError(message,level='info',err=undefined) {
         const logElement = document.getElementById('qolConsoleHolder');
         let prefix = undefined;
+        let stackTrace = '';
+        if(err && err.stack) {
+            stackTrace = '<br>'+btoa(err.stack);
+        }
         if(level=='warn') {
             prefix = 'WARN: ';
             console.warn('QoL: '+message);
@@ -33,7 +39,7 @@ class Helpers {
             console.log('QoL: '+message);
         }
         if(logElement) {
-            logElement.innerHTML += '<li>' + prefix + message + '</li>';
+            logElement.innerHTML += '<li>' + prefix + message + stackTrace +'</li>';
         }
         else {
             console.error('Could not add custom log to log element');
@@ -471,7 +477,7 @@ class Resources {
     }
 
     static qolHubHTML() {
-        return `<div class="dialog"><div><div><div><h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3><div><p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p><div><table class="qolHubTable"><tbody><tr><td><h3 class="qolHubHead">Settings</h3></td></tr><tr><td class="qolAllSettings"><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"> <span>Advanced Sorting</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="partyMod"> <span>Party click mod</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="easyEvolve"> <span>Easy evolving</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="labNotifier"> <span>Lab Notifier</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></li></ul><span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span></td></tr><tr><td><h3 class="qolHubHead">Change log</h3></td></tr><tr><td class="qolChangeLog"><ul class="qolChangeLogList"><li class="expandlist"><span>Change log was removed as of April 2021. Visit <a href="https://github.com/tarashia/PokeFarmQoL" target="_blank">GitHub</a> for the latest list of features</span></li></ul></td></tr><tr><td colspan="2" class="qolDexUpdate"><h3 class="qolHubHead">Pokedex Settings</h3></td></tr><tr id="qolDexUpdateRow"><td colspan="2" class="qolAllSettings"><span>Notice that you can't find the newly added Eggs or Pokemon in shelter? You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.</span><br><span>Date last updated:<span class="qolDate"></span></span></td></tr><tr id="qolDexClearRow"><td colspan="2"><input type="button" value="Clear Cached Dex" id="clearCachedDex"></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Css Settings</h3></td></tr><tr><td colspan="2"><span>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting is not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></span></td></tr><tr><td colspan="2" class="qolAllSettings"><div class="textareahub"><textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea></div></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Debugging Corner</h3></td></tr><tr id="qolDebuggingCornerRow"><td colspan="2" class="qolAllSettings"><span>Use these controls to reset the settings for a particular page back to its defaults</span><br><span><b>Page Select</b></span><!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" class="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option><option value="Daycare">Daycare</option><option value="Farm">Farm</option><option value="Fishing">Fishing</option><option value="Lab">Lab</option><option value="Multiuser">Multiuser</option><option value="PrivateFields">Private Fields</option><option value="PublicFields">Public Fields</option><option value="Shelter">Shelter</option></select> <input type="button" value="Reset Page Settings" id="resetPageSettings"> <input type="button" value="Reset ALL Settings" id="resetAllSettings"></td></tr><tr><td>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <input type="button" value="View errors" id="qolErrorConsole"><ul id="qolConsoleContent"></ul></td></tr></tbody></table></div></div><p class="closeHub">Close</p></div></div></div></div>`;
+        return `<div class="dialog"><div><div><div><h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3><div><p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p><div><table class="qolHubTable"><tbody><tr><td><h3 class="qolHubHead">Settings</h3></td></tr><tr><td class="qolAllSettings"><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"> <span>Advanced Sorting</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="partyMod"> <span>Party click mod</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="easyEvolve"> <span>Easy evolving</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="labNotifier"> <span>Lab Notifier</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></li></ul><span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span></td></tr><tr><td><h3 class="qolHubHead">Change log</h3></td></tr><tr><td class="qolChangeLog"><ul class="qolChangeLogList"><li class="expandlist"><span>Change log was removed as of April 2021. Visit <a href="https://github.com/tarashia/PokeFarmQoL" target="_blank">GitHub</a> for the latest list of features</span></li></ul></td></tr><tr><td colspan="2" class="qolDexUpdate"><h3 class="qolHubHead">Pokedex Settings</h3></td></tr><tr id="qolDexUpdateRow"><td colspan="2" class="qolAllSettings"><span>Notice that you can't find the newly added Eggs or Pokemon in shelter? You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.</span><br><span>Date last updated:<span class="qolDate"></span></span></td></tr><tr id="qolDexClearRow"><td colspan="2"><input type="button" value="Clear Cached Dex" id="clearCachedDex"></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Css Settings</h3></td></tr><tr><td colspan="2"><span>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting is not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></span></td></tr><tr><td colspan="2" class="qolAllSettings"><div class="textareahub"><textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea></div></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Debugging Corner</h3></td></tr><tr id="qolDebuggingCornerRow"><td colspan="2" class="qolAllSettings"><span>Use these controls to reset the settings for a particular page back to its defaults</span><br><span><b>Page Select</b></span><!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" class="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option><option value="Daycare">Daycare</option><option value="Farm">Farm</option><option value="Fishing">Fishing</option><option value="Lab">Lab</option><option value="Multiuser">Multiuser</option><option value="PrivateFields">Private Fields</option><option value="PublicFields">Public Fields</option><option value="Shelter">Shelter</option></select> <input type="button" value="Reset Page Settings" id="resetPageSettings"> <input type="button" value="Reset ALL Settings" id="resetAllSettings"></td></tr><tr><td>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <input type="button" value="View errors" id="qolErrorConsole"><ul id="qolConsoleContent" style="word-break:break-all;"></ul></td></tr></tbody></table></div></div><p class="closeHub">Close</p></div></div></div></div>`;
     }
 
     static publicFieldTooltipModHTML() {
@@ -577,8 +583,7 @@ class UserSettings {
             }
         }
         catch (err) {
-            Helpers.writeCustomError('Error while loading settings object: '+err,'error');
-            console.log(err);
+            Helpers.writeCustomError('Error while loading settings object: '+err,'error',err);
         }
         if (settingsObj != this) {
             this.copyFields(settingsObj);
@@ -831,8 +836,7 @@ class QoLHub {
                 }
             }
         } catch(err) {
-            Helpers.writeCustomError('Error while loading user settings: '+err,'error');
-            console.log(err);
+            Helpers.writeCustomError('Error while loading user settings: '+err,'error',err);
         }
     }
     clearAllSettings() {
@@ -1008,8 +1012,7 @@ class PFQoL {
     try {
         obj.PAGES.instantiatePages();
     } catch(err) {
-        Helpers.writeCustomError('Error while instantiating pages: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while instantiating pages: '+err,'error',err);
     }
   }
   loadSettings(obj) { // initial settings on first run and setting the variable settings key
@@ -1017,8 +1020,7 @@ class PFQoL {
         obj.QOLHUB.loadSettings();
         obj.PAGES.loadSettings();
     } catch(err) {
-        Helpers.writeCustomError('Error while loading settings during startup: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while loading settings during startup: '+err,'error',err);
     }
   } // loadSettings
   saveSettings(obj) { // Save changed settings
@@ -1030,8 +1032,7 @@ class PFQoL {
         obj.QOLHUB.populateSettings();
         obj.PAGES.populateSettings();
     } catch(err) {
-        Helpers.writeCustomError('Error while populating settings page: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while populating settings page: '+err,'error',err);
     }
   }
   addIcon() { // inject the QoL icon into the icon bar
@@ -1044,8 +1045,7 @@ class PFQoL {
     try {
         obj.PAGES.setupHTML();
     } catch(err) {
-        Helpers.writeCustomError('Error while setting up HTML: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while setting up HTML: '+err,'error',err);
     }
   }
   setupCSS(obj) { // All the CSS changes are added here
@@ -1054,29 +1054,26 @@ class PFQoL {
         obj.PAGES.setupCSS();
         obj.QOLHUB.setupCSS();
     } catch(err) {
-        Helpers.writeCustomError('Error while applying global styling: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while applying global styling: '+err,'error',err);
     }
   }
   setupObservers(obj) { // all the Observers that needs to run
     try {
         obj.PAGES.setupObservers();
     } catch(err) {
-        Helpers.writeCustomError('Error while setting up observers: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while setting up observers: '+err,'error',err);
     }
   }
   setupHandlers(obj) { // all the event handlers
     try {
         $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
             obj.QOLHUB.build(document);
-            obj.populateSettingsPage();
+            obj.populateSettingsPage(obj);
         }));
         obj.QOLHUB.setupHandlers();
         obj.PAGES.setupHandlers();
     } catch(err) {
-        Helpers.writeCustomError('Error while setting up handlers: '+err,'error');
-        console.log(err);
+        Helpers.writeCustomError('Error while setting up handlers: '+err,'error',err);
     }
   }
   startup() { // All the functions that are run to start the script on Pokéfarm
@@ -2038,8 +2035,10 @@ class FishingPage extends Page {
         // no observer
     }
     setupHTML() {
-        // fishing select all button on caught fishing
-        document.querySelector('#caughtfishcontainer label').insertAdjacentHTML('afterend', Resources.massReleaseSelectHTML());
+        const caughtFishLabel = document.querySelector('#caughtfishcontainer label');
+        if(caughtFishLabel) {
+            caughtFishLabel.insertAdjacentHTML('afterend', Resources.massReleaseSelectHTML());
+        }
     }
     setupHandlers() {
         $('#selectallfishcheckbox').on('click', function () {
@@ -2116,15 +2115,15 @@ class InteractionsPage extends Page {
 
 class LabPage extends Page {
     constructor(USER_SETTINGS) {
-        super(Globals.LAB_PAGE_SETTINGS_KEY, {
+        const defaultPageSettings = {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
             findTypeEgg: true,
-        }, 'lab');
+        };
+        super(Globals.LAB_PAGE_SETTINGS_KEY, defaultPageSettings, 'lab', USER_SETTINGS);
         this.searchArray = [];
         this.typeArray = [];
-        this.USER_SETTINGS = USER_SETTINGS;
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars

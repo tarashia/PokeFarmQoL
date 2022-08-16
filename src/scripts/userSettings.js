@@ -80,8 +80,7 @@ class UserSettings {
             }
         }
         catch (err) {
-            Helpers.writeCustomError('Error while loading settings object: '+err,'error');
-            console.log(err);
+            Helpers.writeCustomError('Error while loading settings object: '+err,'error',err);
         }
         if (settingsObj != this) {
             this.copyFields(settingsObj);
