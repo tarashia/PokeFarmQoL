@@ -1,6 +1,6 @@
 {
     "name": "pokefarm-qol",
-    "version": "1.7.4",
+    "version": "1.7.5",
     "type": "module",
     "description": "Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pokéfarm experience even more!",
     "main": "Poke-Farm-QoL.user.js",
