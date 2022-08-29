@@ -22,16 +22,14 @@ class FarmPage extends Page {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.easyQuickEvolve();
+                $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
             });
         }
         this.observer = new MutationObserver(observeFunc);
     }
     setupHTML() {
         $(document).ready(function () {
-            $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend',`<% src/html/farm-evolve.html %>`);
-            // use the evolve button
-            $('#farmnews-evolutions>p>label>input').addClass('qolquickevo');
+            $('#farm-evolve>h3').after(`<% src/html/farm-evolve.html %>`);
         });
     }
     setupObserver() {
@@ -62,9 +60,7 @@ class FarmPage extends Page {
     }
     clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
-        const evoList = $('.evolvepkmnlist');
-        evoList.show();
-        evoList.removeAttr('class');
+        $('.evolvepkmnlist').show();
         if (document.querySelector('.qolEvolveTypeList')) {
             document.querySelector('.qolEvolveTypeList').remove();
         }
@@ -80,12 +76,12 @@ class FarmPage extends Page {
     }
     easyEvolveNameList() {
         this.clearSortedEvolveLists();
+        $('.evolvepkmnlist').hide();
 
-        $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
         document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNameList">');
 
         let errorOccurred = false;
-        $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index) {
+        $('.evolvepkmnlist>li').each(function (index) {
             // getting the <li> element from the pokemon & the pokemon evolved name
             const getEvolveString = $(this).html();
             if (getEvolveString === undefined || getEvolveString === '') {
@@ -130,7 +126,7 @@ class FarmPage extends Page {
                             console.error(`Unable to create valid CSS class for pokemon-evolving-to from <li> at index ${index}`);
                             errorOccurred = true;
                         } else {
-                            if ($('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(evolvePokemonClass) === false) {
+                            if ($('.qolEvolveNameList>li>ul').hasClass(evolvePokemonClass) === false) {
                                 document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">' +
                                     beforeEvolvePokemon + ' > ' + evolvePokemon +
                                     '</h3><ul class="' + evolvePokemonClass +
@@ -148,7 +144,7 @@ class FarmPage extends Page {
             return;
         }
 
-        $('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li').each(function (index) {
+        $('#.qolEvolveNameList>li').each(function (index) {
             const amountOfEvolves = $(this).children().children().length;
             if (amountOfEvolves === 0) {
                 console.error(`Found 0 evolutions for <li> at ${index} of evolve name list`);
@@ -177,8 +173,6 @@ class FarmPage extends Page {
             } // amountOfEvolves
         });
 
-        $('.evolvepkmnlist').hide();
-
         if (errorOccurred) {
             window.alert('Error occurred while sorting pokemon by name');
             return;
@@ -201,9 +195,8 @@ class FarmPage extends Page {
         const dexData = this.USER_SETTINGS.DEX_DATA;
 
         this.clearSortedEvolveLists();
+        $('.evolvepkmnlist').hide();
 
-        // add a class to the original pokemon evolve list to be able to manipulate the element more easily and add the ul for the new dex search
-        $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
         document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNewList">');
 
         const getNewCheckData = (name) => {
@@ -218,19 +211,19 @@ class FarmPage extends Page {
         };
 
         const createListElements = (cls, header, name, elem) => {
-            if ($('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass(cls) === false) {
+            if ($('.qolEvolveNewList>li>ul').hasClass(cls) === false) {
                 const html = '<li class="expandlist">' +
                     `<h3 class="slidermenu">${header}</h3>` +
                     `<ul class="${cls} qolChangeLogContent"></ul></li><br>`;
                 document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', html);
             }
 
-            if ($(`#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.${cls}>li:contains(${name})`).length == 0) {
+            if ($(`.qolEvolveNewList>li>.${cls}>li:contains(${name})`).length == 0) {
                 $(elem).clone().appendTo(`.${cls}`);
             }
         };
 
-        $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () { //the actual search
+        $('.evolvepkmnlist>li').each(function () { //the actual search
             // getting the <li> element from the pokemon & the pokemon evolved name
             const getEvolveString = $(this).html();
 
@@ -448,8 +441,6 @@ class FarmPage extends Page {
             }
         });
 
-        $('.evolvepkmnlist').hide();
-
         //layout
         const typeBackground = $('.panel>h3').css('background-color');
         const typeBorder = $('.panel>h3').css('border');
@@ -474,10 +465,10 @@ class FarmPage extends Page {
         const dexData = this.USER_SETTINGS.DEX_DATA;
 
         this.clearSortedEvolveLists();
+        $('.evolvepkmnlist').hide();
 
         const typeBackground = $('.panel>h3').css('background-color');
-        $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-        document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', Resources.evolveFastHTML());
+        $('.evolvepkmnlist').before(Resources.evolveFastHTML());
 
         const typeBorder = $('.panel>h3').css('border');
         const typeColor = $('.panel>h3').css('color');
@@ -510,7 +501,7 @@ class FarmPage extends Page {
             }
         };
 
-        $('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
+        $('.evolvepkmnlist>li').each(function () {
             // getting the <li> element from the pokemon & the pokemon evolved name
             const getEvolveString = $(this).html();
             let previousPokemon = getEvolutionOrigin(getEvolveString);
@@ -600,7 +591,7 @@ class FarmPage extends Page {
             appendDeltaTypeIfDelta(getEvolveString, this);
         }); // each
 
-        $('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
+        $('.qolEvolveTypeList>li').each(function () {
             const amountOfEvolves = $(this).children().children().length;
             const evolveTypeName = $(this).children('.slidermenu').html();
 
@@ -612,7 +603,5 @@ class FarmPage extends Page {
                 $(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
             }
         });
-
-        $('.evolvepkmnlist').hide();
     }
 }
