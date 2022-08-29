@@ -21,6 +21,9 @@
       "Type: Null", "Silvally", "Tapu Koko", "Tapu Lele", "Tapu Bulu", "Tapu Fini",
       "Cosmog", "Cosmoem", "Solgaleo", "Lunala", "Necrozma",
       "Magearna", "Zeraora", "Marshadow", "Meltan", "Melmetal",
+      // Ultra beasts
+      "Nihilego", "Buzzwole", "Pheromosa", "Xurkitree", "Celesteela", "Kartana", 
+      "Guzzlord", "Poipole", "Naganadel", "Stakataka", "Blacephalon", 
       // Galar
       "Zacian", "Zamazenta", "Eternatus", "Kubfu", "Urshifu", "Zarude",
       "Regieleki", "Regidrago", "Glastrier", "Spectrier", "Calyrex"
