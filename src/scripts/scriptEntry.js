@@ -4,7 +4,6 @@ $(function () {
   if (typeof(module) !== 'undefined') {
     module.exports.pfqol = PFQoL;
   } else {
-    // eslint-disable-next-line no-undef
-    new PFQoL(jQuery);
+    new PFQoL();
   }
 });

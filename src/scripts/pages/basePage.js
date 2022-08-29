@@ -1,13 +1,10 @@
 class Page {
-    constructor(jQuery, localStorageMgr, helpers, ssk, ds, url, globalSettings) {
-        this.jQuery = jQuery;
-        this.localStorageMgr = localStorageMgr;
-        this.helpers = helpers;
+    constructor(ssk, ds, url, USER_SETTINGS) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
         this.settings = this.defaultSettings;
-        this.globalSettings = globalSettings;
+        this.USER_SETTINGS = USER_SETTINGS;
     }
 
     onPage(w) {
@@ -15,14 +12,14 @@ class Page {
     }
 
     loadSettings() {
-        this.settings = this.localStorageMgr.loadSettings(
-            this.jQuery,this.settingsSaveKey,
+        this.settings = LocalStorageManager.loadSettings(
+            this.settingsSaveKey,
             this.defaultSettings,
             this.settings);
     }
 
     saveSettings() {
-        this.localStorageMgr.saveSettings(this.settingsSaveKey, this.settings);
+        LocalStorageManager.saveSettings(this.settingsSaveKey, this.settings);
     }
 
     populateSettings(obj) {
@@ -38,7 +35,7 @@ class Page {
                 this.populateSettings(obj[key]);
             }
             else if (typeof value === 'boolean') {
-                this.helpers.toggleSetting(key, value);//, false);
+                Helpers.toggleSetting(key, value);//, false);
             }
             else if (typeof value === 'string') {
                 console.log('TODO - split and populate');

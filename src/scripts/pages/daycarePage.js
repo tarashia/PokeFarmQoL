@@ -1,14 +1,14 @@
 class DaycarePage extends Page {
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
+    constructor() {
+        super(Globals.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 // const fsPokemon = document.querySelector('#fs_pokemon');
-                const fsPokemon = obj.jQuery('#fs_pokemon');
+                const fsPokemon = $('#fs_pokemon');
                 if (fsPokemon.length > 0 &&
-                    obj.jQuery.contains(fsPokemon[0], mutation.target)) {
-                    obj.customSearch(GLOBALS);
+                    $.contains(fsPokemon[0], mutation.target)) {
+                    obj.customSearch();
                 }
             });
         });
@@ -20,8 +20,7 @@ class DaycarePage extends Page {
             subtree: true
         });
     }
-    customSearch(GLOBALS) {
-        const obj = this;
+    customSearch() {
         const button = document.querySelector('#pkmnadd');
 
         let gender = null;
@@ -45,25 +44,25 @@ class DaycarePage extends Page {
             }
         }
 
-        const EGG_ID_TO_NAME = GLOBALS.EGG_GROUP_LIST;
+        const EGG_ID_TO_NAME = Globals.EGG_GROUP_LIST;
         if (eggGroup1 !== null) { eggGroup1 = EGG_ID_TO_NAME[eggGroup1]; }
         if (eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2]; }
 
         // clear matches
-        obj.jQuery('.daycarefoundme').removeClass('daycarefoundme');
+        $('.daycarefoundme').removeClass('daycarefoundme');
 
         if (gender !== null && eggGroup1 !== null) {
             const fieldmons = document.querySelectorAll('.fieldmon');
             if (fieldmons !== null) {
                 for (let m = 0; m < fieldmons.length; m++) {
                     const mon = fieldmons[m];
-                    const searchPokemonBigImg = obj.jQuery(mon)[0].childNodes[0];
+                    const searchPokemonBigImg = $(mon)[0].childNodes[0];
                     const searchPokemon = searchPokemonBigImg.alt;
 
-                    const tooltip = obj.jQuery(mon).next();
+                    const tooltip = $(mon).next();
                     const fieldmontip = tooltip[0].querySelector('.fieldmontip');
-                    const speciesDiv = obj.jQuery(fieldmontip).children(':contains(Species)')[0];
-                    const eggGroupDiv = obj.jQuery(fieldmontip).children(':contains(Egg Group)')[0];
+                    const speciesDiv = $(fieldmontip).children(':contains(Species)')[0];
+                    const eggGroupDiv = $(fieldmontip).children(':contains(Egg Group)')[0];
                     const searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
 
                     /*
@@ -71,16 +70,16 @@ class DaycarePage extends Page {
                      * The gender title can be "[M], [F], [N]"
                      */
                     const searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
-                    const searchEggGroups = obj.jQuery(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
+                    const searchEggGroups = $(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
 
                     // Match Ditto in Daycare to anything that can breed
                     if (gender === 'd' && eggGroup1 === 'Ditto' &&
                         searchPokemon !== 'Ditto' && searchEggGroups[0] !== 'Undiscovered') {
-                        obj.jQuery(mon).addClass('daycarefoundme');
+                        $(mon).addClass('daycarefoundme');
                     }
                     // Match Ditto in field to anything that can breed
                     else if (eggGroup1 !== 'Ditto' && searchPokemon === 'Ditto' && eggGroup1 !== 'Undiscovered') {
-                        obj.jQuery(mon).addClass('daycarefoundme');
+                        $(mon).addClass('daycarefoundme');
                     }
                     // Match correct gender
                     else {
@@ -93,7 +92,7 @@ class DaycarePage extends Page {
                         }
 
                         if (genderCorrect && (group1Correct || group2Correct)) {
-                            obj.jQuery(mon).addClass('daycarefoundme');
+                            $(mon).addClass('daycarefoundme');
                         }
                     }
 

@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 class PFQoL {
-  constructor($) {
+  constructor() {
       // :contains to case insensitive
       $.extend($.expr[':'], {
           // eslint-disable-next-line no-unused-vars
@@ -9,61 +9,82 @@ class PFQoL {
           }
       });
 
-      this.jQuery = $;
-      this.HELPERS = new Helpers();
-      this.LOCAL_STORAGE_MANAGER = new LocalStorageManager($.USERID, localStorage, this.HELPERS);
-      this.LOCAL_STORAGE_MANAGER.migrateSettings();
+      LocalStorageManager.migrateSettings();
 
-      this.SETTINGS = new UserSettings();
-      this.GLOBALS = new Globals(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS);
-      this.RESOURCES = new Resources();
-      this.PAGES = new PagesManager(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.GLOBALS, this.HELPERS, this.SETTINGS);
-      this.QOLHUB = new QoLHub(this.jQuery, this.LOCAL_STORAGE_MANAGER, this.HELPERS, this.GLOBALS, this.PAGES, this.SETTINGS);
-      this.GLOBALS.fillTemplates(this.RESOURCES);
-      this.GLOBALS.fillOptionsLists();
-      this.LOCAL_STORAGE_MANAGER.loadDexIntoGlobalsFromStorage(this.GLOBALS);
+      this.USER_SETTINGS = new UserSettings();
+      this.PAGES = new PagesManager(this.USER_SETTINGS);
+      this.QOLHUB = new QoLHub(this.PAGES, this.USER_SETTINGS);
+      LocalStorageManager.loadDexIntoSettingsFromStorage(this.USER_SETTINGS);
 
       this.init();
   }
   instantiatePages(obj) {
-      obj.PAGES.instantiatePages(obj.QOLHUB);
+    try {
+        obj.PAGES.instantiatePages();
+    } catch(err) {
+        Helpers.writeCustomError('Error while instantiating pages: '+err,'error',err);
+    }
   }
   loadSettings(obj) { // initial settings on first run and setting the variable settings key
-      obj.QOLHUB.loadSettings();
-      obj.PAGES.loadSettings(obj.QOLHUB);
+    try {
+        obj.QOLHUB.loadSettings();
+        obj.PAGES.loadSettings();
+    } catch(err) {
+        Helpers.writeCustomError('Error while loading settings during startup: '+err,'error',err);
+    }
   } // loadSettings
-  saveSettings() { // Save changed settings
-      this.QOLHUB.saveSettings();
-      this.PAGES.saveSettings(this.QOLHUB);
+  saveSettings(obj) { // Save changed settings
+      obj.QOLHUB.saveSettings();
+      obj.PAGES.saveSettings();
   } // saveSettings
   populateSettingsPage(obj) { // checks all settings checkboxes that are true in the settings
-      obj.QOLHUB.populateSettings();
-      obj.PAGES.populateSettings(obj.QOLHUB);
+    try {
+        obj.QOLHUB.populateSettings();
+        obj.PAGES.populateSettings();
+    } catch(err) {
+        Helpers.writeCustomError('Error while populating settings page: '+err,'error',err);
+    }
   }
-  addIcon(obj) { // inject the QoL icon into the icon bar
+  addIcon() { // inject the QoL icon into the icon bar
     // this is done separately from the main HTML to ensure it's always added first,
     // as there's a custom error handler that relies on it existing
     document.querySelector('#announcements li.spacer')
-          .insertAdjacentHTML('beforebegin', obj.GLOBALS.TEMPLATES.qolHubLinkHTML);
+          .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
   }
-  setupHTML(obj) { // injects the HTML changes from GLOBALS.TEMPLATES into the site
-      obj.PAGES.setupHTML(obj.GLOBALS, obj.QOLHUB);
+  setupHTML(obj) { // injects the HTML changes into the site
+    try {
+        obj.PAGES.setupHTML();
+    } catch(err) {
+        Helpers.writeCustomError('Error while setting up HTML: '+err,'error',err);
+    }
   }
   setupCSS(obj) { // All the CSS changes are added here
-      obj.HELPERS.addGlobalStyle(obj.RESOURCES.css());
-      obj.PAGES.setupCSS(obj.QOLHUB);
-      obj.QOLHUB.setupCSS();
+    try {
+        Helpers.addGlobalStyle(Resources.css());
+        obj.PAGES.setupCSS();
+        obj.QOLHUB.setupCSS();
+    } catch(err) {
+        Helpers.writeCustomError('Error while applying global styling: '+err,'error',err);
+    }
   }
   setupObservers(obj) { // all the Observers that needs to run
-      obj.PAGES.setupObservers(obj.QOLHUB);
+    try {
+        obj.PAGES.setupObservers();
+    } catch(err) {
+        Helpers.writeCustomError('Error while setting up observers: '+err,'error',err);
+    }
   }
   setupHandlers(obj) { // all the event handlers
-      obj.jQuery(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
-          obj.QOLHUB.build(document);
-          obj.populateSettingsPage(obj);
-      }));
-      obj.QOLHUB.setupHandlers();
-      obj.PAGES.setupHandlers(obj.GLOBALS, obj.QOLHUB);
+    try {
+        $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
+            obj.QOLHUB.build(document);
+            obj.populateSettingsPage(obj);
+        }));
+        obj.QOLHUB.setupHandlers();
+        obj.PAGES.setupHandlers();
+    } catch(err) {
+        Helpers.writeCustomError('Error while setting up handlers: '+err,'error',err);
+    }
   }
   startup() { // All the functions that are run to start the script on Pokéfarm
       return {
@@ -83,8 +104,9 @@ class PFQoL {
       for (const message in startup) {
           if (Object.hasOwnProperty.call(startup, message)) {
               console.log(message);
-              startup[message](this, this.GLOBALS);
+              startup[message](this);
           }
       }
+      console.log('Finished startup');
   }
 }

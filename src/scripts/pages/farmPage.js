@@ -1,20 +1,20 @@
 class FarmPage extends Page {
-    DEFAULT_SETTINGS(GLOBALS) {
+    DEFAULT_SETTINGS() {
         const d = {
             TYPE_APPEND: {}
         };
         // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
-        for (let i = 0; i < GLOBALS.TYPE_LIST.length; i++) {
-            const type = GLOBALS.TYPE_LIST[i];
+        for (let i = 0; i < Globals.TYPE_LIST.length; i++) {
+            const type = Globals.TYPE_LIST[i];
             d.TYPE_APPEND[type.toUpperCase()] = '' + i;
         }
-        d.TYPE_APPEND['NONE'] = '.' + GLOBALS.TYPE_LIST.length;
+        d.TYPE_APPEND['NONE'] = '.' + Globals.TYPE_LIST.length;
         d.KNOWN_EXCEPTIONS = "<% src/resources/known-exceptions.jsonc %>";
         return d;
     }
-    constructor(jQuery, localStorageMgr, helpers, GLOBALS) {
-        super(jQuery, localStorageMgr, helpers, GLOBALS.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
-        this.defaultSettings = this.DEFAULT_SETTINGS(GLOBALS);
+    constructor(USER_SETTINGS) {
+        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1', USER_SETTINGS);
+        this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
         const obj = this;
@@ -22,17 +22,14 @@ class FarmPage extends Page {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
                 obj.easyQuickEvolve();
+                $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
             });
         }
         this.observer = new MutationObserver(observeFunc);
     }
     setupHTML() {
-        const obj = this;
-        this.jQuery(document).ready(function () {
-            obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            document.querySelector('#farm-evolve>h3').insertAdjacentHTML('afterend',`<% src/html/farm-evolve.html %>`);
-            // use the evolve button
-            obj.jQuery('#farmnews-evolutions>p>label>input').addClass('qolquickevo');
+        $(document).ready(function () {
+            $('#farm-evolve>h3').after(`<% src/html/farm-evolve.html %>`);
         });
     }
     setupObserver() {
@@ -43,29 +40,27 @@ class FarmPage extends Page {
             characterDataOldValue: true,
         });
     }
-    setupHandlers(GLOBALS) {
+    setupHandlers() {
         const obj = this;
-        obj.jQuery(document).on('click', '#qolevolvenormal', (function () {
-            obj.easyEvolveNormalList(GLOBALS);
+        $(document).on('click', '#qolevolvenormal', (function () {
+            obj.easyEvolveNormalList();
         }));
 
-        obj.jQuery(document).on('click', '#qolchangesletype', (function () {
-            obj.easyEvolveTypeList(GLOBALS);
+        $(document).on('click', '#qolchangesletype', (function () {
+            obj.easyEvolveTypeList();
         }));
 
-        obj.jQuery(document).on('click', '#qolsortevolvename', (function () {
-            obj.easyEvolveNameList(GLOBALS);
+        $(document).on('click', '#qolsortevolvename', (function () {
+            obj.easyEvolveNameList();
         }));
 
-        obj.jQuery(document).on('click', '#qolevolvenew', (function () {
-            obj.easyEvolveNewList(GLOBALS);
+        $(document).on('click', '#qolevolvenew', (function () {
+            obj.easyEvolveNewList();
         }));
     }
     clearSortedEvolveLists() {
         // first remove the sorted pokemon type list to avoid duplicates
-        const list$ = this.jQuery('.evolvepkmnlist');
-        list$.show();
-        list$.removeAttr('class');
+        $('.evolvepkmnlist').show();
         if (document.querySelector('.qolEvolveTypeList')) {
             document.querySelector('.qolEvolveTypeList').remove();
         }
@@ -80,21 +75,20 @@ class FarmPage extends Page {
         this.clearSortedEvolveLists();
     }
     easyEvolveNameList() {
-        const obj = this;
         this.clearSortedEvolveLists();
+        $('.evolvepkmnlist').hide();
 
-        this.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
         document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNameList">');
 
         let errorOccurred = false;
-        this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function (index) {
+        $('.evolvepkmnlist>li').each(function (index) {
             // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = obj.jQuery(this).html();
+            const getEvolveString = $(this).html();
             if (getEvolveString === undefined || getEvolveString === '') {
                 console.error(`Unable to parse html from <li> at index ${index}`);
                 errorOccurred = true;
             } else {
-                let beforeEvolvePokemon = obj.jQuery(this).children().children().text().slice(0, -6);
+                let beforeEvolvePokemon = $(this).children().children().text().slice(0, -6);
                 if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
                     console.error(`Unable to parse pokemon-evolving-from from <li> at index ${index}`);
                     errorOccurred = true;
@@ -132,13 +126,13 @@ class FarmPage extends Page {
                             console.error(`Unable to create valid CSS class for pokemon-evolving-to from <li> at index ${index}`);
                             errorOccurred = true;
                         } else {
-                            if (obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li>Ul').hasClass(evolvePokemonClass) === false) {
+                            if ($('.qolEvolveNameList>li>ul').hasClass(evolvePokemonClass) === false) {
                                 document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">' +
                                     beforeEvolvePokemon + ' > ' + evolvePokemon +
                                     '</h3><ul class="' + evolvePokemonClass +
                                     ' qolChangeLogContent"></ul></li><br>');
                             } // class
-                            obj.jQuery(this).clone().appendTo('.' + evolvePokemonClass + '');
+                            $(this).clone().appendTo('.' + evolvePokemonClass + '');
                         } // evolvePokemonClass
                     } // evolvePokemon
                 } // beforeEvolvePokemon
@@ -150,18 +144,18 @@ class FarmPage extends Page {
             return;
         }
 
-        obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNameList>Li').each(function (index) {
-            const amountOfEvolves = obj.jQuery(this).children().children().length;
+        $('#.qolEvolveNameList>li').each(function (index) {
+            const amountOfEvolves = $(this).children().children().length;
             if (amountOfEvolves === 0) {
                 console.error(`Found 0 evolutions for <li> at ${index} of evolve name list`);
                 errorOccurred = true;
             } else {
-                const getEvolveString = obj.jQuery(this).children().children().html();
+                const getEvolveString = $(this).children().children().html();
                 if (getEvolveString === undefined || getEvolveString === '') {
                     console.error(`Unable to parse evolve string from <li> at ${index} from evolve name list`);
                     errorOccurred = true;
                 } else {
-                    const beforeEvolvePokemon = obj.jQuery(this).children().children().children().children().first().text(); // .split(' ').join('');
+                    const beforeEvolvePokemon = $(this).children().children().children().children().first().text(); // .split(' ').join('');
 
                     if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
                         console.error(`Unable to parse pokemon-evolving-from from <li> at ${index} from evolve name list`);
@@ -172,14 +166,12 @@ class FarmPage extends Page {
                             console.error(`Unable to parse pokemon-evolving-to from <li> at ${index} from evolve name list`);
                             errorOccurred = true;
                         } else {
-                            obj.jQuery(this).children('.slidermenu').html(beforeEvolvePokemon + ' > ' + evolvePokemon + ' (' + amountOfEvolves + ')');
+                            $(this).children('.slidermenu').html(beforeEvolvePokemon + ' > ' + evolvePokemon + ' (' + amountOfEvolves + ')');
                         }
                     }
                 } // getEvolveString
             } // amountOfEvolves
         });
-
-        obj.jQuery('.evolvepkmnlist').hide();
 
         if (errorOccurred) {
             window.alert('Error occurred while sorting pokemon by name');
@@ -187,26 +179,24 @@ class FarmPage extends Page {
         }
 
         //layout of the created html
-        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-        const typeBorder = obj.jQuery('.panel>h3').css('border');
-        const typeColor = obj.jQuery('.panel>h3').css('color');
-        obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-        obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-        obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+        const typeBackground = $('.panel>h3').css('background-color');
+        const typeBorder = $('.panel>h3').css('border');
+        const typeColor = $('.panel>h3').css('color');
+        $('.expandlist').css('background-color', '' + typeBackground + '');
+        $('.expandlist').css('border', '' + typeBorder + '');
+        $('.expandlist').css('color', '' + typeColor + '');
 
-        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-        obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        const typeListBackground = $('.tabbed_interface>div').css('background-color');
+        const typeListColor = $('.tabbed_interface>div').css('color');
+        $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+        $('.qolChangeLogContent').css('color', '' + typeListColor + '');
     }
-    easyEvolveNewList(GLOBALS) {
-        const obj = this;
-        const dexData = GLOBALS.DEX_DATA;
+    easyEvolveNewList() {
+        const dexData = this.USER_SETTINGS.DEX_DATA;
 
         this.clearSortedEvolveLists();
+        $('.evolvepkmnlist').hide();
 
-        // add a class to the original pokemon evolve list to be able to manipulate the element more easily and add the ul for the new dex search
-        this.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
         document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNewList">');
 
         const getNewCheckData = (name) => {
@@ -220,22 +210,22 @@ class FarmPage extends Page {
             return checkData;
         };
 
-        const createListElements = (jQuery, cls, header, name, elem) => {
-            if (jQuery('#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>Ul').hasClass(cls) === false) {
+        const createListElements = (cls, header, name, elem) => {
+            if ($('.qolEvolveNewList>li>ul').hasClass(cls) === false) {
                 const html = '<li class="expandlist">' +
                     `<h3 class="slidermenu">${header}</h3>` +
                     `<ul class="${cls} qolChangeLogContent"></ul></li><br>`;
                 document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', html);
             }
 
-            if (jQuery(`#farmnews-evolutions>.scrollable>.qolEvolveNewList>Li>.${cls}>li:contains(${name})`).length == 0) {
-                jQuery(elem).clone().appendTo(`.${cls}`);
+            if ($(`.qolEvolveNewList>li>.${cls}>li:contains(${name})`).length == 0) {
+                $(elem).clone().appendTo(`.${cls}`);
             }
         };
 
-        this.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () { //the actual search
+        $('.evolvepkmnlist>li').each(function () { //the actual search
             // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = obj.jQuery(this).html();
+            const getEvolveString = $(this).html();
 
             // every pokemon is a normal unless shiny, albino or melanistic pokemon is found
             let pokemonIsNormal = true;
@@ -343,30 +333,30 @@ class FarmPage extends Page {
             if (evolvePokemonNameInDex) { //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
                 if (pokemonIsNormal == true) { //normal Pokémon search
                     if (evolveNewCheckOne == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                        createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
                     } else if (evolveNewTotal > evolveNewCheck && evolveNewCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements(obj.jQuery, 'newpossiblepokedexentry', 'Possible Mega/Totem forme', evolvePokemonName, this);
+                        createListElements('newpossiblepokedexentry', 'Possible Mega/Totem forme', evolvePokemonName, this);
                     }
                     // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
                 } else if (pokemonIsShiny == true) { //shiny Pokemon search
                     if (evolveNewShinyCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                        createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
                     } else if (evolveNewTotal > evolveNewShinyCheck && evolveNewShinyCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements(obj.jQuery, 'newpossibleshinypokedexentry', 'Possible Shiny Mega/Totem forme', evolvePokemonName, this);
+                        createListElements('newpossibleshinypokedexentry', 'Possible Shiny Mega/Totem forme', evolvePokemonName, this);
                     }
                     // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
                 } else if (pokemonIsAlbino == true) { //albino pokemon search
                     if (evolveNewAlbinoCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                        createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
                     } else if (evolveNewTotal > evolveNewAlbinoCheck && evolveNewAlbinoCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements(obj.jQuery, 'newpossiblealbinopokedexentry', 'Possible Albino Mega/Totem forme', evolvePokemonName, this);
+                        createListElements('newpossiblealbinopokedexentry', 'Possible Albino Mega/Totem forme', evolvePokemonName, this);
                     }
                     // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
                 } else if (pokemonIsMelanistic == true) { //melanistic pokemon search
                     if (evolveNewMelaCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                        createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
                     } else if (evolveNewTotal > evolveNewMelaCheck && evolveNewMelaCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements(obj.jQuery, 'newpossiblemelanisticpokedexentry', 'Possible Melanistic Mega/Totem forme', evolvePokemonName, this);
+                        createListElements('newpossiblemelanisticpokedexentry', 'Possible Melanistic Mega/Totem forme', evolvePokemonName, this);
                     }
                     // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
                 }
@@ -375,123 +365,121 @@ class FarmPage extends Page {
             } else {
                 if (pokemonIsNormal == true) {
                     if (evolveNewCheckTwo == 0 || evolveNewCheckThree == 0 || evolveNewCheckFour == 0 || evolveNewCheckFive == 0 || evolveNewCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                        createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
                     } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
                         if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements(obj.jQuery, 'possiblealolan', 'Possible new Alolan entry', evolvePokemonName, this);
+                            createListElements('possiblealolan', 'Possible new Alolan entry', evolvePokemonName, this);
                         }
                     } else if (evolvePokemonName.indexOf('[') >= 0) {
                         if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements(obj.jQuery, 'possibledifferent', 'Possible new forme/cloak entry', evolvePokemonName, this);
+                            createListElements('possibledifferent', 'Possible new forme/cloak entry', evolvePokemonName, this);
                         } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                            createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
                         }
 
                     } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements(obj.jQuery, 'newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
+                        createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
                     } else {
-                        createListElements(obj.jQuery, 'errornotfound', 'Error: not found', evolvePokemonName, this);
+                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
                     }
                 } else if (pokemonIsShiny == true) {
                     if (evolveNewShinyCheckTwo == 0 || evolveNewShinyCheckThree == 0 || evolveNewShinyCheckFour == 0 || evolveNewShinyCheckFive == 0 || evolveNewShinyCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                        createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
                     } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
                         if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements(obj.jQuery, 'possibleshinyalolan', 'Possible new Shiny Alolan entry', evolvePokemonName, this);
+                            createListElements('possibleshinyalolan', 'Possible new Shiny Alolan entry', evolvePokemonName, this);
                         }
                     } else if (evolvePokemonName.indexOf('[') >= 0) {
                         if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements(obj.jQuery, 'possibleshinydifferent', 'Possible new Shiny forme/cloak entry', evolvePokemonName, this);
+                            createListElements('possibleshinydifferent', 'Possible new Shiny forme/cloak entry', evolvePokemonName, this);
                         } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                            createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
                         }
                     } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements(obj.jQuery, 'newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
+                        createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
                     } else {
-                        createListElements(obj.jQuery, 'errornotfound', 'Error: not found', evolvePokemonName, this);
+                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
                     }
                 } else if (pokemonIsAlbino == true) {
                     if (evolveNewAlbinoCheckTwo == 0 || evolveNewAlbinoCheckThree == 0 || evolveNewAlbinoCheckFour == 0 || evolveNewAlbinoCheckFive == 0 || evolveNewAlbinoCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                        createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
                     } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
                         if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements(obj.jQuery, 'possiblealbinoalolan', 'Possible new Albino Alolan entry', evolvePokemonName, this);
+                            createListElements('possiblealbinoalolan', 'Possible new Albino Alolan entry', evolvePokemonName, this);
                         }
                     } else if (evolvePokemonName.indexOf('[') >= 0) {
                         if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements(obj.jQuery, 'possiblealbinodifferent', 'Possible new Albino forme/cloak entry', evolvePokemonName, this);
+                            createListElements('possiblealbinodifferent', 'Possible new Albino forme/cloak entry', evolvePokemonName, this);
                         } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                            createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
                         }
                     } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements(obj.jQuery, 'newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
+                        createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
                     } else {
-                        createListElements(obj.jQuery, 'errornotfound', 'Error: not found', evolvePokemonName, this);
+                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
                     }
 
                 } else if (pokemonIsMelanistic == true) {
                     if (evolveNewMelaCheckTwo == 0 || evolveNewMelaCheckThree == 0 || evolveNewMelaCheckFour == 0 || evolveNewMelaCheckFive == 0 || evolveNewMelaCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                        createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
                     } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
                         if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements(obj.jQuery, 'possiblemelanalolan', 'Possible new Melanistic Alolan entry', evolvePokemonName, this);
+                            createListElements('possiblemelanalolan', 'Possible new Melanistic Alolan entry', evolvePokemonName, this);
                         }
                     } else if (evolvePokemonName.indexOf('[') >= 0) {
                         if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements(obj.jQuery, 'possiblemelandifferent', 'Possible new Melanistic forme/cloak entry', evolvePokemonName, this);
+                            createListElements('possiblemelandifferent', 'Possible new Melanistic forme/cloak entry', evolvePokemonName, this);
                         } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                            createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
                         }
                     } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements(obj.jQuery, 'newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
+                        createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
                     } else {
-                        createListElements(obj.jQuery, 'errornotfound', 'Error: not found', evolvePokemonName, this);
+                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
                     }
                 }
             }
         });
 
-        obj.jQuery('.evolvepkmnlist').hide();
-
         //layout
-        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-        const typeBorder = obj.jQuery('.panel>h3').css('border');
-        const typeColor = obj.jQuery('.panel>h3').css('color');
-        obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-        obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-        obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+        const typeBackground = $('.panel>h3').css('background-color');
+        const typeBorder = $('.panel>h3').css('border');
+        const typeColor = $('.panel>h3').css('color');
+        $('.expandlist').css('background-color', '' + typeBackground + '');
+        $('.expandlist').css('border', '' + typeBorder + '');
+        $('.expandlist').css('color', '' + typeColor + '');
 
-        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-        obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        const typeListBackground = $('.tabbed_interface>div').css('background-color');
+        const typeListColor = $('.tabbed_interface>div').css('color');
+        $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+        $('.qolChangeLogContent').css('color', '' + typeListColor + '');
     }
     easyQuickEvolve() {
-        const parent = this.jQuery('.canevolve:contains("evolved into")').parent();
+        const parent = $('.canevolve:contains("evolved into")').parent();
         if (parent.length != 0) {
             parent.remove();
         }
     }
-    easyEvolveTypeList(GLOBALS) {
+    easyEvolveTypeList() {
         const obj = this;
-        const dexData = GLOBALS.DEX_DATA;
+        const dexData = this.USER_SETTINGS.DEX_DATA;
 
         this.clearSortedEvolveLists();
+        $('.evolvepkmnlist').hide();
 
-        const typeBackground = obj.jQuery('.panel>h3').css('background-color');
-        obj.jQuery('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-        document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', GLOBALS.TEMPLATES.evolveFastHTML);
+        const typeBackground = $('.panel>h3').css('background-color');
+        $('.evolvepkmnlist').before(Resources.evolveFastHTML());
 
-        const typeBorder = obj.jQuery('.panel>h3').css('border');
-        const typeColor = obj.jQuery('.panel>h3').css('color');
-        obj.jQuery('.expandlist').css('background-color', '' + typeBackground + '');
-        obj.jQuery('.expandlist').css('border', '' + typeBorder + '');
-        obj.jQuery('.expandlist').css('color', '' + typeColor + '');
+        const typeBorder = $('.panel>h3').css('border');
+        const typeColor = $('.panel>h3').css('color');
+        $('.expandlist').css('background-color', '' + typeBackground + '');
+        $('.expandlist').css('border', '' + typeBorder + '');
+        $('.expandlist').css('color', '' + typeColor + '');
 
-        const typeListBackground = obj.jQuery('.tabbed_interface>div').css('background-color');
-        const typeListColor = obj.jQuery('.tabbed_interface>div').css('color');
-        obj.jQuery('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        obj.jQuery('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        const typeListBackground = $('.tabbed_interface>div').css('background-color');
+        const typeListColor = $('.tabbed_interface>div').css('color');
+        $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
+        $('.qolChangeLogContent').css('color', '' + typeListColor + '');
 
         /* Nested helper function */
         const getEvolutionOrigin = function (evoString) {
@@ -506,16 +494,16 @@ class FarmPage extends Page {
             return evoString.substr(destStart).trim();
         };
 
-        const appendDeltaTypeIfDelta = function ($, evoString, elemToAppendTo) {
+        const appendDeltaTypeIfDelta = function (evoString, elemToAppendTo) {
             if (evoString.includes('title="[DELTA')) {
                 const deltaType = evoString.match('DELTA-(.*)]">');
                 $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
             }
         };
 
-        obj.jQuery('#farmnews-evolutions>.scrollable>.evolvepkmnlist>Li').each(function () {
+        $('.evolvepkmnlist>li').each(function () {
             // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = obj.jQuery(this).html();
+            const getEvolveString = $(this).html();
             let previousPokemon = getEvolutionOrigin(getEvolveString);
             const evolvePokemon = getEvolutionDestination(getEvolveString);
 
@@ -588,34 +576,32 @@ class FarmPage extends Page {
             const elem = this;
             // add unknown source types
             if(evolveTypesPrevious   .includes('18')) {
-                obj.jQuery(elem).clone().appendTo('.18source');
+                $(elem).clone().appendTo('.18source');
             }
             // add unknown target types
             if(evolveTypes.includes('18')) {
-                obj.jQuery(elem).clone().appendTo('.18target');
+                $(elem).clone().appendTo('.18target');
             }
             const combinedValidTypes = [...evolveTypesPrevious, ...evolveTypes]
                 .filter((t, i, self) => t != '18' && self.indexOf(t) === i);
             combinedValidTypes.map((t) => {
-                obj.jQuery(elem).clone().appendTo(`.${t}`);
+                $(elem).clone().appendTo(`.${t}`);
             });
 
-            appendDeltaTypeIfDelta(obj.jQuery, getEvolveString, this);
+            appendDeltaTypeIfDelta(getEvolveString, this);
         }); // each
 
-        obj.jQuery('#farmnews-evolutions>.scrollable>.qolEvolveTypeList>Li').each(function () {
-            const amountOfEvolves = obj.jQuery(this).children().children().length;
-            const evolveTypeName = obj.jQuery(this).children('.slidermenu').html();
+        $('.qolEvolveTypeList>li').each(function () {
+            const amountOfEvolves = $(this).children().children().length;
+            const evolveTypeName = $(this).children('.slidermenu').html();
 
             // hide the types with no evolutions
             if (amountOfEvolves === 0) {
                 this.nextSibling.hidden = true;
                 this.hidden = true;
             } else {
-                obj.jQuery(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
+                $(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
             }
         });
-
-        obj.jQuery('.evolvepkmnlist').hide();
     }
 }

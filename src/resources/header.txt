@@ -10,3 +10,6 @@
 // @match        https://pokefarm.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // ==/UserScript==
+
+// Tell ESLint that jQuery's $ is defined elsewhere
+/* global $ */

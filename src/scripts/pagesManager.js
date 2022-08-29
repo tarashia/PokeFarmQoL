@@ -1,10 +1,6 @@
 class PagesManager {
-    constructor(jQuery, localStorageMgr, globals, HELPERS, SETTINGS) {
-        this.jQuery = jQuery;
-        this.localStorageMgr = localStorageMgr;
-        this.GLOBALS = globals;
-        this.HELPERS = HELPERS;
-        this.SETTINGS = SETTINGS;
+    constructor(USER_SETTINGS) {
+        this.USER_SETTINGS = USER_SETTINGS;
         this.pages = {
             'Daycare': {
                 class: DaycarePage,
@@ -68,34 +64,34 @@ class PagesManager {
             }
         };
     }
-    instantiatePages(QOLHUB) {
+    instantiatePages() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true) {
-                this.pages[key].object = new this.pages[key].class(this.jQuery, this.localStorageMgr, this.HELPERS, this.GLOBALS, this.SETTINGS);
+            if (this.USER_SETTINGS[pg.setting] === true) {
+                pg.object = new pg.class(this.USER_SETTINGS);
             }
         }
     }
-    loadSettings(QOLHUB) {
+    loadSettings() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.loadSettings();
             }
         }
     }
-    saveSettings(QOLHUB) {
+    saveSettings() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.saveSettings();
             }
         }
     }
-    populateSettings(QOLHUB) {
+    populateSettings() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.populateSettings();
             }
         }
@@ -112,35 +108,35 @@ class PagesManager {
             this.clearPageSettings(pageName);
         }
     }
-    setupHTML(GLOBALS, QOLHUB) {
+    setupHTML() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHTML(GLOBALS);
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                pg.object.setupHTML();
             }
         }
     }
-    setupCSS(QOLHUB) {
+    setupCSS() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.setupCSS();
             }
         }
     }
-    setupObservers(QOLHUB) {
+    setupObservers() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
                 pg.object.setupObserver();
             }
         }
     }
-    setupHandlers(GLOBALS, QOLHUB) {
+    setupHandlers() {
         for (const key of Object.keys(this.pages)) {
             const pg = this.pages[key];
-            if (QOLHUB.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHandlers(GLOBALS);
+            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
+                pg.object.setupHandlers();
             }
         }
     }

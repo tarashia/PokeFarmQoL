@@ -3,87 +3,87 @@
  * for the QoL Hub.
  */
 class QoLHub {
-    constructor(jQuery, localStorageMgr, HELPERS, GLOBALS, PAGES, SETTINGS) {
-        this.jQuery = jQuery;
-        this.localStorageMgr = localStorageMgr;
-        this.HELPERS = HELPERS;
-        this.GLOBALS = GLOBALS;
+    constructor(PAGES, USER_SETTINGS) {
         this.PAGES = PAGES;
-        this.SETTINGS_SAVE_KEY = GLOBALS.SETTINGS_SAVE_KEY;
-        this.USER_SETTINGS = SETTINGS;
+        this.SETTINGS_SAVE_KEY = Globals.SETTINGS_SAVE_KEY;
+        this.USER_SETTINGS = USER_SETTINGS;
         this.LINKED_SETTINGS = this.USER_SETTINGS.LINKED_SETTINGS;
     }
     setupCSS() {
         //custom user css
-        this.jQuery('head').append('<style type="text/css">' + this.USER_SETTINGS.customCss + '</style>');
+        $('head').append('<style type="text/css">' + this.USER_SETTINGS.customCss + '</style>');
     }
     setupHandlers() {
         const obj = this;
-        obj.jQuery('#qolcustomcss', document).on('keydown', function (e) {
+        $('#qolcustomcss', document).on('keydown', function (e) {
             if (e.keyCode == 9 || e.which == 9) {
                 e.preventDefault();
                 const s = this.selectionStart;
-                obj.jQuery(this).val(function (i, v) {
+                $(this).val(function (i, v) {
                     return v.substring(0, s) + '\t' + v.substring(this.selectionEnd);
                 });
                 this.selectionEnd = s + 1;
             }
         });
 
-        obj.jQuery(document).on('input', '.qolhubsetting', (function () { //Changes QoL settings
+        $(document).on('input', '.qolhubsetting', (function () { //Changes QoL settings
             const dataKey = this.getAttribute('data-key');
             obj.settingsChange(this.getAttribute('data-key'),
-                obj.jQuery(this).val(),
-                obj.jQuery(this).parent().parent().attr('class'),
-                obj.jQuery(this).parent().attr('class'),
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
                 (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
             obj.handleLinkedSetting(dataKey);
         }));
 
-        obj.jQuery(document).on('click', '.closeHub', (function () { //close QoL hub
+        $(document).on('click', '.closeHub', (function () { //close QoL hub
             obj.close(document);
         }));
 
-        obj.jQuery(document).on('click', '#resetPageSettings', (function () {
-            const page = obj.jQuery(this).parent().find('select').val();
+        $(document).on('click', '#resetPageSettings', (function () {
+            const page = $(this).parent().find('select').val();
             obj.clearPageSettings(page);
         }));
 
-        obj.jQuery(document).on('click', '#resetAllSettings', (function () {
+        $(document).on('click', '#resetAllSettings', (function () {
             if(window.confirm('Are you sure? All settings, including your custom CSS, will be reset.')) {
                 obj.clearAllSettings();
             }
         }))
 
-        obj.jQuery(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
-            obj.jQuery(this).next().slideToggle();
+        $(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
+            $(this).next().slideToggle();
         }));
 
         // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
-        obj.jQuery(document).on('mouseover', '#clearCachedDex', (function () {
-            obj.jQuery('#clearCachedDex').next().remove();
+        $(document).on('mouseover', '#clearCachedDex', (function () {
+            $('#clearCachedDex').next().remove();
         }));
 
         // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
-        obj.jQuery(document).on('click', '#clearCachedDex', (function () {
+        $(document).on('click', '#clearCachedDex', (function () {
             obj.resetDex();
         }));
 
-        obj.jQuery(document).on('click', '#qolErrorConsole', (function() {
-            let consoleContent = obj.jQuery('#qolConsoleHolder').html();
+        $(document).on('click', '#qolErrorConsole', (function() {
+            let consoleContent = $('#qolConsoleHolder').html();
             if(consoleContent.trim() == '') {
                 consoleContent = '[ No errors to display ]';
             }
-            obj.jQuery('#qolConsoleContent').html(consoleContent);
+            $('#qolConsoleContent').html(consoleContent);
         }));
     }
     loadSettings() {
-        if (this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY) === null) {
-            this.saveSettings();
-        } else {
-            if(this.USER_SETTINGS.load(JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY)))) {
+        try {
+            if (LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY) === null) {
                 this.saveSettings();
+            } else {
+                if(this.USER_SETTINGS.load(JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY)))) {
+                    this.saveSettings();
+                }
             }
+        } catch(err) {
+            Helpers.writeCustomError('Error while loading user settings: '+err,'error',err);
         }
     }
     clearAllSettings() {
@@ -93,7 +93,7 @@ class QoLHub {
         location.reload(); 
     }
     saveSettings() {
-        this.localStorageMgr.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
+        LocalStorageManager.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
     }
     populateSettings() {
         function populateSetting(object, key, self, oldKeys) {
@@ -102,11 +102,11 @@ class QoLHub {
             const newKeys = [...oldKeys, key];
             if (typeof _object === 'boolean') {
                 const _key = newKeys.join('.');
-                self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+                Helpers.toggleSetting(_key, _object, 'qolhubsetting');
             }
             else if (typeof _object === 'string') {
                 const _key = newKeys.join('.');
-                self.HELPERS.toggleSetting(_key, _object, 'qolhubsetting');
+                Helpers.toggleSetting(_key, _object, 'qolhubsetting');
             } else if (typeof _object === 'object') {
                 for (const _key in _object) {
                     populateSetting(_object, _key, self, newKeys);
@@ -179,58 +179,58 @@ class QoLHub {
         const linkedSettingIndex = this.LINKED_SETTINGS.findIndex(ls => ls.manager === possibleManager);
         if(linkedSettingIndex > -1) {
             const managed = this.LINKED_SETTINGS[linkedSettingIndex].managed;
-            const userSettings = this.USER_SETTINGS[managed];
-            if(this.jQuery(`[data-key=${possibleManager}]`).prop('checked') === false) {
-                for(const setting in userSettings) {
-                    this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', true);
+            const USER_SETTINGS = this.USER_SETTINGS[managed];
+            if($(`[data-key=${possibleManager}]`).prop('checked') === false) {
+                for(const setting in USER_SETTINGS) {
+                    $(`[data-key="${managed}.${setting}"]`).prop('disabled', true);
                 }
             } else {
-                for(const setting in userSettings) {
-                    this.jQuery(`[data-key="${managed}.${setting}"]`).prop('disabled', false);
+                for(const setting in USER_SETTINGS) {
+                    $(`[data-key="${managed}.${setting}"]`).prop('disabled', false);
                 }
             }
         }
     }
     build(document) {
-        this.jQuery('body', document).append(this.GLOBALS.TEMPLATES.qolHubHTML);
-        this.jQuery('#core', document).addClass('scrolllock');
-        const qolHubCssBackgroundHead = this.jQuery('.qolHubHead.qolHubSuperHead').css('background-color');
-        const qolHubCssTextColorHead = this.jQuery('.qolHubHead.qolHubSuperHead').css('color');
-        const qolHubCssBackground = this.jQuery('.qolHubTable').css('background-color');
-        const qolHubCssTextColor = this.jQuery('.qolHubTable').css('color');
-        const qolHubDialogBorder = this.jQuery('.dialog>div>div>div').css('border');
-        this.jQuery('.qolHubHead').css('background-color', qolHubCssBackgroundHead);
-        this.jQuery('.qolHubHead').css('color', qolHubCssTextColorHead);
-        this.jQuery('.qolChangeLogHead').css('background-color', qolHubCssBackgroundHead);
-        this.jQuery('.qolChangeLogHead').css('color', qolHubCssTextColorHead);
-        this.jQuery('.qolChangeLogHead').css('border', qolHubDialogBorder);
-        this.jQuery('.qolopencloselist.qolChangeLogContent').css('background-color', qolHubCssBackground);
-        this.jQuery('.qolopencloselist.qolChangeLogContent').css('color', qolHubCssTextColor);
+        $('body', document).append(Resources.qolHubHTML());
+        $('#core', document).addClass('scrolllock');
+        const qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead').css('background-color');
+        const qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead').css('color');
+        const qolHubCssBackground = $('.qolHubTable').css('background-color');
+        const qolHubCssTextColor = $('.qolHubTable').css('color');
+        const qolHubDialogBorder = $('.dialog>div>div>div').css('border');
+        $('.qolHubHead').css('background-color', qolHubCssBackgroundHead);
+        $('.qolHubHead').css('color', qolHubCssTextColorHead);
+        $('.qolChangeLogHead').css('background-color', qolHubCssBackgroundHead);
+        $('.qolChangeLogHead').css('color', qolHubCssTextColorHead);
+        $('.qolChangeLogHead').css('border', qolHubDialogBorder);
+        $('.qolopencloselist.qolChangeLogContent').css('background-color', qolHubCssBackground);
+        $('.qolopencloselist.qolChangeLogContent').css('color', qolHubCssTextColor);
 
-        this.jQuery('.qolAllSettings').css('border', qolHubDialogBorder);
+        $('.qolAllSettings').css('border', qolHubDialogBorder);
 
         const customCss = this.USER_SETTINGS.customCss;
 
         if (customCss === '') {
-            this.jQuery('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
+            $('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
         } else {
-            this.jQuery('.textareahub textarea', document).val(customCss);
+            $('.textareahub textarea', document).val(customCss);
         }
 
-        const dexUpdateDate = (this.GLOBALS.DEX_UPDATE_DATE === null) ?
+        const dexUpdateDate = (this.USER_SETTINGS.DEX_UPDATE_DATE === null) ?
             'Not updated since installation' :
-            this.GLOBALS.DEX_UPDATE_DATE;
-        this.jQuery('.qolDate', document).text(dexUpdateDate);
+            this.USER_SETTINGS.DEX_UPDATE_DATE;
+        $('.qolDate', document).text(dexUpdateDate);
     }
     close(document) {
-        this.jQuery('.dialog', document).remove();
-        this.jQuery('#core', document).removeClass('scrolllock');
+        $('.dialog', document).remove();
+        $('#core', document).removeClass('scrolllock');
     }
     resetDex() {
-        this.jQuery('#clearCachedDex').next().remove();
-        this.GLOBALS.DEX_UPDATE_DATE = null;
-        this.GLOBALS.DEX_DATA = null;
-        this.localStorageMgr.removeItem(this.GLOBALS.POKEDEX_DATA_KEY);
-        this.jQuery('#clearCachedDex').after('<span> Cleared!</span>');
+        $('#clearCachedDex').next().remove();
+        this.USER_SETTINGS.DEX_UPDATE_DATE = null;
+        this.USER_SETTINGS.DEX_DATA = null;
+        LocalStorageManager.removeItem(Globals.POKEDEX_DATA_KEY);
+        $('#clearCachedDex').after('<span> Cleared!</span>');
     }
 } // QoLHub

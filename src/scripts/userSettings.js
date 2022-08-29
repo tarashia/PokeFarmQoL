@@ -20,6 +20,15 @@ class UserSettings {
                 'managed': 'privateFieldFeatureEnables'
             },
         ];
+
+        // filled in by LocalStorageManager
+        this.DEX_UPDATE_DATE = null;
+
+        /*
+         * a static copy of the <script id="dexdata"> tag from Feb 16, 2021
+         * this is updated every time the user visits the dex page
+         */
+        this.DEX_DATA = (`<% src/resources/dex-data.jsonc %>`).split(',');
     }
     setDefaults() {
         // default settings when the script gets loaded the first time
@@ -62,7 +71,7 @@ class UserSettings {
             const countLocalStorageSettings = Object.keys(localStorageString).length;
             // adds new settings to this class
             if (countLocalStorageSettings < countScriptSettings) {
-                const newSettings = this.jQuery.extend(true, this, settingsObj);
+                const newSettings = $.extend(true, this, settingsObj);
                 this.copyFields(newSettings);
             }
             // removes objects from the local storage if they don't exist anymore. Not yet possible..
@@ -71,16 +80,17 @@ class UserSettings {
             }
         }
         catch (err) {
-            /* do nothing at the moment */
+            Helpers.writeCustomError('Error while loading settings object: '+err,'error',err);
         }
         if (settingsObj != this) {
             this.copyFields(settingsObj);
-            // this = JSON.parse(this.localStorageMgr.getItem(this.SETTINGS_SAVE_KEY));
+            // this = JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY));
         }
     }
     copyFields(settingsObj) {
         const recursiveCopy = (object, key, value) => {
-            if (typeof value === 'object') {
+            // typeof null returns "object" - disclude it explicitly
+            if (value !== null && typeof value === 'object') {
                 for (const [_key, _value] of Object.entries(value)) {
                     recursiveCopy(object[key], _key, _value);
                 }

@@ -4,13 +4,10 @@
     - Adds the appropriate userscript header (src/resources/header[-test].txt)
     - Concatenates all files in src/scripts
     - Replaces all resource placeholders "<% path %>" with the specified file's content
-      (pre-process file content like LESS/jsonc, minimize if release?)
-    - Remove comments? lint? minimize if release?
-    - Saves result in index[-test].js
+      (compiles and minimizes content like LESS/jsonc first)
+    - Lints & saves result in the main user.js file
 
 */
-
-const usage = 'Usage: node index.js [--test/--release]';
 
 import fs from 'fs';
 import path from 'path';
@@ -22,39 +19,68 @@ import htmlMinify from 'html-minifier';
 import replaceAsync from 'string-replace-async';
 import { ESLint } from 'eslint';
 
+// Unfortunately, order is important for some of these files,
+//   so instead of just going over the whole directory, define 
+//   all scripts to be included, and their order, here
+// Library-type scripts (only static content) should go first
+// <PAGES> is where all files in scripts/pages will be added, alphabetically
+const scriptFiles = [
+    // Static classes
+    'helpers.js',
+    'globals.js',
+    'localStorageManager.js',
+    'resources.js',
+    // Non-static classes
+    'userSettings.js',
+    'pagesManager.js',
+    'qolHub.js',
+    'pfqol.js',
+    '<PAGES>',
+    // Script entry point
+    'scriptEntry.js'
+];
+
 runBuild();
 
 async function runBuild() {
-    const output = 'Poke-Farm-QoL.user.js';
+    const outputPath = 'Poke-Farm-QoL.user.js';
 
     var initContent = await fs.promises.readFile('src/resources/header.txt', 'utf8');
-    await fs.promises.writeFile(output, initContent);
-    console.log('Initialized '+output);
-    await concatFiles('src/scripts', output);
+    await fs.promises.writeFile(outputPath, initContent);
+    console.log('Initialized '+outputPath);
 
-    console.log('Adding entry point');
-    const entry = await fs.promises.readFile('src/resources/script-entry.js', 'utf8');
-    fs.promises.appendFile(output, '\n'+entry+'\n');
+    for(let i=0; i<scriptFiles.length; i++) {
+        if(scriptFiles[i]=='<PAGES>') {
+            await concatFiles('src/scripts/pages',outputPath);
+        }
+        else {
+            await addFileContent('src/scripts/'+scriptFiles[i],outputPath);
+        }
+    }
 
     console.log('Linting...');
     // https://eslint.org/docs/latest/developer-guide/nodejs-api
     const eslint = new ESLint({ fix: true });
-    const results = await eslint.lintFiles([output]);
+    const results = await eslint.lintFiles([outputPath]);
     const formatter = await eslint.loadFormatter("stylish");
     console.log(formatter.format(results));
 
     console.log('Done!');
 }
 
+async function addFileContent(inputPath, outputPath) {
+    var content = await fs.promises.readFile(inputPath, 'utf8');
+    console.log('Processing '+inputPath);
+    content = await loadResources(content);
+    fs.promises.appendFile(outputPath, '\n'+content+'\n');
+}
+
 // Based on https://stackoverflow.com/a/53960687
-async function concatFiles(directory, destination) {
+async function concatFiles(directory, outputPath) {
     const files = await fs.promises.readdir(directory);
     for(var i=0;i<files.length;i++) {
         const filePath = path.join(directory, files[i]);
-        var content = await fs.promises.readFile(filePath, 'utf8');
-        console.log('Processing '+filePath);
-        content = await loadResources(content);
-        fs.promises.appendFile(destination, '\n'+content+'\n');
+        await addFileContent(filePath, outputPath);
     }
 }
 
