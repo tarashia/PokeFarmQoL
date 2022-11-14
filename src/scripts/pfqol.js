@@ -11,10 +11,8 @@ class PFQoL {
 
       LocalStorageManager.migrateSettings();
 
-      this.USER_SETTINGS = new UserSettings();
-      this.PAGES = new PagesManager(this.USER_SETTINGS);
-      this.QOLHUB = new QoLHub(this.PAGES, this.USER_SETTINGS);
-      LocalStorageManager.loadDexIntoSettingsFromStorage(this.USER_SETTINGS);
+      this.PAGES = new PagesManager();
+      this.QOLHUB = new QoLHub(this.PAGES);
 
       this.init();
   }

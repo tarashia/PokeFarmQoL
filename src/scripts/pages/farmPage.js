@@ -12,8 +12,8 @@ class FarmPage extends Page {
         d.KNOWN_EXCEPTIONS = "<% src/resources/known-exceptions.jsonc %>";
         return d;
     }
-    constructor(USER_SETTINGS) {
-        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1', USER_SETTINGS);
+    constructor() {
+        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
@@ -192,7 +192,7 @@ class FarmPage extends Page {
         $('.qolChangeLogContent').css('color', '' + typeListColor + '');
     }
     easyEvolveNewList() {
-        const dexData = this.USER_SETTINGS.DEX_DATA;
+        const dexData = this.POKEDEX.DEX_DATA;
 
         this.clearSortedEvolveLists();
         $('.evolvepkmnlist').hide();
@@ -462,7 +462,7 @@ class FarmPage extends Page {
     }
     easyEvolveTypeList() {
         const obj = this;
-        const dexData = this.USER_SETTINGS.DEX_DATA;
+        const dexData = this.POKEDEX.DEX_DATA;
 
         this.clearSortedEvolveLists();
         $('.evolvepkmnlist').hide();

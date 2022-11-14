@@ -1,12 +1,12 @@
 class LabPage extends Page {
-    constructor(USER_SETTINGS) {
+    constructor() {
         const defaultPageSettings = {
             findLabEgg: '', // same as findCustom in shelter
             customEgg: true,
             findLabType: '', // same as findType in shelter
             findTypeEgg: true,
         };
-        super(Globals.LAB_PAGE_SETTINGS_KEY, defaultPageSettings, 'lab', USER_SETTINGS);
+        super(Globals.LAB_PAGE_SETTINGS_KEY, defaultPageSettings, 'lab');
         this.searchArray = [];
         this.typeArray = [];
         const obj = this;
@@ -129,7 +129,7 @@ class LabPage extends Page {
         }
     }
     getTypesForEgg(searchPokemon) {
-        const dexData = this.USER_SETTINGS.DEX_DATA;
+        const dexData = this.POKEDEX.DEX_DATA;
         const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
         return [dexData[searchPokemonIndex + 1], dexData[searchPokemonIndex + 2]];
     }

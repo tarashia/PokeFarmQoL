@@ -3,10 +3,10 @@
  * for the QoL Hub.
  */
 class QoLHub {
-    constructor(PAGES, USER_SETTINGS) {
+    constructor(PAGES) {
         this.PAGES = PAGES;
         this.SETTINGS_SAVE_KEY = Globals.SETTINGS_SAVE_KEY;
-        this.USER_SETTINGS = USER_SETTINGS;
+        this.USER_SETTINGS = UserSettingsHandle.getSettings();
         this.LINKED_SETTINGS = this.USER_SETTINGS.LINKED_SETTINGS;
     }
     setupCSS() {
@@ -71,6 +71,16 @@ class QoLHub {
                 consoleContent = '[ No errors to display ]';
             }
             $('#qolConsoleContent').html(consoleContent);
+        }));
+
+        $(document).on('click', '#qolDataLog', (function() {
+            console.log(UserSettingsHandle.getSettings());
+        }));
+        $(document).on('click', '#qolDexLog', (function() {
+            console.log(UserSettingsHandle.getDex());
+        }));
+        $(document).on('click', '#qolStorageLog', (function() {
+            console.log(LocalStorageManager.getAllLocalStorage());
         }));
     }
     loadSettings() {
@@ -217,9 +227,10 @@ class QoLHub {
             $('.textareahub textarea', document).val(customCss);
         }
 
-        const dexUpdateDate = (this.USER_SETTINGS.DEX_UPDATE_DATE === null) ?
-            'Not updated since installation' :
-            this.USER_SETTINGS.DEX_UPDATE_DATE;
+        let dexUpdateDate = UserSettingsHandle.getDex().DEX_UPDATE_DATE;
+        if(!dexUpdateDate) {
+            dexUpdateDate = 'Not updated since installation';
+        }
         $('.qolDate', document).text(dexUpdateDate);
     }
     close(document) {
@@ -228,9 +239,7 @@ class QoLHub {
     }
     resetDex() {
         $('#clearCachedDex').next().remove();
-        this.USER_SETTINGS.DEX_UPDATE_DATE = null;
-        this.USER_SETTINGS.DEX_DATA = null;
-        LocalStorageManager.removeItem(Globals.POKEDEX_DATA_KEY);
+        UserSettingsHandle.getDex().resetDex();
         $('#clearCachedDex').after('<span> Cleared!</span>');
     }
 } // QoLHub

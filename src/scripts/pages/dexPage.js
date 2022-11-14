@@ -1,5 +1,5 @@
 class DexPage extends Page {
-    constructor(USER_SETTINGS) {
+    constructor() {
         super(Globals.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
@@ -16,8 +16,7 @@ class DexPage extends Page {
          */
         if ($('script#dexdata') && $('script#dexdata').text()) {
             const text = $('script#dexdata').text();
-            USER_SETTINGS.DEX_DATA = text.split(',');
-            LocalStorageManager.updateLocalStorageDex(document, undefined, USER_SETTINGS);
+            this.POKEDEX.updateDexFromPage(text);
         }
     }
     setupObserver() {

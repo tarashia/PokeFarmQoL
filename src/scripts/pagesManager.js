@@ -1,6 +1,6 @@
 class PagesManager {
-    constructor(USER_SETTINGS) {
-        this.USER_SETTINGS = USER_SETTINGS;
+    constructor() {
+        this.USER_SETTINGS = UserSettingsHandle.getSettings();
         this.pages = {
             'Daycare': {
                 class: DaycarePage,

@@ -1,5 +1,5 @@
 class ShelterPage extends Page {
-    constructor(USER_SETTINGS) {
+    constructor() {
         const defaultPageSettings = {
             findCustom: '',
             findType: '',
@@ -24,7 +24,7 @@ class ShelterPage extends Page {
             customPng: false,
             shelterGrid: true,
         };
-        super(Globals.SHELTER_PAGE_SETTINGS_KEY, defaultPageSettings, 'shelter', USER_SETTINGS);
+        super(Globals.SHELTER_PAGE_SETTINGS_KEY, defaultPageSettings, 'shelter');
         this.customArray = [];
         this.typeArray = [];
         const obj = this;
@@ -262,7 +262,7 @@ class ShelterPage extends Page {
     }
 
     searchForTypes(types) {
-        const dexData = this.USER_SETTINGS.DEX_DATA;
+        const dexData = this.POKEDEX.DEX_DATA;
         const cls = Helpers.getPokemonImageClass();
         for (let i = 0; i < types.length; i++) {
             const value = types[i];

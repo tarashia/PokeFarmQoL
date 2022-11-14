@@ -1,5 +1,5 @@
 class PrivateFieldsPage extends Page {
-    constructor(USER_SETTINGS) {
+    constructor() {
         const defaultPageSettings = {
             fieldCustom: '',
             fieldType: '',
@@ -28,7 +28,7 @@ class PrivateFieldsPage extends Page {
             tooltipNoBerry: false,
             tooltipBerry: false,
         };
-        super(Globals.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, defaultPageSettings, 'fields', USER_SETTINGS);
+        super(Globals.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, defaultPageSettings, 'fields');
         this.customArray = [];
         this.typeArray = [];
         this.natureArray = [];

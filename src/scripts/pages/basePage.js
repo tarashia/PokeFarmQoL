@@ -1,10 +1,11 @@
 class Page {
-    constructor(ssk, ds, url, USER_SETTINGS) {
+    constructor(ssk, ds, url) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
         this.url = url;
         this.settings = this.defaultSettings;
-        this.USER_SETTINGS = USER_SETTINGS;
+        this.USER_SETTINGS = UserSettingsHandle.getSettings();;
+        this.POKEDEX = UserSettingsHandle.getDex();
     }
 
     onPage(w) {

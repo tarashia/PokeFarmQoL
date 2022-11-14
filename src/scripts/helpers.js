@@ -64,39 +64,6 @@ class Helpers {
             $(`.${cls}`).removeClass(cls).addClass('' + rightDiv + '').find('.qolsetting').val(rightValue);
         }
     }
-    static loadSettings(KEY, DEFAULT, obj) {
-        if (localStorage.getItem(KEY) === null) {
-            this.saveSettings(KEY);
-        } else {
-            try {
-                const countScriptSettings = Object.keys(obj).length;
-                const localStorageString = JSON.parse(localStorage.getItem(KEY));
-                const countLocalStorageSettings = Object.keys(localStorageString).length;
-                if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
-                    const defaultsSetting = DEFAULT;
-                    const userSetting = JSON.parse(localStorage.getItem(KEY));
-                    const newSetting = $.extend(true, {}, defaultsSetting, userSetting);
-
-                    obj = newSetting;
-                    this.saveSettings(KEY, obj);
-                }
-                if (countLocalStorageSettings > countScriptSettings) {
-                    this.saveSettings(KEY, obj);
-                }
-            }
-            catch (err) {
-                this.saveSettings(KEY, obj);
-            }
-            if (localStorage.getItem(KEY) != JSON.stringify(obj)) {
-                obj = JSON.parse(localStorage.getItem(KEY));
-            }
-        }
-
-        return obj;
-    }
-    static saveSettings(key, obj) {
-        localStorage.setItem(key, JSON.stringify(obj));
-    }
     static textSearchDiv(cls, dataKey, id, arrayName) {
         return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${dataKey}" ` +
             `array-name='${arrayName}'` +

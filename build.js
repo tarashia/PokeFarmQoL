@@ -31,7 +31,9 @@ const scriptFiles = [
     'localStorageManager.js',
     'resources.js',
     // Non-static classes
+    'userSettingsHandle.js',
     'userSettings.js',
+    'userPokedex.js',
     'pagesManager.js',
     'qolHub.js',
     'pfqol.js',

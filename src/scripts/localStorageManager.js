@@ -31,10 +31,38 @@ class LocalStorageManager {
         return `${$.USERID}.${key}`;
     }
     static saveSettings(key, obj) {
-        Helpers.saveSettings(LocalStorageManager.translateKey(key), obj);
+        localStorage.setItem(LocalStorageManager.translateKey(key), JSON.stringify(obj));
     }
     static loadSettings(KEY, DEFAULT, obj) {
-        return Helpers.loadSettings(LocalStorageManager.translateKey(KEY), DEFAULT, obj);
+        KEY = LocalStorageManager.translateKey(KEY);
+        if (localStorage.getItem(KEY) === null) {
+            this.saveSettings(KEY);
+        } else {
+            try {
+                const countScriptSettings = Object.keys(obj).length;
+                const localStorageString = JSON.parse(localStorage.getItem(KEY));
+                const countLocalStorageSettings = Object.keys(localStorageString).length;
+                if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
+                    const defaultsSetting = DEFAULT;
+                    const userSetting = JSON.parse(localStorage.getItem(KEY));
+                    const newSetting = $.extend(true, {}, defaultsSetting, userSetting);
+
+                    obj = newSetting;
+                    this.saveSettings(KEY, obj);
+                }
+                if (countLocalStorageSettings > countScriptSettings) {
+                    this.saveSettings(KEY, obj);
+                }
+            }
+            catch (err) {
+                this.saveSettings(KEY, obj);
+            }
+            if (localStorage.getItem(KEY) != JSON.stringify(obj)) {
+                obj = JSON.parse(localStorage.getItem(KEY));
+            }
+        }
+
+        return obj;
     }
     static getItem(key) {
         return localStorage.getItem(LocalStorageManager.translateKey(key));
@@ -46,10 +74,7 @@ class LocalStorageManager {
         localStorage.removeItem(LocalStorageManager.translateKey(key));
     }
 
-    /*
-     * Set DEX_DATA and DEX_UPDATE_DATE from the QoLPokedex data stored in localStorage
-     */
-    static loadDexIntoSettingsFromStorage(USER_SETTINGS) {
+    static getDexFromStorage() {
         const key = LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY);
         if(localStorage.getItem(key) === null) {
             return false;
@@ -66,22 +91,26 @@ class LocalStorageManager {
             (dateAndDex[1] === null)) {
             return false;
         }
-
-        USER_SETTINGS.DEX_UPDATE_DATE = dateAndDex[0];
-        const dex = dateAndDex.slice(1);
-        USER_SETTINGS.DEX_DATA = dex;
-        return true;
+        return dateAndDex;
     }
 
-    static updateLocalStorageDex(document, updateDate, USER_SETTINGS) {
-        let dateString = '';
-        if(updateDate === undefined) {
-            dateString = (new Date()).toUTCString();
-        } else {
-            dateString = updateDate;
-        }
-        const datePlusDex = [dateString].concat(USER_SETTINGS.DEX_DATA);
+    static updateLocalStorageDex(DEX_DATA, dateString) {
+        const datePlusDex = [dateString].concat(DEX_DATA);
         localStorage.setItem(LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
-        $('.qolDate', document).val(dateString);
+    }
+
+    static getAllLocalStorage() {
+        const n = localStorage.length;
+        let keys = [];
+        let data = [];
+
+        for(let i=0; i<n; i++){
+            keys[i] = localStorage.key(i);
+        }
+        for(let j=0; j<n; j++) {
+            data[keys[j]] = localStorage.getItem(keys[j]);
+        }
+
+        return data;
     }
 }
