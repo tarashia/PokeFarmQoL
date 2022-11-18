@@ -203,15 +203,15 @@ class Helpers {
         return ret;
     } // parseFieldPokemonToolTip
     static getPokemonImageClass() {
-        // this seems like PFQ's threshold based on my experimentation
-        if (window.innerWidth >= 650 && window.innerHeight >= 650) {
-            return 'big';
-        } else {
+        const isMobile = Helpers.detectPageSize('mq2');
+        if(isMobile) {
             return 'small';
         }
+        return 'big';
     }
     // returns true if the page is equal to or smaller to the given size class
     // mobile cutoff (point when header changes): "mq2"
+    // ex: const isMobile = Helpers.detectPageSize('mq2');
     static detectPageSize(size) {
         return $('html').hasClass(size);
     }
