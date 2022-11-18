@@ -6,6 +6,14 @@ class Helpers {
     //     stack trace for this error will be Base 64 encoded and included for the user
     static writeCustomError(message,level='info',err=undefined) {
         const logElement = document.getElementById('qolConsoleHolder');
+        if(logElement) {
+            logElement.innerHTML += '<li>' + Helpers.errorToString(message, level, err) +'</li>';
+        }
+        else {
+            console.error('Could not add custom log to log element');
+        }
+    }
+    static errorToString(message, level='info', err=undefined) {
         let prefix = undefined;
         let stackTrace = '';
         if(err && err.stack) {
@@ -23,12 +31,7 @@ class Helpers {
             prefix = 'INFO: ';
             console.log('QoL: '+message);
         }
-        if(logElement) {
-            logElement.innerHTML += '<li>' + prefix + message + stackTrace +'</li>';
-        }
-        else {
-            console.error('Could not add custom log to log element');
-        }
+        return prefix + message + stackTrace;
     }
     /** TamperMonkey polyfill to replace GM_addStyle function */
     static addGlobalStyle(css) {
@@ -214,25 +217,25 @@ class Helpers {
     }
 
     static addPkmnLinksPopup() {
-      var body = document.getElementsByTagName('body')[0];
-      var header = document.getElementsByTagName('h1')[0];
-      var core = document.getElementById('core');
-      var newBtn = document.createElement('button');
+      let body = document.getElementsByTagName('body')[0];
+      let header = document.getElementsByTagName('h1')[0];
+      let core = document.getElementById('core');
+      let newBtn = document.createElement('button');
       header.appendChild(newBtn);
       newBtn.innerText = 'View links';
       newBtn.style= 'vertical-align:middle;margin-left: 10px;';
       newBtn.onclick = function(){
   
-          var content = '<h3>Pokemon links</h3><table style="border-collapse:collapse;">';
-          var fieldmon = document.getElementsByClassName('fieldmon');
-          for(var i=0; i<fieldmon.length; i++){
+          let content = '<h3>Pokemon links</h3><table style="border-collapse:collapse;">';
+          let fieldmon = document.getElementsByClassName('fieldmon');
+          for(let i=0; i<fieldmon.length; i++){
           if(i%4==0) {
               content += '<tr>';
           }
-          var pkmnID = fieldmon[i].getAttribute('data-id');
-              var small = fieldmon[i].children[1];
-          var imgSRC = small.getAttribute('src');
-          var pkmnName = small.getAttribute('alt');
+          let pkmnID = fieldmon[i].getAttribute('data-id');
+          let small = fieldmon[i].children[1];
+          let imgSRC = small.getAttribute('src');
+          let pkmnName = small.getAttribute('alt');
           content += '<td style="padding:5px;border:1px solid;">' +
                      '<img style="vertical-align:middle;" src="'+imgSRC+'"> ' +
                      '<a href="/summary/'+pkmnID+'">'+pkmnName+'</a></td>';
@@ -242,11 +245,11 @@ class Helpers {
           }
           content += '</table>';
   
-          var dialog = document.createElement('div');
-          var dialogDiv1 = document.createElement('div');
-          var dialogDiv2 = document.createElement('div');
-          var dialogDiv3 = document.createElement('div');
-          var closeBtn = document.createElement('button');
+          let dialog = document.createElement('div');
+          let dialogDiv1 = document.createElement('div');
+          let dialogDiv2 = document.createElement('div');
+          let dialogDiv3 = document.createElement('div');
+          let closeBtn = document.createElement('button');
           closeBtn.setAttribute('type','button');
           closeBtn.style = 'float:right;margin:8px;';
           closeBtn.innerText = 'Close';

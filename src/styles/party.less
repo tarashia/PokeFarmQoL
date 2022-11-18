@@ -22,6 +22,18 @@
         z-index: 99 !important;
       }
     }
+
+    // hide all but one berry for any prefs
+    .action .berrybuttons[data-up="any"] a { 
+      display: none !important; 
+      &[data-berry="aspear"] { 
+        display: inline-block !important; 
+      }
+    }
+    // visual feedback after clicking berries
+    .working .berrybuttons { 
+      opacity: 0.3; 
+    }
   }
 }
 
@@ -30,6 +42,10 @@
 .qolPartyHideAll {
   #partybox .party > div > *:not(.action) {
     display: none;
+  }
+  // hide tooltips to prevent overlap
+  .tooltip_content { 
+    display: none !important; 
   }
 }
 
@@ -106,7 +122,6 @@
   #profilebox,
   #trainerimage,
   .fieldslink,
-  .tooltip_content,
   .working {
     display: none !important;
   }

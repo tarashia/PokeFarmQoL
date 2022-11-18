@@ -14,6 +14,10 @@ class PFQoL {
       this.PAGES = new PagesManager();
       this.QOLHUB = new QoLHub(this.PAGES);
 
+      // loads the current skin colors into UserSettings.userSkinColors
+      // this will initially be a promise; use Promise.resolve(UserSettingsHandle.getSettings().userSkinColors).then(callback);
+      UserSettingsHandle.getSettings().loadUserSkinColors();
+
       this.init();
   }
   instantiatePages(obj) {

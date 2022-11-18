@@ -104,7 +104,7 @@ class PagesManager {
         }
     }
     clearAllPageSettings() {
-        for(var pageName in this.pages) {
+        for(let pageName in this.pages) {
             this.clearPageSettings(pageName);
         }
     }
