@@ -1126,8 +1126,15 @@ class PFQoL {
   addIcon() { // inject the QoL icon into the icon bar
     // this is done separately from the main HTML to ensure it's always added first,
     // as there's a custom error handler that relies on it existing
-    document.querySelector('#announcements li.spacer')
-          .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
+    
+    if(document.getElementById('announcements')) {
+        document.querySelector('#announcements li.spacer')
+              .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
+    }
+    else {
+        console.warn('Did not load QoL - could not find icon ribbon. Are you logged in? Is this a core page?');
+        throw '#announcements missing';
+    }
   }
   setupHTML(obj) { // injects the HTML changes into the site
     try {
@@ -4387,29 +4394,17 @@ $(function () {
   if (typeof(module) !== 'undefined') {
     module.exports.pfqol = PFQoL;
   } else {
-    // detect user login status - use to hide init error when logged out
-    let loggedIn = true;
     try {
-      if($('#core')[0].getAttribute('data-user')=='') {
-        loggedIn = false;
-      }
+      new PFQoL();
     } catch(err) {
-      console.error('Could not determine user login status');
-      console.error(err);
-    }
-    if(loggedIn) {
-      try {
-        new PFQoL();
-      } catch(err) {
+      // prevent showing the fatal error output while logged out, and on non-core pages like direct image links
+      if(err!='#announcements missing') {
         let message = 'Fatal error initializing QoL'
         console.error(message);
         console.error(err);
         let errorMsg = Helpers.errorToString(message, 'error', err);
         $('body').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
       }
-    }
-    else {
-      console.log('Not logged in - did not init QoL script');
     }
   }
 });
