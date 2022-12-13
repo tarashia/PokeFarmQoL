@@ -217,13 +217,7 @@ class Helpers {
         }
         return ret;
     } // parseFieldPokemonToolTip
-    static getPokemonImageClass() {
-        const isMobile = Helpers.detectPageSize('mq2');
-        if(isMobile) {
-            return 'small';
-        }
-        return 'big';
-    }
+
     // returns true if the page is equal to or smaller to the given size class
     // mobile cutoff (point when header changes): "mq2"
     // ex: const isMobile = Helpers.detectPageSize('mq2');
@@ -2826,10 +2820,9 @@ class PrivateFieldsPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="' + value + '"]');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const bigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(bigImg).addClass('privatefoundme');
         }
     }
@@ -2838,14 +2831,13 @@ class PrivateFieldsPage extends Page {
         if (male) { genderMatches.push('[M]'); }
         if (female) { genderMatches.push('[F]'); }
         if (nogender) { genderMatches.push('[N]'); }
-        const cls = Helpers.getPokemonImageClass();
 
         if (genderMatches.length > 0) {
             for (let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
                 const selected = $('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                     $(shelterBigImg).addClass('privatefoundme');
                 }
             }
@@ -2855,17 +2847,16 @@ class PrivateFieldsPage extends Page {
         else {
             const selected = $('#field_field .tooltip_content:containsIN(' + value + ')');
             if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                 $(shelterBigImg).addClass('privatefoundme');
             }
         }
 
     }
     searchForCustomEgg(value) {
-        const cls = Helpers.getPokemonImageClass();
         const selected = $('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
         if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(shelterBigImg).addClass('privatefoundme');
         }
     }
@@ -2878,7 +2869,6 @@ class PrivateFieldsPage extends Page {
     }
     customSearch() {
         if(this.USER_SETTINGS.privateFieldFeatureEnables.search) {
-            const cls = Helpers.getPokemonImageClass();
             const bigImgs = document.querySelectorAll('.privatefoundme');
             if (bigImgs !== null) {
                 bigImgs.forEach((b) => { $(b).removeClass('privatefoundme'); });
@@ -2912,7 +2902,7 @@ class PrivateFieldsPage extends Page {
             // pokemon that hold items will have HTML that matches the following selector
                 const items = $('.tooltip_content .item>div>.tooltip_item');
                 if (items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const itemBigImgs = items.parent().parent().parent().parent().prev().children('img');
                     $(itemBigImgs).addClass('privatefoundme');
                 }
             }
@@ -2936,13 +2926,13 @@ class PrivateFieldsPage extends Page {
 
                     for (let i = 0; i < filteredTypeArray.length; i++) {
                         if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            $(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
                         }
                     }
 
                     for (let i = 0; i < filteredNatureArray.length; i++) {
                         if (searchNature === Globals.NATURE_LIST[filteredNatureArray[i]]) {
-                            $(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
                         }
                     }
 
@@ -2951,7 +2941,7 @@ class PrivateFieldsPage extends Page {
                         if (searchEggGroup === value ||
                         searchEggGroup.indexOf(value + '/') > -1 ||
                         searchEggGroup.indexOf('/' + value) > -1) {
-                            $(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
                         }
                     }
                 }); // each
@@ -3422,10 +3412,9 @@ class PublicFieldsPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="'+value+'"]');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const bigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(bigImg).addClass('publicfoundme');
         }
     }
@@ -3434,14 +3423,13 @@ class PublicFieldsPage extends Page {
         if (male) { genderMatches.push('[M]'); }
         if(female) { genderMatches.push('[F]'); }
         if(nogender) { genderMatches.push('[N]'); }
-        const cls = Helpers.getPokemonImageClass();
 
         if(genderMatches.length > 0) {
             for(let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
                 const selected = $('#field_field .tooltip_content:containsIN('+value+') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                     $(shelterBigImg).addClass('publicfoundme');
                 }
             }
@@ -3451,7 +3439,7 @@ class PublicFieldsPage extends Page {
         else {
             const selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))');
             if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                 $(shelterBigImg).addClass('publicfoundme');
             }
         }
@@ -3459,9 +3447,8 @@ class PublicFieldsPage extends Page {
     }
     searchForCustomEgg(value) {
         const selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(shelterBigImg).addClass('publicfoundme');
         }
     }
@@ -3474,7 +3461,6 @@ class PublicFieldsPage extends Page {
     }
     customSearch() {
         const obj = this;
-        const cls = Helpers.getPokemonImageClass();
 
         $('.fieldmon').removeClass('qolSortBerry');
         $('.fieldmon').removeClass('qolSortMiddle');
@@ -3589,7 +3575,7 @@ class PublicFieldsPage extends Page {
             // pokemon that hold items will have HTML that matches the following selector
                 const items = $('.tooltip_content .item>div>.tooltip_item');
                 if(items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const itemBigImgs = items.parent().parent().parent().parent().prev().children('img');
                     $(itemBigImgs).addClass('publicfoundme');
                 }
             }
@@ -3614,13 +3600,17 @@ class PublicFieldsPage extends Page {
 
                     for (let i = 0; i < filteredTypeArray.length; i++) {
                         if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            $(searchPokemonBigImg).addClass('publicfoundme');
+                            // .parent().children() hack to make both big & small images highlighted
+                            // privateFieldsPage has the same issue: TODO: combine some of these search features, 
+                            // and remove this hack (put combined functions in a library of some sort)
+                            // could put the class on the parent element instead, and make the css .found>img?
+                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
                         }
                     }
 
                     for (let i = 0; i < filteredNatureArray.length; i++) {
                         if(searchNature === Globals.NATURE_LIST[filteredNatureArray[i]]) {
-                            $(searchPokemonBigImg).addClass('publicfoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
                         }
                     }
 
@@ -3629,7 +3619,7 @@ class PublicFieldsPage extends Page {
                         if(searchEggGroup === value ||
                        searchEggGroup.indexOf(value + '/') > -1 ||
                        searchEggGroup.indexOf('/' + value) > -1) {
-                            $(searchPokemonBigImg).addClass('publicfoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
                         }
                     }
                 }); // each
@@ -3932,12 +3922,11 @@ class ShelterPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="' + value + '"]');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
             const imgResult = selected.length + ' ' + searchResult; //amount + type found
             const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-            const shelterBigImg = selected.parent().prev().children(`img.${cls}`);
+            const shelterBigImg = selected.parent().prev().children('img');
             $(shelterBigImg).addClass('shelterfoundme');
 
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
@@ -3965,7 +3954,6 @@ class ShelterPage extends Page {
 
     searchForTypes(types) {
         const dexData = this.POKEDEX.DEX_DATA;
-        const cls = Helpers.getPokemonImageClass();
         for (let i = 0; i < types.length; i++) {
             const value = types[i];
             const foundType = Globals.SHELTER_TYPE_TABLE[Globals.SHELTER_TYPE_TABLE.indexOf(value) + 2];
@@ -3999,7 +3987,7 @@ class ShelterPage extends Page {
 
                 for (let o = 0; o < pokemonElems.length; o++) {
                     const shelterImgSearch = $(pokemonElems[o]);
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
                 }
 
@@ -4031,7 +4019,7 @@ class ShelterPage extends Page {
                     const shelterImgSearch = $(
                         `#shelterarea .tooltip_content:containsIN("${name} (")`
                     );
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
                 }
 
@@ -4044,7 +4032,6 @@ class ShelterPage extends Page {
     customSearch() {
         const obj = this;
         const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
-        const cls = Helpers.getPokemonImageClass();
 
         // search whatever you want to find in the shelter & grid
 
@@ -4110,7 +4097,7 @@ class ShelterPage extends Page {
                     const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                     const tooltipResult = selected.length + ' ' + searchResult;
                     const shelterImgSearch = selected;
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
 
                     this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
@@ -4130,7 +4117,7 @@ class ShelterPage extends Page {
                     const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                     if (selected.length >= 1) {
                         const shelterImgSearch = selected;
-                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        const shelterBigImg = shelterImgSearch.prev().children('img');
                         $(shelterBigImg).addClass('shelterfoundme');
                     }
                     this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
@@ -4179,7 +4166,7 @@ class ShelterPage extends Page {
                                     const imgGender = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
                                     const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
                                     const shelterImgSearch = selected;
-                                    const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                    const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                     $(shelterBigImg).addClass('shelterfoundme');
 
                                     this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
@@ -4194,7 +4181,7 @@ class ShelterPage extends Page {
                                 const searchResult = customValue;
                                 const tooltipResult = selected.length + ' ' + searchResult;
                                 const shelterImgSearch = selected;
-                                const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                 $(shelterBigImg).addClass('shelterfoundme');
                                 this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                             }
@@ -4208,7 +4195,7 @@ class ShelterPage extends Page {
                             const searchResult = customValue;
                             const tooltipResult = selected.length + ' ' + searchResult;
                             const shelterImgSearch = selected;
-                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                            const shelterBigImg = shelterImgSearch.prev().children('img');
                             $(shelterBigImg).addClass('shelterfoundme');
                             this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
                         }
@@ -4216,7 +4203,7 @@ class ShelterPage extends Page {
 
                     //imgSearch with Pokémon
                     if (this.settings.customPng === true) {
-                        const selected = $(`#shelterarea img.${cls}[src*="${customValue}"]`);
+                        const selected = $(`#shelterarea img[src*="${customValue}"]`);
                         if (selected.length) {
                             const searchResult = selected.parent().next().text().split('(')[0];
                             const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
@@ -4400,14 +4387,29 @@ $(function () {
   if (typeof(module) !== 'undefined') {
     module.exports.pfqol = PFQoL;
   } else {
+    // detect user login status - use to hide init error when logged out
+    let loggedIn = true;
     try {
-      new PFQoL();
+      if($('#core')[0].getAttribute('data-user')=='') {
+        loggedIn = false;
+      }
     } catch(err) {
-      let message = 'Fatal error initializing QoL'
-      console.error(message);
+      console.error('Could not determine user login status');
       console.error(err);
-      let errorMsg = Helpers.errorToString(message, 'error', err);
-      $('body').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
+    }
+    if(loggedIn) {
+      try {
+        new PFQoL();
+      } catch(err) {
+        let message = 'Fatal error initializing QoL'
+        console.error(message);
+        console.error(err);
+        let errorMsg = Helpers.errorToString(message, 'error', err);
+        $('body').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
+      }
+    }
+    else {
+      console.log('Not logged in - did not init QoL script');
     }
   }
 });

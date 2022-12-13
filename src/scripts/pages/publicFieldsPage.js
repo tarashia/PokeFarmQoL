@@ -318,10 +318,9 @@ class PublicFieldsPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="'+value+'"]');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const bigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(bigImg).addClass('publicfoundme');
         }
     }
@@ -330,14 +329,13 @@ class PublicFieldsPage extends Page {
         if (male) { genderMatches.push('[M]'); }
         if(female) { genderMatches.push('[F]'); }
         if(nogender) { genderMatches.push('[N]'); }
-        const cls = Helpers.getPokemonImageClass();
 
         if(genderMatches.length > 0) {
             for(let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
                 const selected = $('#field_field .tooltip_content:containsIN('+value+') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                     $(shelterBigImg).addClass('publicfoundme');
                 }
             }
@@ -347,7 +345,7 @@ class PublicFieldsPage extends Page {
         else {
             const selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))');
             if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                 $(shelterBigImg).addClass('publicfoundme');
             }
         }
@@ -355,9 +353,8 @@ class PublicFieldsPage extends Page {
     }
     searchForCustomEgg(value) {
         const selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(shelterBigImg).addClass('publicfoundme');
         }
     }
@@ -370,7 +367,6 @@ class PublicFieldsPage extends Page {
     }
     customSearch() {
         const obj = this;
-        const cls = Helpers.getPokemonImageClass();
 
         $('.fieldmon').removeClass('qolSortBerry');
         $('.fieldmon').removeClass('qolSortMiddle');
@@ -485,7 +481,7 @@ class PublicFieldsPage extends Page {
             // pokemon that hold items will have HTML that matches the following selector
                 const items = $('.tooltip_content .item>div>.tooltip_item');
                 if(items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const itemBigImgs = items.parent().parent().parent().parent().prev().children('img');
                     $(itemBigImgs).addClass('publicfoundme');
                 }
             }
@@ -510,13 +506,17 @@ class PublicFieldsPage extends Page {
 
                     for (let i = 0; i < filteredTypeArray.length; i++) {
                         if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            $(searchPokemonBigImg).addClass('publicfoundme');
+                            // .parent().children() hack to make both big & small images highlighted
+                            // privateFieldsPage has the same issue: TODO: combine some of these search features, 
+                            // and remove this hack (put combined functions in a library of some sort)
+                            // could put the class on the parent element instead, and make the css .found>img?
+                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
                         }
                     }
 
                     for (let i = 0; i < filteredNatureArray.length; i++) {
                         if(searchNature === Globals.NATURE_LIST[filteredNatureArray[i]]) {
-                            $(searchPokemonBigImg).addClass('publicfoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
                         }
                     }
 
@@ -525,7 +525,7 @@ class PublicFieldsPage extends Page {
                         if(searchEggGroup === value ||
                        searchEggGroup.indexOf(value + '/') > -1 ||
                        searchEggGroup.indexOf('/' + value) > -1) {
-                            $(searchPokemonBigImg).addClass('publicfoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
                         }
                     }
                 }); // each

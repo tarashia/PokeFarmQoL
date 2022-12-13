@@ -202,13 +202,7 @@ class Helpers {
         }
         return ret;
     } // parseFieldPokemonToolTip
-    static getPokemonImageClass() {
-        const isMobile = Helpers.detectPageSize('mq2');
-        if(isMobile) {
-            return 'small';
-        }
-        return 'big';
-    }
+
     // returns true if the page is equal to or smaller to the given size class
     // mobile cutoff (point when header changes): "mq2"
     // ex: const isMobile = Helpers.detectPageSize('mq2');
