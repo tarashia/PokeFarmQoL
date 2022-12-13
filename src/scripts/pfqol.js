@@ -14,6 +14,10 @@ class PFQoL {
       this.PAGES = new PagesManager();
       this.QOLHUB = new QoLHub(this.PAGES);
 
+      // loads the current skin colors into UserSettings.userSkinColors
+      // this will initially be a promise; use Promise.resolve(UserSettingsHandle.getSettings().userSkinColors).then(callback);
+      UserSettingsHandle.getSettings().loadUserSkinColors();
+
       this.init();
   }
   instantiatePages(obj) {
@@ -46,8 +50,15 @@ class PFQoL {
   addIcon() { // inject the QoL icon into the icon bar
     // this is done separately from the main HTML to ensure it's always added first,
     // as there's a custom error handler that relies on it existing
-    document.querySelector('#announcements li.spacer')
-          .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
+    
+    if(document.getElementById('announcements')) {
+        document.querySelector('#announcements li.spacer')
+              .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
+    }
+    else {
+        console.warn('Did not load QoL - could not find icon ribbon. Are you logged in? Is this a core page?');
+        throw '#announcements missing';
+    }
   }
   setupHTML(obj) { // injects the HTML changes into the site
     try {

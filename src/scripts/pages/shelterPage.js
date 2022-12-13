@@ -230,12 +230,11 @@ class ShelterPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="' + value + '"]');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
             const imgResult = selected.length + ' ' + searchResult; //amount + type found
             const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-            const shelterBigImg = selected.parent().prev().children(`img.${cls}`);
+            const shelterBigImg = selected.parent().prev().children('img');
             $(shelterBigImg).addClass('shelterfoundme');
 
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
@@ -263,7 +262,6 @@ class ShelterPage extends Page {
 
     searchForTypes(types) {
         const dexData = this.POKEDEX.DEX_DATA;
-        const cls = Helpers.getPokemonImageClass();
         for (let i = 0; i < types.length; i++) {
             const value = types[i];
             const foundType = Globals.SHELTER_TYPE_TABLE[Globals.SHELTER_TYPE_TABLE.indexOf(value) + 2];
@@ -297,7 +295,7 @@ class ShelterPage extends Page {
 
                 for (let o = 0; o < pokemonElems.length; o++) {
                     const shelterImgSearch = $(pokemonElems[o]);
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
                 }
 
@@ -329,7 +327,7 @@ class ShelterPage extends Page {
                     const shelterImgSearch = $(
                         `#shelterarea .tooltip_content:containsIN("${name} (")`
                     );
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
                 }
 
@@ -342,7 +340,6 @@ class ShelterPage extends Page {
     customSearch() {
         const obj = this;
         const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
-        const cls = Helpers.getPokemonImageClass();
 
         // search whatever you want to find in the shelter & grid
 
@@ -408,7 +405,7 @@ class ShelterPage extends Page {
                     const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                     const tooltipResult = selected.length + ' ' + searchResult;
                     const shelterImgSearch = selected;
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
 
                     this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
@@ -428,7 +425,7 @@ class ShelterPage extends Page {
                     const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                     if (selected.length >= 1) {
                         const shelterImgSearch = selected;
-                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        const shelterBigImg = shelterImgSearch.prev().children('img');
                         $(shelterBigImg).addClass('shelterfoundme');
                     }
                     this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
@@ -477,7 +474,7 @@ class ShelterPage extends Page {
                                     const imgGender = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
                                     const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
                                     const shelterImgSearch = selected;
-                                    const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                    const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                     $(shelterBigImg).addClass('shelterfoundme');
 
                                     this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
@@ -492,7 +489,7 @@ class ShelterPage extends Page {
                                 const searchResult = customValue;
                                 const tooltipResult = selected.length + ' ' + searchResult;
                                 const shelterImgSearch = selected;
-                                const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                 $(shelterBigImg).addClass('shelterfoundme');
                                 this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                             }
@@ -506,7 +503,7 @@ class ShelterPage extends Page {
                             const searchResult = customValue;
                             const tooltipResult = selected.length + ' ' + searchResult;
                             const shelterImgSearch = selected;
-                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                            const shelterBigImg = shelterImgSearch.prev().children('img');
                             $(shelterBigImg).addClass('shelterfoundme');
                             this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
                         }
@@ -514,7 +511,7 @@ class ShelterPage extends Page {
 
                     //imgSearch with Pokémon
                     if (this.settings.customPng === true) {
-                        const selected = $(`#shelterarea img.${cls}[src*="${customValue}"]`);
+                        const selected = $(`#shelterarea img[src*="${customValue}"]`);
                         if (selected.length) {
                             const searchResult = selected.parent().next().text().split('(')[0];
                             const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';

@@ -6,7 +6,7 @@
 // @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      1.7.6
+// @version      1.7.7
 // @match        https://pokefarm.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // ==/UserScript==
@@ -21,6 +21,14 @@ class Helpers {
     //     stack trace for this error will be Base 64 encoded and included for the user
     static writeCustomError(message,level='info',err=undefined) {
         const logElement = document.getElementById('qolConsoleHolder');
+        if(logElement) {
+            logElement.innerHTML += '<li>' + Helpers.errorToString(message, level, err) +'</li>';
+        }
+        else {
+            console.error('Could not add custom log to log element');
+        }
+    }
+    static errorToString(message, level='info', err=undefined) {
         let prefix = undefined;
         let stackTrace = '';
         if(err && err.stack) {
@@ -38,12 +46,7 @@ class Helpers {
             prefix = 'INFO: ';
             console.log('QoL: '+message);
         }
-        if(logElement) {
-            logElement.innerHTML += '<li>' + prefix + message + stackTrace +'</li>';
-        }
-        else {
-            console.error('Could not add custom log to log element');
-        }
+        return prefix + message + stackTrace;
     }
     /** TamperMonkey polyfill to replace GM_addStyle function */
     static addGlobalStyle(css) {
@@ -214,40 +217,34 @@ class Helpers {
         }
         return ret;
     } // parseFieldPokemonToolTip
-    static getPokemonImageClass() {
-        // this seems like PFQ's threshold based on my experimentation
-        if (window.innerWidth >= 650 && window.innerHeight >= 650) {
-            return 'big';
-        } else {
-            return 'small';
-        }
-    }
+
     // returns true if the page is equal to or smaller to the given size class
     // mobile cutoff (point when header changes): "mq2"
+    // ex: const isMobile = Helpers.detectPageSize('mq2');
     static detectPageSize(size) {
         return $('html').hasClass(size);
     }
 
     static addPkmnLinksPopup() {
-      var body = document.getElementsByTagName('body')[0];
-      var header = document.getElementsByTagName('h1')[0];
-      var core = document.getElementById('core');
-      var newBtn = document.createElement('button');
+      let body = document.getElementsByTagName('body')[0];
+      let header = document.getElementsByTagName('h1')[0];
+      let core = document.getElementById('core');
+      let newBtn = document.createElement('button');
       header.appendChild(newBtn);
       newBtn.innerText = 'View links';
       newBtn.style= 'vertical-align:middle;margin-left: 10px;';
       newBtn.onclick = function(){
   
-          var content = '<h3>Pokemon links</h3><table style="border-collapse:collapse;">';
-          var fieldmon = document.getElementsByClassName('fieldmon');
-          for(var i=0; i<fieldmon.length; i++){
+          let content = '<h3>Pokemon links</h3><table style="border-collapse:collapse;">';
+          let fieldmon = document.getElementsByClassName('fieldmon');
+          for(let i=0; i<fieldmon.length; i++){
           if(i%4==0) {
               content += '<tr>';
           }
-          var pkmnID = fieldmon[i].getAttribute('data-id');
-              var small = fieldmon[i].children[1];
-          var imgSRC = small.getAttribute('src');
-          var pkmnName = small.getAttribute('alt');
+          let pkmnID = fieldmon[i].getAttribute('data-id');
+          let small = fieldmon[i].children[1];
+          let imgSRC = small.getAttribute('src');
+          let pkmnName = small.getAttribute('alt');
           content += '<td style="padding:5px;border:1px solid;">' +
                      '<img style="vertical-align:middle;" src="'+imgSRC+'"> ' +
                      '<a href="/summary/'+pkmnID+'">'+pkmnName+'</a></td>';
@@ -257,11 +254,11 @@ class Helpers {
           }
           content += '</table>';
   
-          var dialog = document.createElement('div');
-          var dialogDiv1 = document.createElement('div');
-          var dialogDiv2 = document.createElement('div');
-          var dialogDiv3 = document.createElement('div');
-          var closeBtn = document.createElement('button');
+          let dialog = document.createElement('div');
+          let dialogDiv1 = document.createElement('div');
+          let dialogDiv2 = document.createElement('div');
+          let dialogDiv3 = document.createElement('div');
+          let closeBtn = document.createElement('button');
           closeBtn.setAttribute('type','button');
           closeBtn.style = 'float:right;margin:8px;';
           closeBtn.innerText = 'Close';
@@ -444,7 +441,7 @@ class Resources {
                `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagridmq2{grid-template-rows:repeat(5,35px);min-height:175px}.qoltooltipgrid{bottom:0;position:absolute!important;transform:translateY(100%)}.qolpokemongrid{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important} `+
                `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px} `+
                `.qolHubSuperHead:first-child{border-top-left-radius:5px;border-top-right-radius:5px}.qolHubHead{margin:0;padding:4px;text-align:center}.qolAllSettings{vertical-align:top}.qolAllSettings,.qolChangeLog{border-top:none;height:100%;width:315px}.qolAllSettings>ul{list-style-type:none;padding:0;vertical-align:top}.qolHubTable{border-collapse:collapse;border-spacing:0;width:100%}.qolChangeLogList{margin:0;padding:4px;text-align:left;text-align:center}.qolChangeLogContent{display:none;list-style-type:disc}.expandlist{font-size:16px;list-style-type:none;text-align:center}.slidermenu{cursor:pointer}.qolChangeLogHead{margin:0}.closeHub{cursor:pointer;font-size:20px;margin:0 10px 0 0;text-align:right}.textareahub textarea{box-sizing:border-box;width:100%} `+
-               `#qolpartymod{text-align:center}.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{position:absolute;width:100%}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha]{z-index:99!important}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyNiceTable #partybox .party>div>:not(.action){display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .tooltip_content,.qolPartyHideAll .working{display:none!important} `+
+               `#qolpartymod{text-align:center}.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{position:absolute;width:100%}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha]{z-index:99!important}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a{display:none!important}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear]{display:inline-block!important}.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyNiceTable #partybox .party>div>:not(.action){display:none}.qolPartyHideAll .tooltip_content,.qolPartyNiceTable .tooltip_content{display:none!important}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .working{display:none!important} `+
                `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle} `;
     }
 
@@ -503,9 +500,9 @@ It makes it easier to get the master settings instance,
 without needing to explicitly pass it around between functions
 */
 
-var UserSettingsHandle = (function () {
-    var settings;
-    var dex;
+let UserSettingsHandle = (function () {
+    let settings;
+    let dex;
 
     return {
         getSettings: function () {
@@ -620,6 +617,36 @@ class UserSettings {
         for (const [key, value] of Object.entries(settingsObj)) {
             recursiveCopy(this, key, value);
         }
+    }
+
+    loadUserSkinColors() {
+        let skinLink = $('link[rel="stylesheet"][href*="sally.css"]')
+        if(skinLink.length==0) {
+            console.warn('Failed to locate user skin file');
+            return;
+        }
+        skinLink = skinLink[0].href;
+        let regex = /^(https:)?\/\/pfq-static\.com\/skins\/(.+)\/index\/sally.css\/t=\d+$/;
+        let result = skinLink.match(regex);
+        if(!result || !result[2]) {
+            console.warn('Unexpected skin file format: '+skinLink);
+            return;
+        }
+        let userSkin = result[2];
+        let settings = this;
+        // store a promise initially; will be replaced by the actual object when loaded
+        settings.userSkinColors = $.get("https://pfq-static.com/skins/"+userSkin+"/__colours.less", function( data ) {
+            let skinColors = [];
+            let regex = /^@([a-zA-Z0-9_-]+): (#[a-fA-F0-9]+);$/;
+            const dataLines = data.split(/\r?\n/);
+            for(let i=0; i<dataLines.length; i++) {
+                let result = dataLines[i].match(regex);
+                if(result && result[1] && result[2])  {
+                    skinColors[result[1]] = result[2];
+                }
+            }
+            settings.userSkinColors = skinColors;
+        });
     }
 }
 
@@ -763,7 +790,7 @@ class PagesManager {
         }
     }
     clearAllPageSettings() {
-        for(var pageName in this.pages) {
+        for(let pageName in this.pages) {
             this.clearPageSettings(pageName);
         }
     }
@@ -1063,6 +1090,10 @@ class PFQoL {
       this.PAGES = new PagesManager();
       this.QOLHUB = new QoLHub(this.PAGES);
 
+      // loads the current skin colors into UserSettings.userSkinColors
+      // this will initially be a promise; use Promise.resolve(UserSettingsHandle.getSettings().userSkinColors).then(callback);
+      UserSettingsHandle.getSettings().loadUserSkinColors();
+
       this.init();
   }
   instantiatePages(obj) {
@@ -1095,8 +1126,15 @@ class PFQoL {
   addIcon() { // inject the QoL icon into the icon bar
     // this is done separately from the main HTML to ensure it's always added first,
     // as there's a custom error handler that relies on it existing
-    document.querySelector('#announcements li.spacer')
-          .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
+    
+    if(document.getElementById('announcements')) {
+        document.querySelector('#announcements li.spacer')
+              .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
+    }
+    else {
+        console.warn('Did not load QoL - could not find icon ribbon. Are you logged in? Is this a core page?');
+        throw '#announcements missing';
+    }
   }
   setupHTML(obj) { // injects the HTML changes into the site
     try {
@@ -2423,6 +2461,24 @@ class MultiuserPage extends Page {
         $('#qolpartymod').css('background-color', '' + menuBackground + '');
         const menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
         $('#qolpartymod').css('color', '' + menuColor + '');
+
+        // wait for the skin colors to load, then use them for additional CSS
+        Promise.resolve(this.USER_SETTINGS.userSkinColors).then(MultiuserPage.setupSkinCSS);
+    }
+    static setupSkinCSS() {
+        let settings = UserSettingsHandle.getSettings();
+        // make any buttons use the berry-up color
+        if(settings.userSkinColors && settings.userSkinColors['col-flavour-up']) {
+            $("<style>")
+                .prop("type", "text/css")
+                .html('.qolPartyModded .action .berrybuttons[data-up="any"] a[data-berry="aspear"] { background-color: '
+                        +settings.userSkinColors['col-flavour-up']+'; border-radius: 20px;}')
+                .appendTo("head");
+        }
+        else {
+            console.warn('Could not load berry up color from user skin');
+            console.log(JSON.stringify(settings));
+        }
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#multiuser'), {
@@ -2476,6 +2532,7 @@ class MultiuserPage extends Page {
     partyModification() {
         // first, remove any existing selection
         const btns = $('#multiuser .party>div .action a');
+        $('#multiuser').removeClass('qolPartyModded');
         $('#multiuser').removeClass('qolPartyHideDislike');
         $('#multiuser').removeClass('qolPartyNiceTable');
         $('#multiuser').removeClass('qolPartyHideAll');
@@ -2485,14 +2542,17 @@ class MultiuserPage extends Page {
 
         if (this.settings.hideDislike === true) {
             $('#multiuser').addClass('qolPartyHideDislike');
+            $('#multiuser').addClass('qolPartyModded');
         }
 
         if (this.settings.niceTable === true) {
             $('#multiuser').addClass('qolPartyNiceTable');
+            $('#multiuser').addClass('qolPartyModded');
         }
 
         if (this.settings.hideAll === true) {
             $('#multiuser').addClass('qolPartyHideAll');
+            $('#multiuser').addClass('qolPartyModded');
             const nextLink = $('.mu_navlink.next');
             // on chrome, sometimes .position() is undefined on load
             if(btns && nextLink && nextLink.position()) {
@@ -2767,10 +2827,9 @@ class PrivateFieldsPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="' + value + '"]');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const bigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(bigImg).addClass('privatefoundme');
         }
     }
@@ -2779,14 +2838,13 @@ class PrivateFieldsPage extends Page {
         if (male) { genderMatches.push('[M]'); }
         if (female) { genderMatches.push('[F]'); }
         if (nogender) { genderMatches.push('[N]'); }
-        const cls = Helpers.getPokemonImageClass();
 
         if (genderMatches.length > 0) {
             for (let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
                 const selected = $('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                     $(shelterBigImg).addClass('privatefoundme');
                 }
             }
@@ -2796,17 +2854,16 @@ class PrivateFieldsPage extends Page {
         else {
             const selected = $('#field_field .tooltip_content:containsIN(' + value + ')');
             if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                 $(shelterBigImg).addClass('privatefoundme');
             }
         }
 
     }
     searchForCustomEgg(value) {
-        const cls = Helpers.getPokemonImageClass();
         const selected = $('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
         if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(shelterBigImg).addClass('privatefoundme');
         }
     }
@@ -2819,7 +2876,6 @@ class PrivateFieldsPage extends Page {
     }
     customSearch() {
         if(this.USER_SETTINGS.privateFieldFeatureEnables.search) {
-            const cls = Helpers.getPokemonImageClass();
             const bigImgs = document.querySelectorAll('.privatefoundme');
             if (bigImgs !== null) {
                 bigImgs.forEach((b) => { $(b).removeClass('privatefoundme'); });
@@ -2853,7 +2909,7 @@ class PrivateFieldsPage extends Page {
             // pokemon that hold items will have HTML that matches the following selector
                 const items = $('.tooltip_content .item>div>.tooltip_item');
                 if (items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const itemBigImgs = items.parent().parent().parent().parent().prev().children('img');
                     $(itemBigImgs).addClass('privatefoundme');
                 }
             }
@@ -2877,13 +2933,13 @@ class PrivateFieldsPage extends Page {
 
                     for (let i = 0; i < filteredTypeArray.length; i++) {
                         if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            $(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
                         }
                     }
 
                     for (let i = 0; i < filteredNatureArray.length; i++) {
                         if (searchNature === Globals.NATURE_LIST[filteredNatureArray[i]]) {
-                            $(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
                         }
                     }
 
@@ -2892,7 +2948,7 @@ class PrivateFieldsPage extends Page {
                         if (searchEggGroup === value ||
                         searchEggGroup.indexOf(value + '/') > -1 ||
                         searchEggGroup.indexOf('/' + value) > -1) {
-                            $(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
                         }
                     }
                 }); // each
@@ -3363,10 +3419,9 @@ class PublicFieldsPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="'+value+'"]');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const bigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(bigImg).addClass('publicfoundme');
         }
     }
@@ -3375,14 +3430,13 @@ class PublicFieldsPage extends Page {
         if (male) { genderMatches.push('[M]'); }
         if(female) { genderMatches.push('[F]'); }
         if(nogender) { genderMatches.push('[N]'); }
-        const cls = Helpers.getPokemonImageClass();
 
         if(genderMatches.length > 0) {
             for(let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
                 const selected = $('#field_field .tooltip_content:containsIN('+value+') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                     $(shelterBigImg).addClass('publicfoundme');
                 }
             }
@@ -3392,7 +3446,7 @@ class PublicFieldsPage extends Page {
         else {
             const selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))');
             if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                 $(shelterBigImg).addClass('publicfoundme');
             }
         }
@@ -3400,9 +3454,8 @@ class PublicFieldsPage extends Page {
     }
     searchForCustomEgg(value) {
         const selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(shelterBigImg).addClass('publicfoundme');
         }
     }
@@ -3415,7 +3468,6 @@ class PublicFieldsPage extends Page {
     }
     customSearch() {
         const obj = this;
-        const cls = Helpers.getPokemonImageClass();
 
         $('.fieldmon').removeClass('qolSortBerry');
         $('.fieldmon').removeClass('qolSortMiddle');
@@ -3530,7 +3582,7 @@ class PublicFieldsPage extends Page {
             // pokemon that hold items will have HTML that matches the following selector
                 const items = $('.tooltip_content .item>div>.tooltip_item');
                 if(items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const itemBigImgs = items.parent().parent().parent().parent().prev().children('img');
                     $(itemBigImgs).addClass('publicfoundme');
                 }
             }
@@ -3555,13 +3607,17 @@ class PublicFieldsPage extends Page {
 
                     for (let i = 0; i < filteredTypeArray.length; i++) {
                         if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            $(searchPokemonBigImg).addClass('publicfoundme');
+                            // .parent().children() hack to make both big & small images highlighted
+                            // privateFieldsPage has the same issue: TODO: combine some of these search features, 
+                            // and remove this hack (put combined functions in a library of some sort)
+                            // could put the class on the parent element instead, and make the css .found>img?
+                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
                         }
                     }
 
                     for (let i = 0; i < filteredNatureArray.length; i++) {
                         if(searchNature === Globals.NATURE_LIST[filteredNatureArray[i]]) {
-                            $(searchPokemonBigImg).addClass('publicfoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
                         }
                     }
 
@@ -3570,7 +3626,7 @@ class PublicFieldsPage extends Page {
                         if(searchEggGroup === value ||
                        searchEggGroup.indexOf(value + '/') > -1 ||
                        searchEggGroup.indexOf('/' + value) > -1) {
-                            $(searchPokemonBigImg).addClass('publicfoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
                         }
                     }
                 }); // each
@@ -3873,12 +3929,11 @@ class ShelterPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="' + value + '"]');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
             const imgResult = selected.length + ' ' + searchResult; //amount + type found
             const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-            const shelterBigImg = selected.parent().prev().children(`img.${cls}`);
+            const shelterBigImg = selected.parent().prev().children('img');
             $(shelterBigImg).addClass('shelterfoundme');
 
             this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
@@ -3906,7 +3961,6 @@ class ShelterPage extends Page {
 
     searchForTypes(types) {
         const dexData = this.POKEDEX.DEX_DATA;
-        const cls = Helpers.getPokemonImageClass();
         for (let i = 0; i < types.length; i++) {
             const value = types[i];
             const foundType = Globals.SHELTER_TYPE_TABLE[Globals.SHELTER_TYPE_TABLE.indexOf(value) + 2];
@@ -3940,7 +3994,7 @@ class ShelterPage extends Page {
 
                 for (let o = 0; o < pokemonElems.length; o++) {
                     const shelterImgSearch = $(pokemonElems[o]);
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
                 }
 
@@ -3972,7 +4026,7 @@ class ShelterPage extends Page {
                     const shelterImgSearch = $(
                         `#shelterarea .tooltip_content:containsIN("${name} (")`
                     );
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
                 }
 
@@ -3985,7 +4039,6 @@ class ShelterPage extends Page {
     customSearch() {
         const obj = this;
         const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
-        const cls = Helpers.getPokemonImageClass();
 
         // search whatever you want to find in the shelter & grid
 
@@ -4051,7 +4104,7 @@ class ShelterPage extends Page {
                     const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                     const tooltipResult = selected.length + ' ' + searchResult;
                     const shelterImgSearch = selected;
-                    const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                    const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
 
                     this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
@@ -4071,7 +4124,7 @@ class ShelterPage extends Page {
                     const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
                     if (selected.length >= 1) {
                         const shelterImgSearch = selected;
-                        const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                        const shelterBigImg = shelterImgSearch.prev().children('img');
                         $(shelterBigImg).addClass('shelterfoundme');
                     }
                     this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
@@ -4120,7 +4173,7 @@ class ShelterPage extends Page {
                                     const imgGender = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
                                     const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
                                     const shelterImgSearch = selected;
-                                    const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                    const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                     $(shelterBigImg).addClass('shelterfoundme');
 
                                     this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
@@ -4135,7 +4188,7 @@ class ShelterPage extends Page {
                                 const searchResult = customValue;
                                 const tooltipResult = selected.length + ' ' + searchResult;
                                 const shelterImgSearch = selected;
-                                const shelterBigImg = shelterImgSearch.parent().prev().children(`img.${cls}`);
+                                const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                 $(shelterBigImg).addClass('shelterfoundme');
                                 this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
                             }
@@ -4149,7 +4202,7 @@ class ShelterPage extends Page {
                             const searchResult = customValue;
                             const tooltipResult = selected.length + ' ' + searchResult;
                             const shelterImgSearch = selected;
-                            const shelterBigImg = shelterImgSearch.prev().children(`img.${cls}`);
+                            const shelterBigImg = shelterImgSearch.prev().children('img');
                             $(shelterBigImg).addClass('shelterfoundme');
                             this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
                         }
@@ -4157,7 +4210,7 @@ class ShelterPage extends Page {
 
                     //imgSearch with Pokémon
                     if (this.settings.customPng === true) {
-                        const selected = $(`#shelterarea img.${cls}[src*="${customValue}"]`);
+                        const selected = $(`#shelterarea img[src*="${customValue}"]`);
                         if (selected.length) {
                             const searchResult = selected.parent().next().text().split('(')[0];
                             const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
@@ -4341,6 +4394,17 @@ $(function () {
   if (typeof(module) !== 'undefined') {
     module.exports.pfqol = PFQoL;
   } else {
-    new PFQoL();
+    try {
+      new PFQoL();
+    } catch(err) {
+      // prevent showing the fatal error output while logged out, and on non-core pages like direct image links
+      if(err!='#announcements missing') {
+        let message = 'Fatal error initializing QoL'
+        console.error(message);
+        console.error(err);
+        let errorMsg = Helpers.errorToString(message, 'error', err);
+        $('body').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
+      }
+    }
   }
 });

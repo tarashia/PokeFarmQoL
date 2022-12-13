@@ -95,4 +95,34 @@ class UserSettings {
             recursiveCopy(this, key, value);
         }
     }
+
+    loadUserSkinColors() {
+        let skinLink = $('link[rel="stylesheet"][href*="sally.css"]')
+        if(skinLink.length==0) {
+            console.warn('Failed to locate user skin file');
+            return;
+        }
+        skinLink = skinLink[0].href;
+        let regex = /^(https:)?\/\/pfq-static\.com\/skins\/(.+)\/index\/sally.css\/t=\d+$/;
+        let result = skinLink.match(regex);
+        if(!result || !result[2]) {
+            console.warn('Unexpected skin file format: '+skinLink);
+            return;
+        }
+        let userSkin = result[2];
+        let settings = this;
+        // store a promise initially; will be replaced by the actual object when loaded
+        settings.userSkinColors = $.get("https://pfq-static.com/skins/"+userSkin+"/__colours.less", function( data ) {
+            let skinColors = [];
+            let regex = /^@([a-zA-Z0-9_-]+): (#[a-fA-F0-9]+);$/;
+            const dataLines = data.split(/\r?\n/);
+            for(let i=0; i<dataLines.length; i++) {
+                let result = dataLines[i].match(regex);
+                if(result && result[1] && result[2])  {
+                    skinColors[result[1]] = result[2];
+                }
+            }
+            settings.userSkinColors = skinColors;
+        });
+    }
 }

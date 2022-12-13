@@ -4,9 +4,9 @@ It makes it easier to get the master settings instance,
 without needing to explicitly pass it around between functions
 */
 
-var UserSettingsHandle = (function () {
-    var settings;
-    var dex;
+let UserSettingsHandle = (function () {
+    let settings;
+    let dex;
 
     return {
         getSettings: function () {

@@ -262,10 +262,9 @@ class PrivateFieldsPage extends Page {
         const keyIndex = SEARCH_DATA.indexOf(key);
         const value = SEARCH_DATA[keyIndex + 1];
         const selected = $('img[title*="' + value + '"]');
-        const cls = Helpers.getPokemonImageClass();
         if (selected.length) {
             // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const bigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(bigImg).addClass('privatefoundme');
         }
     }
@@ -274,14 +273,13 @@ class PrivateFieldsPage extends Page {
         if (male) { genderMatches.push('[M]'); }
         if (female) { genderMatches.push('[F]'); }
         if (nogender) { genderMatches.push('[N]'); }
-        const cls = Helpers.getPokemonImageClass();
 
         if (genderMatches.length > 0) {
             for (let i = 0; i < genderMatches.length; i++) {
                 const genderMatch = genderMatches[i];
                 const selected = $('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
                 if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                     $(shelterBigImg).addClass('privatefoundme');
                 }
             }
@@ -291,17 +289,16 @@ class PrivateFieldsPage extends Page {
         else {
             const selected = $('#field_field .tooltip_content:containsIN(' + value + ')');
             if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
                 $(shelterBigImg).addClass('privatefoundme');
             }
         }
 
     }
     searchForCustomEgg(value) {
-        const cls = Helpers.getPokemonImageClass();
         const selected = $('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
         if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children(`img.${cls}`);
+            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
             $(shelterBigImg).addClass('privatefoundme');
         }
     }
@@ -314,7 +311,6 @@ class PrivateFieldsPage extends Page {
     }
     customSearch() {
         if(this.USER_SETTINGS.privateFieldFeatureEnables.search) {
-            const cls = Helpers.getPokemonImageClass();
             const bigImgs = document.querySelectorAll('.privatefoundme');
             if (bigImgs !== null) {
                 bigImgs.forEach((b) => { $(b).removeClass('privatefoundme'); });
@@ -348,7 +344,7 @@ class PrivateFieldsPage extends Page {
             // pokemon that hold items will have HTML that matches the following selector
                 const items = $('.tooltip_content .item>div>.tooltip_item');
                 if (items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children(`img.${cls}`);
+                    const itemBigImgs = items.parent().parent().parent().parent().prev().children('img');
                     $(itemBigImgs).addClass('privatefoundme');
                 }
             }
@@ -372,13 +368,13 @@ class PrivateFieldsPage extends Page {
 
                     for (let i = 0; i < filteredTypeArray.length; i++) {
                         if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            $(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
                         }
                     }
 
                     for (let i = 0; i < filteredNatureArray.length; i++) {
                         if (searchNature === Globals.NATURE_LIST[filteredNatureArray[i]]) {
-                            $(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
                         }
                     }
 
@@ -387,7 +383,7 @@ class PrivateFieldsPage extends Page {
                         if (searchEggGroup === value ||
                         searchEggGroup.indexOf(value + '/') > -1 ||
                         searchEggGroup.indexOf('/' + value) > -1) {
-                            $(searchPokemonBigImg).addClass('privatefoundme');
+                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
                         }
                     }
                 }); // each
