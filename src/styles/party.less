@@ -30,7 +30,7 @@
       position: absolute;
       /*allows for collapse when done*/
       min-height: 0;
-      height: auto;
+      height: auto !important;
       top: 0;
       left: 0;
       width: 100%;
@@ -45,7 +45,7 @@
       .berrybuttons > a {
         box-sizing: border-box;
         height: 100% !important;
-        width: 100% !important;
+        width: 100%;
         line-height: var(--multiuser-button-height) !important;
       }
       > a {
@@ -64,6 +64,10 @@
         /*hide action when it is *empty *processing the berry
         or *showing "Thank you!", plus tooltips */
         display: none;
+    }
+    .party > div:hover > .action a[data-berry]::after {
+      /* no border on berry hover */
+      border-color: transparent;
     }
   }
 }
