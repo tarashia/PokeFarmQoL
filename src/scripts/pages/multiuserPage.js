@@ -6,7 +6,14 @@ class MultiuserPage extends Page {
             niceTable: false,
             customParty: false,
             customPartyOpts: {
-                showTrainerCard: false
+                stackNextButton: true,
+                stackMoreButton: true,
+                showPokemon: true,
+                compactPokemon: true,
+                showTrainerCard: true,
+                showFieldButton: false,
+                showModeChecks: false,
+                showUserName: true
             }
         }, 'users/');
         const obj = this;
