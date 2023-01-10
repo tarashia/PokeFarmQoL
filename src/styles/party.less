@@ -10,23 +10,22 @@
   #partybox .party {
     .action {
       a {
+        display: none !important;
         position: absolute;
         width: 100%;
       }
 
-      .berrybuttons[data-up='sour']>[data-berry='aspear'],
-      .berrybuttons[data-up='spicy']>[data-berry='cheri'],
-      .berrybuttons[data-up='dry']>[data-berry='chesto'],
-      .berrybuttons[data-up='sweet']>[data-berry='pecha'],
-      .berrybuttons[data-up='bitter']>[data-berry='rawst'] {
-        z-index: 99 !important;
+      .berrybuttons[data-up='sour'] > a[data-berry='aspear'],
+      .berrybuttons[data-up='spicy'] > a[data-berry='cheri'],
+      .berrybuttons[data-up='dry'] > a[data-berry='chesto'],
+      .berrybuttons[data-up='sweet'] > a[data-berry='pecha'],
+      .berrybuttons[data-up='bitter'] > a[data-berry='rawst'] {
+        display: inline-block !important; 
       }
-    }
 
-    // hide all but one berry for any prefs
-    .action .berrybuttons[data-up="any"] a { 
-      display: none !important; 
-      &[data-berry="aspear"] { 
+      // show aspear for any prefs & eggs
+      .berrybuttons[data-up="any"] a[data-berry="aspear"],
+      > a { // eggs do not have .berrybuttons as a parent for the buttons
         display: inline-block !important; 
       }
     }

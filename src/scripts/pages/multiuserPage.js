@@ -39,24 +39,6 @@ class MultiuserPage extends Page {
         $('#qolpartymod').css('background-color', '' + menuBackground + '');
         const menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
         $('#qolpartymod').css('color', '' + menuColor + '');
-
-        // wait for the skin colors to load, then use them for additional CSS
-        Promise.resolve(this.USER_SETTINGS.userSkinColors).then(MultiuserPage.setupSkinCSS);
-    }
-    static setupSkinCSS() {
-        let settings = UserSettingsHandle.getSettings();
-        // make any buttons use the berry-up color
-        if(settings.userSkinColors && settings.userSkinColors['col-flavour-up']) {
-            $("<style>")
-                .prop("type", "text/css")
-                .html('.qolPartyModded .action .berrybuttons[data-up="any"] a[data-berry="aspear"] { background-color: '
-                        +settings.userSkinColors['col-flavour-up']+'; border-radius: 20px;}')
-                .appendTo("head");
-        }
-        else {
-            console.warn('Could not load berry up color from user skin');
-            console.log(JSON.stringify(settings));
-        }
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#multiuser'), {
