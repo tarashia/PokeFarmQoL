@@ -3,14 +3,80 @@
   text-align: center;
 }
 
+.qolPartyCustomParty  {
+  // based on Dr. Who's party click adjustments
+  --multiuser-button-height: 5em;
+  --multiuser-border-radius: 8px;
+
+  h1 {
+    /* fix that icon next to name causes jumps */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #partybox {
+    position: relative;
+    padding-top: calc(var(--multiuser-button-height) + 1em);
+
+    .party > div {
+      /* by making this static we can place the buttons
+      relative to the partybox */
+      position: static;
+    }
+
+    .action {
+      /* action button (hold the egg or berry) */
+      position: absolute;
+      /*allows for collapse when done*/
+      min-height: 0;
+      height: auto;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+
+      > a, > div {
+        padding: 0;
+        margin: 0;
+        min-height: var(--multiuser-button-height);
+        line-height: var(--multiuser-button-height);
+      }
+      .berrybuttons > a {
+        box-sizing: border-box;
+        height: 100% !important;
+        width: 100% !important;
+        line-height: var(--multiuser-button-height) !important;
+      }
+      > a {
+        // eggs
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+    }
+
+    .action:empty,
+    .action > table,
+    .action.working,
+    .berrybuttons > .tooltip_content {
+        /*hide action when it is *empty *processing the berry
+        or *showing "Thank you!", plus tooltips */
+        display: none;
+    }
+  }
+}
+
 // show only liked berry
 .qolPartyHideDislike,
 .qolPartyNiceTable,
-.qolPartyHideAll {
+.qolPartyHideAll,
+.qolPartyCustomParty {
   #partybox .party {
     .action {
       a {
-        display: none !important;
+        display: none;
         position: absolute;
         width: 100%;
       }
@@ -20,13 +86,13 @@
       .berrybuttons[data-up='dry'] > a[data-berry='chesto'],
       .berrybuttons[data-up='sweet'] > a[data-berry='pecha'],
       .berrybuttons[data-up='bitter'] > a[data-berry='rawst'] {
-        display: inline-block !important; 
+        display: inline-block; 
       }
 
       // show aspear for any prefs & eggs
       .berrybuttons[data-up="any"] a[data-berry="aspear"],
       > a { // eggs do not have .berrybuttons as a parent for the buttons
-        display: inline-block !important; 
+        display: inline-block; 
       }
     }
     // visual feedback after clicking berries
@@ -44,7 +110,7 @@
   }
   // hide tooltips to prevent overlap
   .tooltip_content { 
-    display: none !important; 
+    display: none; 
   }
 }
 
@@ -122,6 +188,6 @@
   #trainerimage,
   .fieldslink,
   .working {
-    display: none !important;
+    display: none;
   }
 }

@@ -4,6 +4,10 @@ class MultiuserPage extends Page {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
+            customParty: false,
+            customPartyOpts: {
+                showTrainerCard: false
+            }
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
@@ -19,7 +23,7 @@ class MultiuserPage extends Page {
             return false;
         }
 
-        const mutuallyExclusive = ['hideAll', 'hideDislike', 'niceTable'];
+        const mutuallyExclusive = ['hideAll', 'hideDislike', 'niceTable', 'customParty'];
         const idx = mutuallyExclusive.indexOf(element);
         if (idx > -1) {
             for (let i = 0; i < mutuallyExclusive.length; i++) {
@@ -96,6 +100,7 @@ class MultiuserPage extends Page {
         $('#multiuser').removeClass('qolPartyHideDislike');
         $('#multiuser').removeClass('qolPartyNiceTable');
         $('#multiuser').removeClass('qolPartyHideAll');
+        $('#multiuser').removeClass('qolPartyCustomParty');
         if(btns) {
             btns.css({"top":0,"left":0});
         }
@@ -118,6 +123,11 @@ class MultiuserPage extends Page {
             if(btns && nextLink && nextLink.position()) {
                 btns.css(nextLink.position());
             }
+        }
+
+        if (this.settings.customParty === true) {
+            $('#multiuser').addClass('qolPartyCustomParty');
+            $('#multiuser').addClass('qolPartyModded');
         }
     }
 }
