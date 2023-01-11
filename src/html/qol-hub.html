@@ -1,7 +1,7 @@
 <div class="dialog">
   <div>
     <div>
-      <div>
+      <div style="margin-top: 1em; margin-bottom: 1em;">
         <h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3>
         <div>
           <p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p>
@@ -276,9 +276,6 @@
                     <!-- Option values correspond to keys in the PAGES object in the main script -->
                     <select name='Page Select' class="qolHubResetSettingsSelect" data-key="resetPageSettings">
                       <option value="None">None</option>
-                      <option value="Daycare">Daycare</option>
-                      <option value="Farm">Farm</option>
-                      <option value="Fishing">Fishing</option>
                       <option value="Lab">Lab</option>
                       <option value="Multiuser">Multiuser</option>
                       <option value="PrivateFields">Private Fields</option>
@@ -291,12 +288,13 @@
                 </tr>
                 <tr>
                   <td>
-                    <input type="button" value="Log Storage" id="qolStorageLog">
-                    <br />
                     <br />
                     Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. 
                     <input type="button" value="View errors" id="qolErrorConsole">
                     <ul id="qolConsoleContent" style="word-break:break-all;"></ul>
+                    <br />
+                    The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs.
+                    <input type="button" value="Load settings" id="qolStorageLog">
                     <div id="qolStorageOutput" style="display: none;"></div>
                   </td>
                 </tr>

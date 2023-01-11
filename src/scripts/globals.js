@@ -1,4 +1,5 @@
 class Globals {
+    // if you add a new page settings key, be sure to add it to the reset menu in qol-hub.html
     static SETTINGS_SAVE_KEY = 'QoLSettings';
     static LAB_PAGE_SETTINGS_KEY = 'QoLLab';
     static MULTIUSER_PAGE_SETTINGS_KEY = 'QoLMultiuser';
