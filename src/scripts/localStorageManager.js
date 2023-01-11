@@ -3,15 +3,23 @@ class LocalStorageManager {
     // Uses the same basic code as the migrateSettings function
     static getAllQoLSettings(includeDex=false) {
         const qolSettings = {};
-        // find the items that need to be replaced
         for (let i = 0, len = localStorage.length; i < len; ++i) {
             const key = localStorage.key(i);
             // the dex is the largest data element by far; allow excluding it
-            if(key.match(/QoL/) && (includeDex || !key.match(/QoLPokedex/))) {
+            if(key && key.match(/QoL/) && (includeDex || !key.match(/QoLPokedex/))) {
                 qolSettings[key] = localStorage.getItem(key);
             }
         }
         return qolSettings;
+    }
+    // delete ALL QoL keys in storage
+    static clearAllQoLKeys() {
+        for (let i = 0, len = localStorage.length; i < len; ++i) {
+            const key = localStorage.key(i);
+            if(key && key.match(/QoL/)) {
+                localStorage.removeItem(key);
+            }
+        }
     }
     /**
      * This function helps users use the updated script without having to

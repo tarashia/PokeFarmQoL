@@ -5,16 +5,15 @@ class MultiuserPage extends Page {
             hideAll: false,
             niceTable: false,
             customParty: false,
-            customPartyOpts: {
-                stackNextButton: true,
-                stackMoreButton: true,
-                showPokemon: true,
-                compactPokemon: true,
-                showTrainerCard: true,
-                showFieldButton: false,
-                showModeChecks: false,
-                showUserName: true
-            }
+            stackNextButton: true,
+            stackMoreButton: true,
+            showPokemon: true,
+            compactPokemon: true,
+            clickablePokemon: false,
+            showTrainerCard: true,
+            showFieldButton: false,
+            showModeChecks: false,
+            showUserName: true
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
@@ -53,7 +52,8 @@ class MultiuserPage extends Page {
         $('#qolpartymod').css('color', '' + menuColor + '');
     }
     setupObserver() {
-        this.observer.observe(document.querySelector('#multiuser'), {
+        // don't observe the whole party area as it may cause excess firing
+        this.observer.observe(document.querySelector('#multiuser > ul'), {
             childList: true,
             subtree: true,
         });
@@ -113,14 +113,17 @@ class MultiuserPage extends Page {
 
     }
     partyModification() {
-        // first, remove any existing selection
-        const btns = $('#multiuser .party>div .action a');
-        $('#multiuser').removeClass('qolPartyModded');
-        $('#multiuser').removeClass('qolPartyHideDislike');
-        $('#multiuser').removeClass('qolPartyNiceTable');
-        $('#multiuser').removeClass('qolPartyHideAll');
-        $('#multiuser').removeClass('qolPartyCustomParty');
+        // first, remove any existing selection (all qol classes)
+        let classList = document.getElementById('multiuser').className.split(/\s+/);
+        for (let i = 0; i < classList.length; i++) {
+            if (classList[i].match(/^qol/)) {
+                $('#multiuser').removeClass(classList[i]);
+            }
+        }
         $('#qolpartymodcustom').css('display','none');
+        $('.party .pkmn a.qolCompactLink').remove();
+
+        const btns = $('#multiuser .party>div .action a');
         if(btns) {
             btns.css({"top":0,"left":0});
         }
@@ -149,6 +152,47 @@ class MultiuserPage extends Page {
             $('#multiuser').addClass('qolPartyCustomParty');
             $('#multiuser').addClass('qolPartyModded');
             $('#qolpartymodcustom').css('display','block');
+
+            // differentiate next and more buttons
+            let next = $('.mu_navlink.next');
+            if(next.text() == 'Get more +') {
+                next.addClass('qolGetMore');
+            }
+            else {
+                next.addClass('qolGoNext');
+            }
+
+            // hide classes are inverted
+            this.partymodHelper('qolStackNext',this.settings.stackNextButton === true);
+            this.partymodHelper('qolStackMore',this.settings.stackMoreButton === true);
+            this.partymodHelper('qolHideParty',this.settings.showPokemon === false);
+            this.partymodHelper('qolCompactParty',this.settings.compactPokemon === true);
+            this.partymodHelper('qolHideTrainerCard',this.settings.showTrainerCard === false);
+            this.partymodHelper('qolHideFieldButton',this.settings.showFieldButton === false);
+            this.partymodHelper('qolHideModeChecks',this.settings.showModeChecks === false);
+            this.partymodHelper('qolHideUserName',this.settings.showUserName === false);
+
+            // clickable compact pokemon
+            if(this.settings.showPokemon === true 
+                && this.settings.compactPokemon === true  
+                && this.settings.clickablePokemon === true ) 
+            {
+                $('.party .pkmn').each(function() {
+                    const pkmnID = $(this.parentElement).attr('data-pid');
+                    if(pkmnID) {
+                        $(this).append('<a class="qolCompactLink" href="/summary/'+pkmnID+'"></a>');
+                    }
+                });
+            }
+        }
+    }
+    // toggle setting should be true to add the class, false to remove it
+    partymodHelper(toggleClass, toggleSetting) {
+        if(toggleSetting) {
+            $('#multiuser').addClass(toggleClass);
+        }
+        else {
+            $('#multiuser').removeClass(toggleClass);
         }
     }
 }

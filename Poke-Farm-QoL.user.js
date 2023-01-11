@@ -308,15 +308,23 @@ class LocalStorageManager {
     // Uses the same basic code as the migrateSettings function
     static getAllQoLSettings(includeDex=false) {
         const qolSettings = {};
-        // find the items that need to be replaced
         for (let i = 0, len = localStorage.length; i < len; ++i) {
             const key = localStorage.key(i);
             // the dex is the largest data element by far; allow excluding it
-            if(key.match(/QoL/) && (includeDex || !key.match(/QoLPokedex/))) {
+            if(key && key.match(/QoL/) && (includeDex || !key.match(/QoLPokedex/))) {
                 qolSettings[key] = localStorage.getItem(key);
             }
         }
         return qolSettings;
+    }
+    // delete ALL QoL keys in storage
+    static clearAllQoLKeys() {
+        for (let i = 0, len = localStorage.length; i < len; ++i) {
+            const key = localStorage.key(i);
+            if(key && key.match(/QoL/)) {
+                localStorage.removeItem(key);
+            }
+        }
     }
     /**
      * This function helps users use the updated script without having to
@@ -455,7 +463,7 @@ class Resources {
                `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagridmq2{grid-template-rows:repeat(5,35px);min-height:175px}.qoltooltipgrid{bottom:0;position:absolute!important;transform:translateY(100%)}.qolpokemongrid{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important} `+
                `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px} `+
                `.qolHubSuperHead:first-child{border-top-left-radius:5px;border-top-right-radius:5px}.qolHubHead{margin:0;padding:4px;text-align:center}.qolAllSettings{vertical-align:top}.qolAllSettings,.qolChangeLog{border-top:none;height:100%;width:315px}.qolAllSettings>ul{list-style-type:none;padding:0;vertical-align:top}.qolHubTable{border-collapse:collapse;border-spacing:0;width:100%}.qolChangeLogList{margin:0;padding:4px;text-align:left;text-align:center}.qolChangeLogContent{display:none;list-style-type:disc}.expandlist{font-size:16px;list-style-type:none;text-align:center}.slidermenu{cursor:pointer}.qolChangeLogHead{margin:0}.closeHub{cursor:pointer;font-size:20px;margin:0 10px 0 0;text-align:right}.textareahub textarea{box-sizing:border-box;width:100%}#qolStorageOutput{border:1px solid;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all} `+
-               `#qolpartymod{text-align:center}#qolpartymodcustom h3{font-size:100%;padding:2px}.qolPartyCustomParty{--multiuser-button-height:5em;--multiuser-border-radius:8px}.qolPartyCustomParty h1{align-items:center;display:flex;justify-content:center}.qolPartyCustomParty #partybox{padding-top:calc(var(--multiuser-button-height) + 1em);position:relative}.qolPartyCustomParty #partybox .party>div{position:static}.qolPartyCustomParty #partybox .action{height:auto!important;left:0;min-height:0;position:absolute;top:0;width:100%;z-index:9999}.qolPartyCustomParty #partybox .action>a,.qolPartyCustomParty #partybox .action>div{line-height:var(--multiuser-button-height);margin:0;min-height:var(--multiuser-button-height);padding:0}.qolPartyCustomParty #partybox .action .berrybuttons>a{box-sizing:border-box;height:100%!important;line-height:var(--multiuser-button-height)!important;width:100%}.qolPartyCustomParty #partybox .action>a{align-items:center;box-sizing:border-box;display:flex!important;justify-content:center}.qolPartyCustomParty #partybox .action.working,.qolPartyCustomParty #partybox .action:empty,.qolPartyCustomParty #partybox .action>table,.qolPartyCustomParty #partybox .berrybuttons>.tooltip_content{display:none}.qolPartyCustomParty #partybox .party>div:hover>.action a[data-berry]:after{border-color:transparent}.qolPartyCustomParty #partybox .party .action a,.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{display:none;position:absolute;width:100%}.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyCustomParty #partybox .party .action>a,.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideAll #partybox .party .action>a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideDislike #partybox .party .action>a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyNiceTable #partybox .party .action>a{display:inline-block}.qolPartyCustomParty #partybox .party .working .berrybuttons,.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyHideAll .tooltip_content,.qolPartyNiceTable #partybox .party>div>:not(.action),.qolPartyNiceTable .tooltip_content{display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .working{display:none} `+
+               `#qolpartymod{text-align:center}#qolpartymodcustom h3{font-size:100%;padding:2px}.qolPartyCustomParty{--multiuser-button-height:5em;--multiuser-border-radius:8px}.qolPartyCustomParty h1{align-items:center;display:flex;justify-content:center}.qolPartyCustomParty #partybox{padding-top:calc(var(--multiuser-button-height) + 1em);position:relative}.qolPartyCustomParty #partybox .party{box-shadow:none}.qolPartyCustomParty #partybox .party>div{position:static}.qolPartyCustomParty #partybox .action{height:auto!important;left:0;min-height:0;position:absolute;top:0;width:100%;z-index:9999}.qolPartyCustomParty #partybox .action>a,.qolPartyCustomParty #partybox .action>div{line-height:var(--multiuser-button-height);margin:0;min-height:var(--multiuser-button-height);padding:0}.qolPartyCustomParty #partybox .action .berrybuttons>a{box-sizing:border-box;height:100%!important;line-height:var(--multiuser-button-height)!important;width:100%}.qolPartyCustomParty #partybox .action>a{align-items:center;box-sizing:border-box;display:flex!important;justify-content:center}.qolPartyCustomParty #partybox .action.working,.qolPartyCustomParty #partybox .action:empty,.qolPartyCustomParty #partybox .action>table,.qolPartyCustomParty #partybox .berrybuttons>.tooltip_content{display:none}.qolPartyCustomParty #partybox .party>div:hover>.action a[data-berry]:after{border-color:transparent}.qolPartyCustomParty.qolStackMore .qolGetMore,.qolPartyCustomParty.qolStackNext .qolGoNext{height:var(--multiuser-button-height);left:0;line-height:var(--multiuser-button-height);margin:0;padding:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideParty .party{height:0;overflow:hidden}.qolPartyCustomParty.qolCompactParty #partybox .party>div{background:transparent;border:none;margin-bottom:20px;padding:0;width:unset}.qolPartyCustomParty.qolCompactParty #partybox .party .expbar,.qolPartyCustomParty.qolCompactParty #partybox .party .name{display:none}.qolPartyCustomParty.qolCompactParty #partybox .party .pkmn a.qolCompactLink{display:block;height:100%;left:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideFieldButton .fieldslink,.qolPartyCustomParty.qolHideModeChecks #partybox>label,.qolPartyCustomParty.qolHideTrainerCard #profilebox,.qolPartyCustomParty.qolHideUserName h1{display:none}.mq2 .qolPartyCustomParty #partybox .party>div,.multi-compact .qolPartyCustomParty #partybox .party>div{display:inline-block;margin-bottom:0}.mq2 .qolPartyCustomParty #partybox .party>div .pkmn,.multi-compact .qolPartyCustomParty #partybox .party>div .pkmn{margin-right:0}.qolPartyCustomParty #partybox .party .action a,.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{display:none;position:absolute;width:100%}.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyCustomParty #partybox .party .action>a,.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideAll #partybox .party .action>a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideDislike #partybox .party .action>a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyNiceTable #partybox .party .action>a{display:inline-block}.qolPartyCustomParty #partybox .party .working .berrybuttons,.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyHideAll .tooltip_content,.qolPartyNiceTable #partybox .party>div>:not(.action),.qolPartyNiceTable .tooltip_content{display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .working{display:none} `+
                `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle} `;
     }
 
@@ -508,7 +516,7 @@ class Resources {
     }
 
     static partyModCustomHTML() {
-        return `<div id="qolpartymodcustom" class="panel accordion" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showUserName">Show user name</label></div></div></div>`;
+        return `<div id="qolpartymodcustom" class="panel accordion" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="clickablePokemon">Clickable pokemon (if compact)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showUserName">Show user name</label></div></div></div>`;
     }
 }
 
@@ -917,9 +925,7 @@ class QoLHub {
         }
     }
     clearAllSettings() {
-        this.PAGES.clearAllPageSettings();
-        this.USER_SETTINGS.setDefaults();
-        this.saveSettings();
+        LocalStorageManager.clearAllQoLKeys();
         location.reload(); 
     }
     saveSettings() {
@@ -2416,16 +2422,15 @@ class MultiuserPage extends Page {
             hideAll: false,
             niceTable: false,
             customParty: false,
-            customPartyOpts: {
-                stackNextButton: true,
-                stackMoreButton: true,
-                showPokemon: true,
-                compactPokemon: true,
-                showTrainerCard: true,
-                showFieldButton: false,
-                showModeChecks: false,
-                showUserName: true
-            }
+            stackNextButton: true,
+            stackMoreButton: true,
+            showPokemon: true,
+            compactPokemon: true,
+            clickablePokemon: false,
+            showTrainerCard: true,
+            showFieldButton: false,
+            showModeChecks: false,
+            showUserName: true
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
@@ -2464,7 +2469,8 @@ class MultiuserPage extends Page {
         $('#qolpartymod').css('color', '' + menuColor + '');
     }
     setupObserver() {
-        this.observer.observe(document.querySelector('#multiuser'), {
+        // don't observe the whole party area as it may cause excess firing
+        this.observer.observe(document.querySelector('#multiuser > ul'), {
             childList: true,
             subtree: true,
         });
@@ -2524,14 +2530,17 @@ class MultiuserPage extends Page {
 
     }
     partyModification() {
-        // first, remove any existing selection
-        const btns = $('#multiuser .party>div .action a');
-        $('#multiuser').removeClass('qolPartyModded');
-        $('#multiuser').removeClass('qolPartyHideDislike');
-        $('#multiuser').removeClass('qolPartyNiceTable');
-        $('#multiuser').removeClass('qolPartyHideAll');
-        $('#multiuser').removeClass('qolPartyCustomParty');
+        // first, remove any existing selection (all qol classes)
+        let classList = document.getElementById('multiuser').className.split(/\s+/);
+        for (let i = 0; i < classList.length; i++) {
+            if (classList[i].match(/^qol/)) {
+                $('#multiuser').removeClass(classList[i]);
+            }
+        }
         $('#qolpartymodcustom').css('display','none');
+        $('.party .pkmn a.qolCompactLink').remove();
+
+        const btns = $('#multiuser .party>div .action a');
         if(btns) {
             btns.css({"top":0,"left":0});
         }
@@ -2560,6 +2569,47 @@ class MultiuserPage extends Page {
             $('#multiuser').addClass('qolPartyCustomParty');
             $('#multiuser').addClass('qolPartyModded');
             $('#qolpartymodcustom').css('display','block');
+
+            // differentiate next and more buttons
+            let next = $('.mu_navlink.next');
+            if(next.text() == 'Get more +') {
+                next.addClass('qolGetMore');
+            }
+            else {
+                next.addClass('qolGoNext');
+            }
+
+            // hide classes are inverted
+            this.partymodHelper('qolStackNext',this.settings.stackNextButton === true);
+            this.partymodHelper('qolStackMore',this.settings.stackMoreButton === true);
+            this.partymodHelper('qolHideParty',this.settings.showPokemon === false);
+            this.partymodHelper('qolCompactParty',this.settings.compactPokemon === true);
+            this.partymodHelper('qolHideTrainerCard',this.settings.showTrainerCard === false);
+            this.partymodHelper('qolHideFieldButton',this.settings.showFieldButton === false);
+            this.partymodHelper('qolHideModeChecks',this.settings.showModeChecks === false);
+            this.partymodHelper('qolHideUserName',this.settings.showUserName === false);
+
+            // clickable compact pokemon
+            if(this.settings.showPokemon === true 
+                && this.settings.compactPokemon === true  
+                && this.settings.clickablePokemon === true ) 
+            {
+                $('.party .pkmn').each(function() {
+                    const pkmnID = $(this.parentElement).attr('data-pid');
+                    if(pkmnID) {
+                        $(this).append('<a class="qolCompactLink" href="/summary/'+pkmnID+'"></a>');
+                    }
+                });
+            }
+        }
+    }
+    // toggle setting should be true to add the class, false to remove it
+    partymodHelper(toggleClass, toggleSetting) {
+        if(toggleSetting) {
+            $('#multiuser').addClass(toggleClass);
+        }
+        else {
+            $('#multiuser').removeClass(toggleClass);
         }
     }
 }
