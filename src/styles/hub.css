@@ -61,3 +61,11 @@
     width: 100%;
     box-sizing: border-box;
 }
+#qolStorageOutput {
+  user-select: all; 
+  word-break:break-all; 
+  border: 1px solid; 
+  padding: 3px;
+  max-height: 100px;
+  overflow-y: auto;
+}

@@ -222,7 +222,7 @@ class ShelterPage extends Page {
         document.querySelector('#sheltersuccess').
             insertAdjacentHTML('beforeend',
                 '<div id="shelterfound">' + number + ' ' + type + ' type ' +
-                stageNoun + ' found!' + (names.length > 0 ? '(' + names.toString() + ')' : '') + '</div>');
+                stageNoun + ' found!' + (names.length > 0 ? '(' + names.join(', ') + ')' : '') + '</div>');
     }
 
     searchForImgTitle(key) {

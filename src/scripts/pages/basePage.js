@@ -1,4 +1,7 @@
 class Page {
+    /* ssk should be a value from Globals indicating the storage key name
+        this is only set when the page has page-specific settings
+        if the page does not have settings, pass undefined instead */
     constructor(ssk, ds, url) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;

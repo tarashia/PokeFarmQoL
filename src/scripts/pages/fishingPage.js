@@ -1,6 +1,6 @@
 class FishingPage extends Page {
     constructor() {
-        super(Globals.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+        super(undefined, {}, 'fishing');
         // no observer
     }
     setupHTML() {
