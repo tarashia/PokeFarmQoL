@@ -19,7 +19,11 @@ class MultiuserPage extends Page {
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
             mutations.forEach(function (mutation) {
-                obj.partyModification();
+                if($(mutation.target).attr('id') == 'partybox'){
+                    // many mutations fire, so limit calls to party mod to prevent excess and looping calls
+                    // #partybox fires after the next button is added, making it a convenient time to run the mods
+                    obj.partyModification();
+                }
             });
         });
     }
@@ -53,38 +57,21 @@ class MultiuserPage extends Page {
     }
     setupObserver() {
         // don't observe the whole party area as it may cause excess firing
-        this.observer.observe(document.querySelector('#multiuser > ul'), {
+        this.observer.observe(document.querySelector('#multiuser'), {
             childList: true,
             subtree: true,
         });
     }
     setupHandlers() {
         const obj = this;
-        $(window).on('load', (function () {
-            obj.loadSettings();
-            obj.partyModification();
-        }));
 
-        let resizeTimer;
         $(window).resize(function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                obj.loadSettings();
+            obj.loadSettings();
+            setTimeout(() => {
+                // the hide all alignment works better with the timeout
                 obj.partyModification();
             }, 100);
         });
-
-        $(document).on('click input', '#qolpartymod', (function () {
-            // the hide all option needs a delay like the resize timer to work when first clicked
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                obj.partyModification();
-            }, 100);
-        }));
-
-        $(document).on('click', '.tabbed_interface', (function () {
-            obj.partyModification();
-        }));
 
         $(document).on('change', '.qolsetting', (function () {
             obj.loadSettings();
@@ -92,8 +79,8 @@ class MultiuserPage extends Page {
                 $(this).val(),
                 $(this).parent().parent().attr('class'),
                 $(this).parent().attr('class'));
-            obj.partyModification();
             obj.saveSettings();
+            obj.partyModification();
         }));
 
         $('input.qolalone').on('change', function () { //only 1 checkbox may be true
