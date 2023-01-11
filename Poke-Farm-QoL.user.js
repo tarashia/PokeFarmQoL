@@ -280,24 +280,12 @@ class Helpers {
 
 class Globals {
     static SETTINGS_SAVE_KEY = 'QoLSettings';
-    static DAYCARE_PAGE_SETTINGS_KEY = 'QoLDaycare';
-    static DEX_PAGE_SETTINGS_KEY = 'QoLDexPage';
-    static FARM_PAGE_SETTINGS_KEY = 'QoLFarm';
-    static FISHING_PAGE_SETTINGS_KEY = 'QoLFishing';
     static LAB_PAGE_SETTINGS_KEY = 'QoLLab';
     static MULTIUSER_PAGE_SETTINGS_KEY = 'QoLMultiuser';
     static PRIVATE_FIELDS_PAGE_SETTINGS_KEY = 'QoLPrivateFields';
     static PUBLIC_FIELDS_PAGE_SETTINGS_KEY = 'QoLPublicFields';
     static SHELTER_PAGE_SETTINGS_KEY = 'QoLShelter';
-    static WISHFORGE_PAGE_SETTINGS_KEY = 'QoLWishforge';
     static POKEDEX_DATA_KEY = 'QoLPokedex';
-    static POKEDEX_DEX_IDS_KEY = 'QoLDexIDsCache';
-    static POKEDEX_REGIONAL_FORMS_KEY = 'QoLRegionalFormsList';
-    static POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
-    static POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
-    static POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
-    static INTERACTIONS_PAGE_SETTINGS_KEY = 'QoLInteractions';
-    static SUMMARY_PAGE_SETTINGS_KEY = 'QoLSummary';
         /*
          * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
          * Don't change the order without looking for where this array is used
@@ -315,6 +303,20 @@ class Globals {
 }
 
 class LocalStorageManager {
+    // Look for settings that contain QoL and return them as an array of keys
+    // Uses the same basic code as the migrateSettings function
+    static getAllQoLSettings(includeDex=false) {
+        const qolSettings = {};
+        // find the items that need to be replaced
+        for (let i = 0, len = localStorage.length; i < len; ++i) {
+            const key = localStorage.key(i);
+            // the dex is the largest data element by far; allow excluding it
+            if(key.match(/QoL/) && (includeDex || !key.match(/QoLPokedex/))) {
+                qolSettings[key] = localStorage.getItem(key);
+            }
+        }
+        return qolSettings;
+    }
     /**
      * This function helps users use the updated script without having to
      * clear their settings by looking for items in local storage that
@@ -323,15 +325,24 @@ class LocalStorageManager {
      */
     static migrateSettings() {
         const newItems = {};
+        const newKeys = [];
         const keysToRemove = [];
         // find the items that need to be replaced
         for (let i = 0, len = localStorage.length; i < len; ++i) {
-            const match = localStorage.key(i).match(/^QoL.*/);
+            let match = localStorage.key(i).match(/^QoL/);
+            if(!match) {
+                // the user ID feature was just returning undefined - convert these too
+                match = localStorage.key(i).match(/^undefined\.QoL/);
+            }
             if(match) {
                 const oldKey = match.input;
                 const newKey = LocalStorageManager.translateKey(oldKey);
                 newItems[newKey] = localStorage.getItem(oldKey);
                 keysToRemove.push(oldKey);
+            }
+            match = localStorage.key(i).match(/^undefined\.undefined\.QoL/);
+            if(match) {
+                keysToRemove.push(match.input);
             }
         }
         // remove the old style keys
@@ -341,15 +352,32 @@ class LocalStorageManager {
         // add the new style keys
         for(const newKey in newItems) {
             localStorage.setItem(newKey, newItems[newKey]);
+            newKeys.push(newKey);
+        }
+        if(keysToRemove.length>0 || newKeys.length>0) {
+            console.log('Migrated keys (old, new):');
+            console.log(keysToRemove);
+            console.log(newKeys);
         }
     }
     static translateKey(key) {
-        return `${$.USERID}.${key}`;
+        let pos = key.indexOf('QoL');
+        if(pos<0) {
+            throw 'Bad key format';
+        }
+        key = key.substring(pos);
+        let userID = $('#core').attr('data-user');
+        if(!userID) {
+            userID = 'unknown';
+        }
+        return userID+'.'+key;
     }
     static saveSettings(key, obj) {
+        if (key == null){ return; }
         localStorage.setItem(LocalStorageManager.translateKey(key), JSON.stringify(obj));
     }
     static loadSettings(KEY, DEFAULT, obj) {
+        if (KEY == null){ return; }
         KEY = LocalStorageManager.translateKey(KEY);
         if (localStorage.getItem(KEY) === null) {
             this.saveSettings(KEY);
@@ -414,21 +442,6 @@ class LocalStorageManager {
         const datePlusDex = [dateString].concat(DEX_DATA);
         localStorage.setItem(LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
     }
-
-    static getAllLocalStorage() {
-        const n = localStorage.length;
-        let keys = [];
-        let data = [];
-
-        for(let i=0; i<n; i++){
-            keys[i] = localStorage.key(i);
-        }
-        for(let j=0; j<n; j++) {
-            data[keys[j]] = localStorage.getItem(keys[j]);
-        }
-
-        return data;
-    }
 }
 
 
@@ -440,7 +453,7 @@ class Resources {
         return `#announcements li[data-name=QoL]{cursor:pointer}#labsuccess{text-align:center}#labfound{padding-top:20px}.boldp{font-weight:700}.collapsible{border-radius:6px;cursor:pointer;max-width:600px;padding:4px;position:relative;text-align:left;width:100%}.collapsible_content{display:none;overflow:hidden;padding:0 18px}.oneevolutionleft{background-color:#f36971;border-radius:100%;box-shadow:0 0 25px 15px #f36971}.twoevolutionleft{background-color:#6a6df2;border-radius:100%;box-shadow:0 0 25px 15px #6a6df2} `+
                `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagridmq2{grid-template-rows:repeat(5,35px);min-height:175px}.qoltooltipgrid{bottom:0;position:absolute!important;transform:translateY(100%)}.qolpokemongrid{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important} `+
                `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px} `+
-               `.qolHubSuperHead:first-child{border-top-left-radius:5px;border-top-right-radius:5px}.qolHubHead{margin:0;padding:4px;text-align:center}.qolAllSettings{vertical-align:top}.qolAllSettings,.qolChangeLog{border-top:none;height:100%;width:315px}.qolAllSettings>ul{list-style-type:none;padding:0;vertical-align:top}.qolHubTable{border-collapse:collapse;border-spacing:0;width:100%}.qolChangeLogList{margin:0;padding:4px;text-align:left;text-align:center}.qolChangeLogContent{display:none;list-style-type:disc}.expandlist{font-size:16px;list-style-type:none;text-align:center}.slidermenu{cursor:pointer}.qolChangeLogHead{margin:0}.closeHub{cursor:pointer;font-size:20px;margin:0 10px 0 0;text-align:right}.textareahub textarea{box-sizing:border-box;width:100%} `+
+               `.qolHubSuperHead:first-child{border-top-left-radius:5px;border-top-right-radius:5px}.qolHubHead{margin:0;padding:4px;text-align:center}.qolAllSettings{vertical-align:top}.qolAllSettings,.qolChangeLog{border-top:none;height:100%;width:315px}.qolAllSettings>ul{list-style-type:none;padding:0;vertical-align:top}.qolHubTable{border-collapse:collapse;border-spacing:0;width:100%}.qolChangeLogList{margin:0;padding:4px;text-align:left;text-align:center}.qolChangeLogContent{display:none;list-style-type:disc}.expandlist{font-size:16px;list-style-type:none;text-align:center}.slidermenu{cursor:pointer}.qolChangeLogHead{margin:0}.closeHub{cursor:pointer;font-size:20px;margin:0 10px 0 0;text-align:right}.textareahub textarea{box-sizing:border-box;width:100%}#qolStorageOutput{border:1px solid;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all} `+
                `#qolpartymod{text-align:center}.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{position:absolute;width:100%}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha]{z-index:99!important}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a{display:none!important}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear]{display:inline-block!important}.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyNiceTable #partybox .party>div>:not(.action){display:none}.qolPartyHideAll .tooltip_content,.qolPartyNiceTable .tooltip_content{display:none!important}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .working{display:none!important} `+
                `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle} `;
     }
@@ -470,7 +483,7 @@ class Resources {
     }
 
     static qolHubHTML() {
-        return `<div class="dialog"><div><div><div><h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3><div><p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p><div><table class="qolHubTable"><tbody><tr><td><h3 class="qolHubHead">Settings</h3></td></tr><tr><td class="qolAllSettings"><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"> <span>Advanced Sorting</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="partyMod"> <span>Party click mod</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="easyEvolve"> <span>Easy evolving</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="labNotifier"> <span>Lab Notifier</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></li></ul><span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span></td></tr><tr><td><h3 class="qolHubHead">Change log</h3></td></tr><tr><td class="qolChangeLog"><ul class="qolChangeLogList"><li class="expandlist"><span>Change log was removed as of April 2021. Visit <a href="https://github.com/tarashia/PokeFarmQoL" target="_blank">GitHub</a> for the latest list of features</span></li></ul></td></tr><tr><td colspan="2" class="qolDexUpdate"><h3 class="qolHubHead">Pokedex Settings</h3></td></tr><tr id="qolDexUpdateRow"><td colspan="2" class="qolAllSettings"><span>Notice that you can't find the newly added Eggs or Pokemon in shelter? You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.</span><br><span>Date last updated: <span class="qolDate"></span></span></td></tr><tr id="qolDexClearRow"><td colspan="2"><input type="button" value="Clear Cached Dex" id="clearCachedDex"></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Css Settings</h3></td></tr><tr><td colspan="2"><span>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting is not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></span></td></tr><tr><td colspan="2" class="qolAllSettings"><div class="textareahub"><textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea></div></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Debugging Corner</h3></td></tr><tr id="qolDebuggingCornerRow"><td colspan="2" class="qolAllSettings"><span>Use these controls to reset the settings for a particular page back to its defaults</span><br><span><b>Page Select</b></span><!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" class="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option><option value="Daycare">Daycare</option><option value="Farm">Farm</option><option value="Fishing">Fishing</option><option value="Lab">Lab</option><option value="Multiuser">Multiuser</option><option value="PrivateFields">Private Fields</option><option value="PublicFields">Public Fields</option><option value="Shelter">Shelter</option></select> <input type="button" value="Reset Page Settings" id="resetPageSettings"> <input type="button" value="Reset ALL Settings" id="resetAllSettings"></td></tr><tr><td><input type="button" value="Log Settings" id="qolDataLog"> <input type="button" value="Log Dex" id="qolDexLog"> <input type="button" value="Log Storage" id="qolStorageLog"><br><br>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <input type="button" value="View errors" id="qolErrorConsole"><ul id="qolConsoleContent" style="word-break:break-all;"></ul></td></tr></tbody></table></div></div><p class="closeHub">Close</p></div></div></div></div>`;
+        return `<div class="dialog"><div><div><div><h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3><div><p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p><div><table class="qolHubTable"><tbody><tr><td><h3 class="qolHubHead">Settings</h3></td></tr><tr><td class="qolAllSettings"><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"> <span>Advanced Sorting</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="partyMod"> <span>Party click mod</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="easyEvolve"> <span>Easy evolving</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="labNotifier"> <span>Lab Notifier</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></li></ul><span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span></td></tr><tr><td><h3 class="qolHubHead">Change log</h3></td></tr><tr><td class="qolChangeLog"><ul class="qolChangeLogList"><li class="expandlist"><span>Change log was removed as of April 2021. Visit <a href="https://github.com/tarashia/PokeFarmQoL" target="_blank">GitHub</a> for the latest list of features</span></li></ul></td></tr><tr><td colspan="2" class="qolDexUpdate"><h3 class="qolHubHead">Pokedex Settings</h3></td></tr><tr id="qolDexUpdateRow"><td colspan="2" class="qolAllSettings"><span>Notice that you can't find the newly added Eggs or Pokemon in shelter? You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.</span><br><span>Date last updated: <span class="qolDate"></span></span></td></tr><tr id="qolDexClearRow"><td colspan="2"><input type="button" value="Clear Cached Dex" id="clearCachedDex"></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Css Settings</h3></td></tr><tr><td colspan="2"><span>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting is not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></span></td></tr><tr><td colspan="2" class="qolAllSettings"><div class="textareahub"><textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea></div></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Debugging Corner</h3></td></tr><tr id="qolDebuggingCornerRow"><td colspan="2" class="qolAllSettings"><span>Use these controls to reset the settings for a particular page back to its defaults</span><br><span><b>Page Select</b></span><!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" class="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option><option value="Daycare">Daycare</option><option value="Farm">Farm</option><option value="Fishing">Fishing</option><option value="Lab">Lab</option><option value="Multiuser">Multiuser</option><option value="PrivateFields">Private Fields</option><option value="PublicFields">Public Fields</option><option value="Shelter">Shelter</option></select> <input type="button" value="Reset Page Settings" id="resetPageSettings"> <input type="button" value="Reset ALL Settings" id="resetAllSettings"></td></tr><tr><td><input type="button" value="Log Storage" id="qolStorageLog"><br><br>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <input type="button" value="View errors" id="qolErrorConsole"><ul id="qolConsoleContent" style="word-break:break-all;"></ul><div id="qolStorageOutput" style="display: none;"></div></td></tr></tbody></table></div></div><p class="closeHub">Close</p></div></div></div></div>`;
     }
 
     static publicFieldTooltipModHTML() {
@@ -903,14 +916,16 @@ class QoLHub {
             $('#qolConsoleContent').html(consoleContent);
         }));
 
-        $(document).on('click', '#qolDataLog', (function() {
-            console.log(UserSettingsHandle.getSettings());
-        }));
-        $(document).on('click', '#qolDexLog', (function() {
-            console.log(UserSettingsHandle.getDex());
-        }));
         $(document).on('click', '#qolStorageLog', (function() {
-            console.log(LocalStorageManager.getAllLocalStorage());
+            let storedSettings = LocalStorageManager.getAllQoLSettings();
+            console.log(storedSettings);
+            // get relevant browser/screen size data, add to object
+            // convert to JSON, then base 64 encode
+            let output = JSON.stringify(storedSettings);
+            output = btoa(output);
+            // output to somewhere user can copy/paste it
+            $('#qolStorageOutput').text(output);
+            $('#qolStorageOutput').css('display','block');
         }));
     }
     loadSettings() {
@@ -1197,6 +1212,9 @@ class PFQoL {
 }
 
 class Page {
+    /* ssk should be a value from Globals indicating the storage key name
+        this is only set when the page has page-specific settings
+        if the page does not have settings, pass undefined instead */
     constructor(ssk, ds, url) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
@@ -1286,7 +1304,7 @@ class Page {
 
 class DaycarePage extends Page {
     constructor() {
-        super(Globals.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
+        super(undefined, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -1390,7 +1408,7 @@ class DaycarePage extends Page {
 
 class DexPage extends Page {
     constructor() {
-        super(Globals.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
+        super(undefined, {}, 'dex');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             // eslint-disable-next-line no-unused-vars
@@ -1520,7 +1538,7 @@ class FarmPage extends Page {
         return d;
     }
     constructor() {
-        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+        super(undefined, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
@@ -2115,7 +2133,7 @@ class FarmPage extends Page {
 
 class FishingPage extends Page {
     constructor() {
-        super(Globals.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+        super(undefined, {}, 'fishing');
         // no observer
     }
     setupHTML() {
@@ -2157,7 +2175,7 @@ class FishingPage extends Page {
 
 class InteractionsPage extends Page {
   constructor() {
-      super(Globals.INTERACTIONS_PAGE_SETTINGS_KEY, {}, 'interactions');
+      super(undefined, {}, 'interactions');
   } // constructor
 
   setupHTML() {
@@ -3921,7 +3939,7 @@ class ShelterPage extends Page {
         document.querySelector('#sheltersuccess').
             insertAdjacentHTML('beforeend',
                 '<div id="shelterfound">' + number + ' ' + type + ' type ' +
-                stageNoun + ' found!' + (names.length > 0 ? '(' + names.toString() + ')' : '') + '</div>');
+                stageNoun + ' found!' + (names.length > 0 ? '(' + names.join(', ') + ')' : '') + '</div>');
     }
 
     searchForImgTitle(key) {
@@ -4236,7 +4254,7 @@ class ShelterPage extends Page {
 
 class SummaryPage extends Page {
   constructor() {
-      super(Globals.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
+      super(undefined, {}, 'summary');
   } // constructor
 
   setupHTML() {
@@ -4253,7 +4271,7 @@ class SummaryPage extends Page {
 
 class WishforgePage extends Page {
     constructor() {
-        super(Globals.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
+        super(undefined, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {

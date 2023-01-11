@@ -13,7 +13,7 @@ class FarmPage extends Page {
         return d;
     }
     constructor() {
-        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+        super(undefined, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
