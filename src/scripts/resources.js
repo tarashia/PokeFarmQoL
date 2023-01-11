@@ -58,4 +58,8 @@ class Resources {
     static partyModHTML() {
         return `<% src/html/party-mod.html %>`;
     }
+
+    static partyModCustomHTML() {
+        return `<% src/html/party-mod-custom.html %>`;
+    }
 }

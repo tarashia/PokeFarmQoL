@@ -44,6 +44,7 @@ class MultiuserPage extends Page {
     }
     setupHTML() {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.partyModHTML());
+        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.partyModCustomHTML());
     }
     setupCSS() {
         const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
@@ -99,6 +100,17 @@ class MultiuserPage extends Page {
             $('input.qolalone').not(this).prop('checked', false);
         });
 
+        $('#qolpartymodcustom h3 a').on('click', function() {
+            if($('#qolpartymodcustom h3').hasClass('active')) {
+                $('#qolpartymodcustom h3').removeClass('active');
+                $('#qolpartymodcustom > div').css('display','none');
+            }
+            else {
+                $('#qolpartymodcustom h3').addClass('active');
+                $('#qolpartymodcustom > div').css('display','block');
+            }
+        });
+
     }
     partyModification() {
         // first, remove any existing selection
@@ -108,6 +120,7 @@ class MultiuserPage extends Page {
         $('#multiuser').removeClass('qolPartyNiceTable');
         $('#multiuser').removeClass('qolPartyHideAll');
         $('#multiuser').removeClass('qolPartyCustomParty');
+        $('#qolpartymodcustom').css('display','none');
         if(btns) {
             btns.css({"top":0,"left":0});
         }
@@ -135,6 +148,7 @@ class MultiuserPage extends Page {
         if (this.settings.customParty === true) {
             $('#multiuser').addClass('qolPartyCustomParty');
             $('#multiuser').addClass('qolPartyModded');
+            $('#qolpartymodcustom').css('display','block');
         }
     }
 }
