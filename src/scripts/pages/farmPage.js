@@ -18,14 +18,10 @@ class FarmPage extends Page {
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
         const obj = this;
-        function observeFunc(mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.easyQuickEvolve();
-                $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            });
-        }
-        this.observer = new MutationObserver(observeFunc);
+        this.observer = new MutationObserver(function() {
+            obj.easyQuickEvolve();
+            $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+        });
     }
     setupHTML() {
         $(document).ready(function () {

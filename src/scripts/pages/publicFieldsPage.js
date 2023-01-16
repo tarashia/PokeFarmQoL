@@ -37,14 +37,11 @@ class PublicFieldsPage extends Page {
         this.natureArray = [];
         this.eggGroupArray = [];
         const obj = this;
-        this.observer = new MutationObserver(function(mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function(mutation) {
-                obj.customSearch();
-                if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-                    obj.handleTooltipSettings();
-                }
-            });
+        this.observer = new MutationObserver(function() {
+            obj.customSearch();
+            if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
+                obj.handleTooltipSettings();
+            }
         });
     }
 

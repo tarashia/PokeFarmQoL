@@ -1387,11 +1387,8 @@ class DexPage extends Page {
     constructor() {
         super(undefined, {}, 'dex');
         const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.applyTypeFilters();
-            });
+        this.observer = new MutationObserver(function () {
+            obj.applyTypeFilters();
         });
         this.typeArray = [];
 
@@ -1520,14 +1517,10 @@ class FarmPage extends Page {
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
         const obj = this;
-        function observeFunc(mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.easyQuickEvolve();
-                $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            });
-        }
-        this.observer = new MutationObserver(observeFunc);
+        this.observer = new MutationObserver(function() {
+            obj.easyQuickEvolve();
+            $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+        });
     }
     setupHTML() {
         $(document).ready(function () {
@@ -2204,11 +2197,8 @@ class LabPage extends Page {
         this.searchArray = [];
         this.typeArray = [];
         const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.customSearch();
-            });
+        this.observer = new MutationObserver(function () {
+            obj.customSearch();
         });
     }
 
@@ -2434,14 +2424,17 @@ class MultiuserPage extends Page {
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
+            let doMod = false;
             mutations.forEach(function (mutation) {
                 if($(mutation.target).attr('id') == 'partybox'){
                     // many mutations fire, so limit calls to party mod to prevent excess and looping calls
-                    // #partybox fires after the next button is added, making it a convenient time to run the mods
-                    obj.partyModification();
+                    // #partybox is when the next button is added, making it a convenient time to run the mods
+                    doMod = true;
                 }
             });
+            if(doMod) {
+                obj.partyModification();
+            }
         });
     }
 
@@ -2638,14 +2631,11 @@ class PrivateFieldsPage extends Page {
         this.natureArray = [];
         this.eggGroupArray = [];
         const obj = this;
-        this.observer = new MutationObserver((mutations) => {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach((mutation) => {
-                obj.customSearch();
-                if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
-                    obj.handleTooltipSettings();
-                }
-            });
+        this.observer = new MutationObserver(() => {
+            obj.customSearch();
+            if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
+                obj.handleTooltipSettings();
+            }
         });
     }
 
@@ -3177,14 +3167,11 @@ class PublicFieldsPage extends Page {
         this.natureArray = [];
         this.eggGroupArray = [];
         const obj = this;
-        this.observer = new MutationObserver(function(mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function(mutation) {
-                obj.customSearch();
-                if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-                    obj.handleTooltipSettings();
-                }
-            });
+        this.observer = new MutationObserver(function() {
+            obj.customSearch();
+            if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
+                obj.handleTooltipSettings();
+            }
         });
     }
 
@@ -3766,11 +3753,8 @@ class ShelterPage extends Page {
         this.customArray = [];
         this.typeArray = [];
         const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.customSearch();
-            });
+        this.observer = new MutationObserver(function () {
+            obj.customSearch();
         });
 
         /*

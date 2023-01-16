@@ -28,11 +28,8 @@ class ShelterPage extends Page {
         this.customArray = [];
         this.typeArray = [];
         const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.customSearch();
-            });
+        this.observer = new MutationObserver(function () {
+            obj.customSearch();
         });
 
         /*

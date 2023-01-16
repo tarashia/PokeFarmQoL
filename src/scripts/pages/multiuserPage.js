@@ -17,14 +17,17 @@ class MultiuserPage extends Page {
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
+            let doMod = false;
             mutations.forEach(function (mutation) {
                 if($(mutation.target).attr('id') == 'partybox'){
                     // many mutations fire, so limit calls to party mod to prevent excess and looping calls
-                    // #partybox fires after the next button is added, making it a convenient time to run the mods
-                    obj.partyModification();
+                    // #partybox is when the next button is added, making it a convenient time to run the mods
+                    doMod = true;
                 }
             });
+            if(doMod) {
+                obj.partyModification();
+            }
         });
     }
 

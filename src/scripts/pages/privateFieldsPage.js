@@ -34,14 +34,11 @@ class PrivateFieldsPage extends Page {
         this.natureArray = [];
         this.eggGroupArray = [];
         const obj = this;
-        this.observer = new MutationObserver((mutations) => {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach((mutation) => {
-                obj.customSearch();
-                if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
-                    obj.handleTooltipSettings();
-                }
-            });
+        this.observer = new MutationObserver(() => {
+            obj.customSearch();
+            if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
+                obj.handleTooltipSettings();
+            }
         });
     }
 
