@@ -2509,6 +2509,12 @@ class MultiuserPage extends Page {
         });
 
     }
+    // changes that all available mods make
+    sharedPartyMods() {
+        $('#multiuser').addClass('qolPartyModded');
+        // change any berry to sour so it gets a bg color
+        $('.berrybuttons[data-up="any"]').attr('data-up','sour'); 
+    }
     partyModification() {
         // first, remove any existing selection (all qol classes)
         let classList = document.getElementById('multiuser').className.split(/\s+/);
@@ -2527,17 +2533,17 @@ class MultiuserPage extends Page {
 
         if (this.settings.hideDislike === true) {
             $('#multiuser').addClass('qolPartyHideDislike');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
         }
 
         if (this.settings.niceTable === true) {
             $('#multiuser').addClass('qolPartyNiceTable');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
         }
 
         if (this.settings.hideAll === true) {
             $('#multiuser').addClass('qolPartyHideAll');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
             // on chrome, sometimes .position() is undefined on load
             if(btns && nextLink && nextLink.position()) {
@@ -2547,7 +2553,7 @@ class MultiuserPage extends Page {
 
         if (this.settings.customParty === true) {
             $('#multiuser').addClass('qolPartyCustomParty');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
             $('#qolpartymodcustom').css('display','block');
 
             // differentiate next and more buttons
