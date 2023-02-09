@@ -57,8 +57,16 @@ class Helpers {
     }
     static buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
-        for (let i = 0; i < arr.length; i++) {
-            str += `<option value="${i}">${arr[i]}</option> `;
+        if(Array.isArray(arr)) {
+            for (let i = 0; i < arr.length; i++) {
+                str += `<option value="${i}">${arr[i]}</option> `;
+            }
+        }
+        // egg groups are an object, not an array
+        else {
+            for(let key in arr) {
+                str += `<option value="${key}">${arr[key]}</option> `;
+            }
         }
         return str;
     }
