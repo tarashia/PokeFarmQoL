@@ -4,7 +4,7 @@
 class Resources {
     static css() {
         return `<% src/styles/core.css %> `+
-               `<% src/styles/shelter.css %> `+
+               `<% src/styles/shelter.less %> `+
                `<% src/styles/fields.less %> `+
                `<% src/styles/hub.css %> `+
                `<% src/styles/party.less %> `+
@@ -33,6 +33,10 @@ class Resources {
 
     static shelterOptionsHTML() {
         return `<% src/html/shelter-options.html %>`;
+    }
+
+    static shelterSortHTML() {
+        return `<% src/html/shelter-sort.html %>`;
     }
 
     static qolHubHTML() {

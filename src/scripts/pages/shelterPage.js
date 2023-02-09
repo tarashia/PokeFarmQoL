@@ -23,6 +23,7 @@ class ShelterPage extends Page {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
+            shelterSpriteSize: 'auto'
         };
         super(Globals.SHELTER_PAGE_SETTINGS_KEY, defaultPageSettings, 'shelter');
         this.customArray = [];
@@ -66,7 +67,7 @@ class ShelterPage extends Page {
         }
         if(this.USER_SETTINGS.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterSortHTML());
         }
     }
     setupCSS() {
@@ -135,6 +136,20 @@ class ShelterPage extends Page {
             obj.saveSettings();
             obj.customSearch();
         }));
+
+        $('input.qolalone').on('change', function () { //only 1 checkbox may be true
+            $('input.qolalone').not(this).prop('checked', false);
+        });
+
+        $('input[name="shelterSpriteSize"]').on('change', function() {
+            obj.settingsChange('shelterSpriteSize',
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
+                '');
+            obj.customSearch();
+            obj.saveSettings();
+        });
 
         $(window).on('keyup.qol_shelter_shortcuts', function (a) {
             if (0 == $(a.target).closest('input, textarea').length) {
@@ -354,6 +369,22 @@ class ShelterPage extends Page {
                 $('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
                 $('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
                 $('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
+            }
+
+            // sprite size mode
+            $('#shelterarea').removeClass('qolshelterarealarge');
+            $('#shelterarea').removeClass('qolshelterareasmall');
+            $('input[name="shelterSpriteSize"]').prop('checked',false);
+            if(this.settings.shelterSpriteSize == 'large') {
+                $('#shelterarea').addClass('qolshelterarealarge');
+                $('#spriteSizeLarge').prop('checked',true);
+            }
+            else if(this.settings.shelterSpriteSize == 'small') {
+                $('#shelterarea').addClass('qolshelterareasmall');
+                $('#spriteSizeSmall').prop('checked',true);
+            }
+            else {
+                $('#spriteSizeAuto').prop('checked',true);
             }
         }
 
