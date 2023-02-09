@@ -3944,10 +3944,10 @@ class ShelterPage extends Page {
             $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
-    insertShelterFoundDiv(number, name, img) {
+    insertShelterFoundDiv(name, img) {
         document.querySelector('#sheltersuccess').
             insertAdjacentHTML('beforeend',
-                '<div id="shelterfound">' + name + ((number !== 1) ? 's' : '') + ' found ' + img + '</div>');
+                '<div id="shelterfound">' + name + ' found ' + img + '</div>');
     }
     insertShelterTypeFoundDiv(number, type, stage, names) {
         let stageNoun = '';
@@ -3974,7 +3974,7 @@ class ShelterPage extends Page {
             const shelterBigImg = selected.parent().prev().children('img');
             $(shelterBigImg).addClass('shelterfoundme');
 
-            this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
+            this.insertShelterFoundDiv(imgResult, imgFitResult);
         }
     }
 
@@ -3992,7 +3992,7 @@ class ShelterPage extends Page {
                 const shelterBigImg = selected.prev().children('img.big');
                 shelterBigImg.addClass('shelterfoundme');
 
-                this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
+                this.insertShelterFoundDiv(imgResult, imgFitResult);
             }
         }
     }
@@ -4145,7 +4145,7 @@ class ShelterPage extends Page {
                     const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
 
-                    this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
+                    this.insertShelterFoundDiv(tooltipResult, imgFitResult);
                 }
             }
 
@@ -4165,7 +4165,7 @@ class ShelterPage extends Page {
                         const shelterBigImg = shelterImgSearch.prev().children('img');
                         $(shelterBigImg).addClass('shelterfoundme');
                     }
-                    this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
+                    this.insertShelterFoundDiv(searchResult, imgFitResult);
                 }
             }
 
@@ -4214,7 +4214,7 @@ class ShelterPage extends Page {
                                     const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                     $(shelterBigImg).addClass('shelterfoundme');
 
-                                    this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                                    this.insertShelterFoundDiv(tooltipResult, heartPng);
                                 }
                             }
                         }
@@ -4228,7 +4228,7 @@ class ShelterPage extends Page {
                                 const shelterImgSearch = selected;
                                 const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                 $(shelterBigImg).addClass('shelterfoundme');
-                                this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                                this.insertShelterFoundDiv(tooltipResult, heartPng);
                             }
                         }
                     }
@@ -4242,7 +4242,7 @@ class ShelterPage extends Page {
                             const shelterImgSearch = selected;
                             const shelterBigImg = shelterImgSearch.prev().children('img');
                             $(shelterBigImg).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
+                            this.insertShelterFoundDiv(tooltipResult, eggPng);
                         }
                     }
 
@@ -4250,11 +4250,18 @@ class ShelterPage extends Page {
                     if (this.settings.customPng === true) {
                         const selected = $(`#shelterarea img[src*="${customValue}"]`);
                         if (selected.length) {
-                            const searchResult = selected.parent().next().text().split('(')[0];
-                            const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
+                            let searchResult = $(selected[0]).parent().next().text().split('(')[0];
+                            // eggs do not have ( ) since they do not have a level/gender
+                            searchResult = searchResult.split(' View')[0];
+                            // eggs will match twice, since their small/big sprites are the same
+                            let searchCount = selected.length;
+                            if(selected.parent().attr('data-stage')=='egg') {
+                                searchCount = searchCount/2;
+                            }
+                            const tooltipResult = searchCount + ' ' + searchResult + ' (img search)';
                             const shelterImgSearch = selected;
                             $(shelterImgSearch).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                            this.insertShelterFoundDiv(tooltipResult, heartPng);
                         }
                     }
                 }
