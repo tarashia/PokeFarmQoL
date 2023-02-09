@@ -204,15 +204,7 @@ class PublicFieldsPage extends Page {
                 obj.saveSettings();
                 obj.customSearch();
             }));
-        }
 
-        if(this.USER_SETTINGS.publicFieldFeatureEnables.sort) {
-            $('input.qolalone').on('change', function() { //only 1 textbox may be true
-                $('input.qolalone').not(this).prop('checked', false);
-            });
-        }
-
-        if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
             $('.collapsible').on('click', function() {
                 this.classList.toggle('active');
                 const content = this.nextElementSibling;
@@ -222,6 +214,15 @@ class PublicFieldsPage extends Page {
                     content.style.display = 'block';
                 }
             });
+        }
+
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.sort) {
+            $('input.qolalone').on('change', function() { //only 1 textbox may be true
+                $('input.qolalone').not(this).prop('checked', false);
+            });
+        }
+
+        if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
 
             $('#field_berries').on('click', function() {
                 obj.loadSettings();
