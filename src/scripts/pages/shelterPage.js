@@ -542,12 +542,16 @@ class ShelterPage extends Page {
                         const selected = $(`#shelterarea img[src*="${customValue}"]`);
                         if (selected.length) {
                             let searchResult = $(selected[0]).parent().next().text().split('(')[0];
-                            // eggs do not have ( ) since they do not have a level/gender
-                            searchResult = searchResult.split(' View')[0];
-                            // eggs will match twice, since their small/big sprites are the same
                             let searchCount = selected.length;
                             if(selected.parent().attr('data-stage')=='egg') {
+                                // eggs will match twice, since their small/big sprites are the same
                                 searchCount = searchCount/2;
+                                // eggs do not have ( ) since they do not have a level/gender
+                                searchResult = searchResult.split(' View')[0];
+                                // add s for eggs
+                                if(searchCount > 1) {
+                                    searchResult += 's';
+                                }
                             }
                             const tooltipResult = searchCount + ' ' + searchResult + ' (img search)';
                             const shelterImgSearch = selected;
