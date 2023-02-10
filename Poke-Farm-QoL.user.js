@@ -469,7 +469,7 @@ class Resources {
     static css() {
         return `#announcements li[data-name=QoL]{cursor:pointer}#labsuccess{text-align:center}#labfound{padding-top:20px}.boldp{font-weight:700}.collapsible{border-radius:6px;cursor:pointer;max-width:600px;padding:4px;position:relative;text-align:left;width:100%}.collapsible_content{display:none;overflow:hidden;padding:0 18px}.oneevolutionleft{background-color:#f36971;border-radius:100%;box-shadow:0 0 25px 15px #f36971}.twoevolutionleft{background-color:#6a6df2;border-radius:100%;box-shadow:0 0 25px 15px #6a6df2} `+
                `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagridmq2:not(.qolshelterarealarge){grid-template-rows:repeat(5,35px);min-height:175px}.qoltooltipgrid{bottom:0;position:absolute!important;transform:translateY(100%)}.qolpokemongrid{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important}.qolshelterarealarge .pokemon .big{display:block!important}.qolshelterarealarge .pokemon .small,.qolshelterareasmall .pokemon .big{display:none!important}.qolshelterareasmall .pokemon .small{display:block!important} `+
-               `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px} `+
+               `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px}.qolSelectFlavour{display:none}.qolFlavourShown~.qolSelectFlavour{display:inline}.qolFlavourShown~.qolSelectGender,.qolNatureShown~.qolSelectGender{display:none} `+
                `.qolHubSuperHead:first-child{border-top-left-radius:5px;border-top-right-radius:5px}.qolHubHead{margin:0;padding:4px;text-align:center}.qolAllSettings{vertical-align:top}.qolAllSettings,.qolChangeLog{border-top:none;height:100%;width:315px}.qolAllSettings>ul{list-style-type:none;padding:0;vertical-align:top}.qolHubTable{border-collapse:collapse;border-spacing:0;width:100%}.qolChangeLogList{margin:0;padding:4px;text-align:left;text-align:center}.qolChangeLogContent{display:none;list-style-type:disc}.expandlist{font-size:16px;list-style-type:none;text-align:center}.slidermenu{cursor:pointer}.qolChangeLogHead{margin:0}.closeHub{cursor:pointer;font-size:20px;margin:0 10px 0 0;text-align:right}.textareahub textarea{box-sizing:border-box;width:100%}#qolStorageOutput{border:1px solid;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all} `+
                `#qolpartymod{text-align:center}#qolpartymodcustom h3{font-size:100%;padding:2px}.qolPartyCustomParty{--multiuser-button-height:5em;--multiuser-border-radius:8px}.qolPartyCustomParty h1{align-items:center;display:flex;justify-content:center}.qolPartyCustomParty #partybox{padding-top:calc(var(--multiuser-button-height) + 1em);position:relative}.qolPartyCustomParty #partybox .party{box-shadow:none}.qolPartyCustomParty #partybox .party>div{position:static}.qolPartyCustomParty #partybox .action{height:auto!important;left:0;min-height:0;position:absolute;top:0;width:100%;z-index:9999}.qolPartyCustomParty #partybox .action>a,.qolPartyCustomParty #partybox .action>div{line-height:var(--multiuser-button-height);margin:0;min-height:var(--multiuser-button-height);padding:0}.qolPartyCustomParty #partybox .action .berrybuttons>a{box-sizing:border-box;height:100%!important;line-height:var(--multiuser-button-height)!important;width:100%}.qolPartyCustomParty #partybox .action>a{align-items:center;box-sizing:border-box;display:flex!important;justify-content:center}.qolPartyCustomParty #partybox .action.working,.qolPartyCustomParty #partybox .action:empty,.qolPartyCustomParty #partybox .action>table,.qolPartyCustomParty #partybox .berrybuttons>.tooltip_content{display:none}.qolPartyCustomParty #partybox .party>div:hover>.action a[data-berry]:after{border-color:transparent}.qolPartyCustomParty.qolStackMore .qolGetMore,.qolPartyCustomParty.qolStackNext .qolGoNext{height:var(--multiuser-button-height);left:0;line-height:var(--multiuser-button-height);margin:0;padding:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideParty .party{height:0;overflow:hidden}.qolPartyCustomParty.qolCompactParty #partybox .party>div{background:transparent;border:none;margin-bottom:20px;padding:0;width:unset}.qolPartyCustomParty.qolCompactParty #partybox .party .expbar,.qolPartyCustomParty.qolCompactParty #partybox .party .name{display:none}.qolPartyCustomParty.qolCompactParty #partybox .party .pkmn a.qolCompactLink{display:block;height:100%;left:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideFieldButton .fieldslink,.qolPartyCustomParty.qolHideModeChecks #partybox>label,.qolPartyCustomParty.qolHideTrainerCard #profilebox,.qolPartyCustomParty.qolHideUserName h1{display:none}.mq2 .qolPartyCustomParty #partybox .party>div,.multi-compact .qolPartyCustomParty #partybox .party>div{display:inline-block}.mq2 .qolPartyCustomParty #partybox .party>div .pkmn,.multi-compact .qolPartyCustomParty #partybox .party>div .pkmn{margin-right:0}.qolPartyCustomParty #partybox .party .action a,.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{display:none;position:absolute;width:100%}.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyCustomParty #partybox .party .action>a,.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideAll #partybox .party .action>a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideDislike #partybox .party .action>a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyNiceTable #partybox .party .action>a{display:inline-block}.qolPartyCustomParty #partybox .party .working .berrybuttons,.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyCustomParty .loading,.qolPartyHideAll .loading,.qolPartyHideDislike .loading,.qolPartyNiceTable .loading{user-select:none}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyHideAll .tooltip_content,.qolPartyNiceTable #partybox .party>div>:not(.action),.qolPartyNiceTable .tooltip_content{display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .working{display:none} `+
                `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle} `;
@@ -2637,7 +2637,6 @@ class PrivateFieldsPage extends Page {
             customEgg: true,
             customPokemon: true,
             customPng: false,
-            releaseSelectAll: true,
             /* tooltip settings */
             tooltipEnableMods: false,
             tooltipNoBerry: false,
@@ -2745,10 +2744,10 @@ class PrivateFieldsPage extends Page {
         if(obj.USER_SETTINGS.privateFieldFeatureEnables.release) {
             $(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
                 e.stopPropagation();
-                obj.releaseEnableReleaseAll();
+                obj.enableMoveReleaseControls();
             }));
             $(document).on('click', '*[data-menu="bulkmove"]', (function () { // select all feature
-                obj.moveEnableReleaseAll();
+                obj.enableMoveReleaseControls();
             }));
         }
 
@@ -3064,86 +3063,109 @@ class PrivateFieldsPage extends Page {
             $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
-    releaseEnableReleaseAll() {
-        if (this.settings.releaseSelectAll === true &&
-            !$('#selectallfield').length) {
-            const checkboxes = `<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all</label> <label id="selectallfieldany"><input id="selectallfieldanycheckbox" type="checkbox">Select Any</label> <label id="selectallfieldsour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour</label> <label id="selectallfieldspicy"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label> <label id="selectallfielddry"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry</label> <label id="selectallfieldsweet"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet</label> <label id="selectallfieldbitter"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter</label>`;
-            $('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
-            $('#selectallfieldcheckbox').click(function () {
-                $('#massreleaselist>ul>li>label>input').not(this).prop('checked', this.checked);
-            });
+    showBulkNatures(enable) {
+        let pkmn = $('input[name="masspkmn"]');
+        for(let i=0; i<pkmn.length; i++) {
+            let pkmnDetails = $(pkmn[i]).next().next().html();
+            if(enable) {
+                let natureRegex = /<b>Nature:<\/b> ([a-zA-Zï]+)/;
+                let results = pkmnDetails.match(natureRegex);
+                if(results.length>1) { // this should always be true, but just in case
+                    $(pkmn[i]).next().next().next().html(results[1]);
+                }
+            }
+            else {
+                let genderRegex = /<span class="icons">(<img src=".+">)<\/span>/;
+                let results = pkmnDetails.match(genderRegex);
+                if(results.length>1) { // this should always be true, but just in case
+                    $(pkmn[i]).next().next().next().html(results[1]);
+                }
+            }
+        }
+    }
+    enableMoveReleaseControls() {
+        // find flavour checkbox, add show nature checkbox
+        let flavourCheckbox =  $('.bulkpokemonlist>label:first-child>input');
+        let natureCheckbox = $('<input type="checkbox"> Show Pokemon natures');
+        let natureLabel = $('<label></label>').append(natureCheckbox).append(' Show Pokemon natures');
+        flavourCheckbox.parent().after('<br>');
+        flavourCheckbox.parent().after(natureLabel);
+        flavourCheckbox.parent().after('<br>');
 
-            $('#selectallfieldanycheckbox').click(function () {
-                const selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
-                $(selectAny).not(this).prop('checked', this.checked);
-            });
+        // add flavour/nature listeners
+        flavourCheckbox.on('change',function() {
+            // disable show natures
+            $('.bulkpokemonlist').removeClass('qolNatureShown');
+            natureCheckbox.prop('checked',false);
 
-            $('#selectallfieldsourcheckbox').click(function () {
-                const selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
-                $(selectSour).not(this).prop('checked', this.checked);
-            });
+            if($(this).prop('checked')) {
+                $('.bulkpokemonlist').addClass('qolFlavourShown');
+            }
+            else {
+                $('.bulkpokemonlist').removeClass('qolFlavourShown');
+            }
+        });
+        let obj = this;
+        natureCheckbox.on('change',function() {
+            // disable show flavours
+            $('.bulkpokemonlist').removeClass('qolFlavourShown');
+            flavourCheckbox.prop('checked',false);
 
-            $('#selectallfieldspicycheckbox').click(function () {
-                const selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
-                $(selectSpicy).not(this).prop('checked', this.checked);
-            });
+            if($(this).prop('checked')) {
+                $('.bulkpokemonlist').addClass('qolNatureShown');
+                obj.showBulkNatures(true);
+            }
+            else {
+                $('.bulkpokemonlist').removeClass('qolNatureShown');
+                obj.showBulkNatures(false);
+            }
+        });
 
-            $('#selectallfielddrycheckbox').click(function () {
-                const selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
-                $(selectDry).not(this).prop('checked', this.checked);
-            });
+        // add selection checkboxes
+        const checkboxes = `<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all</label> <label id="selectallfieldmale" class="qolSelectGender"><input id="selectallfieldmalecheckbox" type="checkbox">Select Male</label> <label id="selectallfieldfemale" class="qolSelectGender"><input id="selectallfieldfemalecheckbox" type="checkbox">Select Female</label> <label id="selectallfieldgenderless" class="qolSelectGender"><input id="selectallfieldgenderlesscheckbox" type="checkbox">Select Genderless</label> <label id="selectallfieldany" class="qolSelectFlavour"><input id="selectallfieldanycheckbox" type="checkbox">Select Any</label> <label id="selectallfieldsour" class="qolSelectFlavour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour</label> <label id="selectallfieldspicy" class="qolSelectFlavour"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label> <label id="selectallfielddry" class="qolSelectFlavour"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry</label> <label id="selectallfieldsweet" class="qolSelectFlavour"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet</label> <label id="selectallfieldbitter" class="qolSelectFlavour"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter</label>`;
+        $('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
 
-            $('#selectallfieldsweetcheckbox').click(function () {
-                const selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
-                $(selectSweet).not(this).prop('checked', this.checked);
-            });
-
-            $('#selectallfieldbittercheckbox').click(function () {
-                const selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
-                $(selectBitter).not(this).prop('checked', this.checked);
-            });
-        } // if
-    } // releaseAll
-    moveEnableReleaseAll() {
-        if (this.settings.releaseSelectAll === true &&
-            !$('#movefieldselectall').length) {
-            const checkboxes = `<label id="movefieldselectall"><input id="movefieldselectallcheckbox" type="checkbox">Select all</label> <label id="movefieldselectany"><input id="movefieldselectanycheckbox" type="checkbox">Select Any</label> <label id="movefieldselectsour"><input id="movefieldselectsourcheckbox" type="checkbox">Select Sour</label> <label id="movefieldselectspicy"><input id="movefieldselectspicycheckbox" type="checkbox">Select Spicy</label> <label id="movefieldselectdry"><input id="movefieldselectdrycheckbox" type="checkbox">Select Dry</label> <label id="movefieldselectsweet"><input id="movefieldselectsweetcheckbox" type="checkbox">Select Sweet</label> <label id="movefieldselectbitter"><input id="movefieldselectbittercheckbox" type="checkbox">Select Bitter</label>`;
-            $('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
-            $('#movefieldselectallcheckbox').click(function () {
-                $('#massmovelist>ul>li>label>input').not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectanycheckbox').click(function () {
-                const selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
-                $(selectAny).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectsourcheckbox').click(function () {
-                const selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
-                $(selectSour).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectspicycheckbox').click(function () {
-                const selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
-                $(selectSpicy).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectdrycheckbox').click(function () {
-                const selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
-                $(selectDry).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectsweetcheckbox').click(function () {
-                const selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
-                $(selectSweet).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectbittercheckbox').click(function () {
-                const selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
-                $(selectBitter).not(this).prop('checked', this.checked);
-            });
-        } // if
-    } // moveEnableReleaseAll
+        // checkbox listeners
+        $('#selectallfieldcheckbox').click(function () {
+            $('.bulkpokemonlist>ul>li>label>input').not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldmalecheckbox').click(function () {
+            const selectAny = $('.icons img[title="[M]"]').parent().prev().prev().prev('input');
+            $(selectAny).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldfemalecheckbox').click(function () {
+            const selectAny = $('.icons img[title="[F]"]').parent().prev().prev().prev('input');
+            $(selectAny).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldgenderlesscheckbox').click(function () {
+            const selectAny = $('.icons img[title="[N]"]').parent().prev().prev().prev('input');
+            $(selectAny).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldanycheckbox').click(function () {
+            const selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
+            $(selectAny).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldsourcheckbox').click(function () {
+            const selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
+            $(selectSour).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldspicycheckbox').click(function () {
+            const selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
+            $(selectSpicy).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfielddrycheckbox').click(function () {
+            const selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
+            $(selectDry).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldsweetcheckbox').click(function () {
+            const selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
+            $(selectSweet).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldbittercheckbox').click(function () {
+            const selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
+            $(selectBitter).not(this).prop('checked', this.checked);
+        });
+    }
 }
 
 class PublicFieldsPage extends Page {
