@@ -234,6 +234,12 @@ class Helpers {
     }
 
     static addPkmnLinksPopup() {
+      let fielddiv = document.getElementById('field_field');
+      if(!fielddiv) {
+        // Ensure we're actually on a page with fields.
+        // I'm not sure how, but I once saw the button show in forums.
+        return;
+      }
       let body = document.getElementsByTagName('body')[0];
       let header = document.getElementsByTagName('h1')[0];
       let core = document.getElementById('core');
@@ -3330,6 +3336,17 @@ class PublicFieldsPage extends Page {
             obj.saveSettings();
         }));
 
+        // enable all collapses
+        $('.collapsible').on('click', function() {
+            this.classList.toggle('active');
+            const content = this.nextElementSibling;
+            if(content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        });
+
         if(this.USER_SETTINGS.publicFieldFeatureEnables.search) {
             $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
                 obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
@@ -3374,16 +3391,6 @@ class PublicFieldsPage extends Page {
                 obj.saveSettings();
                 obj.customSearch();
             }));
-
-            $('.collapsible').on('click', function() {
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                if(content.style.display === 'block') {
-                    content.style.display = 'none';
-                } else {
-                    content.style.display = 'block';
-                }
-            });
         }
 
         if(this.USER_SETTINGS.publicFieldFeatureEnables.sort) {

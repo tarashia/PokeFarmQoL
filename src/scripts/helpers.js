@@ -219,6 +219,12 @@ class Helpers {
     }
 
     static addPkmnLinksPopup() {
+      let fielddiv = document.getElementById('field_field');
+      if(!fielddiv) {
+        // Ensure we're actually on a page with fields.
+        // I'm not sure how, but I once saw the button show in forums.
+        return;
+      }
       let body = document.getElementsByTagName('body')[0];
       let header = document.getElementsByTagName('h1')[0];
       let core = document.getElementById('core');
