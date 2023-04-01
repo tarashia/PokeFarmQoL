@@ -1,4 +1,26 @@
 class LocalStorageManager {
+    // Look for settings that contain QoL and return them as an array of keys
+    // Uses the same basic code as the migrateSettings function
+    static getAllQoLSettings(includeDex=false) {
+        const qolSettings = {};
+        for (let i = 0, len = localStorage.length; i < len; ++i) {
+            const key = localStorage.key(i);
+            // the dex is the largest data element by far; allow excluding it
+            if(key && key.match(/QoL/) && (includeDex || !key.match(/QoLPokedex/))) {
+                qolSettings[key] = localStorage.getItem(key);
+            }
+        }
+        return qolSettings;
+    }
+    // delete ALL QoL keys in storage
+    static clearAllQoLKeys() {
+        for (let i = 0, len = localStorage.length; i < len; ++i) {
+            const key = localStorage.key(i);
+            if(key && key.match(/QoL/)) {
+                localStorage.removeItem(key);
+            }
+        }
+    }
     /**
      * This function helps users use the updated script without having to
      * clear their settings by looking for items in local storage that
@@ -7,15 +29,24 @@ class LocalStorageManager {
      */
     static migrateSettings() {
         const newItems = {};
+        const newKeys = [];
         const keysToRemove = [];
         // find the items that need to be replaced
         for (let i = 0, len = localStorage.length; i < len; ++i) {
-            const match = localStorage.key(i).match(/^QoL.*/);
+            let match = localStorage.key(i).match(/^QoL/);
+            if(!match) {
+                // the user ID feature was just returning undefined - convert these too
+                match = localStorage.key(i).match(/^undefined\.QoL/);
+            }
             if(match) {
                 const oldKey = match.input;
                 const newKey = LocalStorageManager.translateKey(oldKey);
                 newItems[newKey] = localStorage.getItem(oldKey);
                 keysToRemove.push(oldKey);
+            }
+            match = localStorage.key(i).match(/^undefined\.undefined\.QoL/);
+            if(match) {
+                keysToRemove.push(match.input);
             }
         }
         // remove the old style keys
@@ -25,15 +56,32 @@ class LocalStorageManager {
         // add the new style keys
         for(const newKey in newItems) {
             localStorage.setItem(newKey, newItems[newKey]);
+            newKeys.push(newKey);
+        }
+        if(keysToRemove.length>0 || newKeys.length>0) {
+            console.log('Migrated keys (old, new):');
+            console.log(keysToRemove);
+            console.log(newKeys);
         }
     }
     static translateKey(key) {
-        return `${$.USERID}.${key}`;
+        let pos = key.indexOf('QoL');
+        if(pos<0) {
+            throw 'Bad key format';
+        }
+        key = key.substring(pos);
+        let userID = $('#core').attr('data-user');
+        if(!userID) {
+            userID = 'unknown';
+        }
+        return userID+'.'+key;
     }
     static saveSettings(key, obj) {
+        if (key == null){ return; }
         localStorage.setItem(LocalStorageManager.translateKey(key), JSON.stringify(obj));
     }
     static loadSettings(KEY, DEFAULT, obj) {
+        if (KEY == null){ return; }
         KEY = LocalStorageManager.translateKey(KEY);
         if (localStorage.getItem(KEY) === null) {
             this.saveSettings(KEY);
@@ -97,20 +145,5 @@ class LocalStorageManager {
     static updateLocalStorageDex(DEX_DATA, dateString) {
         const datePlusDex = [dateString].concat(DEX_DATA);
         localStorage.setItem(LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
-    }
-
-    static getAllLocalStorage() {
-        const n = localStorage.length;
-        let keys = [];
-        let data = [];
-
-        for(let i=0; i<n; i++){
-            keys[i] = localStorage.key(i);
-        }
-        for(let j=0; j<n; j++) {
-            data[keys[j]] = localStorage.getItem(keys[j]);
-        }
-
-        return data;
     }
 }

@@ -37,14 +37,11 @@ class PublicFieldsPage extends Page {
         this.natureArray = [];
         this.eggGroupArray = [];
         const obj = this;
-        this.observer = new MutationObserver(function(mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function(mutation) {
-                obj.customSearch();
-                if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-                    obj.handleTooltipSettings();
-                }
-            });
+        this.observer = new MutationObserver(function() {
+            obj.customSearch();
+            if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
+                obj.handleTooltipSettings();
+            }
         });
     }
 
@@ -163,6 +160,17 @@ class PublicFieldsPage extends Page {
             obj.saveSettings();
         }));
 
+        // enable all collapses
+        $('.collapsible').on('click', function() {
+            this.classList.toggle('active');
+            const content = this.nextElementSibling;
+            if(content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        });
+
         if(this.USER_SETTINGS.publicFieldFeatureEnables.search) {
             $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
                 obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
@@ -216,15 +224,6 @@ class PublicFieldsPage extends Page {
         }
 
         if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-            $('.collapsible').on('click', function() {
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                if(content.style.display === 'block') {
-                    content.style.display = 'none';
-                } else {
-                    content.style.display = 'block';
-                }
-            });
 
             $('#field_berries').on('click', function() {
                 obj.loadSettings();

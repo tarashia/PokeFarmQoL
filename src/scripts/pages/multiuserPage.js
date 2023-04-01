@@ -4,13 +4,30 @@ class MultiuserPage extends Page {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
+            customParty: false,
+            stackNextButton: true,
+            stackMoreButton: true,
+            showPokemon: true,
+            compactPokemon: true,
+            clickablePokemon: false,
+            showTrainerCard: true,
+            showFieldButton: false,
+            showModeChecks: false,
+            showUserName: true
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
+            let doMod = false;
             mutations.forEach(function (mutation) {
-                obj.partyModification();
+                if($(mutation.target).attr('id') == 'partybox'){
+                    // many mutations fire, so limit calls to party mod to prevent excess and looping calls
+                    // #partybox is when the next button is added, making it a convenient time to run the mods
+                    doMod = true;
+                }
             });
+            if(doMod) {
+                obj.partyModification();
+            }
         });
     }
 
@@ -19,7 +36,7 @@ class MultiuserPage extends Page {
             return false;
         }
 
-        const mutuallyExclusive = ['hideAll', 'hideDislike', 'niceTable'];
+        const mutuallyExclusive = ['hideAll', 'hideDislike', 'niceTable', 'customParty'];
         const idx = mutuallyExclusive.indexOf(element);
         if (idx > -1) {
             for (let i = 0; i < mutuallyExclusive.length; i++) {
@@ -33,32 +50,16 @@ class MultiuserPage extends Page {
     }
     setupHTML() {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.partyModHTML());
+        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.partyModCustomHTML());
     }
     setupCSS() {
         const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
         $('#qolpartymod').css('background-color', '' + menuBackground + '');
         const menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
         $('#qolpartymod').css('color', '' + menuColor + '');
-
-        // wait for the skin colors to load, then use them for additional CSS
-        Promise.resolve(this.USER_SETTINGS.userSkinColors).then(MultiuserPage.setupSkinCSS);
-    }
-    static setupSkinCSS() {
-        let settings = UserSettingsHandle.getSettings();
-        // make any buttons use the berry-up color
-        if(settings.userSkinColors && settings.userSkinColors['col-flavour-up']) {
-            $("<style>")
-                .prop("type", "text/css")
-                .html('.qolPartyModded .action .berrybuttons[data-up="any"] a[data-berry="aspear"] { background-color: '
-                        +settings.userSkinColors['col-flavour-up']+'; border-radius: 20px;}')
-                .appendTo("head");
-        }
-        else {
-            console.warn('Could not load berry up color from user skin');
-            console.log(JSON.stringify(settings));
-        }
     }
     setupObserver() {
+        // don't observe the whole party area as it may cause excess firing
         this.observer.observe(document.querySelector('#multiuser'), {
             childList: true,
             subtree: true,
@@ -66,31 +67,14 @@ class MultiuserPage extends Page {
     }
     setupHandlers() {
         const obj = this;
-        $(window).on('load', (function () {
-            obj.loadSettings();
-            obj.partyModification();
-        }));
 
-        let resizeTimer;
         $(window).resize(function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                obj.loadSettings();
+            obj.loadSettings();
+            setTimeout(() => {
+                // the hide all alignment works better with the timeout
                 obj.partyModification();
             }, 100);
         });
-
-        $(document).on('click input', '#qolpartymod', (function () {
-            // the hide all option needs a delay like the resize timer to work when first clicked
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                obj.partyModification();
-            }, 100);
-        }));
-
-        $(document).on('click', '.tabbed_interface', (function () {
-            obj.partyModification();
-        }));
 
         $(document).on('change', '.qolsetting', (function () {
             obj.loadSettings();
@@ -98,44 +82,113 @@ class MultiuserPage extends Page {
                 $(this).val(),
                 $(this).parent().parent().attr('class'),
                 $(this).parent().attr('class'));
-            obj.partyModification();
             obj.saveSettings();
+            obj.partyModification();
         }));
 
         $('input.qolalone').on('change', function () { //only 1 checkbox may be true
             $('input.qolalone').not(this).prop('checked', false);
         });
 
+        $('#qolpartymodcustom h3 a').on('click', function() {
+            if($('#qolpartymodcustom h3').hasClass('active')) {
+                $('#qolpartymodcustom h3').removeClass('active');
+                $('#qolpartymodcustom > div').css('display','none');
+            }
+            else {
+                $('#qolpartymodcustom h3').addClass('active');
+                $('#qolpartymodcustom > div').css('display','block');
+            }
+        });
+
+    }
+    // changes that all available mods make
+    sharedPartyMods() {
+        $('#multiuser').addClass('qolPartyModded');
+        // change any berry to sour so it gets a bg color
+        $('.berrybuttons[data-up="any"]').attr('data-up','sour'); 
     }
     partyModification() {
-        // first, remove any existing selection
+        // first, remove any existing selection (all qol classes)
+        let classList = document.getElementById('multiuser').className.split(/\s+/);
+        for (let i = 0; i < classList.length; i++) {
+            if (classList[i].match(/^qol/)) {
+                $('#multiuser').removeClass(classList[i]);
+            }
+        }
+        $('#qolpartymodcustom').css('display','none');
+        $('.party .pkmn a.qolCompactLink').remove();
+
         const btns = $('#multiuser .party>div .action a');
-        $('#multiuser').removeClass('qolPartyModded');
-        $('#multiuser').removeClass('qolPartyHideDislike');
-        $('#multiuser').removeClass('qolPartyNiceTable');
-        $('#multiuser').removeClass('qolPartyHideAll');
         if(btns) {
             btns.css({"top":0,"left":0});
         }
 
         if (this.settings.hideDislike === true) {
             $('#multiuser').addClass('qolPartyHideDislike');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
         }
 
         if (this.settings.niceTable === true) {
             $('#multiuser').addClass('qolPartyNiceTable');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
         }
 
         if (this.settings.hideAll === true) {
             $('#multiuser').addClass('qolPartyHideAll');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
             // on chrome, sometimes .position() is undefined on load
             if(btns && nextLink && nextLink.position()) {
                 btns.css(nextLink.position());
             }
+        }
+
+        if (this.settings.customParty === true) {
+            $('#multiuser').addClass('qolPartyCustomParty');
+            this.sharedPartyMods();
+            $('#qolpartymodcustom').css('display','block');
+
+            // differentiate next and more buttons
+            let next = $('.mu_navlink.next');
+            if(next.text() == 'Get more +') {
+                next.addClass('qolGetMore');
+            }
+            else {
+                next.addClass('qolGoNext');
+            }
+
+            // hide classes are inverted
+            this.partymodHelper('qolStackNext',this.settings.stackNextButton === true);
+            this.partymodHelper('qolStackMore',this.settings.stackMoreButton === true);
+            this.partymodHelper('qolHideParty',this.settings.showPokemon === false);
+            this.partymodHelper('qolCompactParty',this.settings.compactPokemon === true);
+            this.partymodHelper('qolHideTrainerCard',this.settings.showTrainerCard === false);
+            this.partymodHelper('qolHideFieldButton',this.settings.showFieldButton === false);
+            this.partymodHelper('qolHideModeChecks',this.settings.showModeChecks === false);
+            this.partymodHelper('qolHideUserName',this.settings.showUserName === false);
+
+            // clickable compact pokemon
+            if(this.settings.showPokemon === true 
+                && this.settings.compactPokemon === true  
+                && this.settings.clickablePokemon === true ) 
+            {
+                $('.party .pkmn').each(function() {
+                    const pkmnID = $(this.parentElement).attr('data-pid');
+                    if(pkmnID) {
+                        $(this).append('<a class="qolCompactLink" href="/summary/'+pkmnID+'"></a>');
+                    }
+                });
+            }
+        }
+    }
+    // toggle setting should be true to add the class, false to remove it
+    partymodHelper(toggleClass, toggleSetting) {
+        if(toggleSetting) {
+            $('#multiuser').addClass(toggleClass);
+        }
+        else {
+            $('#multiuser').removeClass(toggleClass);
         }
     }
 }

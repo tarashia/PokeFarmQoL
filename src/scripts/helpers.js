@@ -42,8 +42,16 @@ class Helpers {
     }
     static buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
-        for (let i = 0; i < arr.length; i++) {
-            str += `<option value="${i}">${arr[i]}</option> `;
+        if(Array.isArray(arr)) {
+            for (let i = 0; i < arr.length; i++) {
+                str += `<option value="${i}">${arr[i]}</option> `;
+            }
+        }
+        // egg groups are an object, not an array
+        else {
+            for(let key in arr) {
+                str += `<option value="${key}">${arr[key]}</option> `;
+            }
         }
         return str;
     }
@@ -211,6 +219,12 @@ class Helpers {
     }
 
     static addPkmnLinksPopup() {
+      let fielddiv = document.getElementById('field_field');
+      if(!fielddiv) {
+        // Ensure we're actually on a page with fields.
+        // I'm not sure how, but I once saw the button show in forums.
+        return;
+      }
       let body = document.getElementsByTagName('body')[0];
       let header = document.getElementsByTagName('h1')[0];
       let core = document.getElementById('core');

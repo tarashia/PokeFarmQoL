@@ -4,7 +4,7 @@
 class Resources {
     static css() {
         return `<% src/styles/core.css %> `+
-               `<% src/styles/shelter.css %> `+
+               `<% src/styles/shelter.less %> `+
                `<% src/styles/fields.less %> `+
                `<% src/styles/hub.css %> `+
                `<% src/styles/party.less %> `+
@@ -35,6 +35,10 @@ class Resources {
         return `<% src/html/shelter-options.html %>`;
     }
 
+    static shelterSortHTML() {
+        return `<% src/html/shelter-sort.html %>`;
+    }
+
     static qolHubHTML() {
         return `<% src/html/qol-hub.html %>`;
     }
@@ -57,5 +61,9 @@ class Resources {
 
     static partyModHTML() {
         return `<% src/html/party-mod.html %>`;
+    }
+
+    static partyModCustomHTML() {
+        return `<% src/html/party-mod-custom.html %>`;
     }
 }

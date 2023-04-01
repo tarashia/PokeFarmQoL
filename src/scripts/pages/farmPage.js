@@ -13,19 +13,15 @@ class FarmPage extends Page {
         return d;
     }
     constructor() {
-        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+        super(undefined, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
         const obj = this;
-        function observeFunc(mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.easyQuickEvolve();
-                $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            });
-        }
-        this.observer = new MutationObserver(observeFunc);
+        this.observer = new MutationObserver(function() {
+            obj.easyQuickEvolve();
+            $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+        });
     }
     setupHTML() {
         $(document).ready(function () {

@@ -73,14 +73,16 @@ class QoLHub {
             $('#qolConsoleContent').html(consoleContent);
         }));
 
-        $(document).on('click', '#qolDataLog', (function() {
-            console.log(UserSettingsHandle.getSettings());
-        }));
-        $(document).on('click', '#qolDexLog', (function() {
-            console.log(UserSettingsHandle.getDex());
-        }));
         $(document).on('click', '#qolStorageLog', (function() {
-            console.log(LocalStorageManager.getAllLocalStorage());
+            let storedSettings = LocalStorageManager.getAllQoLSettings();
+            console.log(storedSettings);
+            // get relevant browser/screen size data, add to object
+            // convert to JSON, then base 64 encode
+            let output = JSON.stringify(storedSettings);
+            output = btoa(output);
+            // output to somewhere user can copy/paste it
+            $('#qolStorageOutput').text(output);
+            $('#qolStorageOutput').css('display','block');
         }));
     }
     loadSettings() {
@@ -97,9 +99,7 @@ class QoLHub {
         }
     }
     clearAllSettings() {
-        this.PAGES.clearAllPageSettings();
-        this.USER_SETTINGS.setDefaults();
-        this.saveSettings();
+        LocalStorageManager.clearAllQoLKeys();
         location.reload(); 
     }
     saveSettings() {

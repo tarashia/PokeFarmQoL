@@ -6,7 +6,7 @@
 // @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      1.7.7
+// @version      1.7.8
 // @match        https://pokefarm.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // ==/UserScript==
@@ -57,8 +57,16 @@ class Helpers {
     }
     static buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
-        for (let i = 0; i < arr.length; i++) {
-            str += `<option value="${i}">${arr[i]}</option> `;
+        if(Array.isArray(arr)) {
+            for (let i = 0; i < arr.length; i++) {
+                str += `<option value="${i}">${arr[i]}</option> `;
+            }
+        }
+        // egg groups are an object, not an array
+        else {
+            for(let key in arr) {
+                str += `<option value="${key}">${arr[key]}</option> `;
+            }
         }
         return str;
     }
@@ -226,6 +234,12 @@ class Helpers {
     }
 
     static addPkmnLinksPopup() {
+      let fielddiv = document.getElementById('field_field');
+      if(!fielddiv) {
+        // Ensure we're actually on a page with fields.
+        // I'm not sure how, but I once saw the button show in forums.
+        return;
+      }
       let body = document.getElementsByTagName('body')[0];
       let header = document.getElementsByTagName('h1')[0];
       let core = document.getElementById('core');
@@ -279,25 +293,14 @@ class Helpers {
 }
 
 class Globals {
+    // if you add a new page settings key, be sure to add it to the reset menu in qol-hub.html
     static SETTINGS_SAVE_KEY = 'QoLSettings';
-    static DAYCARE_PAGE_SETTINGS_KEY = 'QoLDaycare';
-    static DEX_PAGE_SETTINGS_KEY = 'QoLDexPage';
-    static FARM_PAGE_SETTINGS_KEY = 'QoLFarm';
-    static FISHING_PAGE_SETTINGS_KEY = 'QoLFishing';
     static LAB_PAGE_SETTINGS_KEY = 'QoLLab';
     static MULTIUSER_PAGE_SETTINGS_KEY = 'QoLMultiuser';
     static PRIVATE_FIELDS_PAGE_SETTINGS_KEY = 'QoLPrivateFields';
     static PUBLIC_FIELDS_PAGE_SETTINGS_KEY = 'QoLPublicFields';
     static SHELTER_PAGE_SETTINGS_KEY = 'QoLShelter';
-    static WISHFORGE_PAGE_SETTINGS_KEY = 'QoLWishforge';
     static POKEDEX_DATA_KEY = 'QoLPokedex';
-    static POKEDEX_DEX_IDS_KEY = 'QoLDexIDsCache';
-    static POKEDEX_REGIONAL_FORMS_KEY = 'QoLRegionalFormsList';
-    static POKEDEX_EGG_TYPES_MAP_KEY = 'QoLEggTypesMap';
-    static POKEDEX_EVOLVE_BY_LEVEL_KEY = 'QoLEvolveByLevel';
-    static POKEDEX_EVOLUTION_TREE_DEPTH_KEY = 'QoLEvolutionTreeDepth';
-    static INTERACTIONS_PAGE_SETTINGS_KEY = 'QoLInteractions';
-    static SUMMARY_PAGE_SETTINGS_KEY = 'QoLSummary';
         /*
          * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
          * Don't change the order without looking for where this array is used
@@ -315,6 +318,28 @@ class Globals {
 }
 
 class LocalStorageManager {
+    // Look for settings that contain QoL and return them as an array of keys
+    // Uses the same basic code as the migrateSettings function
+    static getAllQoLSettings(includeDex=false) {
+        const qolSettings = {};
+        for (let i = 0, len = localStorage.length; i < len; ++i) {
+            const key = localStorage.key(i);
+            // the dex is the largest data element by far; allow excluding it
+            if(key && key.match(/QoL/) && (includeDex || !key.match(/QoLPokedex/))) {
+                qolSettings[key] = localStorage.getItem(key);
+            }
+        }
+        return qolSettings;
+    }
+    // delete ALL QoL keys in storage
+    static clearAllQoLKeys() {
+        for (let i = 0, len = localStorage.length; i < len; ++i) {
+            const key = localStorage.key(i);
+            if(key && key.match(/QoL/)) {
+                localStorage.removeItem(key);
+            }
+        }
+    }
     /**
      * This function helps users use the updated script without having to
      * clear their settings by looking for items in local storage that
@@ -323,15 +348,24 @@ class LocalStorageManager {
      */
     static migrateSettings() {
         const newItems = {};
+        const newKeys = [];
         const keysToRemove = [];
         // find the items that need to be replaced
         for (let i = 0, len = localStorage.length; i < len; ++i) {
-            const match = localStorage.key(i).match(/^QoL.*/);
+            let match = localStorage.key(i).match(/^QoL/);
+            if(!match) {
+                // the user ID feature was just returning undefined - convert these too
+                match = localStorage.key(i).match(/^undefined\.QoL/);
+            }
             if(match) {
                 const oldKey = match.input;
                 const newKey = LocalStorageManager.translateKey(oldKey);
                 newItems[newKey] = localStorage.getItem(oldKey);
                 keysToRemove.push(oldKey);
+            }
+            match = localStorage.key(i).match(/^undefined\.undefined\.QoL/);
+            if(match) {
+                keysToRemove.push(match.input);
             }
         }
         // remove the old style keys
@@ -341,15 +375,32 @@ class LocalStorageManager {
         // add the new style keys
         for(const newKey in newItems) {
             localStorage.setItem(newKey, newItems[newKey]);
+            newKeys.push(newKey);
+        }
+        if(keysToRemove.length>0 || newKeys.length>0) {
+            console.log('Migrated keys (old, new):');
+            console.log(keysToRemove);
+            console.log(newKeys);
         }
     }
     static translateKey(key) {
-        return `${$.USERID}.${key}`;
+        let pos = key.indexOf('QoL');
+        if(pos<0) {
+            throw 'Bad key format';
+        }
+        key = key.substring(pos);
+        let userID = $('#core').attr('data-user');
+        if(!userID) {
+            userID = 'unknown';
+        }
+        return userID+'.'+key;
     }
     static saveSettings(key, obj) {
+        if (key == null){ return; }
         localStorage.setItem(LocalStorageManager.translateKey(key), JSON.stringify(obj));
     }
     static loadSettings(KEY, DEFAULT, obj) {
+        if (KEY == null){ return; }
         KEY = LocalStorageManager.translateKey(KEY);
         if (localStorage.getItem(KEY) === null) {
             this.saveSettings(KEY);
@@ -414,21 +465,6 @@ class LocalStorageManager {
         const datePlusDex = [dateString].concat(DEX_DATA);
         localStorage.setItem(LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
     }
-
-    static getAllLocalStorage() {
-        const n = localStorage.length;
-        let keys = [];
-        let data = [];
-
-        for(let i=0; i<n; i++){
-            keys[i] = localStorage.key(i);
-        }
-        for(let j=0; j<n; j++) {
-            data[keys[j]] = localStorage.getItem(keys[j]);
-        }
-
-        return data;
-    }
 }
 
 
@@ -438,15 +474,15 @@ class LocalStorageManager {
 class Resources {
     static css() {
         return `#announcements li[data-name=QoL]{cursor:pointer}#labsuccess{text-align:center}#labfound{padding-top:20px}.boldp{font-weight:700}.collapsible{border-radius:6px;cursor:pointer;max-width:600px;padding:4px;position:relative;text-align:left;width:100%}.collapsible_content{display:none;overflow:hidden;padding:0 18px}.oneevolutionleft{background-color:#f36971;border-radius:100%;box-shadow:0 0 25px 15px #f36971}.twoevolutionleft{background-color:#6a6df2;border-radius:100%;box-shadow:0 0 25px 15px #6a6df2} `+
-               `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagridmq2{grid-template-rows:repeat(5,35px);min-height:175px}.qoltooltipgrid{bottom:0;position:absolute!important;transform:translateY(100%)}.qolpokemongrid{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important} `+
-               `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px} `+
-               `.qolHubSuperHead:first-child{border-top-left-radius:5px;border-top-right-radius:5px}.qolHubHead{margin:0;padding:4px;text-align:center}.qolAllSettings{vertical-align:top}.qolAllSettings,.qolChangeLog{border-top:none;height:100%;width:315px}.qolAllSettings>ul{list-style-type:none;padding:0;vertical-align:top}.qolHubTable{border-collapse:collapse;border-spacing:0;width:100%}.qolChangeLogList{margin:0;padding:4px;text-align:left;text-align:center}.qolChangeLogContent{display:none;list-style-type:disc}.expandlist{font-size:16px;list-style-type:none;text-align:center}.slidermenu{cursor:pointer}.qolChangeLogHead{margin:0}.closeHub{cursor:pointer;font-size:20px;margin:0 10px 0 0;text-align:right}.textareahub textarea{box-sizing:border-box;width:100%} `+
-               `#qolpartymod{text-align:center}.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{position:absolute;width:100%}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>[data-berry=pecha]{z-index:99!important}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a{display:none!important}.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear]{display:inline-block!important}.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyNiceTable #partybox .party>div>:not(.action){display:none}.qolPartyHideAll .tooltip_content,.qolPartyNiceTable .tooltip_content{display:none!important}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .working{display:none!important} `+
+               `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagridmq2:not(.qolshelterarealarge){grid-template-rows:repeat(5,35px);min-height:175px}.qoltooltipgrid{bottom:0;position:absolute!important;transform:translateY(100%)}.qolpokemongrid{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important}.qolpokemongrid img{max-height:100%;max-width:100%}.qolshelterarealarge .pokemon .big{display:block!important}.qolshelterarealarge .pokemon .small,.qolshelterareasmall .pokemon .big{display:none!important}.qolshelterareasmall .pokemon .small{display:block!important} `+
+               `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px}.qolSelectFlavour{display:none}.qolFlavourShown~.qolSelectFlavour{display:inline}.qolFlavourShown~.qolSelectGender,.qolNatureShown~.qolSelectGender{display:none} `+
+               `.qolHubSuperHead:first-child{border-top-left-radius:5px;border-top-right-radius:5px}.qolHubHead{margin:0;padding:4px;text-align:center}.qolAllSettings{vertical-align:top}.qolAllSettings,.qolChangeLog{border-top:none;height:100%;width:315px}.qolAllSettings>ul{list-style-type:none;padding:0;vertical-align:top}.qolHubTable{border-collapse:collapse;border-spacing:0;width:100%}.qolChangeLogList{margin:0;padding:4px;text-align:left;text-align:center}.qolChangeLogContent{display:none;list-style-type:disc}.expandlist{font-size:16px;list-style-type:none;text-align:center}.slidermenu{cursor:pointer}.qolChangeLogHead{margin:0}.closeHub{cursor:pointer;font-size:20px;margin:0 10px 0 0;text-align:right}.textareahub textarea{box-sizing:border-box;width:100%}#qolStorageOutput{border:1px solid;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all} `+
+               `#qolpartymod{text-align:center}#qolpartymodcustom h3{font-size:100%;padding:2px}.qolPartyCustomParty{--multiuser-button-height:5em;--multiuser-border-radius:8px}.qolPartyCustomParty h1{align-items:center;display:flex;justify-content:center}.qolPartyCustomParty #partybox{padding-top:calc(var(--multiuser-button-height) + 1em);position:relative}.qolPartyCustomParty #partybox .party{box-shadow:none}.qolPartyCustomParty #partybox .party>div{position:static}.qolPartyCustomParty #partybox .action{height:auto!important;left:0;min-height:0;position:absolute;top:0;width:100%;z-index:9999}.qolPartyCustomParty #partybox .action>a,.qolPartyCustomParty #partybox .action>div{line-height:var(--multiuser-button-height);margin:0;min-height:var(--multiuser-button-height);padding:0}.qolPartyCustomParty #partybox .action .berrybuttons>a{box-sizing:border-box;height:100%!important;line-height:var(--multiuser-button-height)!important;width:100%}.qolPartyCustomParty #partybox .action>a{align-items:center;box-sizing:border-box;display:flex!important;justify-content:center}.qolPartyCustomParty #partybox .action.working,.qolPartyCustomParty #partybox .action:empty,.qolPartyCustomParty #partybox .action>table,.qolPartyCustomParty #partybox .berrybuttons>.tooltip_content{display:none}.qolPartyCustomParty #partybox .party>div:hover>.action a[data-berry]:after{border-color:transparent}.qolPartyCustomParty.qolStackMore .qolGetMore,.qolPartyCustomParty.qolStackNext .qolGoNext{height:var(--multiuser-button-height);left:0;line-height:var(--multiuser-button-height);margin:0;padding:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideParty .party{height:0;overflow:hidden}.qolPartyCustomParty.qolCompactParty #partybox .party>div{background:transparent;border:none;margin-bottom:20px;padding:0;width:unset}.qolPartyCustomParty.qolCompactParty #partybox .party .expbar,.qolPartyCustomParty.qolCompactParty #partybox .party .name{display:none}.qolPartyCustomParty.qolCompactParty #partybox .party .pkmn a.qolCompactLink{display:block;height:100%;left:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideFieldButton .fieldslink,.qolPartyCustomParty.qolHideModeChecks #partybox>label,.qolPartyCustomParty.qolHideTrainerCard #profilebox,.qolPartyCustomParty.qolHideUserName h1{display:none}.mq2 .qolPartyCustomParty #partybox .party>div,.multi-compact .qolPartyCustomParty #partybox .party>div{display:inline-block}.mq2 .qolPartyCustomParty #partybox .party>div .pkmn,.multi-compact .qolPartyCustomParty #partybox .party>div .pkmn{margin-right:0}.qolPartyCustomParty #partybox .party .action a,.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{display:none;position:absolute;width:100%}.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyCustomParty #partybox .party .action>a,.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideAll #partybox .party .action>a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideDislike #partybox .party .action>a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyNiceTable #partybox .party .action>a{display:inline-block}.qolPartyCustomParty #partybox .party .working .berrybuttons,.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyCustomParty .loading,.qolPartyHideAll .loading,.qolPartyHideDislike .loading,.qolPartyNiceTable .loading{user-select:none}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyHideAll .tooltip_content,.qolPartyNiceTable #partybox .party>div>:not(.action),.qolPartyNiceTable .tooltip_content{display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .working{display:none} `+
                `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle} `;
     }
 
     static fieldSearchHTML() {
-        return `<div id="fieldsearch"><button type="button" class="collapsible"><b>Advanced Field search</b></button><div class="collapsible_content"><p>Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldShiny">Shiny</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldAlbino">Albino</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldMelanistic">Melanistic</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldPrehistoric">Prehistoric</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldDelta">Delta</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMega">Mega</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldStarter">Starter</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomSprite">Custom Sprite</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldItem">Holds Item</label></td></tr></tbody></table><h4>Search on type</h4><p>Select which types of Pokemon you wish to find</p><input type="button" value="Add type" id="addFieldTypeSearch"><div id="fieldTypes"><div class="0"></div></div><h4>Search on nature</h4><p>Select which natures of Pokemon you wish to find</p><input type="button" value="Add nature" id="addFieldNatureSearch"><div id="natureTypes"><div class="0"></div></div><h4>Search on egg group</h4><p>Select which egg groups you wish to find</p><input type="button" value="Add egg group" id="addFieldEggGroupSearch"><div id="eggGroupTypes"><div class="0"></div></div><h4>Custom Search</h4><p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p><div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div><div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. When the URL for its image is this:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>paste only '1/g/g' (without the quotes), and now it will show you when a Bulbasaur is found! You may also copy the complete link.<br><a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a></span></div><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomEgg">Custom Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomPokemon">Custom Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomPng">By img code</label></td></tr></tbody></table><h4>Search on gender</h4><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMale">Male</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldFemale">Female</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldNoGender">Genderless</label></td></tr></tbody></table><h4>Search Keys</h4><input type="button" value="Add searchfield" id="addTextField"><div id="searchkeys"><div class="0"></div></div></div></div>`;
+        return `<div id="fieldsearch"><button type="button" class="collapsible"><b>Advanced Field search</b></button><div class="collapsible_content"><p>Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldShiny">Shiny</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldAlbino">Albino</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldMelanistic">Melanistic</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldPrehistoric">Prehistoric</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldDelta">Delta</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMega">Mega</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldStarter">Starter</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomSprite">Custom Sprite</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldItem">Holds Item</label></td></tr></tbody></table><h4>Search on type</h4><p>Select which types of Pokemon you wish to find</p><input type="button" value="Add type" id="addFieldTypeSearch"><div id="fieldTypes"><div class="0"></div></div><h4>Search on nature</h4><p>Select which natures of Pokemon you wish to find</p><input type="button" value="Add nature" id="addFieldNatureSearch"><div id="natureTypes"><div class="0"></div></div><h4>Search on egg group</h4><p>Select which egg groups you wish to find</p><input type="button" value="Add egg group" id="addFieldEggGroupSearch"><div id="eggGroupTypes"><div class="0"></div></div><h4>Custom Search</h4><p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p><div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div><div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. When the URL for its image is this:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>paste only '1/g/g' (without the quotes), and now it will show you when a Bulbasaur is found! You may also copy the complete link.<br><a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a></span></div><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomEgg">Custom Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomPokemon">Custom Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomPng">By img code</label></td></tr></tbody></table><h4>Search on gender</h4><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMale">Male</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldFemale">Female</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldNoGender">Genderless</label></td></tr></tbody></table><h4>Search Keys</h4><input type="button" value="Add searchfield" id="addTextField"><div id="searchkeys"><div class="0"></div></div><br></div></div>`;
     }
 
     static fieldSortHTML() {
@@ -462,15 +498,19 @@ class Resources {
     }
 
     static privateFieldSearchHTML() {
-        return `<div id="fieldsearch"><button type="button" class="collapsible"><b>Advanced Field search</b></button><div class="collapsible_content"><p>Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldShiny">Shiny</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldAlbino">Albino</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldMelanistic">Melanistic</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldPrehistoric">Prehistoric</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldDelta">Delta</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMega">Mega</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldStarter">Starter</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomSprite">Custom Sprite</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldItem">Holds Item</label></td></tr></tbody></table><h4>Search on type</h4><p>Select which types of Pokemon you wish to find</p><input type="button" value="Add type" id="addPrivateFieldTypeSearch"><div id="fieldTypes"><div class="0"></div></div><h4>Search on nature</h4><p>Select which natures of Pokemon you wish to find</p><input type="button" value="Add nature" id="addPrivateFieldNatureSearch"><div id="natureTypes"><div class="0"></div></div><h4>Search on egg group</h4><p>Select which egg groups you wish to find</p><input type="button" value="Add egg group" id="addPrivateFieldEggGroupSearch"><div id="eggGroupTypes"><div class="0"></div></div><h4>Custom Search</h4><p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p><div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div><div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. You paste it's Img code in the search bar:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>and now it will show you when a Bulbasaur is found! Copy paste the complete link (starting from //) or you won't find anything.<br><br><a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a></span></div><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="customPokemon">Custom Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="customPng">By img code</label></td></tr></tbody></table><h4>Search on gender</h4><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMale">Male</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldFemale">Female</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldNoGender">Genderless</label></td></tr></tbody></table><h4>Search Keys</h4><input type="button" value="Add searchfield" id="addTextField"><div id="searchkeys"><div class="0"></div></div></div></div>`;
+        return `<div id="fieldsearch"><button type="button" class="collapsible"><b>Advanced Field search</b></button><div class="collapsible_content"><p>Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldShiny">Shiny</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldAlbino">Albino</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldMelanistic">Melanistic</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldPrehistoric">Prehistoric</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldDelta">Delta</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMega">Mega</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldStarter">Starter</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomSprite">Custom Sprite</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldItem">Holds Item</label></td></tr></tbody></table><h4>Search on type</h4><p>Select which types of Pokemon you wish to find</p><input type="button" value="Add type" id="addPrivateFieldTypeSearch"><div id="fieldTypes"><div class="0"></div></div><h4>Search on nature</h4><p>Select which natures of Pokemon you wish to find</p><input type="button" value="Add nature" id="addPrivateFieldNatureSearch"><div id="natureTypes"><div class="0"></div></div><h4>Search on egg group</h4><p>Select which egg groups you wish to find</p><input type="button" value="Add egg group" id="addPrivateFieldEggGroupSearch"><div id="eggGroupTypes"><div class="0"></div></div><h4>Custom Search</h4><p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p><div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div><div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. You paste it's Img code in the search bar:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>and now it will show you when a Bulbasaur is found! Copy paste the complete link (starting from //) or you won't find anything.<br><br><a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a></span></div><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="customPokemon">Custom Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="customPng">By img code</label></td></tr></tbody></table><h4>Search on gender</h4><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMale">Male</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldFemale">Female</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldNoGender">Genderless</label></td></tr></tbody></table><h4>Search Keys</h4><input type="button" value="Add searchfield" id="addTextField"><div id="searchkeys"><div class="0"></div></div></div><br></div>`;
     }
 
     static shelterOptionsHTML() {
         return `<div id="shelteroptionsqol"><p>Check the boxes of Pokemon you wish to find in the shelter! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemon you selected! Use the letter 'n' key to select and cycle through the Pokemon matched by the script.</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="findNewEgg">New Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findNewPokemon">New Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findShiny">Shiny</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findAlbino">Albino</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findMelanistic">Melanistic</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findPrehistoric">Prehistoric</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findDelta">Delta</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findMega">Mega</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findStarter">Starter</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findCustomSprite">Custom Sprite</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findLegendary">Legendary</label></td></tr></tbody></table><h4>Search on type</h4><p>Select which types of Pokemon and/or eggs you wish to find</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="findTypeEgg">Egg types</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findTypePokemon">Pokemon types</label></td></tr></tbody></table><input type="button" value="Add typesearch" id="addShelterTypeList"><div id="shelterTypes"><div class="0"></div></div><h4>Custom Search</h4><p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p><div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div><div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. You paste it's Img code in the search bar:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>and now it will show you when a Bulbasaur is found! Copy paste the complete link (starting from //) or you won't find anything.<br><br><a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a></span></div><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="customPokemon">Custom Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="customPng">By img code</label></td></tr></tbody></table><h4>Search on Gender</h4><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="findMale">Male</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findFemale">Female</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findNoGender">Genderless</label></td></tr></tbody></table><h4>Search Keys</h4><input type="button" value="Add searchfield" id="addShelterTextfield"><div id="searchkeys"><div class="0"></div></div></div>`;
     }
 
+    static shelterSortHTML() {
+        return `<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"><span>Sort by Grid</span></label><div style="padding: 5px">Sprite size mode:<p style="margin: 5px 0"><input type="radio" id="spriteSizeAuto" name="shelterSpriteSize" value="auto"> <label for="spriteSizeAuto">Automatic</label></p><p style="margin: 5px 0"><input type="radio" id="spriteSizeLarge" name="shelterSpriteSize" value="large"> <label for="spriteSizeLarge">Large</label></p><p style="margin: 5px 0"><input type="radio" id="spriteSizeSmall" name="shelterSpriteSize" value="small"> <label for="spriteSizeSmall">Small</label></p></div></div>`;
+    }
+
     static qolHubHTML() {
-        return `<div class="dialog"><div><div><div><h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3><div><p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p><div><table class="qolHubTable"><tbody><tr><td><h3 class="qolHubHead">Settings</h3></td></tr><tr><td class="qolAllSettings"><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"> <span>Advanced Sorting</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="partyMod"> <span>Party click mod</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="easyEvolve"> <span>Easy evolving</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="labNotifier"> <span>Lab Notifier</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></li></ul><span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span></td></tr><tr><td><h3 class="qolHubHead">Change log</h3></td></tr><tr><td class="qolChangeLog"><ul class="qolChangeLogList"><li class="expandlist"><span>Change log was removed as of April 2021. Visit <a href="https://github.com/tarashia/PokeFarmQoL" target="_blank">GitHub</a> for the latest list of features</span></li></ul></td></tr><tr><td colspan="2" class="qolDexUpdate"><h3 class="qolHubHead">Pokedex Settings</h3></td></tr><tr id="qolDexUpdateRow"><td colspan="2" class="qolAllSettings"><span>Notice that you can't find the newly added Eggs or Pokemon in shelter? You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.</span><br><span>Date last updated: <span class="qolDate"></span></span></td></tr><tr id="qolDexClearRow"><td colspan="2"><input type="button" value="Clear Cached Dex" id="clearCachedDex"></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Css Settings</h3></td></tr><tr><td colspan="2"><span>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting is not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></span></td></tr><tr><td colspan="2" class="qolAllSettings"><div class="textareahub"><textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea></div></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Debugging Corner</h3></td></tr><tr id="qolDebuggingCornerRow"><td colspan="2" class="qolAllSettings"><span>Use these controls to reset the settings for a particular page back to its defaults</span><br><span><b>Page Select</b></span><!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" class="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option><option value="Daycare">Daycare</option><option value="Farm">Farm</option><option value="Fishing">Fishing</option><option value="Lab">Lab</option><option value="Multiuser">Multiuser</option><option value="PrivateFields">Private Fields</option><option value="PublicFields">Public Fields</option><option value="Shelter">Shelter</option></select> <input type="button" value="Reset Page Settings" id="resetPageSettings"> <input type="button" value="Reset ALL Settings" id="resetAllSettings"></td></tr><tr><td><input type="button" value="Log Settings" id="qolDataLog"> <input type="button" value="Log Dex" id="qolDexLog"> <input type="button" value="Log Storage" id="qolStorageLog"><br><br>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <input type="button" value="View errors" id="qolErrorConsole"><ul id="qolConsoleContent" style="word-break:break-all;"></ul></td></tr></tbody></table></div></div><p class="closeHub">Close</p></div></div></div></div>`;
+        return `<div class="dialog"><div><div><div style="margin-top: 1em; margin-bottom: 1em;"><h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3><div><p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p><div><table class="qolHubTable"><tbody><tr><td><h3 class="qolHubHead">Settings</h3></td></tr><tr><td class="qolAllSettings"><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"> <span>Advanced Sorting</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="partyMod"> <span>Party click mod</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="easyEvolve"> <span>Easy evolving</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="labNotifier"> <span>Lab Notifier</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></li></ul><span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span></td></tr><tr><td><h3 class="qolHubHead">Change log</h3></td></tr><tr><td class="qolChangeLog"><ul class="qolChangeLogList"><li class="expandlist"><span>Change log was removed as of April 2021. Visit <a href="https://github.com/tarashia/PokeFarmQoL" target="_blank">GitHub</a> for the latest list of features</span></li></ul></td></tr><tr><td colspan="2" class="qolDexUpdate"><h3 class="qolHubHead">Pokedex Settings</h3></td></tr><tr id="qolDexUpdateRow"><td colspan="2" class="qolAllSettings"><span>Notice that you can't find the newly added Eggs or Pokemon in shelter? You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.</span><br><span>Date last updated: <span class="qolDate"></span></span></td></tr><tr id="qolDexClearRow"><td colspan="2"><input type="button" value="Clear Cached Dex" id="clearCachedDex"></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Css Settings</h3></td></tr><tr><td colspan="2"><span>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting is not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></span></td></tr><tr><td colspan="2" class="qolAllSettings"><div class="textareahub"><textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea></div></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Debugging Corner</h3></td></tr><tr id="qolDebuggingCornerRow"><td colspan="2" class="qolAllSettings"><span>Use these controls to reset the settings for a particular page back to its defaults</span><br><span><b>Page Select</b></span><!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" class="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option><option value="Lab">Lab</option><option value="Multiuser">Multiuser</option><option value="PrivateFields">Private Fields</option><option value="PublicFields">Public Fields</option><option value="Shelter">Shelter</option></select> <input type="button" value="Reset Page Settings" id="resetPageSettings"> <input type="button" value="Reset ALL Settings" id="resetAllSettings"></td></tr><tr><td><br>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <input type="button" value="View errors" id="qolErrorConsole"><ul id="qolConsoleContent" style="word-break:break-all;"></ul><br>The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs. <input type="button" value="Load settings" id="qolStorageLog"><div id="qolStorageOutput" style="display: none;"></div></td></tr></tbody></table></div></div><p class="closeHub">Close</p></div></div></div></div>`;
     }
 
     static publicFieldTooltipModHTML() {
@@ -490,7 +530,11 @@ class Resources {
     }
 
     static partyModHTML() {
-        return `<div id="qolpartymod"><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike">Hide disliked berries</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable">Show in table</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll">Hide all click fast</label></div>`;
+        return `<div id="qolpartymod"><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike">Hide disliked berries</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable">Show in table</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll">Hide all click fast</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="customParty">Customize</label></div>`;
+    }
+
+    static partyModCustomHTML() {
+        return `<div id="qolpartymodcustom" class="panel accordion" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="clickablePokemon">Clickable pokemon (if compact)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showUserName">Show user name</label></div></div></div>`;
     }
 }
 
@@ -617,36 +661,6 @@ class UserSettings {
         for (const [key, value] of Object.entries(settingsObj)) {
             recursiveCopy(this, key, value);
         }
-    }
-
-    loadUserSkinColors() {
-        let skinLink = $('link[rel="stylesheet"][href*="sally.css"]')
-        if(skinLink.length==0) {
-            console.warn('Failed to locate user skin file');
-            return;
-        }
-        skinLink = skinLink[0].href;
-        let regex = /^(https:)?\/\/pfq-static\.com\/skins\/(.+)\/index\/sally.css\/t=\d+$/;
-        let result = skinLink.match(regex);
-        if(!result || !result[2]) {
-            console.warn('Unexpected skin file format: '+skinLink);
-            return;
-        }
-        let userSkin = result[2];
-        let settings = this;
-        // store a promise initially; will be replaced by the actual object when loaded
-        settings.userSkinColors = $.get("https://pfq-static.com/skins/"+userSkin+"/__colours.less", function( data ) {
-            let skinColors = [];
-            let regex = /^@([a-zA-Z0-9_-]+): (#[a-fA-F0-9]+);$/;
-            const dataLines = data.split(/\r?\n/);
-            for(let i=0; i<dataLines.length; i++) {
-                let result = dataLines[i].match(regex);
-                if(result && result[1] && result[2])  {
-                    skinColors[result[1]] = result[2];
-                }
-            }
-            settings.userSkinColors = skinColors;
-        });
     }
 }
 
@@ -903,14 +917,16 @@ class QoLHub {
             $('#qolConsoleContent').html(consoleContent);
         }));
 
-        $(document).on('click', '#qolDataLog', (function() {
-            console.log(UserSettingsHandle.getSettings());
-        }));
-        $(document).on('click', '#qolDexLog', (function() {
-            console.log(UserSettingsHandle.getDex());
-        }));
         $(document).on('click', '#qolStorageLog', (function() {
-            console.log(LocalStorageManager.getAllLocalStorage());
+            let storedSettings = LocalStorageManager.getAllQoLSettings();
+            console.log(storedSettings);
+            // get relevant browser/screen size data, add to object
+            // convert to JSON, then base 64 encode
+            let output = JSON.stringify(storedSettings);
+            output = btoa(output);
+            // output to somewhere user can copy/paste it
+            $('#qolStorageOutput').text(output);
+            $('#qolStorageOutput').css('display','block');
         }));
     }
     loadSettings() {
@@ -927,9 +943,7 @@ class QoLHub {
         }
     }
     clearAllSettings() {
-        this.PAGES.clearAllPageSettings();
-        this.USER_SETTINGS.setDefaults();
-        this.saveSettings();
+        LocalStorageManager.clearAllQoLKeys();
         location.reload(); 
     }
     saveSettings() {
@@ -1090,10 +1104,6 @@ class PFQoL {
       this.PAGES = new PagesManager();
       this.QOLHUB = new QoLHub(this.PAGES);
 
-      // loads the current skin colors into UserSettings.userSkinColors
-      // this will initially be a promise; use Promise.resolve(UserSettingsHandle.getSettings().userSkinColors).then(callback);
-      UserSettingsHandle.getSettings().loadUserSkinColors();
-
       this.init();
   }
   instantiatePages(obj) {
@@ -1197,6 +1207,9 @@ class PFQoL {
 }
 
 class Page {
+    /* ssk should be a value from Globals indicating the storage key name
+        this is only set when the page has page-specific settings
+        if the page does not have settings, pass undefined instead */
     constructor(ssk, ds, url) {
         this.settingsSaveKey = ssk;
         this.defaultSettings = ds;
@@ -1286,7 +1299,7 @@ class Page {
 
 class DaycarePage extends Page {
     constructor() {
-        super(Globals.DAYCARE_PAGE_SETTINGS_KEY, {}, 'daycare');
+        super(undefined, {}, 'daycare');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
@@ -1390,13 +1403,10 @@ class DaycarePage extends Page {
 
 class DexPage extends Page {
     constructor() {
-        super(Globals.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
+        super(undefined, {}, 'dex');
         const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.applyTypeFilters();
-            });
+        this.observer = new MutationObserver(function () {
+            obj.applyTypeFilters();
         });
         this.typeArray = [];
 
@@ -1520,19 +1530,15 @@ class FarmPage extends Page {
         return d;
     }
     constructor() {
-        super(Globals.FARM_PAGE_SETTINGS_KEY, {}, 'farm#tab=1');
+        super(undefined, {}, 'farm#tab=1');
         this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
         this.settings = this.defaultSettings;
         this.evolveListCache = '';
         const obj = this;
-        function observeFunc(mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.easyQuickEvolve();
-                $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-            });
-        }
-        this.observer = new MutationObserver(observeFunc);
+        this.observer = new MutationObserver(function() {
+            obj.easyQuickEvolve();
+            $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
+        });
     }
     setupHTML() {
         $(document).ready(function () {
@@ -2115,7 +2121,7 @@ class FarmPage extends Page {
 
 class FishingPage extends Page {
     constructor() {
-        super(Globals.FISHING_PAGE_SETTINGS_KEY, {}, 'fishing');
+        super(undefined, {}, 'fishing');
         // no observer
     }
     setupHTML() {
@@ -2157,7 +2163,7 @@ class FishingPage extends Page {
 
 class InteractionsPage extends Page {
   constructor() {
-      super(Globals.INTERACTIONS_PAGE_SETTINGS_KEY, {}, 'interactions');
+      super(undefined, {}, 'interactions');
   } // constructor
 
   setupHTML() {
@@ -2209,11 +2215,8 @@ class LabPage extends Page {
         this.searchArray = [];
         this.typeArray = [];
         const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.customSearch();
-            });
+        this.observer = new MutationObserver(function () {
+            obj.customSearch();
         });
     }
 
@@ -2426,13 +2429,30 @@ class MultiuserPage extends Page {
             hideDislike: false,
             hideAll: false,
             niceTable: false,
+            customParty: false,
+            stackNextButton: true,
+            stackMoreButton: true,
+            showPokemon: true,
+            compactPokemon: true,
+            clickablePokemon: false,
+            showTrainerCard: true,
+            showFieldButton: false,
+            showModeChecks: false,
+            showUserName: true
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
+            let doMod = false;
             mutations.forEach(function (mutation) {
-                obj.partyModification();
+                if($(mutation.target).attr('id') == 'partybox'){
+                    // many mutations fire, so limit calls to party mod to prevent excess and looping calls
+                    // #partybox is when the next button is added, making it a convenient time to run the mods
+                    doMod = true;
+                }
             });
+            if(doMod) {
+                obj.partyModification();
+            }
         });
     }
 
@@ -2441,7 +2461,7 @@ class MultiuserPage extends Page {
             return false;
         }
 
-        const mutuallyExclusive = ['hideAll', 'hideDislike', 'niceTable'];
+        const mutuallyExclusive = ['hideAll', 'hideDislike', 'niceTable', 'customParty'];
         const idx = mutuallyExclusive.indexOf(element);
         if (idx > -1) {
             for (let i = 0; i < mutuallyExclusive.length; i++) {
@@ -2455,32 +2475,16 @@ class MultiuserPage extends Page {
     }
     setupHTML() {
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.partyModHTML());
+        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.partyModCustomHTML());
     }
     setupCSS() {
         const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
         $('#qolpartymod').css('background-color', '' + menuBackground + '');
         const menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
         $('#qolpartymod').css('color', '' + menuColor + '');
-
-        // wait for the skin colors to load, then use them for additional CSS
-        Promise.resolve(this.USER_SETTINGS.userSkinColors).then(MultiuserPage.setupSkinCSS);
-    }
-    static setupSkinCSS() {
-        let settings = UserSettingsHandle.getSettings();
-        // make any buttons use the berry-up color
-        if(settings.userSkinColors && settings.userSkinColors['col-flavour-up']) {
-            $("<style>")
-                .prop("type", "text/css")
-                .html('.qolPartyModded .action .berrybuttons[data-up="any"] a[data-berry="aspear"] { background-color: '
-                        +settings.userSkinColors['col-flavour-up']+'; border-radius: 20px;}')
-                .appendTo("head");
-        }
-        else {
-            console.warn('Could not load berry up color from user skin');
-            console.log(JSON.stringify(settings));
-        }
     }
     setupObserver() {
+        // don't observe the whole party area as it may cause excess firing
         this.observer.observe(document.querySelector('#multiuser'), {
             childList: true,
             subtree: true,
@@ -2488,31 +2492,14 @@ class MultiuserPage extends Page {
     }
     setupHandlers() {
         const obj = this;
-        $(window).on('load', (function () {
-            obj.loadSettings();
-            obj.partyModification();
-        }));
 
-        let resizeTimer;
         $(window).resize(function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                obj.loadSettings();
+            obj.loadSettings();
+            setTimeout(() => {
+                // the hide all alignment works better with the timeout
                 obj.partyModification();
             }, 100);
         });
-
-        $(document).on('click input', '#qolpartymod', (function () {
-            // the hide all option needs a delay like the resize timer to work when first clicked
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                obj.partyModification();
-            }, 100);
-        }));
-
-        $(document).on('click', '.tabbed_interface', (function () {
-            obj.partyModification();
-        }));
 
         $(document).on('change', '.qolsetting', (function () {
             obj.loadSettings();
@@ -2520,44 +2507,113 @@ class MultiuserPage extends Page {
                 $(this).val(),
                 $(this).parent().parent().attr('class'),
                 $(this).parent().attr('class'));
-            obj.partyModification();
             obj.saveSettings();
+            obj.partyModification();
         }));
 
         $('input.qolalone').on('change', function () { //only 1 checkbox may be true
             $('input.qolalone').not(this).prop('checked', false);
         });
 
+        $('#qolpartymodcustom h3 a').on('click', function() {
+            if($('#qolpartymodcustom h3').hasClass('active')) {
+                $('#qolpartymodcustom h3').removeClass('active');
+                $('#qolpartymodcustom > div').css('display','none');
+            }
+            else {
+                $('#qolpartymodcustom h3').addClass('active');
+                $('#qolpartymodcustom > div').css('display','block');
+            }
+        });
+
+    }
+    // changes that all available mods make
+    sharedPartyMods() {
+        $('#multiuser').addClass('qolPartyModded');
+        // change any berry to sour so it gets a bg color
+        $('.berrybuttons[data-up="any"]').attr('data-up','sour'); 
     }
     partyModification() {
-        // first, remove any existing selection
+        // first, remove any existing selection (all qol classes)
+        let classList = document.getElementById('multiuser').className.split(/\s+/);
+        for (let i = 0; i < classList.length; i++) {
+            if (classList[i].match(/^qol/)) {
+                $('#multiuser').removeClass(classList[i]);
+            }
+        }
+        $('#qolpartymodcustom').css('display','none');
+        $('.party .pkmn a.qolCompactLink').remove();
+
         const btns = $('#multiuser .party>div .action a');
-        $('#multiuser').removeClass('qolPartyModded');
-        $('#multiuser').removeClass('qolPartyHideDislike');
-        $('#multiuser').removeClass('qolPartyNiceTable');
-        $('#multiuser').removeClass('qolPartyHideAll');
         if(btns) {
             btns.css({"top":0,"left":0});
         }
 
         if (this.settings.hideDislike === true) {
             $('#multiuser').addClass('qolPartyHideDislike');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
         }
 
         if (this.settings.niceTable === true) {
             $('#multiuser').addClass('qolPartyNiceTable');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
         }
 
         if (this.settings.hideAll === true) {
             $('#multiuser').addClass('qolPartyHideAll');
-            $('#multiuser').addClass('qolPartyModded');
+            this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
             // on chrome, sometimes .position() is undefined on load
             if(btns && nextLink && nextLink.position()) {
                 btns.css(nextLink.position());
             }
+        }
+
+        if (this.settings.customParty === true) {
+            $('#multiuser').addClass('qolPartyCustomParty');
+            this.sharedPartyMods();
+            $('#qolpartymodcustom').css('display','block');
+
+            // differentiate next and more buttons
+            let next = $('.mu_navlink.next');
+            if(next.text() == 'Get more +') {
+                next.addClass('qolGetMore');
+            }
+            else {
+                next.addClass('qolGoNext');
+            }
+
+            // hide classes are inverted
+            this.partymodHelper('qolStackNext',this.settings.stackNextButton === true);
+            this.partymodHelper('qolStackMore',this.settings.stackMoreButton === true);
+            this.partymodHelper('qolHideParty',this.settings.showPokemon === false);
+            this.partymodHelper('qolCompactParty',this.settings.compactPokemon === true);
+            this.partymodHelper('qolHideTrainerCard',this.settings.showTrainerCard === false);
+            this.partymodHelper('qolHideFieldButton',this.settings.showFieldButton === false);
+            this.partymodHelper('qolHideModeChecks',this.settings.showModeChecks === false);
+            this.partymodHelper('qolHideUserName',this.settings.showUserName === false);
+
+            // clickable compact pokemon
+            if(this.settings.showPokemon === true 
+                && this.settings.compactPokemon === true  
+                && this.settings.clickablePokemon === true ) 
+            {
+                $('.party .pkmn').each(function() {
+                    const pkmnID = $(this.parentElement).attr('data-pid');
+                    if(pkmnID) {
+                        $(this).append('<a class="qolCompactLink" href="/summary/'+pkmnID+'"></a>');
+                    }
+                });
+            }
+        }
+    }
+    // toggle setting should be true to add the class, false to remove it
+    partymodHelper(toggleClass, toggleSetting) {
+        if(toggleSetting) {
+            $('#multiuser').addClass(toggleClass);
+        }
+        else {
+            $('#multiuser').removeClass(toggleClass);
         }
     }
 }
@@ -2587,7 +2643,6 @@ class PrivateFieldsPage extends Page {
             customEgg: true,
             customPokemon: true,
             customPng: false,
-            releaseSelectAll: true,
             /* tooltip settings */
             tooltipEnableMods: false,
             tooltipNoBerry: false,
@@ -2599,14 +2654,11 @@ class PrivateFieldsPage extends Page {
         this.natureArray = [];
         this.eggGroupArray = [];
         const obj = this;
-        this.observer = new MutationObserver((mutations) => {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach((mutation) => {
-                obj.customSearch();
-                if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
-                    obj.handleTooltipSettings();
-                }
-            });
+        this.observer = new MutationObserver(() => {
+            obj.customSearch();
+            if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
+                obj.handleTooltipSettings();
+            }
         });
     }
 
@@ -2698,10 +2750,10 @@ class PrivateFieldsPage extends Page {
         if(obj.USER_SETTINGS.privateFieldFeatureEnables.release) {
             $(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
                 e.stopPropagation();
-                obj.releaseEnableReleaseAll();
+                obj.enableMoveReleaseControls();
             }));
             $(document).on('click', '*[data-menu="bulkmove"]', (function () { // select all feature
-                obj.moveEnableReleaseAll();
+                obj.enableMoveReleaseControls();
             }));
         }
 
@@ -3017,86 +3069,109 @@ class PrivateFieldsPage extends Page {
             $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
-    releaseEnableReleaseAll() {
-        if (this.settings.releaseSelectAll === true &&
-            !$('#selectallfield').length) {
-            const checkboxes = `<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all</label> <label id="selectallfieldany"><input id="selectallfieldanycheckbox" type="checkbox">Select Any</label> <label id="selectallfieldsour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour</label> <label id="selectallfieldspicy"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label> <label id="selectallfielddry"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry</label> <label id="selectallfieldsweet"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet</label> <label id="selectallfieldbitter"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter</label>`;
-            $('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
-            $('#selectallfieldcheckbox').click(function () {
-                $('#massreleaselist>ul>li>label>input').not(this).prop('checked', this.checked);
-            });
+    showBulkNatures(enable) {
+        let pkmn = $('input[name="masspkmn"]');
+        for(let i=0; i<pkmn.length; i++) {
+            let pkmnDetails = $(pkmn[i]).next().next().html();
+            if(enable) {
+                let natureRegex = /<b>Nature:<\/b> ([a-zA-Zï]+)/;
+                let results = pkmnDetails.match(natureRegex);
+                if(results.length>1) { // this should always be true, but just in case
+                    $(pkmn[i]).next().next().next().html(results[1]);
+                }
+            }
+            else {
+                let genderRegex = /<span class="icons">(<img src=".+">)<\/span>/;
+                let results = pkmnDetails.match(genderRegex);
+                if(results.length>1) { // this should always be true, but just in case
+                    $(pkmn[i]).next().next().next().html(results[1]);
+                }
+            }
+        }
+    }
+    enableMoveReleaseControls() {
+        // find flavour checkbox, add show nature checkbox
+        let flavourCheckbox =  $('.bulkpokemonlist>label:first-child>input');
+        let natureCheckbox = $('<input type="checkbox"> Show Pokemon natures');
+        let natureLabel = $('<label></label>').append(natureCheckbox).append(' Show Pokemon natures');
+        flavourCheckbox.parent().after('<br>');
+        flavourCheckbox.parent().after(natureLabel);
+        flavourCheckbox.parent().after('<br>');
 
-            $('#selectallfieldanycheckbox').click(function () {
-                const selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
-                $(selectAny).not(this).prop('checked', this.checked);
-            });
+        // add flavour/nature listeners
+        flavourCheckbox.on('change',function() {
+            // disable show natures
+            $('.bulkpokemonlist').removeClass('qolNatureShown');
+            natureCheckbox.prop('checked',false);
 
-            $('#selectallfieldsourcheckbox').click(function () {
-                const selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
-                $(selectSour).not(this).prop('checked', this.checked);
-            });
+            if($(this).prop('checked')) {
+                $('.bulkpokemonlist').addClass('qolFlavourShown');
+            }
+            else {
+                $('.bulkpokemonlist').removeClass('qolFlavourShown');
+            }
+        });
+        let obj = this;
+        natureCheckbox.on('change',function() {
+            // disable show flavours
+            $('.bulkpokemonlist').removeClass('qolFlavourShown');
+            flavourCheckbox.prop('checked',false);
 
-            $('#selectallfieldspicycheckbox').click(function () {
-                const selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
-                $(selectSpicy).not(this).prop('checked', this.checked);
-            });
+            if($(this).prop('checked')) {
+                $('.bulkpokemonlist').addClass('qolNatureShown');
+                obj.showBulkNatures(true);
+            }
+            else {
+                $('.bulkpokemonlist').removeClass('qolNatureShown');
+                obj.showBulkNatures(false);
+            }
+        });
 
-            $('#selectallfielddrycheckbox').click(function () {
-                const selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
-                $(selectDry).not(this).prop('checked', this.checked);
-            });
+        // add selection checkboxes
+        const checkboxes = `<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all</label> <label id="selectallfieldmale" class="qolSelectGender"><input id="selectallfieldmalecheckbox" type="checkbox">Select Male</label> <label id="selectallfieldfemale" class="qolSelectGender"><input id="selectallfieldfemalecheckbox" type="checkbox">Select Female</label> <label id="selectallfieldgenderless" class="qolSelectGender"><input id="selectallfieldgenderlesscheckbox" type="checkbox">Select Genderless</label> <label id="selectallfieldany" class="qolSelectFlavour"><input id="selectallfieldanycheckbox" type="checkbox">Select Any</label> <label id="selectallfieldsour" class="qolSelectFlavour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour</label> <label id="selectallfieldspicy" class="qolSelectFlavour"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label> <label id="selectallfielddry" class="qolSelectFlavour"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry</label> <label id="selectallfieldsweet" class="qolSelectFlavour"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet</label> <label id="selectallfieldbitter" class="qolSelectFlavour"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter</label>`;
+        $('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
 
-            $('#selectallfieldsweetcheckbox').click(function () {
-                const selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
-                $(selectSweet).not(this).prop('checked', this.checked);
-            });
-
-            $('#selectallfieldbittercheckbox').click(function () {
-                const selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
-                $(selectBitter).not(this).prop('checked', this.checked);
-            });
-        } // if
-    } // releaseAll
-    moveEnableReleaseAll() {
-        if (this.settings.releaseSelectAll === true &&
-            !$('#movefieldselectall').length) {
-            const checkboxes = `<label id="movefieldselectall"><input id="movefieldselectallcheckbox" type="checkbox">Select all</label> <label id="movefieldselectany"><input id="movefieldselectanycheckbox" type="checkbox">Select Any</label> <label id="movefieldselectsour"><input id="movefieldselectsourcheckbox" type="checkbox">Select Sour</label> <label id="movefieldselectspicy"><input id="movefieldselectspicycheckbox" type="checkbox">Select Spicy</label> <label id="movefieldselectdry"><input id="movefieldselectdrycheckbox" type="checkbox">Select Dry</label> <label id="movefieldselectsweet"><input id="movefieldselectsweetcheckbox" type="checkbox">Select Sweet</label> <label id="movefieldselectbitter"><input id="movefieldselectbittercheckbox" type="checkbox">Select Bitter</label>`;
-            $('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
-            $('#movefieldselectallcheckbox').click(function () {
-                $('#massmovelist>ul>li>label>input').not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectanycheckbox').click(function () {
-                const selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
-                $(selectAny).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectsourcheckbox').click(function () {
-                const selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
-                $(selectSour).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectspicycheckbox').click(function () {
-                const selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
-                $(selectSpicy).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectdrycheckbox').click(function () {
-                const selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
-                $(selectDry).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectsweetcheckbox').click(function () {
-                const selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
-                $(selectSweet).not(this).prop('checked', this.checked);
-            });
-
-            $('#movefieldselectbittercheckbox').click(function () {
-                const selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
-                $(selectBitter).not(this).prop('checked', this.checked);
-            });
-        } // if
-    } // moveEnableReleaseAll
+        // checkbox listeners
+        $('#selectallfieldcheckbox').click(function () {
+            $('.bulkpokemonlist>ul>li>label>input').not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldmalecheckbox').click(function () {
+            const selectAny = $('.icons img[title="[M]"]').parent().prev().prev().prev('input');
+            $(selectAny).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldfemalecheckbox').click(function () {
+            const selectAny = $('.icons img[title="[F]"]').parent().prev().prev().prev('input');
+            $(selectAny).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldgenderlesscheckbox').click(function () {
+            const selectAny = $('.icons img[title="[N]"]').parent().prev().prev().prev('input');
+            $(selectAny).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldanycheckbox').click(function () {
+            const selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
+            $(selectAny).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldsourcheckbox').click(function () {
+            const selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
+            $(selectSour).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldspicycheckbox').click(function () {
+            const selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
+            $(selectSpicy).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfielddrycheckbox').click(function () {
+            const selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
+            $(selectDry).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldsweetcheckbox').click(function () {
+            const selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
+            $(selectSweet).not(this).prop('checked', this.checked);
+        });
+        $('#selectallfieldbittercheckbox').click(function () {
+            const selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
+            $(selectBitter).not(this).prop('checked', this.checked);
+        });
+    }
 }
 
 class PublicFieldsPage extends Page {
@@ -3138,14 +3213,11 @@ class PublicFieldsPage extends Page {
         this.natureArray = [];
         this.eggGroupArray = [];
         const obj = this;
-        this.observer = new MutationObserver(function(mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function(mutation) {
-                obj.customSearch();
-                if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-                    obj.handleTooltipSettings();
-                }
-            });
+        this.observer = new MutationObserver(function() {
+            obj.customSearch();
+            if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
+                obj.handleTooltipSettings();
+            }
         });
     }
 
@@ -3264,6 +3336,17 @@ class PublicFieldsPage extends Page {
             obj.saveSettings();
         }));
 
+        // enable all collapses
+        $('.collapsible').on('click', function() {
+            this.classList.toggle('active');
+            const content = this.nextElementSibling;
+            if(content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        });
+
         if(this.USER_SETTINGS.publicFieldFeatureEnables.search) {
             $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
                 obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
@@ -3317,15 +3400,6 @@ class PublicFieldsPage extends Page {
         }
 
         if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-            $('.collapsible').on('click', function() {
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                if(content.style.display === 'block') {
-                    content.style.display = 'none';
-                } else {
-                    content.style.display = 'block';
-                }
-            });
 
             $('#field_berries').on('click', function() {
                 obj.loadSettings();
@@ -3722,16 +3796,14 @@ class ShelterPage extends Page {
             customPokemon: true,
             customPng: false,
             shelterGrid: true,
+            shelterSpriteSize: 'auto'
         };
         super(Globals.SHELTER_PAGE_SETTINGS_KEY, defaultPageSettings, 'shelter');
         this.customArray = [];
         this.typeArray = [];
         const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.customSearch();
-            });
+        this.observer = new MutationObserver(function () {
+            obj.customSearch();
         });
 
         /*
@@ -3768,7 +3840,7 @@ class ShelterPage extends Page {
         }
         if(this.USER_SETTINGS.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', '<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"/><span>Sort by Grid</span></label>');
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterSortHTML());
         }
     }
     setupCSS() {
@@ -3838,6 +3910,20 @@ class ShelterPage extends Page {
             obj.customSearch();
         }));
 
+        $('input.qolalone').on('change', function () { //only 1 checkbox may be true
+            $('input.qolalone').not(this).prop('checked', false);
+        });
+
+        $('input[name="shelterSpriteSize"]').on('change', function() {
+            obj.settingsChange('shelterSpriteSize',
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
+                '');
+            obj.customSearch();
+            obj.saveSettings();
+        });
+
         $(window).on('keyup.qol_shelter_shortcuts', function (a) {
             if (0 == $(a.target).closest('input, textarea').length) {
                 switch (a.keyCode) {
@@ -3906,10 +3992,10 @@ class ShelterPage extends Page {
             $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
         }
     }
-    insertShelterFoundDiv(number, name, img) {
+    insertShelterFoundDiv(name, img) {
         document.querySelector('#sheltersuccess').
             insertAdjacentHTML('beforeend',
-                '<div id="shelterfound">' + name + ((number !== 1) ? 's' : '') + ' found ' + img + '</div>');
+                '<div id="shelterfound">' + name + ' found ' + img + '</div>');
     }
     insertShelterTypeFoundDiv(number, type, stage, names) {
         let stageNoun = '';
@@ -3921,7 +4007,7 @@ class ShelterPage extends Page {
         document.querySelector('#sheltersuccess').
             insertAdjacentHTML('beforeend',
                 '<div id="shelterfound">' + number + ' ' + type + ' type ' +
-                stageNoun + ' found!' + (names.length > 0 ? '(' + names.toString() + ')' : '') + '</div>');
+                stageNoun + ' found! ' + (names.length > 0 ? '(' + names.join(', ') + ')' : '') + '</div>');
     }
 
     searchForImgTitle(key) {
@@ -3936,7 +4022,7 @@ class ShelterPage extends Page {
             const shelterBigImg = selected.parent().prev().children('img');
             $(shelterBigImg).addClass('shelterfoundme');
 
-            this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
+            this.insertShelterFoundDiv(imgResult, imgFitResult);
         }
     }
 
@@ -3954,7 +4040,7 @@ class ShelterPage extends Page {
                 const shelterBigImg = selected.prev().children('img.big');
                 shelterBigImg.addClass('shelterfoundme');
 
-                this.insertShelterFoundDiv(selected.length, imgResult, imgFitResult);
+                this.insertShelterFoundDiv(imgResult, imgFitResult);
             }
         }
     }
@@ -4057,6 +4143,22 @@ class ShelterPage extends Page {
                 $('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
                 $('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
             }
+
+            // sprite size mode
+            $('#shelterarea').removeClass('qolshelterarealarge');
+            $('#shelterarea').removeClass('qolshelterareasmall');
+            $('input[name="shelterSpriteSize"]').prop('checked',false);
+            if(this.settings.shelterSpriteSize == 'large') {
+                $('#shelterarea').addClass('qolshelterarealarge');
+                $('#spriteSizeLarge').prop('checked',true);
+            }
+            else if(this.settings.shelterSpriteSize == 'small') {
+                $('#shelterarea').addClass('qolshelterareasmall');
+                $('#spriteSizeSmall').prop('checked',true);
+            }
+            else {
+                $('#spriteSizeAuto').prop('checked',true);
+            }
         }
 
         if(this.USER_SETTINGS.shelterFeatureEnables.search) {
@@ -4107,7 +4209,7 @@ class ShelterPage extends Page {
                     const shelterBigImg = shelterImgSearch.prev().children('img');
                     $(shelterBigImg).addClass('shelterfoundme');
 
-                    this.insertShelterFoundDiv(selected.length, tooltipResult, imgFitResult);
+                    this.insertShelterFoundDiv(tooltipResult, imgFitResult);
                 }
             }
 
@@ -4127,7 +4229,7 @@ class ShelterPage extends Page {
                         const shelterBigImg = shelterImgSearch.prev().children('img');
                         $(shelterBigImg).addClass('shelterfoundme');
                     }
-                    this.insertShelterFoundDiv(selected.length, searchResult, imgFitResult);
+                    this.insertShelterFoundDiv(searchResult, imgFitResult);
                 }
             }
 
@@ -4176,7 +4278,7 @@ class ShelterPage extends Page {
                                     const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                     $(shelterBigImg).addClass('shelterfoundme');
 
-                                    this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                                    this.insertShelterFoundDiv(tooltipResult, heartPng);
                                 }
                             }
                         }
@@ -4190,7 +4292,7 @@ class ShelterPage extends Page {
                                 const shelterImgSearch = selected;
                                 const shelterBigImg = shelterImgSearch.parent().prev().children('img');
                                 $(shelterBigImg).addClass('shelterfoundme');
-                                this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                                this.insertShelterFoundDiv(tooltipResult, heartPng);
                             }
                         }
                     }
@@ -4204,7 +4306,7 @@ class ShelterPage extends Page {
                             const shelterImgSearch = selected;
                             const shelterBigImg = shelterImgSearch.prev().children('img');
                             $(shelterBigImg).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(selected.length, tooltipResult, eggPng);
+                            this.insertShelterFoundDiv(tooltipResult, eggPng);
                         }
                     }
 
@@ -4212,11 +4314,22 @@ class ShelterPage extends Page {
                     if (this.settings.customPng === true) {
                         const selected = $(`#shelterarea img[src*="${customValue}"]`);
                         if (selected.length) {
-                            const searchResult = selected.parent().next().text().split('(')[0];
-                            const tooltipResult = selected.length + ' ' + searchResult + ' (Custom img search)';
+                            let searchResult = $(selected[0]).parent().next().text().split('(')[0];
+                            let searchCount = selected.length;
+                            if(selected.parent().attr('data-stage')=='egg') {
+                                // eggs will match twice, since their small/big sprites are the same
+                                searchCount = searchCount/2;
+                                // eggs do not have ( ) since they do not have a level/gender
+                                searchResult = searchResult.split(' View')[0];
+                                // add s for eggs
+                                if(searchCount > 1) {
+                                    searchResult += 's';
+                                }
+                            }
+                            const tooltipResult = searchCount + ' ' + searchResult + ' (img search)';
                             const shelterImgSearch = selected;
                             $(shelterImgSearch).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(selected.length, tooltipResult, heartPng);
+                            this.insertShelterFoundDiv(tooltipResult, heartPng);
                         }
                     }
                 }
@@ -4236,7 +4349,7 @@ class ShelterPage extends Page {
 
 class SummaryPage extends Page {
   constructor() {
-      super(Globals.SUMMARY_PAGE_SETTINGS_KEY, {}, 'summary');
+      super(undefined, {}, 'summary');
   } // constructor
 
   setupHTML() {
@@ -4253,7 +4366,7 @@ class SummaryPage extends Page {
 
 class WishforgePage extends Page {
     constructor() {
-        super(Globals.WISHFORGE_PAGE_SETTINGS_KEY, {}, 'forge');
+        super(undefined, {}, 'forge');
         const obj = this;
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {

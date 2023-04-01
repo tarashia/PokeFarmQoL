@@ -60,7 +60,7 @@
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(5, 70px);
 }
-.qolshelterareagridmq2 {
+.qolshelterareagridmq2:not(.qolshelterarealarge) {
   min-height: 175px;
   grid-template-rows: repeat(5, 35px);
 }
@@ -76,4 +76,24 @@
   display: inline-flex!important;
   justify-content: center;
   align-items: center;
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+.qolshelterarealarge .pokemon {
+  .big {
+    display: block !important;
+  }
+  .small {
+    display: none !important;
+  }
+}
+.qolshelterareasmall .pokemon {
+  .big {
+    display: none !important;
+  }
+  .small {
+    display: block !important;
+  }
 }

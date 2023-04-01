@@ -3,37 +3,179 @@
   text-align: center;
 }
 
+#qolpartymodcustom h3 {
+  padding: 2px;
+  font-size: 100%;
+}
+
+.qolPartyCustomParty  {
+  // based on Dr. Who's party click adjustments
+  --multiuser-button-height: 5em;
+  --multiuser-border-radius: 8px;
+
+  h1 {
+    /* fix that icon next to name causes jumps */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #partybox {
+    position: relative;
+    padding-top: calc(var(--multiuser-button-height) + 1em);
+
+    .party {
+      box-shadow: none;
+    }
+
+    .party > div {
+      /* by making this static we can place the buttons
+      relative to the partybox */
+      position: static;
+    }
+
+    .action {
+      /* action button (hold the egg or berry) */
+      position: absolute;
+      /*allows for collapse when done*/
+      min-height: 0;
+      height: auto !important;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+
+      > a, > div {
+        padding: 0;
+        margin: 0;
+        min-height: var(--multiuser-button-height);
+        line-height: var(--multiuser-button-height);
+      }
+      .berrybuttons > a {
+        box-sizing: border-box;
+        height: 100% !important;
+        width: 100%;
+        line-height: var(--multiuser-button-height) !important;
+      }
+      > a {
+        // eggs
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+    }
+
+    .action:empty,
+    .action > table,
+    .action.working,
+    .berrybuttons > .tooltip_content {
+        /*hide action when it is *empty *processing the berry
+        or *showing "Thank you!", plus tooltips */
+        display: none;
+    }
+    .party > div:hover > .action a[data-berry]::after {
+      /* no border on berry hover */
+      border-color: transparent;
+    }
+  }
+
+  &.qolStackNext .qolGoNext,
+  &.qolStackMore .qolGetMore {
+    z-index: 999; //less than click buttons
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--multiuser-button-height);
+    line-height: var(--multiuser-button-height);
+    margin: 0;
+    padding: 0;
+  }
+  &.qolHideParty .party {
+    height: 0;
+    overflow: hidden;
+  }
+  &.qolCompactParty #partybox .party {
+    > div {
+      width: unset;
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    .name, .expbar {
+      display: none;
+    }
+    .pkmn a.qolCompactLink {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 999;
+    }
+  }
+  &.qolHideTrainerCard #profilebox {
+    display: none;
+  }
+  &.qolHideFieldButton .fieldslink {
+    display: none;
+  }
+  &.qolHideModeChecks #partybox > label {
+    display: none;
+  }
+  &.qolHideUserName h1 {
+    display: none;
+  }
+}
+.mq2, .multi-compact {
+  .qolPartyCustomParty #partybox .party {
+    > div {
+      display: inline-block;
+        .pkmn {
+          margin-right: 0;
+        }
+    }
+  }
+}
+
 // show only liked berry
 .qolPartyHideDislike,
 .qolPartyNiceTable,
-.qolPartyHideAll {
+.qolPartyHideAll,
+.qolPartyCustomParty {
   #partybox .party {
     .action {
       a {
+        display: none;
         position: absolute;
         width: 100%;
       }
 
-      .berrybuttons[data-up='sour']>[data-berry='aspear'],
-      .berrybuttons[data-up='spicy']>[data-berry='cheri'],
-      .berrybuttons[data-up='dry']>[data-berry='chesto'],
-      .berrybuttons[data-up='sweet']>[data-berry='pecha'],
-      .berrybuttons[data-up='bitter']>[data-berry='rawst'] {
-        z-index: 99 !important;
+      .berrybuttons[data-up='sour'] > a[data-berry='aspear'],
+      .berrybuttons[data-up='spicy'] > a[data-berry='cheri'],
+      .berrybuttons[data-up='dry'] > a[data-berry='chesto'],
+      .berrybuttons[data-up='sweet'] > a[data-berry='pecha'],
+      .berrybuttons[data-up='bitter'] > a[data-berry='rawst'] {
+        display: inline-block; 
       }
-    }
 
-    // hide all but one berry for any prefs
-    .action .berrybuttons[data-up="any"] a { 
-      display: none !important; 
-      &[data-berry="aspear"] { 
-        display: inline-block !important; 
+      // show aspear for any prefs & eggs
+      .berrybuttons[data-up="any"] a[data-berry="aspear"],
+      > a { // eggs do not have .berrybuttons as a parent for the buttons
+        display: inline-block; 
       }
     }
     // visual feedback after clicking berries
     .working .berrybuttons { 
       opacity: 0.3; 
     }
+  }
+  // prevent highlighting loading button when mashing on mobile
+  .loading {
+    user-select: none;
   }
 }
 
@@ -45,7 +187,7 @@
   }
   // hide tooltips to prevent overlap
   .tooltip_content { 
-    display: none !important; 
+    display: none; 
   }
 }
 
@@ -123,6 +265,6 @@
   #trainerimage,
   .fieldslink,
   .working {
-    display: none !important;
+    display: none;
   }
 }

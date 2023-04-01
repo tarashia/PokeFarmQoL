@@ -1,12 +1,9 @@
 class DexPage extends Page {
     constructor() {
-        super(Globals.DEX_PAGE_SETTINGS_KEY, {}, 'dex');
+        super(undefined, {}, 'dex');
         const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
-            // eslint-disable-next-line no-unused-vars
-            mutations.forEach(function (mutation) {
-                obj.applyTypeFilters();
-            });
+        this.observer = new MutationObserver(function () {
+            obj.applyTypeFilters();
         });
         this.typeArray = [];
 
