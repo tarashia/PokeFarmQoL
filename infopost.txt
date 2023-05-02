@@ -1,0 +1,62 @@
+[sc=header]QoL Info Post[/sc]
+[center]Last updated: May 2023[/center]
+[accordion]
+[a-section=Enabling (on-site)][url=https://pokefarm.com/farm#tab=5.6]Visit Farm/Options/Userscripts[/url]
+Check the QoL box
+
+Note: If you clear your browser's cookies/site data, this will get turned off, and your QoL settings will be cleared.[/a-section]
+[a-section=Enabling (extension)]Get a script host extension:
+Chrome: [url=https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en]Tampermonkey[/url]
+Firefox: [url=https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/]Tampermonkey[/url] [url=https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/]Greasemonkey[/url]
+You can also use Tampermonkey on Firefox for mobile!
+
+Go to the script source page [url=https://github.com/tarashia/PokeFarmQoL/blob/master/Poke-Farm-QoL.user.js]on GitHub[/url], and click the "Raw" button. If you have a script host enabled, it should prompt you to install the script. This may be a little slow, be patient, don't mash the button.
+
+If you would like, you can use the current dev version (change branch from master to dev), or older releases using this method.
+
+Note: Clearing your browser's cookies/site data won't disable the script, but it will clear your QoL settings.[/a-section]
+[a-section=Known Problems][ul]
+[li][b]Alternate formes in shelter:[/b] When using the type search or Pokemon name search, there is no way to distinguish between regional formes, etc. When searching for ground types, Alolan Sandshrew may or may not appear depending on which forme you last viewed in the dex. Typing "sandshrew" in the custom search will match both formes - for this, you can work around it for most formes by using the img code search instead.[/li]
+[li][b]QoL changes may not load on first page in fields/shelter:[/b] In some cases, more commonly in fields, the QoL highlight/sort/etc may not apply immediately after loading a page (ex: when clicking a user's fields, the first field may not stack properly). This can normally be fixed by changing to the next field and going back.[/li]
+[li][b]Evolve grouping in quick evolve:[/b] The easy evolving feature to group by type does not work properly. There is currently no workaround - I will attempt to fix in a future release. Note: This feature also had the alternate forme problem like the shelter... which may not be fixable at all.[/li]
+[li][b]QoL icon does not appear in ribbon:[/b] I've attempted to add error detection, but there are still some cases where the QoL does not load, and no error details are shown. One known case is for old iPhones, which use an older, unsupported JavaScript version. I am working to continuing to improve error handling, and provide useful messages.[/li]
+[li][b]Type matching in lab:[/b] Flabébé does not highlight when the fairy egg type filter is added. This may also affect others - another given example was Mr. Mime not matching psychic, despite both formes being psychic. This is *not* the same as the shelter issue where non-dexed eggs/Pokemon do not match. [url=https://pokefarm.com/upload/:b7q/Screenshots/flabebe.PNG][screenshot][/url][/li]
+[/ul][/a-section]
+[a-section=Rejected Ideas][ul]
+[li][b]Highlight by nature or OT in shelter:[/b] This data is not available to the script, and so it cannot be used to highlight Pokemon/eggs.[/li]
+[/ul][/a-section]
+[a-section=Planned Features]These are in no particular order.
+[ul]
+[li][b]Select multiple display codes:[/b] In a popup like the move/release menus, select multiple Pokemon and generate platform display codes.[/li]
+[li][b]Backup & restore settings:[/b] Allow users to backup their settings, so they aren't lost if data is cleared. The backup half is already done, as part of a debug feature.[/li]
+[li][b]Colour customization:[/b] Provide a setting to change the currently hard-set colours like the highlight and click counter colours. Workaround: Use CSS to change these colors.
+
+[display=Change highlight colour][css=user-select:all; font-family:monospace;].daycarefoundme, .labfoundme, .privatefoundme, .publicfoundme, .shelterfoundme { 
+  background-color: YOUR_COLOUR; 
+  box-shadow: 0 0 25px 15px YOUR_COLOUR;
+}[/css][/display]
+[display=Change click counter colour][css=user-select:all; font-family:monospace;]#pokemonclickcount {
+  color: YOUR_COLOUR;
+}[/css][/display]
+Note: At present, changing the click counter colour will change it for both incomplete (default red) and complete (default green).[/li]
+[/ul][
+]Other feature requests can be found on the [url=https://github.com/tarashia/PokeFarmQoL/issues]GitHub issues page[/url]. If an idea is there but not here, it may not have been considered/accepted yet. You may request features in this thread, or using GitHub issues if you'd prefer.[/a-section]
+[a-section=Current Development]As of May 2023 I am working on the alternate forme issue in the shelter. This is turning out to be a fairly large project, so in the meantime no other bugs/features will likely be addressed, except serious or breaking issues.
+
+You can browse release notes for prior releases on the [url=https://github.com/tarashia/PokeFarmQoL/releases]GitHub releases page.[/url][/a-section]
+[/accordion]
+[sc=spacer][/sc]
+[style]
+.header {
+  font-size: 150%;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 12pt;
+}
+ol li+li, ul li+li {
+  margin-top: 6pt;
+}
+.accordion > div {
+  padding: 6pt;
+}
+[/style]
