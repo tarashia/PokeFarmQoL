@@ -7,10 +7,6 @@ class Globals {
     static PUBLIC_FIELDS_PAGE_SETTINGS_KEY = 'QoLPublicFields';
     static SHELTER_PAGE_SETTINGS_KEY = 'QoLShelter';
     static POKEDEX_DATA_KEY = 'QoLPokedex';
-        /*
-         * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
-         * Don't change the order without looking for where this array is used
-         */
     static TYPE_LIST = "<% src/resources/type-list.jsonc %>";
     static NATURE_LIST = "<% src/resources/nature-list.jsonc %>";
     static EGG_GROUP_LIST = "<% src/resources/egg-group-list.jsonc %>";

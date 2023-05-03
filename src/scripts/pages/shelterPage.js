@@ -474,8 +474,8 @@ class ShelterPage extends Page {
 
             //loop to find all the custom search parameters
             const customSearchAmount = this.customArray.length;
-            const heartPng = '<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">';
-            const eggPng = '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">';
+            const heartPng = '<img src="//pfq-static.com/img/pkmn/heart_1.png">';
+            const eggPng = '<img src="//pfq-static.com/img/pkmn/egg.png">';
             for (let i = 0; i < customSearchAmount; i++) {
                 const customValue = this.customArray[i];
                 if (customValue != '') {

@@ -1,0 +1,11 @@
+Region,Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Colour,Body style,Img codes (comma separated)
+Johto,167,Chikorita,,Grass,,Grass,Monster,No,Green,Four Legs,"c/z/0, 1/f/z"
+Johto,168,Bayleef,,Grass,,Grass,Monster,No,Green,Four Legs,6/i/2
+Johto,169,Meganium,,Grass,,Grass,Monster,No,Green,Four Legs,"a/c/r, 1/a/v"
+Johto,170,Cyndaquil,,Fire,,Field,,No,Yellow,Two Legs,"4/2/a, l/4/p"
+Johto,171,Quilava,,Fire,,Field,,No,Yellow,Four Legs,9/j/v
+Johto,172,Typhlosion,,Fire,,Field,,No,Yellow,Four Legs,k/c/o
+Johto,172,Typhlosion,Hisuian Forme,Fire,Ghost,Field,,No,Yellow,Four Legs,2/j/d/9
+Johto,173,Totodile,,Water,,Water 1,Monster,No,Blue,Dino,"4/3/r, 7/y/f"
+Johto,174,Croconaw,,Water,,Water 1,Monster,No,Blue,Dino,1/n/6
+Johto,175,Feraligator,,Water,,Water 1,Monster,No,Blue,Dino,d/5/3
