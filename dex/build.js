@@ -44,7 +44,7 @@ async function run() {
         const procData = process(data);
         output = output.concat(procData);
     }
-    fs.writeFileSync('dex/dex-data.json',JSON.stringify(output),{encoding:'utf8',flag:'w'});
+    fs.writeFileSync(resourceDir+'/dex-data.json',JSON.stringify(output),{encoding:'utf8',flag:'w'});
     console.log('Done.');
 }
 
