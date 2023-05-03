@@ -1,12 +1,6 @@
 /*
-    TODO
-
-    read csv data
-    use src/resources jsons to change text into indexes where appropriate
-    figure out something to do about flabebe
-
-    run this from the root project directory, not from /dex etc
-    (use the npm script)
+    Reads all CSVs present in the csvs folder, and creates the dex-data.json file from them.
+    Ensures that minimum data (region, dex ID, species) is present, and that all options are valid.
 */
 
 import fs from 'fs';
@@ -112,11 +106,8 @@ function process(data) {
                     if(row[8].toUpperCase()=='YES') {
                         procRow['legendary'] = true;
                     }
-                    else if(row[8].toUpperCase()=='NO') {
-                        procRow['legendary'] = false;
-                    }
                     else {
-                        throwError('Invalid legendary flag: '+row[8])
+                        procRow['legendary'] = false;
                     }
                     break;
                 case 9:
@@ -127,13 +118,18 @@ function process(data) {
                     break;
                 case 11:
                     var imgCodes = parse(row[11].trim(), {})[0];
-                    for(var k=0; k<imgCodes.length; k++) {
-                        imgCodes[k] = imgCodes[k].trim();
-                        if(!imgCodes[k].match(/^[a-z0-9](\/[a-z0-9])+$/)) {
-                            throwError('Invalid img code: '+imgCodes[k]);
+                    if(imgCodes) {
+                        for(var k=0; k<imgCodes.length; k++) {
+                            imgCodes[k] = imgCodes[k].trim();
+                            if(!imgCodes[k].match(/^[a-z0-9](\/[a-z0-9])+$/)) {
+                                throwError('Invalid img code: '+imgCodes[k]);
+                            }
                         }
                     }
-                    procRow['dexID'] = imgCodes;
+                    else {
+                        imgCodes = null;
+                    }
+                    procRow['imgCodes'] = imgCodes;
                     break;
                 default:    
                     throwError('Out of bounds');
