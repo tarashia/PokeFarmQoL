@@ -6,10 +6,13 @@
     - Replaces all resource placeholders "<% path %>" with the specified file's content
       (compiles and minimizes content like LESS/jsonc first)
     - Lints & saves result in the main user.js file
+    - Outputs a checksum, which can be used in part to specify dev builds
+    (place the partial checksum, usually last 6 chars, directly in .user.js file, not in header.txt)
 
 */
 
 import fs from 'fs';
+import crypto from 'crypto';
 import path from 'path';
 import less from 'less';
 import jsonc from 'jsonc';
@@ -67,7 +70,8 @@ async function runBuild() {
     const formatter = await eslint.loadFormatter("stylish");
     console.log(formatter.format(results));
 
-    console.log('Done!');
+    const checksum = await getChecksum(outputPath, 'md5');
+    console.log('Done! New checksum: '+checksum);
 }
 
 async function addFileContent(inputPath, outputPath) {
@@ -127,4 +131,19 @@ export async function processStyle(content) {
 // Pre-process object content to remove comments
 export function processObject (content) {
     return jsonc.uglify(jsonc.stripComments(content));
+}
+
+// https://stackoverflow.com/a/65199864
+function getChecksum(path, hashType='sha256') {
+    return new Promise((resolve, reject) => {
+      const hash = crypto.createHash(hashType);
+      const input = fs.createReadStream(path);
+      input.on('error', reject);
+      input.on('data', (chunk) => {
+          hash.update(chunk);
+      });
+      input.on('close', () => {
+          resolve(hash.digest('hex'));
+      });
+    });
 }
