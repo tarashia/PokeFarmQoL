@@ -67,6 +67,7 @@ class Helpers {
         }
     } // toggleSetting
     static setupFieldArrayHTML(arr, id, div, cls) {
+        // TODO: this may get removed
         const n = arr.length;
         for (let i = 0; i < n; i++) {
             const rightDiv = i + 1;

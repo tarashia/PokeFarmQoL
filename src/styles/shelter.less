@@ -59,27 +59,32 @@
   display: grid!important;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(5, 70px);
+
+  .pokemon {
+    position: static!important;
+    flex: 1 1 16%;
+    display: inline-block!important;
+    display: inline-flex!important;
+    justify-content: center;
+    align-items: center;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+  .tooltip_content {
+    position: absolute!important;
+    bottom: 0;
+    transform: translate(0, 100%);
+  }
+  &:before {
+    display: none !important;
+  }
 }
-.qolshelterareagridmq2:not(.qolshelterarealarge) {
+.mq2 .qolshelterareagrid:not(.qolshelterarealarge),
+.qolshelterareasmall {
   min-height: 175px;
   grid-template-rows: repeat(5, 35px);
-}
-.qoltooltipgrid {
-  position: absolute!important;
-  bottom: 0;
-  transform: translate(0, 100%);
-}
-.qolpokemongrid {
-  position: static!important;
-  flex: 1 1 16%;
-  display: inline-block!important;
-  display: inline-flex!important;
-  justify-content: center;
-  align-items: center;
-  img {
-    max-width: 100%;
-    max-height: 100%;
-  }
 }
 .qolshelterarealarge .pokemon {
   .big {

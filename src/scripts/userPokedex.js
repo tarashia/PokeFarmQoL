@@ -64,4 +64,36 @@ class UserPokedex {
             return -1;
         }
     }
+    // type 1 and 2 should be the object key of the relevant type
+    // ex: '4' for grass, not the actual string 'grass'
+    // set type2 to 'none' to find single-typed
+    getByType(type1,type2=null) {
+        if(!type2) {
+            return this.DEX_DATA.filter(pkmn => { 
+                return (pkmn.type1==type1 || pkmn.type2==type1)
+            });
+        }
+        else if(type2=='none') {
+            return this.DEX_DATA.filter(pkmn => { 
+                return (pkmn.type1==type1 && pkmn.type2===null)
+            });
+        }
+        return this.DEX_DATA.filter(pkmn => { 
+            return ((pkmn.type1==type1 && pkmn.type2==type2) || (pkmn.type1==type2 && pkmn.type2==type1)) 
+        });
+    }
+    getBySpecies(name) {
+        // if name contains a slash (/), we are doing an exact forme match, which will return a single
+        if(name.includes('/')) {
+            const splitSpecies = name.split('/');
+            return this.DEX_DATA.filter(pkmn => { 
+                return (pkmn.species==splitSpecies[0] && pkmn.forme==splitSpecies[1]);
+            });
+        }
+        else {
+            return this.DEX_DATA.filter(pkmn => { 
+                return pkmn.species.includes(name);
+            });
+        }
+    }
 }

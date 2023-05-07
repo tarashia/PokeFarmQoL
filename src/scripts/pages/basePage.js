@@ -52,6 +52,19 @@ class Page {
         this.saveSettings();
     }
 
+    addSettingChangeListener(callback) {
+        const obj = this;
+        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
+            obj.settingsChange(this.getAttribute('data-key'),
+                $(this).val(),
+                $(this).parent().parent().attr('class'),
+                $(this).parent().attr('class'),
+                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
+            obj.saveSettings();
+            callback();
+        }));
+    }
+
     settingsChange(element, textElement, customClass, typeClass, arrayName) {
         if (JSON.stringify(this.settings).indexOf(element) >= 0) {
             if (typeof this.settings[element] === 'boolean') {
@@ -86,5 +99,9 @@ class Page {
     setupHTML() { /* empty */ }
     setupCSS() { /* empty */ }
     setupObserver() { /* empty */ }
-    setupHandlers() { /* empty */ }
+    setupHandlers() { 
+        $('input.qolalone').on('change', function () { //only 1 checkbox may be true
+            $('input.qolalone').not(this).prop('checked', false);
+        });
+    }
 } // Page

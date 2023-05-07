@@ -5,6 +5,5 @@ node_modules
 # macos
 .DS_Store
 
-# notes etc
-TODO
-notes.txt
+# temp folder
+temp

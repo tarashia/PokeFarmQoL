@@ -210,15 +210,9 @@ class PrivateFieldsPage extends Page {
             obj.saveSettings();
         }));
 
-        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
-            obj.settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'),
-                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
+        this.addSettingChangeListener(function() {
             obj.customSearch();
-            obj.saveSettings();
-        }));
+        });
 
         $('.collapsible').on('click', function () {
             this.classList.toggle('active');

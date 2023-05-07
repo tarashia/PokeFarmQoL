@@ -32,7 +32,7 @@ class Resources {
     }
 
     static shelterOptionsHTML() {
-        return `<% src/html/shelter-options.html %>`;
+        return `<div id ="shelteroptionsqol"><% src/html/shelter-options.html %> <% src/html/shelter-search.html %></div>`;
     }
 
     static shelterSortHTML() {

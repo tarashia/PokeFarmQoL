@@ -64,6 +64,11 @@
     "display": "Genderless", 
     "icon": "<img src='//pfq-static.com/img/pkmn/gender_n.png'>"
   },
+  "findTotem": {
+    "searchKey": "[TOTEM]",
+    "display": "Totem",
+    "icon": "<img src='//pfq-static.com/img/pkmn/totem.png/'>"
+  },
   "findLegendary": {
     "searchKey": "", 
     "display": "Legendary", 
