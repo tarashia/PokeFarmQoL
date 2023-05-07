@@ -7,14 +7,14 @@ class Globals {
     static PUBLIC_FIELDS_PAGE_SETTINGS_KEY = 'QoLPublicFields';
     static SHELTER_PAGE_SETTINGS_KEY = 'QoLShelter';
     static POKEDEX_DATA_KEY = 'QoLPokedex';
-    static TYPE_LIST = "<% src/resources/type-list.jsonc %>";
-    static NATURE_LIST = "<% src/resources/nature-list.jsonc %>";
-    static EGG_GROUP_LIST = "<% src/resources/egg-group-list.jsonc %>";
-    static SHELTER_TYPE_TABLE = "<% src/resources/shelter-type-search.jsonc %>";
-    static SHELTER_SEARCH_DATA = "<% src/resources/shelter-search-data.jsonc %>";
-    static SHELTER_SEARCH_LISTS = "<% src/resources/shelter-search-lists.jsonc %>";
 
-    static TYPE_OPTIONS = Helpers.buildOptionsString(this.TYPE_LIST);
-    static NATURE_OPTIONS = Helpers.buildOptionsString(this.NATURE_LIST);
-    static EGG_GROUP_OPTIONS = Helpers.buildOptionsString(this.EGG_GROUP_LIST);
+    // JSON objects loaded from resource files
+    static BODY_STYLE_LIST = "<% src/resources/body-styles.jsonc %>";
+    static COLOUR_LIST = "<% src/resources/colours.jsonc %>";
+    static EGG_GROUP_LIST = "<% src/resources/egg-groups.jsonc %>";
+    static NATURE_LIST = "<% src/resources/natures.jsonc %>";
+    static REGION_LIST = "<% src/resources/regions.jsonc %>";
+    static TYPE_LIST = "<% src/resources/types.jsonc %>";
+    static STATIC_DEX_DATA = "<% src/resources/dex-data.json %>";
+    static SHELTER_SEARCH_KEYS = "<% src/resources/shelter-search-keys.jsonc %>";
 }

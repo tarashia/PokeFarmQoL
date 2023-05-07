@@ -47,7 +47,7 @@ class Helpers {
                 str += `<option value="${i}">${arr[i]}</option> `;
             }
         }
-        // egg groups are an object, not an array
+        // allow for object-formatted option lists
         else {
             for(let key in arr) {
                 str += `<option value="${key}">${arr[key]}</option> `;

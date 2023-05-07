@@ -7,14 +7,6 @@ class DexPage extends Page {
         });
         this.typeArray = [];
 
-        /*
-         * when entering the dex page, update the local storage QoLPokedex
-         * so the user can update their information
-         */
-        if ($('script#dexdata') && $('script#dexdata').text()) {
-            const text = $('script#dexdata').text();
-            this.POKEDEX.updateDexFromPage(text);
-        }
     }
     setupObserver() {
         this.observer.observe(document.querySelector('#regionslist'), {

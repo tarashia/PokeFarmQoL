@@ -9,7 +9,7 @@ class FarmPage extends Page {
             d.TYPE_APPEND[type.toUpperCase()] = '' + i;
         }
         d.TYPE_APPEND['NONE'] = '.' + Globals.TYPE_LIST.length;
-        d.KNOWN_EXCEPTIONS = "<% src/resources/known-exceptions.jsonc %>";
+        d.KNOWN_EXCEPTIONS = {} //TODO;
         return d;
     }
     constructor() {

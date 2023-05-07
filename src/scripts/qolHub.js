@@ -84,6 +84,10 @@ class QoLHub {
             $('#qolStorageOutput').text(output);
             $('#qolStorageOutput').css('display','block');
         }));
+        $(document).on('click', '#qolLogPlusDex', (function() {
+            let storedSettings = LocalStorageManager.getAllQoLSettings(true);
+            console.log(JSON.stringify(storedSettings));
+        }));
     }
     loadSettings() {
         try {
@@ -229,9 +233,9 @@ class QoLHub {
 
         let dexUpdateDate = UserSettingsHandle.getDex().DEX_UPDATE_DATE;
         if(!dexUpdateDate) {
-            dexUpdateDate = 'Not updated since installation';
+            dexUpdateDate = 'Never updated';
         }
-        $('.qolDate', document).text(dexUpdateDate);
+        $('#qolDexDate', document).text(dexUpdateDate);
     }
     close(document) {
         $('.dialog', document).remove();
@@ -241,5 +245,6 @@ class QoLHub {
         $('#clearCachedDex').next().remove();
         UserSettingsHandle.getDex().resetDex();
         $('#clearCachedDex').after('<span> Cleared!</span>');
+        $('#qolDexDate').text('Never updated');
     }
 } // QoLHub

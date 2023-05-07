@@ -10,6 +10,7 @@ import { exit } from 'node:process';
 
 const csvDir = 'dex/csvs';
 const resourceDir = 'src/resources';
+const imgDir = 'images';
 const resources = {
     'regions.jsonc': undefined,
     'types.jsonc': undefined,
@@ -45,6 +46,8 @@ async function run() {
         output = output.concat(procData);
     }
     fs.writeFileSync(resourceDir+'/dex-data.json',JSON.stringify(output),{encoding:'utf8',flag:'w'});
+    // special format for on-site upload
+    fs.writeFileSync(imgDir+'/dex-data.jpg',JSON.stringify(output),{encoding:'utf8',flag:'w'});
     console.log('Done.');
 }
 

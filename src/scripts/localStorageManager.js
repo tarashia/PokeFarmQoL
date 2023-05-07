@@ -143,7 +143,7 @@ class LocalStorageManager {
     }
 
     static updateLocalStorageDex(DEX_DATA, dateString) {
-        const datePlusDex = [dateString].concat(DEX_DATA);
+        const datePlusDex = [dateString, DEX_DATA];
         localStorage.setItem(LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
     }
 }

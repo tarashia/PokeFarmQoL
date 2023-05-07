@@ -1,33 +1,67 @@
 // Do not call this constructor directly to get or create a dex object
 // Always call UserSettingsHandle.getDex();
+// Note on DEX_LOADING: undefined if fetchUploadedDex is not called, or if resetDex is called
+//                      true if loading is in progress, false if loading has completed
+//                      use === to evaluate the value, to ensure false vs undefined
 class UserPokedex {
     constructor() {
-        this.loadDexFromStorage();
+        this.loadDex();
     }
-    loadDexFromStorage() {
+    loadDex() {
+        // Attempt to load dex from local storage
         console.log('Requesting dex from storage');
         const dateAndDex = LocalStorageManager.getDexFromStorage();
-        if(!dateAndDex) {
-            console.log('No cached dex data found, loading static data');
-            this.DEX_UPDATE_DATE = undefined;
-            this.DEX_DATA = (`<% src/resources/dex-data.jsonc %>`).split(',');
+        // If the load fails, or if the data is too old, try getting from uploaded version
+        if(!dateAndDex || this.daysSinceUpdate()>7) {
+            this.fetchUploadedDex();
+        }
+        else if(dateAndDex) {
+            this.DEX_UPDATE_DATE = dateAndDex[0];
+            this.DEX_DATA = dateAndDex[1];
         }
         else {
-            this.DEX_UPDATE_DATE = dateAndDex[0];
-            const dex = dateAndDex.slice(1);
-            this.DEX_DATA = dex;
+            this.resetDex();
         }
     }
-    updateDexFromPage(dexText) {
-        console.log('Updating dex from site');
-        let dateString = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
-        this.DEX_DATA = dexText.split(',');
-        LocalStorageManager.updateLocalStorageDex(this.DEX_DATA, dateString);
-        $('.qolDate').val(dateString);
+    // Get the dex data from the updatable, uploaded version, and store it to local storage
+    fetchUploadedDex() {
+        console.log('Updating dex from from uploaded file');
+        try {
+            this.DEX_LOADING = true;
+            const self = this;
+            $.get("https://pokefarm.com/upload/:b7q/QoL/dex-data.jpg", function(data){
+                self.DEX_DATA = JSON.parse(data);
+                let dateString = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
+                self.DEX_UPDATE_DATE = dateString;
+                LocalStorageManager.updateLocalStorageDex(self.DEX_DATA, dateString);
+                self.DEX_LOADING = false;
+                console.log('Dex load complete');
+            });
+        } catch(e) {
+            console.error('Failed to load dex data from uploaded file');
+            console.log(e);
+            this.resetDex();
+        }
     }
+    // Clears any locally stored dex data, and loads the static dex data instead.
     resetDex() {
-        this.DEX_UPDATE_DATE = undefined;
-        this.DEX_DATA = undefined;
+        console.warn('Using static dex data');
         LocalStorageManager.removeItem(Globals.POKEDEX_DATA_KEY);
+        this.DEX_UPDATE_DATE = undefined;
+        this.DEX_LOADING = undefined;
+        this.DEX_DATA = Globals.STATIC_DEX_DATA;
+    }
+    // Return the number of days since this.DEX_UPDATE_DATE
+    daysSinceUpdate() {
+        if(!this.DEX_UPDATE_DATE) {
+            return -1;
+        }
+        try {
+            return (new Date() - new Date(this.DEX_UPDATE_DATE)) / (1000 * 3600 * 24);
+        } catch(e) {
+            console.error('Failed to determine number of days since dex update');
+            console.log(e);
+            return -1;
+        }
     }
 }
