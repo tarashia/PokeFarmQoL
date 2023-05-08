@@ -1,5 +1,5 @@
 // Do not call this constructor directly to get or create a dex object
-// Always call UserSettingsHandle.getDex();
+// Always call UserDataHandle.getDex();
 // Note on DEX_LOADING: undefined if fetchUploadedDex is not called, or if resetDex is called
 //                      true if loading is in progress, false if loading has completed
 //                      use === to evaluate the value, to ensure false vs undefined
@@ -26,7 +26,7 @@ class UserPokedex {
     }
     // Get the dex data from the updatable, uploaded version, and store it to local storage
     fetchUploadedDex() {
-        const mainSettings = UserSettingsHandle.getSettings().mainSettings;
+        const mainSettings = UserDataHandle.getSettings().mainSettings;
         if('preventDexUpdate' in mainSettings && mainSettings.preventDexUpdate===true) {
             console.log('Not updating dex: user disabled')
         }
@@ -44,19 +44,18 @@ class UserPokedex {
                     console.log('Dex load complete');
                 });
             } catch(e) {
-                console.error('Failed to load dex data from uploaded file');
-                console.log(e);
+                ErrorHandler.error('Failed to load dex data from uploaded file', e);
                 this.resetDex();
             }
         }
     }
     // Clears any locally stored dex data, and loads the static dex data instead.
     resetDex() {
-        console.warn('Using static dex data');
-        LocalStorageManager.removeItem(Globals.POKEDEX_DATA_KEY);
+        ErrorHandler.warn('Using static dex data');
+        LocalStorageManager.removeItem(LocalStorageManager.DEX_DATA_KEY);
         this.DEX_UPDATE_DATE = undefined;
         this.DEX_LOADING = undefined;
-        this.DEX_DATA = Globals.STATIC_DEX_DATA;
+        this.DEX_DATA = Resources.STATIC_DEX_DATA;
     }
     // Return the number of days since this.DEX_UPDATE_DATE
     daysSinceUpdate() {
@@ -66,8 +65,7 @@ class UserPokedex {
         try {
             return (new Date() - new Date(this.DEX_UPDATE_DATE)) / (1000 * 3600 * 24);
         } catch(e) {
-            console.error('Failed to determine number of days since dex update');
-            console.log(e);
+            ErrorHandler.error('Failed to determine number of days since dex update',e);
             return -1;
         }
     }

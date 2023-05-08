@@ -103,7 +103,7 @@ class BaseFieldsPage extends Page {
         typeUrls[idx].substring(typeUrls[idx].indexOf('types/') + 'types/'.length,
             typeUrls[idx].indexOf('.png')));
     types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1));
-    types = types.map(idx => Globals.TYPE_LIST.indexOf(types[idx]));
+    types = types.map(idx => Resources.TYPE_LIST.indexOf(types[idx]));
     index++;
 
     // level
@@ -143,7 +143,7 @@ class BaseFieldsPage extends Page {
         const tcSplit = dataElements[index].textContent.split(' ');
         if (tcSplit.length > 1) {
             nature = tcSplit[1].replace('(', '').trim();
-            nature = Globals.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
+            nature = Resources.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
         }
     } else {
         console.error('Helpers.parseFieldPokemonToolTip - could not load nature because text was empty');

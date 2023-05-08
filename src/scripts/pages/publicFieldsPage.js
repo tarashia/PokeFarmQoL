@@ -1,2 +1,2 @@
-class PublicFieldsPage extends Page {
+class PublicFieldsPage extends BaseFieldsPage {
 }

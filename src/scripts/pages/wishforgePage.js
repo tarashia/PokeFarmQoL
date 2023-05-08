@@ -11,7 +11,7 @@ class WishforgePage extends Page {
         }, function(mutations) {
             mutations.forEach(function(mutation) {
                 if(mutation.type === 'childList' && mutation.addedNodes.length) {
-                    obj.setupHTML();
+                    WishforgePage.setupHTML();
                 }
             });
         });
@@ -40,7 +40,7 @@ class WishforgePage extends Page {
 
         // build HTML table
         let rows = {};
-        for (key in types) {
+        for (const key in types) {
             if(!isMobile) {
                 rows[types[key]] = `<tr id=${types[key]}> <td>${types[key]}</td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>`;
             }
@@ -52,14 +52,13 @@ class WishforgePage extends Page {
         let table = '<table style="width: 100%" class="qolBadges">' +
             `<colgroup> ${columns} </colgroup>` +
             `<tr id="head"> ${header} </tr>`;
-        for (key in types) {
+        for (const key in types) {
             table += rows[types[key]];
         }
         table += '</table>';
 
         // add table to page
-        const craftedBadgesList = $('#badges').next().find('ul.badgelist');
-        craftedBadgesList.prepend(table);
+        $('.badgelist').prepend(table);
 
         // define column aliases to make the movements more logical
         let LEVEL_COL = 2;
@@ -81,10 +80,10 @@ class WishforgePage extends Page {
         }
 
         // move elements from original elements to table
-        for (key in types) {
+        for (const key in types) {
             const type = types[key];
-            const index = j + 1;
-            const li = $(craftedBadgesList.children()[index]);
+            const index = parseInt(key); // the type keys are strings "0" to "17"
+            const li = $('.badgelist').children()[index];
 
             // get badge image
             const badgeImg = $($(li.children()[0]).children()[0]);
@@ -126,7 +125,7 @@ class WishforgePage extends Page {
         }
 
         // remove the li's left over
-        const children = craftedBadgesList.children();
+        const children = $('.badgelist').children();
         for (let i = types.length; i >= 1; i--) {
             $(children[i]).remove();
         }

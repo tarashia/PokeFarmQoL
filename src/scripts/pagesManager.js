@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class PagesManager {
     static PAGES = {
         'daycare': {
@@ -67,7 +68,7 @@ class PagesManager {
                 page = PagesManager.PAGES[pageName]['base'];
             }
             // init the page object & return it
-            const settings = UserSettingsHandle.getSettings();
+            const settings = UserDataHandle.getSettings();
             if(page && 'setting' in page && settings.mainSettings[page.setting] === true) {
                 console.log('QoL features enabled for page: '+pageName);
                 // if init exists and is a function, run it (all pages that extend base page should have this)
@@ -75,7 +76,7 @@ class PagesManager {
                     page.class['init']();
                 }
                 else {
-                    console.error('Init function not found for page: '+pageName);
+                    ErrorHandler.error('Init function not found for page: '+pageName);
                 }
             }
             else {

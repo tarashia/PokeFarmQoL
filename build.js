@@ -11,6 +11,7 @@
 
 */
 
+import exec from 'await-exec';
 import fs from 'fs';
 import crypto from 'crypto';
 import path from 'path';
@@ -21,6 +22,11 @@ import cssnano from 'cssnano';
 import htmlMinify from 'html-minifier';
 import replaceAsync from 'string-replace-async';
 import { ESLint } from 'eslint';
+
+const outputPath = 'Poke-Farm-QoL.user.js';
+const headerFile = 'src/resources/header.txt';
+// Tell ESLint that jQuery's $ is defined elsewhere
+const jqueryLint = `/* global $ */`;
 
 // Unfortunately, order is important for some of these files,
 //   so instead of just going over the whole directory, define 
@@ -34,23 +40,28 @@ const scriptFiles = [
     'localStorageManager.js',
     'resources.js',
     // Non-static classes
-    'userSettingsHandle.js',
-    'userSettings.js',
+    'modal.js',
+    'userDataHandle.js',
     'userPokedex.js',
-    'pagesManager.js',
+    'userSettings.js',
     'qolHub.js',
+    'basePage.js',
+    // Pages
     '<PAGES>',
     // Script entry point
+    'pagesManager.js',
     'scriptEntry.js'
 ];
+
 
 runBuild();
 
 async function runBuild() {
-    const outputPath = 'Poke-Farm-QoL.user.js';
+    // ensure all dependencies are installed, and package-lock version is updated
+    console.log('Updating node_modules...');
+    await exec('npm i');
 
-    var initContent = await fs.promises.readFile('src/resources/header.txt', 'utf8');
-    await fs.promises.writeFile(outputPath, initContent);
+    await fs.promises.writeFile(outputPath, jqueryLint);
     console.log('Initialized '+outputPath);
 
     for(let i=0; i<scriptFiles.length; i++) {
@@ -66,11 +77,26 @@ async function runBuild() {
     // https://eslint.org/docs/latest/developer-guide/nodejs-api
     const eslint = new ESLint({ fix: true });
     const results = await eslint.lintFiles([outputPath]);
+    await ESLint.outputFixes(results);
     const formatter = await eslint.loadFormatter("stylish");
     console.log(formatter.format(results));
 
+    await addScriptHeader();
     const checksum = await getChecksum(outputPath, 'md5');
     console.log('Done! New checksum: '+checksum);
+}
+
+async function addScriptHeader() {
+    let header = await fs.promises.readFile(headerFile, 'utf8');
+    const formattedOutput = await fs.promises.readFile(outputPath, 'utf8');
+    // add version number from package.json
+    let version = process.env.npm_package_version;
+    console.log('Adding script header for v'+version+'...');
+    header = header.replace(/(@version\s+)VERSION/, (match, flag) => {
+        return flag+version;
+    });
+    await fs.promises.writeFile(outputPath, header);
+    await fs.promises.appendFile(outputPath, '\n\n'+formattedOutput);
 }
 
 async function addFileContent(inputPath, outputPath) {

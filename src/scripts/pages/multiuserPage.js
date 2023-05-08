@@ -65,7 +65,7 @@ class MultiuserPage extends Page {
 
     static partyModification() {
         // get page-specific settings
-        const settings = UserSettingsHandle.getSettings().pageSettings['QoLMultiuser'];
+        const settings = UserDataHandle.getSettings().pageSettings['QoLMultiuser'];
 
         // first, remove any existing selection (all qol classes)
         let classList = document.getElementById('multiuser').className.split(/\s+/);

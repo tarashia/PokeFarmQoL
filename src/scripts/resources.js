@@ -15,17 +15,19 @@ class Resources {
 
     // CSS files
     static CORE_CSS = `<% src/styles/core.css %>`;
-    static QOL_CSS = `<% src/styles/hub.css %>`;
+    static HUB_CSS = `<% src/styles/hub.css %>`;
+    static MODAL_CSS = `<% src/styles/modal.less %>`;
     static SHELTER_CSS = `<% src/styles/shelter.less %>`;
     static FIELDS_CSS = `<% src/styles/fields.less %>`;
     static PARTY_CSS = `<% src/styles/party.less %>`;
     static FORGE_CSS = `<% src/styles/forge.css %>`;
     static LAB_CSS = `<% src/styles/lab.css %>`;
+    static DEMO_CSS = '#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}';
 
     // HTML files
     static QOL_HUB_HTML = `<% src/html/qol-hub.html %>`;
     static PARTY_MOD_HTML = `<% src/html/party-mod.html %>`;
-    static QOL_HUB_LINK_HTML = `<% src/html/qol-hub-icon.html %>`;
+    static QOL_HUB_ICON_HTML = `<% src/html/qol-hub-icon.html %>`;
     static LAB_OPTIONS_HTML = `<% src/html/lab-options.html %>`;
     static EVOLVE_FAST_HTML = `<% src/html/evolve-fast.html %>`;
     static PRIVATE_FIELD_SEARCH_HTML = `<% src/html/private-field-search.html %>`;

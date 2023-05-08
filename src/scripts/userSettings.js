@@ -1,5 +1,5 @@
 // Do not call this constructor directly to get or create a settings object
-// Always call UserSettingsHandle.getSettings();
+// Always call UserDataHandle.getSettings();
 class UserSettings {
 
     /*
@@ -21,12 +21,15 @@ class UserSettings {
         },
     ];
 
+    mainSettings = {};
+    pageSettings = {};
+
     constructor() {
         console.log('Initializing settings');
         this.setDefaults();
         this.loadSettings();
     }
-    // Set the default settings value (does not save to storage)
+    // Set the default settings values (does not save to storage)
     setDefaults() {
         // default settings when the script gets loaded the first time
         this.mainSettings = {
@@ -62,53 +65,77 @@ class UserSettings {
                 pkmnlinks: true
             }
         }
-        // These keys should be valid local storage keys 
-        // (begin with "QoL", describe what they store)
-        this.pageSettings = {
-            'QoLLab': {
-                findLabEgg: '', // same as findCustom in shelter
-                customEgg: true,
-                findLabType: '', // same as findType in shelter
-                findTypeEgg: true,
-            },
-            'QoLMultiuser': {
-                hideDislike: false,
-                hideAll: false,
-                niceTable: false,
-                customParty: false,
-                stackNextButton: true,
-                stackMoreButton: true,
-                showPokemon: true,
-                compactPokemon: true,
-                clickablePokemon: false,
-                showTrainerCard: true,
-                showFieldButton: false,
-                showModeChecks: false,
-                showUserName: true
-            },
-            'QoLPrivateFields': UserSettings.fieldDefaults(false),
-            'QoLPublicFields': UserSettings.fieldDefaults(true),
-            'QoLShelter': {
-                findNewEgg: true,
-                findNewPokemon: true,
-                findShiny: true,
-                findAlbino: true,
-                findMelanistic: true,
-                findPrehistoric: true,
-                findDelta: true,
-                findMega: true,
-                findStarter: true,
-                findCustomSprite: true,
-                findTotem: false,
-                findLegendary: false,
-                shelterGrid: true,
-                shelterSpriteSize: 'auto',
-                quickTypeSearch: [],
-                fullOptionSearch: {},
-                quickPkmnSearch: [],
-                fullPkmnSearch: {}
+        this.setPageDefaults('ALL');
+    }
+    // Page should be a valid local storage key, starting with QoL
+    // When "ALL", all page defaults are set
+    setPageDefaults(page) {
+        let pageList = [];
+        if(page==='ALL') {
+            pageList = LocalStorageManager.PAGE_SETTINGS_KEYS;
+        }
+        else {
+            pageList.push(page);
+        }
+        for(let i=0; i<pageList.length; i++) {
+            switch(pageList[i]) {
+                case 'QoLLab':
+                    this.pageSettings.QoLLab = {
+                        findLabEgg: '',
+                        customEgg: true,
+                        findLabType: '',
+                        findTypeEgg: true,
+                    };
+                    break;
+                case 'QoLMultiuser':
+                    this.pageSettings.QoLMultiuser ={
+                        hideDislike: false,
+                        hideAll: false,
+                        niceTable: false,
+                        customParty: false,
+                        stackNextButton: true,
+                        stackMoreButton: true,
+                        showPokemon: true,
+                        compactPokemon: true,
+                        clickablePokemon: false,
+                        showTrainerCard: true,
+                        showFieldButton: false,
+                        showModeChecks: false,
+                        showUserName: true
+                    };
+                    break;
+                case 'QoLPrivateFields':
+                    this.pageSettings.QoLPrivateFields = UserSettings.fieldDefaults(false);
+                    break;
+                case 'QoLPublicFields':
+                    this.pageSettings.QoLPublicFields = UserSettings.fieldDefaults(true);
+                    break;
+                case 'QoLShelter':
+                    this.pageSettings.QoLShelter = {
+                        findNewEgg: true,
+                        findNewPokemon: true,
+                        findShiny: true,
+                        findAlbino: true,
+                        findMelanistic: true,
+                        findPrehistoric: true,
+                        findDelta: true,
+                        findMega: true,
+                        findStarter: true,
+                        findCustomSprite: true,
+                        findTotem: false,
+                        findLegendary: false,
+                        shelterGrid: true,
+                        shelterSpriteSize: 'auto',
+                        quickTypeSearch: [],
+                        fullOptionSearch: {},
+                        quickPkmnSearch: [],
+                        fullPkmnSearch: {}
+                    }
+                    break;
+                default:
+                    ErrorHandler.warn('Cannot set page defaults for unknown page: '+pageList[i]);
             }
-        };
+        }
     }
     // Most field settings are shared, build defaults here
     static fieldDefaults(isPublic) {
@@ -151,14 +178,14 @@ class UserSettings {
         // Main settings
         LocalStorageManager.setItem(LocalStorageManager.MAIN_SETTINGS_KEY, this.mainSettings);
         // Page settings
-        for(pageKey in this.pageSettings) {
+        for(const pageKey in this.pageSettings) {
             LocalStorageManager.setItem(pageKey, this.pageSettings[pageKey]);
         }
     }
     // Loads all settings in storage into the UserSettings object
     loadSettings() {
         const storedSettings = LocalStorageManager.getAllQoLSettings();
-        for(settingKey in storedSettings) {
+        for(const settingKey in storedSettings) {
             // remove user ID from setting
             let settingName = settingKey.split('.');
             if(settingName.length == 2) {
@@ -168,7 +195,7 @@ class UserSettings {
                 if(settingName == LocalStorageManager.MAIN_SETTINGS_KEY) {
                     const mainSettings = JSON.parse(storedSettings[settingKey]);
                     // only load settings that are known about in this class
-                    for(mainKey in mainSettings) {
+                    for(const mainKey in mainSettings) {
                         if(mainKey in this) {
                             this.mainSettings[mainKey] = mainSettings[mainKey];
                         }
@@ -176,12 +203,12 @@ class UserSettings {
                     foundKey = true;
                 }
                 // Otherwise check for a page settings
-                for(pageKey in this.pageSettings) {
+                for(const pageKey in this.pageSettings) {
                     if(settingName == pageKey) {
                         // get the matching key for the user setting's object's pageSettings property
                         const pageSettings = JSON.parse(storedSettings[settingKey]);
                         // only load page settings that are known about in this class
-                        for(pageSettingKey in pageSettings) {
+                        for(const pageSettingKey in pageSettings) {
                             if(pageSettingKey in this.pageSettings[pageKey]) {
                                 this.pageSettings[pageKey] = pageSettings[pageSettingKey];
                             }
@@ -190,11 +217,11 @@ class UserSettings {
                     }
                 }
                 if(!foundKey) {
-                    console.warn('Unknown setting: '+settingKey);
+                    ErrorHandler.warn('Unknown setting: '+settingKey);
                 }
             }
             else {
-                console.warn('Invalid setting: '+settingKey);
+                ErrorHandler.warn('Invalid setting: '+settingKey);
             }
         }
     }

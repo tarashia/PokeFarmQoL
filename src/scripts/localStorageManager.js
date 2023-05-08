@@ -1,6 +1,13 @@
 class LocalStorageManager {
     
     static MAIN_SETTINGS_KEY = 'QoLSettings';
+    static PAGE_SETTINGS_KEYS  = [
+        'QoLLab',
+        'QoLMultiuser',
+        'QoLPrivateFields',
+        'QoLPublicFields',
+        'QoLShelter'
+    ];
     static DEX_DATA_KEY = 'QoLPokedex';
     // see keys in UserSettings.pageSettings for page-specific storage keys
 
@@ -10,7 +17,7 @@ class LocalStorageManager {
         for (let i = 0, len = localStorage.length; i < len; ++i) {
             const key = localStorage.key(i);
             // the dex is the largest data element by far; allow excluding it
-            if(key && key.includes('QoL') && (includeDex || !key.includes(DEX_DATA_KEY))) {
+            if(key && key.includes('QoL') && (includeDex || !key.includes(LocalStorageManager.DEX_DATA_KEY))) {
                 qolSettings[key] = localStorage.getItem(key);
             }
         }
@@ -30,7 +37,7 @@ class LocalStorageManager {
     // returns null if the key is in a bad format (use === to evaluate)
     static translateKey(key) {
         if(!key.startsWith('QoL')) {
-            console.error('Bad key format: '+ key);
+            ErrorHandler.error('Bad key format: '+ key);
             return null;
         }
         let userID = $('#core').attr('data-user');

@@ -1,311 +1,193 @@
-<div class="dialog">
+
+<p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings.</p>
+
+<h4>Main Settings</h4>
+<p><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</p>
+<div class="qolHubCard">
   <div>
-    <div>
-      <div style="margin-top: 1em; margin-bottom: 1em;">
-        <h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3>
-        <div>
-          <p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p>
-          <div>
-            <table class="qolHubTable">
-              <tbody>
-                <tr>
-                  <td>
-                    <h3 class="qolHubHead">Settings</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="qolAllSettings">
-                    <ul>
-                      <li>
-                        <label>
-                          <input type='checkbox' class='qolhubsetting' data-key='enableDaycare'/>
-                          <span>
-                            Highlight Breeding Matches
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="shelterEnable"/>
-                          <span>
-                            Enable All Shelter QoL Features
-                          </span>
-                        </label>
-                        <ul>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"/>
-                              <span>
-                                Advanced Searching
-                              </span>
-                            </label>
-                          </li>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"/>
-                              <span>
-                                Advanced Sorting
-                              </span>
-                            </label>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="fishingEnable"/>
-                          <span>
-                            Fishing Multi-Select Controls
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"/>
-                          <span>
-                            Enable All Public Fields QoL Features
-                          </span>
-                        </label>
-                        <ul>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"/>
-                              <span>
-                                Advanced Searching
-                              </span>
-                            </label>
-                          </li>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"/>
-                              <span>
-                                Advanced Sorting
-                              </span>
-                            </label>
-                          </li>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"/>
-                              <span>
-                                Tooltips Enable/Disable
-                              </span>
-                            </label>
-                          </li>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"/>
-                              <span>
-                                Pokemon Link List
-                              </span>
-                            </label>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"/>
-                          <span>
-                            Enable All Private Fields QoL Features
-                          </span>
-                        </label>
-                        <ul>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"/>
-                              <span>
-                                Advanced Searching
-                              </span>
-                            </label>
-                          </li>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"/>
-                              <span>
-                                Multi-Select Controls (Move & Release)
-                              </span>
-                            </label>
-                          </li>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"/>
-                              <span>
-                                Tooltips Enable/Disable
-                              </span>
-                            </label>
-                          </li>
-                          <li>
-                            <label>
-                              <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"/>
-                              <span>
-                                Pokemon Link List
-                              </span>
-                            </label>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="partyMod"/>
-                          <span>
-                            Party click mod
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="easyEvolve"/>
-                          <span>
-                            Easy evolving
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="labNotifier"/>
-                          <span>
-                            Lab Notifier
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"/>
-                          <span>
-                            Multiple Types Filtering
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"/>
-                          <span>
-                            Smaller Crafted Badges List
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"/>
-                          <span>
-                            Interactions page (sent multi-link)
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" class="qolhubsetting" data-key="summaryEnable"/>
-                          <span>
-                            Summary page (pkmnpanel code)
-                          </span>
-                        </label>
-                      </li>
-                    </ul>
-                    <span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h3 class="qolHubHead">Change log</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="qolChangeLog">
-                    <ul class="qolChangeLogList">
-                      <li class="expandlist">
-                        <span>
-                          Change log was removed as of April 2021. Visit
-                          <a href="https://github.com/tarashia/PokeFarmQoL" target="_blank">GitHub</a>
-                          for the latest list of features
-                        </span>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" class="qolDexUpdate">
-                    <h3 class="qolHubHead">Pokedex Settings</h3>
-                  </td>
-                </tr>
-                <tr id="qolDexUpdateRow">
-                  <td colspan="2" class="qolAllSettings">
-                    <span>
-                      Notice that you can't find the newly added Eggs or Pokemon in shelter?
-                      You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with
-                      the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.
-                    </span>
-                    <br>
-                    <span>Date last updated: <span id="qolDexDate"></span>
-                  </td>
-                </tr>
-                <tr id="qolDexClearRow">
-                  <td colspan="2">
-                    <input type='button' value="Clear Cached Dex" id="clearCachedDex">
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" class="qolAllSettings">
-                    <h3 class="qolHubHead">Css Settings</h3>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <span>
-                      Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. 
-                      Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible 
-                      that there will be a short delay before your CSS changes apply. Note: LESS formatting is not supported; if 
-                      you're copying LESS-formatted code from a guide, you should 
-                      <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" class="qolAllSettings">
-                    <div class='textareahub'>
-                      <textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" class="qolAllSettings">
-                    <h3 class="qolHubHead">Debugging Corner</h3>
-                  </td>
-                </tr>
-                <tr id="qolDebuggingCornerRow">
-                  <td colspan="2" class="qolAllSettings">
-                    <span>Use these controls to reset the settings for a particular page back to its defaults</span><br>
-                    <span><b>Page Select</b></span>
-                    <!-- Option values correspond to keys in the PAGES object in the main script -->
-                    <select name='Page Select' class="qolHubResetSettingsSelect" data-key="resetPageSettings">
-                      <option value="None">None</option>
-                      <option value="Lab">Lab</option>
-                      <option value="Multiuser">Multiuser</option>
-                      <option value="PrivateFields">Private Fields</option>
-                      <option value="PublicFields">Public Fields</option>
-                      <option value="Shelter">Shelter</option>
-                    </select>
-                    <input type='button' value="Reset Page Settings" id="resetPageSettings">
-                    <input type="button" value="Reset ALL Settings" id="resetAllSettings">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <br />
-                    Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. 
-                    <input type="button" value="View errors" id="qolErrorConsole">
-                    <ul id="qolConsoleContent" style="word-break:break-all;"></ul>
-                    <br />
-                    The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs.
-                    <input type="button" value="Load settings" id="qolStorageLog">
-                    <div id="qolStorageOutput" style="display: none;"></div>
-                    <br />
-                    <input type="button" value="Log settings + dex" id="qolLogPlusDex">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <p class='closeHub'>Close</p>
-      </div>
-    </div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="partyMod"/>
+      <span>Party click mod</span>
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="shelterEnable"/>
+      <span>Enable All Shelter QoL Features</span>
+    </label>
+    <ul>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"/>
+          <span>Advanced Searching</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"/>
+          <span>Advanced Sorting</span>
+        </label>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"/>
+      <span>Enable All Public Fields QoL Features</span>
+    </label>
+    <ul>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"/>
+          <span>Advanced Searching</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"/>
+          <span>Advanced Sorting</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"/>
+          <span>Tooltips Enable/Disable</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"/>
+          <span>Pokemon Link List</span>
+        </label>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"/>
+      <span>Enable All Private Fields QoL Features</span>
+    </label>
+    <ul>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"/>
+          <span>Advanced Searching</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"/>
+          <span>Multi-Select Controls (Move & Release)</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"/>
+          <span>Tooltips Enable/Disable</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"/>
+          <span>Pokemon Link List</span>
+        </label>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <label>
+      <input type='checkbox' class='qolhubsetting' data-key='enableDaycare'/>
+      <span>Highlight Breeding Matches</span>
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="fishingEnable"/>
+      <span>Fishing Multi-Select Controls</span>
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="easyEvolve"/>
+      <span>Easy evolving</span>
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="labNotifier"/>
+      <span>Lab Notifier</span>
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"/>
+      <span>Multiple Types Filtering</span>
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"/>
+      <span>Smaller Crafted Badges List</span>
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"/>
+      <span>Interactions page (sent multi-link)</span>
+    </label>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" class="qolhubsetting" data-key="summaryEnable"/>
+      <span>Summary page (pkmnpanel code)</span>
+    </label>
   </div>
 </div>
+
+<h4>Pokédex Settings</h4>
+<div class="qolHubCard">
+  <p>If newly added Pokémon are not matching properly, your dex may be out of date. You can try clearing your cached dex to get the new data. If that doesn't help, the new Pokémon may not have been added yet - please report it in the QoL thread.</p>
+  <p>Date last updated: <span id="qolDexDate">[unknown]</span> <button type="button" id="clearCachedDex">Clear Cached Dex</button></p>
+</div>
+
+<h4>Custom CSS</h4>
+<div class="qolHubCard">
+  <p>
+    Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. 
+    Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible 
+    that there will be a short delay before your CSS changes apply. Note: LESS formatting and skin color vars are
+    not supported; if you're copying LESS-formatted code from a guide, you should 
+    <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a>
+  </p>
+  <textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea>
+</div>
+
+<h4>Debugging</h4>
+<div class="qolHubCard">
+  <p>You can reset some or all of the script settings here. If this script misbehaving after an update, this could help. Caution: You cannot undo this action.</p>
+  <p>Reset page settings: 
+    <!-- Option values correspond to keys in the PAGES object in the main script -->
+    <select name='Page Select' id="qolHubResetSettingsSelect" data-key="resetPageSettings">
+      <option value="None">None</option>
+    </select>
+    <button type="button" id="resetPageSettings">Reset Page Settings</button>
+    <button type="button" id="resetAllSettings">Reset ALL Settings</button>
+  </p>
+  <div>
+    <p>
+      Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. 
+      <button type="button" id="qolErrorConsole">View errors</button>
+    </p>
+    <ul id="qolConsoleContent"></ul>
+  </div>
+  <div>
+    The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs.
+    <button type="button" id="qolStorageLog">Get settings</button>
+    <p id="qolStorageOutput" style="display: none;"></p>
+    <button type="button" id="qolLogPlusDex">Log settings & dex to console</button>
+  </div>
+</div>
+
+<p style="text-align: right">
+  <button type="button" class='modalClose'>Close</button>
+</p>

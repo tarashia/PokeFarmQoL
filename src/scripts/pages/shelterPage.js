@@ -18,7 +18,7 @@ class ShelterPage extends Page {
     }
 
     static setupHTMLCSS() {
-        const mainSettings = UserSettingsHandle.getSettings().mainSettings;
+        const mainSettings = UserDataHandle.getSettings().mainSettings;
         if(mainSettings.shelterFeatureEnables.search) {
             $('.tabbed_interface.horizontal>div').removeClass('tab-active');
             $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
@@ -61,7 +61,7 @@ class ShelterPage extends Page {
     }
 
     static handleSortSettings() {
-        const shelterSettings = UserSettingsHandle.getSettings().pageSettings['QoLShelter'];
+        const shelterSettings = UserDataHandle.getSettings().pageSettings['QoLShelter'];
         //sort in grid
         $('#shelterarea').removeClass('qolshelterareagrid');
 

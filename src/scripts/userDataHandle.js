@@ -4,7 +4,7 @@ It makes it easier to get the master settings instance,
 without needing to explicitly pass it around between functions
 */
 
-let UserSettingsHandle = (function () {
+let UserDataHandle = (function () {
     let settings;
     let dex;
 
