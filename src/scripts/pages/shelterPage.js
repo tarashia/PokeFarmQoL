@@ -21,8 +21,6 @@ class ShelterPage extends Page {
             fullPkmnSearch: {}
         };
         super(Globals.SHELTER_PAGE_SETTINGS_KEY, defaultPageSettings, 'shelter');
-        this.customArray = [];
-        this.typeArray = [];
         const obj = this;
         this.observer = new MutationObserver(function (event) {
             console.log('mutation observed');
@@ -135,5 +133,7 @@ class ShelterPage extends Page {
         else {
             $('#spriteSizeAuto').prop('checked',true);
         }
+    }
+    buildQuickSearch() {
     }
 }

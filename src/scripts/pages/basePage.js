@@ -7,7 +7,7 @@ class Page {
         this.defaultSettings = ds;
         this.url = url;
         this.settings = this.defaultSettings;
-        this.USER_SETTINGS = UserSettingsHandle.getSettings();;
+        this.USER_SETTINGS = UserSettingsHandle.getSettings();
         this.POKEDEX = UserSettingsHandle.getDex();
     }
 
