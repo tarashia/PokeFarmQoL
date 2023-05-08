@@ -1,11 +1,11 @@
 class DexPage extends Page {
     static init() {
-        DexPage.setupObserver();
         DexPage.setupHTML();
+        DexPage.setupObservers();
         DexPage.setupHandlers();
     }
 
-    static setupObserver() {
+    static setupObservers() {
         Page.addObserver(document.querySelector('#regionslist'), {
             childList: true,
             subtree: true,

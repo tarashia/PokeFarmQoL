@@ -1,10 +1,10 @@
 class WishforgePage extends Page {
     static init() {
-        WishforgePage.setupObserver();
         WishforgePage.setupHTML();
+        WishforgePage.setupObservers();
     }
 
-    static setupObserver() {
+    static setupObservers() {
         const target = $('#badges').next('div')[0];
         Page.addObserver(target, {
             childList: true

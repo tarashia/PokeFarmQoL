@@ -26,22 +26,28 @@ class UserPokedex {
     }
     // Get the dex data from the updatable, uploaded version, and store it to local storage
     fetchUploadedDex() {
-        console.log('Updating dex from from uploaded file');
-        try {
-            this.DEX_LOADING = true;
-            const self = this;
-            $.get("https://pokefarm.com/upload/:b7q/QoL/dex-data.jpg", function(data){
-                self.DEX_DATA = JSON.parse(data);
-                let dateString = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
-                self.DEX_UPDATE_DATE = dateString;
-                LocalStorageManager.updateLocalStorageDex(self.DEX_DATA, dateString);
-                self.DEX_LOADING = false;
-                console.log('Dex load complete');
-            });
-        } catch(e) {
-            console.error('Failed to load dex data from uploaded file');
-            console.log(e);
-            this.resetDex();
+        const mainSettings = UserSettingsHandle.getSettings().mainSettings;
+        if('preventDexUpdate' in mainSettings && mainSettings.preventDexUpdate===true) {
+            console.log('Not updating dex: user disabled')
+        }
+        else {
+            console.log('Updating dex from from uploaded file');
+            try {
+                this.DEX_LOADING = true;
+                const self = this;
+                $.get("https://pokefarm.com/upload/:b7q/QoL/dex-data.jpg", function(data){
+                    self.DEX_DATA = JSON.parse(data);
+                    let dateString = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
+                    self.DEX_UPDATE_DATE = dateString;
+                    LocalStorageManager.updateLocalStorageDex(self.DEX_DATA, dateString);
+                    self.DEX_LOADING = false;
+                    console.log('Dex load complete');
+                });
+            } catch(e) {
+                console.error('Failed to load dex data from uploaded file');
+                console.log(e);
+                this.resetDex();
+            }
         }
     }
     // Clears any locally stored dex data, and loads the static dex data instead.

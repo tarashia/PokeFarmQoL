@@ -1,10 +1,10 @@
 class DaycarePage extends Page {
     static init() {
-        DaycarePage.setupObserver();
         DaycarePage.setupHTML();
+        DaycarePage.setupObservers();
     }
 
-    static setupObserver() {
+    static setupObservers() {
         Page.addObserver(document.querySelector('body'), {
             childList: true,
             subtree: true

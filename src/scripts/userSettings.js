@@ -43,6 +43,7 @@ class UserSettings {
             condenseWishforge : true,
             interactionsEnable : true,
             summaryEnable : true,
+            preventDexUpdate: false,
             shelterFeatureEnables : {
                 search: true,
                 sort: true,
@@ -85,64 +86,8 @@ class UserSettings {
                 showModeChecks: false,
                 showUserName: true
             },
-            'QoLPrivateFields': {
-                fieldCustom: '',
-                fieldType: '',
-                fieldNature: '',
-                fieldEggGroup: '',
-                fieldNewPokemon: true,
-                fieldShiny: true,
-                fieldAlbino: true,
-                fieldMelanistic: true,
-                fieldPrehistoric: true,
-                fieldDelta: true,
-                fieldMega: true,
-                fieldStarter: true,
-                fieldCustomSprite: true,
-                fieldMale: true,
-                fieldFemale: true,
-                fieldNoGender: true,
-                fieldItem: true,
-                customItem: true, // unused
-                customEgg: true,
-                customPokemon: true,
-                customPng: false,
-                /* tooltip settings */
-                tooltipEnableMods: false,
-                tooltipNoBerry: false,
-                tooltipBerry: false,
-            },
-            'QoLPublicFields': {
-                fieldByBerry: false,
-                fieldByMiddle: false,
-                fieldByGrid: false,
-                fieldClickCount: true,
-                fieldCustom: '',
-                fieldType: '',
-                fieldNature: '',
-                fieldEggGroup: '',
-                fieldNewPokemon: true,
-                fieldShiny: true,
-                fieldAlbino: true,
-                fieldMelanistic: true,
-                fieldPrehistoric: true,
-                fieldDelta: true,
-                fieldMega: true,
-                fieldStarter: true,
-                fieldCustomSprite: true,
-                fieldMale: true,
-                fieldFemale: true,
-                fieldNoGender: true,
-                fieldCustomItem: true, // unused
-                fieldCustomPokemon: true,
-                fieldCustomEgg: true,
-                fieldCustomPng: false,
-                fieldItem: true,
-                /* tooltip settings */
-                tooltipEnableMods: false,
-                tooltipNoBerry: false,
-                tooltipBerry: false,
-            },
+            'QoLPrivateFields': UserSettings.fieldDefaults(false),
+            'QoLPublicFields': UserSettings.fieldDefaults(true),
             'QoLShelter': {
                 findNewEgg: true,
                 findNewPokemon: true,
@@ -164,6 +109,42 @@ class UserSettings {
                 fullPkmnSearch: {}
             }
         };
+    }
+    // Most field settings are shared, build defaults here
+    static fieldDefaults(isPublic) {
+        let fieldSettings = {
+            fieldNewPokemon: true,
+            fieldShiny: false,
+            fieldAlbino: false,
+            fieldMelanistic: false,
+            fieldPrehistoric: false,
+            fieldDelta: false,
+            fieldMega: false,
+            fieldStarter: false,
+            fieldCustomSprite: false,
+            fieldItem: false,
+            fieldMale: true,
+            fieldFemale: true,
+            fieldNoGender: true,
+            fieldCustomItem: true, // unused
+            fieldCustomPokemon: true,
+            fieldCustomEgg: true,
+            fieldCustomPng: false,
+            tooltipEnableMods: false,
+            fieldCustom: '',
+            fieldType: '',
+            fieldNature: '',
+            fieldEggGroup: ''
+        };
+        // Additional public-only settings
+        if(isPublic) {
+            fieldSettings.tooltipNoBerry = false;
+            fieldSettings.tooltipBerry = false;
+            fieldSettings.fieldByBerry = false;
+            fieldSettings.fieldByMiddle = false;
+            fieldSettings.fieldByGrid = false;
+            fieldSettings.fieldClickCount = true;
+        }
     }
     // Saves all settings in the UserSettings object to local storage
     saveSettings() {

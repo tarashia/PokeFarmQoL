@@ -1,11 +1,11 @@
 class MultiuserPage extends Page {
     static init() {
-        MultiuserPage.setupObserver();
         MultiuserPage.setupHTMLCSS();
+        MultiuserPage.setupObservers();
         MultiuserPage.setupHandlers();
     }
     
-    static setupObserver() {
+    static setupObservers() {
         // don't observe the whole party area as it may cause excess firing
         Page.addObserver(document.querySelector('#multiuser'), {
             childList: true,
