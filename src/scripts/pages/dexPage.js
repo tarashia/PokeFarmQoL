@@ -1,20 +1,20 @@
 class DexPage extends Page {
-    constructor() {
-        super(undefined, {}, 'dex');
-        const obj = this;
-        this.observer = new MutationObserver(function () {
-            obj.applyTypeFilters();
-        });
-        this.typeArray = [];
-
+    static init() {
+        DexPage.setupObserver();
+        DexPage.setupHTML();
+        DexPage.setupHandlers();
     }
-    setupObserver() {
-        this.observer.observe(document.querySelector('#regionslist'), {
+
+    static setupObserver() {
+        Page.addObserver(document.querySelector('#regionslist'), {
             childList: true,
             subtree: true,
+        }, function() {
+            DexPage.applyTypeFilters();
         });
     }
-    setupHTML() {
+
+    static setupHTML() {
         const elem = document.querySelector('.filter-type');
         const clone = elem.cloneNode(true);
         elem.parentNode.appendChild(clone);
@@ -25,8 +25,7 @@ class DexPage extends Page {
         $(clone).addClass('filter-type-2');
     }
 
-    setupHandlers() {
-        const obj = this;
+    static setupHandlers() {
         let h = $.parseJSON($('#dexdata').html());
         const type2 = $('.filter-type-2');
         const l = $('.filter-type-2 .types');
@@ -46,21 +45,21 @@ class DexPage extends Page {
                 xLocation = c.eq(xLocation);
                 if (xLocation.data('type') == h) {
                     h = null;
-                    obj.toggleSelectedTypes();
-                    obj.applyTypeFilters();
+                    DexPage.toggleSelectedTypes();
+                    DexPage.applyTypeFilters();
                 } else {
                     h = xLocation.data('type');
-                    obj.toggleSelectedTypes(xLocation);
-                    obj.applyTypeFilters();
+                    DexPage.toggleSelectedTypes(xLocation);
+                    DexPage.applyTypeFilters();
                 }
             } else {
-                obj.toggleSelectedTypes();
-                obj.applyTypeFilters();
+                DexPage.toggleSelectedTypes();
+                DexPage.applyTypeFilters();
             }
         });
     }
 
-    toggleSelectedTypes(b) {
+    static toggleSelectedTypes(b) {
         const g = $('.filter-type-2 .name i');
         const l = $('.filter-type-2 .types');
         const c = l.children();
@@ -76,7 +75,7 @@ class DexPage extends Page {
         }
     }
 
-    applyTypeFilters() {
+    static applyTypeFilters() {
         const l1 = $('.entry.filter-type:not(.filter-type-2) .types');
         const l = $('.entry.filter-type-2 .types');
         const c1 = l1.children();

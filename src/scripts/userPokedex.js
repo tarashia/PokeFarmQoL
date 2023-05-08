@@ -5,6 +5,7 @@
 //                      use === to evaluate the value, to ensure false vs undefined
 class UserPokedex {
     constructor() {
+        console.log('Initializing dex');
         this.loadDex();
     }
     loadDex() {

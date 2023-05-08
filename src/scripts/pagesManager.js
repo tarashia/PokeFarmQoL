@@ -1,143 +1,89 @@
 class PagesManager {
-    constructor() {
-        this.USER_SETTINGS = UserSettingsHandle.getSettings();
-        this.pages = {
-            'Daycare': {
-                class: DaycarePage,
-                object: undefined,
-                setting: 'enableDaycare'
-            },
-            'Farm': {
-                class: FarmPage,
-                object: undefined,
-                setting: 'easyEvolve'
-            },
-            'Fishing': {
-                class: FishingPage,
-                object: undefined,
-                setting: 'fishingEnable'
-            },
-            'Lab': {
-                class: LabPage,
-                object: undefined,
-                setting: 'labNotifier'
-            },
-            'Multiuser': {
-                class: MultiuserPage,
-                object: undefined,
-                setting: 'partyMod'
-            },
-            'PrivateFields': {
+    static PAGES = {
+        'daycare': {
+            class: DaycarePage,
+            setting: 'enableDaycare'
+        },
+        'farm': {
+            class: FarmPage,
+            setting: 'easyEvolve'
+        },
+        'fishing': {
+            class: FishingPage,
+            setting: 'fishingEnable'
+        },
+        'lab': {
+            class: LabPage,
+            setting: 'labNotifier'
+        },
+        'users': {
+            class: MultiuserPage,
+            setting: 'partyMod'
+        },
+        'fields': {
+            'base': {
                 class: PrivateFieldsPage,
-                object: undefined,
                 setting: 'privateFieldEnable'
             },
-            'PublicFields': {
+            'alt': {
                 class: PublicFieldsPage,
-                object: undefined,
                 setting: 'publicFieldEnable'
-            },
-            'Shelter': {
-                class: ShelterPage,
-                object: undefined,
-                setting: 'shelterEnable'
-            },
-            'Dex': {
-                class: DexPage,
-                object: undefined,
-                setting: 'dexFilterEnable'
-            },
-            'Wishforge': {
-                class: WishforgePage,
-                object: undefined,
-                setting: 'condenseWishforge'
-            },
-            'Interactions': {
-                class: InteractionsPage,
-                object: undefined,
-                setting: 'interactionsEnable'
-            },
-            'Summary': {
-                class: SummaryPage,
-                object: undefined,
-                setting: 'summaryEnable'
             }
-        };
-    }
-    instantiatePages() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true) {
-                pg.object = new pg.class(this.USER_SETTINGS);
-            }
+        },
+        'shelter': {
+            class: ShelterPage,
+            setting: 'shelterEnable'
+        },
+        'dex': {
+            class: DexPage,
+            setting: 'dexFilterEnable'
+        },
+        'forge': {
+            class: WishforgePage,
+            setting: 'condenseWishforge'
+        },
+        'interactions': {
+            class: InteractionsPage,
+            setting: 'interactionsEnable'
+        },
+        'summary': {
+            class: SummaryPage,
+            setting: 'summaryEnable'
         }
-    }
-    loadSettings() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.loadSettings();
+    };
+    static instantiatePage() {
+        const urlComponents = window.location.pathname.split('/');
+        const pageName = urlComponents[1]; // this should generally never be null/undefined
+        if(pageName in PagesManager.PAGES) {
+            let page;
+            if('class' in PagesManager.PAGES[pageName]) {
+                page = PagesManager.PAGES[pageName];
             }
-        }
-    }
-    saveSettings() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.saveSettings();
+            // we're in a special case like fields, do more URL checking
+            else if(urlComponents.length>2) {
+                page = PagesManager.PAGES[pageName]['alt'];
             }
-        }
-    }
-    populateSettings() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.populateSettings();
+            else {
+                page = PagesManager.PAGES[pageName]['base'];
+            }
+            // init the page object & return it
+            const settings = UserSettingsHandle.getSettings();
+            if(page && 'setting' in page && settings.mainSettings[page.setting] === true) {
+                console.log('QoL features enabled for page: '+pageName);
+                // if init exists and is a function, run it (all pages that extend base page should have this)
+                if (typeof page.class['init'] == 'function') {
+                    page.class['init']();
+                }
+                else {
+                    console.error('Init function not found for page: '+pageName);
+                }
+            }
+            else {
+                console.log('QoL features disabled for page: '+pageName);
             }
         }
-    }
-    clearPageSettings(pageName) {
-        if (!(pageName in this.pages)) {
-            console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`);
-        } else if (this.pages[pageName].object) {
-            this.pages[pageName].object.resetSettings();
-        }
-    }
-    clearAllPageSettings() {
-        for(let pageName in this.pages) {
-            this.clearPageSettings(pageName);
-        }
-    }
-    setupHTML() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHTML();
-            }
-        }
-    }
-    setupCSS() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupCSS();
-            }
-        }
-    }
-    setupObservers() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupObserver();
-            }
-        }
-    }
-    setupHandlers() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHandlers();
-            }
+        else {
+            console.log('Not a QoL page: '+pageName);
         }
     }
 }

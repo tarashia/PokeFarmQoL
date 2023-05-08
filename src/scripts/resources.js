@@ -1,69 +1,40 @@
 /**
- * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
+ * This class is used to store JSON, CSS, and HTML files - the build script replaces these with the given file's contents
  */
 class Resources {
-    static css() {
-        return `<% src/styles/core.css %> `+
-               `<% src/styles/shelter.less %> `+
-               `<% src/styles/fields.less %> `+
-               `<% src/styles/hub.css %> `+
-               `<% src/styles/party.less %> `+
-               `<% src/styles/forge.css %> `;
-    }
+    
+    // JSON objects loaded from resource files
+    static BODY_STYLE_LIST = "<% src/resources/body-styles.jsonc %>";
+    static COLOUR_LIST = "<% src/resources/colours.jsonc %>";
+    static EGG_GROUP_LIST = "<% src/resources/egg-groups.jsonc %>";
+    static NATURE_LIST = "<% src/resources/natures.jsonc %>";
+    static REGION_LIST = "<% src/resources/regions.jsonc %>";
+    static TYPE_LIST = "<% src/resources/types.jsonc %>";
+    static STATIC_DEX_DATA = "<% src/resources/dex-data.json %>";
+    static SHELTER_SEARCH_KEYS = "<% src/resources/shelter-search-keys.jsonc %>";
 
-    static fieldSearchHTML() {
-        return `<% src/html/field-search.html %>`;
-    }
+    // CSS files
+    static CORE_CSS = `<% src/styles/core.css %>`;
+    static QOL_CSS = `<% src/styles/hub.css %>`;
+    static SHELTER_CSS = `<% src/styles/shelter.less %>`;
+    static FIELDS_CSS = `<% src/styles/fields.less %>`;
+    static PARTY_CSS = `<% src/styles/party.less %>`;
+    static FORGE_CSS = `<% src/styles/forge.css %>`;
+    static LAB_CSS = `<% src/styles/lab.css %>`;
 
-    static fieldSortHTML() {
-        return `<% src/html/field-sort.html %>`;
-    }
+    // HTML files
+    static QOL_HUB_HTML = `<% src/html/qol-hub.html %>`;
+    static PARTY_MOD_HTML = `<% src/html/party-mod.html %>`;
+    static QOL_HUB_LINK_HTML = `<% src/html/qol-hub-icon.html %>`;
+    static LAB_OPTIONS_HTML = `<% src/html/lab-options.html %>`;
+    static EVOLVE_FAST_HTML = `<% src/html/evolve-fast.html %>`;
+    static PRIVATE_FIELD_SEARCH_HTML = `<% src/html/private-field-search.html %>`;
+    static SHELTER_OPTIONS_HTML = `<div id ="shelteroptionsqol"><% src/html/shelter-options.html %> <% src/html/shelter-search.html %></div>`;
+    static SHELTER_SORT_HTML = `<% src/html/shelter-sort.html %>`;
+    static FIELD_SEARCH_HTML = `<% src/html/field-search.html %>`;
+    static FIELD_SORT_HTML = `<% src/html/field-sort.html %>`;
+    static PUBLIC_FIELD_TOOLTIP_MOD_HTML = `<% src/html/public-field-tooltip.html %>`;
+    static PRIVATE_FIELD_TOOLTIP_MOD_HTML = `<% src/html/private-field-tooltip.html %>`;
+    static MASS_RELEASE_FISHING_HTML = `<% src/html/mass-release-fishing.html %>`;
 
-    static labOptionsHTML() {
-        return `<% src/html/lab-options.html %>`;
-    }
-
-    static evolveFastHTML() {
-        return `<% src/html/evolve-fast.html %>`;
-    }
-
-    static privateFieldSearchHTML() {
-        return `<% src/html/private-field-search.html %>`;
-    }
-
-    static shelterOptionsHTML() {
-        return `<div id ="shelteroptionsqol"><% src/html/shelter-options.html %> <% src/html/shelter-search.html %></div>`;
-    }
-
-    static shelterSortHTML() {
-        return `<% src/html/shelter-sort.html %>`;
-    }
-
-    static qolHubHTML() {
-        return `<% src/html/qol-hub.html %>`;
-    }
-
-    static publicFieldTooltipModHTML() {
-        return `<% src/html/public-field-tooltip.html %>`;
-    }
-
-    static privateFieldTooltipModHTML() {
-        return `<% src/html/private-field-tooltip.html %>`;
-    }
-
-    static qolHubLinkHTML() {
-        return `<% src/html/qol-hub-icon.html %>`;
-    }
-
-    static massReleaseSelectHTML() {
-        return `<% src/html/mass-release-fishing.html %>`;
-    }
-
-    static partyModHTML() {
-        return `<% src/html/party-mod.html %>`;
-    }
-
-    static partyModCustomHTML() {
-        return `<% src/html/party-mod-custom.html %>`;
-    }
 }

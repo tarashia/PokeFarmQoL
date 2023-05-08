@@ -29,8 +29,8 @@ import { ESLint } from 'eslint';
 // <PAGES> is where all files in scripts/pages will be added, alphabetically
 const scriptFiles = [
     // Static classes
+    'errors.js',
     'helpers.js',
-    'globals.js',
     'localStorageManager.js',
     'resources.js',
     // Non-static classes
@@ -39,7 +39,6 @@ const scriptFiles = [
     'userPokedex.js',
     'pagesManager.js',
     'qolHub.js',
-    'pfqol.js',
     '<PAGES>',
     // Script entry point
     'scriptEntry.js'

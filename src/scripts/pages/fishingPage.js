@@ -1,15 +1,15 @@
 class FishingPage extends Page {
-    constructor() {
-        super(undefined, {}, 'fishing');
-        // no observer
+    static init() {
+        FishingPage.setupHTML();
+        FishingPage.setupHandlers();
     }
-    setupHTML() {
+    static setupHTML() {
         const caughtFishLabel = document.querySelector('#caughtfishcontainer label');
         if(caughtFishLabel) {
-            caughtFishLabel.insertAdjacentHTML('afterend', Resources.massReleaseSelectHTML());
+            caughtFishLabel.insertAdjacentHTML('afterend', Resources.MASS_RELEASE_FISHING_HTML);
         }
     }
-    setupHandlers() {
+    static setupHandlers() {
         $('#selectallfishcheckbox').on('click', function () {
             $('li[data-flavour]>label>input').prop('checked', this.checked);
         });

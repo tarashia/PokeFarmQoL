@@ -1,9 +1,9 @@
 class SummaryPage extends Page {
-  constructor() {
-      super(undefined, {}, 'summary');
-  } // constructor
+  static init() {
+    SummaryPage.setupHTML();
+  }
 
-  setupHTML() {
+  static setupHTML() {
     const pkmnID = $('.party div')[0].getAttribute('data-pid');
     const displayAccordion = $('#displaycodelist').parent();
     const newHTML = 

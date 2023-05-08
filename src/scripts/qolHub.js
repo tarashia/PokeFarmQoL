@@ -99,7 +99,7 @@ class QoLHub {
                 }
             }
         } catch(err) {
-            Helpers.writeCustomError('Error while loading user settings: '+err,'error',err);
+            ErrorHandler.writeCustomError('Error while loading user settings: '+err,'error',err);
         }
     }
     clearAllSettings() {

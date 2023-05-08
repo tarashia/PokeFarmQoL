@@ -1,17 +1,23 @@
 class WishforgePage extends Page {
-    constructor() {
-        super(undefined, {}, 'forge');
-        const obj = this;
-        this.observer = new MutationObserver(function(mutations) {
+    static init() {
+        WishforgePage.setupObserver();
+        WishforgePage.setupHTML();
+    }
+
+    static setupObserver() {
+        const target = $('#badges').next('div')[0];
+        Page.addObserver(target, {
+            childList: true
+        }, function(mutations) {
             mutations.forEach(function(mutation) {
                 if(mutation.type === 'childList' && mutation.addedNodes.length) {
                     obj.setupHTML();
                 }
             });
         });
-    } // constructor
+    }
 
-    setupHTML() {
+    static setupHTML() {
         const isMobile = Helpers.detectPageSize('mq2');
         // setup table format
         let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
@@ -30,25 +36,24 @@ class WishforgePage extends Page {
                 '<col style="width: 33%;">';
         }
 
-        // use Globals.TYPE_LIST to get list of types
-        const types = Globals.TYPE_LIST;
+        const types = Resources.TYPE_LIST;
 
         // build HTML table
         let rows = {};
-        for (let i = 0; i < types.length; i++) {
+        for (key in types) {
             if(!isMobile) {
-                rows[types[i]] = `<tr id=${types[i]}> <td>${types[i]}</td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>`;
+                rows[types[key]] = `<tr id=${types[key]}> <td>${types[key]}</td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>`;
             }
             else {
-                rows[types[i]] = `<tr id="${types[i]}-top" class="qolBadgesTop"> <td>${types[i]}</td> <td></td> <td></td> </tr>`
-                               + `<tr id="${types[i]}-bot" class="qolBadgesBot"> <td></td> <td></td> <td></td> </tr>`;
+                rows[types[key]] = `<tr id="${types[key]}-top" class="qolBadgesTop"> <td>${types[key]}</td> <td></td> <td></td> </tr>`
+                               + `<tr id="${types[key]}-bot" class="qolBadgesBot"> <td></td> <td></td> <td></td> </tr>`;
             }
         }
         let table = '<table style="width: 100%" class="qolBadges">' +
             `<colgroup> ${columns} </colgroup>` +
             `<tr id="head"> ${header} </tr>`;
-        for (let i = 0; i < types.length; i++) {
-            table += rows[types[i]];
+        for (key in types) {
+            table += rows[types[key]];
         }
         table += '</table>';
 
@@ -76,8 +81,8 @@ class WishforgePage extends Page {
         }
 
         // move elements from original elements to table
-        for (let j = 0; j < types.length; j++) {
-            const type = types[j];
+        for (key in types) {
+            const type = types[key];
             const index = j + 1;
             const li = $(craftedBadgesList.children()[index]);
 
@@ -125,12 +130,5 @@ class WishforgePage extends Page {
         for (let i = types.length; i >= 1; i--) {
             $(children[i]).remove();
         }
-    }
-
-    setupObserver() {
-        const target = $('#badges').next('div')[0];
-        this.observer.observe(target, {
-            childList: true
-        });
     }
 }
