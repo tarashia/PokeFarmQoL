@@ -14,14 +14,14 @@ class Resources {
     static SHELTER_SEARCH_KEYS = "<% src/resources/shelter-search-keys.jsonc %>";
 
     // CSS files
-    static CORE_CSS = `<% src/styles/core.css %>`;
-    static HUB_CSS = `<% src/styles/hub.css %>`;
+    static CORE_CSS = `<% src/styles/core.less %>`;
+    static HUB_CSS = `<% src/styles/hub.less %>`;
     static MODAL_CSS = `<% src/styles/modal.less %>`;
     static SHELTER_CSS = `<% src/styles/shelter.less %>`;
     static FIELDS_CSS = `<% src/styles/fields.less %>`;
     static PARTY_CSS = `<% src/styles/party.less %>`;
-    static FORGE_CSS = `<% src/styles/forge.css %>`;
-    static LAB_CSS = `<% src/styles/lab.css %>`;
+    static FORGE_CSS = `<% src/styles/forge.less %>`;
+    static LAB_CSS = `<% src/styles/lab.less %>`;
     static DEMO_CSS = '#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}';
 
     // HTML files

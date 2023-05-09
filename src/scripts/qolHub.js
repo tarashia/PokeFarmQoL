@@ -2,19 +2,25 @@
  * This class handles creating, removing, and handling the DOM object actions
  * for the QoL Hub.
  */
-// eslint-disable-next-line no-unused-vars
 class QoLHub {
     constructor() {
-        QoLHub.addQoLIcon();
+        Helpers.addGlobalStyle(Resources.HUB_CSS);
+        this.addQoLIcon();
         this.hubModal = new Modal('Quality of Life Script Hub', Resources.QOL_HUB_HTML, null, ['qolHubModal']);
         this.hubModal.addOpenCallback(QoLHub.setupHandlers);
         this.hubModal.addOpenCallback(QoLHub.afterOpen);
     }
 
-    static addQoLIcon() {
+    addQoLIcon() {
         if(document.getElementById('announcements')) {
-            document.querySelector('#announcements li.spacer')
-                  .insertAdjacentHTML('beforebegin', Resources.QOL_HUB_ICON_HTML);
+            console.log('Adding QoL icon');
+            document.querySelector('#announcements li.spacer').insertAdjacentHTML('beforebegin', Resources.QOL_HUB_ICON_HTML);
+            // this cannot go with the other handlers, as those only trigger after modal open
+            const self = this;
+            $('#qolHubIcon').on('click', (function () {
+                console.log('Opening QoL hub');
+                self.hubModal.open();
+            }));
         }
         else {
             console.warn('Did not load QoL - could not find icon ribbon. Are you logged in? Is this a core page?');

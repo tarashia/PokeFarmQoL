@@ -1,7 +1,15 @@
 /* QoL Settings Hub */
-.qolHubModal textarea {
+.qolHubModal {
+  >div>.panel {
+    margin-bottom: 1em;
+    >div>p:first-child {
+      margin-top: 0.25em;
+    }
+  }
+  textarea {
     width: 100%;
     box-sizing: border-box;
+  }
 }
 #qolStorageOutput {
   user-select: all; 
@@ -13,4 +21,13 @@
 }
 #qolConsoleContent {
   word-break: break-all;
+}
+#qolHubSettings {
+  ul {
+    margin: 0;
+  }
+  label {
+    display: inline-block;
+    margin-bottom: 0.25em;
+  }
 }

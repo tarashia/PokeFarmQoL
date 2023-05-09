@@ -25,6 +25,8 @@ import { ESLint } from 'eslint';
 
 const outputPath = 'Poke-Farm-QoL.user.js';
 const headerFile = 'src/resources/header.txt';
+const srcFolder = 'src/scripts/';
+const pagesFolder = srcFolder+'pages/';
 // Tell ESLint that jQuery's $ is defined elsewhere
 const jqueryLint = `/* global $ */`;
 
@@ -34,7 +36,6 @@ const jqueryLint = `/* global $ */`;
 // Library-type scripts (only static content) should go first
 // <PAGES> is where all files in scripts/pages will be added, alphabetically
 const scriptFiles = [
-    // Static classes
     'errors.js',
     'helpers.js',
     'localStorageManager.js',
@@ -48,9 +49,14 @@ const scriptFiles = [
     'basePage.js',
     // Pages
     '<PAGES>',
-    // Script entry point
     'pagesManager.js',
+    // Script entry point
     'scriptEntry.js'
+];
+// files with the <% %> replacment flags
+// try to keep this mostly to resources
+const filesWithReplacements = [
+    'resources.js'
 ];
 
 
@@ -66,12 +72,18 @@ async function runBuild() {
 
     for(let i=0; i<scriptFiles.length; i++) {
         if(scriptFiles[i]=='<PAGES>') {
-            await concatFiles('src/scripts/pages',outputPath);
+            await concatFiles(pagesFolder,outputPath);
+        }
+        else if(filesWithReplacements.includes(scriptFiles[i])) {
+            await processFileContent(srcFolder+scriptFiles[i],outputPath);
         }
         else {
-            await addFileContent('src/scripts/'+scriptFiles[i],outputPath);
+            await addFileContent(srcFolder+scriptFiles[i],outputPath);
         }
     }
+    // TODO: figure out why this is necessary
+    // without it, when ESLint runs, the last file added gets removed
+    await fs.promises.appendFile(outputPath, '\n');
 
     console.log('Linting...');
     // https://eslint.org/docs/latest/developer-guide/nodejs-api
@@ -99,10 +111,16 @@ async function addScriptHeader() {
     await fs.promises.appendFile(outputPath, '\n\n'+formattedOutput);
 }
 
-async function addFileContent(inputPath, outputPath) {
+async function processFileContent(inputPath, outputPath) {
     var content = await fs.promises.readFile(inputPath, 'utf8');
     console.log('Processing '+inputPath);
     content = await loadResources(content);
+    fs.promises.appendFile(outputPath, '\n'+content+'\n');
+}
+
+async function addFileContent(inputPath, outputPath) {
+    var content = await fs.promises.readFile(inputPath, 'utf8');
+    console.log('Adding '+inputPath);
     fs.promises.appendFile(outputPath, '\n'+content+'\n');
 }
 
@@ -123,7 +141,7 @@ async function loadResources(content) {
         const replaceContent = fs.readFileSync(replacePath, 'utf8');
         // https://stackoverflow.com/a/4695156
         const fileExt = replacePath.split('.').pop();
-        console.log('  Adding '+replacePath);
+        console.log('  Loading resource '+replacePath);
         switch (fileExt) {
             case 'html':
                 return processContent(replaceContent);

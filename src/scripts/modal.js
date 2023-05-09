@@ -46,9 +46,9 @@ class Modal {
     this.dialogHead = document.createElement('h3');
     dialog.appendChild(this.dialogHead);
     this.dialogHead.innerText = title;
-    let closeBtn = document.createElement('button');
+    let closeBtn = document.createElement('a');
     this.dialogHead.appendChild(closeBtn);
-    closeBtn.setAttribute('type','button');
+    closeBtn.setAttribute('href','#');
     closeBtn.innerText = 'X';
     closeBtn.classList.add('modalClose');
     // body
@@ -58,16 +58,16 @@ class Modal {
   }
 
   // adds the modal to the DOM
-  openModal() {
+  open() {
     // remove any already open modals
-    Modal.closeModal();
+    Modal.close();
     // add modal to dom
     $('body').append(this.modalElement);
     // prevent non-modal scrolling
     $('#core').addClass('scrolllock');
     // add close listeners 
     $('.modalClose').on('click', function() {
-      Modal.closeModal();
+      Modal.close();
     });
     // run callbacks
     for(let i=0; i<this.openCallbacks.length; i++) {
@@ -84,7 +84,8 @@ class Modal {
   }
 
   // closes any open modal, even PFQ's
-  static closeModal() {
+  static close() {
+    $('#core').removeClass('scrolllock');
     $('.dialog').remove();
   }
 }
