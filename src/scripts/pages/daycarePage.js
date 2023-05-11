@@ -1,10 +1,12 @@
 class DaycarePage extends Page {
-    static init() {
-        DaycarePage.setupObservers();
+    constructor() {
+        super();
+        this.setupObservers();
     }
 
-    static setupObservers() {
-        Page.addObserver(document.querySelector('body'), {
+    setupObservers() {
+        const self = this;
+        this.addObserver(document.querySelector('body'), {
             childList: true,
             subtree: true
         }, function(mutations) {
@@ -12,15 +14,14 @@ class DaycarePage extends Page {
                 // const fsPokemon = document.querySelector('#fs_pokemon');
                 // TODO: detect if this mutation is actually a field loading
                 const fsPokemon = $('#fs_pokemon');
-                if (fsPokemon.length > 0 &&
-                    $.contains(fsPokemon[0], mutation.target)) {
-                    DaycarePage.customSearch();
+                if (fsPokemon.length > 0 && $.contains(fsPokemon[0], mutation.target)) {
+                    self.customSearch();
                 }
             });
         });
     }
 
-    static customSearch() {
+    customSearch() {
         const button = document.querySelector('#pkmnadd');
 
         let gender = null;
@@ -96,8 +97,8 @@ class DaycarePage extends Page {
                         }
                     }
 
-                } // for
+                } 
             }
-        } // if
-    } // customSearch
+        } 
+    } 
 }

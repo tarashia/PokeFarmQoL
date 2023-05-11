@@ -1,9 +1,10 @@
 class InteractionsPage extends Page {
-  static init() {
-    InteractionsPage.setupHTML();
+  constructor() {
+    super();
+    this.setupHTML();
   }
 
-  static setupHTML() {
+  setupHTML() {
     // add 50 clickback link to sent interactions section
     let names = "";
     let lists = document.getElementsByClassName('userlist');

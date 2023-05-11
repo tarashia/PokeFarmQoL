@@ -6,7 +6,7 @@
 // @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      2.0.0
+// @version      2.0.0-151ba6
 // @match        https://pokefarm.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // ==/UserScript==
@@ -353,6 +353,7 @@ class Resources {
     static MODAL_CSS = `.qolModal>h3:first-child a{color:inherit;float:right}`;
     static SHELTER_CSS = `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagrid .pokemon{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important}.qolshelterareagrid .pokemon img{max-height:100%;max-width:100%}.qolshelterareagrid .tooltip_content{bottom:0;position:absolute!important;transform:translateY(100%)}.qolshelterareagrid:before{display:none!important}.mq2 .qolshelterareagrid:not(.qolshelterarealarge),.qolshelterareasmall{grid-template-rows:repeat(5,35px);min-height:175px}.qolshelterarealarge .pokemon .big{display:block!important}.qolshelterarealarge .pokemon .small,.qolshelterareasmall .pokemon .big{display:none!important}.qolshelterareasmall .pokemon .small{display:block!important}`;
     static FIELDS_CSS = `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px}.qolSelectFlavour{display:none}.qolFlavourShown~.qolSelectFlavour{display:inline}.qolFlavourShown~.qolSelectGender,.qolNatureShown~.qolSelectGender{display:none}`;
+    static FISHING_CSS = `#fishing button[data-reel].shake{padding:20px}`;
     static PARTY_CSS = `#qolpartymod{text-align:center}#qolpartymodcustom h3{font-size:100%;padding:2px}.qolPartyCustomParty{--multiuser-button-height:5em;--multiuser-border-radius:8px}.qolPartyCustomParty h1{align-items:center;display:flex;justify-content:center}.qolPartyCustomParty #partybox{padding-top:calc(var(--multiuser-button-height) + 1em);position:relative}.qolPartyCustomParty #partybox .party{box-shadow:none}.qolPartyCustomParty #partybox .party>div{position:static}.qolPartyCustomParty #partybox .action{height:auto!important;left:0;min-height:0;position:absolute;top:0;width:100%;z-index:9999}.qolPartyCustomParty #partybox .action>a,.qolPartyCustomParty #partybox .action>div{line-height:var(--multiuser-button-height);margin:0;min-height:var(--multiuser-button-height);padding:0}.qolPartyCustomParty #partybox .action .berrybuttons>a{box-sizing:border-box;height:100%!important;line-height:var(--multiuser-button-height)!important;width:100%}.qolPartyCustomParty #partybox .action>a{align-items:center;box-sizing:border-box;display:flex!important;justify-content:center}.qolPartyCustomParty #partybox .action.working,.qolPartyCustomParty #partybox .action:empty,.qolPartyCustomParty #partybox .action>table,.qolPartyCustomParty #partybox .berrybuttons>.tooltip_content{display:none}.qolPartyCustomParty #partybox .party>div:hover>.action a[data-berry]:after{border-color:transparent}.qolPartyCustomParty.qolStackMore .qolGetMore,.qolPartyCustomParty.qolStackNext .qolGoNext{height:var(--multiuser-button-height);left:0;line-height:var(--multiuser-button-height);margin:0;padding:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideParty .party{height:0;overflow:hidden}.qolPartyCustomParty.qolCompactParty #partybox .party>div{background:transparent;border:none;margin-bottom:20px;padding:0;width:unset}.qolPartyCustomParty.qolCompactParty #partybox .party .expbar,.qolPartyCustomParty.qolCompactParty #partybox .party .name{display:none}.qolPartyCustomParty.qolCompactParty #partybox .party .pkmn a.qolCompactLink{display:block;height:100%;left:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideFieldButton .fieldslink,.qolPartyCustomParty.qolHideModeChecks #partybox>label,.qolPartyCustomParty.qolHideTrainerCard #profilebox,.qolPartyCustomParty.qolHideUserName h1{display:none}.mq2 .qolPartyCustomParty #partybox .party>div,.multi-compact .qolPartyCustomParty #partybox .party>div{display:inline-block}.mq2 .qolPartyCustomParty #partybox .party>div .pkmn,.multi-compact .qolPartyCustomParty #partybox .party>div .pkmn{margin-right:0}.qolPartyCustomParty #partybox .party .action a,.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{display:none;position:absolute;width:100%}.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyCustomParty #partybox .party .action>a,.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideAll #partybox .party .action>a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideDislike #partybox .party .action>a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyNiceTable #partybox .party .action>a{display:inline-block}.qolPartyCustomParty #partybox .party .working .berrybuttons,.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyCustomParty .loading,.qolPartyHideAll .loading,.qolPartyHideDislike .loading,.qolPartyNiceTable .loading{user-select:none}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyHideAll .tooltip_content,.qolPartyNiceTable #partybox .party>div>:not(.action),.qolPartyNiceTable .tooltip_content{display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .working{display:none}`;
     static FORGE_CSS = `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle}`;
     static LAB_CSS = `#labsuccess{text-align:center}#labfound{padding-top:20px}.boldp{font-weight:700}`;
@@ -958,7 +959,7 @@ class QoLHub {
 } // QoLHub
 
 class Page {
-    static init() {
+    constructor() {
         /*
          *General init order:
          *- html/css
@@ -972,7 +973,7 @@ class Page {
      * sets up a basic mutation observer with the given options for the specified element
      * when the mutation is observed, calls the provided callback with the detected mutation
      */
-    static addObserver(watchElement, observeOptions, callback) {
+    addObserver(watchElement, observeOptions, callback) {
         const observer = new MutationObserver(function (mutations) {
             callback(mutations);
         });
@@ -981,202 +982,20 @@ class Page {
 }
 
 class BaseFieldsPage extends Page {
-
-    static addPkmnLinksPopup() {
-        const fielddiv = document.getElementById('field_field');
-        if(!fielddiv) {
-            /*
-             * Ensure we're actually on a page with fields.
-             * I'm not sure how, but I once saw the button show in forums.
-             */
-            return;
-        }
-        const body = document.getElementsByTagName('body')[0];
-        const header = document.getElementsByTagName('h1')[0];
-        const core = document.getElementById('core');
-        const newBtn = document.createElement('button');
-        header.appendChild(newBtn);
-        newBtn.innerText = 'View links';
-        newBtn.style= 'vertical-align:middle;margin-left: 10px;';
-        newBtn.onclick = function(){
-
-            let content = '<h3>Pokemon links</h3><table style="border-collapse:collapse;">';
-            const fieldmon = document.getElementsByClassName('fieldmon');
-            for(let i=0; i<fieldmon.length; i++){
-                if(i%4==0) {
-                    content += '<tr>';
-                }
-                const pkmnID = fieldmon[i].getAttribute('data-id');
-                const small = fieldmon[i].children[1];
-                const imgSRC = small.getAttribute('src');
-                const pkmnName = small.getAttribute('alt');
-                content += '<td style="padding:5px;border:1px solid;">' +
-                   '<img style="vertical-align:middle;" src="'+imgSRC+'"> ' +
-                   '<a href="/summary/'+pkmnID+'">'+pkmnName+'</a></td>';
-                if(i%4==3) {
-                    content += '</tr>';
-                }
-            }
-            content += '</table>';
-
-            const dialog = document.createElement('div');
-            const dialogDiv1 = document.createElement('div');
-            const dialogDiv2 = document.createElement('div');
-            const dialogDiv3 = document.createElement('div');
-            const closeBtn = document.createElement('button');
-            closeBtn.setAttribute('type','button');
-            closeBtn.style = 'float:right;margin:8px;';
-            closeBtn.innerText = 'Close';
-            closeBtn.onclick = function() {
-                dialog.remove();
-                core.classList.remove('scrolllock');
-            };
-            dialog.classList.add('dialog');
-            dialog.appendChild(dialogDiv1);
-            dialogDiv1.appendChild(dialogDiv2);
-            dialogDiv2.appendChild(dialogDiv3);
-            dialogDiv3.innerHTML = content;
-            dialogDiv3.appendChild(closeBtn);
-            body.prepend(dialog);
-            core.classList.add('scrolllock');
-        };
-    }
-
-    static parseFieldPokemonTooltip(tooltip) {
-        const dataElements = $(tooltip).children(0).children();
-        let index = 1;
-        // nickname
-        const nickname = dataElements[index].textContent;
-        if (!nickname) {
-            console.error(`Helpers.parseFieldPokemonTooltip - nickname '${nickname}' (is not a valid name)`);
-        }
-        index++;
-
-        /*
-         * Issue #59 - Pokefarm added a new h3 element after the nickname
-         * that contains no data
-         */
-        index++;
-
-        // species
-        let species = '';
-        if (dataElements[index].textContent) {
-            const tc = dataElements[index].textContent;
-            const tcSplit = tc.trim().split(':  ');
-            if (tcSplit.length == 1) {
-                console.error('Helpers.parseFieldPokemonTooltip - species text does not contain \':  \'');
-            }
-            else {
-                species = tcSplit[1];
-            }
-        }
-        index++;
-
-        // dataElements[3] will be a forme if the pokemon has a forme
-        let forme = '';
-        if (dataElements[index].textContent &&
-        dataElements[index].textContent.startsWith('Forme')) {
-            forme = dataElements[index].textContent.substr('Forme: '.length);
-            index++;
-        }
-
-        // types
-        const typeElements = $(dataElements[index]).children().slice(1);
-        const typeUrls = typeElements.map(idx => typeElements[idx]['src']);
-        let types = typeUrls.map(idx =>
-            typeUrls[idx].substring(typeUrls[idx].indexOf('types/') + 'types/'.length,
-                typeUrls[idx].indexOf('.png')));
-        types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1));
-        types = types.map(idx => Resources.TYPE_LIST.indexOf(types[idx]));
-        index++;
-
-        // level
-        let level = -1;
-        if (dataElements[index].textContent) {
-            const tcSplit = dataElements[index].textContent.split(' ');
-            if (tcSplit.length > 1) {
-                level = parseInt(tcSplit[1]);
-            }
-        } else {
-            console.error('Helpers.parseFieldPokemonToolTip - could not load level because text was empty');
-        }
-        index++;
-
-        // if the pokemon's happiness is less than max, skip the next index, since it will be a progress bar
-        if (!dataElements[index].textContent ||
-        !dataElements[index].textContent.startsWith('Happiness')) {
-            index++;
-        }
-
-        // happiness
-        let happiness = -1;
-        if (dataElements[index].textContent) {
-            const tcSplit = dataElements[index].textContent.split(' ');
-            if (tcSplit.length > 1) {
-                happiness = tcSplit[1].trim();
-                happiness = (happiness == 'MAX') ? 100 : parseInt(happiness.substring(0, happiness.length - 1));
-            }
-        } else {
-            console.error('Helpers.parseFieldPokemonToolTip - could not load happiness because text was empty');
-        }
-        index++;
-
-        // nature
-        let nature = -1;
-        if (dataElements[index].textContent) {
-            const tcSplit = dataElements[index].textContent.split(' ');
-            if (tcSplit.length > 1) {
-                nature = tcSplit[1].replace('(', '').trim();
-                nature = Resources.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
-            }
-        } else {
-            console.error('Helpers.parseFieldPokemonToolTip - could not load nature because text was empty');
-        }
-        index++;
-
-        // held item
-        let item = '';
-        if (dataElements[index].textContent !== 'Item: None') {
-            item = dataElements[index].textContent.substring(dataElements[8].textContent.indexOf(' ') + 1);
-        } else {
-            item = 'None';
-        }
-        index++;
-
-        // egg groups
-        let eggGroups = [];
-        if (dataElements[index].textContent) {
-            eggGroups = dataElements[index].textContent.substring('Egg Group: '.length).split('/');
-        }
-        else {
-            console.error('Helpers.parseFieldPokemonToolTip - could not load egg groups because text was empty');
-        }
-        index++;
-
-        const ret = {
-            'nickname': nickname,
-            'species': species,
-            'types': types,
-            'level': level,
-            'happiness_percent': happiness,
-            'nature': nature,
-            'item': item,
-            'eggGroups': eggGroups,
-        };
-        if (forme !== '') {
-            ret.forme = forme;
-        }
-        return ret;
+    constructor() {
+        super();
     }
 }
 
 class DaycarePage extends Page {
-    static init() {
-        DaycarePage.setupObservers();
+    constructor() {
+        super();
+        this.setupObservers();
     }
 
-    static setupObservers() {
-        Page.addObserver(document.querySelector('body'), {
+    setupObservers() {
+        const self = this;
+        this.addObserver(document.querySelector('body'), {
             childList: true,
             subtree: true
         }, function(mutations) {
@@ -1186,15 +1005,14 @@ class DaycarePage extends Page {
                  * TODO: detect if this mutation is actually a field loading
                  */
                 const fsPokemon = $('#fs_pokemon');
-                if (fsPokemon.length > 0 &&
-                    $.contains(fsPokemon[0], mutation.target)) {
-                    DaycarePage.customSearch();
+                if (fsPokemon.length > 0 && $.contains(fsPokemon[0], mutation.target)) {
+                    self.customSearch();
                 }
             });
         });
     }
 
-    static customSearch() {
+    customSearch() {
         const button = document.querySelector('#pkmnadd');
 
         let gender = null;
@@ -1270,80 +1088,88 @@ class DaycarePage extends Page {
                         }
                     }
 
-                } // for
+                }
             }
-        } // if
-    } // customSearch
+        }
+    }
 }
 
 class DexPage extends Page {
-    static init() {
-        // ensure this is the main dex page, with filters etc
+    subpage;
+
+    constructor() {
+        super();
         if(document.getElementById('regionslist')) {
-            DexPage.setupHTML();
-            DexPage.setupObservers();
-            DexPage.setupHandlers();
+            this.subpage = 'main';
         }
-        else {
-            console.log('On dex entry page, not running dex QoL.');
+        this.setupHTML();
+        this.setupObservers();
+        this.setupHandlers();
+    }
+
+    setupObservers() {
+        const self = this;
+        if(this.subpage=='main') {
+            this.addObserver(document.querySelector('#regionslist'), {
+                childList: true,
+                subtree: true,
+            }, function() {
+                self.applyTypeFilters();
+            });
         }
     }
 
-    static setupObservers() {
-        Page.addObserver(document.querySelector('#regionslist'), {
-            childList: true,
-            subtree: true,
-        }, function() {
-            DexPage.applyTypeFilters();
-        });
+    setupHTML() {
+        if(this.subpage=='main') {
+            const elem = document.querySelector('.filter-type');
+            const clone = elem.cloneNode(true);
+            elem.parentNode.appendChild(clone);
+            /*
+             * can't remove filter-type class or else the filtering
+             * won't look right
+             */
+            $(clone).addClass('filter-type-2');
+        }
     }
 
-    static setupHTML() {
-        const elem = document.querySelector('.filter-type');
-        const clone = elem.cloneNode(true);
-        elem.parentNode.appendChild(clone);
-        /*
-         * can't remove filter-type class or else the filtering
-         * won't look right
-         */
-        $(clone).addClass('filter-type-2');
-    }
+    setupHandlers() {
+        const self = this;
+        if(this.subpage=='main') {
+            let h = $.parseJSON($('#dexdata').html());
+            const type2 = $('.filter-type-2');
+            const l = $('.filter-type-2 .types');
+            const c = l.children();
 
-    static setupHandlers() {
-        let h = $.parseJSON($('#dexdata').html());
-        const type2 = $('.filter-type-2');
-        const l = $('.filter-type-2 .types');
-        const c = l.children();
+            const typesSpan = $('.filter-type-2 .types');
 
-        const typesSpan = $('.filter-type-2 .types');
-
-        type2.on('mousedown.dextfilter touchstart.dextfilter', function (event) {
-            event.preventDefault();
-            const leftedge = typesSpan.offset().left;
-            const width = typesSpan.width();
-            const rightedge = leftedge + width;
-            let xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
-            if (xLocation >= leftedge & xLocation < rightedge) {
-                xLocation -= leftedge;
-                xLocation = Math.floor(xLocation / width * c.length);
-                xLocation = c.eq(xLocation);
-                if (xLocation.data('type') == h) {
-                    h = null;
-                    DexPage.toggleSelectedTypes();
-                    DexPage.applyTypeFilters();
+            type2.on('mousedown.dextfilter touchstart.dextfilter', function (event) {
+                event.preventDefault();
+                const leftedge = typesSpan.offset().left;
+                const width = typesSpan.width();
+                const rightedge = leftedge + width;
+                let xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
+                if (xLocation >= leftedge & xLocation < rightedge) {
+                    xLocation -= leftedge;
+                    xLocation = Math.floor(xLocation / width * c.length);
+                    xLocation = c.eq(xLocation);
+                    if (xLocation.data('type') == h) {
+                        h = null;
+                        self.toggleSelectedTypes();
+                        self.applyTypeFilters();
+                    } else {
+                        h = xLocation.data('type');
+                        self.toggleSelectedTypes(xLocation);
+                        self.applyTypeFilters();
+                    }
                 } else {
-                    h = xLocation.data('type');
-                    DexPage.toggleSelectedTypes(xLocation);
-                    DexPage.applyTypeFilters();
+                    self.toggleSelectedTypes();
+                    self.applyTypeFilters();
                 }
-            } else {
-                DexPage.toggleSelectedTypes();
-                DexPage.applyTypeFilters();
-            }
-        });
+            });
+        }
     }
 
-    static toggleSelectedTypes(b) {
+    toggleSelectedTypes(b) {
         const g = $('.filter-type-2 .name i');
         const l = $('.filter-type-2 .types');
         const c = l.children();
@@ -1359,7 +1185,7 @@ class DexPage extends Page {
         }
     }
 
-    static applyTypeFilters() {
+    applyTypeFilters() {
         const l1 = $('.entry.filter-type:not(.filter-type-2) .types');
         const l = $('.entry.filter-type-2 .types');
         const c1 = l1.children();
@@ -1388,56 +1214,72 @@ class DexPage extends Page {
 }
 
 class FarmPage extends Page {
+    constructor() {
+        super();
+    }
 }
 
 class FishingPage extends Page {
-    static init() {
-        FishingPage.setupHTML();
-        FishingPage.setupHandlers();
+    subpage='main';
+
+    constructor() {
+        super();
+        if(document.getElementById('regionslist')) {
+            this.subpage = 'return';
+        }
+        this.setupHTML();
+        this.setupHandlers();
     }
-    static setupHTML() {
-        const caughtFishLabel = document.querySelector('#caughtfishcontainer label');
-        if(caughtFishLabel) {
-            caughtFishLabel.insertAdjacentHTML('afterend', Resources.MASS_RELEASE_FISHING_HTML);
+    setupHTML() {
+        Helpers.addGlobalStyle(Resources.FISHING_CSS);
+        if(this.subpage=='return') {
+            const caughtFishLabel = document.querySelector('#caughtfishcontainer label');
+            if(caughtFishLabel) {
+                caughtFishLabel.insertAdjacentHTML('afterend', Resources.MASS_RELEASE_FISHING_HTML);
+            }
         }
     }
-    static setupHandlers() {
-        $('#selectallfishcheckbox').on('click', function () {
-            $('li[data-flavour]>label>input').prop('checked', this.checked);
-        });
+    setupHandlers() {
+        // TODO: update this to do male/female when flavors not shown like new field release menu
+        if(this.subpage=='return') {
+            $('#selectallfishcheckbox').on('click', function () {
+                $('li[data-flavour]>label>input').prop('checked', this.checked);
+            });
 
-        $('#movefishselectanycheckbox').on('click', function () {
-            $('li[data-flavour=Any]>label>input').prop('checked', this.checked);
-        });
+            $('#movefishselectanycheckbox').on('click', function () {
+                $('li[data-flavour=Any]>label>input').prop('checked', this.checked);
+            });
 
-        $('#movefishselectsourcheckbox').on('click', function () {
-            $('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
-        });
+            $('#movefishselectsourcheckbox').on('click', function () {
+                $('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
+            });
 
-        $('#movefishselectspicycheckbox').on('click', function () {
-            $('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
-        });
+            $('#movefishselectspicycheckbox').on('click', function () {
+                $('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
+            });
 
-        $('#movefishselectdrycheckbox').on('click', function () {
-            $('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
-        });
+            $('#movefishselectdrycheckbox').on('click', function () {
+                $('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
+            });
 
-        $('#movefishselectsweetcheckbox').on('click', function () {
-            $('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
-        });
+            $('#movefishselectsweetcheckbox').on('click', function () {
+                $('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
+            });
 
-        $('#movefishselectbittercheckbox').on('click', function () {
-            $('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
-        });
+            $('#movefishselectbittercheckbox').on('click', function () {
+                $('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
+            });
+        }
     }
 }
 
 class InteractionsPage extends Page {
-    static init() {
-        InteractionsPage.setupHTML();
+    constructor() {
+        super();
+        this.setupHTML();
     }
 
-    static setupHTML() {
+    setupHTML() {
     // add 50 clickback link to sent interactions section
         let names = "";
         const lists = document.getElementsByClassName('userlist');
@@ -1475,18 +1317,23 @@ class InteractionsPage extends Page {
 
 
 class LabPage extends Page {
+    constructor() {
+        super();
+    }
 }
 
 class MultiuserPage extends Page {
-    static init() {
-        MultiuserPage.setupHTMLCSS();
-        MultiuserPage.setupObservers();
-        MultiuserPage.setupHandlers();
+    constructor() {
+        super();
+        this.setupHTML();
+        this.setupObservers();
+        this.setupHandlers();
     }
 
-    static setupObservers() {
+    setupObservers() {
+        const self = this;
         // don't observe the whole party area as it may cause excess firing
-        Page.addObserver(document.querySelector('#multiuser'), {
+        this.addObserver(document.querySelector('#multiuser'), {
             childList: true,
             subtree: true,
         }, function(mutations) {
@@ -1505,12 +1352,13 @@ class MultiuserPage extends Page {
                  * TODO: when going very fast, the get more class may not get added properly
                  * figure out a time to re-detect, and fix the classes accordingly
                  */
-                MultiuserPage.partyModification();
+                self.partyModification();
             }
         });
     }
 
-    static setupHTMLCSS() {
+    setupHTML() {
+        Helpers.addGlobalStyle(Resources.PARTY_CSS);
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.PARTY_MOD_HTML);
         const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
         $('#qolpartymod').css('background-color', '' + menuBackground + '');
@@ -1518,11 +1366,12 @@ class MultiuserPage extends Page {
         $('#qolpartymod').css('color', '' + menuColor + '');
     }
 
-    static setupHandlers() {
+    setupHandlers() {
+        const self = this;
         $(window).resize(function() {
             setTimeout(() => {
                 // the hide all alignment works better with the timeout
-                MultiuserPage.partyModification();
+                self.partyModification();
             }, 100);
         });
         // listener for the custom accordion (TODO: use existing accordion handlers if they exist?)
@@ -1540,13 +1389,13 @@ class MultiuserPage extends Page {
     }
 
     // changes that all available mods make
-    static sharedPartyMods() {
+    sharedPartyMods() {
         $('#multiuser').addClass('qolPartyModded');
         // change any berry to sour so it gets a bg color
         $('.berrybuttons[data-up="any"]').attr('data-up','sour');
     }
 
-    static partyModification() {
+    partyModification() {
         // get page-specific settings
         const settings = UserDataHandle.getSettings().pageSettings['QoLMultiuser'];
 
@@ -1569,17 +1418,17 @@ class MultiuserPage extends Page {
 
         if (settings.hideDislike === true) {
             $('#multiuser').addClass('qolPartyHideDislike');
-            MultiuserPage.sharedPartyMods();
+            this.sharedPartyMods();
         }
 
         if (settings.niceTable === true) {
             $('#multiuser').addClass('qolPartyNiceTable');
-            MultiuserPage.sharedPartyMods();
+            this.sharedPartyMods();
         }
 
         if (settings.hideAll === true) {
             $('#multiuser').addClass('qolPartyHideAll');
-            MultiuserPage.sharedPartyMods();
+            this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
             // on chrome, sometimes .position() is undefined on load
             if(btns && nextLink && nextLink.position()) {
@@ -1589,7 +1438,7 @@ class MultiuserPage extends Page {
 
         if (settings.customParty === true) {
             $('#multiuser').addClass('qolPartyCustomParty');
-            MultiuserPage.sharedPartyMods();
+            this.sharedPartyMods();
             $('#qolpartymodcustom').css('display','block');
 
             // differentiate next and more buttons
@@ -1602,14 +1451,14 @@ class MultiuserPage extends Page {
             }
 
             // hide classes are inverted
-            MultiuserPage.partymodHelper('qolStackNext',settings.stackNextButton === true);
-            MultiuserPage.partymodHelper('qolStackMore',settings.stackMoreButton === true);
-            MultiuserPage.partymodHelper('qolHideParty',settings.showPokemon === false);
-            MultiuserPage.partymodHelper('qolCompactParty',settings.compactPokemon === true);
-            MultiuserPage.partymodHelper('qolHideTrainerCard',settings.showTrainerCard === false);
-            MultiuserPage.partymodHelper('qolHideFieldButton',settings.showFieldButton === false);
-            MultiuserPage.partymodHelper('qolHideModeChecks',settings.showModeChecks === false);
-            MultiuserPage.partymodHelper('qolHideUserName',settings.showUserName === false);
+            this.partymodHelper('qolStackNext',settings.stackNextButton === true);
+            this.partymodHelper('qolStackMore',settings.stackMoreButton === true);
+            this.partymodHelper('qolHideParty',settings.showPokemon === false);
+            this.partymodHelper('qolCompactParty',settings.compactPokemon === true);
+            this.partymodHelper('qolHideTrainerCard',settings.showTrainerCard === false);
+            this.partymodHelper('qolHideFieldButton',settings.showFieldButton === false);
+            this.partymodHelper('qolHideModeChecks',settings.showModeChecks === false);
+            this.partymodHelper('qolHideUserName',settings.showUserName === false);
 
             // clickable compact pokemon
             if(settings.showPokemon === true
@@ -1627,7 +1476,7 @@ class MultiuserPage extends Page {
     }
 
     // toggle setting should be true to add the class, false to remove it
-    static partymodHelper(toggleClass, toggleSetting) {
+    partymodHelper(toggleClass, toggleSetting) {
         if(toggleSetting) {
             $('#multiuser').addClass(toggleClass);
         }
@@ -1639,31 +1488,38 @@ class MultiuserPage extends Page {
 
 
 class PrivateFieldsPage extends BaseFieldsPage {
+    constructor() {
+        super();
+    }
 }
 
 class PublicFieldsPage extends BaseFieldsPage {
+    constructor() {
+        super();
+    }
 }
 
 class ShelterPage extends Page {
     static NEXT_MATCH_KEY = 78; // 'n'
 
-    static init() {
-        ShelterPage.setupHTMLCSS();
-        ShelterPage.setupObservers();
-        ShelterPage.setupHandlers();
+    constructor() {
+        super();
+        this.setupHTML();
+        this.setupObservers();
+        this.setupHandlers();
     }
 
-    static setupObservers() {
-        Page.addObserver(document.querySelector('#shelterarea'), {
+    setupObservers() {
+        this.addObserver(document.querySelector('#shelterarea'), {
             childList: true
         }, function(mutations) {
             console.log('mutation observed');
             console.log(mutations);
-            //ShelterPage.customSearch();
+            //this.customSearch();
         });
     }
 
-    static setupHTMLCSS() {
+    setupHTML() {
         const mainSettings = UserDataHandle.getSettings().mainSettings;
         if(mainSettings.shelterFeatureEnables.search) {
             $('.tabbed_interface.horizontal>div').removeClass('tab-active');
@@ -1671,12 +1527,12 @@ class ShelterPage extends Page {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterOptionsHTML());
             $('#shelteroptionsqol').addClass('tab-active');
-            //ShelterPage.showSearchSettings();
+            //this.showSearchSettings();
         }
         if(mainSettings.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterSortHTML());
-            ShelterPage.handleSortSettings();
+            this.handleSortSettings();
         }
         if(mainSettings.shelterFeatureEnables.search || mainSettings.shelterFeatureEnables.sort) {
             const shelterSuccessCss = $('#sheltercommands').css('background-color');
@@ -1687,8 +1543,7 @@ class ShelterPage extends Page {
         }
     }
 
-    static setupHandlers() {
-
+    setupHandlers() {
         $('#qolQuickTextBtn').on('click',function() {
             console.log('add quick text');
         });
@@ -1706,7 +1561,7 @@ class ShelterPage extends Page {
         });
     }
 
-    static handleSortSettings() {
+    handleSortSettings() {
         const shelterSettings = UserDataHandle.getSettings().pageSettings['QoLShelter'];
         //sort in grid
         $('#shelterarea').removeClass('qolshelterareagrid');
@@ -1735,11 +1590,12 @@ class ShelterPage extends Page {
 
 
 class SummaryPage extends Page {
-    static init() {
-        SummaryPage.setupHTML();
+    constructor() {
+        super();
+        this.setupHTML();
     }
 
-    static setupHTML() {
+    setupHTML() {
         const pkmnID = $('.party div')[0].getAttribute('data-pid');
         const displayAccordion = $('#displaycodelist').parent();
         const newHTML =
@@ -1752,25 +1608,28 @@ class SummaryPage extends Page {
 
 
 class WishforgePage extends Page {
-    static init() {
-        WishforgePage.setupHTML();
-        WishforgePage.setupObservers();
+    constructor() {
+        super();
+        this.setupHTML();
+        this.setupObservers();
     }
 
-    static setupObservers() {
+    setupObservers() {
+        const self = this;
         const target = $('#badges').next('div')[0];
-        Page.addObserver(target, {
+        this.addObserver(target, {
             childList: true
         }, function(mutations) {
             mutations.forEach(function(mutation) {
                 if(mutation.type === 'childList' && mutation.addedNodes.length) {
-                    WishforgePage.setupHTML();
+                    self.setupHTML();
                 }
             });
         });
     }
 
-    static setupHTML() {
+    setupHTML() {
+        Helpers.addGlobalStyle(Resources.FORGE_CSS);
         const isMobile = Helpers.detectPageSize('mq2');
         // setup table format
         let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
@@ -1955,13 +1814,7 @@ class PagesManager {
             const settings = UserDataHandle.getSettings();
             if(page && 'setting' in page && settings.mainSettings[page.setting] === true) {
                 console.log('QoL features enabled for page: '+pageName);
-                // if init exists and is a function, run it (all pages that extend base page should have this)
-                if (typeof page.class['init'] == 'function') {
-                    page.class['init']();
-                }
-                else {
-                    ErrorHandler.error('Init function not found for page: '+pageName);
-                }
+                return new page.class();
             }
             else {
                 console.log('QoL features disabled for page: '+pageName);

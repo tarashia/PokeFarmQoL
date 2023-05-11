@@ -68,13 +68,7 @@ class PagesManager {
             const settings = UserDataHandle.getSettings();
             if(page && 'setting' in page && settings.mainSettings[page.setting] === true) {
                 console.log('QoL features enabled for page: '+pageName);
-                // if init exists and is a function, run it (all pages that extend base page should have this)
-                if (typeof page.class['init'] == 'function') {
-                    page.class['init']();
-                }
-                else {
-                    ErrorHandler.error('Init function not found for page: '+pageName);
-                }
+                return new page.class();
             }
             else {
                 console.log('QoL features disabled for page: '+pageName);

@@ -1,23 +1,26 @@
 class WishforgePage extends Page {
-    static init() {
-        WishforgePage.setupHTML();
-        WishforgePage.setupObservers();
+    constructor() {
+        super();
+        this.setupHTML();
+        this.setupObservers();
     }
 
-    static setupObservers() {
+    setupObservers() {
+        const self = this;
         const target = $('#badges').next('div')[0];
-        Page.addObserver(target, {
+        this.addObserver(target, {
             childList: true
         }, function(mutations) {
             mutations.forEach(function(mutation) {
                 if(mutation.type === 'childList' && mutation.addedNodes.length) {
-                    WishforgePage.setupHTML();
+                    self.setupHTML();
                 }
             });
         });
     }
 
-    static setupHTML() {
+    setupHTML() {
+        Helpers.addGlobalStyle(Resources.FORGE_CSS);
         const isMobile = Helpers.detectPageSize('mq2');
         // setup table format
         let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';

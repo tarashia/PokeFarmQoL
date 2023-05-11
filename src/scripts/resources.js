@@ -19,6 +19,7 @@ class Resources {
     static MODAL_CSS = `<% src/styles/modal.less %>`;
     static SHELTER_CSS = `<% src/styles/shelter.less %>`;
     static FIELDS_CSS = `<% src/styles/fields.less %>`;
+    static FISHING_CSS = `<% src/styles/fishing.less %>`;
     static PARTY_CSS = `<% src/styles/party.less %>`;
     static FORGE_CSS = `<% src/styles/forge.less %>`;
     static LAB_CSS = `<% src/styles/lab.less %>`;

@@ -1,13 +1,15 @@
 class MultiuserPage extends Page {
-    static init() {
-        MultiuserPage.setupHTMLCSS();
-        MultiuserPage.setupObservers();
-        MultiuserPage.setupHandlers();
+    constructor() {
+        super();
+        this.setupHTML();
+        this.setupObservers();
+        this.setupHandlers();
     }
     
-    static setupObservers() {
+    setupObservers() {
+        const self = this;
         // don't observe the whole party area as it may cause excess firing
-        Page.addObserver(document.querySelector('#multiuser'), {
+        this.addObserver(document.querySelector('#multiuser'), {
             childList: true,
             subtree: true,
         }, function(mutations) {
@@ -22,12 +24,13 @@ class MultiuserPage extends Page {
             if(doMod) {
                 // TODO: when going very fast, the get more class may not get added properly
                 // figure out a time to re-detect, and fix the classes accordingly
-                MultiuserPage.partyModification();
+                self.partyModification();
             }
         });
     }
 
-    static setupHTMLCSS() {
+    setupHTML() {
+        Helpers.addGlobalStyle(Resources.PARTY_CSS);
         document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.PARTY_MOD_HTML);
         const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
         $('#qolpartymod').css('background-color', '' + menuBackground + '');
@@ -35,11 +38,12 @@ class MultiuserPage extends Page {
         $('#qolpartymod').css('color', '' + menuColor + '');
     }
 
-    static setupHandlers() {
+    setupHandlers() {
+        const self = this;
         $(window).resize(function() {
             setTimeout(() => {
                 // the hide all alignment works better with the timeout
-                MultiuserPage.partyModification();
+                self.partyModification();
             }, 100);
         });
         // listener for the custom accordion (TODO: use existing accordion handlers if they exist?)
@@ -57,13 +61,13 @@ class MultiuserPage extends Page {
     }
 
     // changes that all available mods make
-    static sharedPartyMods() {
+    sharedPartyMods() {
         $('#multiuser').addClass('qolPartyModded');
         // change any berry to sour so it gets a bg color
         $('.berrybuttons[data-up="any"]').attr('data-up','sour'); 
     }
 
-    static partyModification() {
+    partyModification() {
         // get page-specific settings
         const settings = UserDataHandle.getSettings().pageSettings['QoLMultiuser'];
 
@@ -84,17 +88,17 @@ class MultiuserPage extends Page {
 
         if (settings.hideDislike === true) {
             $('#multiuser').addClass('qolPartyHideDislike');
-            MultiuserPage.sharedPartyMods();
+            this.sharedPartyMods();
         }
 
         if (settings.niceTable === true) {
             $('#multiuser').addClass('qolPartyNiceTable');
-            MultiuserPage.sharedPartyMods();
+            this.sharedPartyMods();
         }
 
         if (settings.hideAll === true) {
             $('#multiuser').addClass('qolPartyHideAll');
-            MultiuserPage.sharedPartyMods();
+            this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
             // on chrome, sometimes .position() is undefined on load
             if(btns && nextLink && nextLink.position()) {
@@ -104,7 +108,7 @@ class MultiuserPage extends Page {
 
         if (settings.customParty === true) {
             $('#multiuser').addClass('qolPartyCustomParty');
-            MultiuserPage.sharedPartyMods();
+            this.sharedPartyMods();
             $('#qolpartymodcustom').css('display','block');
 
             // differentiate next and more buttons
@@ -117,14 +121,14 @@ class MultiuserPage extends Page {
             }
 
             // hide classes are inverted
-            MultiuserPage.partymodHelper('qolStackNext',settings.stackNextButton === true);
-            MultiuserPage.partymodHelper('qolStackMore',settings.stackMoreButton === true);
-            MultiuserPage.partymodHelper('qolHideParty',settings.showPokemon === false);
-            MultiuserPage.partymodHelper('qolCompactParty',settings.compactPokemon === true);
-            MultiuserPage.partymodHelper('qolHideTrainerCard',settings.showTrainerCard === false);
-            MultiuserPage.partymodHelper('qolHideFieldButton',settings.showFieldButton === false);
-            MultiuserPage.partymodHelper('qolHideModeChecks',settings.showModeChecks === false);
-            MultiuserPage.partymodHelper('qolHideUserName',settings.showUserName === false);
+            this.partymodHelper('qolStackNext',settings.stackNextButton === true);
+            this.partymodHelper('qolStackMore',settings.stackMoreButton === true);
+            this.partymodHelper('qolHideParty',settings.showPokemon === false);
+            this.partymodHelper('qolCompactParty',settings.compactPokemon === true);
+            this.partymodHelper('qolHideTrainerCard',settings.showTrainerCard === false);
+            this.partymodHelper('qolHideFieldButton',settings.showFieldButton === false);
+            this.partymodHelper('qolHideModeChecks',settings.showModeChecks === false);
+            this.partymodHelper('qolHideUserName',settings.showUserName === false);
 
             // clickable compact pokemon
             if(settings.showPokemon === true 
@@ -142,7 +146,7 @@ class MultiuserPage extends Page {
     }
 
     // toggle setting should be true to add the class, false to remove it
-    static partymodHelper(toggleClass, toggleSetting) {
+    partymodHelper(toggleClass, toggleSetting) {
         if(toggleSetting) {
             $('#multiuser').addClass(toggleClass);
         }

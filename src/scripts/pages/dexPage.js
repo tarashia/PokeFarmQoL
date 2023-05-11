@@ -1,71 +1,79 @@
 class DexPage extends Page {
-    static init() {
-        // ensure this is the main dex page, with filters etc
+    subpage;
+
+    constructor() {
+        super();
         if(document.getElementById('regionslist')) {
-            DexPage.setupHTML();
-            DexPage.setupObservers();
-            DexPage.setupHandlers();
+            this.subpage = 'main';
         }
-        else {
-            console.log('On dex entry page, not running dex QoL.');
+        this.setupHTML();
+        this.setupObservers();
+        this.setupHandlers();
+    }
+
+    setupObservers() {
+        const self = this;
+        if(this.subpage=='main') {
+            this.addObserver(document.querySelector('#regionslist'), {
+                childList: true,
+                subtree: true,
+            }, function() {
+                self.applyTypeFilters();
+            });
         }
     }
 
-    static setupObservers() {
-        Page.addObserver(document.querySelector('#regionslist'), {
-            childList: true,
-            subtree: true,
-        }, function() {
-            DexPage.applyTypeFilters();
-        });
+    setupHTML() {
+        if(this.subpage=='main') {
+            const elem = document.querySelector('.filter-type');
+            const clone = elem.cloneNode(true);
+            elem.parentNode.appendChild(clone);
+            /*
+            * can't remove filter-type class or else the filtering
+            * won't look right
+            */
+            $(clone).addClass('filter-type-2');
+        }
     }
 
-    static setupHTML() {
-        const elem = document.querySelector('.filter-type');
-        const clone = elem.cloneNode(true);
-        elem.parentNode.appendChild(clone);
-        /*
-         * can't remove filter-type class or else the filtering
-         * won't look right
-         */
-        $(clone).addClass('filter-type-2');
-    }
+    setupHandlers() {
+        const self = this;
+        if(this.subpage=='main') {
+            let h = $.parseJSON($('#dexdata').html());
+            const type2 = $('.filter-type-2');
+            const l = $('.filter-type-2 .types');
+            const c = l.children();
 
-    static setupHandlers() {
-        let h = $.parseJSON($('#dexdata').html());
-        const type2 = $('.filter-type-2');
-        const l = $('.filter-type-2 .types');
-        const c = l.children();
+            const typesSpan = $('.filter-type-2 .types');
 
-        const typesSpan = $('.filter-type-2 .types');
-
-        type2.on('mousedown.dextfilter touchstart.dextfilter', function (event) {
-            event.preventDefault();
-            const leftedge = typesSpan.offset().left;
-            const width = typesSpan.width();
-            const rightedge = leftedge + width;
-            let xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
-            if (xLocation >= leftedge & xLocation < rightedge) {
-                xLocation -= leftedge;
-                xLocation = Math.floor(xLocation / width * c.length);
-                xLocation = c.eq(xLocation);
-                if (xLocation.data('type') == h) {
-                    h = null;
-                    DexPage.toggleSelectedTypes();
-                    DexPage.applyTypeFilters();
+            type2.on('mousedown.dextfilter touchstart.dextfilter', function (event) {
+                event.preventDefault();
+                const leftedge = typesSpan.offset().left;
+                const width = typesSpan.width();
+                const rightedge = leftedge + width;
+                let xLocation = (event.originalEvent.touches ? event.originalEvent.touches[0] : event).pageX;
+                if (xLocation >= leftedge & xLocation < rightedge) {
+                    xLocation -= leftedge;
+                    xLocation = Math.floor(xLocation / width * c.length);
+                    xLocation = c.eq(xLocation);
+                    if (xLocation.data('type') == h) {
+                        h = null;
+                        self.toggleSelectedTypes();
+                        self.applyTypeFilters();
+                    } else {
+                        h = xLocation.data('type');
+                        self.toggleSelectedTypes(xLocation);
+                        self.applyTypeFilters();
+                    }
                 } else {
-                    h = xLocation.data('type');
-                    DexPage.toggleSelectedTypes(xLocation);
-                    DexPage.applyTypeFilters();
+                    self.toggleSelectedTypes();
+                    self.applyTypeFilters();
                 }
-            } else {
-                DexPage.toggleSelectedTypes();
-                DexPage.applyTypeFilters();
-            }
-        });
+            });
+        }
     }
 
-    static toggleSelectedTypes(b) {
+    toggleSelectedTypes(b) {
         const g = $('.filter-type-2 .name i');
         const l = $('.filter-type-2 .types');
         const c = l.children();
@@ -81,7 +89,7 @@ class DexPage extends Page {
         }
     }
 
-    static applyTypeFilters() {
+    applyTypeFilters() {
         const l1 = $('.entry.filter-type:not(.filter-type-2) .types');
         const l = $('.entry.filter-type-2 .types');
         const c1 = l1.children();

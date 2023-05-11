@@ -1,5 +1,5 @@
 class Page {
-    static init() {
+    constructor() {
         /*
         General init order:
         - html/css
@@ -11,7 +11,7 @@ class Page {
 
     // sets up a basic mutation observer with the given options for the specified element
     // when the mutation is observed, calls the provided callback with the detected mutation
-    static addObserver(watchElement, observeOptions, callback) {
+    addObserver(watchElement, observeOptions, callback) {
         let observer = new MutationObserver(function (mutations) {
             callback(mutations);
         });

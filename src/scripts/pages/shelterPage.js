@@ -1,23 +1,24 @@
 class ShelterPage extends Page {
     static NEXT_MATCH_KEY = 78; // 'n'
 
-    static init() {
-        ShelterPage.setupHTMLCSS();
-        ShelterPage.setupObservers();
-        ShelterPage.setupHandlers();
+    constructor() {
+        super();
+        this.setupHTML();
+        this.setupObservers();
+        this.setupHandlers();
     }
 
-    static setupObservers() {
-        Page.addObserver(document.querySelector('#shelterarea'), {
+    setupObservers() {
+        this.addObserver(document.querySelector('#shelterarea'), {
             childList: true
         }, function(mutations) {
             console.log('mutation observed');
             console.log(mutations);
-            //ShelterPage.customSearch();
+            //this.customSearch();
         });
     }
 
-    static setupHTMLCSS() {
+    setupHTML() {
         const mainSettings = UserDataHandle.getSettings().mainSettings;
         if(mainSettings.shelterFeatureEnables.search) {
             $('.tabbed_interface.horizontal>div').removeClass('tab-active');
@@ -25,12 +26,12 @@ class ShelterPage extends Page {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterOptionsHTML());
             $('#shelteroptionsqol').addClass('tab-active');
-            //ShelterPage.showSearchSettings();
+            //this.showSearchSettings();
         }
         if(mainSettings.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterSortHTML());
-            ShelterPage.handleSortSettings();
+            this.handleSortSettings();
         }
         if(mainSettings.shelterFeatureEnables.search || mainSettings.shelterFeatureEnables.sort) {
             const shelterSuccessCss = $('#sheltercommands').css('background-color');
@@ -41,8 +42,7 @@ class ShelterPage extends Page {
         }
     }
 
-    static setupHandlers() {
-
+    setupHandlers() {
         $('#qolQuickTextBtn').on('click',function() {
             console.log('add quick text');
         });
@@ -60,7 +60,7 @@ class ShelterPage extends Page {
         });
     }
 
-    static handleSortSettings() {
+    handleSortSettings() {
         const shelterSettings = UserDataHandle.getSettings().pageSettings['QoLShelter'];
         //sort in grid
         $('#shelterarea').removeClass('qolshelterareagrid');
