@@ -48,7 +48,7 @@ class ErrorHandler {
             console.error(message);
             console.error(err);
             const errorMsg = ErrorHandler.errorToString(message, 'error', err);
-            $('body').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
+            $('#core').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
         }
     }
     /*
@@ -229,109 +229,89 @@ class Resources {
         "0":"Normal","1":"Fire","2":"Water","3":"Electric","4":"Grass","5":"Ice","6":"Fighting","7":"Poison","8":"Ground","9":"Flying","10":"Psychic","11":"Bug","12":"Rock","13":"Ghost","14":"Dragon","15":"Dark","16":"Steel","17":"Fairy"
     };
     static STATIC_DEX_DATA = [{
-        "region":"2","dexID":"167","species":"Chikorita","forme":"","type1":"4","type2":null,"eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","imgCodes":["c/z/0","1/f/z"]
+        "dexID":"001","species":"Bulbasaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","evolvesAt":16,"region":"1","imgCodes":["c/0/7","1/g/g"]
     },{
-        "region":"2","dexID":"168","species":"Bayleef","forme":"","type1":"4","type2":null,"eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","imgCodes":["6/i/2"]
+        "dexID":"002","species":"Ivysaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","evolvesAt":32,"region":"1","imgCodes":["9/6/r"]
     },{
-        "region":"2","dexID":"169","species":"Meganium","forme":"","type1":"4","type2":null,"eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","imgCodes":["a/c/r","1/a/v"]
+        "dexID":"003","species":"Venusaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["c/1/5","2/u/a"]
     },{
-        "region":"2","dexID":"170","species":"Cyndaquil","forme":"","type1":"1","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"7","imgCodes":["4/2/a","l/4/p"]
+        "dexID":"003-M","species":"Venusaur","forme":"Mega Forme","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["7/5/z"]
     },{
-        "region":"2","dexID":"171","species":"Quilava","forme":"","type1":"1","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"8","imgCodes":["9/j/v"]
+        "dexID":"004","species":"Charmander","forme":"","type1":"1","type2":null,"eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","evolvesAt":16,"region":"1","imgCodes":["f/d/w","5/l/t"]
     },{
-        "region":"2","dexID":"172","species":"Typhlosion","forme":"","type1":"1","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"8","imgCodes":["k/c/o"]
+        "dexID":"005","species":"Charmeleon","forme":"","type1":"1","type2":null,"eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","evolvesAt":36,"region":"1","imgCodes":["o/i/v"]
     },{
-        "region":"2","dexID":"172","species":"Typhlosion","forme":"Hisuian Forme","type1":"1","type2":"13","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"8","imgCodes":["2/j/d/9"]
+        "dexID":"006","species":"Charizard","forme":"","type1":"1","type2":"9","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["j/j/t"]
     },{
-        "region":"2","dexID":"173","species":"Totodile","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","imgCodes":["4/3/r","7/y/f"]
+        "dexID":"006-X","species":"Charizard","forme":"Mega Forme X","type1":"1","type2":"14","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"0","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["g/i/k"]
     },{
-        "region":"2","dexID":"174","species":"Croconaw","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","imgCodes":["1/n/6"]
+        "dexID":"006-Y","species":"Charizard","forme":"Mega Forme Y","type1":"1","type2":"9","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["l/a"]
     },{
-        "region":"2","dexID":"175","species":"Feraligator","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","imgCodes":["d/5/3"]
+        "dexID":"007","species":"Squirtle","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":16,"region":"1","imgCodes":["l/w/s","h/h/e"]
     },{
-        "region":"1","dexID":"001","species":"Bulbasaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","imgCodes":["c/0/7","1/g/g"]
+        "dexID":"008","species":"Wartortle","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":36,"region":"1","imgCodes":["j/n"]
     },{
-        "region":"1","dexID":"002","species":"Ivysaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","imgCodes":["9/6/r"]
+        "dexID":"009","species":"Blastoise","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["2/4/p"]
     },{
-        "region":"1","dexID":"003","species":"Venusaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","imgCodes":["c/1/5","2/u/a"]
+        "dexID":"009-M","species":"Blastoise","forme":"Mega Forme","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["9/b/z/l"]
     },{
-        "region":"1","dexID":"003-M","species":"Venusaur","forme":"Mega Forme","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","imgCodes":["7/5/z"]
+        "dexID":"010","species":"Caterpie","forme":"","type1":"11","type2":null,"eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"3","bodyStyle":"14","evolvesAt":7,"region":"1","imgCodes":["j/n/z","8/i/9"]
     },{
-        "region":"1","dexID":"004","species":"Charmander","forme":"","type1":"1","type2":null,"eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","imgCodes":["f/d/w","5/l/t"]
+        "dexID":"011","species":"Metapod","forme":"","type1":"11","type2":null,"eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"3","bodyStyle":"2","evolvesAt":10,"region":"1","imgCodes":["o/o/m"]
     },{
-        "region":"1","dexID":"005","species":"Charmeleon","forme":"","type1":"1","type2":null,"eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","imgCodes":["o/i/v"]
+        "dexID":"012","species":"Butterfree","forme":"","type1":"11","type2":"9","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"13","evolvesAt":"","region":"1","imgCodes":["e/k/d","5/2/p"]
     },{
-        "region":"1","dexID":"006","species":"Charizard","forme":"","type1":"1","type2":"9","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","imgCodes":["j/j/t"]
+        "dexID":"013","species":"Weedle","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"14","evolvesAt":7,"region":"1","imgCodes":["9/6/y"]
     },{
-        "region":"1","dexID":"006-X","species":"Charizard","forme":"Mega Forme X","type1":"1","type2":"14","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"0","bodyStyle":"6","imgCodes":["g/i/k"]
+        "dexID":"014","species":"Kakuna","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"2","evolvesAt":10,"region":"1","imgCodes":["f/1/q"]
     },{
-        "region":"1","dexID":"006-Y","species":"Charizard","forme":"Mega Forme Y","type1":"1","type2":"9","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","imgCodes":["l/a"]
+        "dexID":"015","species":"Beedrill","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"13","evolvesAt":"","region":"1","imgCodes":["f/c/4"]
     },{
-        "region":"1","dexID":"007","species":"Squirtle","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","imgCodes":["l/w/s","h/h/e"]
+        "dexID":"015-M","species":"Beedrill","forme":"Mega Forme","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"13","evolvesAt":"","region":"1","imgCodes":["d/1/6/d"]
     },{
-        "region":"1","dexID":"008","species":"Wartortle","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","imgCodes":["j/n"]
+        "dexID":"016","species":"Pidgey","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":18,"region":"1","imgCodes":["b/y"]
     },{
-        "region":"1","dexID":"009","species":"Blastoise","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","imgCodes":["2/4/p"]
+        "dexID":"017","species":"Pidgeotto","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":36,"region":"1","imgCodes":["c/c/o"]
     },{
-        "region":"1","dexID":"009-M","species":"Blastoise","forme":"Mega Forme","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","imgCodes":["9/b/z/l"]
+        "dexID":"018","species":"Pidgeot","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":"","region":"1","imgCodes":["c/9/9"]
     },{
-        "region":"1","dexID":"010","species":"Caterpie","forme":"","type1":"11","type2":null,"eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"3","bodyStyle":"14","imgCodes":["j/n/z","8/i/9"]
+        "dexID":"018-M","species":"Pidgeot","forme":"Mega Forme","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":"","region":"1","imgCodes":["m/r/4"]
     },{
-        "region":"1","dexID":"011","species":"Metapod","forme":"","type1":"11","type2":null,"eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"3","bodyStyle":"2","imgCodes":["o/o/m"]
+        "dexID":"019","species":"Rattata","forme":"","type1":"0","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"6","bodyStyle":"8","evolvesAt":20,"region":"1","imgCodes":["i/b/h/e"]
     },{
-        "region":"1","dexID":"012","species":"Butterfree","forme":"","type1":"11","type2":"9","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"13","imgCodes":["e/k/d","5/2/p"]
+        "dexID":"019r7","species":"Rattata","forme":"Alolan Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"8","evolvesAt":20,"region":"1","imgCodes":["5/j/w","l/y/p","o/1/x"]
     },{
-        "region":"1","dexID":"013","species":"Weedle","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"14","imgCodes":["9/6/y"]
+        "dexID":"020","species":"Raticate","forme":"","type1":"0","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["s/y/w/b","3/6/m/d"]
     },{
-        "region":"1","dexID":"014","species":"Kakuna","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"2","imgCodes":["f/1/q"]
+        "dexID":"020r7","species":"Raticate","forme":"Alolan Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["3/j/v","c/p/z"]
     },{
-        "region":"1","dexID":"015","species":"Beedrill","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"13","imgCodes":["f/c/4"]
+        "dexID":"020t7","species":"Raticate","forme":"Alolan Totem Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["o/e/g/u"]
     },{
-        "region":"1","dexID":"015-M","species":"Beedrill","forme":"Mega Forme","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"13","imgCodes":["d/1/6/d"]
+        "dexID":"021","species":"Spearow","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":20,"region":"1","imgCodes":["3/4/y/0"]
     },{
-        "region":"1","dexID":"016","species":"Pidgey","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","imgCodes":["b/y"]
+        "dexID":"022","species":"Fearow","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":"","region":"1","imgCodes":["i/m/r","k/5"]
     },{
-        "region":"1","dexID":"017","species":"Pidgeotto","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","imgCodes":["c/c/o"]
+        "dexID":"023","species":"Ekans","forme":"","type1":"7","type2":null,"eggGroup1":"3","eggGroup2":"2","legendary":false,"colour":"6","bodyStyle":"2","evolvesAt":22,"region":"1","imgCodes":["6/v/6","d/b/d"]
     },{
-        "region":"1","dexID":"018","species":"Pidgeot","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","imgCodes":["c/9/9"]
+        "dexID":"024","species":"Arbok","forme":"","type1":"7","type2":null,"eggGroup1":"3","eggGroup2":"2","legendary":false,"colour":"6","bodyStyle":"2","evolvesAt":"","region":"1","imgCodes":["4/p/w"]
     },{
-        "region":"1","dexID":"018-M","species":"Pidgeot","forme":"Mega Forme","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","imgCodes":["m/r/4"]
+        "dexID":"025","species":"Pichu","forme":"","type1":"3","type2":null,"eggGroup1":"0","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["g/s/8","g/j/m"]
     },{
-        "region":"1","dexID":"019","species":"Rattata","forme":"","type1":"0","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"6","bodyStyle":"8","imgCodes":["i/b/h/e"]
+        "dexID":"026","species":"Pikachu","forme":"","type1":"3","type2":null,"eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"9","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["e/a/r","2/v/f"]
     },{
-        "region":"1","dexID":"019r7","species":"Rattata","forme":"Alolan Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"8","imgCodes":["5/j/w","l/y/p","o/1/x"]
+        "dexID":"027","species":"Raichu","forme":"","type1":"3","type2":null,"eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"9","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["2/d/p","3/z/5"]
     },{
-        "region":"1","dexID":"020","species":"Raticate","forme":"","type1":"0","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"8","imgCodes":["s/y/w/b","3/6/m/d"]
+        "dexID":"027r7","species":"Raichu","forme":"Alolan Forme","type1":"3","type2":"10","eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"2","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["e/k/u/7"]
     },{
-        "region":"1","dexID":"020r7","species":"Raticate","forme":"Alolan Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"8","imgCodes":["3/j/v","c/p/z"]
+        "dexID":"028","species":"Sandshrew","forme":"","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"6","evolvesAt":22,"region":"1","imgCodes":["1/i/1","o/u/0"]
     },{
-        "region":"1","dexID":"020t7","species":"Raticate","forme":"Alolan Totem Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"8","imgCodes":["o/e/g/u"]
+        "dexID":"028r7","species":"Sandshrew","forme":"Alolan Forme","type1":"5","type2":"16","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["r/2/t/g","4/v/a/h"]
     },{
-        "region":"1","dexID":"021","species":"Spearow","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","imgCodes":["3/4/y/0"]
+        "dexID":"029","species":"Sandslash","forme":"","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["5/n/0"]
     },{
-        "region":"1","dexID":"022","species":"Fearow","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","imgCodes":["i/m/r","k/5"]
+        "dexID":"029t","species":"Sandslash","forme":"Totem Forme Q","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["b/8/r"]
     },{
-        "region":"1","dexID":"023","species":"Ekans","forme":"","type1":"7","type2":null,"eggGroup1":"3","eggGroup2":"2","legendary":false,"colour":"6","bodyStyle":"2","imgCodes":["6/v/6","d/b/d"]
-    },{
-        "region":"1","dexID":"024","species":"Arbok","forme":"","type1":"7","type2":null,"eggGroup1":"3","eggGroup2":"2","legendary":false,"colour":"6","bodyStyle":"2","imgCodes":["4/p/w"]
-    },{
-        "region":"1","dexID":"025","species":"Pichu","forme":"","type1":"3","type2":null,"eggGroup1":"0","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"8","imgCodes":["g/s/8","g/j/m"]
-    },{
-        "region":"1","dexID":"026","species":"Pikachu","forme":"","type1":"3","type2":null,"eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"9","bodyStyle":"8","imgCodes":["e/a/r","2/v/f"]
-    },{
-        "region":"1","dexID":"027","species":"Raichu","forme":"","type1":"3","type2":null,"eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"9","bodyStyle":"6","imgCodes":["2/d/p","3/z/5"]
-    },{
-        "region":"1","dexID":"027r7","species":"Raichu","forme":"Alolan Forme","type1":"3","type2":"10","eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"2","bodyStyle":"6","imgCodes":["e/k/u/7"]
-    },{
-        "region":"1","dexID":"028","species":"Sandshrew","forme":"","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"6","imgCodes":["1/i/1","o/u/0"]
-    },{
-        "region":"1","dexID":"028r7","species":"Sandshrew","forme":"Alolan Forme","type1":"5","type2":"16","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"6","imgCodes":["r/2/t/g","4/v/a/h"]
-    },{
-        "region":"1","dexID":"029","species":"Sandslash","forme":"","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"6","imgCodes":["5/n/0"]
-    },{
-        "region":"1","dexID":"029t","species":"Sandslash","forme":"Totem Forme Q","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"6","imgCodes":["b/8/r"]
-    },{
-        "region":"1","dexID":"029r7","species":"Sandslash","forme":"Alolan Forme","type1":"5","type2":"16","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"1","bodyStyle":"6","imgCodes":["h/z/z/a"]
+        "dexID":"029r7","species":"Sandslash","forme":"Alolan Forme","type1":"5","type2":"16","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["h/z/z/a"]
     }];
     static SHELTER_SEARCH_KEYS = {
         "findNewEgg":{
@@ -1192,7 +1172,6 @@ class BaseFieldsPage extends Page {
 
 class DaycarePage extends Page {
     static init() {
-        DaycarePage.setupHTML();
         DaycarePage.setupObservers();
     }
 
@@ -1299,9 +1278,15 @@ class DaycarePage extends Page {
 
 class DexPage extends Page {
     static init() {
-        DexPage.setupHTML();
-        DexPage.setupObservers();
-        DexPage.setupHandlers();
+        // ensure this is the main dex page, with filters etc
+        if(document.getElementById('regionslist')) {
+            DexPage.setupHTML();
+            DexPage.setupObservers();
+            DexPage.setupHandlers();
+        }
+        else {
+            console.log('On dex entry page, not running dex QoL.');
+        }
     }
 
     static setupObservers() {
@@ -1923,11 +1908,9 @@ class PagesManager {
             setting: 'partyMod'
         },
         'fields': {
-            'base': {
-                class: PrivateFieldsPage,
-                setting: 'privateFieldEnable'
-            },
-            'alt': {
+            class: PrivateFieldsPage,
+            setting: 'privateFieldEnable',
+            'public': {
                 class: PublicFieldsPage,
                 setting: 'publicFieldEnable'
             }
@@ -1955,20 +1938,20 @@ class PagesManager {
     };
     static instantiatePage() {
         const urlComponents = window.location.pathname.split('/');
-        const pageName = urlComponents[1]; // this should generally never be null/undefined
+        let pageName = urlComponents[1]; // this should generally never be null/undefined
         if(pageName in PagesManager.PAGES) {
-            let page;
-            if('class' in PagesManager.PAGES[pageName]) {
-                page = PagesManager.PAGES[pageName];
+            let page = PagesManager.PAGES[pageName];
+            // check for public fields (shares base URL with private fields)
+            if(pageName=='fields') {
+                if(urlComponents.length>2) {
+                    page = PagesManager.PAGES.fields.public;
+                    pageName = 'fields (public)';
+                }
+                else {
+                    pageName = 'fields (private)';
+                }
             }
-            // we're in a special case like fields, do more URL checking
-            else if(urlComponents.length>2) {
-                page = PagesManager.PAGES[pageName]['alt'];
-            }
-            else {
-                page = PagesManager.PAGES[pageName]['base'];
-            }
-            // init the page object & return it
+            // initialize the page if this is a supported page, and the user has enabled its main setting
             const settings = UserDataHandle.getSettings();
             if(page && 'setting' in page && settings.mainSettings[page.setting] === true) {
                 console.log('QoL features enabled for page: '+pageName);
@@ -2006,10 +1989,10 @@ $(function () {
         else {
             ErrorHandler.warn("Could not add user's custom CSS");
         }
-        console.log('Init QoL page');
-        PagesManager.instantiatePage();
-        console.log('Init QoL hub');
+        console.log('Initializing QoL hub');
         new QoLHub();
+        console.log('Initializing QoL page features');
+        PagesManager.instantiatePage();
         console.log('QoL Running');
     } catch(err) {
         ErrorHandler.fatalErrorHandler(err);

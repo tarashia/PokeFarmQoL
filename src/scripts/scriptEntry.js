@@ -14,10 +14,10 @@ $(function () {
     else {
       ErrorHandler.warn("Could not add user's custom CSS");
     }
-    console.log('Init QoL page');
-    PagesManager.instantiatePage();
-    console.log('Init QoL hub');
+    console.log('Initializing QoL hub');
     new QoLHub();
+    console.log('Initializing QoL page features');
+    PagesManager.instantiatePage();
     console.log('QoL Running');
   } catch(err) {
     ErrorHandler.fatalErrorHandler(err);

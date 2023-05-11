@@ -1,8 +1,14 @@
 class DexPage extends Page {
     static init() {
-        DexPage.setupHTML();
-        DexPage.setupObservers();
-        DexPage.setupHandlers();
+        // ensure this is the main dex page, with filters etc
+        if(document.getElementById('regionslist')) {
+            DexPage.setupHTML();
+            DexPage.setupObservers();
+            DexPage.setupHandlers();
+        }
+        else {
+            console.log('On dex entry page, not running dex QoL.');
+        }
     }
 
     static setupObservers() {

@@ -52,10 +52,19 @@ async function run() {
 }
 
 /*[
-    0 'Region',       1 'Dex ID',       2 'Species',
-    3 'Forme',        4 'Type 1',       5 'Type 2',
-    6 'Egg group 1',  7 'Egg group 2',  8 'Is legendary?',
-    9 'Colour',      10 'Body style',  11 'Img codes'
+    0 Dex ID
+    1 Species
+    2 Forme
+    3 Type 1
+    4 Type 2
+    5 Egg group 1
+    6 Egg group 2
+    7 Is legendary?
+    8 Colour
+    9 Body style
+    10 Evolves at
+    11 Region
+    12 Img codes
 ]*/
 function process(data) {
     var output = [];
@@ -66,61 +75,75 @@ function process(data) {
         var index = undefined;
         for(var j=0; j<row.length; j++) {
             location.column = j;
+            let value = row[j].trim();
             switch (j) {
                 case 0:
-                    index = validate('regions.jsonc', row[0]);
-                    if(index === null) {
-                        throwError('Region not set');
-                    }
-                    procRow['region'] = index;
-                    break;
-                case 1:
-                    const dexID = row[1].trim();
-                    if(dexID=='') {
+                    if(value=='') {
                         throwError('Dex ID not set');
                     }
-                    if(!dexID.match(/^\d{3}[a-zA-Z0-9_-]*$/)) {
-                        throwError('Invalid dex ID: '+dexID);
+                    if(!value.match(/^\d{3}[a-zA-Z0-9_-]*$/)) {
+                        throwError('Invalid dex ID: '+value);
                     }
-                    procRow['dexID'] = dexID;
+                    procRow['dexID'] = value;
                     break;
-                case 2:
-                    if(row[2]=='') {
+                case 1:
+                    if(value=='') {
                         throwError('Species not set');
                     }
-                    procRow['species'] = row[2].trim();
+                    procRow['species'] = value;
+                    break;
+                case 2:
+                    procRow['forme'] = value;
                     break;
                 case 3:
-                    procRow['forme'] = row[3].trim();
+                    procRow['type1'] = validate('types.jsonc', value);
                     break;
                 case 4:
-                    procRow['type1'] = validate('types.jsonc', row[4]);
+                    procRow['type2'] = validate('types.jsonc', value);
                     break;
                 case 5:
-                    procRow['type2'] = validate('types.jsonc', row[5]);
+                    procRow['eggGroup1'] = validate('egg-groups.jsonc', value);
                     break;
                 case 6:
-                    procRow['eggGroup1'] = validate('egg-groups.jsonc', row[6]);
+                    procRow['eggGroup2'] = validate('egg-groups.jsonc', value);
                     break;
                 case 7:
-                    procRow['eggGroup2'] = validate('egg-groups.jsonc', row[7]);
-                    break;
-                case 8:
-                    if(row[8].toUpperCase()=='YES') {
+                    if(value.toUpperCase()=='YES') {
                         procRow['legendary'] = true;
                     }
                     else {
                         procRow['legendary'] = false;
                     }
                     break;
+                case 8:
+                    procRow['colour'] = validate('colours.jsonc', value);
+                    break;
                 case 9:
-                    procRow['colour'] = validate('colours.jsonc', row[9]);
+                    procRow['bodyStyle'] = validate('body-styles.jsonc', value);
                     break;
                 case 10:
-                    procRow['bodyStyle'] = validate('body-styles.jsonc', row[10]);
+                    if(value=='') {
+                        procRow['evolvesAt'] = '';
+                        break;
+                    }
+                    // empty is allowed, but invalid values are not
+                    const level = parseInt(value);
+                    if(level === NaN || level <=0 || level >100) {
+                        throwError('Invalid evolve level: '+value);
+                    }
+                    else {
+                        procRow['evolvesAt'] = level;
+                    }
                     break;
-                case 11:
-                    var imgCodes = parse(row[11].trim(), {})[0];
+                case 11: 
+                    index = validate('regions.jsonc', value);
+                    if(index === null) {
+                        throwError('Region not set');
+                    }
+                    procRow['region'] = index;
+                    break;
+                case 12:
+                    var imgCodes = parse(value, {})[0];
                     if(imgCodes) {
                         for(var k=0; k<imgCodes.length; k++) {
                             imgCodes[k] = imgCodes[k].trim();

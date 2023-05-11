@@ -1,6 +1,5 @@
 class DaycarePage extends Page {
     static init() {
-        DaycarePage.setupHTML();
         DaycarePage.setupObservers();
     }
 

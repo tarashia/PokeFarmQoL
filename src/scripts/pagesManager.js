@@ -21,11 +21,9 @@ class PagesManager {
             setting: 'partyMod'
         },
         'fields': {
-            'base': {
-                class: PrivateFieldsPage,
-                setting: 'privateFieldEnable'
-            },
-            'alt': {
+            class: PrivateFieldsPage,
+            setting: 'privateFieldEnable',
+            'public': {
                 class: PublicFieldsPage,
                 setting: 'publicFieldEnable'
             }
@@ -53,20 +51,20 @@ class PagesManager {
     };
     static instantiatePage() {
         const urlComponents = window.location.pathname.split('/');
-        const pageName = urlComponents[1]; // this should generally never be null/undefined
+        let pageName = urlComponents[1]; // this should generally never be null/undefined
         if(pageName in PagesManager.PAGES) {
-            let page;
-            if('class' in PagesManager.PAGES[pageName]) {
-                page = PagesManager.PAGES[pageName];
+            let page = PagesManager.PAGES[pageName];
+            // check for public fields (shares base URL with private fields)
+            if(pageName=='fields') {
+                if(urlComponents.length>2) {
+                    page = PagesManager.PAGES.fields.public;
+                    pageName = 'fields (public)';
+                }
+                else {
+                    pageName = 'fields (private)';
+                }
             }
-            // we're in a special case like fields, do more URL checking
-            else if(urlComponents.length>2) {
-                page = PagesManager.PAGES[pageName]['alt'];
-            }
-            else {
-                page = PagesManager.PAGES[pageName]['base'];
-            }
-            // init the page object & return it
+            // initialize the page if this is a supported page, and the user has enabled its main setting
             const settings = UserDataHandle.getSettings();
             if(page && 'setting' in page && settings.mainSettings[page.setting] === true) {
                 console.log('QoL features enabled for page: '+pageName);

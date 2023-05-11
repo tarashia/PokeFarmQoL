@@ -32,7 +32,7 @@ class ErrorHandler {
       console.error(message);
       console.error(err);
       let errorMsg = ErrorHandler.errorToString(message, 'error', err);
-      $('body').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
+      $('#core').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
     }
   }
   // translates the given details into a printable version
