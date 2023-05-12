@@ -6,7 +6,7 @@
 // @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      2.0.0-151ba6
+// @version      2.0.0-435888
 // @match        https://pokefarm.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // ==/UserScript==
@@ -27,19 +27,21 @@ class ErrorHandler {
     /*
      * Custom error handler to output in the QoL error console
      * Level should be info, warn, or error; default is info
-     * Message is also written to the JavaScript console
+     * Message is also written to the JavaScript console during errorToString call
      * err should be the full Error object - if provided and supported, the
      *     stack trace for this error will be Base 64 encoded and included for the user
      */
     static writeCustomError(message,level='info',err=undefined) {
         const logElement = document.getElementById('qolConsoleHolder');
+        const logOutput = ErrorHandler.errorToString(message, level, err);
         if(logElement) {
-            logElement.innerHTML += '<li>' + ErrorHandler.errorToString(message, level, err) +'</li>';
+            logElement.innerHTML += '<li><div class="qolB64Output">' + logOutput +'</div></li>';
         }
         else {
             console.error('Could not add custom log to log element');
         }
     }
+
     // show an error at the bottom of the page, since the hub may not be accessible in these cases
     static fatalErrorHandler(err) {
     // prevent showing the fatal error output while logged out, and on non-core pages like direct image links
@@ -51,6 +53,7 @@ class ErrorHandler {
             $('#core').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
         }
     }
+
     /*
      * translates the given details into a printable version
      * logs the message to the console at the same time
@@ -59,19 +62,28 @@ class ErrorHandler {
         let prefix = undefined;
         let stackTrace = '';
         if(err && err.stack) {
-            stackTrace = '<br>'+btoa(err.stack);
+            stackTrace = '<br>'+btoa(err.stack)+'';
         }
         if(level=='warn') {
             prefix = 'WARN: ';
             console.warn('QoL: '+message);
+            if(err) {
+                console.warn(err);
+            }
         }
         else if(level=='error') {
             prefix = 'ERROR: ';
             console.error('QoL: '+message);
+            if(err) {
+                console.error(err);
+            }
         }
         else {
             prefix = 'INFO: ';
             console.log('QoL: '+message);
+            if(err) {
+                console.logs(err);
+            }
         }
         return prefix + message + stackTrace;
     }
@@ -228,91 +240,6 @@ class Resources {
     static TYPE_LIST = {
         "0":"Normal","1":"Fire","2":"Water","3":"Electric","4":"Grass","5":"Ice","6":"Fighting","7":"Poison","8":"Ground","9":"Flying","10":"Psychic","11":"Bug","12":"Rock","13":"Ghost","14":"Dragon","15":"Dark","16":"Steel","17":"Fairy"
     };
-    static STATIC_DEX_DATA = [{
-        "dexID":"001","species":"Bulbasaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","evolvesAt":16,"region":"1","imgCodes":["c/0/7","1/g/g"]
-    },{
-        "dexID":"002","species":"Ivysaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","evolvesAt":32,"region":"1","imgCodes":["9/6/r"]
-    },{
-        "dexID":"003","species":"Venusaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["c/1/5","2/u/a"]
-    },{
-        "dexID":"003-M","species":"Venusaur","forme":"Mega Forme","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["7/5/z"]
-    },{
-        "dexID":"004","species":"Charmander","forme":"","type1":"1","type2":null,"eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","evolvesAt":16,"region":"1","imgCodes":["f/d/w","5/l/t"]
-    },{
-        "dexID":"005","species":"Charmeleon","forme":"","type1":"1","type2":null,"eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","evolvesAt":36,"region":"1","imgCodes":["o/i/v"]
-    },{
-        "dexID":"006","species":"Charizard","forme":"","type1":"1","type2":"9","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["j/j/t"]
-    },{
-        "dexID":"006-X","species":"Charizard","forme":"Mega Forme X","type1":"1","type2":"14","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"0","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["g/i/k"]
-    },{
-        "dexID":"006-Y","species":"Charizard","forme":"Mega Forme Y","type1":"1","type2":"9","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["l/a"]
-    },{
-        "dexID":"007","species":"Squirtle","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":16,"region":"1","imgCodes":["l/w/s","h/h/e"]
-    },{
-        "dexID":"008","species":"Wartortle","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":36,"region":"1","imgCodes":["j/n"]
-    },{
-        "dexID":"009","species":"Blastoise","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["2/4/p"]
-    },{
-        "dexID":"009-M","species":"Blastoise","forme":"Mega Forme","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["9/b/z/l"]
-    },{
-        "dexID":"010","species":"Caterpie","forme":"","type1":"11","type2":null,"eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"3","bodyStyle":"14","evolvesAt":7,"region":"1","imgCodes":["j/n/z","8/i/9"]
-    },{
-        "dexID":"011","species":"Metapod","forme":"","type1":"11","type2":null,"eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"3","bodyStyle":"2","evolvesAt":10,"region":"1","imgCodes":["o/o/m"]
-    },{
-        "dexID":"012","species":"Butterfree","forme":"","type1":"11","type2":"9","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"13","evolvesAt":"","region":"1","imgCodes":["e/k/d","5/2/p"]
-    },{
-        "dexID":"013","species":"Weedle","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"14","evolvesAt":7,"region":"1","imgCodes":["9/6/y"]
-    },{
-        "dexID":"014","species":"Kakuna","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"2","evolvesAt":10,"region":"1","imgCodes":["f/1/q"]
-    },{
-        "dexID":"015","species":"Beedrill","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"13","evolvesAt":"","region":"1","imgCodes":["f/c/4"]
-    },{
-        "dexID":"015-M","species":"Beedrill","forme":"Mega Forme","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"13","evolvesAt":"","region":"1","imgCodes":["d/1/6/d"]
-    },{
-        "dexID":"016","species":"Pidgey","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":18,"region":"1","imgCodes":["b/y"]
-    },{
-        "dexID":"017","species":"Pidgeotto","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":36,"region":"1","imgCodes":["c/c/o"]
-    },{
-        "dexID":"018","species":"Pidgeot","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":"","region":"1","imgCodes":["c/9/9"]
-    },{
-        "dexID":"018-M","species":"Pidgeot","forme":"Mega Forme","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":"","region":"1","imgCodes":["m/r/4"]
-    },{
-        "dexID":"019","species":"Rattata","forme":"","type1":"0","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"6","bodyStyle":"8","evolvesAt":20,"region":"1","imgCodes":["i/b/h/e"]
-    },{
-        "dexID":"019r7","species":"Rattata","forme":"Alolan Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"8","evolvesAt":20,"region":"1","imgCodes":["5/j/w","l/y/p","o/1/x"]
-    },{
-        "dexID":"020","species":"Raticate","forme":"","type1":"0","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["s/y/w/b","3/6/m/d"]
-    },{
-        "dexID":"020r7","species":"Raticate","forme":"Alolan Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["3/j/v","c/p/z"]
-    },{
-        "dexID":"020t7","species":"Raticate","forme":"Alolan Totem Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["o/e/g/u"]
-    },{
-        "dexID":"021","species":"Spearow","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":20,"region":"1","imgCodes":["3/4/y/0"]
-    },{
-        "dexID":"022","species":"Fearow","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"9","evolvesAt":"","region":"1","imgCodes":["i/m/r","k/5"]
-    },{
-        "dexID":"023","species":"Ekans","forme":"","type1":"7","type2":null,"eggGroup1":"3","eggGroup2":"2","legendary":false,"colour":"6","bodyStyle":"2","evolvesAt":22,"region":"1","imgCodes":["6/v/6","d/b/d"]
-    },{
-        "dexID":"024","species":"Arbok","forme":"","type1":"7","type2":null,"eggGroup1":"3","eggGroup2":"2","legendary":false,"colour":"6","bodyStyle":"2","evolvesAt":"","region":"1","imgCodes":["4/p/w"]
-    },{
-        "dexID":"025","species":"Pichu","forme":"","type1":"3","type2":null,"eggGroup1":"0","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["g/s/8","g/j/m"]
-    },{
-        "dexID":"026","species":"Pikachu","forme":"","type1":"3","type2":null,"eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"9","bodyStyle":"8","evolvesAt":"","region":"1","imgCodes":["e/a/r","2/v/f"]
-    },{
-        "dexID":"027","species":"Raichu","forme":"","type1":"3","type2":null,"eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"9","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["2/d/p","3/z/5"]
-    },{
-        "dexID":"027r7","species":"Raichu","forme":"Alolan Forme","type1":"3","type2":"10","eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"2","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["e/k/u/7"]
-    },{
-        "dexID":"028","species":"Sandshrew","forme":"","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"6","evolvesAt":22,"region":"1","imgCodes":["1/i/1","o/u/0"]
-    },{
-        "dexID":"028r7","species":"Sandshrew","forme":"Alolan Forme","type1":"5","type2":"16","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["r/2/t/g","4/v/a/h"]
-    },{
-        "dexID":"029","species":"Sandslash","forme":"","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["5/n/0"]
-    },{
-        "dexID":"029t","species":"Sandslash","forme":"Totem Forme Q","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["b/8/r"]
-    },{
-        "dexID":"029r7","species":"Sandslash","forme":"Alolan Forme","type1":"5","type2":"16","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"1","bodyStyle":"6","evolvesAt":"","region":"1","imgCodes":["h/z/z/a"]
-    }];
     static SHELTER_SEARCH_KEYS = {
         "findNewEgg":{
             "searchKey":"Egg","display":"new egg","icon":"<img src='//pfq-static.com/img/pkmn/egg.png'>"
@@ -348,8 +275,8 @@ class Resources {
     };
 
     // CSS files
-    static CORE_CSS = `#announcements li[data-name=QoL],.collapsible{cursor:pointer}.collapsible{border-radius:6px;max-width:600px;padding:4px;position:relative;text-align:left;width:100%}.collapsible_content{display:none;overflow:hidden;padding:0 18px}`;
-    static HUB_CSS = `.qolHubModal>div>.panel{margin-bottom:1em}.qolHubModal>div>.panel>div>p:first-child{margin-top:.25em}.qolHubModal textarea{box-sizing:border-box;width:100%}#qolStorageOutput{border:1px solid;max-height:100px;overflow-y:auto;padding:3px;user-select:all}#qolConsoleContent,#qolStorageOutput{word-break:break-all}#qolHubSettings ul{margin:0}#qolHubSettings label{display:inline-block;margin-bottom:.25em}`;
+    static CORE_CSS = `#announcements li[data-name=QoL],.collapsible{cursor:pointer}.collapsible{border-radius:6px;max-width:600px;padding:4px;position:relative;text-align:left;width:100%}input[type=checkbox].qolsetting:enabled,input[type=radio].qolsetting:enabled{cursor:pointer}.qolB64Output{border:1px solid;margin-bottom:.5em;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all}.collapsible_content{display:none;overflow:hidden;padding:0 18px}`;
+    static HUB_CSS = `.qolHubModal>div>.panel{margin-bottom:1em}.qolHubModal>div>.panel>div>p:first-child{margin-top:.25em}.qolHubModal textarea{box-sizing:border-box;width:100%}#qolConsoleContent{word-break:break-all}#qolHubSettings ul{margin:0}#qolHubSettings label{display:inline-block;margin-bottom:.25em}`;
     static MODAL_CSS = `.qolModal>h3:first-child a{color:inherit;float:right}`;
     static SHELTER_CSS = `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagrid .pokemon{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important}.qolshelterareagrid .pokemon img{max-height:100%;max-width:100%}.qolshelterareagrid .tooltip_content{bottom:0;position:absolute!important;transform:translateY(100%)}.qolshelterareagrid:before{display:none!important}.mq2 .qolshelterareagrid:not(.qolshelterarealarge),.qolshelterareasmall{grid-template-rows:repeat(5,35px);min-height:175px}.qolshelterarealarge .pokemon .big{display:block!important}.qolshelterarealarge .pokemon .small,.qolshelterareasmall .pokemon .big{display:none!important}.qolshelterareasmall .pokemon .small{display:block!important}`;
     static FIELDS_CSS = `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px}.qolSelectFlavour{display:none}.qolFlavourShown~.qolSelectFlavour{display:inline}.qolFlavourShown~.qolSelectGender,.qolNatureShown~.qolSelectGender{display:none}`;
@@ -360,7 +287,7 @@ class Resources {
     static DEMO_CSS = '#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}';
 
     // HTML files
-    static QOL_HUB_HTML = `<p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings. If you need help or have suggestions, please visit the <a href="https://pokefarm.com/forum/thread/193472/Quality-of-Life-changes-UserScript">QoL's main thread</a>.</p><div class="panel"><h3>Main Settings</h3><div id="qolHubSettings"><p><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</p><div><label><input type="checkbox" class="qolhubsetting" data-key="partyMod"> <span>Party click mod</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"> <span>Advanced Sorting</span></label></li></ul></div><div><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolhubsetting" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-key="easyEvolve"> <span>Easy evolving</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-key="labNotifier"> <span>Lab Notifier</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></div></div></div><div class="panel"><h3>Pokédex Settings</h3><div><p>If newly added Pokémon are not matching properly, your dex may be out of date. You can try clearing your cached dex to get the new data. If that doesn't help, the new Pokémon may not have been added yet - please report it in the QoL thread.</p><p>Date last updated: <span id="qolDexDate">[unknown]</span> <button type="button" id="clearCachedDex">Clear Cached Dex</button></p><p><label><input type="checkbox" class="qolhubsetting" data-key="preventDexUpdate"> <span>Prevent auto-update (not recommended)</span></label></p></div></div><div class="panel"><h3>Custom CSS</h3><div><p>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting and skin color vars are not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></p><textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea></div></div><div class="panel"><h3>Debugging</h3><div><p>You can reset some or all of the script settings here. If this script misbehaving after an update, this could help. Caution: You cannot undo this action.</p><p>Reset page settings:<!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" id="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option></select> <button type="button" id="resetPageSettings">Reset Page Settings</button> <button type="button" id="resetAllSettings">Reset ALL Settings</button></p><div><p>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <button type="button" id="qolErrorConsole">View errors</button></p><ul id="qolConsoleContent"></ul></div><div>The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs. <button type="button" id="qolStorageLog">Get settings</button><p><span id="qolStorageOutput" style="display: none;"></span></p><button type="button" id="qolLogPlusDex">Log settings & dex to console</button></div></div></div><p style="text-align: right"><button type="button" class="modalClose">Close</button></p>`;
+    static QOL_HUB_HTML = `<p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings. If you need help or have suggestions, please visit the <a href="https://pokefarm.com/forum/thread/193472/Quality-of-Life-changes-UserScript">QoL's main thread</a>.</p><div class="panel"><h3>Main Settings</h3><div id="qolHubSettings"><p><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</p><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="partyMod"> <span>Party click mod</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="shelterEnable" data-key="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="shelterEnable" data-key="sort"> <span>Advanced Sorting</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="publicFieldEnable" data-key="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="publicFieldEnable" data-key="sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="publicFieldEnable" data-key="tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="publicFieldEnable" data-key="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="privateFieldEnable" data-key="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="privateFieldEnable" data-key="release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="privateFieldEnable" data-key="tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="privateFieldEnable" data-key="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="easyEvolve"> <span>Easy evolving</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="labNotifier"> <span>Lab Notifier</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></div></div></div><div class="panel"><h3>Pokédex Settings</h3><div><p>If newly added Pokémon are not matching properly, your dex may be out of date. You can try clearing your cached dex to get the new data. If that doesn't help, the new Pokémon may not have been added yet - please report it in the QoL thread.</p><p>Date last updated: <span id="qolDexDate">[unknown]</span> <button type="button" id="clearCachedDex">Clear Cached Dex</button></p></div></div><div class="panel"><h3>Custom CSS</h3><div><p>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting and skin color vars are not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></p><textarea id="qolcustomcss" rows="15" class="qolsetting" data-page="QoLHub" data-key="customCss"></textarea></div></div><div class="panel"><h3>Debugging</h3><div><p>You can reset some or all of the script settings here. If this script misbehaving after an update, this could help. Caution: You cannot undo this action.</p><p>Reset page settings:<!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" id="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option></select> <button type="button" id="resetPageSettings">Reset Page Settings</button> <button type="button" id="resetAllSettings">Reset ALL Settings</button></p><div><p>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <button type="button" id="qolErrorConsole">View errors</button></p><ul id="qolConsoleContent"></ul></div><div>The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs. <button type="button" id="qolStorageLog">Get settings</button><p></p><div id="qolStorageOutput" class="qolB64Output" style="display: none;"></div><p></p>Advanced: <button type="button" id="qolLogPlusDex">Log settings & dex to console</button></div></div></div><p style="text-align: right"><button type="button" class="modalClose">Close</button></p>`;
     static PARTY_MOD_HTML = `<div id="qolpartymod"><label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="noMod">None</label> <label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="hideDislike">Hide disliked</label> <label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="niceTable">Table view</label> <label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="hideAll">Hide all</label> <label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="customParty">Customize</label></div><div id="qolpartymodcustom" class="panel accordion" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="clickablePokemon">Clickable pokemon (if compact)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showUserName">Show user name</label></div></div></div>`;
     static QOL_HUB_ICON_HTML = `<li data-name="QoL"><a title="QoL Settings" id="qolHubIcon"><img src="https://pokefarm.com/upload/:b7q/QoL/icon.png" alt="QoL Settings">QoL </a><!-- The QoL hub doesn't exist until opened; store custom errors here initially instead --><ul style="display: none;" id="qolConsoleHolder"></ul></li>`;
     static LAB_OPTIONS_HTML = `<div id="labCustomSearch" class="center"><p class="boldp">Egg type search</p><p>Select which egg types you would like to find in the lab. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="findTypeEgg">Egg types <input type="button" value="Add typesearch" id="addLabTypeList"><div id="labTypes"><div class="0"></div></div><p class="boldp">Egg custom search</p><p>Add the pokemon name or Img code (complete link starting from //pfq..) that you would like to find in the lab in a searchfield. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg <input type="button" value="Add searchfield" id="addLabSearch"><div id="searchkeys"><div class="0"></div></div></div>`;
@@ -531,38 +458,32 @@ class UserPokedex {
     }
     // Get the dex data from the updatable, uploaded version, and store it to local storage
     fetchUploadedDex() {
-        const mainSettings = UserDataHandle.getSettings().mainSettings;
-        if('preventDexUpdate' in mainSettings && mainSettings.preventDexUpdate===true) {
-            console.log('Not updating dex: user disabled');
-        }
-        else {
-            console.log('Updating dex from from uploaded file');
-            try {
-                this.DEX_LOADING = true;
-                const self = this;
-                $.get("https://pokefarm.com/upload/:b7q/QoL/dex-data.jpg", function(data){
-                    self.DEX_DATA = JSON.parse(data);
-                    const dateString = new Date().toLocaleString('en-GB', {
-                        timeZone: 'UTC'
-                    });
-                    self.DEX_UPDATE_DATE = dateString;
-                    LocalStorageManager.updateLocalStorageDex(self.DEX_DATA, dateString);
-                    self.DEX_LOADING = false;
-                    console.log('Dex load complete');
+        console.log('Updating dex from from uploaded file');
+        try {
+            this.DEX_LOADING = true;
+            const self = this;
+            $.get("https://pokefarm.com/upload/:b7q/QoL/dex-data.jpg", function(data){
+                self.DEX_DATA = JSON.parse(data);
+                const dateString = new Date().toLocaleString('en-GB', {
+                    timeZone: 'UTC'
                 });
-            } catch(e) {
-                ErrorHandler.error('Failed to load dex data from uploaded file', e);
-                this.resetDex();
-            }
+                self.DEX_UPDATE_DATE = dateString;
+                LocalStorageManager.updateLocalStorageDex(self.DEX_DATA, dateString);
+                self.DEX_LOADING = false;
+                console.log('Dex load complete');
+            });
+        } catch(e) {
+            ErrorHandler.error('Failed to load dex data from uploaded file', e);
+            this.resetDex();
         }
     }
     // Clears any locally stored dex data, and loads the static dex data instead.
     resetDex() {
-        ErrorHandler.warn('Using static dex data');
+        ErrorHandler.warn('Cleared dex data');
         LocalStorageManager.removeItem(LocalStorageManager.DEX_DATA_KEY);
         this.DEX_UPDATE_DATE = undefined;
         this.DEX_LOADING = undefined;
-        this.DEX_DATA = Resources.STATIC_DEX_DATA;
+        this.DEX_DATA = undefined;
     }
     // Return the number of days since this.DEX_UPDATE_DATE
     daysSinceUpdate() {
@@ -622,20 +543,11 @@ class UserSettings {
      * used to tie "global" enable settings in USER_SETTINGS to the more
      * granular settings that are related to the same page
      */
-    static LINKED_SETTINGS = [
-        {
-            'manager': 'shelterEnable',
-            'managed': 'shelterFeatureEnables'
-        },
-        {
-            'manager': 'publicFieldEnable',
-            'managed': 'publicFieldFeatureEnables'
-        },
-        {
-            'manager': 'privateFieldEnable',
-            'managed': 'privateFieldFeatureEnables'
-        },
-    ];
+    static LINKED_SETTINGS = {
+        'shelterEnable': 'shelterFeatureEnables',
+        'publicFieldEnable': 'publicFieldFeatureEnables',
+        'privateFieldEnable': 'privateFieldFeatureEnables'
+    };
 
     mainSettings = {};
     pageSettings = {};
@@ -662,7 +574,6 @@ class UserSettings {
             condenseWishforge : true,
             interactionsEnable : true,
             summaryEnable : true,
-            preventDexUpdate: false,
             shelterFeatureEnables : {
                 search: true,
                 sort: true,
@@ -723,10 +634,10 @@ class UserSettings {
                 };
                 break;
             case 'QoLPrivateFields':
-                this.pageSettings.QoLPrivateFields = UserSettings.fieldDefaults(false);
+                this.pageSettings.QoLPrivateFields = this.fieldDefaults(false);
                 break;
             case 'QoLPublicFields':
-                this.pageSettings.QoLPublicFields = UserSettings.fieldDefaults(true);
+                this.pageSettings.QoLPublicFields = this.fieldDefaults(true);
                 break;
             case 'QoLShelter':
                 this.pageSettings.QoLShelter = {
@@ -756,7 +667,7 @@ class UserSettings {
         }
     }
     // Most field settings are shared, build defaults here
-    static fieldDefaults(isPublic) {
+    fieldDefaults(isPublic) {
         const fieldSettings = {
             fieldNewPokemon: true,
             fieldShiny: false,
@@ -805,37 +716,30 @@ class UserSettings {
         const storedSettings = LocalStorageManager.getAllQoLSettings();
         for(const settingKey in storedSettings) {
             // remove user ID from setting
-            let settingName = settingKey.split('.');
+            const settingName = settingKey.split('.');
             if(settingName.length == 2) {
-                let foundKey = false;
-                settingName = settingName[1];
+                let loadedSettings = {};
+                try {
+                    loadedSettings = JSON.parse(storedSettings[settingKey]);
+                } catch(e) {
+                    ErrorHandler.error('Could not parse stored settings for key '+settingKey+': '+storedSettings[settingKey],e);
+                }
                 // Check if this is the main settings object
-                if(settingName == LocalStorageManager.MAIN_SETTINGS_KEY) {
-                    const mainSettings = JSON.parse(storedSettings[settingKey]);
-                    // only load settings that are known about in this class
-                    for(const mainKey in mainSettings) {
-                        if(mainKey in this) {
-                            this.mainSettings[mainKey] = mainSettings[mainKey];
-                        }
-                    }
-                    foundKey = true;
-                }
-                // Otherwise check for a page settings
-                for(const pageKey in this.pageSettings) {
-                    if(settingName == pageKey) {
-                        // get the matching key for the user setting's object's pageSettings property
-                        const pageSettings = JSON.parse(storedSettings[settingKey]);
-                        // only load page settings that are known about in this class
-                        for(const pageSettingKey in pageSettings) {
-                            if(pageSettingKey in this.pageSettings[pageKey]) {
-                                this.pageSettings[pageKey] = pageSettings[pageSettingKey];
-                            }
-                        }
-                        foundKey = true;
+                if(settingName[1] == LocalStorageManager.MAIN_SETTINGS_KEY) {
+                    /*
+                     * don't just replace the whole settings object, don't want to overwrite missing setting defaults
+                     * TODO: do sub-options work?
+                     */
+                    for(const key in loadedSettings) {
+                        this.mainSettings[settingName[1]] = loadedSettings[key];
                     }
                 }
-                if(!foundKey) {
-                    ErrorHandler.warn('Unknown setting: '+settingKey);
+                // Otherwise it's a page's settings
+                else {
+                    // don't just replace the whole settings object, don't want to overwrite missing setting defaults
+                    for(const key in loadedSettings) {
+                        this.pageSettings[settingName[1]] = loadedSettings[key];
+                    }
                 }
             }
             else {
@@ -843,15 +747,109 @@ class UserSettings {
             }
         }
     }
-    // Listens for changes to settings inputs
-    static addSettingsListeners() {
-        $(document).on('change', '.qolsetting', (function () {
-            /*
-             * TODO: handle setting change
-             * will there be a problem for items added after the init cycle? can that even happen?
-             * Make sure it can handle radios too (party style, shelter sprite size)
-             */
+
+    // ** Everything below here is for interfacing with the DOM (show current values, handle changes, etc) ** //
+
+    /*
+     * Listens for changes to settings inputs
+     * Should be called after input elements are added (ex: after html builder, or after modal open, etc)
+     *
+     * All settings inputs should have either the qolsetting class, as well as the following attributes:
+     * data-page: indicator of which set of settings (ex: "QoLHub" for main settings, valid pageSettings key otherwise)
+     * data-key: the actual setting name/key
+     * For example, "hide disliked" party setting should be data-page="QoLMultiuser" data-key="hideDislike"
+     */
+    addSettingsListeners() {
+        const self = this;
+        this.displaySettingsValues();
+        $('.qolsetting').on('change', (function (event) {
+            const settingDetails = self.getSettingDetailsFromTarget(event.target);
+            if(settingDetails) {
+                if(event.target.type=='radio' || event.target.type=='checkbox') {
+                    if(event.target.checked===true || event.target.checked===false) {
+                        settingDetails.settingGroup[settingDetails.settingKey] = event.target.checked;
+                    }
+                    else {
+                        ErrorHandler.error('Invalid radio/checkbox value for '+settingDetails.settingKey+': '+event.target.checked);
+                        console.error(event.target);
+                        return;
+                    }
+                }
+                else {
+                    settingDetails.settingGroup[settingDetails.settingKey] = event.target.value;
+                }
+                self.saveSettings();
+            }
         }));
+    }
+    // helper for addSettingsListeners, this ensures that inputs have the existing value shown
+    displaySettingsValues() {
+        const self = this;
+        $('.qolsetting').each(function(){
+            const settingDetails = self.getSettingDetailsFromTarget(this);
+            if(settingDetails) {
+                if(this.type=='radio' ||this.type=='checkbox') {
+                    this.checked = settingDetails.settingGroup[settingDetails.settingKey];
+                }
+                else {
+                    this.value = settingDetails.settingGroup[settingDetails.settingKey];
+                }
+            }
+            // special case for custom css
+            if(this.id=='qolcustomcss' && this.value.trim()=='') {
+                this.value = Resources.DEMO_CSS;
+            }
+        });
+    }
+    /*
+     * get the specific setting a given input is targetting
+     * return value: null if error, [setting name, setting group] otherwise
+     */
+    getSettingDetailsFromTarget(target) {
+        const page = target.getAttribute('data-page');
+        const settingKey = target.getAttribute('data-key');
+        const manager = target.getAttribute('data-manager');
+        if(page && settingKey) {
+            let settingGroup;
+            // this is a main setting
+            if(page=='QoLHub') {
+                settingGroup = this.mainSettings;
+                if(manager) {
+                    // if this is a managed setting, map it to the sub-setting group
+                    if(manager in UserSettings.LINKED_SETTINGS) {
+                        settingGroup = this.mainSettings[UserSettings.LINKED_SETTINGS[manager]];
+                    }
+                    else {
+                        ErrorHandler.error('Unknown QoL setting manager: '+manager);
+                        return null;
+                    }
+                }
+            }
+            // this is a page-specific setting
+            else if(page in self.pageSettings) {
+                settingGroup = this.pageSettings[page];
+            }
+            else {
+                ErrorHandler.error('Unknown QoL page setting key: '+page);
+                return null;
+            }
+            // ensure this is a known setting, and call the appropriate handler
+            if(settingKey in settingGroup) {
+                return {
+                    settingKey: settingKey,
+                    settingGroup: settingGroup
+                };
+            }
+            else {
+                ErrorHandler.error('Unknown QoL setting key: '+settingKey);
+                return null;
+            }
+        }
+        else {
+            ErrorHandler.error('QoL setting could not be identified.');
+            console.error(target);
+            return null;
+        }
     }
 }
 
@@ -870,13 +868,12 @@ class QoLHub {
 
     addQoLIcon() {
         if(document.getElementById('announcements')) {
-            console.log('Adding QoL icon');
-            document.querySelector('#announcements li.spacer').insertAdjacentHTML('beforebegin', Resources.QOL_HUB_ICON_HTML);
             // this cannot go with the other handlers, as those only trigger after modal open
             const self = this;
             $('#qolHubIcon').on('click', (function () {
                 console.log('Opening QoL hub');
                 self.hubModal.open();
+                UserDataHandle.getSettings().addSettingsListeners();
             }));
         }
         else {
@@ -946,14 +943,6 @@ class QoLHub {
             dexUpdateDate = 'Never updated';
         }
         $('#qolDexDate').text(dexUpdateDate);
-
-        const mainSettings = UserDataHandle.getSettings().mainSettings;
-        if('customCss' in mainSettings && mainSettings.customCss.trim() !== ''){
-            $('#qolcustomcss').val(mainSettings.customCss);
-        }
-        else {
-            $('#qolcustomcss').val(Resources.DEMO_CSS);
-        }
     }
 
 } // QoLHub
@@ -1830,22 +1819,29 @@ $(function () {
     ('use strict');
     // script entry point
     try {
+    // add this first, so custom errors have a place to go
+        console.log('Adding QoL icon');
+        document.querySelector('#announcements li.spacer').insertAdjacentHTML('beforebegin', Resources.QOL_HUB_ICON_HTML);
+
         console.log('Loading QoL settings & core CSS');
         const settings = UserDataHandle.getSettings();
         UserDataHandle.getDex(); //pre-load dex
+
+        console.log('Adding QoL CSS');
         Helpers.addGlobalStyle(Resources.CORE_CSS);
         Helpers.addGlobalStyle(Resources.MODAL_CSS);
-        console.log('Adding QoL user CSS');
         if(settings && 'mainSettings' in settings && 'customCss' in settings.mainSettings) {
             Helpers.addGlobalStyle(settings.mainSettings.customCss);
         }
         else {
             ErrorHandler.warn("Could not add user's custom CSS");
         }
+
         console.log('Initializing QoL hub');
         new QoLHub();
         console.log('Initializing QoL page features');
         PagesManager.instantiatePage();
+
         console.log('QoL Running');
     } catch(err) {
         ErrorHandler.fatalErrorHandler(err);

@@ -45,8 +45,7 @@ async function run() {
         const procData = process(data);
         output = output.concat(procData);
     }
-    fs.writeFileSync(resourceDir+'/dex-data.json',JSON.stringify(output),{encoding:'utf8',flag:'w'});
-    // special format for on-site upload
+    // use "jpg" file extension for on-site upload
     fs.writeFileSync(imgDir+'/dex-data.jpg',JSON.stringify(output),{encoding:'utf8',flag:'w'});
     console.log('Done.');
 }

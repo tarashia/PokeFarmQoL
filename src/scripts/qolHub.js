@@ -13,13 +13,12 @@ class QoLHub {
 
     addQoLIcon() {
         if(document.getElementById('announcements')) {
-            console.log('Adding QoL icon');
-            document.querySelector('#announcements li.spacer').insertAdjacentHTML('beforebegin', Resources.QOL_HUB_ICON_HTML);
             // this cannot go with the other handlers, as those only trigger after modal open
             const self = this;
             $('#qolHubIcon').on('click', (function () {
                 console.log('Opening QoL hub');
                 self.hubModal.open();
+                UserDataHandle.getSettings().addSettingsListeners();
             }));
         }
         else {
@@ -85,14 +84,6 @@ class QoLHub {
             dexUpdateDate = 'Never updated';
         }
         $('#qolDexDate').text(dexUpdateDate);
-        
-        let mainSettings = UserDataHandle.getSettings().mainSettings;
-        if('customCss' in mainSettings && mainSettings.customCss.trim() !== ''){
-            $('#qolcustomcss').val(mainSettings.customCss);
-        }
-        else {
-            $('#qolcustomcss').val(Resources.DEMO_CSS);
-        }
     }
 
 } // QoLHub

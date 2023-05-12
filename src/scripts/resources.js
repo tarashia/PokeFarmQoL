@@ -10,7 +10,6 @@ class Resources {
     static NATURE_LIST = "<% src/resources/natures.jsonc %>";
     static REGION_LIST = "<% src/resources/regions.jsonc %>";
     static TYPE_LIST = "<% src/resources/types.jsonc %>";
-    static STATIC_DEX_DATA = "<% src/resources/dex-data.json %>";
     static SHELTER_SEARCH_KEYS = "<% src/resources/shelter-search-keys.jsonc %>";
 
     // CSS files
