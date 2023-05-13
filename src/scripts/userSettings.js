@@ -11,6 +11,7 @@ class UserSettings {
         console.log('Initializing settings');
         this.setDefaults();
         this.loadSettings();
+        this.changeListeners = [];
     }
     // Set the default settings values (does not save to storage)
     // These are used when someone first enables the script, when settings are reset,
@@ -172,11 +173,22 @@ class UserSettings {
     // Change a single setting
     // Note: this effectively re-stores the whole group, due to how settings are stored
     // But it does NOT re-store all settings in all groups
+    // When done, calls any registered listeners, and provides them the change details
     changeSetting(settingGroup, settingName, newValue) {
         console.log('Changing setting: '+settingGroup+'.'+settingName+' = '+newValue);
         if(this[settingGroup]) {
             this[settingGroup][settingName] = newValue;
             LocalStorageManager.setItem(settingGroup, this[settingGroup]);
+            const changeDetails = {
+                settingGroup: settingGroup,
+                settingName: settingName,
+                newValue: newValue
+            };
+            for(let i=0; i<this.changeListeners.length; i++) {
+                if(typeof this.changeListeners[i] == 'function') {
+                    this.changeListeners[i](changeDetails);
+                }
+            }
         }
         else {
             ErrorHandler.error('Cannot change setting in unknown group: '+settingGroup+'.'+settingName);
@@ -214,6 +226,13 @@ class UserSettings {
         }
     }
 
+    // Allows pages to take actions when settings change, without watching inputs directly
+    // (inputs should not be watched directly, since those events may get cleared in addSettingsListeners())
+    // callbacks may include change details as their parameter - see changeSetting
+    registerChangeListener(callback) {
+        this.changeListeners.push(callback);
+    }
+
     // ** Everything below here is for interfacing with the DOM (show current values, handle changes, etc) ** //
 
     // Get details about a setting from a DOM setting input
@@ -237,7 +256,11 @@ class UserSettings {
             // try to read the value of the DOM input
             let inputValue;
             if(target.type=='radio') {
-                inputValue = document.querySelector('input[name="'+target.getAttribute('name')+'"]:checked').value;
+                let element = document.querySelector('input[name="'+target.getAttribute('name')+'"]:checked');
+                // there may not be a checked radio yet, especially when this is being used in displaySettingsValues
+                if(element) {
+                    inputValue = element.value;
+                }
             }
             else if(target.type=='checkbox') {
                 inputValue = target.checked;
@@ -263,6 +286,8 @@ class UserSettings {
     addSettingsListeners() {
         const self = this;
         this.displaySettingsValues();
+        // remove any existing listeners
+        $('.qolsetting').off('change');
         $('.qolsetting').on('change', (function (event) {
             let settingDetails = self.getSettingDetailsFromTarget(event.target);
             if(settingDetails) {

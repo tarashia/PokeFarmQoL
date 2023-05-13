@@ -19,8 +19,8 @@ class ShelterPage extends Page {
     }
 
     setupHTML() {
-        const mainSettings = UserDataHandle.getSettings().mainSettings;
-        if(mainSettings.shelterFeatureEnables.search) {
+        const QoLSettings = UserDataHandle.getSettings().QoLSettings;
+        if(QoLSettings.shelterFeatureEnables.search) {
             $('.tabbed_interface.horizontal>div').removeClass('tab-active');
             $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
@@ -28,12 +28,12 @@ class ShelterPage extends Page {
             $('#shelteroptionsqol').addClass('tab-active');
             //this.showSearchSettings();
         }
-        if(mainSettings.shelterFeatureEnables.sort) {
+        if(QoLSettings.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterSortHTML());
             this.handleSortSettings();
         }
-        if(mainSettings.shelterFeatureEnables.search || mainSettings.shelterFeatureEnables.sort) {
+        if(QoLSettings.shelterFeatureEnables.search || QoLSettings.shelterFeatureEnables.sort) {
             const shelterSuccessCss = $('#sheltercommands').css('background-color');
             $('#sheltersuccess').css('background-color', shelterSuccessCss);
             $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));

@@ -66,7 +66,7 @@ class PagesManager {
             }
             // initialize the page if this is a supported page, and the user has enabled its main setting
             const settings = UserDataHandle.getSettings();
-            if(page && 'setting' in page && settings.mainSettings[page.setting] === true) {
+            if(page && 'setting' in page && settings.QoLSettings[page.setting] === true) {
                 console.log('QoL features enabled for page: '+pageName);
                 return new page.class();
             }

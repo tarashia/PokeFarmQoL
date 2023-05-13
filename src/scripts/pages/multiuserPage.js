@@ -57,7 +57,11 @@ class MultiuserPage extends Page {
                 $('#qolpartymodcustom > div').css('display','block');
             }
         });
-
+        const settings = UserDataHandle.getSettings();
+        settings.addSettingsListeners();
+        settings.registerChangeListener(function() {
+            self.partyModification();
+        });
     }
 
     // changes that all available mods make
@@ -68,8 +72,9 @@ class MultiuserPage extends Page {
     }
 
     partyModification() {
+        console.log('running party mod');
         // get page-specific settings
-        const settings = UserDataHandle.getSettings()['QoLMultiuser'];
+        const partySettings = UserDataHandle.getSettings().QoLMultiuser;
 
         // first, remove any existing selection (all qol classes)
         let classList = document.getElementById('multiuser').className.split(/\s+/);
@@ -86,17 +91,20 @@ class MultiuserPage extends Page {
             btns.css({"top":0,"left":0});
         }
 
-        if (settings.hideDislike === true) {
+        if (partySettings.partyModType == 'hideDislike') {
+            console.log('party mod: hide dislike');
             $('#multiuser').addClass('qolPartyHideDislike');
             this.sharedPartyMods();
         }
 
-        if (settings.niceTable === true) {
+        else if (partySettings.partyModType == 'niceTable') {
+            console.log('party mod: nice table');
             $('#multiuser').addClass('qolPartyNiceTable');
             this.sharedPartyMods();
         }
 
-        if (settings.hideAll === true) {
+        else if (partySettings.partyModType == 'hideAll') {
+            console.log('party mod: hide all');
             $('#multiuser').addClass('qolPartyHideAll');
             this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
@@ -106,7 +114,8 @@ class MultiuserPage extends Page {
             }
         }
 
-        if (settings.customParty === true) {
+        else if (partySettings.partyModType == 'customParty') {
+            console.log('party mod: customize');
             $('#multiuser').addClass('qolPartyCustomParty');
             this.sharedPartyMods();
             $('#qolpartymodcustom').css('display','block');
@@ -121,19 +130,19 @@ class MultiuserPage extends Page {
             }
 
             // hide classes are inverted
-            this.partymodHelper('qolStackNext',settings.stackNextButton === true);
-            this.partymodHelper('qolStackMore',settings.stackMoreButton === true);
-            this.partymodHelper('qolHideParty',settings.showPokemon === false);
-            this.partymodHelper('qolCompactParty',settings.compactPokemon === true);
-            this.partymodHelper('qolHideTrainerCard',settings.showTrainerCard === false);
-            this.partymodHelper('qolHideFieldButton',settings.showFieldButton === false);
-            this.partymodHelper('qolHideModeChecks',settings.showModeChecks === false);
-            this.partymodHelper('qolHideUserName',settings.showUserName === false);
+            this.partymodHelper('qolStackNext',partySettings.stackNextButton === true);
+            this.partymodHelper('qolStackMore',partySettings.stackMoreButton === true);
+            this.partymodHelper('qolHideParty',partySettings.showPokemon === false);
+            this.partymodHelper('qolCompactParty',partySettings.compactPokemon === true);
+            this.partymodHelper('qolHideTrainerCard',partySettings.showTrainerCard === false);
+            this.partymodHelper('qolHideFieldButton',partySettings.showFieldButton === false);
+            this.partymodHelper('qolHideModeChecks',partySettings.showModeChecks === false);
+            this.partymodHelper('qolHideUserName',partySettings.showUserName === false);
 
             // clickable compact pokemon
-            if(settings.showPokemon === true 
-                && settings.compactPokemon === true  
-                && settings.clickablePokemon === true ) 
+            if(partySettings.showPokemon === true 
+                && partySettings.compactPokemon === true  
+                && partySettings.clickablePokemon === true ) 
             {
                 $('.party .pkmn').each(function() {
                     const pkmnID = $(this.parentElement).attr('data-pid');
@@ -142,6 +151,10 @@ class MultiuserPage extends Page {
                     }
                 });
             }
+        }
+        
+        else if (partySettings.partyModType !== 'noMod') {
+            ErrorHandler.warn('Invalid party mod type: '+partySettings.partyModType);
         }
     }
 

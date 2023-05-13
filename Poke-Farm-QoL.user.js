@@ -276,7 +276,7 @@ class Resources {
 
     // HTML files
     static QOL_HUB_HTML = `<p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings. If you need help or have suggestions, please visit the <a href="https://pokefarm.com/forum/thread/193472/Quality-of-Life-changes-UserScript">QoL's main thread</a>.</p><div class="panel"><h3>Main Settings</h3><div id="qolHubSettings"><p><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</p><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="partyMod"> <span>Party click mod</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLShelterFeatures" name="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLShelterFeatures" name="sort"> <span>Advanced Sorting</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="enableDaycare"> <span>Highlight Breeding Matches</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="easyEvolve"> <span>Easy evolving</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="labNotifier"> <span>Lab Notifier</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="dexFilterEnable"> <span>Multiple Types Filtering</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></div></div></div><div class="panel"><h3>Pokédex Settings</h3><div><p>If newly added Pokémon are not matching properly, your dex may be out of date. You can try clearing your cached dex to get the new data. If that doesn't help, the new Pokémon may not have been added yet - please report it in the QoL thread.</p><p>Date last updated: <span id="qolDexDate">[unknown]</span> <button type="button" id="clearCachedDex">Clear Cached Dex</button></p></div></div><div class="panel"><h3>Custom CSS</h3><div><p>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting and skin color vars are not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></p><textarea id="qolcustomcss" rows="15" class="qolsetting" data-group="QoLSettings" name="customCss"></textarea></div></div><div class="panel"><h3>Setting Management</h3><div><p>You can reset some or all of the script settings here. If this script misbehaving after an update, this could help. Caution: You cannot undo this action.</p><p>Reset page settings:<!-- Option values correspond to the setting group keys --> <select id="qolHubResetSettingsSelect"><option value="None">None</option><option value="QoLLab">Lab</option><option value="QoLMultiuser">Multi-user clickback</option><option value="QoLPrivateFields">Private fields</option><option value="QoLPublicFields">Public fields</option><option value="QoLShelter">Shelter</option></select> <button type="button" id="resetPageSettings">Reset Page Settings</button><br><button type="button" id="resetAllSettings">Reset ALL Settings</button></p><div>The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs. <button type="button" id="qolExportSettings">Get settings</button><p></p><div id="qolStorageOutput" class="qolB64Output" style="display: none;"></div><p></p></div></div></div><div class="panel"><h3>Debugging</h3><div><div>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <button type="button" id="qolErrorConsole">View errors</button></div><ul id="qolConsoleContent"></ul></div></div><p style="text-align: right"><button type="button" class="modalClose">Close</button></p>`;
-    static PARTY_MOD_HTML = `<div id="qolpartymod"><label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="noMod">None</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="hideDislike">Hide disliked</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="niceTable">Table view</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="hideAll">Hide all</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="customParty">Customize</label></div><div id="qolpartymodcustom" class="panel accordion" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" name="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" name="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" name="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" name="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" name="clickablePokemon">Clickable pokemon (if compact)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" name="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" name="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" name="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" name="showUserName">Show user name</label></div></div></div>`;
+    static PARTY_MOD_HTML = `<div id="qolpartymod"><label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="noMod">None</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="hideDislike">Hide disliked</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="niceTable">Table view</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="hideAll">Hide all</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="customParty">Customize</label></div><div id="qolpartymodcustom" class="panel accordion" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="clickablePokemon">Clickable pokemon (if compact)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showUserName">Show user name</label></div></div></div>`;
     static QOL_HUB_ICON_HTML = `<li data-name="QoL"><a title="QoL Settings" id="qolHubIcon"><img src="https://pokefarm.com/upload/:b7q/QoL/icon.png" alt="QoL Settings">QoL </a><!-- The QoL hub doesn't exist until opened; store custom errors here initially instead --><ul style="display: none;" id="qolConsoleHolder"></ul></li>`;
     static LAB_OPTIONS_HTML = `<div id="labCustomSearch" class="center"><p class="boldp">Egg type search</p><p>Select which egg types you would like to find in the lab. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="findTypeEgg">Egg types <input type="button" value="Add typesearch" id="addLabTypeList"><div id="labTypes"><div class="0"></div></div><p class="boldp">Egg custom search</p><p>Add the pokemon name or Img code (complete link starting from //pfq..) that you would like to find in the lab in a searchfield. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg <input type="button" value="Add searchfield" id="addLabSearch"><div id="searchkeys"><div class="0"></div></div></div>`;
     static EVOLVE_FAST_HTML = `<ul class="qolEvolveTypeList"><li class="expandlist"><h3 class="slidermenu">Normal</h3><ul class="normal 0 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Fire</h3><ul class="Fire 1 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Water</h3><ul class="Water 2 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Electric</h3><ul class="Electric 3 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Grass</h3><ul class="Grass 4 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Ice</h3><ul class="Ice 5 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Fighting</h3><ul class="Fighting 6 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Poison</h3><ul class="Poison 7 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Ground</h3><ul class="Ground 8 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Flying</h3><ul class="Flying 9 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Psychic</h3><ul class="Psychic 10 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Bug</h3><ul class="Bug 11 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Rock</h3><ul class="Rock 12 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Ghost</h3><ul class="Ghost 13 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Dragon</h3><ul class="Dragon 14 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Dark</h3><ul class="Dark 15 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Steel</h3><ul class="Steel 16 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Fairy</h3><ul class="Fairy 17 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Unknown Types</h3><ul class="Unknown 18 qolChangeLogContent"></ul></li></ul>`;
@@ -538,6 +538,7 @@ class UserSettings {
         console.log('Initializing settings');
         this.setDefaults();
         this.loadSettings();
+        this.changeListeners = [];
     }
     /*
      * Set the default settings values (does not save to storage)
@@ -704,12 +705,23 @@ class UserSettings {
      * Change a single setting
      * Note: this effectively re-stores the whole group, due to how settings are stored
      * But it does NOT re-store all settings in all groups
+     * When done, calls any registered listeners, and provides them the change details
      */
     changeSetting(settingGroup, settingName, newValue) {
         console.log('Changing setting: '+settingGroup+'.'+settingName+' = '+newValue);
         if(this[settingGroup]) {
             this[settingGroup][settingName] = newValue;
             LocalStorageManager.setItem(settingGroup, this[settingGroup]);
+            const changeDetails = {
+                settingGroup: settingGroup,
+                settingName: settingName,
+                newValue: newValue
+            };
+            for(let i=0; i<this.changeListeners.length; i++) {
+                if(typeof this.changeListeners[i] == 'function') {
+                    this.changeListeners[i](changeDetails);
+                }
+            }
         }
         else {
             ErrorHandler.error('Cannot change setting in unknown group: '+settingGroup+'.'+settingName);
@@ -747,6 +759,15 @@ class UserSettings {
         }
     }
 
+    /*
+     * Allows pages to take actions when settings change, without watching inputs directly
+     * (inputs should not be watched directly, since those events may get cleared in addSettingsListeners())
+     * callbacks may include change details as their parameter - see changeSetting
+     */
+    registerChangeListener(callback) {
+        this.changeListeners.push(callback);
+    }
+
     // ** Everything below here is for interfacing with the DOM (show current values, handle changes, etc) ** //
 
     /*
@@ -772,7 +793,11 @@ class UserSettings {
             // try to read the value of the DOM input
             let inputValue;
             if(target.type=='radio') {
-                inputValue = document.querySelector('input[name="'+target.getAttribute('name')+'"]:checked').value;
+                const element = document.querySelector('input[name="'+target.getAttribute('name')+'"]:checked');
+                // there may not be a checked radio yet, especially when this is being used in displaySettingsValues
+                if(element) {
+                    inputValue = element.value;
+                }
             }
             else if(target.type=='checkbox') {
                 inputValue = target.checked;
@@ -800,6 +825,8 @@ class UserSettings {
     addSettingsListeners() {
         const self = this;
         this.displaySettingsValues();
+        // remove any existing listeners
+        $('.qolsetting').off('change');
         $('.qolsetting').on('change', (function (event) {
             const settingDetails = self.getSettingDetailsFromTarget(event.target);
             if(settingDetails) {
@@ -1344,7 +1371,11 @@ class MultiuserPage extends Page {
                 $('#qolpartymodcustom > div').css('display','block');
             }
         });
-
+        const settings = UserDataHandle.getSettings();
+        settings.addSettingsListeners();
+        settings.registerChangeListener(function() {
+            self.partyModification();
+        });
     }
 
     // changes that all available mods make
@@ -1355,8 +1386,9 @@ class MultiuserPage extends Page {
     }
 
     partyModification() {
+        console.log('running party mod');
         // get page-specific settings
-        const settings = UserDataHandle.getSettings()['QoLMultiuser'];
+        const partySettings = UserDataHandle.getSettings().QoLMultiuser;
 
         // first, remove any existing selection (all qol classes)
         const classList = document.getElementById('multiuser').className.split(/\s+/);
@@ -1375,17 +1407,20 @@ class MultiuserPage extends Page {
             });
         }
 
-        if (settings.hideDislike === true) {
+        if (partySettings.partyModType == 'hideDislike') {
+            console.log('party mod: hide dislike');
             $('#multiuser').addClass('qolPartyHideDislike');
             this.sharedPartyMods();
         }
 
-        if (settings.niceTable === true) {
+        else if (partySettings.partyModType == 'niceTable') {
+            console.log('party mod: nice table');
             $('#multiuser').addClass('qolPartyNiceTable');
             this.sharedPartyMods();
         }
 
-        if (settings.hideAll === true) {
+        else if (partySettings.partyModType == 'hideAll') {
+            console.log('party mod: hide all');
             $('#multiuser').addClass('qolPartyHideAll');
             this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
@@ -1395,7 +1430,8 @@ class MultiuserPage extends Page {
             }
         }
 
-        if (settings.customParty === true) {
+        else if (partySettings.partyModType == 'customParty') {
+            console.log('party mod: customize');
             $('#multiuser').addClass('qolPartyCustomParty');
             this.sharedPartyMods();
             $('#qolpartymodcustom').css('display','block');
@@ -1410,19 +1446,19 @@ class MultiuserPage extends Page {
             }
 
             // hide classes are inverted
-            this.partymodHelper('qolStackNext',settings.stackNextButton === true);
-            this.partymodHelper('qolStackMore',settings.stackMoreButton === true);
-            this.partymodHelper('qolHideParty',settings.showPokemon === false);
-            this.partymodHelper('qolCompactParty',settings.compactPokemon === true);
-            this.partymodHelper('qolHideTrainerCard',settings.showTrainerCard === false);
-            this.partymodHelper('qolHideFieldButton',settings.showFieldButton === false);
-            this.partymodHelper('qolHideModeChecks',settings.showModeChecks === false);
-            this.partymodHelper('qolHideUserName',settings.showUserName === false);
+            this.partymodHelper('qolStackNext',partySettings.stackNextButton === true);
+            this.partymodHelper('qolStackMore',partySettings.stackMoreButton === true);
+            this.partymodHelper('qolHideParty',partySettings.showPokemon === false);
+            this.partymodHelper('qolCompactParty',partySettings.compactPokemon === true);
+            this.partymodHelper('qolHideTrainerCard',partySettings.showTrainerCard === false);
+            this.partymodHelper('qolHideFieldButton',partySettings.showFieldButton === false);
+            this.partymodHelper('qolHideModeChecks',partySettings.showModeChecks === false);
+            this.partymodHelper('qolHideUserName',partySettings.showUserName === false);
 
             // clickable compact pokemon
-            if(settings.showPokemon === true
-                && settings.compactPokemon === true
-                && settings.clickablePokemon === true )
+            if(partySettings.showPokemon === true
+                && partySettings.compactPokemon === true
+                && partySettings.clickablePokemon === true )
             {
                 $('.party .pkmn').each(function() {
                     const pkmnID = $(this.parentElement).attr('data-pid');
@@ -1431,6 +1467,10 @@ class MultiuserPage extends Page {
                     }
                 });
             }
+        }
+
+        else if (partySettings.partyModType !== 'noMod') {
+            ErrorHandler.warn('Invalid party mod type: '+partySettings.partyModType);
         }
     }
 
@@ -1479,8 +1519,8 @@ class ShelterPage extends Page {
     }
 
     setupHTML() {
-        const mainSettings = UserDataHandle.getSettings().mainSettings;
-        if(mainSettings.shelterFeatureEnables.search) {
+        const QoLSettings = UserDataHandle.getSettings().QoLSettings;
+        if(QoLSettings.shelterFeatureEnables.search) {
             $('.tabbed_interface.horizontal>div').removeClass('tab-active');
             $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
@@ -1488,12 +1528,12 @@ class ShelterPage extends Page {
             $('#shelteroptionsqol').addClass('tab-active');
             //this.showSearchSettings();
         }
-        if(mainSettings.shelterFeatureEnables.sort) {
+        if(QoLSettings.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterSortHTML());
             this.handleSortSettings();
         }
-        if(mainSettings.shelterFeatureEnables.search || mainSettings.shelterFeatureEnables.sort) {
+        if(QoLSettings.shelterFeatureEnables.search || QoLSettings.shelterFeatureEnables.sort) {
             const shelterSuccessCss = $('#sheltercommands').css('background-color');
             $('#sheltersuccess').css('background-color', shelterSuccessCss);
             $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
@@ -1771,7 +1811,7 @@ class PagesManager {
             }
             // initialize the page if this is a supported page, and the user has enabled its main setting
             const settings = UserDataHandle.getSettings();
-            if(page && 'setting' in page && settings.mainSettings[page.setting] === true) {
+            if(page && 'setting' in page && settings.QoLSettings[page.setting] === true) {
                 console.log('QoL features enabled for page: '+pageName);
                 return new page.class();
             }
