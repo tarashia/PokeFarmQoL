@@ -56,7 +56,7 @@ class QoLHub {
         }));
 
         // storage/settings loggers
-        $('#qolStorageLog').on('click', (function() {
+        $('#qolExportSettings').on('click', (function() {
             let storedSettings = LocalStorageManager.getAllQoLSettings();
             console.log(storedSettings);
             // TODO: get relevant browser/screen size data, add to object?
@@ -66,12 +66,6 @@ class QoLHub {
             // output to hub to user can copy/paste it
             $('#qolStorageOutput').text(output);
             $('#qolStorageOutput').css('display','block');
-        }));
-        $(document).on('click', '#qolLogPlusDex', (function() {
-            // console-only version of above that also includes dex data
-            // stringifies output to make sure it doesn't get changed later
-            let storedSettings = LocalStorageManager.getAllQoLSettings(true);
-            console.log(JSON.stringify(storedSettings));
         }));
     }
 

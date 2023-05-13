@@ -80,6 +80,7 @@ class UserSettings {
                     break;
                 case 'QoLMultiuser':
                     this.QoLMultiuser ={
+                        partyModType: 'noMod',
                         hideDislike: false,
                         hideAll: false,
                         niceTable: false,
@@ -218,11 +219,11 @@ class UserSettings {
     // Get details about a setting from a DOM setting input
     // All settings inputs should have the qolsetting class, as well as the following attributes:
     // data-group: indicator of which set of settings (ex: "QoLSettings" for main settings)
-    // data-key: the actual setting name/key
-    // For example, "hide disliked" party setting should be data-group="QoLMultiuser" data-key="hideDislike"
+    // name: the actual setting name/key
+    // For example, "hide disliked" party setting should be data-group="QoLMultiuser" name="hideDislike"
     getSettingDetailsFromTarget(target) {
         const settingGroup = target.getAttribute('data-group');
-        const settingName = target.getAttribute('data-key');
+        const settingName = target.getAttribute('name');
         if(settingGroup && settingName) {
             // try to read the setting from the active settings object
             let settingValue;
