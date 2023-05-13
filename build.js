@@ -96,6 +96,7 @@ async function runBuild() {
     await addScriptHeader();
     const checksum = await getChecksum(outputPath, 'md5');
     console.log('Done! New checksum: '+checksum);
+    console.log('Note: If lint found errors, add 13 to the line numbers (length of script header)');
 }
 
 async function addScriptHeader() {

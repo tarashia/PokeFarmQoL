@@ -4,6 +4,8 @@
 //                      true if loading is in progress, false if loading has completed
 //                      use === to evaluate the value, to ensure false vs undefined
 class UserPokedex {
+    static DEX_DATA_KEY = 'QoLPokedex';
+
     constructor() {
         console.log('Initializing dex');
         this.loadDex();
@@ -46,7 +48,7 @@ class UserPokedex {
     // Clears any locally stored dex data, and loads the static dex data instead.
     resetDex() {
         ErrorHandler.warn('Cleared dex data');
-        LocalStorageManager.removeItem(LocalStorageManager.DEX_DATA_KEY);
+        LocalStorageManager.removeItem(UserPokedex.DEX_DATA_KEY);
         this.DEX_UPDATE_DATE = undefined;
         this.DEX_LOADING = undefined;
         this.DEX_DATA = undefined;

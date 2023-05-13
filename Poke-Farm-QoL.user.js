@@ -6,7 +6,7 @@
 // @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      2.0.0-435888
+// @version      2.0.0
 // @match        https://pokefarm.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // ==/UserScript==
@@ -124,25 +124,13 @@ class Helpers {
 }
 
 class LocalStorageManager {
-
-    static MAIN_SETTINGS_KEY = 'QoLSettings';
-    static PAGE_SETTINGS_KEYS  = [
-        'QoLLab',
-        'QoLMultiuser',
-        'QoLPrivateFields',
-        'QoLPublicFields',
-        'QoLShelter'
-    ];
-    static DEX_DATA_KEY = 'QoLPokedex';
-    // see keys in UserSettings.pageSettings for page-specific storage keys
-
     // Look for settings that contain QoL and return them as an array of keys
     static getAllQoLSettings(includeDex=false) {
         const qolSettings = {};
         for (let i = 0, len = localStorage.length; i < len; ++i) {
             const key = localStorage.key(i);
             // the dex is the largest data element by far; allow excluding it
-            if(key && key.includes('QoL') && (includeDex || !key.includes(LocalStorageManager.DEX_DATA_KEY))) {
+            if(key && key.includes('QoL') && (includeDex || !key.includes(UserPokedex.DEX_DATA_KEY))) {
                 qolSettings[key] = localStorage.getItem(key);
             }
         }
@@ -194,7 +182,7 @@ class LocalStorageManager {
     }
 
     static getDexFromStorage() {
-        const tKey = LocalStorageManager.translateKey(LocalStorageManager.DEX_DATA_KEY);
+        const tKey = LocalStorageManager.translateKey(UserPokedex.DEX_DATA_KEY);
         if(!tKey) {
             return false;
         }
@@ -213,7 +201,7 @@ class LocalStorageManager {
     }
 
     static updateLocalStorageDex(DEX_DATA, dateString) {
-        LocalStorageManager.setItem(LocalStorageManager.DEX_DATA_KEY, [dateString, DEX_DATA]);
+        LocalStorageManager.setItem(UserPokedex.DEX_DATA_KEY, [dateString, DEX_DATA]);
     }
 }
 
@@ -287,7 +275,7 @@ class Resources {
     static DEMO_CSS = '#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}';
 
     // HTML files
-    static QOL_HUB_HTML = `<p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings. If you need help or have suggestions, please visit the <a href="https://pokefarm.com/forum/thread/193472/Quality-of-Life-changes-UserScript">QoL's main thread</a>.</p><div class="panel"><h3>Main Settings</h3><div id="qolHubSettings"><p><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</p><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="partyMod"> <span>Party click mod</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="shelterEnable" data-key="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="shelterEnable" data-key="sort"> <span>Advanced Sorting</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="publicFieldEnable" data-key="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="publicFieldEnable" data-key="sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="publicFieldEnable" data-key="tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="publicFieldEnable" data-key="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="privateFieldEnable" data-key="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="privateFieldEnable" data-key="release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="privateFieldEnable" data-key="tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-manager="privateFieldEnable" data-key="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="easyEvolve"> <span>Easy evolving</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="labNotifier"> <span>Lab Notifier</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></div><div><label><input type="checkbox" class="qolsetting" data-page="QoLHub" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></div></div></div><div class="panel"><h3>Pokédex Settings</h3><div><p>If newly added Pokémon are not matching properly, your dex may be out of date. You can try clearing your cached dex to get the new data. If that doesn't help, the new Pokémon may not have been added yet - please report it in the QoL thread.</p><p>Date last updated: <span id="qolDexDate">[unknown]</span> <button type="button" id="clearCachedDex">Clear Cached Dex</button></p></div></div><div class="panel"><h3>Custom CSS</h3><div><p>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting and skin color vars are not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></p><textarea id="qolcustomcss" rows="15" class="qolsetting" data-page="QoLHub" data-key="customCss"></textarea></div></div><div class="panel"><h3>Debugging</h3><div><p>You can reset some or all of the script settings here. If this script misbehaving after an update, this could help. Caution: You cannot undo this action.</p><p>Reset page settings:<!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" id="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option></select> <button type="button" id="resetPageSettings">Reset Page Settings</button> <button type="button" id="resetAllSettings">Reset ALL Settings</button></p><div><p>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <button type="button" id="qolErrorConsole">View errors</button></p><ul id="qolConsoleContent"></ul></div><div>The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs. <button type="button" id="qolStorageLog">Get settings</button><p></p><div id="qolStorageOutput" class="qolB64Output" style="display: none;"></div><p></p>Advanced: <button type="button" id="qolLogPlusDex">Log settings & dex to console</button></div></div></div><p style="text-align: right"><button type="button" class="modalClose">Close</button></p>`;
+    static QOL_HUB_HTML = `<p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings. If you need help or have suggestions, please visit the <a href="https://pokefarm.com/forum/thread/193472/Quality-of-Life-changes-UserScript">QoL's main thread</a>.</p><div class="panel"><h3>Main Settings</h3><div id="qolHubSettings"><p><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</p><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="partyMod"> <span>Party click mod</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLShelterFeatures" data-key="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLShelterFeatures" data-key="sort"> <span>Advanced Sorting</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" data-key="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" data-key="sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" data-key="tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" data-key="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" data-key="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" data-key="release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" data-key="tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" data-key="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="easyEvolve"> <span>Easy evolving</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="labNotifier"> <span>Lab Notifier</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></div></div></div><div class="panel"><h3>Pokédex Settings</h3><div><p>If newly added Pokémon are not matching properly, your dex may be out of date. You can try clearing your cached dex to get the new data. If that doesn't help, the new Pokémon may not have been added yet - please report it in the QoL thread.</p><p>Date last updated: <span id="qolDexDate">[unknown]</span> <button type="button" id="clearCachedDex">Clear Cached Dex</button></p></div></div><div class="panel"><h3>Custom CSS</h3><div><p>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting and skin color vars are not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></p><textarea id="qolcustomcss" rows="15" class="qolsetting" data-group="QoLSettings" data-key="customCss"></textarea></div></div><div class="panel"><h3>Debugging</h3><div><p>You can reset some or all of the script settings here. If this script misbehaving after an update, this could help. Caution: You cannot undo this action.</p><p>Reset page settings:<!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" id="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option><option value="QoLLab">Lab</option><option value="QoLMultiuser">Multi-user clickback</option><option value="QoLPrivateFields">Private fields</option><option value="QoLPublicFields">Public fields</option><option value="QoLShelter">Shelter</option></select> <button type="button" id="resetPageSettings">Reset Page Settings</button> <button type="button" id="resetAllSettings">Reset ALL Settings</button></p><div><p>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <button type="button" id="qolErrorConsole">View errors</button></p><ul id="qolConsoleContent"></ul></div><div>The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs. <button type="button" id="qolStorageLog">Get settings</button><p></p><div id="qolStorageOutput" class="qolB64Output" style="display: none;"></div><p></p>Advanced: <button type="button" id="qolLogPlusDex">Log settings & dex to console</button></div></div></div><p style="text-align: right"><button type="button" class="modalClose">Close</button></p>`;
     static PARTY_MOD_HTML = `<div id="qolpartymod"><label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="noMod">None</label> <label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="hideDislike">Hide disliked</label> <label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="niceTable">Table view</label> <label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="hideAll">Hide all</label> <label><input type="radio" class="qolsetting" name="partyModType" data-key="partyModType" value="customParty">Customize</label></div><div id="qolpartymodcustom" class="panel accordion" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="clickablePokemon">Clickable pokemon (if compact)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showUserName">Show user name</label></div></div></div>`;
     static QOL_HUB_ICON_HTML = `<li data-name="QoL"><a title="QoL Settings" id="qolHubIcon"><img src="https://pokefarm.com/upload/:b7q/QoL/icon.png" alt="QoL Settings">QoL </a><!-- The QoL hub doesn't exist until opened; store custom errors here initially instead --><ul style="display: none;" id="qolConsoleHolder"></ul></li>`;
     static LAB_OPTIONS_HTML = `<div id="labCustomSearch" class="center"><p class="boldp">Egg type search</p><p>Select which egg types you would like to find in the lab. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="findTypeEgg">Egg types <input type="button" value="Add typesearch" id="addLabTypeList"><div id="labTypes"><div class="0"></div></div><p class="boldp">Egg custom search</p><p>Add the pokemon name or Img code (complete link starting from //pfq..) that you would like to find in the lab in a searchfield. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg <input type="button" value="Add searchfield" id="addLabSearch"><div id="searchkeys"><div class="0"></div></div></div>`;
@@ -436,6 +424,8 @@ const UserDataHandle = (function () {
  *                      use === to evaluate the value, to ensure false vs undefined
  */
 class UserPokedex {
+    static DEX_DATA_KEY = 'QoLPokedex';
+
     constructor() {
         console.log('Initializing dex');
         this.loadDex();
@@ -480,7 +470,7 @@ class UserPokedex {
     // Clears any locally stored dex data, and loads the static dex data instead.
     resetDex() {
         ErrorHandler.warn('Cleared dex data');
-        LocalStorageManager.removeItem(LocalStorageManager.DEX_DATA_KEY);
+        LocalStorageManager.removeItem(UserPokedex.DEX_DATA_KEY);
         this.DEX_UPDATE_DATE = undefined;
         this.DEX_LOADING = undefined;
         this.DEX_DATA = undefined;
@@ -538,29 +528,24 @@ class UserPokedex {
  * Always call UserDataHandle.getSettings();
  */
 class UserSettings {
-
-    /*
-     * used to tie "global" enable settings in USER_SETTINGS to the more
-     * granular settings that are related to the same page
-     */
-    static LINKED_SETTINGS = {
-        'shelterEnable': 'shelterFeatureEnables',
-        'publicFieldEnable': 'publicFieldFeatureEnables',
-        'privateFieldEnable': 'privateFieldFeatureEnables'
+    static LINKED_SETTINGS_KEYS = {
+        'shelterEnable': 'QoLShelterFeatures',
+        'publicFieldEnable': 'QoLPublicFieldFeatures',
+        'privateFieldEnable': 'QoLPrivateFieldFeatures'
     };
-
-    mainSettings = {};
-    pageSettings = {};
 
     constructor() {
         console.log('Initializing settings');
         this.setDefaults();
         this.loadSettings();
     }
-    // Set the default settings values (does not save to storage)
+    /*
+     * Set the default settings values (does not save to storage)
+     * These are used when someone first enables the script, when settings are reset,
+     * or when a new setting is added that the user doesn't have already in storage
+     */
     setDefaults() {
-        // default settings when the script gets loaded the first time
-        this.mainSettings = {
+        this.QoLSettings = {
             customCss : '',
             enableDaycare : true,
             shelterEnable : true,
@@ -573,43 +558,51 @@ class UserSettings {
             dexFilterEnable : true,
             condenseWishforge : true,
             interactionsEnable : true,
-            summaryEnable : true,
-            shelterFeatureEnables : {
-                search: true,
-                sort: true,
-            },
-            publicFieldFeatureEnables : {
-                search: true,
-                sort: true,
-                release: true,
-                tooltip: true,
-                pkmnlinks: true
-            },
-            privateFieldFeatureEnables : {
-                search: true,
-                release: true,
-                tooltip: true,
-                pkmnlinks: true
-            }
+            summaryEnable : true
+        };
+        this.QoLShelterFeatures = {
+            search: true,
+            sort: true,
+        };
+        this.QoLPublicFieldFeatures = {
+            search: true,
+            sort: true,
+            release: true,
+            tooltip: true,
+            pkmnlinks: true
+        };
+        this.QoLPrivateFieldFeatures = {
+            search: true,
+            release: true,
+            tooltip: true,
+            pkmnlinks: true
         };
         this.setPageDefaults('ALL');
     }
     /*
      * Page should be a valid local storage key, starting with QoL
      * When "ALL", all page defaults are set
+     * Set commit to true to also save the settings to storage
      */
-    setPageDefaults(page) {
+    setPageDefaults(page, commit=false) {
         let pageList = [];
         if(page==='ALL') {
-            pageList = LocalStorageManager.PAGE_SETTINGS_KEYS;
+            pageList = [
+                'QoLLab',
+                'QoLMultiuser',
+                'QoLPrivateFields',
+                'QoLPublicFields',
+                'QoLShelter'
+            ];
         }
         else {
             pageList.push(page);
         }
         for(let i=0; i<pageList.length; i++) {
+            let error = false;
             switch(pageList[i]) {
             case 'QoLLab':
-                this.pageSettings.QoLLab = {
+                this.QoLLab = {
                     findLabEgg: '',
                     customEgg: true,
                     findLabType: '',
@@ -617,7 +610,7 @@ class UserSettings {
                 };
                 break;
             case 'QoLMultiuser':
-                this.pageSettings.QoLMultiuser ={
+                this.QoLMultiuser ={
                     hideDislike: false,
                     hideAll: false,
                     niceTable: false,
@@ -634,13 +627,13 @@ class UserSettings {
                 };
                 break;
             case 'QoLPrivateFields':
-                this.pageSettings.QoLPrivateFields = this.fieldDefaults(false);
+                this.QoLPrivateFields = this.fieldDefaults(false);
                 break;
             case 'QoLPublicFields':
-                this.pageSettings.QoLPublicFields = this.fieldDefaults(true);
+                this.QoLPublicFields = this.fieldDefaults(true);
                 break;
             case 'QoLShelter':
-                this.pageSettings.QoLShelter = {
+                this.QoLShelter = {
                     findNewEgg: true,
                     findNewPokemon: true,
                     findShiny: true,
@@ -663,6 +656,10 @@ class UserSettings {
                 break;
             default:
                 ErrorHandler.warn('Cannot set page defaults for unknown page: '+pageList[i]);
+                error = true;
+            }
+            if(commit && !error) {
+                LocalStorageManager.setItem(pageList[i], this[pageList[i]]);
             }
         }
     }
@@ -702,48 +699,49 @@ class UserSettings {
             fieldSettings.fieldClickCount = true;
         }
     }
-    // Saves all settings in the UserSettings object to local storage
-    saveSettings() {
-        // Main settings
-        LocalStorageManager.setItem(LocalStorageManager.MAIN_SETTINGS_KEY, this.mainSettings);
-        // Page settings
-        for(const pageKey in this.pageSettings) {
-            LocalStorageManager.setItem(pageKey, this.pageSettings[pageKey]);
+    /*
+     * Change a single setting
+     * Note: this effectively re-stores the whole group, due to how settings are stored
+     * But it does NOT re-store all settings in all groups
+     */
+    changeSetting(settingGroup, settingName, newValue) {
+        console.log('Changing setting: '+settingGroup+'.'+settingName+' = '+newValue);
+        if(this[settingGroup]) {
+            this[settingGroup][settingName] = newValue;
+            LocalStorageManager.setItem(settingGroup, this[settingGroup]);
+        }
+        else {
+            ErrorHandler.error('Cannot change setting in unknown group: '+settingGroup+'.'+settingName);
         }
     }
     // Loads all settings in storage into the UserSettings object
     loadSettings() {
+        console.log('Loading settings from storage');
         const storedSettings = LocalStorageManager.getAllQoLSettings();
         for(const settingKey in storedSettings) {
             // remove user ID from setting
-            const settingName = settingKey.split('.');
-            if(settingName.length == 2) {
+            let settingGroup = settingKey.split('.');
+            if(settingGroup.length == 2) {
+                // Try to read the JSON recieved from storage (use full key with user id, not just name)
                 let loadedSettings = {};
                 try {
                     loadedSettings = JSON.parse(storedSettings[settingKey]);
                 } catch(e) {
-                    ErrorHandler.error('Could not parse stored settings for key '+settingKey+': '+storedSettings[settingKey],e);
+                    ErrorHandler.error('Could not parse stored settings for '+settingGroup+': '+storedSettings[settingKey],e);
                 }
-                // Check if this is the main settings object
-                if(settingName[1] == LocalStorageManager.MAIN_SETTINGS_KEY) {
-                    /*
-                     * don't just replace the whole settings object, don't want to overwrite missing setting defaults
-                     * TODO: do sub-options work?
-                     */
-                    for(const key in loadedSettings) {
-                        this.mainSettings[settingName[1]] = loadedSettings[key];
+                // For convenience, replace with the setting name string
+                settingGroup = settingGroup[1];
+                if(this[settingGroup] != undefined) {
+                    for(const settingName in loadedSettings) {
+                        this[settingGroup][settingName] = loadedSettings[settingName];
                     }
                 }
-                // Otherwise it's a page's settings
                 else {
-                    // don't just replace the whole settings object, don't want to overwrite missing setting defaults
-                    for(const key in loadedSettings) {
-                        this.pageSettings[settingName[1]] = loadedSettings[key];
-                    }
+                    ErrorHandler.warn('Loaded unknown setting group: '+settingGroup);
                 }
             }
             else {
-                ErrorHandler.warn('Invalid setting: '+settingKey);
+                ErrorHandler.warn('Invalid setting key: '+settingKey);
             }
         }
     }
@@ -751,13 +749,52 @@ class UserSettings {
     // ** Everything below here is for interfacing with the DOM (show current values, handle changes, etc) ** //
 
     /*
+     * Get details about a setting from a DOM setting input
+     * All settings inputs should have the qolsetting class, as well as the following attributes:
+     * data-group: indicator of which set of settings (ex: "QoLSettings" for main settings)
+     * data-key: the actual setting name/key
+     * For example, "hide disliked" party setting should be data-group="QoLMultiuser" data-key="hideDislike"
+     */
+    getSettingDetailsFromTarget(target) {
+        const settingGroup = target.getAttribute('data-group');
+        const settingName = target.getAttribute('data-key');
+        if(settingGroup && settingName) {
+            // try to read the setting from the active settings object
+            let settingValue;
+            if(this[settingGroup] && settingName in this[settingGroup]) {
+                settingValue = this[settingGroup][settingName];
+            }
+            else {
+                ErrorHandler.warn('Unrecognized setting input: '+settingGroup+'.'+settingName);
+                console.warn(target);
+            }
+            // try to read the value of the DOM input
+            let inputValue;
+            if(target.type=='radio') {
+                inputValue = document.querySelector('input[name="'+target.getAttribute('name')+'"]:checked').value;
+            }
+            else if(target.type=='checkbox') {
+                inputValue = target.checked;
+            }
+            else { // textbox dropdown etc
+                inputValue = target.value;
+            }
+            return {
+                settingGroup: settingGroup,
+                settingName: settingName,
+                settingValue: settingValue,
+                inputValue: inputValue
+            };
+        }
+        else {
+            ErrorHandler.error('QoL setting could not be identified.');
+            console.error(target);
+            return null;
+        }
+    }
+    /*
      * Listens for changes to settings inputs
      * Should be called after input elements are added (ex: after html builder, or after modal open, etc)
-     *
-     * All settings inputs should have either the qolsetting class, as well as the following attributes:
-     * data-page: indicator of which set of settings (ex: "QoLHub" for main settings, valid pageSettings key otherwise)
-     * data-key: the actual setting name/key
-     * For example, "hide disliked" party setting should be data-page="QoLMultiuser" data-key="hideDislike"
      */
     addSettingsListeners() {
         const self = this;
@@ -765,20 +802,7 @@ class UserSettings {
         $('.qolsetting').on('change', (function (event) {
             const settingDetails = self.getSettingDetailsFromTarget(event.target);
             if(settingDetails) {
-                if(event.target.type=='radio' || event.target.type=='checkbox') {
-                    if(event.target.checked===true || event.target.checked===false) {
-                        settingDetails.settingGroup[settingDetails.settingKey] = event.target.checked;
-                    }
-                    else {
-                        ErrorHandler.error('Invalid radio/checkbox value for '+settingDetails.settingKey+': '+event.target.checked);
-                        console.error(event.target);
-                        return;
-                    }
-                }
-                else {
-                    settingDetails.settingGroup[settingDetails.settingKey] = event.target.value;
-                }
-                self.saveSettings();
+                self.changeSetting(settingDetails.settingGroup, settingDetails.settingName, settingDetails.inputValue);
             }
         }));
     }
@@ -788,68 +812,22 @@ class UserSettings {
         $('.qolsetting').each(function(){
             const settingDetails = self.getSettingDetailsFromTarget(this);
             if(settingDetails) {
-                if(this.type=='radio' ||this.type=='checkbox') {
-                    this.checked = settingDetails.settingGroup[settingDetails.settingKey];
+                if(this.type=='radio') {
+                    // if the value matches, this is the currently selected radio
+                    this.checked = this.value==settingDetails.settingValue;
+                }
+                else if(this.type=='checkbox') {
+                    this.checked = settingDetails.settingValue;
                 }
                 else {
-                    this.value = settingDetails.settingGroup[settingDetails.settingKey];
+                    this.value = settingDetails.settingValue;
                 }
             }
-            // special case for custom css
+            // special case for custom css textbox demo value
             if(this.id=='qolcustomcss' && this.value.trim()=='') {
                 this.value = Resources.DEMO_CSS;
             }
         });
-    }
-    /*
-     * get the specific setting a given input is targetting
-     * return value: null if error, [setting name, setting group] otherwise
-     */
-    getSettingDetailsFromTarget(target) {
-        const page = target.getAttribute('data-page');
-        const settingKey = target.getAttribute('data-key');
-        const manager = target.getAttribute('data-manager');
-        if(page && settingKey) {
-            let settingGroup;
-            // this is a main setting
-            if(page=='QoLHub') {
-                settingGroup = this.mainSettings;
-                if(manager) {
-                    // if this is a managed setting, map it to the sub-setting group
-                    if(manager in UserSettings.LINKED_SETTINGS) {
-                        settingGroup = this.mainSettings[UserSettings.LINKED_SETTINGS[manager]];
-                    }
-                    else {
-                        ErrorHandler.error('Unknown QoL setting manager: '+manager);
-                        return null;
-                    }
-                }
-            }
-            // this is a page-specific setting
-            else if(page in self.pageSettings) {
-                settingGroup = this.pageSettings[page];
-            }
-            else {
-                ErrorHandler.error('Unknown QoL page setting key: '+page);
-                return null;
-            }
-            // ensure this is a known setting, and call the appropriate handler
-            if(settingKey in settingGroup) {
-                return {
-                    settingKey: settingKey,
-                    settingGroup: settingGroup
-                };
-            }
-            else {
-                ErrorHandler.error('Unknown QoL setting key: '+settingKey);
-                return null;
-            }
-        }
-        else {
-            ErrorHandler.error('QoL setting could not be identified.');
-            console.error(target);
-            return null;
-        }
     }
 }
 
@@ -884,9 +862,8 @@ class QoLHub {
 
     static setupHandlers() {
         // reset settings handlers
-        $('#resetPageSettings').on('click', (function (e) {
-            console.log('TODO reset page settings');
-            console.log(e);
+        $('#resetPageSettings').on('click', (function (event) {
+            UserDataHandle.getSettings().setPageDefaults(event.target.value,true);
         }));
         $('#resetAllSettings').on('click', (function () {
             if(window.confirm('Are you sure? All settings, including your custom CSS, will be reset.')) {
@@ -1386,7 +1363,7 @@ class MultiuserPage extends Page {
 
     partyModification() {
         // get page-specific settings
-        const settings = UserDataHandle.getSettings().pageSettings['QoLMultiuser'];
+        const settings = UserDataHandle.getSettings()['QoLMultiuser'];
 
         // first, remove any existing selection (all qol classes)
         const classList = document.getElementById('multiuser').className.split(/\s+/);
@@ -1551,7 +1528,7 @@ class ShelterPage extends Page {
     }
 
     handleSortSettings() {
-        const shelterSettings = UserDataHandle.getSettings().pageSettings['QoLShelter'];
+        const shelterSettings = UserDataHandle.getSettings()['QoLShelter'];
         //sort in grid
         $('#shelterarea').removeClass('qolshelterareagrid');
 
@@ -1830,11 +1807,10 @@ $(function () {
         console.log('Adding QoL CSS');
         Helpers.addGlobalStyle(Resources.CORE_CSS);
         Helpers.addGlobalStyle(Resources.MODAL_CSS);
-        if(settings && 'mainSettings' in settings && 'customCss' in settings.mainSettings) {
-            Helpers.addGlobalStyle(settings.mainSettings.customCss);
-        }
-        else {
-            ErrorHandler.warn("Could not add user's custom CSS");
+        try {
+            Helpers.addGlobalStyle(settings.QoLSettings.customCss);
+        } catch(e) {
+            ErrorHandler.error("Could not add user's custom CSS",e);
         }
 
         console.log('Initializing QoL hub');

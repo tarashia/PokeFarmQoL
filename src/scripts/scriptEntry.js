@@ -13,11 +13,10 @@ $(function () {
     console.log('Adding QoL CSS');
     Helpers.addGlobalStyle(Resources.CORE_CSS);
     Helpers.addGlobalStyle(Resources.MODAL_CSS);
-    if(settings && 'mainSettings' in settings && 'customCss' in settings.mainSettings) {
-      Helpers.addGlobalStyle(settings.mainSettings.customCss);
-    }
-    else {
-      ErrorHandler.warn("Could not add user's custom CSS");
+    try {
+      Helpers.addGlobalStyle(settings.QoLSettings.customCss);
+    } catch(e) {
+      ErrorHandler.error("Could not add user's custom CSS",e);
     }
 
     console.log('Initializing QoL hub');

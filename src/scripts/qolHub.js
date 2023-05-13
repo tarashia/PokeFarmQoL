@@ -29,9 +29,8 @@ class QoLHub {
 
     static setupHandlers() {
         // reset settings handlers
-        $('#resetPageSettings').on('click', (function (e) {
-            console.log('TODO reset page settings');
-            console.log(e);
+        $('#resetPageSettings').on('click', (function (event) {
+            UserDataHandle.getSettings().setPageDefaults(event.target.value,true);
         }));
         $('#resetAllSettings').on('click', (function () {
             if(window.confirm('Are you sure? All settings, including your custom CSS, will be reset.')) {

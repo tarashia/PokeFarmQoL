@@ -61,7 +61,7 @@ class ShelterPage extends Page {
     }
 
     handleSortSettings() {
-        const shelterSettings = UserDataHandle.getSettings().pageSettings['QoLShelter'];
+        const shelterSettings = UserDataHandle.getSettings()['QoLShelter'];
         //sort in grid
         $('#shelterarea').removeClass('qolshelterareagrid');
 

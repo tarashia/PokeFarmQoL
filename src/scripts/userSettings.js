@@ -1,19 +1,11 @@
 // Do not call this constructor directly to get or create a settings object
 // Always call UserDataHandle.getSettings();
 class UserSettings {
-
-    /*
-     * used to tie "global" enable settings in USER_SETTINGS to the more
-     * granular settings that are related to the same page
-     */
-    static LINKED_SETTINGS = {
-        'shelterEnable': 'shelterFeatureEnables',
-        'publicFieldEnable': 'publicFieldFeatureEnables',
-        'privateFieldEnable': 'privateFieldFeatureEnables'
+    static LINKED_SETTINGS_KEYS = {
+        'shelterEnable': 'QoLShelterFeatures',
+        'publicFieldEnable': 'QoLPublicFieldFeatures',
+        'privateFieldEnable': 'QoLPrivateFieldFeatures'
     };
-
-    mainSettings = {};
-    pageSettings = {};
 
     constructor() {
         console.log('Initializing settings');
@@ -21,9 +13,10 @@ class UserSettings {
         this.loadSettings();
     }
     // Set the default settings values (does not save to storage)
+    // These are used when someone first enables the script, when settings are reset,
+    // or when a new setting is added that the user doesn't have already in storage
     setDefaults() {
-        // default settings when the script gets loaded the first time
-        this.mainSettings = {
+        this.QoLSettings = {
             customCss : '',
             enableDaycare : true,
             shelterEnable : true,
@@ -36,41 +29,49 @@ class UserSettings {
             dexFilterEnable : true,
             condenseWishforge : true,
             interactionsEnable : true,
-            summaryEnable : true,
-            shelterFeatureEnables : {
-                search: true,
-                sort: true,
-            },
-            publicFieldFeatureEnables : {
-                search: true,
-                sort: true,
-                release: true,
-                tooltip: true,
-                pkmnlinks: true
-            },
-            privateFieldFeatureEnables : {
-                search: true,
-                release: true,
-                tooltip: true,
-                pkmnlinks: true
-            }
+            summaryEnable : true
         }
+        this.QoLShelterFeatures = {
+            search: true,
+            sort: true,
+        };
+        this.QoLPublicFieldFeatures = {
+            search: true,
+            sort: true,
+            release: true,
+            tooltip: true,
+            pkmnlinks: true
+        };
+        this.QoLPrivateFieldFeatures = {
+            search: true,
+            release: true,
+            tooltip: true,
+            pkmnlinks: true
+        };
         this.setPageDefaults('ALL');
     }
     // Page should be a valid local storage key, starting with QoL
     // When "ALL", all page defaults are set
-    setPageDefaults(page) {
+    // Set commit to true to also save the settings to storage
+    setPageDefaults(page, commit=false) {
         let pageList = [];
         if(page==='ALL') {
-            pageList = LocalStorageManager.PAGE_SETTINGS_KEYS;
+            pageList = [
+                'QoLLab',
+                'QoLMultiuser',
+                'QoLPrivateFields',
+                'QoLPublicFields',
+                'QoLShelter'
+            ];
         }
         else {
             pageList.push(page);
         }
         for(let i=0; i<pageList.length; i++) {
+            let error = false;
             switch(pageList[i]) {
                 case 'QoLLab':
-                    this.pageSettings.QoLLab = {
+                    this.QoLLab = {
                         findLabEgg: '',
                         customEgg: true,
                         findLabType: '',
@@ -78,7 +79,7 @@ class UserSettings {
                     };
                     break;
                 case 'QoLMultiuser':
-                    this.pageSettings.QoLMultiuser ={
+                    this.QoLMultiuser ={
                         hideDislike: false,
                         hideAll: false,
                         niceTable: false,
@@ -95,13 +96,13 @@ class UserSettings {
                     };
                     break;
                 case 'QoLPrivateFields':
-                    this.pageSettings.QoLPrivateFields = this.fieldDefaults(false);
+                    this.QoLPrivateFields = this.fieldDefaults(false);
                     break;
                 case 'QoLPublicFields':
-                    this.pageSettings.QoLPublicFields = this.fieldDefaults(true);
+                    this.QoLPublicFields = this.fieldDefaults(true);
                     break;
                 case 'QoLShelter':
-                    this.pageSettings.QoLShelter = {
+                    this.QoLShelter = {
                         findNewEgg: true,
                         findNewPokemon: true,
                         findShiny: true,
@@ -124,6 +125,10 @@ class UserSettings {
                     break;
                 default:
                     ErrorHandler.warn('Cannot set page defaults for unknown page: '+pageList[i]);
+                    error = true;
+            }
+            if(commit && !error) {
+                LocalStorageManager.setItem(pageList[i], this[pageList[i]]);
             }
         }
     }
@@ -163,79 +168,104 @@ class UserSettings {
             fieldSettings.fieldClickCount = true;
         }
     }
-    // Saves all settings in the UserSettings object to local storage
-    saveSettings() {
-        // Main settings
-        LocalStorageManager.setItem(LocalStorageManager.MAIN_SETTINGS_KEY, this.mainSettings);
-        // Page settings
-        for(const pageKey in this.pageSettings) {
-            LocalStorageManager.setItem(pageKey, this.pageSettings[pageKey]);
+    // Change a single setting
+    // Note: this effectively re-stores the whole group, due to how settings are stored
+    // But it does NOT re-store all settings in all groups
+    changeSetting(settingGroup, settingName, newValue) {
+        console.log('Changing setting: '+settingGroup+'.'+settingName+' = '+newValue);
+        if(this[settingGroup]) {
+            this[settingGroup][settingName] = newValue;
+            LocalStorageManager.setItem(settingGroup, this[settingGroup]);
+        }
+        else {
+            ErrorHandler.error('Cannot change setting in unknown group: '+settingGroup+'.'+settingName);
         }
     }
     // Loads all settings in storage into the UserSettings object
     loadSettings() {
+        console.log('Loading settings from storage');
         const storedSettings = LocalStorageManager.getAllQoLSettings();
         for(const settingKey in storedSettings) {
             // remove user ID from setting
-            let settingName = settingKey.split('.');
-            if(settingName.length == 2) {
+            let settingGroup = settingKey.split('.');
+            if(settingGroup.length == 2) {
+                // Try to read the JSON recieved from storage (use full key with user id, not just name)
                 let loadedSettings = {}; 
                 try {
                     loadedSettings = JSON.parse(storedSettings[settingKey]);
                 } catch(e) {
-                    ErrorHandler.error('Could not parse stored settings for key '+settingKey+': '+storedSettings[settingKey],e);
+                    ErrorHandler.error('Could not parse stored settings for '+settingGroup+': '+storedSettings[settingKey],e);
                 }
-                // Check if this is the main settings object
-                if(settingName[1] == LocalStorageManager.MAIN_SETTINGS_KEY) {
-                    // don't just replace the whole settings object, don't want to overwrite missing setting defaults
-                    // TODO: do sub-options work?
-                    for(const key in loadedSettings) {
-                        this.mainSettings[settingName[1]] = loadedSettings[key];
+                // For convenience, replace with the setting name string
+                settingGroup = settingGroup[1];
+                if(this[settingGroup] != undefined) {
+                    for(const settingName in loadedSettings) {
+                        this[settingGroup][settingName] = loadedSettings[settingName];
                     }
                 }
-                // Otherwise it's a page's settings
                 else {
-                    // don't just replace the whole settings object, don't want to overwrite missing setting defaults
-                    for(const key in loadedSettings) {
-                        this.pageSettings[settingName[1]] = loadedSettings[key];
-                    }
+                    ErrorHandler.warn('Loaded unknown setting group: '+settingGroup);
                 }
             }
             else {
-                ErrorHandler.warn('Invalid setting: '+settingKey);
+                ErrorHandler.warn('Invalid setting key: '+settingKey);
             }
         }
     }
 
     // ** Everything below here is for interfacing with the DOM (show current values, handle changes, etc) ** //
 
+    // Get details about a setting from a DOM setting input
+    // All settings inputs should have the qolsetting class, as well as the following attributes:
+    // data-group: indicator of which set of settings (ex: "QoLSettings" for main settings)
+    // data-key: the actual setting name/key
+    // For example, "hide disliked" party setting should be data-group="QoLMultiuser" data-key="hideDislike"
+    getSettingDetailsFromTarget(target) {
+        const settingGroup = target.getAttribute('data-group');
+        const settingName = target.getAttribute('data-key');
+        if(settingGroup && settingName) {
+            // try to read the setting from the active settings object
+            let settingValue;
+            if(this[settingGroup] && settingName in this[settingGroup]) {
+                settingValue = this[settingGroup][settingName];
+            }
+            else {
+                ErrorHandler.warn('Unrecognized setting input: '+settingGroup+'.'+settingName);
+                console.warn(target);
+            }
+            // try to read the value of the DOM input
+            let inputValue;
+            if(target.type=='radio') {
+                inputValue = document.querySelector('input[name="'+target.getAttribute('name')+'"]:checked').value;
+            }
+            else if(target.type=='checkbox') {
+                inputValue = target.checked;
+            }
+            else { // textbox dropdown etc
+                inputValue = target.value;
+            }
+            return {
+                settingGroup: settingGroup,
+                settingName: settingName,
+                settingValue: settingValue,
+                inputValue: inputValue
+            };
+        }
+        else {
+            ErrorHandler.error('QoL setting could not be identified.');
+            console.error(target);
+            return null;
+        }
+    }
     // Listens for changes to settings inputs
     // Should be called after input elements are added (ex: after html builder, or after modal open, etc)
-    //
-    // All settings inputs should have either the qolsetting class, as well as the following attributes:
-    // data-page: indicator of which set of settings (ex: "QoLHub" for main settings, valid pageSettings key otherwise)
-    // data-key: the actual setting name/key
-    // For example, "hide disliked" party setting should be data-page="QoLMultiuser" data-key="hideDislike"
     addSettingsListeners() {
         const self = this;
         this.displaySettingsValues();
         $('.qolsetting').on('change', (function (event) {
             let settingDetails = self.getSettingDetailsFromTarget(event.target);
             if(settingDetails) {
-                if(event.target.type=='radio' || event.target.type=='checkbox') {
-                    if(event.target.checked===true || event.target.checked===false) {
-                        settingDetails.settingGroup[settingDetails.settingKey] = event.target.checked;
-                    }
-                    else {
-                        ErrorHandler.error('Invalid radio/checkbox value for '+settingDetails.settingKey+': '+event.target.checked);
-                        console.error(event.target);
-                        return;
-                    }
-                }
-                else {
-                    settingDetails.settingGroup[settingDetails.settingKey] = event.target.value;
-                }
-                self.saveSettings();
+                self.changeSetting(settingDetails.settingGroup, settingDetails.settingName, settingDetails.inputValue);
             }
         }));
     }
@@ -245,65 +275,21 @@ class UserSettings {
         $('.qolsetting').each(function(){
             let settingDetails = self.getSettingDetailsFromTarget(this);
             if(settingDetails) {
-                if(this.type=='radio' ||this.type=='checkbox') {
-                    this.checked = settingDetails.settingGroup[settingDetails.settingKey];
+                if(this.type=='radio') {
+                    // if the value matches, this is the currently selected radio
+                    this.checked = this.value==settingDetails.settingValue;
+                }
+                else if(this.type=='checkbox') {
+                    this.checked = settingDetails.settingValue;
                 }
                 else {
-                    this.value = settingDetails.settingGroup[settingDetails.settingKey];
+                    this.value = settingDetails.settingValue;
                 }
             }
-            // special case for custom css
+            // special case for custom css textbox demo value
             if(this.id=='qolcustomcss' && this.value.trim()=='') {
                 this.value = Resources.DEMO_CSS;
             }
         });
-    }
-    // get the specific setting a given input is targetting
-    // return value: null if error, [setting name, setting group] otherwise
-    getSettingDetailsFromTarget(target) {
-        const page = target.getAttribute('data-page');
-        const settingKey = target.getAttribute('data-key');
-        const manager = target.getAttribute('data-manager');
-        if(page && settingKey) {
-            let settingGroup;
-            // this is a main setting
-            if(page=='QoLHub') {
-                settingGroup = this.mainSettings;
-                if(manager) {
-                    // if this is a managed setting, map it to the sub-setting group
-                    if(manager in UserSettings.LINKED_SETTINGS) {
-                        settingGroup = this.mainSettings[UserSettings.LINKED_SETTINGS[manager]];
-                    }
-                    else {
-                        ErrorHandler.error('Unknown QoL setting manager: '+manager);
-                        return null;
-                    }
-                }
-            }
-            // this is a page-specific setting
-            else if(page in self.pageSettings) {
-                settingGroup = this.pageSettings[page];
-            }
-            else {
-                ErrorHandler.error('Unknown QoL page setting key: '+page);
-                return null;
-            }
-            // ensure this is a known setting, and call the appropriate handler
-            if(settingKey in settingGroup) {
-                return {
-                    settingKey: settingKey,
-                    settingGroup: settingGroup
-                };
-            }
-            else {
-                ErrorHandler.error('Unknown QoL setting key: '+settingKey);
-                return null;
-            }
-        }
-        else {
-            ErrorHandler.error('QoL setting could not be identified.');
-            console.error(target);
-            return null;
-        }
     }
 }

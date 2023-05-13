@@ -1,23 +1,11 @@
 class LocalStorageManager {
-    
-    static MAIN_SETTINGS_KEY = 'QoLSettings';
-    static PAGE_SETTINGS_KEYS  = [
-        'QoLLab',
-        'QoLMultiuser',
-        'QoLPrivateFields',
-        'QoLPublicFields',
-        'QoLShelter'
-    ];
-    static DEX_DATA_KEY = 'QoLPokedex';
-    // see keys in UserSettings.pageSettings for page-specific storage keys
-
     // Look for settings that contain QoL and return them as an array of keys
     static getAllQoLSettings(includeDex=false) {
         const qolSettings = {};
         for (let i = 0, len = localStorage.length; i < len; ++i) {
             const key = localStorage.key(i);
             // the dex is the largest data element by far; allow excluding it
-            if(key && key.includes('QoL') && (includeDex || !key.includes(LocalStorageManager.DEX_DATA_KEY))) {
+            if(key && key.includes('QoL') && (includeDex || !key.includes(UserPokedex.DEX_DATA_KEY))) {
                 qolSettings[key] = localStorage.getItem(key);
             }
         }
@@ -67,7 +55,7 @@ class LocalStorageManager {
     }
 
     static getDexFromStorage() {
-        const tKey = LocalStorageManager.translateKey(LocalStorageManager.DEX_DATA_KEY);
+        const tKey = LocalStorageManager.translateKey(UserPokedex.DEX_DATA_KEY);
         if(!tKey) {
             return false;
         }
@@ -86,6 +74,6 @@ class LocalStorageManager {
     }
 
     static updateLocalStorageDex(DEX_DATA, dateString) {
-        LocalStorageManager.setItem(LocalStorageManager.DEX_DATA_KEY, [dateString, DEX_DATA]);
+        LocalStorageManager.setItem(UserPokedex.DEX_DATA_KEY, [dateString, DEX_DATA]);
     }
 }
