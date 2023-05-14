@@ -1,14 +1,20 @@
-class WishforgePage extends Page {
+class Wishforge {
+  static SETTING_ENABLE = 'condenseWishforge';
+
     constructor() {
-        super();
-        this.setupHTML();
-        this.setupObservers();
+        if(UserDataHandle.getSettings().QoLSettings[Wishforge.SETTING_ENABLE]) {
+            this.setupHTML();
+            this.setupObservers();
+        }
+        else {
+            console.log('Wishforge features disabled');
+        }
     }
 
     setupObservers() {
         const self = this;
         const target = $('#badges').next('div')[0];
-        this.addObserver(target, {
+        Helpers.addObserver(target, {
             childList: true
         }, function(mutations) {
             mutations.forEach(function(mutation) {
@@ -39,29 +45,35 @@ class WishforgePage extends Page {
                 '<col style="width: 33%;">';
         }
 
-        const types = Resources.TYPE_LIST;
+        // use Globals.TYPE_LIST to get list of types
+        //const types = Globals.TYPE_LIST;
+        const types = Object.values(Resources.TYPE_LIST);
+        // TODO: this is very hacky, consider cleaning up this whole builder
+        // I'd really like to shrink the item progress bar to a yes/no kind of thing too
+        // Need to get some HTML samples from badges in various stages of construction
 
         // build HTML table
         let rows = {};
-        for (const key in types) {
+        for (let i = 0; i < types.length; i++) {
             if(!isMobile) {
-                rows[types[key]] = `<tr id=${types[key]}> <td>${types[key]}</td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>`;
+                rows[types[i]] = `<tr id=${types[i]}> <td>${types[i]}</td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>`;
             }
             else {
-                rows[types[key]] = `<tr id="${types[key]}-top" class="qolBadgesTop"> <td>${types[key]}</td> <td></td> <td></td> </tr>`
-                               + `<tr id="${types[key]}-bot" class="qolBadgesBot"> <td></td> <td></td> <td></td> </tr>`;
+                rows[types[i]] = `<tr id="${types[i]}-top" class="qolBadgesTop"> <td>${types[i]}</td> <td></td> <td></td> </tr>`
+                               + `<tr id="${types[i]}-bot" class="qolBadgesBot"> <td></td> <td></td> <td></td> </tr>`;
             }
         }
         let table = '<table style="width: 100%" class="qolBadges">' +
             `<colgroup> ${columns} </colgroup>` +
             `<tr id="head"> ${header} </tr>`;
-        for (const key in types) {
-            table += rows[types[key]];
+        for (let i = 0; i < types.length; i++) {
+            table += rows[types[i]];
         }
         table += '</table>';
 
         // add table to page
-        $('.badgelist').prepend(table);
+        const craftedBadgesList = $('#badges').next().find('ul.badgelist');
+        craftedBadgesList.prepend(table);
 
         // define column aliases to make the movements more logical
         let LEVEL_COL = 2;
@@ -83,10 +95,10 @@ class WishforgePage extends Page {
         }
 
         // move elements from original elements to table
-        for (const key in types) {
-            const type = types[key];
-            const index = parseInt(key); // the type keys are strings "0" to "17"
-            const li = $('.badgelist').children()[index];
+        for (let j = 0; j < types.length; j++) {
+            const type = types[j];
+            const index = j + 1;
+            const li = $(craftedBadgesList.children()[index]);
 
             // get badge image
             const badgeImg = $($(li.children()[0]).children()[0]);
@@ -128,7 +140,7 @@ class WishforgePage extends Page {
         }
 
         // remove the li's left over
-        const children = $('.badgelist').children();
+        const children = craftedBadgesList.children();
         for (let i = types.length; i >= 1; i--) {
             $(children[i]).remove();
         }

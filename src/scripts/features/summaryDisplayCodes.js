@@ -1,7 +1,13 @@
-class SummaryPage extends Page {
+class SummaryDisplayCodes {
+  static SETTING_ENABLE = 'summaryEnable';
+
   constructor() {
-    super();
-    this.setupHTML();
+    if(UserDataHandle.getSettings().QoLSettings[SummaryDisplayCodes.SETTING_ENABLE]) {
+        this.setupHTML();
+    }
+    else {
+        console.log('Summary display codes features disabled');
+    }
   }
 
   setupHTML() {

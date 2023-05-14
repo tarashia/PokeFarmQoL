@@ -1,81 +1,57 @@
 class PagesManager {
-    static PAGES = {
-        'daycare': {
-            class: DaycarePage,
-            setting: 'enableDaycare'
+    // Lists the pages the QoL should activate on, and which features should be loaded
+    // Each key should be a regex that can match everything after .com/ but before ? (window.location.pathname)
+    // It should have an array of feature classes that load on that page
+    // (many pages will only have a single feature)
+    // The hub is not affected by these settings, and appears on all pages with the ribbon while logged in
+    static PAGES = [
+        {
+            url: /^\/users\/.+$/,
+            features: [
+                MultiUser
+            ]
         },
-        'farm': {
-            class: FarmPage,
-            setting: 'easyEvolve'
+        {
+            url: /^\/dex\/?$/,
+            features: [
+                DexPageFilters
+            ]
         },
-        'fishing': {
-            class: FishingPage,
-            setting: 'fishingEnable'
+        {
+            url: /^\/forge\/?$/,
+            features: [
+                Wishforge
+            ]
         },
-        'lab': {
-            class: LabPage,
-            setting: 'labNotifier'
+        {
+            url: /^\/interactions\/?$/,
+            features: [
+                InteractionsLinks
+            ]
         },
-        'users': {
-            class: MultiuserPage,
-            setting: 'partyMod'
-        },
-        'fields': {
-            class: PrivateFieldsPage,
-            setting: 'privateFieldEnable',
-            'public': {
-                class: PublicFieldsPage,
-                setting: 'publicFieldEnable'
-            }
-        },
-        'shelter': {
-            class: ShelterPage,
-            setting: 'shelterEnable'
-        },
-        'dex': {
-            class: DexPage,
-            setting: 'dexFilterEnable'
-        },
-        'forge': {
-            class: WishforgePage,
-            setting: 'condenseWishforge'
-        },
-        'interactions': {
-            class: InteractionsPage,
-            setting: 'interactionsEnable'
-        },
-        'summary': {
-            class: SummaryPage,
-            setting: 'summaryEnable'
+        {
+            url: /^\/summary\/[a-zA-Z0-9_-]+\/?$/,
+            features: [
+                SummaryDisplayCodes
+            ]
         }
-    };
+    ];
+
     static instantiatePage() {
-        const urlComponents = window.location.pathname.split('/');
-        let pageName = urlComponents[1]; // this should generally never be null/undefined
-        if(pageName in PagesManager.PAGES) {
-            let page = PagesManager.PAGES[pageName];
-            // check for public fields (shares base URL with private fields)
-            if(pageName=='fields') {
-                if(urlComponents.length>2) {
-                    page = PagesManager.PAGES.fields.public;
-                    pageName = 'fields (public)';
+        const path = window.location.pathname;
+        let onPage = false;
+        for(let i=0; i<PagesManager.PAGES.length; i++) {
+            const page = PagesManager.PAGES[i];
+            if(page.url.test(path)) {
+                console.log('On QoL feature page');
+                onPage = true;
+                for(let j=0; j<page.features.length; j++) {
+                    new page.features[j]();
                 }
-                else {
-                    pageName = 'fields (private)';
-                }
-            }
-            // initialize the page if this is a supported page, and the user has enabled its main setting
-            const settings = UserDataHandle.getSettings();
-            if(page && 'setting' in page && settings.QoLSettings[page.setting] === true) {
-                console.log('QoL features enabled for page: '+pageName);
-                return new page.class();
-            }
-            else {
-                console.log('QoL features disabled for page: '+pageName);
             }
         }
-        else {
-            console.log('Not a QoL page: '+pageName);
+        if(!onPage) {
+            console.log('Not on QoL feature page')
         }
     }
 }

@@ -6,16 +6,12 @@ class UserSettings {
         'publicFieldEnable': 'QoLPublicFieldFeatures',
         'privateFieldEnable': 'QoLPrivateFieldFeatures'
     };
-    static PAGE_SETTINGS_KEYS = [
-        LabPage.SETTING_KEY,
-        MultiuserPage.SETTING_KEY,
-        PrivateFieldsPage.SETTING_KEY,
-        PublicFieldsPage.SETTING_KEY,
-        ShelterPage.SETTING_KEY
+    static FEATURE_SETTINGS_KEYS = [
+        MultiUser.SETTING_KEY
     ];
 
     constructor() {
-        console.log('Initializing settings');
+        console.log('Initializing QoL settings');
         this.setDefaults();
         this.loadSettings();
         this.changeListeners = [];
@@ -64,7 +60,7 @@ class UserSettings {
     setPageDefaults(page, commit=false) {
         let pageList = [];
         if(page==='ALL') {
-            pageList = UserSettings.PAGE_SETTINGS_KEYS;
+            pageList = UserSettings.FEATURE_SETTINGS_KEYS;
         }
         else {
             pageList.push(page);
@@ -81,14 +77,7 @@ class UserSettings {
     }
     pageDefaults(page) {
         switch(page) {
-            case LabPage.SETTING_KEY:
-                return {
-                    findLabEgg: '',
-                    customEgg: true,
-                    findLabType: '',
-                    findTypeEgg: true,
-                };
-            case MultiuserPage.SETTING_KEY:
+            case MultiUser.SETTING_KEY:
                 return {
                     partyModType: 'noMod',
                     hideDislike: false,
@@ -104,6 +93,18 @@ class UserSettings {
                     showFieldButton: false,
                     showModeChecks: false,
                     showUserName: true
+                };
+            default:
+                ErrorHandler.warn('Cannot set page defaults for unknown page: '+page);
+                return null;
+        }
+        /*switch(page) {
+            case LabPage.SETTING_KEY:
+                return {
+                    findLabEgg: '',
+                    customEgg: true,
+                    findLabType: '',
+                    findTypeEgg: true,
                 };
             case PrivateFieldsPage.SETTING_KEY:
                 return this.fieldDefaults(false);
@@ -133,7 +134,7 @@ class UserSettings {
             default:
                 ErrorHandler.warn('Cannot set page defaults for unknown page: '+page);
                 return null;
-        }
+        }*/
     }
     // Most field settings are shared, build defaults here
     fieldDefaults(isPublic) {
@@ -176,7 +177,7 @@ class UserSettings {
     // But it does NOT re-store all settings in all groups
     // When done, calls any registered listeners, and provides them the change details
     changeSetting(settingGroup, settingName, newValue) {
-        console.log('Changing setting: '+settingGroup+'.'+settingName+' = '+newValue);
+        console.log('Changing QoL setting: '+settingGroup+'.'+settingName+' = '+newValue);
         if(this[settingGroup]) {
             this[settingGroup][settingName] = newValue;
             LocalStorageManager.setItem(settingGroup, this[settingGroup]);
@@ -197,7 +198,7 @@ class UserSettings {
     }
     // Loads all settings in storage into the UserSettings object
     loadSettings() {
-        console.log('Loading settings from storage');
+        console.log('Loading QoL settings from storage');
         const storedSettings = LocalStorageManager.getAllQoLSettings();
         for(const settingKey in storedSettings) {
             // remove user ID from setting
