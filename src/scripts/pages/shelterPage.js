@@ -1,4 +1,5 @@
 class ShelterPage extends Page {
+    static SETTING_KEY = 'QoLShelter';
     static NEXT_MATCH_KEY = 78; // 'n'
 
     constructor() {
@@ -61,7 +62,7 @@ class ShelterPage extends Page {
     }
 
     handleSortSettings() {
-        const shelterSettings = UserDataHandle.getSettings()['QoLShelter'];
+        const shelterSettings = UserDataHandle.getSettings()[ShelterPage.SETTING_KEY];
         //sort in grid
         $('#shelterarea').removeClass('qolshelterareagrid');
 

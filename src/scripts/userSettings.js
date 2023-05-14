@@ -6,6 +6,13 @@ class UserSettings {
         'publicFieldEnable': 'QoLPublicFieldFeatures',
         'privateFieldEnable': 'QoLPrivateFieldFeatures'
     };
+    static PAGE_SETTINGS_KEYS = [
+        LabPage.SETTING_KEY,
+        MultiuserPage.SETTING_KEY,
+        PrivateFieldsPage.SETTING_KEY,
+        PublicFieldsPage.SETTING_KEY,
+        ShelterPage.SETTING_KEY
+    ];
 
     constructor() {
         console.log('Initializing settings');
@@ -57,81 +64,75 @@ class UserSettings {
     setPageDefaults(page, commit=false) {
         let pageList = [];
         if(page==='ALL') {
-            pageList = [
-                'QoLLab',
-                'QoLMultiuser',
-                'QoLPrivateFields',
-                'QoLPublicFields',
-                'QoLShelter'
-            ];
+            pageList = UserSettings.PAGE_SETTINGS_KEYS;
         }
         else {
             pageList.push(page);
         }
         for(let i=0; i<pageList.length; i++) {
-            let error = false;
-            switch(pageList[i]) {
-                case 'QoLLab':
-                    this.QoLLab = {
-                        findLabEgg: '',
-                        customEgg: true,
-                        findLabType: '',
-                        findTypeEgg: true,
-                    };
-                    break;
-                case 'QoLMultiuser':
-                    this.QoLMultiuser ={
-                        partyModType: 'noMod',
-                        hideDislike: false,
-                        hideAll: false,
-                        niceTable: false,
-                        customParty: false,
-                        stackNextButton: true,
-                        stackMoreButton: true,
-                        showPokemon: true,
-                        compactPokemon: true,
-                        clickablePokemon: false,
-                        showTrainerCard: true,
-                        showFieldButton: false,
-                        showModeChecks: false,
-                        showUserName: true
-                    };
-                    break;
-                case 'QoLPrivateFields':
-                    this.QoLPrivateFields = this.fieldDefaults(false);
-                    break;
-                case 'QoLPublicFields':
-                    this.QoLPublicFields = this.fieldDefaults(true);
-                    break;
-                case 'QoLShelter':
-                    this.QoLShelter = {
-                        findNewEgg: true,
-                        findNewPokemon: true,
-                        findShiny: true,
-                        findAlbino: true,
-                        findMelanistic: true,
-                        findPrehistoric: true,
-                        findDelta: true,
-                        findMega: true,
-                        findStarter: true,
-                        findCustomSprite: true,
-                        findTotem: false,
-                        findLegendary: false,
-                        shelterGrid: true,
-                        shelterSpriteSize: 'auto',
-                        quickTypeSearch: [],
-                        fullOptionSearch: {},
-                        quickPkmnSearch: [],
-                        fullPkmnSearch: {}
-                    }
-                    break;
-                default:
-                    ErrorHandler.warn('Cannot set page defaults for unknown page: '+pageList[i]);
-                    error = true;
+            const pDefs = this.pageDefaults(pageList[i]);
+            if(pDefs) {
+                this[pageList[i]] = pDefs;
+                if(commit) {
+                    LocalStorageManager.setItem(pageList[i], this[pageList[i]]);
+                }
             }
-            if(commit && !error) {
-                LocalStorageManager.setItem(pageList[i], this[pageList[i]]);
-            }
+        }
+    }
+    pageDefaults(page) {
+        switch(page) {
+            case LabPage.SETTING_KEY:
+                return {
+                    findLabEgg: '',
+                    customEgg: true,
+                    findLabType: '',
+                    findTypeEgg: true,
+                };
+            case MultiuserPage.SETTING_KEY:
+                return {
+                    partyModType: 'noMod',
+                    hideDislike: false,
+                    hideAll: false,
+                    niceTable: false,
+                    customParty: false,
+                    stackNextButton: true,
+                    stackMoreButton: true,
+                    showPokemon: true,
+                    compactPokemon: true,
+                    clickablePokemon: false,
+                    showTrainerCard: true,
+                    showFieldButton: false,
+                    showModeChecks: false,
+                    showUserName: true
+                };
+            case PrivateFieldsPage.SETTING_KEY:
+                return this.fieldDefaults(false);
+            case PublicFieldsPage.SETTING_KEY:
+                return this.fieldDefaults(true);
+            case ShelterPage.SETTING_KEY:
+                return {
+                    findNewEgg: true,
+                    findNewPokemon: true,
+                    findShiny: true,
+                    findAlbino: true,
+                    findMelanistic: true,
+                    findPrehistoric: true,
+                    findDelta: true,
+                    findMega: true,
+                    findStarter: true,
+                    findCustomSprite: true,
+                    findTotem: false,
+                    findLegendary: false,
+                    shelterGrid: true,
+                    shelterSpriteSize: 'auto',
+                    quickTypeSearch: [],
+                    fullOptionSearch: {},
+                    quickPkmnSearch: [],
+                    fullPkmnSearch: {}
+                }
+            default:
+                ErrorHandler.warn('Cannot set page defaults for unknown page: '+page);
+                return null;
         }
     }
     // Most field settings are shared, build defaults here

@@ -1,4 +1,6 @@
 class MultiuserPage extends Page {
+    static SETTING_KEY = 'QoLMultiuser';
+
     constructor() {
         super();
         this.setupHTML();
@@ -59,8 +61,13 @@ class MultiuserPage extends Page {
         });
         const settings = UserDataHandle.getSettings();
         settings.addSettingsListeners();
-        settings.registerChangeListener(function() {
-            self.partyModification();
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingGroup==MultiuserPage.SETTING_KEY) {
+                self.partyModification();
+            }
+            else {
+                console.log('non-page-related setting changed');
+            }
         });
     }
 
@@ -74,7 +81,7 @@ class MultiuserPage extends Page {
     partyModification() {
         console.log('running party mod');
         // get page-specific settings
-        const partySettings = UserDataHandle.getSettings().QoLMultiuser;
+        const partySettings = UserDataHandle.getSettings()[MultiuserPage.SETTING_KEY];
 
         // first, remove any existing selection (all qol classes)
         let classList = document.getElementById('multiuser').className.split(/\s+/);
