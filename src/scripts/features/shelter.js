@@ -1,21 +1,26 @@
-class ShelterPage extends Page {
+class Shelter {
     static SETTING_KEY = 'QoLShelter';
+    static SETTING_ENABLE = 'shelterEnable';
     static NEXT_MATCH_KEY = 78; // 'n'
 
     constructor() {
-        super();
-        this.setupHTML();
-        this.setupObservers();
-        this.setupHandlers();
+        if(UserDataHandle.getSettings().QoLSettings[Shelter.SETTING_ENABLE]) {
+            this.setupHTML();
+            this.setupObservers();
+            this.setupHandlers();
+        }
+        else {
+            console.log('Shelter features disabled');
+        }
     }
 
     setupObservers() {
-        this.addObserver(document.querySelector('#shelterarea'), {
+        Helpers.addObserver(document.querySelector('#shelterarea'), {
             childList: true
         }, function(mutations) {
             console.log('mutation observed');
             console.log(mutations);
-            //this.customSearch();
+            //this.customSearch(); //TODO
         });
     }
 
@@ -27,7 +32,7 @@ class ShelterPage extends Page {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterOptionsHTML());
             $('#shelteroptionsqol').addClass('tab-active');
-            //this.showSearchSettings();
+            //this.showSearchSettings(); //TODO
         }
         if(QoLSettings.shelterFeatureEnables.sort) {
             document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
@@ -54,7 +59,7 @@ class ShelterPage extends Page {
         // listen for next match hotkey
         $(window).on('keyup', function (e) {
             if (0 == $(e.target).closest('input, textarea').length) {
-                if(e.keyCode == ShelterPage.NEXT_MATCH_KEY) {
+                if(e.keyCode == Shelter.NEXT_MATCH_KEY) {
                     console.log('TODO: next key pressed');
                 }
             }
@@ -62,7 +67,7 @@ class ShelterPage extends Page {
     }
 
     handleSortSettings() {
-        const shelterSettings = UserDataHandle.getSettings()[ShelterPage.SETTING_KEY];
+        const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
         //sort in grid
         $('#shelterarea').removeClass('qolshelterareagrid');
 

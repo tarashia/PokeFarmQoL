@@ -529,6 +529,41 @@ class DexPageFilters {
     }
 }
 
+class EasyEvolve {
+    static SETTING_ENABLE = 'easyEvolve';
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[EasyEvolve.SETTING_ENABLE]) {
+            console.log('TODO: EasyEvolve features');
+        }
+        else {
+            console.log('EasyEvolve features disabled');
+        }
+    }
+}
+
+class Fields {
+    constructor(page) {
+        // determine if this is public vs private so the correct settings can be used
+        this.page = page;
+        if(page.name=='privateFields') {
+            this.page.SETTING_ENABLE = PrivateFields.SETTING_ENABLE;
+            this.page.SETTING_KEY = PrivateFields.SETTING_KEY;
+        }
+        else if(page.name=='publicFields') {
+            this.page.SETTING_ENABLE = PublicFields.SETTING_ENABLE;
+            this.page.SETTING_KEY = PublicFields.SETTING_KEY;
+        }
+        else {
+            console.error('Unknown field page');
+        }
+        if(UserDataHandle.getSettings().QoLSettings[this.page.SETTING_ENABLE]) {
+            console.log('TODO: Fields features');
+        }
+        // don't log when disabled here, leave that to the unique classes
+    }
+}
+
 class Fishing {
     static SETTING_ENABLE = 'fishingEnable';
 
@@ -631,6 +666,20 @@ class InteractionsLinks {
     }
 }
 
+
+class Lab {
+    static SETTING_KEY = 'QoLLab';
+    static SETTING_ENABLE = 'labNotifier';
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[Lab.SETTING_ENABLE]) {
+            console.log('TODO: Lab features');
+        }
+        else {
+            console.log('Lab features disabled');
+        }
+    }
+}
 
 class MultiUser {
     static SETTING_KEY = 'QoLMultiuser';
@@ -825,6 +874,129 @@ class MultiUser {
 }
 
 
+class PrivateFields {
+    static SETTING_KEY = 'QoLPrivateFieldFeatures';
+    static SETTING_ENABLE = 'privateFieldEnable';
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[PrivateFields.SETTING_ENABLE]) {
+            console.log('TODO: PrivateFields features');
+        }
+        else {
+            console.log('PrivateFields features disabled');
+        }
+    }
+}
+
+class PublicFields {
+    static SETTING_KEY = 'QoLPublicFieldFeatures';
+    static SETTING_ENABLE = 'publicFieldEnable';
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[PublicFields.SETTING_ENABLE]) {
+            console.log('TODO: PublicFields features');
+        }
+        else {
+            console.log('PublicFields features disabled');
+        }
+    }
+}
+
+class Shelter {
+    static SETTING_KEY = 'QoLShelter';
+    static SETTING_ENABLE = 'shelterEnable';
+    static NEXT_MATCH_KEY = 78; // 'n'
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[Shelter.SETTING_ENABLE]) {
+            this.setupHTML();
+            this.setupObservers();
+            this.setupHandlers();
+        }
+        else {
+            console.log('Shelter features disabled');
+        }
+    }
+
+    setupObservers() {
+        Helpers.addObserver(document.querySelector('#shelterarea'), {
+            childList: true
+        }, function(mutations) {
+            console.log('mutation observed');
+            console.log(mutations);
+            //this.customSearch(); //TODO
+        });
+    }
+
+    setupHTML() {
+        const QoLSettings = UserDataHandle.getSettings().QoLSettings;
+        if(QoLSettings.shelterFeatureEnables.search) {
+            $('.tabbed_interface.horizontal>div').removeClass('tab-active');
+            $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterOptionsHTML());
+            $('#shelteroptionsqol').addClass('tab-active');
+            //this.showSearchSettings(); //TODO
+        }
+        if(QoLSettings.shelterFeatureEnables.sort) {
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
+            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterSortHTML());
+            this.handleSortSettings();
+        }
+        if(QoLSettings.shelterFeatureEnables.search || QoLSettings.shelterFeatureEnables.sort) {
+            const shelterSuccessCss = $('#sheltercommands').css('background-color');
+            $('#sheltersuccess').css('background-color', shelterSuccessCss);
+            $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
+            const background = $('#shelterpage>.panel').eq(0).css('border');
+            $('.tooltiptext').css('border', '' + background + '');
+        }
+    }
+
+    setupHandlers() {
+        $('#qolQuickTextBtn').on('click',function() {
+            console.log('add quick text');
+        });
+        $('#qolQuickTypeBtn').on('click',function() {
+            console.log('add quick type');
+        });
+
+        // listen for next match hotkey
+        $(window).on('keyup', function (e) {
+            if (0 == $(e.target).closest('input, textarea').length) {
+                if(e.keyCode == Shelter.NEXT_MATCH_KEY) {
+                    console.log('TODO: next key pressed');
+                }
+            }
+        });
+    }
+
+    handleSortSettings() {
+        const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
+        //sort in grid
+        $('#shelterarea').removeClass('qolshelterareagrid');
+
+        if (shelterSettings.shelterGrid === true) { //shelter grid
+            $('#shelterarea').addClass('qolshelterareagrid');
+        }
+
+        // sprite size mode
+        $('#shelterarea').removeClass('qolshelterarealarge');
+        $('#shelterarea').removeClass('qolshelterareasmall');
+        $('input[name="shelterSpriteSize"]').prop('checked',false);
+        if(shelterSettings.shelterSpriteSize == 'large') {
+            $('#shelterarea').addClass('qolshelterarealarge');
+            $('#spriteSizeLarge').prop('checked',true);
+        }
+        else if(shelterSettings.shelterSpriteSize == 'small') {
+            $('#shelterarea').addClass('qolshelterareasmall');
+            $('#spriteSizeSmall').prop('checked',true);
+        }
+        else {
+            $('#spriteSizeAuto').prop('checked',true);
+        }
+    }
+}
+
 class SummaryDisplayCodes {
     static SETTING_ENABLE = 'summaryEnable';
 
@@ -1009,48 +1181,93 @@ class PagesManager {
      * It should have an array of feature classes that load on that page
      * (many pages will only have a single feature)
      * The hub is not affected by these settings, and appears on all pages with the ribbon while logged in
+     * Name is a friendly name that can be read by classes that may be called from multiple locations
      */
     static PAGES = [
         {
             url: /^\/users\/.+$/,
+            name: 'users',
             features: [
                 MultiUser
             ]
         },
         {
             url: /^\/dex\/?$/,
+            name: 'dex',
             features: [
                 DexPageFilters
             ]
         },
         {
             url: /^\/forge\/?$/,
+            name: 'forge',
             features: [
                 Wishforge
             ]
         },
         {
             url: /^\/interactions\/?$/,
+            name: 'interactions',
             features: [
                 InteractionsLinks
             ]
         },
         {
             url: /^\/summary\/[a-zA-Z0-9_-]+\/?$/,
+            name: 'summary',
             features: [
                 SummaryDisplayCodes
             ]
         },
         {
             url: /^\/fishing\/?$/,
+            name: 'fishing',
             features: [
                 Fishing
             ]
         },
         {
             url: /^\/daycare\/?$/,
+            name: 'daycare',
             features: [
                 DaycareMatches
+            ]
+        },
+        {
+            url: /^\/lab\/?$/,
+            name: 'lab',
+            features: [
+                Lab
+            ]
+        },
+        {
+            url: /^\/fields\/?$/,
+            name: 'privateFields',
+            features: [
+                Fields,
+                PrivateFields
+            ]
+        },
+        {
+            url: /^\/fields\/.+$/,
+            name: 'publicFields',
+            features: [
+                Fields,
+                PublicFields
+            ]
+        },
+        {
+            url: /^\/farm\/?$/,
+            name: 'farm',
+            features: [
+                EasyEvolve
+            ]
+        },
+        {
+            url: /^\/shelter\/?$/,
+            name: 'shelter',
+            features: [
+                Shelter
             ]
         },
     ];
@@ -1064,7 +1281,7 @@ class PagesManager {
                 console.log('On QoL feature page');
                 onPage = true;
                 for(let j=0; j<page.features.length; j++) {
-                    new page.features[j]();
+                    new page.features[j](page);
                 }
             }
         }
@@ -1408,49 +1625,42 @@ class UserSettings {
                 showModeChecks: false,
                 showUserName: true
             };
+        case PrivateFields.SETTING_KEY:
+            return this.fieldDefaults(false);
+        case PublicFields.SETTING_KEY:
+            return this.fieldDefaults(true);
+        case Lab.SETTING_KEY:
+            return {
+                findLabEgg: '',
+                customEgg: true,
+                findLabType: '',
+                findTypeEgg: true,
+            };
+        case Shelter.SETTING_KEY:
+            return {
+                findNewEgg: true,
+                findNewPokemon: true,
+                findShiny: true,
+                findAlbino: true,
+                findMelanistic: true,
+                findPrehistoric: true,
+                findDelta: true,
+                findMega: true,
+                findStarter: true,
+                findCustomSprite: true,
+                findTotem: false,
+                findLegendary: false,
+                shelterGrid: true,
+                shelterSpriteSize: 'auto',
+                quickTypeSearch: [],
+                fullOptionSearch: {},
+                quickPkmnSearch: [],
+                fullPkmnSearch: {}
+            };
         default:
             ErrorHandler.warn('Cannot set page defaults for unknown page: '+page);
             return null;
         }
-        /*
-         *switch(page) {
-         *  case LabPage.SETTING_KEY:
-         *      return {
-         *          findLabEgg: '',
-         *          customEgg: true,
-         *          findLabType: '',
-         *          findTypeEgg: true,
-         *      };
-         *  case PrivateFieldsPage.SETTING_KEY:
-         *      return this.fieldDefaults(false);
-         *  case PublicFieldsPage.SETTING_KEY:
-         *      return this.fieldDefaults(true);
-         *  case ShelterPage.SETTING_KEY:
-         *      return {
-         *          findNewEgg: true,
-         *          findNewPokemon: true,
-         *          findShiny: true,
-         *          findAlbino: true,
-         *          findMelanistic: true,
-         *          findPrehistoric: true,
-         *          findDelta: true,
-         *          findMega: true,
-         *          findStarter: true,
-         *          findCustomSprite: true,
-         *          findTotem: false,
-         *          findLegendary: false,
-         *          shelterGrid: true,
-         *          shelterSpriteSize: 'auto',
-         *          quickTypeSearch: [],
-         *          fullOptionSearch: {},
-         *          quickPkmnSearch: [],
-         *          fullPkmnSearch: {}
-         *      }
-         *  default:
-         *      ErrorHandler.warn('Cannot set page defaults for unknown page: '+page);
-         *      return null;
-         *}
-         */
     }
     // Most field settings are shared, build defaults here
     fieldDefaults(isPublic) {

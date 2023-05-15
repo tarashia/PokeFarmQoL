@@ -94,23 +94,18 @@ class UserSettings {
                     showModeChecks: false,
                     showUserName: true
                 };
-            default:
-                ErrorHandler.warn('Cannot set page defaults for unknown page: '+page);
-                return null;
-        }
-        /*switch(page) {
-            case LabPage.SETTING_KEY:
+            case PrivateFields.SETTING_KEY:
+                return this.fieldDefaults(false);
+            case PublicFields.SETTING_KEY:
+                return this.fieldDefaults(true);
+            case Lab.SETTING_KEY:
                 return {
                     findLabEgg: '',
                     customEgg: true,
                     findLabType: '',
                     findTypeEgg: true,
                 };
-            case PrivateFieldsPage.SETTING_KEY:
-                return this.fieldDefaults(false);
-            case PublicFieldsPage.SETTING_KEY:
-                return this.fieldDefaults(true);
-            case ShelterPage.SETTING_KEY:
+            case Shelter.SETTING_KEY:
                 return {
                     findNewEgg: true,
                     findNewPokemon: true,
@@ -134,7 +129,7 @@ class UserSettings {
             default:
                 ErrorHandler.warn('Cannot set page defaults for unknown page: '+page);
                 return null;
-        }*/
+        }
     }
     // Most field settings are shared, build defaults here
     fieldDefaults(isPublic) {
