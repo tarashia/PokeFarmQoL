@@ -1,7 +1,13 @@
-class InteractionsPage extends Page {
+class InteractionsLinks {
+  static SETTING_ENABLE = 'interactionsEnable';
+
   constructor() {
-    super();
-    this.setupHTML();
+    if(UserDataHandle.getSettings().QoLSettings[InteractionsLinks.SETTING_ENABLE]) {
+        this.setupHTML();
+    }
+    else {
+        console.log('Interactions links features disabled');
+    }
   }
 
   setupHTML() {

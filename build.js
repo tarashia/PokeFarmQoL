@@ -26,7 +26,7 @@ import { ESLint } from 'eslint';
 const outputPath = 'Poke-Farm-QoL.user.js';
 const headerFile = 'src/resources/header.txt';
 const srcFolder = 'src/scripts/';
-const pagesFolder = srcFolder+'pages/';
+const featuresFolder = srcFolder+'features/';
 // Tell ESLint that jQuery's $ is defined elsewhere
 const jqueryLint = `/* global $ */`;
 
@@ -34,22 +34,22 @@ const jqueryLint = `/* global $ */`;
 //   so instead of just going over the whole directory, define 
 //   all scripts to be included, and their order, here
 // Library-type scripts (only static content) should go first
-// <PAGES> is where all files in scripts/pages will be added, alphabetically
+// <FEATURES> is where all files in scripts/pages will be added, alphabetically
 const scriptFiles = [
+    // Static classes
     'errors.js',
     'helpers.js',
     'localStorageManager.js',
     'resources.js',
+    // Features
+    '<FEATURES>',
+    'pagesManager.js',
     // Non-static classes
     'modal.js',
     'userDataHandle.js',
     'userPokedex.js',
     'userSettings.js',
     'qolHub.js',
-    'basePage.js',
-    // Pages
-    '<PAGES>',
-    'pagesManager.js',
     // Script entry point
     'scriptEntry.js'
 ];
@@ -71,8 +71,8 @@ async function runBuild() {
     console.log('Initialized '+outputPath);
 
     for(let i=0; i<scriptFiles.length; i++) {
-        if(scriptFiles[i]=='<PAGES>') {
-            await concatFiles(pagesFolder,outputPath);
+        if(scriptFiles[i]=='<FEATURES>') {
+            await concatFiles(featuresFolder,outputPath);
         }
         else if(filesWithReplacements.includes(scriptFiles[i])) {
             await processFileContent(srcFolder+scriptFiles[i],outputPath);

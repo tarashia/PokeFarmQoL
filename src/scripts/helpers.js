@@ -28,4 +28,16 @@ class Helpers {
     static detectPageSize(size) {
         return $('html').hasClass(size);
     }
+
+    // sets up a basic mutation observer with the given options for the specified element
+    // when the mutation is observed, calls the provided callback with the detected mutation
+    // watchElement is a DOM element object
+    // observeOptions should be an options element compatible with mutation observers
+    static addObserver(watchElement, observeOptions, callback) {
+        let observer = new MutationObserver(function (mutations) {
+            callback(mutations);
+        });
+        observer.observe(watchElement, observeOptions);
+    }
+
 }
