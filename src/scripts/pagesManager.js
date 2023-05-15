@@ -34,7 +34,19 @@ class PagesManager {
             features: [
                 SummaryDisplayCodes
             ]
-        }
+        },
+        {
+            url: /^\/fishing\/?$/,
+            features: [
+                Fishing
+            ]
+        },
+        {
+            url: /^\/daycare\/?$/,
+            features: [
+                DaycareMatches
+            ]
+        },
     ];
 
     static instantiatePage() {

@@ -1,12 +1,15 @@
-class DaycarePage extends Page {
+class DaycareMatches {
+    static SETTING_ENABLE = 'enableDaycare';
+
     constructor() {
-        super();
-        this.setupObservers();
+        if(UserDataHandle.getSettings().QoLSettings[DaycareMatches.SETTING_ENABLE]) {
+            this.setupObservers();
+        }
     }
 
     setupObservers() {
         const self = this;
-        this.addObserver(document.querySelector('body'), {
+        Helpers.addObserver(document.querySelector('body'), {
             childList: true,
             subtree: true
         }, function(mutations) {

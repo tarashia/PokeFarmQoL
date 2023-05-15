@@ -277,10 +277,10 @@ class Resources {
     };
 
     // CSS files
-    static CORE_CSS = `#announcements li[data-name=QoL],.collapsible{cursor:pointer}.collapsible{border-radius:6px;max-width:600px;padding:4px;position:relative;text-align:left;width:100%}input[type=checkbox].qolsetting:enabled,input[type=radio].qolsetting:enabled{cursor:pointer}.qolB64Output{border:1px solid;margin-bottom:.5em;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all}.collapsible_content{display:none;overflow:hidden;padding:0 18px}`;
+    static CORE_CSS = `#announcements li[data-name=QoL],.collapsible{cursor:pointer}.collapsible{border-radius:6px;max-width:600px;padding:4px;position:relative;text-align:left;width:100%}input[type=checkbox].qolsetting:enabled,input[type=radio].qolsetting:enabled{cursor:pointer}.qolB64Output{border:1px solid;margin-bottom:.5em;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.collapsible_content{display:none;overflow:hidden;padding:0 18px}`;
     static HUB_CSS = `.qolHubModal>div>.panel{margin-bottom:1em}.qolHubModal>div>.panel>div>p:first-child{margin-top:.25em}.qolHubModal textarea{box-sizing:border-box;width:100%}#qolConsoleContent{word-break:break-all}#qolHubSettings ul{margin:0}#qolHubSettings label{display:inline-block;margin-bottom:.25em}`;
     static MODAL_CSS = `.qolModal>h3:first-child a{color:inherit;float:right}`;
-    static SHELTER_CSS = `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagrid .pokemon{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important}.qolshelterareagrid .pokemon img{max-height:100%;max-width:100%}.qolshelterareagrid .tooltip_content{bottom:0;position:absolute!important;transform:translateY(100%)}.qolshelterareagrid:before{display:none!important}.mq2 .qolshelterareagrid:not(.qolshelterarealarge),.qolshelterareasmall{grid-template-rows:repeat(5,35px);min-height:175px}.qolshelterarealarge .pokemon .big{display:block!important}.qolshelterarealarge .pokemon .small,.qolshelterareasmall .pokemon .big{display:none!important}.qolshelterareasmall .pokemon .small{display:block!important}`;
+    static SHELTER_CSS = `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagrid .pokemon{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important}.qolshelterareagrid .pokemon img{max-height:100%;max-width:100%}.qolshelterareagrid .tooltip_content{bottom:0;position:absolute!important;transform:translateY(100%)}.qolshelterareagrid:before{display:none!important}.mq2 .qolshelterareagrid:not(.qolshelterarealarge),.qolshelterareasmall{grid-template-rows:repeat(5,35px);min-height:175px}.qolshelterarealarge .pokemon .big{display:block!important}.qolshelterarealarge .pokemon .small,.qolshelterareasmall .pokemon .big{display:none!important}.qolshelterareasmall .pokemon .small{display:block!important}`;
     static FIELDS_CSS = `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px}.qolSelectFlavour{display:none}.qolFlavourShown~.qolSelectFlavour{display:inline}.qolFlavourShown~.qolSelectGender,.qolNatureShown~.qolSelectGender{display:none}`;
     static FISHING_CSS = `#fishing button[data-reel].shake{padding:20px}`;
     static PARTY_CSS = `#qolpartymod{text-align:center}#qolpartymodcustom h3{font-size:100%;padding:2px}.qolPartyCustomParty{--multiuser-button-height:5em;--multiuser-border-radius:8px}.qolPartyCustomParty h1{align-items:center;display:flex;justify-content:center}.qolPartyCustomParty #partybox{padding-top:calc(var(--multiuser-button-height) + 1em);position:relative}.qolPartyCustomParty #partybox .party{box-shadow:none}.qolPartyCustomParty #partybox .party>div{position:static}.qolPartyCustomParty #partybox .action{height:auto!important;left:0;min-height:0;position:absolute;top:0;width:100%;z-index:9999}.qolPartyCustomParty #partybox .action>a,.qolPartyCustomParty #partybox .action>div{line-height:var(--multiuser-button-height);margin:0;min-height:var(--multiuser-button-height);padding:0}.qolPartyCustomParty #partybox .action .berrybuttons>a{box-sizing:border-box;height:100%!important;line-height:var(--multiuser-button-height)!important;width:100%}.qolPartyCustomParty #partybox .action>a{align-items:center;box-sizing:border-box;display:flex!important;justify-content:center}.qolPartyCustomParty #partybox .action.working,.qolPartyCustomParty #partybox .action:empty,.qolPartyCustomParty #partybox .action>table,.qolPartyCustomParty #partybox .berrybuttons>.tooltip_content{display:none}.qolPartyCustomParty #partybox .party>div:hover>.action a[data-berry]:after{border-color:transparent}.qolPartyCustomParty.qolStackMore .qolGetMore,.qolPartyCustomParty.qolStackNext .qolGoNext{height:var(--multiuser-button-height);left:0;line-height:var(--multiuser-button-height);margin:0;padding:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideParty .party{height:0;overflow:hidden}.qolPartyCustomParty.qolCompactParty #partybox .party>div{background:transparent;border:none;margin-bottom:20px;padding:0;width:unset}.qolPartyCustomParty.qolCompactParty #partybox .party .expbar,.qolPartyCustomParty.qolCompactParty #partybox .party .name{display:none}.qolPartyCustomParty.qolCompactParty #partybox .party .pkmn a.qolCompactLink{display:block;height:100%;left:0;position:absolute;top:0;width:100%;z-index:999}.qolPartyCustomParty.qolHideFieldButton .fieldslink,.qolPartyCustomParty.qolHideModeChecks #partybox>label,.qolPartyCustomParty.qolHideTrainerCard #profilebox,.qolPartyCustomParty.qolHideUserName h1{display:none}.mq2 .qolPartyCustomParty #partybox .party>div,.multi-compact .qolPartyCustomParty #partybox .party>div{display:inline-block}.mq2 .qolPartyCustomParty #partybox .party>div .pkmn,.multi-compact .qolPartyCustomParty #partybox .party>div .pkmn{margin-right:0}.qolPartyCustomParty #partybox .party .action a,.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{display:none;position:absolute;width:100%}.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyCustomParty #partybox .party .action>a,.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideAll #partybox .party .action>a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideDislike #partybox .party .action>a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyNiceTable #partybox .party .action>a{display:inline-block}.qolPartyCustomParty #partybox .party .working .berrybuttons,.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyCustomParty .loading,.qolPartyHideAll .loading,.qolPartyHideDislike .loading,.qolPartyNiceTable .loading{user-select:none}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyHideAll .tooltip_content,.qolPartyNiceTable #partybox .party>div>:not(.action),.qolPartyNiceTable .tooltip_content{display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;padding:0;position:unset;width:0}.qolPartyHideAll #profilepage #partybox .party>div .action,.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll #profilepage #partybox .party>div .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px;z-index:1}.qolPartyHideAll #profilepage #partybox .party>div .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll #profilepage #partybox .party>div .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .working{display:none}`;
@@ -303,6 +303,116 @@ class Resources {
     static PRIVATE_FIELD_TOOLTIP_MOD_HTML = `<div id="tooltipenable"><button type="button" class="collapsible"><b>Tooltip Settings</b></button><div class="collapsible_content"><span>The "Enable tooltip" settings force the tooltip on or off. To revert back to Pokefarm's default tooltip settings, uncheck "Enable QoL Tooltip Changes" and refresh the page.</span><hr><table><tr><td><label><input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipEnableMods"> Enable QoL Tooltip Settings</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipNoBerry"> Hide tooltip</label></td></tr></table></div></div>`;
     static MASS_RELEASE_FISHING_HTML = `<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label> <label id="movefishselectany"><input class="qolsetting" id="movefishselectanycheckbox" type="checkbox">Select Any</label> <label id="movefishselectsour"><input class="qolsetting" id="movefishselectsourcheckbox" type="checkbox">Select Sour</label> <label id="movefishselectspicy"><input class="qolsetting" id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label> <label id="movefishselectdry"><input class="qolsetting" id="movefishselectdrycheckbox" type="checkbox">Select Dry</label> <label id="movefishselectsweet"><input class="qolsetting" id="movefishselectsweetcheckbox" type="checkbox">Select Sweet</label> <label id="movefishselectbitter"><input class="qolsetting" id="movefishselectbittercheckbox" type="checkbox">Select Bitter</label>`;
 
+}
+
+class DaycareMatches {
+    static SETTING_ENABLE = 'enableDaycare';
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[DaycareMatches.SETTING_ENABLE]) {
+            this.setupObservers();
+        }
+    }
+
+    setupObservers() {
+        const self = this;
+        Helpers.addObserver(document.querySelector('body'), {
+            childList: true,
+            subtree: true
+        }, function(mutations) {
+            mutations.forEach(function (mutation) {
+                /*
+                 * const fsPokemon = document.querySelector('#fs_pokemon');
+                 * TODO: detect if this mutation is actually a field loading
+                 */
+                const fsPokemon = $('#fs_pokemon');
+                if (fsPokemon.length > 0 && $.contains(fsPokemon[0], mutation.target)) {
+                    self.customSearch();
+                }
+            });
+        });
+    }
+
+    customSearch() {
+        const button = document.querySelector('#pkmnadd');
+
+        let gender = null;
+        let eggGroup1 = null, eggGroup2 = null;
+
+        if (button !== null) {
+            if (button.attributes['data-gender'] !== undefined) {
+                gender = button.attributes['data-gender'].value;
+            }
+            /*
+             * the egg group is binary coded decimal
+             * if a pokemon has two egg groups, the leftmost 4 bits of the number returned
+             * are the first egg group and the rightmost 4 bits are the second egg group
+             */
+            if (button.attributes['data-egggroup'] !== undefined) {
+                eggGroup1 = parseInt(button.attributes['data-egggroup'].value);
+                if (eggGroup1 > 15) { // two egg groups
+                    eggGroup2 = eggGroup1 & 15;
+                    eggGroup1 = eggGroup1 >> 4;
+                }
+            }
+        }
+
+        const EGG_ID_TO_NAME = Resources.EGG_GROUP_LIST;
+        if (eggGroup1 !== null) { eggGroup1 = EGG_ID_TO_NAME[eggGroup1]; }
+        if (eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2]; }
+
+        // clear matches
+        $('.daycarefoundme').removeClass('daycarefoundme');
+
+        if (gender !== null && eggGroup1 !== null) {
+            const fieldmons = document.querySelectorAll('.fieldmon');
+            if (fieldmons !== null) {
+                for (let m = 0; m < fieldmons.length; m++) {
+                    const mon = fieldmons[m];
+                    const searchPokemonBigImg = $(mon)[0].childNodes[0];
+                    const searchPokemon = searchPokemonBigImg.alt;
+
+                    const tooltip = $(mon).next();
+                    const fieldmontip = tooltip[0].querySelector('.fieldmontip');
+                    const speciesDiv = $(fieldmontip).children(':contains(Species)')[0];
+                    const eggGroupDiv = $(fieldmontip).children(':contains(Egg Group)')[0];
+                    const searchIcons = speciesDiv.querySelector('span').querySelectorAll('img');
+
+                    /*
+                     * There can be other icons if the Pokemon is CS/Delta/Shiny/Albino/Melan
+                     * The gender title can be "[M], [F], [N]"
+                     */
+                    const searchGender = searchIcons[0].title.toLowerCase().substring(1, 2);
+                    const searchEggGroups = $(eggGroupDiv).text().slice('Egg Group: '.length).split('/');
+
+                    // Match Ditto in Daycare to anything that can breed
+                    if (gender === 'd' && eggGroup1 === 'Ditto' &&
+                        searchPokemon !== 'Ditto' && searchEggGroups[0] !== 'Undiscovered') {
+                        $(mon).addClass('daycarefoundme');
+                    }
+                    // Match Ditto in field to anything that can breed
+                    else if (eggGroup1 !== 'Ditto' && searchPokemon === 'Ditto' && eggGroup1 !== 'Undiscovered') {
+                        $(mon).addClass('daycarefoundme');
+                    }
+                    // Match correct gender
+                    else {
+                        const genderCorrect = (gender === 'f' && searchGender === 'm') ||
+                            (gender === 'm' && searchGender === 'f');
+                        const group1Correct = searchEggGroups.reduce((res, curr) => { res = res || (eggGroup1 === curr); return res; }, false);
+                        let group2Correct = false;
+                        if (eggGroup2 !== null) {
+                            group2Correct = searchEggGroups.reduce((res, curr) => { res = res || (eggGroup2 === curr); return res; }, false);
+                        }
+
+                        if (genderCorrect && (group1Correct || group2Correct)) {
+                            $(mon).addClass('daycarefoundme');
+                        }
+                    }
+
+                }
+            }
+        }
+    }
 }
 
 class DexPageFilters {
@@ -417,6 +527,60 @@ class DexPageFilters {
             $(selector).css('display', 'inline-block');
         }
     }
+}
+
+class Fishing {
+    static SETTING_ENABLE = 'fishingEnable';
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[Fishing.SETTING_ENABLE]) {
+            // add CSS always
+            Helpers.addGlobalStyle(Resources.FISHING_CSS);
+            if(document.getElementById('caughtfishcontainer')) {
+                this.multiSelectControls();
+            }
+        }
+        else {
+            console.log('Fishing features disabled');
+        }
+    }
+
+    multiSelectControls() {
+        const caughtFishLabel = document.querySelector('#caughtfishcontainer label');
+        if(caughtFishLabel) {
+            caughtFishLabel.insertAdjacentHTML('afterend', Resources.MASS_RELEASE_FISHING_HTML);
+        }
+
+        // TODO: update this to do male/female when flavors not shown like new field release menu
+        $('#selectallfishcheckbox').on('click', function () {
+            $('li[data-flavour]>label>input').prop('checked', this.checked);
+        });
+
+        $('#movefishselectanycheckbox').on('click', function () {
+            $('li[data-flavour=Any]>label>input').prop('checked', this.checked);
+        });
+
+        $('#movefishselectsourcheckbox').on('click', function () {
+            $('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
+        });
+
+        $('#movefishselectspicycheckbox').on('click', function () {
+            $('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
+        });
+
+        $('#movefishselectdrycheckbox').on('click', function () {
+            $('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
+        });
+
+        $('#movefishselectsweetcheckbox').on('click', function () {
+            $('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
+        });
+
+        $('#movefishselectbittercheckbox').on('click', function () {
+            $('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
+        });
+    }
+
 }
 
 class InteractionsLinks {
@@ -876,7 +1040,19 @@ class PagesManager {
             features: [
                 SummaryDisplayCodes
             ]
-        }
+        },
+        {
+            url: /^\/fishing\/?$/,
+            features: [
+                Fishing
+            ]
+        },
+        {
+            url: /^\/daycare\/?$/,
+            features: [
+                DaycareMatches
+            ]
+        },
     ];
 
     static instantiatePage() {
