@@ -3,15 +3,6 @@
   cursor: pointer;
 }
 /* Shared styles */
-.collapsible {
-  cursor: pointer;
-  padding: 4px;
-  width: 100%;
-  text-align: left;
-  max-width: 600px;
-  position: relative;
-  border-radius: 6px;
-}
 input[type="radio"].qolsetting:enabled,
 input[type="checkbox"].qolsetting:enabled {
   cursor: pointer;
@@ -30,9 +21,15 @@ input[type="checkbox"].qolsetting:enabled {
   background-color: #d5e265;
   border-radius: 100%;
 }
-/* Style the collapsible content. Note: hidden by default */
-.collapsible_content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
+/* Modals */
+.qolModal {
+  >h3:first-child a {
+    float:right;
+    color: inherit; /* match header color */
+  }
+}
+/* Collapses */
+.qolCollapse h3 {
+  padding: 2px;
+  font-size: 100%;
 }

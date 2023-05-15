@@ -4,8 +4,11 @@ class PublicFields {
     static SUB_SETTINGS = 'QoLPublicFieldFeatures';
 
     constructor() {
-        if(UserDataHandle.getSettings().QoLSettings[PublicFields.SETTING_ENABLE]) {
-            console.log('TODO: PublicFields features');
+        let settings = UserDataHandle.getSettings();
+        if(settings.QoLSettings[PublicFields.SETTING_ENABLE]) {
+            // if specific features are enabled, run them
+            if(settings[PrivateFields.SUB_SETTINGS].sort) {
+            }
         }
         else {
             console.log('PublicFields features disabled');

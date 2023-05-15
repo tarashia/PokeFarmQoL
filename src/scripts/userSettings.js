@@ -141,7 +141,7 @@ class UserSettings {
     ];
     // Most field settings are shared, build defaults here
     static fieldDefaults(mode) {
-        let fieldSettings = {
+        let mainSettings = {
             fieldNewPokemon: true,
             fieldShiny: false,
             fieldAlbino: false,
@@ -159,7 +159,7 @@ class UserSettings {
             fieldCustomPokemon: true,
             fieldCustomEgg: true,
             fieldCustomPng: false,
-            tooltipEnableMods: false,
+            fieldHideHoverTooltips: false,
             fieldCustom: '',
             fieldType: '',
             fieldNature: '',
@@ -167,18 +167,15 @@ class UserSettings {
         };
         let subSettings = {
             search: true,
-            release: true,
             tooltip: true,
             pkmnlinks: true
         }
         // Additional page-specific settings
         if(mode=='public') {
-            fieldSettings.tooltipNoBerry = false;
-            fieldSettings.tooltipBerry = false;
-            fieldSettings.fieldByBerry = false;
-            fieldSettings.fieldByMiddle = false;
-            fieldSettings.fieldByGrid = false;
-            fieldSettings.fieldClickCount = true;
+            mainSettings.fieldByBerry = false;
+            mainSettings.fieldByMiddle = false;
+            mainSettings.fieldByGrid = false;
+            mainSettings.fieldClickCount = true;
             subSettings.sort = true;
         }
         else if(mode=='private') {
@@ -189,7 +186,7 @@ class UserSettings {
             return null;
         }
 
-        return {main: fieldSettings, sub: subSettings};
+        return {main: mainSettings, sub: subSettings};
     }
 
     constructor() {
@@ -343,6 +340,8 @@ class UserSettings {
         else {
             ErrorHandler.error('QoL setting could not be identified.');
             console.error(target);
+            console.error(settingGroup);
+            console.error(settingName);
             return null;
         }
     }

@@ -1,27 +1,35 @@
 class Fields {
     constructor(page) {
+        let settings = UserDataHandle.getSettings();
         // determine if this is public vs private so the correct settings can be used
         if(page.name=='privateFields') {
             this.SETTING_ENABLE = PrivateFields.SETTING_ENABLE;
             this.SETTING_KEY = PrivateFields.SETTING_KEY;
             this.SUB_SETTINGS = PrivateFields.SUB_SETTINGS;
+            $('#content').addClass('qolPrivateField');
         }
         else if(page.name=='publicFields') {
             this.SETTING_ENABLE = PublicFields.SETTING_ENABLE;
             this.SETTING_KEY = PublicFields.SETTING_KEY;
             this.SUB_SETTINGS = PublicFields.SUB_SETTINGS;
+            $('#content').addClass('qolPublicField');
         }
         else {
             console.error('Unknown field page');
             ErrorHandler.error('Unknown field page: '+page.name);
             return;
         }
-        let settings = UserDataHandle.getSettings();
         // check if the master setting is enabled
         if(settings.QoLSettings[this.SETTING_ENABLE]) {
+            Helpers.addGlobalStyle(Resources.FIELDS_CSS);
             // if specific features are enabled, run them
             if(settings[this.SUB_SETTINGS].pkmnlinks) {
                 this.pkmnLinks();
+            }
+            if(settings[this.SUB_SETTINGS].search) {
+            }
+            if(settings[this.SUB_SETTINGS].tooltip) {
+                this.setupTooltips(settings);
             }
         }
         // don't log when disabled here, leave that to the unique classes
@@ -57,6 +65,31 @@ class Fields {
             content += '</table>';
             self.pkmnLinksModal = new Modal('Pokemon links', content);
             self.pkmnLinksModal.open();
+        }
+    }
+
+    // enable the tooltip collapse, and enable the input/setting listeners
+    setupTooltips(settings) {
+        document.querySelector('#fieldmodetoggle').insertAdjacentHTML('afterend', Resources.FIELD_TOOLTIP_MOD_HTML);
+        // set data-group based on public vs private
+        $('input[name="fieldHideHoverTooltips"]').attr('data-group',this.SETTING_KEY);
+        let self = this;
+        Helpers.activateCollapses();
+        settings.addSettingsListeners();
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingName == 'fieldHideHoverTooltips') {
+                self.hideTooltips(settings);
+            }
+        });
+        this.hideTooltips(settings);
+    }
+    // add & remove the class that hides hover tooltips based on the current setting
+    hideTooltips(settings) {
+        if(settings[this.SETTING_KEY].fieldHideHoverTooltips) {
+            $('#field_field').addClass('qolHideTooltips');
+        }
+        else {
+            $('#field_field').removeClass('qolHideTooltips');
         }
     }
 }

@@ -15,7 +15,6 @@ class Resources {
     // CSS files
     static CORE_CSS = `<% src/styles/core.less %>`;
     static HUB_CSS = `<% src/styles/hub.less %>`;
-    static MODAL_CSS = `<% src/styles/modal.less %>`;
     static SHELTER_CSS = `<% src/styles/shelter.less %>`;
     static FIELDS_CSS = `<% src/styles/fields.less %>`;
     static FISHING_CSS = `<% src/styles/fishing.less %>`;
@@ -35,8 +34,7 @@ class Resources {
     static SHELTER_SORT_HTML = `<% src/html/shelter-sort.html %>`;
     static FIELD_SEARCH_HTML = `<% src/html/field-search.html %>`;
     static FIELD_SORT_HTML = `<% src/html/field-sort.html %>`;
-    static PUBLIC_FIELD_TOOLTIP_MOD_HTML = `<% src/html/public-field-tooltip.html %>`;
-    static PRIVATE_FIELD_TOOLTIP_MOD_HTML = `<% src/html/private-field-tooltip.html %>`;
+    static FIELD_TOOLTIP_MOD_HTML = `<% src/html/field-tooltip.html %>`;
     static MASS_RELEASE_FISHING_HTML = `<% src/html/mass-release-fishing.html %>`;
 
 }

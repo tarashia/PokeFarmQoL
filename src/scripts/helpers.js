@@ -40,4 +40,42 @@ class Helpers {
         observer.observe(watchElement, observeOptions);
     }
 
+    /* 
+    Demo collapse html. Deviation from this may result in errors.
+    
+    <div class="panel accordion qolCollapse">
+        <h3>
+            <a href="#">
+            Collapse Title
+            <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg>
+            </a>
+        </h3>
+        <div style="display:none;">
+            Collapse Content
+        </div>
+    </div>
+    */
+    static activateCollapses() {
+        let collapses = $('.qolCollapse');
+        for(let i=0; i<collapses.length; i++) {
+            let header = collapses[i].children[0];
+            let body = collapses[i].children[1];
+            if(header && body) {
+                $(header).on('click', function() {
+                    if($(header).hasClass('active')) {
+                        $(header).removeClass('active');
+                        $(body).css('display','none');
+                    }
+                    else {
+                        $(header).addClass('active');
+                        $(body).css('display','block');
+                    }
+                });
+            }
+            else {
+                ErrorHandler.error('Malformed collapse box');
+                console.log(collapses[i]);
+            }
+        }
+    }
 }

@@ -53,26 +53,13 @@ class MultiUser {
 
   setupHandlers() {
       const self = this;
-      // listener for the custom options accordion
-      // TODO: centralize QoL accordion into helpers or like modal etc
-      $('#qolpartymodcustom h3 a').on('click', function() {
-          if($('#qolpartymodcustom h3').hasClass('active')) {
-              $('#qolpartymodcustom h3').removeClass('active');
-              $('#qolpartymodcustom > div').css('display','none');
-          }
-          else {
-              $('#qolpartymodcustom h3').addClass('active');
-              $('#qolpartymodcustom > div').css('display','block');
-          }
-      });
+      // activate the custom options collapse
+      Helpers.activateCollapses();
       const settings = UserDataHandle.getSettings();
       settings.addSettingsListeners();
       settings.registerChangeListener(function(changeDetails) {
           if(changeDetails.settingGroup==MultiUser.SETTING_KEY) {
               self.partyModification();
-          }
-          else {
-              console.log('non-page-related setting changed');
           }
       });
   }
@@ -85,7 +72,6 @@ class MultiUser {
   }
 
   partyModification() {
-      console.log('running party mod');
       // get page-specific settings
       const partySettings = UserDataHandle.getSettings()[MultiUser.SETTING_KEY];
 
@@ -105,19 +91,16 @@ class MultiUser {
       }
 
       if (partySettings.partyModType == 'hideDislike') {
-          console.log('party mod: hide dislike');
           $('#multiuser').addClass('qolPartyHideDislike');
           this.sharedPartyMods();
       }
 
       else if (partySettings.partyModType == 'niceTable') {
-          console.log('party mod: nice table');
           $('#multiuser').addClass('qolPartyNiceTable');
           this.sharedPartyMods();
       }
 
       else if (partySettings.partyModType == 'hideAll') {
-          console.log('party mod: hide all');
           $('#multiuser').addClass('qolPartyHideAll');
           this.sharedPartyMods();
           const nextLink = $('.mu_navlink.next');
@@ -128,7 +111,6 @@ class MultiUser {
       }
 
       else if (partySettings.partyModType == 'customParty') {
-          console.log('party mod: customize');
           $('#multiuser').addClass('qolPartyCustomParty');
           this.sharedPartyMods();
           $('#qolpartymodcustom').css('display','block');

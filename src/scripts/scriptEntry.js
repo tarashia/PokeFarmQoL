@@ -19,7 +19,6 @@ $(function () {
 
     console.log('Adding QoL CSS');
     Helpers.addGlobalStyle(Resources.CORE_CSS);
-    Helpers.addGlobalStyle(Resources.MODAL_CSS);
     try {
         Helpers.addGlobalStyle(settings.QoLSettings.customCss);
     } catch(e) {

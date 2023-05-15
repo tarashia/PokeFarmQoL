@@ -101,3 +101,13 @@
 .qolNatureShown~.qolSelectGender {
   display: none;
 }
+#tooltipenable {
+  max-width: 600px;
+  position: relative;
+  margin: 16px auto;
+}
+/* public & private fields lock tooltips differently */
+.qolPrivateField .qolHideTooltips .fieldmon.tooltip_trigger:not(.selected) + .tooltip_content,
+.qolPublicField .qolHideTooltips .fieldmon.tooltip_trigger:not(.lock) + .tooltip_content {
+    display: none !important;
+}

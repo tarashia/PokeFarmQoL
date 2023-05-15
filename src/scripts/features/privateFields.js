@@ -4,8 +4,11 @@ class PrivateFields {
     static SUB_SETTINGS = 'QoLPrivateFieldFeatures';
 
     constructor() {
-        if(UserDataHandle.getSettings().QoLSettings[PrivateFields.SETTING_ENABLE]) {
-            console.log('TODO: PrivateFields features');
+        let settings = UserDataHandle.getSettings();
+        if(settings.QoLSettings[PrivateFields.SETTING_ENABLE]) {
+            // if specific features are enabled, run them
+            if(settings[PrivateFields.SUB_SETTINGS].release) {
+            }
         }
         else {
             console.log('PrivateFields features disabled');
