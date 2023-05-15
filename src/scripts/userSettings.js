@@ -1,138 +1,146 @@
 // Do not call this constructor directly to get or create a settings object
 // Always call UserDataHandle.getSettings();
+// Most setting keys are located in the feature class they go with
 class UserSettings {
-    static LINKED_SETTINGS_KEYS = {
-        'shelterEnable': 'QoLShelterFeatures',
-        'publicFieldEnable': 'QoLPublicFieldFeatures',
-        'privateFieldEnable': 'QoLPrivateFieldFeatures'
-    };
-    static FEATURE_SETTINGS_KEYS = [
-        MultiUser.SETTING_KEY
+    // All main setting enablers, and their default values
+    static SETTING_ENABLERS = [
+        {
+            'name': DaycareMatches.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': DexPageFilters.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': EasyEvolve.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': Fishing.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': InteractionsLinks.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': Lab.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': MultiUser.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': PrivateFields.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': PublicFields.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': Shelter.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': SummaryDisplayCodes.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': Wishforge.SETTING_ENABLE,
+            'default': true
+        }
     ];
-
-    constructor() {
-        console.log('Initializing QoL settings');
-        this.setDefaults();
-        this.loadSettings();
-        this.changeListeners = [];
-    }
-    // Set the default settings values (does not save to storage)
-    // These are used when someone first enables the script, when settings are reset,
-    // or when a new setting is added that the user doesn't have already in storage
-    setDefaults() {
-        this.QoLSettings = {
-            customCss : '',
-            enableDaycare : true,
-            shelterEnable : true,
-            fishingEnable : true,
-            publicFieldEnable : true,
-            privateFieldEnable : true,
-            partyMod : true,
-            easyEvolve : true,
-            labNotifier : true,
-            dexFilterEnable : true,
-            condenseWishforge : true,
-            interactionsEnable : true,
-            summaryEnable : true
+    static SUB_ENABLERS = [
+        {
+            'name': Shelter.SUB_SETTINGS,
+            'default': {
+                search: true,
+                sort: true,
+            }
+        },
+        {
+            'name': PrivateFields.SUB_SETTINGS,
+            'default': UserSettings.fieldDefaults('private').sub
+        },
+        {
+            'name': PublicFields.SUB_SETTINGS,
+            'default': UserSettings.fieldDefaults('public').sub
         }
-        this.QoLShelterFeatures = {
-            search: true,
-            sort: true,
-        };
-        this.QoLPublicFieldFeatures = {
-            search: true,
-            sort: true,
-            release: true,
-            tooltip: true,
-            pkmnlinks: true
-        };
-        this.QoLPrivateFieldFeatures = {
-            search: true,
-            release: true,
-            tooltip: true,
-            pkmnlinks: true
-        };
-        this.setPageDefaults('ALL');
-    }
-    // Page should be a valid local storage key, starting with QoL
-    // When "ALL", all page defaults are set
-    // Set commit to true to also save the settings to storage
-    setPageDefaults(page, commit=false) {
-        let pageList = [];
-        if(page==='ALL') {
-            pageList = UserSettings.FEATURE_SETTINGS_KEYS;
-        }
-        else {
-            pageList.push(page);
-        }
-        for(let i=0; i<pageList.length; i++) {
-            const pDefs = this.pageDefaults(pageList[i]);
-            if(pDefs) {
-                this[pageList[i]] = pDefs;
-                if(commit) {
-                    LocalStorageManager.setItem(pageList[i], this[pageList[i]]);
-                }
+    ];
+    // list of features with their own settings group
+    // (typically ones that appear on the specific feature page, vs in the hub)
+    // Display value is shown on the hub's page reset feature
+    static FEATURE_SPECIFIC_SETTINGS = [        
+        {
+            'name': Lab.SETTING_KEY,
+            'display': 'Lab',
+            'default': {
+                findLabEgg: '',
+                customEgg: true,
+                findLabType: '',
+                findTypeEgg: true,
+            }
+        },
+        {
+            'name': MultiUser.SETTING_KEY,
+            'display': 'Multi-user clickback',
+            'default': {
+                partyModType: 'noMod',
+                hideDislike: false,
+                hideAll: false,
+                niceTable: false,
+                customParty: false,
+                stackNextButton: true,
+                stackMoreButton: true,
+                showPokemon: true,
+                compactPokemon: true,
+                clickablePokemon: false,
+                showTrainerCard: true,
+                showFieldButton: false,
+                showModeChecks: false,
+                showUserName: true
+            }
+        },
+        {
+            'name': PrivateFields.SETTING_KEY,
+            'display': 'Private fields',
+            'default': UserSettings.fieldDefaults('private').main
+        },
+        {
+            'name': PublicFields.SETTING_KEY,
+            'display': 'Public fields',
+            'default': UserSettings.fieldDefaults('public').main
+        },
+        {
+            'name': Shelter.SETTING_KEY,
+            'display': 'Shelter',
+            'default': {
+                findNewEgg: true,
+                findNewPokemon: true,
+                findShiny: true,
+                findAlbino: true,
+                findMelanistic: true,
+                findPrehistoric: true,
+                findDelta: true,
+                findMega: true,
+                findStarter: true,
+                findCustomSprite: true,
+                findTotem: false,
+                findLegendary: false,
+                shelterGrid: true,
+                shelterSpriteSize: 'auto',
+                quickTypeSearch: [],
+                fullOptionSearch: {},
+                quickPkmnSearch: [],
+                fullPkmnSearch: {}
             }
         }
-    }
-    pageDefaults(page) {
-        switch(page) {
-            case MultiUser.SETTING_KEY:
-                return {
-                    partyModType: 'noMod',
-                    hideDislike: false,
-                    hideAll: false,
-                    niceTable: false,
-                    customParty: false,
-                    stackNextButton: true,
-                    stackMoreButton: true,
-                    showPokemon: true,
-                    compactPokemon: true,
-                    clickablePokemon: false,
-                    showTrainerCard: true,
-                    showFieldButton: false,
-                    showModeChecks: false,
-                    showUserName: true
-                };
-            case PrivateFields.SETTING_KEY:
-                return this.fieldDefaults(false);
-            case PublicFields.SETTING_KEY:
-                return this.fieldDefaults(true);
-            case Lab.SETTING_KEY:
-                return {
-                    findLabEgg: '',
-                    customEgg: true,
-                    findLabType: '',
-                    findTypeEgg: true,
-                };
-            case Shelter.SETTING_KEY:
-                return {
-                    findNewEgg: true,
-                    findNewPokemon: true,
-                    findShiny: true,
-                    findAlbino: true,
-                    findMelanistic: true,
-                    findPrehistoric: true,
-                    findDelta: true,
-                    findMega: true,
-                    findStarter: true,
-                    findCustomSprite: true,
-                    findTotem: false,
-                    findLegendary: false,
-                    shelterGrid: true,
-                    shelterSpriteSize: 'auto',
-                    quickTypeSearch: [],
-                    fullOptionSearch: {},
-                    quickPkmnSearch: [],
-                    fullPkmnSearch: {}
-                }
-            default:
-                ErrorHandler.warn('Cannot set page defaults for unknown page: '+page);
-                return null;
-        }
-    }
+    ];
     // Most field settings are shared, build defaults here
-    fieldDefaults(isPublic) {
+    static fieldDefaults(mode) {
         let fieldSettings = {
             fieldNewPokemon: true,
             fieldShiny: false,
@@ -157,17 +165,77 @@ class UserSettings {
             fieldNature: '',
             fieldEggGroup: ''
         };
-        // Additional public-only settings
-        if(isPublic) {
+        let subSettings = {
+            search: true,
+            release: true,
+            tooltip: true,
+            pkmnlinks: true
+        }
+        // Additional page-specific settings
+        if(mode=='public') {
             fieldSettings.tooltipNoBerry = false;
             fieldSettings.tooltipBerry = false;
             fieldSettings.fieldByBerry = false;
             fieldSettings.fieldByMiddle = false;
             fieldSettings.fieldByGrid = false;
             fieldSettings.fieldClickCount = true;
+            subSettings.sort = true;
+        }
+        else if(mode=='private') {
+            subSettings.release = true;
+        }
+        else {
+            ErrorHandler.error('Unknown field page specifier: '+mode);
+            return null;
+        }
+
+        return {main: fieldSettings, sub: subSettings};
+    }
+
+    constructor() {
+        console.log('Initializing QoL settings');
+        this.setDefaults();
+        this.loadSettings();
+        this.changeListeners = [];
+    }
+    // Set the default settings values (does not save to storage)
+    // These are used when someone first enables the script, when settings are reset,
+    // or when a new setting is added that the user doesn't have already in storage
+    setDefaults() {
+        this.QoLSettings = {
+            customCss : '',
+        }
+        // main feature enablers
+        for(let i=0; i<UserSettings.SETTING_ENABLERS.length; i++) {
+            this.QoLSettings[UserSettings.SETTING_ENABLERS[i].name] = UserSettings.SETTING_ENABLERS[i].default;
+        }
+        // sub feature enablers
+        for(let i=0; i<UserSettings.SUB_ENABLERS.length; i++) {
+            this[UserSettings.SUB_ENABLERS[i].name] = UserSettings.SUB_ENABLERS[i].default;
+        }
+        // feature/page-specific settings
+        for(let i=0; i<UserSettings.FEATURE_SPECIFIC_SETTINGS.length; i++) {
+            this[UserSettings.FEATURE_SPECIFIC_SETTINGS[i].name] = UserSettings.FEATURE_SPECIFIC_SETTINGS[i].default;
         }
     }
-    // Change a single setting
+    // Resets the feature-specific settings, and saves the defaults to local storage
+    // Feature should be one of the names in FEATURE_SPECIFIC_SETTINGS
+    resetFeatureDefaults(feature) {
+        let foundSetting = false;
+        // there aren't many items in this list, so let's just brute force it
+        for(let i=0; i<UserSettings.FEATURE_SPECIFIC_SETTINGS.length; i++) {
+            let featureSettings = UserSettings.FEATURE_SPECIFIC_SETTINGS[i];
+            if(featureSettings.name == feature) {
+                foundSetting = true;
+                this[featureSettings.name] = featureSettings.default;
+                LocalStorageManager.setItem(featureSettings.name, this[featureSettings.default]);
+            }
+        }
+        if(!foundSetting) {
+            ErrorHandler.error('Unknown feature setting group: '+feature);
+        }
+    }
+    // Change a single setting, and save it in local storage
     // Note: this effectively re-stores the whole group, due to how settings are stored
     // But it does NOT re-store all settings in all groups
     // When done, calls any registered listeners, and provides them the change details

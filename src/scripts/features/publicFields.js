@@ -1,6 +1,7 @@
 class PublicFields {
-    static SETTING_KEY = 'QoLPublicFieldFeatures';
+    static SETTING_KEY = 'QoLPublicField';
     static SETTING_ENABLE = 'publicFieldEnable';
+    static SUB_SETTINGS = 'QoLPublicFieldFeatures';
 
     constructor() {
         if(UserDataHandle.getSettings().QoLSettings[PublicFields.SETTING_ENABLE]) {

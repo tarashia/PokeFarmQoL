@@ -1,6 +1,7 @@
 class Shelter {
     static SETTING_KEY = 'QoLShelter';
     static SETTING_ENABLE = 'shelterEnable';
+    static SUB_SETTINGS = 'QoLShelterFeatures';
     static NEXT_MATCH_KEY = 78; // 'n'
 
     constructor() {

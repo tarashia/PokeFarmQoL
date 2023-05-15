@@ -28,9 +28,14 @@ class QoLHub {
     }
 
     static setupHandlers() {
+        // add menu items to reset dropdown
+        for(let i=0; i<UserSettings.FEATURE_SPECIFIC_SETTINGS.length; i++) {
+            let featureSettings = UserSettings.FEATURE_SPECIFIC_SETTINGS[i];
+            $('#qolHubResetSettingsSelect').append('<option value="'+featureSettings.name+'">'+featureSettings.display+'</option>');
+        }
         // reset settings handlers
         $('#resetPageSettings').on('click', (function (event) {
-            UserDataHandle.getSettings().setPageDefaults(event.target.value,true);
+            UserDataHandle.getSettings().resetFeatureDefaults(event.target.value);
         }));
         $('#resetAllSettings').on('click', (function () {
             if(window.confirm('Are you sure? All settings, including your custom CSS, will be reset.')) {
@@ -56,9 +61,14 @@ class QoLHub {
         }));
 
         // storage/settings loggers
+        // also logs the user settings object to the console
         $('#qolExportSettings').on('click', (function() {
+            console.log('Stored settings:');
             let storedSettings = LocalStorageManager.getAllQoLSettings();
             console.log(storedSettings);
+            console.log('User settings:');
+            let userSettings = UserDataHandle.getSettings();
+            console.log(userSettings);
             // TODO: get relevant browser/screen size data, add to object?
             // convert to JSON, then base 64 encode
             let output = JSON.stringify(storedSettings);
