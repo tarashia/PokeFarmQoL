@@ -27,6 +27,7 @@ class Fields {
                 this.pkmnLinks();
             }
             if(settings[this.SUB_SETTINGS].search) {
+                this.setupSearch(settings);
             }
             if(settings[this.SUB_SETTINGS].tooltip) {
                 this.setupTooltips(settings);
@@ -68,9 +69,12 @@ class Fields {
         }
     }
 
+    setupSearch(settings) {
+    }
+
     // enable the tooltip collapse, and enable the input/setting listeners
     setupTooltips(settings) {
-        document.querySelector('#fieldmodetoggle').insertAdjacentHTML('afterend', Resources.FIELD_TOOLTIP_MOD_HTML);
+        document.querySelector('#fieldmodetoggle').insertAdjacentHTML('afterend', Resources.FIELD_TOOLTIP_HTML);
         // set data-group based on public vs private
         $('input[name="fieldHideHoverTooltips"]').attr('data-group',this.SETTING_KEY);
         let self = this;
