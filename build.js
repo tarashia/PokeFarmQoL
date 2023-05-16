@@ -13,7 +13,6 @@
 
 import exec from 'await-exec';
 import fs from 'fs';
-import crypto from 'crypto';
 import path from 'path';
 import less from 'less';
 import jsonc from 'jsonc';
@@ -94,9 +93,7 @@ async function runBuild() {
     console.log(formatter.format(results));
 
     await addScriptHeader();
-    const checksum = await getChecksum(outputPath, 'md5');
-    console.log('Done! New checksum: '+checksum);
-    console.log('Note: If lint found errors, add 13 to the line numbers (length of script header)');
+    console.log('Done! If lint found errors, add 13 to the line numbers');
 }
 
 async function addScriptHeader() {
@@ -175,19 +172,4 @@ export async function processStyle(content) {
 // Pre-process object content to remove comments
 export function processObject (content) {
     return jsonc.uglify(jsonc.stripComments(content));
-}
-
-// https://stackoverflow.com/a/65199864
-function getChecksum(path, hashType='sha256') {
-    return new Promise((resolve, reject) => {
-      const hash = crypto.createHash(hashType);
-      const input = fs.createReadStream(path);
-      input.on('error', reject);
-      input.on('data', (chunk) => {
-          hash.update(chunk);
-      });
-      input.on('close', () => {
-          resolve(hash.digest('hex'));
-      });
-    });
 }
