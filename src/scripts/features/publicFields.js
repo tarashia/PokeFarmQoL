@@ -21,8 +21,7 @@ class PublicFields {
         Helpers.addObserver(document.querySelector('#field_field'), {
             childList: true,
             subtree: true,
-        }, function(mutations) {
-            console.warn(mutations);
+        }, function() {
             PublicFields.addClickCounter(settings);
         });
     }

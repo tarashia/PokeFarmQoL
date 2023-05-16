@@ -160,10 +160,9 @@ class UserSettings {
             fieldMale: true,
             fieldFemale: true,
             fieldNoGender: true,
-            fieldCustomItem: true, // unused
-            fieldCustomPokemon: true,
-            fieldCustomEgg: true,
-            fieldCustomPng: false,
+            fieldName: true,
+            fieldSpecies: true,
+            fieldSearchItem: false,
             fieldHideHoverTooltips: false,
             fieldCustom: '',
             fieldType: '',
