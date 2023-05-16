@@ -17,8 +17,8 @@ class MultiUser {
       Helpers.addGlobalStyle(Resources.PARTY_CSS);
       document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.PARTY_MOD_HTML);
       const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
-      $('#qolpartymod').css('background-color', '' + menuBackground + '');
       const menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
+      $('#qolpartymod').css('background-color', '' + menuBackground + '');
       $('#qolpartymod').css('color', '' + menuColor + '');
   }
   
@@ -148,7 +148,7 @@ class MultiUser {
           }
       }
       
-      else if (partySettings.partyModType !== 'noMod') {
+      else if (partySettings.partyModType !== 'none') {
           ErrorHandler.warn('Invalid party mod type: '+partySettings.partyModType);
       }
   }

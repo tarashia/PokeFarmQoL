@@ -70,6 +70,8 @@ class Fields {
     }
 
     setupSearch(settings) {
+        console.warn('TODO: field search');
+        console.log(settings);
     }
 
     // enable the tooltip collapse, and enable the input/setting listeners

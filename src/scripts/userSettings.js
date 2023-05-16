@@ -88,7 +88,7 @@ class UserSettings {
             'name': MultiUser.SETTING_KEY,
             'display': 'Multi-user clickback',
             'default': {
-                partyModType: 'noMod',
+                partyModType: 'none',
                 hideDislike: false,
                 hideAll: false,
                 niceTable: false,
@@ -172,10 +172,9 @@ class UserSettings {
         }
         // Additional page-specific settings
         if(mode=='public') {
-            mainSettings.fieldByBerry = false;
-            mainSettings.fieldByMiddle = false;
-            mainSettings.fieldByGrid = false;
+            mainSettings.fieldSort = 'none';
             mainSettings.fieldClickCount = true;
+            mainSettings.maxStack = false;
             subSettings.sort = true;
         }
         else if(mode=='private') {
