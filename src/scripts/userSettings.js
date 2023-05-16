@@ -156,7 +156,7 @@ class UserSettings {
             fieldMega: false,
             fieldStarter: false,
             fieldCustomSprite: false,
-            fieldItem: false,
+            fieldItem: true,
             fieldMale: true,
             fieldFemale: true,
             fieldNoGender: true,

@@ -26,12 +26,16 @@ class Fields {
             if(settings[this.SUB_SETTINGS].pkmnlinks) {
                 this.pkmnLinks();
             }
-            if(settings[this.SUB_SETTINGS].search) {
-                this.setupSearch(settings);
-            }
             if(settings[this.SUB_SETTINGS].tooltip) {
                 this.setupTooltips(settings);
             }
+            if(settings[this.SUB_SETTINGS].search) {
+                this.setupSearch(settings);
+            }
+            Helpers.activateCollapses();
+            // set data-group based on public vs private
+            $('input.qolfieldsetting').attr('data-group',this.SETTING_KEY);
+            settings.addSettingsListeners();
         }
         // don't log when disabled here, leave that to the unique classes
     }
@@ -69,19 +73,10 @@ class Fields {
         }
     }
 
-    setupSearch(settings) {
-        console.warn('TODO: field search');
-        console.log(settings);
-    }
-
     // enable the tooltip collapse, and enable the input/setting listeners
     setupTooltips(settings) {
-        document.querySelector('#fieldmodetoggle').insertAdjacentHTML('afterend', Resources.FIELD_TOOLTIP_HTML);
-        // set data-group based on public vs private
-        $('input[name="fieldHideHoverTooltips"]').attr('data-group',this.SETTING_KEY);
+        $('#content').append(Resources.FIELD_TOOLTIP_HTML);
         let self = this;
-        Helpers.activateCollapses();
-        settings.addSettingsListeners();
         settings.registerChangeListener(function(changeDetails) {
             if(changeDetails.settingName == 'fieldHideHoverTooltips') {
                 self.hideTooltips(settings);
@@ -97,5 +92,11 @@ class Fields {
         else {
             $('#field_field').removeClass('qolHideTooltips');
         }
+    }
+
+    setupSearch(settings) {
+        $('#content').append(Resources.FIELD_SEARCH_HTML);
+        // TODO: tooltips?
+        // TODO: settings change listeners
     }
 }
