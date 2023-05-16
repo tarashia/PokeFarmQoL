@@ -91,14 +91,15 @@
   max-height: 70px;
   animation: none!important;
 }
+/* mass select */
 .qolSelectFlavour {
   display: none;
 }
-.qolFlavourShown~.qolSelectFlavour {
+.qolFlavourShown~#qolMassSelect .qolSelectFlavour {
   display: inline;
 }
-.qolFlavourShown~.qolSelectGender,
-.qolNatureShown~.qolSelectGender {
+.qolFlavourShown~#qolMassSelect .qolSelectGender,
+.qolNatureShown~#qolMassSelect .qolSelectGender {
   display: none;
 }
 #tooltipenable {
