@@ -7,7 +7,7 @@ $(function () {
         console.log('Adding QoL icon');
         document.querySelector('#announcements li.spacer').insertAdjacentHTML('beforebegin', Resources.QOL_HUB_ICON_HTML);
 
-        console.log('Loading QoL settings & core CSS');
+        console.log('Loading QoL settings & dex');
         settings = UserDataHandle.getSettings();
         UserDataHandle.getDex(); //pre-load dex
         console.log('Initializing QoL hub');
@@ -21,6 +21,7 @@ $(function () {
     Helpers.addGlobalStyle(Resources.CORE_CSS);
     try {
         Helpers.addGlobalStyle(settings.QoLSettings.customCss);
+        Helpers.addGlowColourCSS(settings.QoLSettings.searchGlowColour);
     } catch(e) {
         ErrorHandler.error("Could not add user's custom QoL CSS",e);
     }

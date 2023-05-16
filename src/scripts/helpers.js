@@ -1,9 +1,20 @@
 class Helpers {
     static addGlobalStyle(css) {
-        const head = document.getElementsByTagName('head')[0];
-        const style = document.createElement('style');
-        style.innerHTML = css;
-        head.appendChild(style);
+        if(css) {
+            const head = document.getElementsByTagName('head')[0];
+            const style = document.createElement('style');
+            style.innerHTML = css;
+            head.appendChild(style);
+        }
+    }
+
+    static addGlowColourCSS(glowColour) {
+        if(glowColour) {
+            let css = '.publicfoundme, .privatefoundme, .shelterfoundme, .daycarefoundme, .labfoundme {';
+            css += 'box-shadow: 0px 0px 25px 15px '+glowColour+';';
+            css += 'background-color: '+glowColour+';}';
+            Helpers.addGlobalStyle(css);
+        }
     }
 
     static buildOptionsString(arr) {

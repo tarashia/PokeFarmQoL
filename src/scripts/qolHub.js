@@ -18,7 +18,6 @@ class QoLHub {
             $('#qolHubIcon').on('click', (function () {
                 console.log('Opening QoL hub');
                 self.hubModal.open();
-                UserDataHandle.getSettings().addSettingsListeners();
             }));
         }
         else {
@@ -81,12 +80,27 @@ class QoLHub {
 
     // additional after open tasks that aren't handlers
     static afterOpen() {
+        const settings = UserDataHandle.getSettings();
+        settings.addSettingsListeners();
         // set dex updated date display
         let dexUpdateDate = UserDataHandle.getDex().DEX_UPDATE_DATE;
         if(!dexUpdateDate) {
             dexUpdateDate = 'Never updated';
         }
         $('#qolDexDate').text(dexUpdateDate);
+        // glow colour changes
+        $('#glowColourPreview').css('background-color',settings.QoLSettings.searchGlowColour);
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingName=='searchGlowColour') {
+                // prevent an empty value
+                if(changeDetails.newValue.trim()=='') {
+                    settings.changeSetting('QoLSettings', 'searchGlowColour', '#d5e265');
+                }
+                else {
+                    $('#glowColourPreview').css('background-color',changeDetails.newValue);
+                }
+            }
+        });
     }
 
 } // QoLHub

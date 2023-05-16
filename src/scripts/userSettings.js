@@ -2,6 +2,11 @@
 // Always call UserDataHandle.getSettings();
 // Most setting keys are located in the feature class they go with
 class UserSettings {
+    // Default values for global settins
+    static GLOBAL_DEFAULTS = {
+        customCss: '',
+        searchGlowColour: '#d5e265'
+    }
     // All main setting enablers, and their default values
     static SETTING_ENABLERS = [
         {
@@ -198,9 +203,7 @@ class UserSettings {
     // These are used when someone first enables the script, when settings are reset,
     // or when a new setting is added that the user doesn't have already in storage
     setDefaults() {
-        this.QoLSettings = {
-            customCss : '',
-        }
+        this.QoLSettings = UserSettings.GLOBAL_DEFAULTS;
         // main feature enablers
         for(let i=0; i<UserSettings.SETTING_ENABLERS.length; i++) {
             this.QoLSettings[UserSettings.SETTING_ENABLERS[i].name] = UserSettings.SETTING_ENABLERS[i].default;
