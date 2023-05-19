@@ -154,6 +154,7 @@ class UserSettings {
             fieldPrehistoric: false,
             fieldDelta: false,
             fieldMega: false,
+            fieldLegend: false,
             fieldStarter: false,
             fieldCustomSprite: false,
             fieldItem: true,

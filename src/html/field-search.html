@@ -7,63 +7,38 @@
   </h3>
   <div style="display:none;">
     <p> Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p>
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldShiny"/>Shiny
-            </label>
-          </td>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldAlbino"/>Albino
-            </label>
-          </td>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldMelanistic"/>Melanistic
-            </label>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldPrehistoric"/>Prehistoric
-            </label>
-          </td>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldDelta"/>Delta
-            </label>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldMega"/>Mega
-            </label>
-          </td>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldStarter"/>Starter
-            </label>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldCustomSprite"/>Custom Sprite
-            </label>
-          </td>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldItem"/>Holds Item
-            </label>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="searchChecks">
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldShiny"/>Shiny
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldAlbino"/>Albino
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldMelanistic"/>Melanistic
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldPrehistoric"/>Prehistoric
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldDelta"/>Delta
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldMega"/>Mega
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldLegend"/>Legendary
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldStarter"/>Starter
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldCustomSprite"/>Custom Sprite
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldItem"/>Holds Item
+      </label></div>
+    </div>
     <h4>Search on type</h4>
     <p>Select which types of Pokemon you wish to find</p>
     <input type='button' value='Add type' id='addFieldTypeSearch'>
@@ -84,52 +59,30 @@
     </div>
 
     <h4>Search on gender</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldMale"/>Male
-            </label>
-          </td>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldFemale"/>Female
-            </label>
-          </td>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldNoGender"/>Genderless
-            </label>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="searchChecks">
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldMale"/>Male
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldFemale"/>Female
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldNoGender"/>Genderless
+      </label></div>
+    </div>
 
     <h4>Search Keys</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldName"/>Search name
-            </label>
-          </td>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldSpecies"/>Search species
-            </label>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label>
-              <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldSearchItem"/>Search item name
-            </label>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="searchChecks">
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldName"/>Search name
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldSpecies"/>Search species
+      </label></div>
+      <div><label>
+        <input type="checkbox" class="qolsetting qolfieldsetting" name="fieldSearchItem"/>Search item name
+      </label></div>
+    </div>
     <p>
       <input type='button' value='Add searchfield' id='addTextField'>
       <div id="searchkeys">

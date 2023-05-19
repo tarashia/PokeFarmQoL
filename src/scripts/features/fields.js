@@ -22,6 +22,7 @@ class Fields {
         // check if the master setting is enabled
         if(settings.QoLSettings[this.SETTING_ENABLE]) {
             Helpers.addGlobalStyle(Resources.FIELDS_CSS);
+            Helpers.addGlobalStyle(Resources.SEARCH_CSS);
             // if specific features are enabled, run them
             if(settings[this.SUB_SETTINGS].pkmnlinks) {
                 this.pkmnLinks();

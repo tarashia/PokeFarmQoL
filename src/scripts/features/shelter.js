@@ -5,58 +5,25 @@ class Shelter {
     static NEXT_MATCH_KEY = 78; // 'n'
 
     constructor() {
-        if(UserDataHandle.getSettings().QoLSettings[Shelter.SETTING_ENABLE]) {
-            this.setupHTML();
-            this.setupObservers();
-            this.setupHandlers();
+        let settings = UserDataHandle.getSettings();
+        if(settings.QoLSettings[Shelter.SETTING_ENABLE]) {
+            Helpers.addGlobalStyle(Resources.SHELTER_CSS);
+            Helpers.addGlobalStyle(Resources.SEARCH_CSS);
+            // if specific features are enabled, run them
+            if(settings[Shelter.SUB_SETTINGS].sort) {
+                this.setupSort(settings);
+            }
+            if(settings[Shelter.SUB_SETTINGS].search) {
+                this.setupSearch(settings);
+            }
+            settings.addSettingsListeners();
         }
         else {
             console.log('Shelter features disabled');
         }
     }
 
-    setupObservers() {
-        Helpers.addObserver(document.querySelector('#shelterarea'), {
-            childList: true
-        }, function(mutations) {
-            console.log('mutation observed');
-            console.log(mutations);
-            //this.customSearch(); //TODO
-        });
-    }
-
-    setupHTML() {
-        const QoLSettings = UserDataHandle.getSettings().QoLSettings;
-        if(QoLSettings.shelterFeatureEnables.search) {
-            $('.tabbed_interface.horizontal>div').removeClass('tab-active');
-            $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterOptionsHTML());
-            $('#shelteroptionsqol').addClass('tab-active');
-            //this.showSearchSettings(); //TODO
-        }
-        if(QoLSettings.shelterFeatureEnables.sort) {
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterSortHTML());
-            this.handleSortSettings();
-        }
-        if(QoLSettings.shelterFeatureEnables.search || QoLSettings.shelterFeatureEnables.sort) {
-            const shelterSuccessCss = $('#sheltercommands').css('background-color');
-            $('#sheltersuccess').css('background-color', shelterSuccessCss);
-            $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
-            const background = $('#shelterpage>.panel').eq(0).css('border');
-            $('.tooltiptext').css('border', '' + background + '');
-        }
-    }
-
-    setupHandlers() {
-        $('#qolQuickTextBtn').on('click',function() {
-            console.log('add quick text');
-        });
-        $('#qolQuickTypeBtn').on('click',function() {
-            console.log('add quick type');
-        });
-
+    setupSearch(settings) {
         // listen for next match hotkey
         $(window).on('keyup', function (e) {
             if (0 == $(e.target).closest('input, textarea').length) {
@@ -65,13 +32,39 @@ class Shelter {
                 }
             }
         });
+        Helpers.addObserver(document.querySelector('#shelterarea'), {
+            childList: true
+        }, function(mutations) {
+            console.log('mutation observed');
+            console.log(mutations);
+            //this.runSearch(); //TODO
+        });
+        console.log('TODO: search enabled');
+    }
+    runSearch() {
+        console.warn('TODO: field search');
     }
 
-    handleSortSettings() {
-        const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
-        //sort in grid
-        $('#shelterarea').removeClass('qolshelterareagrid');
+    setupSort(settings) {
+        // add sort tab
+        document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
+        document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.SHELTER_SORT_HTML);
 
+        // add settings change listener
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingName == 'shelterGrid' || changeDetails.settingName == 'shelterSpriteSize') {
+                Shelter.handleSortSettings();
+            }
+        });
+
+        // run initially
+        Shelter.handleSortSettings();
+    }
+    static handleSortSettings() {
+        const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
+
+        // sort in grid
+        $('#shelterarea').removeClass('qolshelterareagrid');
         if (shelterSettings.shelterGrid === true) { //shelter grid
             $('#shelterarea').addClass('qolshelterareagrid');
         }
@@ -79,17 +72,11 @@ class Shelter {
         // sprite size mode
         $('#shelterarea').removeClass('qolshelterarealarge');
         $('#shelterarea').removeClass('qolshelterareasmall');
-        $('input[name="shelterSpriteSize"]').prop('checked',false);
         if(shelterSettings.shelterSpriteSize == 'large') {
             $('#shelterarea').addClass('qolshelterarealarge');
-            $('#spriteSizeLarge').prop('checked',true);
         }
         else if(shelterSettings.shelterSpriteSize == 'small') {
             $('#shelterarea').addClass('qolshelterareasmall');
-            $('#spriteSizeSmall').prop('checked',true);
-        }
-        else {
-            $('#spriteSizeAuto').prop('checked',true);
         }
     }
 }

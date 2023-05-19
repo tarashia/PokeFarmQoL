@@ -15,6 +15,7 @@ class Resources {
     // CSS files
     static CORE_CSS = `<% src/styles/core.less %>`;
     static FIELDS_CSS = `<% src/styles/fields.less %>`;
+    static SEARCH_CSS = `<% src/styles/search.less %>`;
     static FISHING_CSS = `<% src/styles/fishing.less %>`;
     static FORGE_CSS = `<% src/styles/forge.less %>`;
     static HUB_CSS = `<% src/styles/hub.less %>`;
@@ -34,7 +35,7 @@ class Resources {
     static PARTY_MOD_HTML = `<% src/html/party-mod.html %>`;
     static QOL_HUB_ICON_HTML = `<% src/html/qol-hub-icon.html %>`;
     static QOL_HUB_HTML = `<% src/html/qol-hub.html %>`;
-    static SHELTER_OPTIONS_HTML = `<div id ="shelteroptionsqol"><% src/html/shelter-options.html %> <% src/html/shelter-search.html %></div>`;
+    static SHELTER_SEARCH_HTML = `<% src/html/shelter-search.html %></div>`;
     static SHELTER_SORT_HTML = `<% src/html/shelter-sort.html %>`;
 
 }
