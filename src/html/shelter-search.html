@@ -15,8 +15,15 @@
     <div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findLegendary"/>Legendary</label></div>
   </div>
   <h4 style="margin-block-end:0.5em;">Quick search</h4>
-  <button type="button" id="qolQuickTextBtn">Add text</button> 
-  <button type="button" id="qolQuickTypeBtn">Add type</button>
+  <div class="qolQuickSearchBlock">
+    <button type="button" id="qolQuickTextBtn">Add name search</button> 
+  </div>
+  <div id="qolQuickTextContainer"></div>
+  <hr>
+  <div class="qolQuickSearchBlock">
+    <button type="button" id="qolQuickTypeBtn">Add type search</button>
+  </div>
+  <div id="qolQuickTypeContainer"></div>
   <div id="qolQuickShelterSearches"></div>
   <h4 style="margin-block-end:0.5em;">Advanced search</h4>
   <button type="button" id="qolNewAdvancedSearchBtn">New search</button> 

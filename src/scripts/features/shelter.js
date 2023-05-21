@@ -67,6 +67,30 @@ class Shelter {
         document.querySelector('#shelterupgrades .tabbed_interface>ul').insertAdjacentHTML('afterend', '<div class="tab-active">'+Resources.SHELTER_SEARCH_HTML+'</div>');
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
 
+        // Generate quick text searches
+        let fullSearch = '<div class="qolQuickSearchBlock">';
+        fullSearch += '<div class="qolQuickTextSearch"><input type="text" /><button type="button">X</button></div>';
+        fullSearch += Resources.QUICK_SEARCH_ICONS
+        fullSearch += '</div>';
+        $('#qolQuickTextBtn').on('click', function() {
+            $('#qolQuickTextContainer').append(fullSearch);
+            // TODO: activate checks & X btn
+            // make something similar to addSettingsListeners for Xs?
+            //settings.addSettingsListeners('#qolQuickTextContainer');
+        });
+
+        // Generate quick type searches
+        let fullSelect = '<div class="qolQuickSearchBlock"><div class="qolQuickTypeSearch">';
+        fullSelect += '<select>'+Helpers.generateSelectOptions(Resources.TYPE_LIST,{'select': 'Select'})+'</select>';
+        fullSelect += '<select>'+Helpers.generateSelectOptions(Resources.TYPE_LIST,{'any': 'Any', 'none': 'None'})+'</select>';
+        fullSelect += '<button type="button">X</button>';
+        fullSelect += '</div>';
+        fullSelect += Resources.QUICK_SEARCH_ICONS
+        fullSelect += '</div>';
+        $('#qolQuickTypeBtn').on('click', function() {
+            $('#qolQuickTypeContainer').append(fullSelect)
+        });
+
         // listen for next match hotkey
         $(window).on('keyup', function (e) {
             if (0 == $(e.target).closest('input, textarea').length) {

@@ -6,18 +6,18 @@
   Image code: https://pfq-static.com/img/dex/bodystyle/1.png
 */
 {
-  "1": "Short Blob",
-  "2": "Snake",
-  "3": "Fish",
-  "4": "Two Arms",
-  "5": "Tall Blob",
-  "6": "Dino",
-  "7": "Two Legs",
-  "8": "Four Legs",
-  "9": "Bird",
-  "10": "Jelly",
-  "11": "Multi",
-  "12": "Human",
-  "13": "Flying Bug",
-  "14": "Crawling Bug"
+  "0": "Short Blob",
+  "1": "Snake",
+  "2": "Fish",
+  "3": "Two Arms",
+  "4": "Tall Blob",
+  "5": "Dino",
+  "6": "Two Legs",
+  "7": "Four Legs",
+  "8": "Bird",
+  "9": "Jelly",
+  "10": "Multi",
+  "11": "Human",
+  "12": "Flying Bug",
+  "13": "Crawling Bug"
 }

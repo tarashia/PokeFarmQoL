@@ -89,4 +89,19 @@ class Helpers {
             }
         }
     }
+
+    // Options should be on be one of the json objects from resources, or formatted similarly
+    // Extras are any additional options that should appear at the top, also in object format
+    // The keys of each item will be used as the option value
+    // The wrapping <select> is NOT created here, so its class/ID can be set more simply
+    static generateSelectOptions(options, extras={}) {
+        let output = '';
+        for(const key in extras) {
+            output += '<option value="'+key+'">'+extras[key]+'</option>';
+        }
+        for(const key in options) {
+            output += '<option value="'+key+'">'+options[key]+'</option>';
+        }
+        return output;
+    }
 }

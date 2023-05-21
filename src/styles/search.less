@@ -14,3 +14,49 @@
     width: 50%;
   } 
 }
+
+.qolQuickSearchBlock {
+  margin: 0.5rem 0;
+}
+
+.qolQuickTextSearch {
+  display: flex;
+  column-gap: 6px;
+  input {
+    flex-grow: 1;
+  }
+}
+
+.qolQuickTypeSearch {
+  display: flex;
+  column-gap: 6px;
+  select {
+    flex-grow: 1;
+  }
+}
+
+.qolQuickTextIcons {
+  display: flex;
+  column-gap: 6px;
+  margin-top: 0.5rem;
+  label {
+    display: inline-block;
+    //border: 1px solid;
+    border-radius: 3px;
+    padding: 3px;
+    input[type="checkbox"] {
+      cursor: pointer;
+    }
+  }
+  label.hatched div {
+    display: inline-block;
+    height: 16px;
+    width: 18px;
+    img {
+      vertical-align: text-top;
+      position: relative;
+      top: -8px;
+      left: -2px;
+    }
+  }
+}

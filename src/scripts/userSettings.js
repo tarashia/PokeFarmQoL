@@ -349,12 +349,17 @@ class UserSettings {
     }
     // Listens for changes to settings inputs
     // Should be called after input elements are added (ex: after html builder, or after modal open, etc)
-    addSettingsListeners() {
+    // the parent lets you start at a given element, to avoid resetting all listeners on the page
+    addSettingsListeners(parent='') {
         const self = this;
         this.displaySettingsValues();
+        // add a space after the parent selector
+        if(parent) {
+            parent = parent.trim()+' ';
+        }
         // remove any existing listeners
-        $('.qolsetting').off('change');
-        $('.qolsetting').on('change', (function (event) {
+        $(parent+'.qolsetting').off('change');
+        $(parent+'.qolsetting').on('change', (function (event) {
             let settingDetails = self.getSettingDetailsFromTarget(event.target);
             if(settingDetails) {
                 self.changeSetting(settingDetails.settingGroup, settingDetails.settingName, settingDetails.inputValue);

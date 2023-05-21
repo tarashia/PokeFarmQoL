@@ -37,5 +37,6 @@ class Resources {
     static QOL_HUB_HTML = `<% src/html/qol-hub.html %>`;
     static SHELTER_SEARCH_HTML = `<% src/html/shelter-search.html %></div>`;
     static SHELTER_SORT_HTML = `<% src/html/shelter-sort.html %>`;
+    static QUICK_SEARCH_ICONS = `<% src/html/quick-search-icons.html %>`;
 
 }

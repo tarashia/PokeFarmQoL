@@ -246,7 +246,7 @@ class Fields {
             const tcSplit = dataElements[index].textContent.split(' ');
             if (tcSplit.length > 1) {
                 nature = tcSplit[1].replace('(', '').trim();
-                nature = Resources.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
+                //nature = Resources.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
             }
         } else {
             console.error('Helpers.parseFieldPokemonToolTip - could not load nature because text was empty');
