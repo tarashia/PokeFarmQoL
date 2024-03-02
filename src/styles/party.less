@@ -10,7 +10,7 @@
 
 .qolPartyCustomParty  {
   // based on Dr. Who's party click adjustments
-  --multiuser-button-height: 5em;
+  --multiuser-button-height: 60pt;
   --multiuser-border-radius: 8px;
 
   h1 {
@@ -43,7 +43,6 @@
       top: 0;
       left: 0;
       width: 100%;
-      z-index: 9999;
 
       > a, > div {
         padding: 0;
@@ -78,11 +77,48 @@
       /* no border on berry hover */
       border-color: transparent;
     }
+
+    .showcase .berrybuttons > a {
+      display: inline-block;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      img {
+        display: inline-block !important;
+        vertical-align: middle;
+      }
+    }
+
+    // z-indexing: make regular party be on top
+    .party .action a {
+      z-index: 3; 
+    }
+    .showcase .action a {
+      z-index: 2;
+    }
+
+    /* enable party/showcase swap, work similarly desktop & mobile */
+    &:not(.swap-panels) .showcase {
+      display: flex !important;
+      height: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      border: none;
+    }
+    &.swap-panels > .party {
+      height: 0;
+      overflow: hidden;
+      margin: 0;
+    }
+  }
+  .mu_navlink.toggle {
+    display: block !important;
   }
 
   &.qolStackNext .qolGoNext,
   &.qolStackMore .qolGetMore {
-    z-index: 999; //less than click buttons
+    z-index: 1; //less than click buttons
     position: absolute;
     top: 0;
     left: 0;
@@ -92,9 +128,16 @@
     margin: 0;
     padding: 0;
   }
-  &.qolHideParty .party {
-    height: 0;
-    overflow: hidden;
+  &.qolHideParty {
+    .party, .showcase {
+      height: 0;
+      overflow: hidden;
+      padding: 0;
+      border: none;
+    }
+    .mu_navlink.toggle {
+      display: none !important;
+    }
   }
   &.qolCompactParty #partybox .party {
     > div {
@@ -114,7 +157,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 999;
+      z-index: 1;
     }
   }
   &.qolHideTrainerCard #profilebox {
@@ -224,35 +267,49 @@
       height: 0;
       width: 0;
       padding: 0;
-      // these codes allow the JS that lines up the click buttons with
-      // the next button to work without interference
-      .action {
-        &, .berrybuttons {
-          height: 0;
-          position: unset !important;
-        }
+    }
+  }
+  .party, .showcase {
+    // these codes allow the JS that lines up the click buttons with
+    // the next button to work without interference
+    .action {
+      &, .berrybuttons {
+        height: 0;
+        position: unset !important;
+      }
 
-        a {
-          position: absolute;
-          width: 112px;
-          // prevent an error where hold egg buttons show underneath the disabled next button
-          z-index: 1; 
-          // fine-tune position; top/left set in JS
-          margin-left: 10px;
-          overflow: hidden;
-          padding: 3px;
-        }
+      a {
+        position: absolute;
+        width: 112px !important;
+        // prevent an error where hold egg buttons show underneath the disabled next button
+        // fine-tune position; top/left set in JS
+        margin-left: 10px;
+        overflow: hidden;
+        padding: 3px;
+      }
 
-        .berrybuttons a {
-          padding: 5px;
-          border-radius: 8px;
-        }
+      .berrybuttons a {
+        padding: 5px;
+        border-radius: 8px;
+      }
 
-        table {
-          display: none;
-        }
+      table {
+        display: none;
       }
     }
+  }
+  .showcase {
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+  }
+  // z-indexing: make regular party be on top
+  .party .action a {
+    z-index: 2; 
+  }
+  .showcase .action a {
+    z-index: 1;
   }
 
   .compact-view-toggle + label {

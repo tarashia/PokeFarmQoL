@@ -119,11 +119,6 @@ class MultiuserPage extends Page {
         $('#qolpartymodcustom').css('display','none');
         $('.party .pkmn a.qolCompactLink').remove();
 
-        const btns = $('#multiuser .party>div .action a');
-        if(btns) {
-            btns.css({"top":0,"left":0});
-        }
-
         if (this.settings.hideDislike === true) {
             $('#multiuser').addClass('qolPartyHideDislike');
             this.sharedPartyMods();
@@ -136,6 +131,10 @@ class MultiuserPage extends Page {
 
         if (this.settings.hideAll === true) {
             $('#multiuser').addClass('qolPartyHideAll');
+            const btns = $('#multiuser .action a');
+            if(btns) {
+                btns.css({"top":0,"left":0});
+            }
             this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
             // on chrome, sometimes .position() is undefined on load
