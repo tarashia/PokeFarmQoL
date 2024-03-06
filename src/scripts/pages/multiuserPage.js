@@ -13,7 +13,8 @@ class MultiuserPage extends Page {
             showTrainerCard: true,
             showFieldButton: false,
             showModeChecks: false,
-            showUserName: true
+            showUserName: true,
+            includeShowcase: true
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
@@ -129,18 +130,18 @@ class MultiuserPage extends Page {
             this.sharedPartyMods();
         }
 
+        const btns = $('#multiuser .action a');
         if (this.settings.hideAll === true) {
             $('#multiuser').addClass('qolPartyHideAll');
-            const btns = $('#multiuser .action a');
-            if(btns) {
-                btns.css({"top":0,"left":0});
-            }
             this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
             // on chrome, sometimes .position() is undefined on load
             if(btns && nextLink && nextLink.position()) {
                 btns.css(nextLink.position());
             }
+        }
+        else if(btns) {
+            btns.css({"top":0,"left":0});
         }
 
         if (this.settings.customParty === true) {
@@ -166,6 +167,7 @@ class MultiuserPage extends Page {
             this.partymodHelper('qolHideFieldButton',this.settings.showFieldButton === false);
             this.partymodHelper('qolHideModeChecks',this.settings.showModeChecks === false);
             this.partymodHelper('qolHideUserName',this.settings.showUserName === false);
+            this.partymodHelper('qolHideShowcase',this.settings.includeShowcase === false);
 
             // clickable compact pokemon
             if(this.settings.showPokemon === true 

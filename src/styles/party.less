@@ -88,32 +88,6 @@
         vertical-align: middle;
       }
     }
-
-    // z-indexing: make regular party be on top
-    .party .action a {
-      z-index: 3; 
-    }
-    .showcase .action a {
-      z-index: 2;
-    }
-
-    /* enable party/showcase swap, work similarly desktop & mobile */
-    &:not(.swap-panels) .showcase {
-      display: flex !important;
-      height: 0;
-      overflow: hidden;
-      margin: 0;
-      padding: 0;
-      border: none;
-    }
-    &.swap-panels > .party {
-      height: 0;
-      overflow: hidden;
-      margin: 0;
-    }
-  }
-  .showcase:not(:empty)+.mu_navlink.toggle {
-    display: block !important;
   }
 
   &.qolStackNext .qolGoNext,
@@ -171,6 +145,17 @@
   }
   &.qolHideUserName h1 {
     display: none;
+  }
+  &.qolHideShowcase {
+    .showcase, .showcase+.toggle {
+      display: none !important;
+    }
+  }
+  &:not(.qolHideShowcase) {
+    // force show showcase toggle
+    .showcase:not(:empty)+.mu_navlink.toggle {
+      display: block !important;
+    }
   }
 }
 .mq2, .multi-compact {
@@ -256,6 +241,30 @@
   }
 }
 
+// force showcase buttons to be available even on mobile
+.qolPartyHideAll, .qolPartyCustomParty {
+  &:not(.qolHideShowcase) #partybox:not(.swap-panels) .showcase {
+    display: flex !important;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  #partybox.swap-panels > .party {
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+  }
+  // z-indexing: make regular party be on top
+  .party .action a {
+    z-index: 3; 
+  }
+  .showcase .action a {
+    z-index: 2;
+  }
+}
+
 .qolPartyHideAll {
   #profilepage #partybox .party {
     box-shadow: none;
@@ -267,6 +276,7 @@
       height: 0;
       width: 0;
       padding: 0;
+      overflow: hidden;
     }
   }
   .party, .showcase {
@@ -298,19 +308,6 @@
       }
     }
   }
-  .showcase {
-    height: 0;
-    overflow: hidden;
-    padding: 0;
-    border: none;
-  }
-  // z-indexing: make regular party be on top
-  .party .action a {
-    z-index: 2; 
-  }
-  .showcase .action a {
-    z-index: 1;
-  }
 
   .compact-view-toggle + label {
     // make the auto-scroll checkbox look normal on mobile
@@ -321,7 +318,8 @@
   #profilebox,
   #trainerimage,
   .fieldslink,
-  .working {
-    display: none;
+  .working,
+  .showcase+.mu_navlink.toggle {
+    display: none !important;
   }
 }
