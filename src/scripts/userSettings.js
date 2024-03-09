@@ -38,6 +38,7 @@ class UserSettings {
         this.condenseWishforge = true;
         this.interactionsEnable = true;
         this.summaryEnable = true;
+        this.dojoEnable = true;
         this.shelterFeatureEnables = {
             search: true,
             sort: true,

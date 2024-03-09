@@ -61,6 +61,11 @@ class PagesManager {
                 class: SummaryPage,
                 object: undefined,
                 setting: 'summaryEnable'
+            },
+            'Dojo': {
+                class: DojoPage,
+                object: undefined,
+                setting: 'dojoEnable'
             }
         };
     }

@@ -44,3 +44,8 @@
   background-color: #6a6df2;
   border-radius: 100%;
 }
+/* perfect stat highlighting */
+.dojoperfectstat {
+  font-weight: bold;
+  text-decoration: underline;
+}
