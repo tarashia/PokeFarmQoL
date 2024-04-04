@@ -1,20 +1,37 @@
 $(function () {
-  ('use strict');
-  // script entry point
-  if (typeof(module) !== 'undefined') {
-    module.exports.pfqol = PFQoL;
-  } else {
+    ('use strict');
+    // script entry point
+    let settings;
     try {
-      new PFQoL();
+        // add this first, so custom errors have a place to go
+        console.log('Adding QoL icon');
+        document.querySelector('#announcements li.spacer').insertAdjacentHTML('beforebegin', Resources.QOL_HUB_ICON_HTML);
+
+        console.log('Loading QoL settings & dex');
+        settings = UserDataHandle.getSettings();
+        UserDataHandle.getDex(); //pre-load dex
+        console.log('Initializing QoL hub');
+        new QoLHub();
     } catch(err) {
-      // prevent showing the fatal error output while logged out, and on non-core pages like direct image links
-      if(err!='#announcements missing') {
-        let message = 'Fatal error initializing QoL'
-        console.error(message);
-        console.error(err);
-        let errorMsg = Helpers.errorToString(message, 'error', err);
-        $('body').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
-      }
+        ErrorHandler.fatalErrorHandler(err);
+        return;
     }
-  }
+
+    console.log('Adding QoL CSS');
+    Helpers.addGlobalStyle(Resources.CORE_CSS);
+    try {
+        Helpers.addGlobalStyle(settings.QoLSettings.customCss);
+        Helpers.addGlowColourCSS(settings.QoLSettings.searchGlowColour);
+    } catch(e) {
+        ErrorHandler.error("Could not add user's custom QoL CSS",e);
+    }
+
+    try {
+        console.log('Initializing QoL page features');
+        PagesManager.instantiatePage();
+    } catch(e) {
+        ErrorHandler.error("Could not init page-specific QoL features",e);
+    }
+    
+    console.log('QoL Running');
 });

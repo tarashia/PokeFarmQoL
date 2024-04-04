@@ -1,18 +1,8 @@
 <div id="fieldorder">
-  <label>
-    <input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"/>
-    Sort by berries
-  </label>
-  <label>
-    <input type="checkbox" class="qolsetting qolalone" data-key="fieldByMiddle"/>
-    Sort in the middle
-  </label>
-  <label>
-    <input type="checkbox" class="qolsetting qolalone" data-key="fieldByGrid"/>
-    Align to grid
-  </label>
-  <label>
-    <input type="checkbox" class="qolsetting" data-key="fieldClickCount"/>
-    Click counter
-  </label>
+  <label><input type="radio" class="qolsetting" data-group="QoLPublicField" name="fieldSort" value="none"/> None</label>
+  <label><input type="radio" class="qolsetting" data-group="QoLPublicField" name="fieldSort" value="grid"/> Align to grid</label>
+  <label><input type="radio" class="qolsetting" data-group="QoLPublicField" name="fieldSort" value="berry"/> Sort by berries</label>
+  <label><input type="radio" class="qolsetting" data-group="QoLPublicField" name="fieldSort" value="stack"/> Stack all</label>
+  <label><input type="checkbox" class="qolsetting" data-group="QoLPublicField" name="fieldClickCount"/> Click counter</label>
+  <label><input type="checkbox" class="qolsetting" data-group="QoLPublicField" name="maxStack"/> Maximise stacked click zone</label>
 </div>

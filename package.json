@@ -1,11 +1,12 @@
 {
     "name": "pokefarm-qol",
-    "version": "1.7.9",
+    "version": "2.0.0",
     "type": "module",
     "description": "Userscript that includes a few QoL changes to Pokéfarm and can enhance your Pokéfarm experience even more!",
     "main": "Poke-Farm-QoL.user.js",
     "scripts": {
-        "build": "node build.js"
+        "build": "node build.js",
+        "dex": "node dex/build.js"
     },
     "repository": {
         "type": "git",
@@ -19,7 +20,9 @@
     },
     "homepage": "https://github.com/tarashia/PokeFarmQoL#readme",
     "devDependencies": {
+        "await-exec": "^0.1.2",
         "cssnano": "^5.1.12",
+        "csv-parse": "^5.3.9",
         "eslint": "^8.20.0",
         "html-minifier": "^4.0.0",
         "jsonc": "^2.0.0",

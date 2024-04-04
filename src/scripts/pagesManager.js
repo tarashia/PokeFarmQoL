@@ -1,148 +1,121 @@
 class PagesManager {
-    constructor() {
-        this.USER_SETTINGS = UserSettingsHandle.getSettings();
-        this.pages = {
-            'Daycare': {
-                class: DaycarePage,
-                object: undefined,
-                setting: 'enableDaycare'
-            },
-            'Farm': {
-                class: FarmPage,
-                object: undefined,
-                setting: 'easyEvolve'
-            },
-            'Fishing': {
-                class: FishingPage,
-                object: undefined,
-                setting: 'fishingEnable'
-            },
-            'Lab': {
-                class: LabPage,
-                object: undefined,
-                setting: 'labNotifier'
-            },
-            'Multiuser': {
-                class: MultiuserPage,
-                object: undefined,
-                setting: 'partyMod'
-            },
-            'PrivateFields': {
-                class: PrivateFieldsPage,
-                object: undefined,
-                setting: 'privateFieldEnable'
-            },
-            'PublicFields': {
-                class: PublicFieldsPage,
-                object: undefined,
-                setting: 'publicFieldEnable'
-            },
-            'Shelter': {
-                class: ShelterPage,
-                object: undefined,
-                setting: 'shelterEnable'
-            },
-            'Dex': {
-                class: DexPage,
-                object: undefined,
-                setting: 'dexFilterEnable'
-            },
-            'Wishforge': {
-                class: WishforgePage,
-                object: undefined,
-                setting: 'condenseWishforge'
-            },
-            'Interactions': {
-                class: InteractionsPage,
-                object: undefined,
-                setting: 'interactionsEnable'
-            },
-            'Summary': {
-                class: SummaryPage,
-                object: undefined,
-                setting: 'summaryEnable'
-            },
-            'Dojo': {
-                class: DojoPage,
-                object: undefined,
-                setting: 'dojoEnable'
-            }
-        };
-    }
-    instantiatePages() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true) {
-                pg.object = new pg.class(this.USER_SETTINGS);
-            }
-        }
-    }
-    loadSettings() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.loadSettings();
-            }
-        }
-    }
-    saveSettings() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.saveSettings();
-            }
-        }
-    }
-    populateSettings() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.populateSettings();
-            }
-        }
-    }
-    clearPageSettings(pageName) {
-        if (!(pageName in this.pages)) {
-            console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`);
-        } else if (this.pages[pageName].object) {
-            this.pages[pageName].object.resetSettings();
-        }
-    }
-    clearAllPageSettings() {
-        for(let pageName in this.pages) {
-            this.clearPageSettings(pageName);
-        }
-    }
-    setupHTML() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHTML();
+    // Lists the pages the QoL should activate on, and which features should be loaded
+    // Each key should be a regex that can match everything after .com/ but before ? (window.location.pathname)
+    // It should have an array of feature classes that load on that page
+    // (many pages will only have a single feature)
+    // The hub is not affected by these settings, and appears on all pages with the ribbon while logged in
+    // Name is a friendly name that can be read by classes that may be called from multiple locations
+    static PAGES = [
+        {
+            url: /^\/users\/.+$/,
+            name: 'users',
+            features: [
+                MultiUser
+            ]
+        },
+        {
+            url: /^\/dex\/?$/,
+            name: 'dex',
+            features: [
+                DexPageFilters
+            ]
+        },
+        {
+            url: /^\/dojo\/?$/,
+            name: 'dojo',
+            features: [
+                Dojo
+            ]
+        },
+        {
+            url: /^\/forge\/?$/,
+            name: 'forge',
+            features: [
+                Wishforge
+            ]
+        },
+        {
+            url: /^\/interactions\/?$/,
+            name: 'interactions',
+            features: [
+                InteractionsLinks
+            ]
+        },
+        {
+            url: /^\/summary\/[a-zA-Z0-9_-]+\/?$/,
+            name: 'summary',
+            features: [
+                SummaryDisplayCodes
+            ]
+        },
+        {
+            url: /^\/fishing\/?$/,
+            name: 'fishing',
+            features: [
+                Fishing
+            ]
+        },
+        {
+            url: /^\/daycare\/?$/,
+            name: 'daycare',
+            features: [
+                DaycareMatches
+            ]
+        },
+        {
+            url: /^\/lab\/?$/,
+            name: 'lab',
+            features: [
+                Lab
+            ]
+        },
+        {
+            url: /^\/fields\/?$/,
+            name: 'privateFields',
+            features: [
+                Fields,
+                PrivateFields
+            ]
+        },
+        {
+            url: /^\/fields\/.+$/,
+            name: 'publicFields',
+            features: [
+                Fields,
+                PublicFields
+            ]
+        },
+        {
+            url: /^\/farm\/?$/,
+            name: 'farm',
+            features: [
+                EasyEvolve
+            ]
+        },
+        {
+            url: /^\/shelter\/?$/,
+            name: 'shelter',
+            features: [
+                Shelter
+            ]
+        },
+    ];
+
+    static instantiatePage() {
+        const path = window.location.pathname;
+        let onPage = false;
+        for(let i=0; i<PagesManager.PAGES.length; i++) {
+            const page = PagesManager.PAGES[i];
+            if(page.url.test(path)) {
+                console.log('On QoL feature page');
+                onPage = true;
+                for(let j=0; j<page.features.length; j++) {
+                    new page.features[j](page);
+                }
             }
         }
-    }
-    setupCSS() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupCSS();
-            }
-        }
-    }
-    setupObservers() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupObserver();
-            }
-        }
-    }
-    setupHandlers() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHandlers();
-            }
+        if(!onPage) {
+            console.log('Not on QoL feature page')
         }
     }
 }

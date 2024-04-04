@@ -5,14 +5,25 @@
   border-radius: 4px;
   max-width: 600px;
   position: relative;
+  text-align: center;
+  line-height: 18pt;
+  label {
+    white-space: nowrap;
+  }
 }
 #fieldsearch {
   margin: 16px auto;
   max-width: 600px;
   position: relative;
 }
+#pokemonclickcount.unclicked {
+  color: #a30323;
+}
+#pokemonclickcount.clicked {
+  color: #059121;
+}
 /* sort by berry */
-.qolSortBerry {
+.qolFieldBerrySort .fieldmon {
   top: 45%!important;
   margin: -10px!important;
   transition: none!important;
@@ -22,26 +33,24 @@
     padding: 25px!important;
   }
 
-  &.qolAnyBerry,
-  &.qolSourBerry {
+  &[data-flavour^="any"],
+  &[data-flavour^="sour"] {
     left: 0%!important;
   }
-  &.qolSpicyBerry {
+  &[data-flavour^="spicy"] {
     left: 20%!important;
   }
-  &.qolDryBerry {
+  &[data-flavour^="dry"] {
     left: 40%!important;
   }
-  &.qolSweetBerry {
+  &[data-flavour^="sweet"] {
     left: 60%!important;
   }
-  &.qolBitterBerry {
+  &[data-flavour^="bitter"] {
     left: 80%!important;
   }
 }
-.mq2 .qolSortBerry {
-  transition: none !important;
-  top: 45% !important;
+.mq2 .qolFieldBerrySort .fieldmon {
   width: 16%;
   margin: -10px 2% !important;
   overflow: hidden;
@@ -54,18 +63,36 @@
   }
 }
 /* sort in middle */
-.qolSortMiddle {
+.qolFieldStack .fieldmon {
   left: 40%!important;
   top: 35%!important;
   margin: -10px!important;
   transition: none!important;
 }
-.qolSortMiddle>img {
+.qolFieldStack .fieldmon>img {
   animation: none!important;
   padding: 40px!important;
 }
+/* maximize stack area */
+.qolFieldStackMax>div.field>.fieldmon {
+  transition: none!important;
+  left: 0 !important;
+  top: 0 !important;
+  margin: 0 !important;
+  width: 60% !important;
+  height: 100% !important;
+  padding-left: 40% !important;
+  .small { 
+    display: none !important; 
+  }
+  .big { 
+    animation: none!important;
+    display: block !important; 
+  }
+}
 /* field sort in grid */
-.qolGridField {
+.qolFieldGrid .field {
+  background-size: cover !important;
   min-height: 345px;
   display: flex!important;
   flex-flow: row wrap;
@@ -73,31 +100,44 @@
   grid-template-columns: repeat(8,12.5%);
   grid-template-rows: repeat(5,69px);
   padding-top: 0%!important;
+
+  .fieldmon {
+    margin: 0 !important;
+    position: static!important;
+    flex: 1 1 12.5%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    >img {
+      max-width: 75px;
+      max-height: 70px;
+      animation: none!important;
+    }
+  }
 }
-.mq25 .qolGridField {
+.mq25 .qolFieldGrid .field {
   min-height: 180px;
   grid-template-rows: repeat(5, 36px);
 }
-.qolGridPokeSize {
-  margin: 0 !important;
-  position: static!important;
-  flex: 1 1 12.5%;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-.qolGridPokeImg {
-  max-width: 75px;
-  max-height: 70px;
-  animation: none!important;
-}
+/* mass select */
 .qolSelectFlavour {
   display: none;
 }
-.qolFlavourShown~.qolSelectFlavour {
+.qolFlavourShown~#qolMassSelect .qolSelectFlavour {
   display: inline;
 }
-.qolFlavourShown~.qolSelectGender,
-.qolNatureShown~.qolSelectGender {
+.qolFlavourShown~#qolMassSelect .qolSelectGender,
+.qolNatureShown~#qolMassSelect .qolSelectGender {
   display: none;
+}
+#tooltipenable {
+  max-width: 600px;
+  position: relative;
+  margin: 16px auto;
+}
+/* public & private fields lock tooltips differently */
+.qolPrivateField .qolHideTooltips .fieldmon.tooltip_trigger:not(.selected) + .tooltip_content,
+.qolPublicField .qolHideTooltips .fieldmon.tooltip_trigger:not(.lock) + .tooltip_content {
+    display: none !important;
 }

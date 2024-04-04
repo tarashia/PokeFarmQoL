@@ -1,0 +1,23 @@
+/*
+  The text names here are made up, mainly for the Google Drive doc, 
+  which can't have a dropdown with image cells.
+  This file should mainly be used for parsing the dex CSVs.
+
+  Image code: https://pfq-static.com/img/dex/bodystyle/1.png
+*/
+{
+  "0": "Short Blob",
+  "1": "Snake",
+  "2": "Fish",
+  "3": "Two Arms",
+  "4": "Tall Blob",
+  "5": "Dino",
+  "6": "Two Legs",
+  "7": "Four Legs",
+  "8": "Bird",
+  "9": "Jelly",
+  "10": "Multi",
+  "11": "Human",
+  "12": "Flying Bug",
+  "13": "Crawling Bug"
+}

@@ -6,55 +6,108 @@
 // @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      1.7.9
+// @version      2.0.0
 // @match        https://pokefarm.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // ==/UserScript==
 
-// Tell ESLint that jQuery's $ is defined elsewhere
 /* global $ */
-class Helpers {
-    // Custom error handler to output in the QoL error console
-    // Level should be info, warn, or error; default is info
-    // Message is also written to the JavaScript console
-    // err should be the full Error object - if provided and supported, the 
-    //     stack trace for this error will be Base 64 encoded and included for the user
+class ErrorHandler {
+    // convenience wrappers on writeCustomError
+    static info(message, err=undefined) {
+        ErrorHandler.writeCustomError(message,'info',err);
+    }
+    static warn(message, err=undefined) {
+        ErrorHandler.writeCustomError(message,'warn',err);
+    }
+    static error(message, err=undefined) {
+        ErrorHandler.writeCustomError(message,'error',err);
+    }
+
+    /*
+     * Custom error handler to output in the QoL error console
+     * Level should be info, warn, or error; default is info
+     * Message is also written to the JavaScript console during errorToString call
+     * err should be the full Error object - if provided and supported, the
+     *     stack trace for this error will be Base 64 encoded and included for the user
+     */
     static writeCustomError(message,level='info',err=undefined) {
         const logElement = document.getElementById('qolConsoleHolder');
+        const logOutput = ErrorHandler.errorToString(message, level, err);
         if(logElement) {
-            logElement.innerHTML += '<li>' + Helpers.errorToString(message, level, err) +'</li>';
+            logElement.innerHTML += '<li><div class="qolB64Output">' + logOutput +'</div></li>';
         }
         else {
             console.error('Could not add custom log to log element');
         }
     }
+
+    // show an error at the bottom of the page, since the hub may not be accessible in these cases
+    static fatalErrorHandler(err) {
+    // prevent showing the fatal error output while logged out, and on non-core pages like direct image links
+        if(err!='#announcements missing') {
+            const message = 'Fatal error initializing QoL';
+            console.error(message);
+            console.error(err);
+            const errorMsg = ErrorHandler.errorToString(message, 'error', err);
+            $('#core').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
+        }
+    }
+
+    /*
+     * translates the given details into a printable version
+     * logs the message to the console at the same time
+     */
     static errorToString(message, level='info', err=undefined) {
         let prefix = undefined;
         let stackTrace = '';
         if(err && err.stack) {
-            stackTrace = '<br>'+btoa(err.stack);
+            stackTrace = '<br>'+btoa(err.stack)+'';
         }
         if(level=='warn') {
             prefix = 'WARN: ';
             console.warn('QoL: '+message);
+            if(err) {
+                console.warn(err);
+            }
         }
         else if(level=='error') {
             prefix = 'ERROR: ';
             console.error('QoL: '+message);
+            if(err) {
+                console.error(err);
+            }
         }
         else {
             prefix = 'INFO: ';
             console.log('QoL: '+message);
+            if(err) {
+                console.logs(err);
+            }
         }
         return prefix + message + stackTrace;
     }
-    /** TamperMonkey polyfill to replace GM_addStyle function */
+}
+
+class Helpers {
     static addGlobalStyle(css) {
-        const head = document.getElementsByTagName('head')[0];
-        const style = document.createElement('style');
-        style.innerHTML = css;
-        head.appendChild(style);
+        if(css) {
+            const head = document.getElementsByTagName('head')[0];
+            const style = document.createElement('style');
+            style.innerHTML = css;
+            head.appendChild(style);
+        }
     }
+
+    static addGlowColourCSS(glowColour) {
+        if(glowColour) {
+            let css = '.publicfoundme, .privatefoundme, .shelterfoundme, .daycarefoundme, .labfoundme {';
+            css += 'box-shadow: 0px 0px 25px 15px '+glowColour+';';
+            css += 'background-color: '+glowColour+';}';
+            Helpers.addGlobalStyle(css);
+        }
+    }
+
     static buildOptionsString(arr) {
         let str = '<option value="none">None</option> ';
         if(Array.isArray(arr)) {
@@ -62,270 +115,102 @@ class Helpers {
                 str += `<option value="${i}">${arr[i]}</option> `;
             }
         }
-        // egg groups are an object, not an array
+        // allow for object-formatted option lists
         else {
-            for(let key in arr) {
+            for(const key in arr) {
                 str += `<option value="${key}">${arr[key]}</option> `;
             }
         }
         return str;
     }
-    static toggleSetting(key, set, cls) {
-        // provide default value for cls
-        cls = cls || 'qolsetting';
-        // update values for checkboxes
-        if (typeof set === 'boolean') {
-            const element = document.querySelector(`.${cls}[data-key="${key}"]`);
-            if (element && element.type === 'checkbox') {
-                element.checked = set;
-            }
-        }
-    } // toggleSetting
-    static setupFieldArrayHTML(arr, id, div, cls) {
-        const n = arr.length;
-        for (let i = 0; i < n; i++) {
-            const rightDiv = i + 1;
-            const rightValue = arr[i];
-            $(`#${id}`).append(div);
-            $(`.${cls}`).removeClass(cls).addClass('' + rightDiv + '').find('.qolsetting').val(rightValue);
-        }
-    }
-    static textSearchDiv(cls, dataKey, id, arrayName) {
-        return `<div class='${cls}'><label><input type="text" class="qolsetting" data-key="${dataKey}" ` +
-            `array-name='${arrayName}'` +
-            `/></label><input type='button' value='Remove' id='${id}'></div>`;
-    }
-    static selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName) {
-        return `<div class='${cls}'> <select name='${name}' class="qolsetting" data-key='${dataKey}' ` +
-            `array-name='${arrayName}'> ${options} </select> <input type='button' value='Remove' id='${id}'> </div>`;
-    }
-    static parseFieldPokemonTooltip(tooltip) {
-        const dataElements = $(tooltip).children(0).children();
-        let index = 1;
-        // nickname
-        const nickname = dataElements[index].textContent;
-        if (!nickname) {
-            console.error(`Helpers.parseFieldPokemonTooltip - nickname '${nickname}' (is not a valid name)`);
-        }
-        index++;
 
-        /*
-         * Issue #59 - Pokefarm added a new h3 element after the nickname
-         * that contains no data
-         */
-        index++;
-
-        // species
-        let species = '';
-        if (dataElements[index].textContent) {
-            const tc = dataElements[index].textContent;
-            const tcSplit = tc.trim().split(':  ');
-            if (tcSplit.length == 1) {
-                console.error('Helpers.parseFieldPokemonTooltip - species text does not contain \':  \'');
-            }
-            else {
-                species = tcSplit[1];
-            }
-        }
-        index++;
-
-        // dataElements[3] will be a forme if the pokemon has a forme
-        let forme = '';
-        if (dataElements[index].textContent &&
-            dataElements[index].textContent.startsWith('Forme')) {
-            forme = dataElements[index].textContent.substr('Forme: '.length);
-            index++;
-        }
-
-        // types
-        const typeElements = $(dataElements[index]).children().slice(1);
-        const typeUrls = typeElements.map(idx => typeElements[idx]['src']);
-        let types = typeUrls.map(idx =>
-            typeUrls[idx].substring(typeUrls[idx].indexOf('types/') + 'types/'.length,
-                typeUrls[idx].indexOf('.png')));
-        types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1));
-        types = types.map(idx => Globals.TYPE_LIST.indexOf(types[idx]));
-        index++;
-
-        // level
-        let level = -1;
-        if (dataElements[index].textContent) {
-            const tcSplit = dataElements[index].textContent.split(' ');
-            if (tcSplit.length > 1) {
-                level = parseInt(tcSplit[1]);
-            }
-        } else {
-            console.error('Helpers.parseFieldPokemonToolTip - could not load level because text was empty');
-        }
-        index++;
-
-        // if the pokemon's happiness is less than max, skip the next index, since it will be a progress bar
-        if (!dataElements[index].textContent ||
-            !dataElements[index].textContent.startsWith('Happiness')) {
-            index++;
-        }
-
-        // happiness
-        let happiness = -1;
-        if (dataElements[index].textContent) {
-            const tcSplit = dataElements[index].textContent.split(' ');
-            if (tcSplit.length > 1) {
-                happiness = tcSplit[1].trim();
-                happiness = (happiness == 'MAX') ? 100 : parseInt(happiness.substring(0, happiness.length - 1));
-            }
-        } else {
-            console.error('Helpers.parseFieldPokemonToolTip - could not load happiness because text was empty');
-        }
-        index++;
-
-        // nature
-        let nature = -1;
-        if (dataElements[index].textContent) {
-            const tcSplit = dataElements[index].textContent.split(' ');
-            if (tcSplit.length > 1) {
-                nature = tcSplit[1].replace('(', '').trim();
-                nature = Globals.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
-            }
-        } else {
-            console.error('Helpers.parseFieldPokemonToolTip - could not load nature because text was empty');
-        }
-        index++;
-
-        // held item
-        let item = '';
-        if (dataElements[index].textContent !== 'Item: None') {
-            item = dataElements[index].textContent.substring(dataElements[8].textContent.indexOf(' ') + 1);
-        } else {
-            item = 'None';
-        }
-        index++;
-
-        // egg groups
-        let eggGroups = [];
-        if (dataElements[index].textContent) {
-            eggGroups = dataElements[index].textContent.substring('Egg Group: '.length).split('/');
-        }
-        else {
-            console.error('Helpers.parseFieldPokemonToolTip - could not load egg groups because text was empty');
-        }
-        index++;
-
-        const ret = {
-            'nickname': nickname,
-            'species': species,
-            'types': types,
-            'level': level,
-            'happiness_percent': happiness,
-            'nature': nature,
-            'item': item,
-            'eggGroups': eggGroups,
-        };
-        if (forme !== '') {
-            ret.forme = forme;
-        }
-        return ret;
-    } // parseFieldPokemonToolTip
-
-    // returns true if the page is equal to or smaller to the given size class
-    // mobile cutoff (point when header changes): "mq2"
-    // ex: const isMobile = Helpers.detectPageSize('mq2');
+    /*
+     * returns true if the page is equal to or smaller to the given size class
+     * mobile cutoff (point when header changes): "mq2"
+     * ex: const isMobile = Helpers.detectPageSize('mq2');
+     */
     static detectPageSize(size) {
         return $('html').hasClass(size);
     }
 
-    static addPkmnLinksPopup() {
-      let fielddiv = document.getElementById('field_field');
-      if(!fielddiv) {
-        // Ensure we're actually on a page with fields.
-        // I'm not sure how, but I once saw the button show in forums.
-        return;
-      }
-      let body = document.getElementsByTagName('body')[0];
-      let header = document.getElementsByTagName('h1')[0];
-      let core = document.getElementById('core');
-      let newBtn = document.createElement('button');
-      header.appendChild(newBtn);
-      newBtn.innerText = 'View links';
-      newBtn.style= 'vertical-align:middle;margin-left: 10px;';
-      newBtn.onclick = function(){
-  
-          let content = '<h3>Pokemon links</h3><table style="border-collapse:collapse;">';
-          let fieldmon = document.getElementsByClassName('fieldmon');
-          for(let i=0; i<fieldmon.length; i++){
-          if(i%4==0) {
-              content += '<tr>';
-          }
-          let pkmnID = fieldmon[i].getAttribute('data-id');
-          let small = fieldmon[i].children[1];
-          let imgSRC = small.getAttribute('src');
-          let pkmnName = small.getAttribute('alt');
-          content += '<td style="padding:5px;border:1px solid;">' +
-                     '<img style="vertical-align:middle;" src="'+imgSRC+'"> ' +
-                     '<a href="/summary/'+pkmnID+'">'+pkmnName+'</a></td>';
-          if(i%4==3) {
-              content += '</tr>';
-          }
-          }
-          content += '</table>';
-  
-          let dialog = document.createElement('div');
-          let dialogDiv1 = document.createElement('div');
-          let dialogDiv2 = document.createElement('div');
-          let dialogDiv3 = document.createElement('div');
-          let closeBtn = document.createElement('button');
-          closeBtn.setAttribute('type','button');
-          closeBtn.style = 'float:right;margin:8px;';
-          closeBtn.innerText = 'Close';
-          closeBtn.onclick = function() {
-          dialog.remove();
-          core.classList.remove('scrolllock');
-          }
-          dialog.classList.add('dialog');
-          dialog.appendChild(dialogDiv1);
-          dialogDiv1.appendChild(dialogDiv2);
-          dialogDiv2.appendChild(dialogDiv3);
-          dialogDiv3.innerHTML = content;
-          dialogDiv3.appendChild(closeBtn);
-          body.prepend(dialog);
-          core.classList.add('scrolllock');
-      };
+    /*
+     * sets up a basic mutation observer with the given options for the specified element
+     * when the mutation is observed, calls the provided callback with the detected mutation
+     * watchElement is a DOM element object
+     * observeOptions should be an options element compatible with mutation observers
+     */
+    static addObserver(watchElement, observeOptions, callback) {
+        const observer = new MutationObserver(function (mutations) {
+            callback(mutations);
+        });
+        observer.observe(watchElement, observeOptions);
     }
-}
 
-class Globals {
-    // if you add a new page settings key, be sure to add it to the reset menu in qol-hub.html
-    static SETTINGS_SAVE_KEY = 'QoLSettings';
-    static LAB_PAGE_SETTINGS_KEY = 'QoLLab';
-    static MULTIUSER_PAGE_SETTINGS_KEY = 'QoLMultiuser';
-    static PRIVATE_FIELDS_PAGE_SETTINGS_KEY = 'QoLPrivateFields';
-    static PUBLIC_FIELDS_PAGE_SETTINGS_KEY = 'QoLPublicFields';
-    static SHELTER_PAGE_SETTINGS_KEY = 'QoLShelter';
-    static POKEDEX_DATA_KEY = 'QoLPokedex';
-        /*
-         * Note - the order of TYPE_LIST is important. It looks like PFQ uses an array in this order in its code
-         * Don't change the order without looking for where this array is used
-         */
-    static TYPE_LIST = ["Normal","Fire","Water","Electric","Grass","Ice","Fighting","Poison","Ground","Flying","Psychic","Bug","Rock","Ghost","Dragon","Dark","Steel","Fairy"];
-    static NATURE_LIST = ["Lonely","Mild","Hasty","Gentle","Bold","Modest","Timid","Calm","Impish","Adamant","Jolly","Careful","Relaxed","Brave","Quiet","Sassy","Lax","Naughty","Rash","Naïve","Hardy","Docile","Serious","Bashful","Quirky"];
-    static EGG_GROUP_LIST = {"0":"Undiscovered","1":"Monster","2":"Dragon","3":"Field","4":"Bug","5":"Grass","6":"Water 1","7":"Water 2","8":"Water 3","9":"Amorphous","10":"Fairy","11":"Human-Like","12":"Mineral","13":"Flying","15":"Ditto"};
-    static SHELTER_TYPE_TABLE = ["0","Normal","<img src='//pfq-static.com/img/types/normal.png/t=1262702646'>","1","Fire","<img src='//pfq-static.com/img/types/fire.png/t=1262702645'>","2","Water","<img src='//pfq-static.com/img/types/water.png/t=1262702646'>","3","Electric","<img src='//pfq-static.com/img/types/electric.png/t=1262702645'>","4","Grass","<img src='//pfq-static.com/img/types/grass.png/t=1262702645'>","5","Ice","<img src='//pfq-static.com/img/types/ice.png/t=1262702646'>","6","fighting","<img src='//pfq-static.com/img/types/fighting.png/t=1262702645'>","7","Poison","<img src='//pfq-static.com/img/types/poison.png/t=1262702646'>","8","Ground","<img src='//pfq-static.com/img/types/ground.png/t=1262702646'>","9","Flying","<img src='//pfq-static.com/img/types/flying.png/t=1262702645'>","10","Psychic","<img src='//pfq-static.com/img/types/psychic.png/t=1262702646'>","11","Bug","<img src='//pfq-static.com/img/types/bug.png/t=1262702645'>","12","Rock","<img src='//pfq-static.com/img/types/rock.png/t=1262702646'>","13","Ghost","<img src='//pfq-static.com/img/types/ghost.png/t=1262702645'>","14","Dragon","<img src='//pfq-static.com/img/types/dragon.png/t=1263605747'>","15","Dark","<img src='//pfq-static.com/img/types/dark.png/t=1262702645'>","16","Steel","<img src='//pfq-static.com/img/types/steel.png/t=1262702646'>","17","Fairy","<img src='//pfq-static.com/img/types/fairy.png/t=1374419124'>"];
-    static SHELTER_SEARCH_DATA = ["findNewEgg","Egg","new egg","<img src='//pfq-static.com/img/pkmn/egg.png/t=1451852195'>","findNewPokemon","Pokémon","new Pokémon","<img src='//pfq-static.com/img/pkmn/pkmn.png/t=1451852507'>","findShiny","SHINY","Shiny","<img src='//pfq-static.com/img/pkmn/shiny.png/t=1400179603'>","findAlbino","ALBINO","Albino","<img src='//pfq-static.com/img/pkmn/albino.png/t=1414662094'>","findMelanistic","MELANISTIC","Melanistic","<img src='//pfq-static.com/img/pkmn/melanistic.png/t=1435353274'>","findPrehistoric","PREHISTORIC","Prehistoric","<img src='//pfq-static.com/img/pkmn/prehistoric.png/t=1465558964'>","findDelta","DELTA","Delta","<img src='//pfq-static.com/img/pkmn/_delta/dark.png/t=1501325214'>","findMega","MEGA","Mega","<img src='//pfq-static.com/img/pkmn/mega.png/t=1400179603'>","findStarter","STARTER","Starter","<img src='//pfq-static.com/img/pkmn/starter.png/t=1484919510'>","findCustomSprite","CUSTOM SPRITE","Custom Sprite","<img src='//pfq-static.com/img/pkmn/cs.png/t=1405806997'>","findMale","[M]","Male","<img src='//pfq-static.com/img/pkmn/gender_m.png/t=1401213006'>","findFemale","[F]","Female","<img src='//pfq-static.com/img/pkmn/gender_f.png/t=1401213007'>","findNoGender","[N]","Genderless","<img src='//pfq-static.com/img/pkmn/gender_n.png/t=1401213004'>","findLegendary","","Legendary","<img src='//pfq-static.com/img/pkmn/pkmn.png/t=1451852507'>"];
-    static SHELTER_SEARCH_LISTS = {"findLegendary":["Articuno","Zapdos","Moltres","Mewtwo","Mew","Raikou","Entei","Suicune","Lugia","Ho-oh","Celebi","Regirock","Regice","Registeel","Latias","Latios","Kyogre","Groudon","Rayquaza","Deoxys","Jirachi","Uxie","Mesprit","Azelf","Dialga","Palkia","Heatran","Regigigas","Giratina","Cresselia","Manaphy","Darkrai","Shaymin","Arceus","Cobalion","Terrakion","Virizion","Tornadus","Thundurus","Reshiram","Zekrom","Landorus","Kyurem","Keldeo","Meloetta","Genesect","Xerneas","Yveltal","Zygarde","Diancie","Hoopa","Volcanion","Type: Null","Silvally","Tapu Koko","Tapu Lele","Tapu Bulu","Tapu Fini","Cosmog","Cosmoem","Solgaleo","Lunala","Necrozma","Magearna","Zeraora","Marshadow","Meltan","Melmetal","Nihilego","Buzzwole","Pheromosa","Xurkitree","Celesteela","Kartana","Guzzlord","Poipole","Naganadel","Stakataka","Blacephalon","Zacian","Zamazenta","Eternatus","Kubfu","Urshifu","Zarude","Regieleki","Regidrago","Glastrier","Spectrier","Calyrex"]};
+    /*
+     *Demo collapse html. Deviation from this may result in errors.
+     *
+     *<div class="panel accordion qolCollapse">
+     *  <h3>
+     *      <a href="#">
+     *      Collapse Title
+     *      <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg>
+     *      </a>
+     *  </h3>
+     *  <div style="display:none;">
+     *      Collapse Content
+     *  </div>
+     *</div>
+     */
+    static activateCollapses() {
+        const collapses = $('.qolCollapse');
+        for(let i=0; i<collapses.length; i++) {
+            const header = collapses[i].children[0];
+            const body = collapses[i].children[1];
+            if(header && body) {
+                $(header).on('click', function() {
+                    if($(header).hasClass('active')) {
+                        $(header).removeClass('active');
+                        $(body).css('display','none');
+                    }
+                    else {
+                        $(header).addClass('active');
+                        $(body).css('display','block');
+                    }
+                });
+            }
+            else {
+                ErrorHandler.error('Malformed collapse box');
+                console.log(collapses[i]);
+            }
+        }
+    }
 
-    static TYPE_OPTIONS = Helpers.buildOptionsString(this.TYPE_LIST);
-    static NATURE_OPTIONS = Helpers.buildOptionsString(this.NATURE_LIST);
-    static EGG_GROUP_OPTIONS = Helpers.buildOptionsString(this.EGG_GROUP_LIST);
+    /*
+     * Options should be on be one of the json objects from resources, or formatted similarly
+     * Extras are any additional options that should appear at the top, also in object format
+     * The keys of each item will be used as the option value
+     * The wrapping <select> is NOT created here, so its class/ID can be set more simply
+     */
+    static generateSelectOptions(options, extras={}) {
+        let output = '';
+        for(const key in extras) {
+            output += '<option value="'+key+'">'+extras[key]+'</option>';
+        }
+        for(const key in options) {
+            output += '<option value="'+key+'">'+options[key]+'</option>';
+        }
+        return output;
+    }
 }
 
 class LocalStorageManager {
     // Look for settings that contain QoL and return them as an array of keys
-    // Uses the same basic code as the migrateSettings function
     static getAllQoLSettings(includeDex=false) {
         const qolSettings = {};
         for (let i = 0, len = localStorage.length; i < len; ++i) {
             const key = localStorage.key(i);
             // the dex is the largest data element by far; allow excluding it
-            if(key && key.match(/QoL/) && (includeDex || !key.match(/QoLPokedex/))) {
+            if(key && key.includes('QoL') && (includeDex || !key.includes(UserPokedex.DEX_DATA_KEY))) {
                 qolSettings[key] = localStorage.getItem(key);
             }
         }
@@ -335,996 +220,189 @@ class LocalStorageManager {
     static clearAllQoLKeys() {
         for (let i = 0, len = localStorage.length; i < len; ++i) {
             const key = localStorage.key(i);
-            if(key && key.match(/QoL/)) {
+            if(key && key.includes('QoL')) {
                 localStorage.removeItem(key);
             }
         }
     }
-    /**
-     * This function helps users use the updated script without having to
-     * clear their settings by looking for items in local storage that
-     * start with 'QoL...' and moving the settings to the correct
-     * translated local storage key
+
+    /*
+     * validates key is in QoL format, and appends the current user ID to the key
+     * returns null if the key is in a bad format (use === to evaluate)
      */
-    static migrateSettings() {
-        const newItems = {};
-        const newKeys = [];
-        const keysToRemove = [];
-        // find the items that need to be replaced
-        for (let i = 0, len = localStorage.length; i < len; ++i) {
-            let match = localStorage.key(i).match(/^QoL/);
-            if(!match) {
-                // the user ID feature was just returning undefined - convert these too
-                match = localStorage.key(i).match(/^undefined\.QoL/);
-            }
-            if(match) {
-                const oldKey = match.input;
-                const newKey = LocalStorageManager.translateKey(oldKey);
-                newItems[newKey] = localStorage.getItem(oldKey);
-                keysToRemove.push(oldKey);
-            }
-            match = localStorage.key(i).match(/^undefined\.undefined\.QoL/);
-            if(match) {
-                keysToRemove.push(match.input);
-            }
-        }
-        // remove the old style keys
-        for(let j = 0; j < keysToRemove.length; j++) {
-            localStorage.removeItem(keysToRemove[j]);
-        }
-        // add the new style keys
-        for(const newKey in newItems) {
-            localStorage.setItem(newKey, newItems[newKey]);
-            newKeys.push(newKey);
-        }
-        if(keysToRemove.length>0 || newKeys.length>0) {
-            console.log('Migrated keys (old, new):');
-            console.log(keysToRemove);
-            console.log(newKeys);
-        }
-    }
     static translateKey(key) {
-        let pos = key.indexOf('QoL');
-        if(pos<0) {
-            throw 'Bad key format';
+        if(!key.startsWith('QoL')) {
+            ErrorHandler.error('Bad key format: '+ key);
+            return null;
         }
-        key = key.substring(pos);
         let userID = $('#core').attr('data-user');
         if(!userID) {
             userID = 'unknown';
         }
         return userID+'.'+key;
     }
-    static saveSettings(key, obj) {
-        if (key == null){ return; }
-        localStorage.setItem(LocalStorageManager.translateKey(key), JSON.stringify(obj));
-    }
-    static loadSettings(KEY, DEFAULT, obj) {
-        if (KEY == null){ return; }
-        KEY = LocalStorageManager.translateKey(KEY);
-        if (localStorage.getItem(KEY) === null) {
-            this.saveSettings(KEY);
-        } else {
-            try {
-                const countScriptSettings = Object.keys(obj).length;
-                const localStorageString = JSON.parse(localStorage.getItem(KEY));
-                const countLocalStorageSettings = Object.keys(localStorageString).length;
-                if (countLocalStorageSettings < countScriptSettings) { // adds new objects (settings) to the local storage
-                    const defaultsSetting = DEFAULT;
-                    const userSetting = JSON.parse(localStorage.getItem(KEY));
-                    const newSetting = $.extend(true, {}, defaultsSetting, userSetting);
 
-                    obj = newSetting;
-                    this.saveSettings(KEY, obj);
-                }
-                if (countLocalStorageSettings > countScriptSettings) {
-                    this.saveSettings(KEY, obj);
-                }
-            }
-            catch (err) {
-                this.saveSettings(KEY, obj);
-            }
-            if (localStorage.getItem(KEY) != JSON.stringify(obj)) {
-                obj = JSON.parse(localStorage.getItem(KEY));
-            }
-        }
-
-        return obj;
-    }
     static getItem(key) {
-        return localStorage.getItem(LocalStorageManager.translateKey(key));
+        const tKey = LocalStorageManager.translateKey(key);
+        if(tKey) {
+            return localStorage.getItem(tKey);
+        }
     }
     static setItem(key, value) {
-        localStorage.setItem(LocalStorageManager.translateKey(key), value);
+        const tKey = LocalStorageManager.translateKey(key);
+        if(tKey) {
+            localStorage.setItem(tKey, JSON.stringify(value));
+        }
     }
     static removeItem(key) {
-        localStorage.removeItem(LocalStorageManager.translateKey(key));
+        const tKey = LocalStorageManager.translateKey(key);
+        if(tKey) {
+            localStorage.removeItem(tKey);
+        }
     }
 
     static getDexFromStorage() {
-        const key = LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY);
-        if(localStorage.getItem(key) === null) {
+        const tKey = LocalStorageManager.translateKey(UserPokedex.DEX_DATA_KEY);
+        if(!tKey) {
             return false;
         }
-        if(Object.keys(JSON.parse(localStorage.getItem(key))).length === 0) {
+        const storedData = localStorage.getItem(tKey);
+        if(localStorage.getItem(tKey) === null || Object.keys(JSON.parse(storedData)).length === 0) {
             return false;
         }
-
-        const dateAndDex = JSON.parse(localStorage.getItem(key));
+        const dateAndDex = JSON.parse(localStorage.getItem(tKey));
         // if QoLPokedex only contains date
         if((dateAndDex.length === 1) ||
            // or if the dex part of the array is empty
-           (dateAndDex[1] === undefined) ||
-            (dateAndDex[1] === null)) {
+           (dateAndDex[1] === undefined) || (dateAndDex[1] === null)) {
             return false;
         }
         return dateAndDex;
     }
 
     static updateLocalStorageDex(DEX_DATA, dateString) {
-        const datePlusDex = [dateString].concat(DEX_DATA);
-        localStorage.setItem(LocalStorageManager.translateKey(Globals.POKEDEX_DATA_KEY), JSON.stringify(datePlusDex));
+        LocalStorageManager.setItem(UserPokedex.DEX_DATA_KEY, [dateString, DEX_DATA]);
     }
 }
 
 
 /**
- * This class is used to store CSS and HTML snippets that were previously loaded via Tampermonkey's '@resource' tool
+ * This class is used to store JSON, CSS, and HTML files - the build script replaces these with the given file's contents
  */
 class Resources {
-    static css() {
-        return `#announcements li[data-name=QoL]{cursor:pointer}#labsuccess{text-align:center}#labfound{padding-top:20px}.boldp{font-weight:700}.collapsible{border-radius:6px;cursor:pointer;max-width:600px;padding:4px;position:relative;text-align:left;width:100%}.collapsible_content{display:none;overflow:hidden;padding:0 18px}.oneevolutionleft{background-color:#f36971;border-radius:100%;box-shadow:0 0 25px 15px #f36971}.twoevolutionleft{background-color:#6a6df2;border-radius:100%;box-shadow:0 0 25px 15px #6a6df2}.dojoperfectstat{font-weight:700;text-decoration:underline} `+
-               `.qoltooltip_trigger{border-bottom:1px dotted #000;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.daycarefoundme,.dojofoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagridmq2:not(.qolshelterarealarge){grid-template-rows:repeat(5,35px);min-height:175px}.qoltooltipgrid{bottom:0;position:absolute!important;transform:translateY(100%)}.qolpokemongrid{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important}.qolpokemongrid img{max-height:100%;max-width:100%}.qolshelterarealarge .pokemon .big{display:block!important}.qolshelterarealarge .pokemon .small,.qolshelterareasmall .pokemon .big{display:none!important}.qolshelterareasmall .pokemon .small{display:block!important} `+
-               `#fieldorder{border-radius:4px;padding:4px}#fieldorder,#fieldsearch{margin:16px auto;max-width:600px;position:relative}.qolSortBerry{margin:-10px!important;top:45%!important;transition:none!important}.qolSortBerry>img.big{animation:none!important;padding:25px!important}.qolSortBerry.qolAnyBerry,.qolSortBerry.qolSourBerry{left:0!important}.qolSortBerry.qolSpicyBerry{left:20%!important}.qolSortBerry.qolDryBerry{left:40%!important}.qolSortBerry.qolSweetBerry{left:60%!important}.qolSortBerry.qolBitterBerry{left:80%!important}.mq2 .qolSortBerry{margin:-10px 2%!important;overflow:hidden;top:45%!important;transition:none!important;width:16%}.mq2 .qolSortBerry>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolSortMiddle{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolSortMiddle>img{animation:none!important;padding:40px!important}.qolGridField{display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.mq25 .qolGridField{grid-template-rows:repeat(5,36px);min-height:180px}.qolGridPokeSize{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolGridPokeImg{animation:none!important;max-height:70px;max-width:75px}.qolSelectFlavour{display:none}.qolFlavourShown~.qolSelectFlavour{display:inline}.qolFlavourShown~.qolSelectGender,.qolNatureShown~.qolSelectGender{display:none} `+
-               `.qolHubSuperHead:first-child{border-top-left-radius:5px;border-top-right-radius:5px}.qolHubHead{margin:0;padding:4px;text-align:center}.qolAllSettings{vertical-align:top}.qolAllSettings,.qolChangeLog{border-top:none;height:100%;width:315px}.qolAllSettings>ul{list-style-type:none;padding:0;vertical-align:top}.qolHubTable{border-collapse:collapse;border-spacing:0;width:100%}.qolChangeLogList{margin:0;padding:4px;text-align:left;text-align:center}.qolChangeLogContent{display:none;list-style-type:disc}.expandlist{font-size:16px;list-style-type:none;text-align:center}.slidermenu{cursor:pointer}.qolChangeLogHead{margin:0}.closeHub{cursor:pointer;font-size:20px;margin:0 10px 0 0;text-align:right}.textareahub textarea{box-sizing:border-box;width:100%}#qolStorageOutput{border:1px solid;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all} `+
-               `#qolpartymod{text-align:center}#qolpartymodcustom h3{font-size:100%;padding:2px}.qolPartyCustomParty{--multiuser-button-height:60pt;--multiuser-border-radius:8px}.qolPartyCustomParty h1{align-items:center;display:flex;justify-content:center}.qolPartyCustomParty #partybox{padding-top:calc(var(--multiuser-button-height) + 1em);position:relative}.qolPartyCustomParty #partybox .party{box-shadow:none}.qolPartyCustomParty #partybox .party>div{position:static}.qolPartyCustomParty #partybox .action{height:auto!important;left:0;min-height:0;position:absolute;top:0;width:100%}.qolPartyCustomParty #partybox .action>a,.qolPartyCustomParty #partybox .action>div{line-height:var(--multiuser-button-height);margin:0;min-height:var(--multiuser-button-height);padding:0}.qolPartyCustomParty #partybox .action .berrybuttons>a{box-sizing:border-box;height:100%!important;line-height:var(--multiuser-button-height)!important;width:100%}.qolPartyCustomParty #partybox .action>a{align-items:center;box-sizing:border-box;display:flex!important;justify-content:center}.qolPartyCustomParty #partybox .action.working,.qolPartyCustomParty #partybox .action:empty,.qolPartyCustomParty #partybox .action>table,.qolPartyCustomParty #partybox .berrybuttons>.tooltip_content{display:none}.qolPartyCustomParty #partybox .party>div:hover>.action a[data-berry]:after{border-color:transparent}.qolPartyCustomParty #partybox .showcase .berrybuttons>a{display:inline-block;position:absolute;text-align:center;width:100%}.qolPartyCustomParty #partybox .showcase .berrybuttons>a img{display:inline-block!important;vertical-align:middle}.qolPartyCustomParty.qolStackMore .qolGetMore,.qolPartyCustomParty.qolStackNext .qolGoNext{height:var(--multiuser-button-height);left:0;line-height:var(--multiuser-button-height);margin:0;padding:0;position:absolute;top:0;width:100%;z-index:1}.qolPartyCustomParty.qolHideParty .party,.qolPartyCustomParty.qolHideParty .showcase{border:none;height:0;overflow:hidden;padding:0}.qolPartyCustomParty.qolHideParty .mu_navlink.toggle{display:none!important}.qolPartyCustomParty.qolCompactParty #partybox .party>div{background:transparent;border:none;margin-bottom:20px;padding:0;width:unset}.qolPartyCustomParty.qolCompactParty #partybox .party .expbar,.qolPartyCustomParty.qolCompactParty #partybox .party .name{display:none}.qolPartyCustomParty.qolCompactParty #partybox .party .pkmn a.qolCompactLink{display:block;height:100%;left:0;position:absolute;top:0;width:100%;z-index:1}.qolPartyCustomParty.qolHideFieldButton .fieldslink,.qolPartyCustomParty.qolHideModeChecks #partybox>label,.qolPartyCustomParty.qolHideTrainerCard #profilebox,.qolPartyCustomParty.qolHideUserName h1{display:none}.qolPartyCustomParty.qolHideShowcase .showcase,.qolPartyCustomParty.qolHideShowcase .showcase+.toggle{display:none!important}.qolPartyCustomParty:not(.qolHideShowcase) .showcase:not(:empty)+.mu_navlink.toggle{display:block!important}.mq2 .qolPartyCustomParty #partybox .party>div,.multi-compact .qolPartyCustomParty #partybox .party>div{display:inline-block}.mq2 .qolPartyCustomParty #partybox .party>div .pkmn,.multi-compact .qolPartyCustomParty #partybox .party>div .pkmn{margin-right:0}.qolPartyCustomParty #partybox .party .action a,.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{display:none;position:absolute;width:100%}.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyCustomParty #partybox .party .action>a,.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideAll #partybox .party .action>a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideDislike #partybox .party .action>a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyNiceTable #partybox .party .action>a{display:inline-block}.qolPartyCustomParty #partybox .party .working .berrybuttons,.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyCustomParty .loading,.qolPartyHideAll .loading,.qolPartyHideDislike .loading,.qolPartyNiceTable .loading{user-select:none}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyHideAll .tooltip_content,.qolPartyNiceTable #partybox .party>div>:not(.action),.qolPartyNiceTable .tooltip_content{display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyCustomParty:not(.qolHideShowcase) #partybox:not(.swap-panels) .showcase,.qolPartyHideAll:not(.qolHideShowcase) #partybox:not(.swap-panels) .showcase{border:none;display:flex!important;height:0;margin:0;overflow:hidden;padding:0}.qolPartyCustomParty #partybox.swap-panels>.party,.qolPartyHideAll #partybox.swap-panels>.party{height:0;margin:0;overflow:hidden}.qolPartyCustomParty .party .action a,.qolPartyHideAll .party .action a{z-index:3}.qolPartyCustomParty .showcase .action a,.qolPartyHideAll .showcase .action a{z-index:2}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;overflow:hidden;padding:0;position:unset;width:0}.qolPartyHideAll .party .action,.qolPartyHideAll .party .action .berrybuttons,.qolPartyHideAll .showcase .action,.qolPartyHideAll .showcase .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll .party .action a,.qolPartyHideAll .showcase .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px!important}.qolPartyHideAll .party .action .berrybuttons a,.qolPartyHideAll .showcase .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll .party .action table,.qolPartyHideAll .showcase .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .showcase+.mu_navlink.toggle,.qolPartyHideAll .working{display:none!important} `+
-               `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle} `;
-    }
 
-    static fieldSearchHTML() {
-        return `<div id="fieldsearch"><button type="button" class="collapsible"><b>Advanced Field search</b></button><div class="collapsible_content"><p>Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldShiny">Shiny</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldAlbino">Albino</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldMelanistic">Melanistic</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldPrehistoric">Prehistoric</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldDelta">Delta</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMega">Mega</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldStarter">Starter</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomSprite">Custom Sprite</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldItem">Holds Item</label></td></tr></tbody></table><h4>Search on type</h4><p>Select which types of Pokemon you wish to find</p><input type="button" value="Add type" id="addFieldTypeSearch"><div id="fieldTypes"><div class="0"></div></div><h4>Search on nature</h4><p>Select which natures of Pokemon you wish to find</p><input type="button" value="Add nature" id="addFieldNatureSearch"><div id="natureTypes"><div class="0"></div></div><h4>Search on egg group</h4><p>Select which egg groups you wish to find</p><input type="button" value="Add egg group" id="addFieldEggGroupSearch"><div id="eggGroupTypes"><div class="0"></div></div><h4>Custom Search</h4><p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p><div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div><div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. When the URL for its image is this:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>paste only '1/g/g' (without the quotes), and now it will show you when a Bulbasaur is found! You may also copy the complete link.<br><a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a></span></div><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomEgg">Custom Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomPokemon">Custom Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomPng">By img code</label></td></tr></tbody></table><h4>Search on gender</h4><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMale">Male</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldFemale">Female</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldNoGender">Genderless</label></td></tr></tbody></table><h4>Search Keys</h4><input type="button" value="Add searchfield" id="addTextField"><div id="searchkeys"><div class="0"></div></div><br></div></div>`;
-    }
-
-    static fieldSortHTML() {
-        return `<div id="fieldorder"><label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByBerry"> Sort by berries</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByMiddle"> Sort in the middle</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="fieldByGrid"> Align to grid</label> <label><input type="checkbox" class="qolsetting" data-key="fieldClickCount"> Click counter</label></div>`;
-    }
-
-    static labOptionsHTML() {
-        return `<div id="labCustomSearch" class="center"><p class="boldp">Egg type search</p><p>Select which egg types you would like to find in the lab. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="findTypeEgg">Egg types <input type="button" value="Add typesearch" id="addLabTypeList"><div id="labTypes"><div class="0"></div></div><p class="boldp">Egg custom search</p><p>Add the pokemon name or Img code (complete link starting from //pfq..) that you would like to find in the lab in a searchfield. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg <input type="button" value="Add searchfield" id="addLabSearch"><div id="searchkeys"><div class="0"></div></div></div>`;
-    }
-
-    static evolveFastHTML() {
-        return `<ul class="qolEvolveTypeList"><li class="expandlist"><h3 class="slidermenu">Normal</h3><ul class="normal 0 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Fire</h3><ul class="Fire 1 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Water</h3><ul class="Water 2 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Electric</h3><ul class="Electric 3 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Grass</h3><ul class="Grass 4 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Ice</h3><ul class="Ice 5 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Fighting</h3><ul class="Fighting 6 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Poison</h3><ul class="Poison 7 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Ground</h3><ul class="Ground 8 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Flying</h3><ul class="Flying 9 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Psychic</h3><ul class="Psychic 10 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Bug</h3><ul class="Bug 11 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Rock</h3><ul class="Rock 12 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Ghost</h3><ul class="Ghost 13 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Dragon</h3><ul class="Dragon 14 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Dark</h3><ul class="Dark 15 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Steel</h3><ul class="Steel 16 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Fairy</h3><ul class="Fairy 17 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Unknown Types</h3><ul class="Unknown 18 qolChangeLogContent"></ul></li></ul>`;
-    }
-
-    static privateFieldSearchHTML() {
-        return `<div id="fieldsearch"><button type="button" class="collapsible"><b>Advanced Field search</b></button><div class="collapsible_content"><p>Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldShiny">Shiny</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldAlbino">Albino</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldMelanistic">Melanistic</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldPrehistoric">Prehistoric</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldDelta">Delta</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMega">Mega</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldStarter">Starter</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldCustomSprite">Custom Sprite</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldItem">Holds Item</label></td></tr></tbody></table><h4>Search on type</h4><p>Select which types of Pokemon you wish to find</p><input type="button" value="Add type" id="addPrivateFieldTypeSearch"><div id="fieldTypes"><div class="0"></div></div><h4>Search on nature</h4><p>Select which natures of Pokemon you wish to find</p><input type="button" value="Add nature" id="addPrivateFieldNatureSearch"><div id="natureTypes"><div class="0"></div></div><h4>Search on egg group</h4><p>Select which egg groups you wish to find</p><input type="button" value="Add egg group" id="addPrivateFieldEggGroupSearch"><div id="eggGroupTypes"><div class="0"></div></div><h4>Custom Search</h4><p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p><div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div><div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. You paste it's Img code in the search bar:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>and now it will show you when a Bulbasaur is found! Copy paste the complete link (starting from //) or you won't find anything.<br><br><a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a></span></div><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="customPokemon">Custom Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="customPng">By img code</label></td></tr></tbody></table><h4>Search on gender</h4><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="fieldMale">Male</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldFemale">Female</label></td><td><label><input type="checkbox" class="qolsetting" data-key="fieldNoGender">Genderless</label></td></tr></tbody></table><h4>Search Keys</h4><input type="button" value="Add searchfield" id="addTextField"><div id="searchkeys"><div class="0"></div></div></div><br></div>`;
-    }
-
-    static shelterOptionsHTML() {
-        return `<div id="shelteroptionsqol"><p>Check the boxes of Pokemon you wish to find in the shelter! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemon you selected! Use the letter 'n' key to select and cycle through the Pokemon matched by the script.</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="findNewEgg">New Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findNewPokemon">New Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findShiny">Shiny</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findAlbino">Albino</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findMelanistic">Melanistic</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findPrehistoric">Prehistoric</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findDelta">Delta</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findMega">Mega</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findStarter">Starter</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findCustomSprite">Custom Sprite</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findLegendary">Legendary</label></td></tr></tbody></table><h4>Search on type</h4><p>Select which types of Pokemon and/or eggs you wish to find</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="findTypeEgg">Egg types</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findTypePokemon">Pokemon types</label></td></tr></tbody></table><input type="button" value="Add typesearch" id="addShelterTypeList"><div id="shelterTypes"><div class="0"></div></div><h4>Custom Search</h4><p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p><div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div><div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. You paste it's Img code in the search bar:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>and now it will show you when a Bulbasaur is found! Copy paste the complete link (starting from //) or you won't find anything.<br><br><a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a></span></div><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="customPokemon">Custom Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="customPng">By img code</label></td></tr></tbody></table><h4>Search on Gender</h4><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="findMale">Male</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findFemale">Female</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findNoGender">Genderless</label></td></tr></tbody></table><h4>Search Keys</h4><input type="button" value="Add searchfield" id="addShelterTextfield"><div id="searchkeys"><div class="0"></div></div></div>`;
-    }
-
-    static shelterSortHTML() {
-        return `<div id="qolsheltersort"><label><input type="checkbox" class="qolsetting" data-key="shelterGrid"><span>Sort by Grid</span></label><div style="padding: 5px">Sprite size mode:<p style="margin: 5px 0"><input type="radio" id="spriteSizeAuto" name="shelterSpriteSize" value="auto"> <label for="spriteSizeAuto">Automatic</label></p><p style="margin: 5px 0"><input type="radio" id="spriteSizeLarge" name="shelterSpriteSize" value="large"> <label for="spriteSizeLarge">Large</label></p><p style="margin: 5px 0"><input type="radio" id="spriteSizeSmall" name="shelterSpriteSize" value="small"> <label for="spriteSizeSmall">Small</label></p></div></div>`;
-    }
-
-    static qolHubHTML() {
-        return `<div class="dialog"><div><div><div style="margin-top: 1em; margin-bottom: 1em;"><h3 class="qolHubHead qolHubSuperHead">Quality of Life userscript Hub</h3><div><p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings and view the latest changes to the script.</p><div><table class="qolHubTable"><tbody><tr><td><h3 class="qolHubHead">Settings</h3></td></tr><tr><td class="qolAllSettings"><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="enableDaycare"> <span>Highlight Breeding Matches</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="shelterFeatureEnables.sort"> <span>Advanced Sorting</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="publicFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.tooltip"> <span>Tooltips Enable/Disable</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="privateFieldFeatureEnables.pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></li><li><label><input type="checkbox" class="qolhubsetting" data-key="partyMod"> <span>Party click mod</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="easyEvolve"> <span>Easy evolving</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="labNotifier"> <span>Lab Notifier</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="dexFilterEnable"> <span>Multiple Types Filtering</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></li><li><label><input type="checkbox" class="qolhubsetting" data-key="dojoEnable"> <span>Dojo page (perfect stat highlight)</span></label></li></ul><span><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</span></td></tr><tr><td><h3 class="qolHubHead">Change log</h3></td></tr><tr><td class="qolChangeLog"><ul class="qolChangeLogList"><li class="expandlist"><span>Change log was removed as of April 2021. Visit <a href="https://github.com/tarashia/PokeFarmQoL" target="_blank">GitHub</a> for the latest list of features</span></li></ul></td></tr><tr><td colspan="2" class="qolDexUpdate"><h3 class="qolHubHead">Pokedex Settings</h3></td></tr><tr id="qolDexUpdateRow"><td colspan="2" class="qolAllSettings"><span>Notice that you can't find the newly added Eggs or Pokemon in shelter? You may have to update your pokedex. Please visit the Dex page, and the Userscript will update itself with the newest pokemon. Then, in order to use the update, refresh the page where you are using the script's search features.</span><br><span>Date last updated: <span class="qolDate"></span></span></td></tr><tr id="qolDexClearRow"><td colspan="2"><input type="button" value="Clear Cached Dex" id="clearCachedDex"></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Css Settings</h3></td></tr><tr><td colspan="2"><span>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting is not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></span></td></tr><tr><td colspan="2" class="qolAllSettings"><div class="textareahub"><textarea id="qolcustomcss" rows="15" class="qolhubsetting" data-key="customCss"></textarea></div></td></tr><tr><td colspan="2" class="qolAllSettings"><h3 class="qolHubHead">Debugging Corner</h3></td></tr><tr id="qolDebuggingCornerRow"><td colspan="2" class="qolAllSettings"><span>Use these controls to reset the settings for a particular page back to its defaults</span><br><span><b>Page Select</b></span><!-- Option values correspond to keys in the PAGES object in the main script --> <select name="Page Select" class="qolHubResetSettingsSelect" data-key="resetPageSettings"><option value="None">None</option><option value="Lab">Lab</option><option value="Multiuser">Multiuser</option><option value="PrivateFields">Private Fields</option><option value="PublicFields">Public Fields</option><option value="Shelter">Shelter</option></select> <input type="button" value="Reset Page Settings" id="resetPageSettings"> <input type="button" value="Reset ALL Settings" id="resetAllSettings"></td></tr><tr><td><br>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <input type="button" value="View errors" id="qolErrorConsole"><ul id="qolConsoleContent" style="word-break:break-all;"></ul><br>The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs. <input type="button" value="Load settings" id="qolStorageLog"><div id="qolStorageOutput" style="display: none;"></div></td></tr></tbody></table></div></div><p class="closeHub">Close</p></div></div></div></div>`;
-    }
-
-    static publicFieldTooltipModHTML() {
-        return `<div id="tooltipenable"><button type="button" class="collapsible"><b>Tooltip Settings</b></button><div class="collapsible_content"><span>The "Enable tooltip" settings force the tooltip on or off. To revert back to Pokefarm's default tooltip settings, uncheck "Enable QoL Tooltip Changes" and refresh the page.</span><hr><table><tr><td><label><input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipEnableMods"> Enable QoL Tooltip Settings</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipNoBerry"> Hide tooltip<br>(No berry selected)</label></td><td><label><input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipBerry"> Hide tooltip<br>(Berry selected)</label></td></tr></table></div></div>`;
-    }
-
-    static privateFieldTooltipModHTML() {
-        return `<div id="tooltipenable"><button type="button" class="collapsible"><b>Tooltip Settings</b></button><div class="collapsible_content"><span>The "Enable tooltip" settings force the tooltip on or off. To revert back to Pokefarm's default tooltip settings, uncheck "Enable QoL Tooltip Changes" and refresh the page.</span><hr><table><tr><td><label><input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipEnableMods"> Enable QoL Tooltip Settings</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting tooltipsetting" data-key="tooltipNoBerry"> Hide tooltip</label></td></tr></table></div></div>`;
-    }
-
-    static qolHubLinkHTML() {
-        return `<li data-name="QoL"><a title="QoL Settings"><img src="https://i.imgur.com/L6KRli5.png" alt="QoL Settings">QoL </a><!-- The QoL hub doesn't exist until opened; store custom errors here initially instead --><ul style="display: none;" id="qolConsoleHolder"></ul></li>`;
-    }
-
-    static massReleaseSelectHTML() {
-        return `<label id="selectallfish"><input class="qolsetting" id="selectallfishcheckbox" type="checkbox">Select all</label> <label id="movefishselectany"><input class="qolsetting" id="movefishselectanycheckbox" type="checkbox">Select Any</label> <label id="movefishselectsour"><input class="qolsetting" id="movefishselectsourcheckbox" type="checkbox">Select Sour</label> <label id="movefishselectspicy"><input class="qolsetting" id="movefishselectspicycheckbox" type="checkbox">Select Spicy</label> <label id="movefishselectdry"><input class="qolsetting" id="movefishselectdrycheckbox" type="checkbox">Select Dry</label> <label id="movefishselectsweet"><input class="qolsetting" id="movefishselectsweetcheckbox" type="checkbox">Select Sweet</label> <label id="movefishselectbitter"><input class="qolsetting" id="movefishselectbittercheckbox" type="checkbox">Select Bitter</label>`;
-    }
-
-    static partyModHTML() {
-        return `<div id="qolpartymod"><label><input type="checkbox" class="qolsetting qolalone" data-key="hideDislike">Hide disliked berries</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="niceTable">Show in table</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="hideAll">Hide all click fast</label> <label><input type="checkbox" class="qolsetting qolalone" data-key="customParty">Customize</label></div>`;
-    }
-
-    static partyModCustomHTML() {
-        return `<div id="qolpartymodcustom" class="panel accordion" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="clickablePokemon">Clickable pokemon (if compact)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="showUserName">Show user name</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-key="includeShowcase">Include showcase</label></div></div></div>`;
-    }
-}
-
-/* 
-This is a singleton wrapper on the settings/dex classes
-It makes it easier to get the master settings instance,
-without needing to explicitly pass it around between functions
-*/
-
-let UserSettingsHandle = (function () {
-    let settings;
-    let dex;
-
-    return {
-        getSettings: function () {
-            if (!settings) {
-                settings = new UserSettings();
-            }
-            return settings;
-        },
-        getDex: function() {
-            if (!dex) {
-                dex = new UserPokedex();
-            }
-            return dex;
+    // JSON objects loaded from resource files
+    static BODY_STYLE_LIST = {
+        "0":"Short Blob","1":"Snake","2":"Fish","3":"Two Arms","4":"Tall Blob","5":"Dino","6":"Two Legs","7":"Four Legs","8":"Bird","9":"Jelly","10":"Multi","11":"Human","12":"Flying Bug","13":"Crawling Bug"
+    };
+    static COLOUR_LIST = {
+        "0":"Black","1":"Blue","2":"Brown","3":"Green","4":"Grey","5":"Pink","6":"Purple","7":"Red","8":"White","9":"Yellow"
+    };
+    static EGG_GROUP_LIST = {
+        "0":"Undiscovered","1":"Monster","2":"Dragon","3":"Field","4":"Bug","5":"Grass","6":"Water 1","7":"Water 2","8":"Water 3","9":"Amorphous","10":"Fairy","11":"Human-Like","12":"Mineral","13":"Flying","15":"Ditto"
+    };
+    static NATURE_LIST = {
+        "0":"Adamant","1":"Bashful","2":"Bold","3":"Brave","4":"Calm","5":"Careful","6":"Docile","7":"Gentle","8":"Hardy","9":"Hasty","10":"Impish","11":"Jolly","12":"Lax","13":"Lonely","14":"Mild","15":"Modest","16":"Naïve","17":"Naughty","18":"Quiet","19":"Quirky","20":"Rash","21":"Relaxed","22":"Sassy","23":"Serious","24":"Timid"
+    };
+    static REGION_LIST = {
+        "1":"Kanto","2":"Johto","3":"Hoenn","4":"Sinnoh","5":"Unova","6":"Kalos","7":"Alola","8":"Galar","9":"Paldea","97":"PokéFarm Q (Exclusives)","98":"PokéFarm Q (Megas)","99":"PokéFarm Q (Variants)"
+    };
+    static TYPE_LIST = {
+        "0":"Normal","1":"Fire","2":"Water","3":"Electric","4":"Grass","5":"Ice","6":"Fighting","7":"Poison","8":"Ground","9":"Flying","10":"Psychic","11":"Bug","12":"Rock","13":"Ghost","14":"Dragon","15":"Dark","16":"Steel","17":"Fairy"
+    };
+    static SHELTER_SEARCH_KEYS = {
+        "findNewEgg":{
+            "searchKey":"Egg","display":"new egg","icon":"<img src='//pfq-static.com/img/pkmn/egg.png'>"
+        },"findNewPokemon":{
+            "searchKey":"Pokémon","display":"new Pokémon","icon":"<img src='//pfq-static.com/img/pkmn/pkmn.png'>"
+        },"findShiny":{
+            "searchKey":"SHINY","display":"Shiny","icon":"<img src='//pfq-static.com/img/pkmn/shiny.png'>"
+        },"findAlbino":{
+            "searchKey":"ALBINO","display":"Albino","icon":"<img src='//pfq-static.com/img/pkmn/albino.png'>"
+        },"findMelanistic":{
+            "searchKey":"MELANISTIC","display":"Melanistic","icon":"<img src='//pfq-static.com/img/pkmn/melanistic.png'>"
+        },"findPrehistoric":{
+            "searchKey":"PREHISTORIC","display":"Prehistoric","icon":"<img src='//pfq-static.com/img/pkmn/prehistoric.png'>"
+        },"findDelta":{
+            "searchKey":"DELTA","display":"Delta","icon":"<img src='//pfq-static.com/img/pkmn/_delta/dark.png'>"
+        },"findMega":{
+            "searchKey":"MEGA","display":"Mega","icon":"<img src='//pfq-static.com/img/pkmn/mega.png'>"
+        },"findStarter":{
+            "searchKey":"STARTER","display":"Starter","icon":"<img src='//pfq-static.com/img/pkmn/starter.png'>"
+        },"findCustomSprite":{
+            "searchKey":"CUSTOM SPRITE","display":"Custom Sprite","icon":"<img src='//pfq-static.com/img/pkmn/cs.png'>"
+        },"findMale":{
+            "searchKey":"[M]","display":"Male","icon":"<img src='//pfq-static.com/img/pkmn/gender_m.png'>"
+        },"findFemale":{
+            "searchKey":"[F]","display":"Female","icon":"<img src='//pfq-static.com/img/pkmn/gender_f.png'>"
+        },"findNoGender":{
+            "searchKey":"[N]","display":"Genderless","icon":"<img src='//pfq-static.com/img/pkmn/gender_n.png'>"
+        },"findTotem":{
+            "searchKey":"[TOTEM]","display":"Totem","icon":"<img src='//pfq-static.com/img/pkmn/totem.png/'>"
+        },"findLegendary":{
+            "searchKey":"","display":"Legendary","icon":"<img src='//pfq-static.com/img/pkmn/pkmn.png'>"
         }
     };
-})();
 
+    // CSS files
+    static CORE_CSS = `#announcements li[data-name=QoL],input[type=checkbox].qolsetting:enabled,input[type=radio].qolsetting:enabled{cursor:pointer}.qolB64Output{border:1px solid;margin-bottom:.5em;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all}.daycarefoundme,.dojofoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}#qolMassSelect{margin:1rem 0}.qolModal>h3:first-child a{color:inherit;float:right}.qolCollapse h3{font-size:100%;padding:2px}.qoltooltip_trigger{border-bottom:1px dotted;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}`;
+    static FIELDS_CSS = `#fieldorder{border-radius:4px;line-height:18pt;margin:16px auto;max-width:600px;padding:4px;position:relative;text-align:center}#fieldorder label{white-space:nowrap}#fieldsearch{margin:16px auto;max-width:600px;position:relative}#pokemonclickcount.unclicked{color:#a30323}#pokemonclickcount.clicked{color:#059121}.qolFieldBerrySort .fieldmon{margin:-10px!important;top:45%!important;transition:none!important}.qolFieldBerrySort .fieldmon>img.big{animation:none!important;padding:25px!important}.qolFieldBerrySort .fieldmon[data-flavour^=any],.qolFieldBerrySort .fieldmon[data-flavour^=sour]{left:0!important}.qolFieldBerrySort .fieldmon[data-flavour^=spicy]{left:20%!important}.qolFieldBerrySort .fieldmon[data-flavour^=dry]{left:40%!important}.qolFieldBerrySort .fieldmon[data-flavour^=sweet]{left:60%!important}.qolFieldBerrySort .fieldmon[data-flavour^=bitter]{left:80%!important}.mq2 .qolFieldBerrySort .fieldmon{margin:-10px 2%!important;overflow:hidden;width:16%}.mq2 .qolFieldBerrySort .fieldmon>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolFieldStack .fieldmon{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolFieldStack .fieldmon>img{animation:none!important;padding:40px!important}.qolFieldStackMax>div.field>.fieldmon{height:100%!important;left:0!important;margin:0!important;padding-left:40%!important;top:0!important;transition:none!important;width:60%!important}.qolFieldStackMax>div.field>.fieldmon .small{display:none!important}.qolFieldStackMax>div.field>.fieldmon .big{animation:none!important;display:block!important}.qolFieldGrid .field{background-size:cover!important;display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.qolFieldGrid .field .fieldmon{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolFieldGrid .field .fieldmon>img{animation:none!important;max-height:70px;max-width:75px}.mq25 .qolFieldGrid .field{grid-template-rows:repeat(5,36px);min-height:180px}.qolSelectFlavour{display:none}.qolFlavourShown~#qolMassSelect .qolSelectFlavour{display:inline}.qolFlavourShown~#qolMassSelect .qolSelectGender,.qolNatureShown~#qolMassSelect .qolSelectGender{display:none}#tooltipenable{margin:16px auto;max-width:600px;position:relative}.qolPrivateField .qolHideTooltips .fieldmon.tooltip_trigger:not(.selected)+.tooltip_content,.qolPublicField .qolHideTooltips .fieldmon.tooltip_trigger:not(.lock)+.tooltip_content{display:none!important}`;
+    static SEARCH_CSS = `.searchChecks>div{box-sizing:border-box;display:inline-block;padding:3px;width:33%}.searchChecks>div label{white-space:nowrap}#shelterupgrades .searchChecks>div,.mq2 .searchChecks>div{width:50%}.qolQuickSearchBlock{margin:.5rem 0}.qolQuickTextSearch{column-gap:6px;display:flex}.qolQuickTextSearch input{flex-grow:1}.qolQuickTypeSearch{column-gap:6px;display:flex}.qolQuickTypeSearch select{flex-grow:1}.qolQuickTextIcons{column-gap:6px;display:flex;margin-top:.5rem}.qolQuickTextIcons label{border-radius:3px;display:inline-block;padding:3px}.qolQuickTextIcons label input[type=checkbox]{cursor:pointer}.qolQuickTextIcons label.hatched div{display:inline-block;height:16px;width:18px}.qolQuickTextIcons label.hatched div img{left:-2px;position:relative;top:-8px;vertical-align:text-top}`;
+    static DOJO_CSS = `.dojoperfectstat{font-weight:700;text-decoration:underline}`;
+    static FISHING_CSS = `#fishing button[data-reel].shake{padding:20px}.qolSelectGender{display:none}`;
+    static FORGE_CSS = `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle}`;
+    static HUB_CSS = `.qolHubModal>div>.panel{margin-bottom:1em}.qolHubModal>div>.panel>div>p:first-child{margin-top:.25em}.qolHubModal textarea{box-sizing:border-box;width:100%}#qolConsoleContent{word-break:break-all}#qolHubSettings ul{margin:0}#qolHubSettings label{display:inline-block;margin-bottom:.25em}#glowColourPreview{background-color:#d5e265;border:1px solid;display:inline-block;height:1rem;margin-left:.5rem;vertical-align:middle;width:3rem}`;
+    static LAB_CSS = `#labsuccess{text-align:center}#labfound{padding-top:20px}.boldp{font-weight:700}`;
+    static PARTY_CSS = `#qolpartymod{text-align:center}#qolpartymod label{white-space:nowrap}.qolPartyCustomParty{--multiuser-button-height:60pt;--multiuser-border-radius:8px}.qolPartyCustomParty h1{align-items:center;display:flex;justify-content:center}.qolPartyCustomParty #partybox{padding-top:calc(var(--multiuser-button-height) + 1em);position:relative}.qolPartyCustomParty #partybox .party{box-shadow:none}.qolPartyCustomParty #partybox .party>div{position:static}.qolPartyCustomParty #partybox .action{height:auto!important;left:0;min-height:0;position:absolute;top:0;width:100%}.qolPartyCustomParty #partybox .action>a,.qolPartyCustomParty #partybox .action>div{line-height:var(--multiuser-button-height);margin:0;min-height:var(--multiuser-button-height);padding:0}.qolPartyCustomParty #partybox .action .berrybuttons>a{box-sizing:border-box;height:100%!important;line-height:var(--multiuser-button-height)!important;width:100%}.qolPartyCustomParty #partybox .action>a{align-items:center;box-sizing:border-box;display:flex!important;justify-content:center}.qolPartyCustomParty #partybox .action.working,.qolPartyCustomParty #partybox .action:empty,.qolPartyCustomParty #partybox .action>table,.qolPartyCustomParty #partybox .berrybuttons>.tooltip_content{display:none}.qolPartyCustomParty #partybox .party>div:hover>.action a[data-berry]:after{border-color:transparent}.qolPartyCustomParty #partybox .showcase .berrybuttons>a{display:inline-block;position:absolute;text-align:center;width:100%}.qolPartyCustomParty #partybox .showcase .berrybuttons>a img{display:inline-block!important;vertical-align:middle}.qolPartyCustomParty.qolStackMore .qolGetMore,.qolPartyCustomParty.qolStackNext .qolGoNext{height:var(--multiuser-button-height);left:0;line-height:var(--multiuser-button-height);margin:0;padding:0;position:absolute;top:0;width:100%;z-index:1}.qolPartyCustomParty.qolHideParty .party,.qolPartyCustomParty.qolHideParty .showcase{border:none;height:0;overflow:hidden;padding:0}.qolPartyCustomParty.qolHideParty .mu_navlink.toggle{display:none!important}.qolPartyCustomParty.qolCompactParty #partybox .party>div{background:transparent;border:none;margin-bottom:20px;padding:0;width:unset}.qolPartyCustomParty.qolCompactParty #partybox .party .expbar,.qolPartyCustomParty.qolCompactParty #partybox .party .name{display:none}.qolPartyCustomParty.qolCompactParty #partybox .party .pkmn a.qolCompactLink{display:block;height:100%;left:0;position:absolute;top:0;width:100%;z-index:1}.qolPartyCustomParty.qolHideFieldButton .fieldslink,.qolPartyCustomParty.qolHideModeChecks #partybox>label,.qolPartyCustomParty.qolHideTrainerCard #profilebox,.qolPartyCustomParty.qolHideUserName h1{display:none}.qolPartyCustomParty.qolHideShowcase .showcase,.qolPartyCustomParty.qolHideShowcase .showcase+.toggle{display:none!important}.qolPartyCustomParty:not(.qolHideShowcase) .showcase:not(:empty)+.mu_navlink.toggle{display:block!important}.mq2 .qolPartyCustomParty #partybox .party>div,.multi-compact .qolPartyCustomParty #partybox .party>div{display:inline-block}.mq2 .qolPartyCustomParty #partybox .party>div .pkmn,.multi-compact .qolPartyCustomParty #partybox .party>div .pkmn{margin-right:0}.qolPartyCustomParty #partybox .party .action a,.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{display:none;position:absolute;width:100%}.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyCustomParty #partybox .party .action>a,.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideAll #partybox .party .action>a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideDislike #partybox .party .action>a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyNiceTable #partybox .party .action>a{display:inline-block}.qolPartyCustomParty #partybox .party .working .berrybuttons,.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyCustomParty .loading,.qolPartyHideAll .loading,.qolPartyHideDislike .loading,.qolPartyNiceTable .loading{user-select:none}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyHideAll .tooltip_content,.qolPartyNiceTable #partybox .party>div>:not(.action),.qolPartyNiceTable .tooltip_content{display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyCustomParty:not(.qolHideShowcase) #partybox:not(.swap-panels) .showcase,.qolPartyHideAll:not(.qolHideShowcase) #partybox:not(.swap-panels) .showcase{border:none;display:flex!important;height:0;margin:0;overflow:hidden;padding:0}.qolPartyCustomParty #partybox.swap-panels>.party,.qolPartyHideAll #partybox.swap-panels>.party{height:0;margin:0;overflow:hidden}.qolPartyCustomParty .party .action a,.qolPartyHideAll .party .action a{z-index:3}.qolPartyCustomParty .showcase .action a,.qolPartyHideAll .showcase .action a{z-index:2}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;overflow:hidden;padding:0;position:unset;width:0}.qolPartyHideAll .party .action,.qolPartyHideAll .party .action .berrybuttons,.qolPartyHideAll .showcase .action,.qolPartyHideAll .showcase .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll .party .action a,.qolPartyHideAll .showcase .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px!important}.qolPartyHideAll .party .action .berrybuttons a,.qolPartyHideAll .showcase .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll .party .action table,.qolPartyHideAll .showcase .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .showcase+.mu_navlink.toggle,.qolPartyHideAll .working{display:none!important}`;
+    static SHELTER_CSS = `#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagrid .pokemon{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important}.qolshelterareagrid .pokemon img{max-height:100%;max-width:100%}.qolshelterareagrid .tooltip_content{bottom:0;position:absolute!important;transform:translateY(100%)}.qolshelterareagrid:before{display:none!important}.mq2 .qolshelterareagrid:not(.qolshelterarealarge),.qolshelterareasmall{grid-template-rows:repeat(5,35px);min-height:175px}.qolshelterarealarge .pokemon .big{display:block!important}.qolshelterarealarge .pokemon .small,.qolshelterareasmall .pokemon .big{display:none!important}.qolshelterareasmall .pokemon .small{display:block!important}`;
+    static DEMO_CSS = '#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}';
 
-// Do not call this constructor directly to get or create a settings object
-// Always call UserSettingsHandle.getSettings();
-class UserSettings {
-    constructor() {
-        this.setDefaults();
+    // HTML files
+    static EVOLVE_FAST_HTML = `<ul class="qolEvolveTypeList"><li class="expandlist"><h3 class="slidermenu">Normal</h3><ul class="normal 0 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Fire</h3><ul class="Fire 1 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Water</h3><ul class="Water 2 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Electric</h3><ul class="Electric 3 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Grass</h3><ul class="Grass 4 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Ice</h3><ul class="Ice 5 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Fighting</h3><ul class="Fighting 6 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Poison</h3><ul class="Poison 7 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Ground</h3><ul class="Ground 8 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Flying</h3><ul class="Flying 9 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Psychic</h3><ul class="Psychic 10 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Bug</h3><ul class="Bug 11 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Rock</h3><ul class="Rock 12 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Ghost</h3><ul class="Ghost 13 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Dragon</h3><ul class="Dragon 14 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Dark</h3><ul class="Dark 15 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Steel</h3><ul class="Steel 16 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Fairy</h3><ul class="Fairy 17 qolChangeLogContent"></ul></li><br><li class="expandlist"><h3 class="slidermenu">Unknown Types</h3><ul class="Unknown 18 qolChangeLogContent"></ul></li></ul>`;
+    static FARM_EVOLVE_HTML = `<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"></label> <label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"></label> <label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"></label> <label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"></label>`;
+    static FIELD_SEARCH_HTML = `<div id="fieldsearch" class="panel accordion qolCollapse"><h3><a href="#">Advanced Field search <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><p>Check the boxes of Pokemon you wish to find in this field! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemons you selected!</p><div class="searchChecks"><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldShiny">Shiny</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldAlbino">Albino</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldMelanistic">Melanistic</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldPrehistoric">Prehistoric</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldDelta">Delta</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldMega">Mega</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldLegend">Legendary</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldStarter">Starter</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldCustomSprite">Custom Sprite</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldItem">Holds Item</label></div></div><h4>Search on type</h4><p>Select which types of Pokemon you wish to find</p><input type="button" value="Add type" id="addFieldTypeSearch"><div id="fieldTypes"><div class="0"></div></div><h4>Search on nature</h4><p>Select which natures of Pokemon you wish to find</p><input type="button" value="Add nature" id="addFieldNatureSearch"><div id="natureTypes"><div class="0"></div></div><h4>Search on egg group</h4><p>Select which egg groups you wish to find</p><input type="button" value="Add egg group" id="addFieldEggGroupSearch"><div id="eggGroupTypes"><div class="0"></div></div><h4>Search on gender</h4><div class="searchChecks"><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldMale">Male</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldFemale">Female</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldNoGender">Genderless</label></div></div><h4>Search Keys</h4><div class="searchChecks"><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldName">Search name</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldSpecies">Search species</label></div><div><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldSearchItem">Search item name</label></div></div><p><input type="button" value="Add searchfield" id="addTextField"></p><div id="searchkeys"><div class="0"></div></div><p></p></div></div>`;
+    static FIELD_SORT_HTML = `<div id="fieldorder"><label><input type="radio" class="qolsetting" data-group="QoLPublicField" name="fieldSort" value="none"> None</label> <label><input type="radio" class="qolsetting" data-group="QoLPublicField" name="fieldSort" value="grid"> Align to grid</label> <label><input type="radio" class="qolsetting" data-group="QoLPublicField" name="fieldSort" value="berry"> Sort by berries</label> <label><input type="radio" class="qolsetting" data-group="QoLPublicField" name="fieldSort" value="stack"> Stack all</label> <label><input type="checkbox" class="qolsetting" data-group="QoLPublicField" name="fieldClickCount"> Click counter</label> <label><input type="checkbox" class="qolsetting" data-group="QoLPublicField" name="maxStack"> Maximise stacked click zone</label></div>`;
+    static FIELD_TOOLTIP_HTML = `<div id="tooltipenable" class="panel accordion qolCollapse"><h3><a href="#">Tooltip Settings <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><p><label><input type="checkbox" class="qolsetting qolfieldsetting" name="fieldHideHoverTooltips"> Hide hover tooltip</label><br><span>Prevents tooltips from appearing when hovered. Tooltips will still appear when the Pokemon is selected by clicking/tapping.</span></p></div></div>`;
+    static LAB_OPTIONS_HTML = `<div id="labCustomSearch" class="center"><p class="boldp">Egg type search</p><p>Select which egg types you would like to find in the lab. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="findTypeEgg">Egg types <input type="button" value="Add typesearch" id="addLabTypeList"><div id="labTypes"><div class="0"></div></div><p class="boldp">Egg custom search</p><p>Add the pokemon name or Img code (complete link starting from //pfq..) that you would like to find in the lab in a searchfield. You can select multiple!</p><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg <input type="button" value="Add searchfield" id="addLabSearch"><div id="searchkeys"><div class="0"></div></div></div>`;
+    static MASS_SELECT_HTML = `<div id="qolMassSelect"><label id="selectall"><input id="selectallcheckbox" type="checkbox">Select all</label> <label id="selectallmale" class="qolSelectGender"><input id="selectallmalecheckbox" type="checkbox">Select Male</label> <label id="selectallfemale" class="qolSelectGender"><input id="selectallfemalecheckbox" type="checkbox">Select Female</label> <label id="selectallgenderless" class="qolSelectGender"><input id="selectallgenderlesscheckbox" type="checkbox">Select Genderless</label> <label id="selectallany" class="qolSelectFlavour"><input id="selectallanycheckbox" type="checkbox">Select Any</label> <label id="selectallsour" class="qolSelectFlavour"><input id="selectallsourcheckbox" type="checkbox">Select Sour</label> <label id="selectallspicy" class="qolSelectFlavour"><input id="selectallspicycheckbox" type="checkbox">Select Spicy</label> <label id="selectalldry" class="qolSelectFlavour"><input id="selectalldrycheckbox" type="checkbox">Select Dry</label> <label id="selectallsweet" class="qolSelectFlavour"><input id="selectallsweetcheckbox" type="checkbox">Select Sweet</label> <label id="selectallbitter" class="qolSelectFlavour"><input id="selectallbittercheckbox" type="checkbox">Select Bitter</label></div>`;
+    static PARTY_MOD_HTML = `<div id="qolpartymod"><label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="none"> None</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="hideDislike"> Hide disliked</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="niceTable"> Table view</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="hideAll"> Hide all</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="customParty"> Customize</label></div><div id="qolpartymodcustom" class="panel accordion qolCollapse" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="clickablePokemon">Clickable pokemon (if compact)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showUserName">Show user name</label></div></div></div>`;
+    static QOL_HUB_ICON_HTML = `<li data-name="QoL"><a title="QoL Settings" id="qolHubIcon"><img src="https://pokefarm.com/upload/:b7q/QoL/icon.png" alt="QoL Settings">QoL </a><!-- The QoL hub doesn't exist until opened; store custom errors here initially instead --><ul style="display: none;" id="qolConsoleHolder"></ul></li>`;
+    static QOL_HUB_HTML = `<p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings. If you need help or have suggestions, please visit the <a href="https://pokefarm.com/forum/thread/193472/Quality-of-Life-changes-UserScript">QoL's main thread</a>.</p><div class="panel"><h3>Main Settings</h3><div id="qolHubSettings"><p><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</p><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="partyMod"> <span>Party click mod</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLShelterFeatures" name="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLShelterFeatures" name="sort"> <span>Advanced Sorting</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="tooltip"> <span>Tooltips</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="tooltip"> <span>Tooltips</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="enableDaycare"> <span>Highlight Breeding Matches</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="easyEvolve"> <span>Easy evolving</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="labNotifier"> <span>Lab Notifier</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="dexFilterEnable"> <span>Multiple Types Filtering</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-group="QoLSettings" name="dojoEnable"> <span>Dojo page (perfect stat highlight)</span></label></div><div><div>Search Pokemon glow colour<div id="glowColourPreview"></div></div><label><input type="text" class="qolsetting" data-group="QoLSettings" name="searchGlowColour"></label></div></div></div><div class="panel"><h3>Pokédex Settings</h3><div><p>If newly added Pokémon are not matching properly, your dex may be out of date. You can try clearing your cached dex to get the new data. If that doesn't help, the new Pokémon may not have been added yet - please report it in the QoL thread.</p><p>Date last updated: <span id="qolDexDate">[unknown]</span> <button type="button" id="clearCachedDex">Clear Cached Dex</button></p></div></div><div class="panel"><h3>Custom CSS</h3><div><p>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting and skin color vars are not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></p><textarea id="qolcustomcss" rows="15" class="qolsetting" data-group="QoLSettings" name="customCss"></textarea></div></div><div class="panel"><h3>Setting Management</h3><div><p>You can reset some or all of the script settings here. If this script misbehaving after an update, this could help. Caution: You cannot undo this action.</p><p>Reset page settings:<br><!-- Option values correspond to the setting group keys --> <select id="qolHubResetSettingsSelect"><option value="None">None</option></select> <button type="button" id="resetPageSettings">Reset</button></p><p><button type="button" id="resetAllSettings">Reset ALL Settings</button></p><p></p><div>The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs. <button type="button" id="qolExportSettings">Get settings</button><p></p><div id="qolStorageOutput" class="qolB64Output" style="display: none;"></div><p></p></div></div></div><div class="panel"><h3>Debugging</h3><div><div>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <button type="button" id="qolErrorConsole">View errors</button></div><ul id="qolConsoleContent"></ul></div></div><p style="text-align: right"><button type="button" class="modalClose">Close</button></p>`;
+    static SHELTER_SEARCH_HTML = `<p>Enter search criteria below to highlight specific Pokemon. Use the letter 'n' key to select and cycle through the Pokemon matched by the script.</p><div class="searchChecks"><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findNewEgg">New Egg</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findNewPokemon">New Pokemon</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findShiny">Shiny</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findAlbino">Albino</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findMelanistic">Melanistic</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findPrehistoric">Prehistoric</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findDelta">Delta</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findMega">Mega</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findStarter">Starter</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findCustomSprite">Custom Sprite</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findTotem">Totem</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findLegendary">Legendary</label></div></div><h4 style="margin-block-end:0.5em;">Quick search</h4><div class="qolQuickSearchBlock"><button type="button" id="qolQuickTextBtn">Add name search</button></div><div id="qolQuickTextContainer"></div><hr><div class="qolQuickSearchBlock"><button type="button" id="qolQuickTypeBtn">Add type search</button></div><div id="qolQuickTypeContainer"></div><div id="qolQuickShelterSearches"></div><h4 style="margin-block-end:0.5em;">Advanced search</h4><button type="button" id="qolNewAdvancedSearchBtn">New search</button><div id="qolAdvancedShelterSearches"></div></div>`;
+    static SHELTER_SORT_HTML = `<label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="shelterGrid"><span>Sort by Grid</span></label><div style="padding: 5px">Sprite size mode:<p style="margin: 5px 0"><label><input type="radio" class="qolsetting" data-group="QoLShelter" name="shelterSpriteSize" value="auto"> Automatic</label></p><p style="margin: 5px 0"><label><input type="radio" class="qolsetting" data-group="QoLShelter" name="shelterSpriteSize" value="large"> Large</label></p><p style="margin: 5px 0"><label><input type="radio" class="qolsetting" data-group="QoLShelter" name="shelterSpriteSize" value="small"> Small</label></p></div>`;
+    static QUICK_SEARCH_ICONS = `<div class="qolQuickTextIcons"><label class="shelterOnly"><input type="checkbox"> <img src="img/pkmn/egg.png" alt="Egg"></label> <label class="hatched shelterOnly"><input type="checkbox"><div><img src="img/pkmn/m/m/h.png" alt="Hatched Pokemon"></div></label> <label><input type="checkbox"> <img src="img/pkmn/gender_m.png" alt="Male"></label> <label><input type="checkbox"> <img src="img/pkmn/gender_f.png" alt="Female"></label> <label><input type="checkbox"> <img src="img/pkmn/gender_n.png" alt="Genderless"></label></div>`;
 
-        /*
-         * used to tie "global" enable settings in USER_SETTINGS to the more
-         * granular settings that are related to the same page
-         */
-        this.LINKED_SETTINGS = [
-            {
-                'manager': 'shelterEnable',
-                'managed': 'shelterFeatureEnables'
-            },
-            {
-                'manager': 'publicFieldEnable',
-                'managed': 'publicFieldFeatureEnables'
-            },
-            {
-                'manager': 'privateFieldEnable',
-                'managed': 'privateFieldFeatureEnables'
-            },
-        ];
-    }
-    setDefaults() {
-        // default settings when the script gets loaded the first time
-        this.customCss = '';
-        this.enableDaycare = true;
-        this.shelterEnable = true;
-        this.fishingEnable = true;
-        this.publicFieldEnable = true;
-        this.privateFieldEnable = true;
-        this.partyMod = true;
-        this.easyEvolve = true;
-        this.labNotifier = true;
-        this.dexFilterEnable = true;
-        this.condenseWishforge = true;
-        this.interactionsEnable = true;
-        this.summaryEnable = true;
-        this.dojoEnable = true;
-        this.shelterFeatureEnables = {
-            search: true,
-            sort: true,
-        };
-        this.publicFieldFeatureEnables = {
-            search: true,
-            sort: true,
-            release: true,
-            tooltip: true,
-            pkmnlinks: true
-        };
-        this.privateFieldFeatureEnables = {
-            search: true,
-            release: true,
-            tooltip: true,
-            pkmnlinks: true
-        };
-    }
-    /// load settings from an object that is not of type UserSettings
-    load(settingsObj) {
-        try {
-            const countScriptSettings = Object.keys(this).length;
-            const localStorageString = settingsObj;
-            const countLocalStorageSettings = Object.keys(localStorageString).length;
-            // adds new settings to this class
-            if (countLocalStorageSettings < countScriptSettings) {
-                const newSettings = $.extend(true, this, settingsObj);
-                this.copyFields(newSettings);
-            }
-            // removes objects from the local storage if they don't exist anymore. Not yet possible..
-            if (countLocalStorageSettings > countScriptSettings) {
-                /* do nothing at the moment */
-            }
-        }
-        catch (err) {
-            Helpers.writeCustomError('Error while loading settings object: '+err,'error',err);
-        }
-        if (settingsObj != this) {
-            this.copyFields(settingsObj);
-            // this = JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY));
-        }
-    }
-    copyFields(settingsObj) {
-        const recursiveCopy = (object, key, value) => {
-            // typeof null returns "object" - disclude it explicitly
-            if (value !== null && typeof value === 'object') {
-                for (const [_key, _value] of Object.entries(value)) {
-                    recursiveCopy(object[key], _key, _value);
-                }
-            } else {
-                object[key] = value;
-            }
-        };
-        for (const [key, value] of Object.entries(settingsObj)) {
-            recursiveCopy(this, key, value);
-        }
-    }
 }
 
-// Do not call this constructor directly to get or create a dex object
-// Always call UserSettingsHandle.getDex();
-class UserPokedex {
-    constructor() {
-        this.loadDexFromStorage();
-    }
-    loadDexFromStorage() {
-        console.log('Requesting dex from storage');
-        const dateAndDex = LocalStorageManager.getDexFromStorage();
-        if(!dateAndDex) {
-            console.log('No cached dex data found, loading static data');
-            this.DEX_UPDATE_DATE = undefined;
-            this.DEX_DATA = (`{"columns":["id","name","type1","type2","eggs","eggdex","pkmn","pokedex","shinydex","albidex","melandex"],"types":["normal","fire","water","electric","grass","ice","fighting","poison","ground","flying","psychic","bug","rock","ghost","dragon","dark","steel","fairy"],"regions":{"1":[["001","Bulbasaur",4,7,1,1,1,1,0,0,0],["002","Ivysaur",4,7,0,0,1,1,0,0,0],["003","Venusaur",4,7,0,0,2,2,1,0,0],["004","Charmander",1,-1,1,1,1,1,1,0,0],["005","Charmeleon",1,-1,0,0,1,1,1,0,0],["006","Charizard",1,9,0,0,3,3,3,0,1],["007","Squirtle",2,-1,1,1,1,1,1,1,0],["008","Wartortle",2,-1,0,0,1,1,1,1,0],["009","Blastoise",2,-1,0,0,2,2,2,1,0],["010","Caterpie",11,-1,1,1,1,1,1,0,0],["011","Metapod",11,-1,0,0,1,1,1,0,0],["012","Butterfree",11,9,0,0,1,1,1,0,0],["013","Weedle",11,7,1,1,1,1,1,0,0],["014","Kakuna",11,7,0,0,1,1,1,0,0],["015","Beedrill",11,7,0,0,2,2,1,1,0],["016","Pidgey",0,9,1,1,1,1,0,0,0],["017","Pidgeotto",0,9,0,0,1,1,0,0,0],["018","Pidgeot",0,9,0,0,2,2,0,0,0],["019","Rattata",0,-1,2,2,2,2,1,0,0],["020","Raticate",0,-1,0,0,3,3,2,0,0],["021","Spearow",0,9,1,1,1,1,0,0,0],["022","Fearow",0,9,0,0,1,1,0,0,0],["023","Ekans",7,-1,1,1,1,1,1,0,0],["024","Arbok",7,-1,0,0,1,1,1,0,0],["025","Pichu",3,-1,1,1,1,1,1,1,0],["026","Pikachu",3,-1,0,0,1,1,1,0,0],["027","Raichu",3,-1,0,0,2,2,2,0,0],["028","Sandshrew",8,-1,2,2,2,2,0,1,0],["029","Sandslash",8,-1,0,0,2,2,0,0,0],["030","Nidoran",7,-1,1,1,1,1,1,1,0],["031","Nidorina",7,-1,0,0,1,1,1,0,0],["032","Nidoqueen",7,8,0,0,1,1,1,0,0],["033","Nidorino",7,-1,0,0,1,1,1,0,0],["034","Nidoking",7,8,0,0,1,1,1,0,0],["035","Cleffa",17,-1,1,1,1,1,1,0,0],["036","Clefairy",17,-1,0,0,1,1,0,0,0],["037","Clefable",17,-1,0,0,1,1,0,0,0],["038","Vulpix",1,-1,2,2,2,2,2,2,2],["039","Ninetales",1,-1,0,0,2,2,2,2,0],["040","Igglybuff",0,17,1,1,1,1,1,0,0],["041","Jigglypuff",0,17,0,0,1,1,1,0,0],["042","Wigglytuff",0,17,0,0,1,1,1,0,0],["043","Zubat",7,9,1,1,1,1,0,0,0],["044","Golbat",7,9,0,0,1,1,0,0,0],["045","Crobat",7,9,0,0,1,1,0,0,0],["046","Oddish",4,7,1,1,1,1,1,0,0],["047","Gloom",4,7,0,0,1,1,1,0,0],["048","Vileplume",4,7,0,0,1,1,1,0,0],["049","Bellossom",4,-1,0,0,1,1,0,0,0],["050","Paras",11,4,1,1,1,1,0,0,0],["051","Parasect",11,4,0,0,1,1,0,0,0],["052","Venonat",11,7,1,1,1,1,1,0,0],["053","Venomoth",11,7,0,0,1,1,1,0,0],["054","Diglett",8,-1,2,2,2,2,0,0,0],["055","Dugtrio",8,-1,0,0,2,2,0,0,0],["056","Meowth",0,-1,3,3,3,3,0,1,0],["057","Persian",0,-1,0,0,2,2,0,0,0],["058","Psyduck",2,-1,1,1,1,1,0,0,0],["059","Golduck",2,-1,0,0,1,1,0,0,0],["060","Mankey",6,-1,1,1,1,1,0,0,0],["061","Primeape",6,-1,0,0,1,1,0,0,0],["062","Growlithe",1,-1,1,1,1,1,1,1,1],["063","Arcanine",1,-1,0,0,1,1,1,0,0],["064","Poliwag",2,-1,1,1,1,1,0,0,0],["065","Poliwhirl",2,-1,0,0,1,1,0,0,0],["066","Poliwrath",2,6,0,0,1,1,0,0,0],["067","Politoed",2,-1,0,0,1,1,0,0,0],["068","Abra",10,-1,1,1,1,1,1,0,0],["069","Kadabra",10,-1,0,0,1,1,0,1,0],["070","Alakazam",10,-1,0,0,2,2,0,0,0],["071","Machop",6,-1,1,1,1,1,0,0,0],["072","Machoke",6,-1,0,0,1,1,0,0,0],["073","Machamp",6,-1,0,0,1,1,0,0,0],["074","Bellsprout",4,7,1,1,1,1,0,0,0],["075","Weepinbell",4,7,0,0,1,1,0,0,0],["076","Victreebell",4,7,0,0,1,1,0,0,0],["077","Tentacool",2,7,1,1,1,1,1,0,0],["078","Tentacruel",2,7,0,0,1,1,1,0,0],["079","Geodude",12,8,2,2,2,2,1,0,0],["080","Graveler",12,8,0,0,2,2,0,0,0],["081","Golem",12,8,0,0,2,2,0,0,0],["082","Ponyta",1,-1,2,2,2,2,1,2,0],["083","Rapidash",1,-1,0,0,2,2,0,1,0],["084","Slowpoke",2,10,2,2,2,2,0,0,0],["085","Slowbro",2,10,0,0,3,3,1,0,0],["086","Slowking",2,10,0,0,2,2,1,0,0],["087","Magnemite",3,16,1,1,1,1,1,0,0],["088","Magneton",3,16,0,0,1,1,0,0,0],["089","Magnezone",3,16,0,0,1,1,0,0,0],["090","Farfetch'd",0,9,2,2,2,2,0,0,0],["091","Doduo",0,9,1,1,1,1,1,0,0],["092","Dodrio",0,9,0,0,1,1,0,0,0],["093","Seel",2,-1,1,1,1,1,0,0,0],["094","Dewgong",2,5,0,0,1,1,0,0,0],["095","Grimer",7,-1,2,2,2,2,0,0,0],["096","Muk",7,-1,0,0,2,2,0,0,0],["097","Shellder",2,-1,1,1,1,1,0,0,0],["098","Cloyster",2,5,0,0,1,1,0,0,0],["099","Gastly",13,7,1,1,1,1,1,1,0],["100","Haunter",13,7,0,0,1,1,1,0,0],["101","Gengar",13,7,0,0,2,2,2,0,0],["102","Onix",12,8,1,1,1,1,0,0,0],["103","Steelix",16,8,0,0,2,2,1,0,0],["104","Drowzee",10,-1,1,1,1,1,0,0,0],["105","Hypno",10,-1,0,0,1,1,0,0,0],["106","Krabby",2,-1,1,1,1,1,0,0,0],["107","Kingler",2,-1,0,0,1,1,0,0,0],["108","Voltorb",3,-1,1,1,1,1,0,0,0],["109","Electrode",3,-1,0,0,1,1,0,0,0],["110","Exeggcute",4,10,1,1,1,1,0,0,0],["111","Exeggutor",4,10,0,0,2,2,0,0,0],["112","Cubone",8,-1,1,1,1,1,1,0,0],["113","Marowak",8,-1,0,0,3,3,2,0,0],["114","Lickitung",0,-1,1,1,1,1,0,0,0],["115","Lickilicky",0,-1,0,0,1,1,0,0,0],["116","Koffing",7,-1,1,1,1,1,0,0,0],["117","Weezing",7,-1,0,0,2,2,0,0,0],["118","Rhyhorn",8,12,1,1,1,1,0,0,0],["119","Rhydon",8,12,0,0,1,1,0,0,0],["120","Rhyperior",8,12,0,0,1,1,0,0,0],["121","Tangela",4,-1,1,1,1,1,0,0,0],["122","Tangrowth",4,-1,0,0,1,1,1,0,0],["123","Kangaskhan",0,-1,1,1,2,2,0,0,0],["124","Horsea",2,-1,1,1,1,1,0,1,0],["125","Seadra",2,-1,0,0,1,1,0,0,0],["126","Kingdra",2,14,0,0,1,1,0,0,0],["127","Goldeen",2,-1,1,1,1,1,1,0,0],["128","Seaking",2,-1,0,0,1,1,1,0,0],["129","Staryu",2,-1,1,1,1,1,0,0,0],["130","Starmie",2,10,0,0,1,1,0,0,0],["131","Mime Jr.",10,17,1,1,1,1,0,0,0],["132","Mr. Mime",10,17,2,2,2,2,0,0,0],["133","Scyther",11,9,1,1,1,1,1,0,0],["134","Scizor",11,16,0,0,2,2,0,0,0],["135","Smoochum",5,10,1,1,1,1,0,0,0],["136","Jynx",5,10,0,0,1,1,0,0,0],["137","Pinsir",11,-1,1,1,2,2,0,0,0],["138","Tauros",0,-1,1,1,1,1,0,0,0],["139","Magikarp",2,-1,1,1,1,1,1,0,0],["140","Gyarados",2,9,0,0,2,2,1,0,0],["141","Lapras",2,5,1,1,1,1,0,1,0],["142","Ditto",0,-1,1,1,1,1,0,0,0],["143","Eevee",0,-1,1,1,1,1,1,1,0],["144","Vaporeon",2,-1,0,0,1,1,1,0,0],["145","Jolteon",3,-1,0,0,1,1,1,0,0],["146","Flareon",1,-1,0,0,1,1,1,1,0],["147","Espeon",10,-1,0,0,1,1,1,0,0],["148","Umbreon",15,-1,0,0,1,1,1,0,0],["149","Leafeon",4,-1,0,0,1,1,1,1,0],["150","Glaceon",5,-1,0,0,1,1,1,1,0],["151","Sylveon",17,-1,0,0,1,1,1,0,0],["152","Omanyte",12,2,1,1,1,1,1,0,0],["153","Omastar",12,2,0,0,1,1,0,0,0],["154","Kabuto",12,2,1,1,1,1,0,0,0],["155","Kabutops",12,2,0,0,1,1,0,0,0],["156","Aerodactyl",12,9,1,1,2,2,2,1,0],["157","Munchlax",0,-1,1,1,1,1,0,0,0],["158","Snorlax",0,-1,1,1,1,1,0,0,0],["159","Articuno",5,9,2,2,2,2,0,0,0],["160","Zapdos",3,9,2,2,2,2,0,0,0],["161","Moltres",1,9,2,2,2,2,0,0,0],["162","Dratini",14,-1,1,1,1,1,1,1,1],["163","Dragonair",14,-1,0,0,1,1,1,1,0],["164","Dragonite",14,9,0,0,1,1,1,0,0],["165","Mewtwo",10,-1,1,1,3,3,0,0,0],["166","Mew",10,-1,1,1,1,1,0,0,0]],"2":[["167","Chikorita",4,-1,1,1,1,1,0,0,0],["168","Bayleef",4,-1,0,0,1,1,0,0,0],["169","Meganium",4,-1,0,0,1,1,1,0,0],["170","Cyndaquil",1,-1,1,1,1,1,1,0,0],["171","Quilava",1,-1,0,0,1,1,1,0,0],["172","Typhlosion",1,-1,0,0,2,2,1,0,0],["173","Totodile",2,-1,1,1,1,1,0,0,0],["174","Croconaw",2,-1,0,0,1,1,0,0,0],["175","Feraligator",2,-1,0,0,1,1,0,0,0],["176","Sentret",0,-1,1,1,1,1,1,0,0],["177","Furret",0,-1,0,0,1,1,1,0,0],["178","Hoothoot",0,9,1,1,1,1,0,0,0],["179","Noctowl",0,9,0,0,1,1,0,0,0],["180","Ledyba",11,9,1,1,1,1,0,0,0],["181","Ledian",11,9,0,0,1,1,0,0,0],["182","Spinarak",11,7,1,1,1,1,0,0,0],["183","Ariados",11,7,0,0,1,1,0,0,0],["184","Chinchou",2,3,1,1,1,1,0,0,0],["185","Lanturn",2,3,0,0,1,1,0,0,0],["186","Togepi",17,-1,1,1,1,1,1,0,0],["187","Togetic",17,9,0,0,1,1,1,0,0],["188","Togekiss",17,9,0,0,1,1,1,0,0],["189","Natu",10,9,1,1,1,1,0,0,0],["190","Xatu",10,9,0,0,1,1,0,0,0],["191","Mareep",3,-1,1,1,1,1,1,1,0],["192","Flaaffy",3,-1,0,0,1,1,0,0,0],["193","Ampharos",3,-1,0,0,2,2,1,0,0],["194","Azurill",0,17,1,1,1,1,1,0,0],["195","Marill",2,17,1,1,1,1,1,0,0],["196","Azumarill",2,17,0,0,1,1,1,0,0],["197","Bonsly",12,-1,1,1,1,1,0,0,0],["198","Sudowoodo",12,-1,1,1,1,1,0,0,0],["199","Hoppip",4,9,1,1,1,1,1,0,0],["200","Skiploom",4,9,0,0,1,1,0,0,0],["201","Jumpluff",4,9,0,0,1,1,0,0,0],["202","Aipom",0,-1,1,1,1,1,0,0,0],["203","Ambipom",0,-1,0,0,1,1,0,0,0],["204","Sunkern",4,-1,1,1,1,1,0,1,0],["205","Sunflora",4,-1,0,0,1,1,0,0,0],["206","Yanma",11,9,1,1,1,1,0,0,0],["207","Yanmega",11,9,0,0,1,1,0,0,0],["208","Wooper",2,8,1,1,1,1,0,0,0],["209","Quagsire",2,8,0,0,1,1,0,0,0],["210","Murkrow",15,9,1,1,1,1,0,0,0],["211","Honchkrow",15,9,0,0,1,1,0,0,0],["212","Misdreavus",13,-1,1,1,1,1,0,0,0],["213","Mismagius",13,-1,0,0,1,1,0,0,0],["214a","Unown",10,-1,28,28,28,28,0,0,0],["215","Girafarig",0,10,1,1,1,1,0,0,0],["216","Pineco",11,-1,1,1,1,1,0,0,0],["217","Forretress",11,16,0,0,1,1,0,0,0],["218","Dunsparce",0,-1,1,1,1,1,0,0,0],["219","Gligar",8,9,1,1,1,1,1,0,0],["220","Gliscor",8,9,0,0,1,1,1,0,0],["221","Snubbull",17,-1,1,1,1,1,0,0,0],["222","Granbull",17,-1,0,0,1,1,0,0,0],["223","Qwilfish",2,7,2,2,2,2,0,0,0],["224","Shuckle",11,12,1,1,1,1,0,0,0],["225","Heracross",11,6,1,1,2,2,0,0,0],["226","Sneasel",15,5,1,1,1,1,0,0,0],["227","Weavile",15,5,0,0,1,1,1,0,0],["228","Teddiursa",0,-1,1,1,1,1,0,0,0],["229","Ursaring",0,-1,0,0,1,1,0,0,0],["230","Slugma",1,-1,1,1,1,1,0,0,0],["231","Magcargo",1,12,0,0,1,1,0,0,0],["232","Swinub",5,8,1,1,1,1,1,0,0],["233","Piloswine",5,8,0,0,1,1,1,0,0],["234","Mamoswine",5,8,0,0,1,1,1,0,0],["235","Corsola",2,12,2,2,2,2,1,0,0],["236","Remoraid",2,-1,1,1,1,1,0,0,0],["237","Octillery",2,-1,0,0,1,1,0,0,0],["238","Delibird",5,9,1,1,1,1,0,0,0],["239","Skarmory",16,9,1,1,1,1,1,1,0],["240","Houndour",15,1,1,1,1,1,1,1,1],["241","Houndoom",15,1,0,0,2,2,1,0,1],["242","Phanpy",8,-1,1,1,1,1,0,0,0],["243","Donphan",8,-1,0,0,1,1,0,0,0],["244","Stantler",0,-1,1,1,1,1,0,0,0],["245","Smeargle",0,-1,1,1,1,1,0,0,0],["246","Tyrogue",6,-1,1,1,1,1,0,0,0],["247","Hitmonlee",6,-1,0,0,1,1,0,0,0],["248","Hitmonchan",6,-1,0,0,1,1,0,0,0],["249","Hitmontop",6,-1,0,0,1,1,0,0,0],["250","Elekid",3,-1,1,1,1,1,0,0,0],["251","Electabuzz",3,-1,0,0,1,1,0,0,0],["252","Electivire",3,-1,0,0,1,1,1,0,0],["253","Magby",1,-1,1,1,1,1,0,0,0],["254","Magmar",1,-1,0,0,1,1,1,0,0],["255","Magmortar",1,-1,0,0,1,1,0,0,0],["256","Miltank",0,-1,1,1,1,1,1,0,0],["257","Raikou",3,-1,1,1,1,1,1,0,0],["258","Entei",1,-1,1,1,1,1,0,0,0],["259","Suicune",2,-1,1,1,1,1,0,0,0],["260","Larvitar",12,8,1,1,1,1,1,1,0],["261","Pupitar",12,8,0,0,1,1,0,0,0],["262","Tyranitar",12,15,0,0,2,2,1,0,0],["263","Lugia",10,9,1,1,1,1,0,0,0],["264","Ho-oh",1,9,1,1,1,1,0,0,0],["265","Celebi",10,4,1,1,1,1,0,0,0]],"3":[["266","Treecko",4,-1,1,1,1,1,0,0,0],["267","Grovyle",4,-1,0,0,1,1,0,0,0],["268","Sceptile",4,-1,0,0,2,2,1,0,0],["269","Torchic",1,-1,1,1,1,1,0,0,0],["270","Combusken",1,6,0,0,1,1,0,0,0],["271","Blaziken",1,6,0,0,2,2,1,0,0],["272","Mudkip",2,-1,1,1,1,1,0,0,0],["273","Marshtomp",2,8,0,0,1,1,0,0,0],["274","Swampert",2,8,0,0,2,2,0,0,0],["275","Poochyena",15,-1,1,1,1,1,0,0,0],["276","Mightyena",15,-1,0,0,1,1,1,0,0],["277","Zigzagoon",0,-1,2,2,2,2,0,0,0],["278","Linoone",0,-1,0,0,2,2,0,0,0],["279","Wurmple",11,-1,1,1,1,1,1,1,0],["280","Silcoon",11,-1,0,0,1,1,0,1,0],["281","Beautifly",11,9,0,0,1,1,1,1,0],["282","Cascoon",11,-1,0,0,1,1,0,0,0],["283","Dustox",11,7,0,0,1,1,0,0,0],["284","Lotad",2,4,1,1,1,1,1,0,0],["285","Lombre",2,4,0,0,1,1,1,0,0],["286","Ludicolo",2,4,0,0,1,1,1,0,0],["287","Seedot",4,-1,1,1,1,1,0,0,0],["288","Nuzleaf",4,15,0,0,1,1,0,0,0],["289","Shiftry",4,15,0,0,1,1,0,0,0],["290","Taillow",0,9,1,1,1,1,0,0,0],["291","Swellow",0,9,0,0,1,1,0,0,0],["292","Wingull",2,9,1,1,1,1,0,0,0],["293","Pelipper",2,9,0,0,1,1,1,0,0],["294","Ralts",10,17,1,1,1,1,1,1,0],["295","Kirlia",10,17,0,0,1,1,1,0,0],["296","Gardevoir",10,17,0,0,2,2,1,0,0],["297","Gallade",10,6,0,0,2,2,2,0,0],["298","Surskit",11,2,1,1,1,1,0,0,0],["299","Masquerain",11,9,0,0,1,1,0,0,0],["300","Shroomish",4,-1,1,1,1,1,1,1,0],["301","Breloom",4,6,0,0,1,1,1,1,0],["302","Slakoth",0,-1,1,1,1,1,0,0,0],["303","Vigoroth",0,-1,0,0,1,1,0,0,0],["304","Slaking",0,-1,0,0,1,1,0,0,0],["305","Nincada",11,8,1,1,1,1,0,0,0],["306","Ninjask",11,9,0,0,1,1,0,0,0],["307","Shedinja",11,13,0,0,1,1,0,0,0],["308","Whismur",0,-1,1,1,1,1,0,0,0],["309","Loudred",0,-1,0,0,1,1,0,0,0],["310","Exploud",0,-1,0,0,1,1,0,0,0],["311","Makuhita",6,-1,1,1,1,1,0,0,0],["312","Hariyama",6,-1,0,0,1,1,0,0,0],["313","Nosepass",12,-1,1,1,1,1,1,0,0],["314","Probopass",12,16,0,0,1,1,0,0,0],["315","Skitty",0,-1,1,1,1,1,1,1,0],["316","Delcatty",0,-1,0,0,1,1,1,0,0],["317","Sableye",15,13,1,1,2,2,1,0,0],["318","Mawile",16,17,1,1,2,2,2,1,0],["319","Aron",16,12,1,1,1,1,1,1,0],["320","Lairon",16,12,0,0,1,1,0,0,0],["321","Aggron",16,12,0,0,2,2,0,0,0],["322","Meditite",6,10,1,1,1,1,1,0,0],["323","Medicham",6,10,0,0,2,2,1,0,0],["324","Electrike",3,-1,1,1,1,1,1,1,0],["325","Manectric",3,-1,0,0,2,2,1,0,0],["326","Plusle",3,-1,1,1,1,1,1,0,0],["327","Minun",3,-1,1,1,1,1,1,0,0],["328","Volbeat",11,-1,1,1,1,1,0,0,0],["329","Illumise",11,-1,1,1,1,1,0,0,0],["330","Gulpin",7,-1,1,1,1,1,1,0,0],["331","Swalot",7,-1,0,0,1,1,1,0,0],["332","Carvanha",2,15,1,1,1,1,1,0,0],["333","Sharpedo",2,15,0,0,2,2,0,0,0],["334","Wailmer",2,-1,1,1,1,1,0,0,0],["335","Wailord",2,-1,0,0,1,1,0,0,0],["336","Numel",1,8,1,1,1,1,0,0,0],["337","Camerupt",1,8,0,0,2,2,0,0,0],["338","Torkoal",1,-1,1,1,1,1,0,0,0],["339","Spoink",10,-1,1,1,1,1,1,0,0],["340","Grumpig",10,-1,0,0,1,1,1,0,0],["341","Spinda",0,-1,1,1,1,1,0,0,0],["342","Trapinch",8,-1,1,1,1,1,1,1,0],["343","Vibrava",8,14,0,0,1,1,0,0,0],["344","Flygon",8,14,0,0,1,1,1,0,0],["345","Cacnea",4,-1,1,1,1,1,0,0,0],["346","Cacturne",4,15,0,0,1,1,0,0,0],["347","Swablu",0,9,1,1,1,1,0,0,0],["348","Altaria",14,9,0,0,2,2,1,0,0],["349","Zangoose",0,-1,1,1,1,1,0,0,0],["350","Seviper",7,-1,1,1,1,1,1,0,0],["351","Lunatone",12,10,1,1,1,1,0,0,0],["352","Solrock",12,10,1,1,1,1,0,0,0],["353","Barboach",2,8,1,1,1,1,0,0,0],["354","Whiscash",2,8,0,0,1,1,0,0,0],["355","Corphish",2,-1,1,1,1,1,0,0,0],["356","Crawdaunt",2,15,0,0,1,1,0,0,0],["357","Baltoy",8,10,1,1,1,1,0,0,0],["358","Claydol",8,10,0,0,1,1,0,0,0],["359","Lileep",12,4,1,1,1,1,1,1,0],["360","Cradily",12,4,0,0,1,1,0,0,0],["361","Anorith",12,11,1,1,1,1,0,0,0],["362","Armaldo",12,11,0,0,1,1,0,0,0],["363","Feebas",2,-1,1,1,1,1,0,0,0],["364","Milotic",2,-1,0,0,1,1,0,0,0],["365","Castform",0,-1,1,1,4,4,4,0,0],["366","Kecleon",0,-1,1,1,1,1,0,0,0],["367","Shuppet",13,-1,1,1,1,1,0,0,0],["368","Banette",13,-1,0,0,2,2,1,0,0],["369","Duskull",13,-1,1,1,1,1,1,0,0],["370","Dusclops",13,-1,0,0,1,1,0,0,0],["371","Dusknoir",13,-1,0,0,1,1,0,0,0],["372","Tropius",4,9,1,1,1,1,1,0,0],["373","Chingling",10,-1,1,1,1,1,0,0,0],["374","Chimecho",10,-1,1,1,1,1,0,0,0],["375","Absol",15,-1,1,1,2,2,1,1,0],["376","Wynaut",10,-1,1,1,1,1,0,0,0],["377","Wobbuffet",10,-1,1,1,1,1,0,0,0],["378","Snorunt",5,-1,1,1,1,1,1,0,0],["379","Glalie",5,-1,0,0,2,2,1,0,0],["380","Froslass",5,13,0,0,1,1,0,0,0],["381","Spheal",5,2,1,1,1,1,0,1,0],["382","Sealeo",5,2,0,0,1,1,0,0,0],["383","Walrein",5,2,0,0,1,1,0,0,0],["384","Clamperl",2,-1,1,1,1,1,0,0,0],["385","Huntail",2,-1,0,0,1,1,0,0,0],["386","Gorebyss",2,-1,0,0,1,1,0,0,0],["387","Relicanth",2,12,1,1,1,1,0,0,0],["388","Luvdisc",2,-1,1,1,1,1,0,0,0],["389","Bagon",14,-1,1,1,1,1,1,0,0],["390","Shelgon",14,-1,0,0,1,1,1,0,0],["391","Salamence",14,9,0,0,2,2,0,0,0],["392","Beldum",16,10,1,1,1,1,0,0,0],["393","Metang",16,10,0,0,1,1,0,0,0],["394","Metagross",16,10,0,0,2,2,0,0,0],["395","Regirock",12,-1,1,1,1,1,0,0,0],["396","Regice",5,-1,1,1,1,1,0,0,0],["397","Registeel",16,-1,1,1,1,1,0,0,0],["398","Latias",14,10,1,1,2,2,0,0,0],["399","Latios",14,10,1,1,2,2,0,0,0],["400","Kyogre",2,-1,1,1,2,2,0,0,0],["401","Groudon",8,-1,1,1,2,2,0,0,0],["402","Rayquaza",14,9,1,1,2,2,0,0,0],["403","Jirachi",16,10,1,1,1,1,0,0,0],["404","Deoxys",10,-1,1,1,4,4,0,0,0]],"4":[["405","Turtwig",4,-1,1,1,1,1,0,0,0],["406","Grotle",4,-1,0,0,1,1,0,0,0],["407","Torterra",4,8,0,0,1,1,0,0,0],["408","Chimchar",1,-1,1,1,1,1,0,0,0],["409","Monferno",1,6,0,0,1,1,0,0,0],["410","Infernape",1,6,0,0,1,1,0,0,0],["411","Piplup",2,-1,1,1,1,1,0,0,0],["412","Prinplup",2,-1,0,0,1,1,0,0,0],["413","Empoleon",2,16,0,0,1,1,0,0,0],["414","Starly",0,9,1,1,1,1,1,0,0],["415","Staravia",0,9,0,0,1,1,1,0,0],["416","Staraptor",0,9,0,0,1,1,1,0,0],["417","Bidoof",0,-1,1,1,1,1,1,0,0],["418","Bibarel",0,2,0,0,1,1,0,0,0],["419","Kricketot",11,-1,1,1,1,1,0,0,0],["420","Kricketune",11,-1,0,0,1,1,0,0,0],["421","Shinx",3,-1,1,1,1,1,1,1,0],["422","Luxio",3,-1,0,0,1,1,0,0,0],["423","Luxray",3,-1,0,0,1,1,0,0,0],["424","Budew",4,7,1,1,1,1,1,0,0],["425","Roselia",4,7,1,1,1,1,0,0,0],["426","Roserade",4,7,0,0,1,1,0,0,0],["427","Cranidos",12,-1,1,1,1,1,0,0,0],["428","Rampardos",12,-1,0,0,1,1,0,0,0],["429","Shieldon",12,16,1,1,1,1,1,0,0],["430","Bastiodon",12,16,0,0,1,1,0,0,0],["431","Burmy",11,-1,1,1,3,3,0,0,0],["432","Wormadam",11,4,0,0,3,3,3,0,0],["433","Mothim",11,9,0,0,1,1,0,0,0],["434","Combee",11,9,1,1,1,1,1,0,0],["435","Vespiquen",11,9,0,0,1,1,0,0,0],["436","Pachirisu",3,-1,1,1,1,1,1,1,0],["437","Buizel",2,-1,1,1,1,1,1,0,0],["438","Floatzel",2,-1,0,0,1,1,0,0,0],["439","Cherubi",4,-1,1,1,1,1,1,0,0],["440s","Cherrim",4,-1,0,0,2,2,2,0,0],["441","Shellos",2,-1,1,1,2,2,0,1,0],["442","Gastrodon",2,8,0,0,2,2,0,0,0],["443","Drifloon",13,9,1,1,1,1,0,0,0],["444","Drifblim",13,9,0,0,1,1,1,0,0],["445","Buneary",0,-1,1,1,1,1,0,0,0],["446","Lopunny",0,-1,0,0,2,2,2,0,0],["447","Glameow",0,-1,1,1,1,1,0,0,0],["448","Purugly",0,-1,0,0,1,1,0,0,0],["449","Stunky",7,15,1,1,1,1,1,1,0],["450","Skuntank",7,15,0,0,1,1,1,0,0],["451","Bronzor",16,10,1,1,1,1,0,0,0],["452","Bronzong",16,10,0,0,1,1,0,0,0],["453","Happiny",0,-1,1,1,1,1,0,0,0],["454","Chansey",0,-1,1,1,1,1,0,0,0],["455","Blissey",0,-1,0,0,1,1,0,0,0],["456","Chatot",0,9,1,1,1,1,0,0,0],["457","Spiritomb",13,15,1,1,1,1,1,1,0],["458","Gible",14,8,1,1,1,1,0,0,0],["459","Gabite",14,8,0,0,1,1,1,0,0],["460","Garchomp",14,8,0,0,2,2,0,0,0],["461","Riolu",6,-1,1,1,1,1,1,1,0],["462","Lucario",6,16,0,0,2,2,1,1,0],["463","Hippopotas",8,-1,1,1,1,1,0,0,0],["464","Hippowdon",8,-1,0,0,1,1,0,0,0],["465","Skorupi",7,11,1,1,1,1,1,0,0],["466","Drapion",7,15,0,0,1,1,1,1,0],["467","Croagunk",7,6,1,1,1,1,0,0,0],["468","Toxicroak",7,6,0,0,1,1,0,0,0],["469","Carnivine",4,-1,1,1,1,1,0,0,0],["470","Finneon",2,-1,1,1,1,1,0,0,0],["471","Lumineon",2,-1,0,0,1,1,0,0,0],["472","Mantyke",2,9,1,1,1,1,0,1,0],["473","Mantine",2,9,1,1,1,1,0,1,0],["474","Snover",5,4,1,1,1,1,0,0,0],["475","Abomasnow",5,4,0,0,2,2,0,0,0],["476","Porygon",0,-1,1,1,1,1,0,1,0],["477","Porygon2",0,-1,0,0,1,1,1,1,1],["478","Porygon-Z",0,-1,0,0,1,1,1,1,0],["479","Rotom",3,13,1,1,6,6,6,0,0],["480","Uxie",10,-1,1,1,1,1,0,0,0],["481","Mesprit",10,-1,1,1,1,1,0,0,0],["482","Azelf",10,-1,1,1,1,1,0,0,0],["483","Dialga",16,14,1,1,1,1,0,0,0],["484","Palkia",2,14,1,1,1,1,0,0,0],["485","Heatran",1,16,1,1,1,1,0,0,0],["486","Regigigas",0,-1,1,1,1,1,0,0,0],["487","Giratina",13,14,1,1,2,2,0,0,0],["488","Cresselia",10,-1,1,1,1,1,0,0,0],["489","Phione",2,-1,1,1,1,1,0,0,0],["490","Manaphy",2,-1,1,1,1,1,0,0,0],["491","Darkrai",15,-1,1,1,1,1,0,0,0],["492","Shaymin",4,-1,1,1,2,2,0,0,0],["493","Arceus",0,-1,1,1,18,18,18,0,0],["898","Wyrdeer",0,10,0,0,1,1,0,0,0],["899","Kleavor",11,12,0,0,1,1,0,1,0],["903","Overqwil",15,7,0,0,1,1,0,1,0]],"5":[["494","Victini",10,1,1,1,1,1,0,0,0],["495","Snivy",4,-1,1,1,1,1,0,0,0],["496","Servine",4,-1,0,0,1,1,0,0,0],["497","Serperior",4,-1,0,0,1,1,1,0,0],["498","Tepig",1,-1,1,1,1,1,0,0,0],["499","Pignite",1,6,0,0,1,1,0,0,0],["500","Emboar",1,6,0,0,1,1,0,0,0],["501","Oshawott",2,-1,1,1,1,1,0,0,0],["502","Dewott",2,-1,0,0,1,1,0,0,0],["503","Samurott",2,-1,0,0,2,2,1,0,0],["504","Patrat",0,-1,1,1,1,1,0,0,0],["505","Watchog",0,-1,0,0,1,1,0,0,0],["506","Lillipup",0,-1,1,1,1,1,0,0,0],["507","Herdier",0,-1,0,0,1,1,0,0,0],["508","Stoutland",0,-1,0,0,1,1,0,0,0],["509","Purrloin",15,-1,1,1,1,1,0,0,0],["510","Liepard",15,-1,0,0,1,1,1,0,0],["511","Pansage",4,-1,1,1,1,1,0,0,0],["512","Simisage",4,-1,0,0,1,1,0,0,0],["513","Pansear",1,-1,1,1,1,1,0,0,0],["514","Simisear",1,-1,0,0,1,1,0,0,0],["515","Panpour",2,-1,1,1,1,1,0,0,0],["516","Simipour",2,-1,0,0,1,1,0,0,0],["517","Munna",10,-1,1,1,1,1,1,0,0],["518","Musharna",10,-1,0,0,1,1,0,0,0],["519","Pidove",0,9,1,1,1,1,0,0,0],["520","Tranquill",0,9,0,0,1,1,0,0,0],["521","Unfezant",0,9,0,0,1,1,1,0,0],["522","Blitzle",3,-1,1,1,1,1,0,0,0],["523","Zebstrika",3,-1,0,0,1,1,0,0,0],["524","Roggenrola",12,-1,1,1,1,1,1,1,0],["525","Boldore",12,-1,0,0,1,1,0,0,0],["526","Gigalith",12,-1,0,0,1,1,0,0,0],["527","Woobat",10,9,1,1,1,1,0,1,0],["528","Swoobat",10,9,0,0,1,1,0,0,0],["529","Drilbur",8,-1,1,1,1,1,0,0,0],["530","Excadrill",8,16,0,0,1,1,0,0,0],["531","Audino",0,-1,1,1,2,2,0,0,0],["532","Timburr",6,-1,1,1,1,1,0,0,0],["533","Gurdurr",6,-1,0,0,1,1,0,0,0],["534","Conkeldurr",6,-1,0,0,1,1,0,0,0],["535","Tympole",2,-1,1,1,1,1,0,0,0],["536","Palpitoad",2,8,0,0,1,1,0,0,0],["537","Seismitoad",2,8,0,0,1,1,0,0,0],["538","Throh",6,-1,1,1,1,1,0,0,0],["539","Sawk",6,-1,1,1,1,1,0,0,0],["540","Sewaddle",11,4,1,1,1,1,0,0,0],["541","Swadloon",11,4,0,0,1,1,0,0,0],["542","Leavanny",11,4,0,0,1,1,0,0,0],["543","Venipede",11,7,1,1,1,1,1,1,0],["544","Whirlipede",11,7,0,0,1,1,0,1,0],["545","Scolipede",11,7,0,0,1,1,1,1,0],["546","Cottonee",4,17,1,1,1,1,0,0,0],["547","Whimsicott",4,17,0,0,1,1,0,0,0],["548","Petilil",4,-1,1,1,1,1,0,0,0],["549","Lilligant",4,-1,0,0,1,1,1,0,0],["550","Basculin",2,-1,1,1,2,2,0,0,0],["551","Sandile",8,15,1,1,1,1,0,0,0],["552","Krokorok",8,15,0,0,1,1,0,0,0],["553","Krookodile",8,15,0,0,1,1,1,0,0],["554","Darumaka",1,-1,2,2,2,2,1,0,0],["555","Darmanitan",1,-1,0,0,4,4,2,0,0],["556","Maractus",4,-1,1,1,1,1,0,0,0],["557","Dwebble",11,12,1,1,1,1,0,0,0],["558","Crustle",11,12,0,0,1,1,0,0,0],["559","Scraggy",15,6,1,1,1,1,1,0,0],["560","Scrafty",15,6,0,0,1,1,1,0,0],["561","Sigilyph",10,9,1,1,1,1,1,0,0],["562","Yamask",13,-1,2,2,2,2,0,0,0],["563","Cofagrigus",13,-1,0,0,1,1,0,0,0],["564","Tirtouga",2,12,1,1,1,1,0,0,0],["565","Carracosta",2,12,0,0,1,1,0,0,0],["566","Archen",12,9,1,1,1,1,0,0,0],["567","Archeops",12,9,0,0,1,1,1,0,0],["568","Trubbish",7,-1,1,1,1,1,0,0,0],["569","Garbodor",7,-1,0,0,1,1,0,0,0],["570","Zorua",15,-1,1,1,1,1,0,1,0],["571","Zoroark",15,-1,0,0,1,1,1,0,0],["572","Minccino",0,-1,1,1,1,1,0,0,0],["573","Cinccino",0,-1,0,0,1,1,0,0,0],["574","Gothita",10,-1,1,1,1,1,0,0,0],["575","Gothorita",10,-1,0,0,1,1,0,0,0],["576","Gothitelle",10,-1,0,0,1,1,0,0,0],["577","Solosis",10,-1,1,1,1,1,1,0,0],["578","Duosion",10,-1,0,0,1,1,0,0,0],["579","Reuniclus",10,-1,0,0,1,1,0,0,0],["580","Ducklett",2,9,1,1,1,1,1,0,0],["581","Swanna",2,9,0,0,1,1,1,0,0],["582","Vanillite",5,-1,1,1,1,1,1,0,0],["583","Vanillish",5,-1,0,0,1,1,0,0,0],["584","Vanilluxe",5,-1,0,0,1,1,0,0,0],["585","Deerling",0,4,1,1,1,1,1,0,0],["586","Sawsbuck",0,4,0,0,1,1,1,0,0],["587","Emolga",3,9,1,1,1,1,1,0,0],["588","Karrablast",11,-1,1,1,1,1,0,0,0],["589","Escavalier",11,16,0,0,1,1,0,0,0],["590","Foongus",4,7,1,1,1,1,0,0,0],["591","Amoonguss",4,7,0,0,1,1,0,0,0],["592","Frillish",2,13,1,1,1,1,0,0,0],["593","Jellicent",2,13,0,0,1,1,0,0,0],["594","Alomomola",2,-1,1,1,1,1,0,0,0],["595","Joltik",11,3,1,1,1,1,1,1,0],["596","Galvantula",11,3,0,0,1,1,1,0,0],["597","Ferroseed",4,16,1,1,1,1,0,0,0],["598","Ferrothorn",4,16,0,0,1,1,0,0,0],["599","Klink",16,-1,1,1,1,1,1,0,0],["600","Klang",16,-1,0,0,1,1,0,0,0],["601","Klinklang",16,-1,0,0,1,1,0,0,0],["602","Tynamo",3,-1,1,1,1,1,1,0,0],["603","Eelektrik",3,-1,0,0,1,1,1,0,0],["604","Eelektross",3,-1,0,0,1,1,1,0,0],["605","Elgyem",10,-1,1,1,1,1,0,0,0],["606","Beheeyem",10,-1,0,0,1,1,0,0,0],["607","Litwick",13,1,1,1,1,1,1,1,0],["608","Lampent",13,1,0,0,1,1,1,0,0],["609","Chandelure",13,1,0,0,1,1,1,0,0],["610","Axew",14,-1,1,1,1,1,0,0,0],["611","Fraxure",14,-1,0,0,1,1,0,0,0],["612","Haxorus",14,-1,0,0,1,1,0,0,0],["613","Cubchoo",5,-1,1,1,1,1,0,0,0],["614","Beartic",5,-1,0,0,1,1,0,0,0],["615","Cryogonal",5,-1,1,1,1,1,0,0,0],["616","Shelmet",11,-1,1,1,1,1,0,0,0],["617","Accelgor",11,-1,0,0,1,1,0,0,0],["618","Stunfisk",8,3,2,2,2,2,0,0,0],["619","Mienfoo",6,-1,1,1,1,1,0,0,0],["620","Mienshao",6,-1,0,0,1,1,0,0,0],["621","Druddigon",14,-1,1,1,1,1,0,0,0],["622","Golett",8,13,1,1,1,1,0,0,0],["623","Golurk",8,13,0,0,1,1,0,0,0],["624","Pawniard",15,16,1,1,1,1,0,0,0],["625","Bisharp",15,16,0,0,1,1,0,0,0],["626","Bouffalant",0,-1,1,1,1,1,0,0,0],["627","Rufflet",0,9,1,1,1,1,0,0,0],["628","Braviary",0,9,0,0,1,1,1,0,0],["629","Vullaby",15,9,1,1,1,1,0,0,0],["630","Mandibuzz",15,9,0,0,1,1,0,0,0],["631","Heatmor",1,-1,1,1,1,1,0,0,0],["632","Durant",11,16,1,1,1,1,0,0,0],["633","Deino",15,14,1,1,1,1,0,1,0],["634","Zweilous",15,14,0,0,1,1,0,0,0],["635","Hydreigon",15,14,0,0,1,1,0,0,0],["636","Larvesta",11,1,1,1,1,1,1,1,0],["637","Volcarona",11,1,0,0,1,1,0,0,0],["638","Cobalion",16,6,1,1,1,1,0,0,0],["639","Terrakion",12,6,1,1,1,1,0,0,0],["640","Virizion",4,6,1,1,1,1,0,0,0],["641","Tornadus",9,-1,1,1,2,2,0,0,0],["642","Thundurus",3,9,1,1,2,2,0,0,0],["643","Reshiram",14,1,1,1,1,1,0,0,0],["644","Zekrom",14,3,1,1,1,1,0,0,0],["645","Landorus",8,9,1,1,2,2,0,0,0],["646","Kyurem",14,5,1,1,3,3,0,0,0],["647","Keldeo",2,6,1,1,2,2,0,0,0],["648","Meloetta",0,10,1,1,2,2,0,0,0],["649","Genesect",11,16,1,1,5,5,0,0,0]],"6":[["650","Chespin",4,-1,1,1,1,1,0,0,0],["651","Quilladin",4,-1,0,0,1,1,0,0,0],["652","Chesnaught",4,6,0,0,1,1,0,0,0],["653","Fennekin",1,-1,1,1,1,1,1,1,0],["654","Braixen",1,-1,0,0,1,1,1,0,0],["655","Delphox",1,10,0,0,1,1,1,0,0],["656","Froakie",2,-1,1,1,1,1,0,0,0],["657","Frogadier",2,-1,0,0,1,1,0,0,0],["658","Greninja",2,15,0,0,1,1,0,0,0],["659","Bunnelby",0,-1,1,1,1,1,0,0,0],["660","Diggersby",0,8,0,0,1,1,0,0,0],["661","Fletchling",0,9,1,1,1,1,0,0,0],["662","Fletchinder",1,9,0,0,1,1,0,0,0],["663","Talonflame",1,9,0,0,1,1,0,0,0],["664","Scatterbug",11,-1,1,1,1,1,0,0,0],["665","Spewpa",11,-1,0,0,1,1,0,0,0],["666","Vivillon",11,9,0,0,1,1,1,0,0],["667","Litleo",1,0,1,1,1,1,0,0,0],["668","Pyroar",1,0,0,0,1,1,0,0,0],["669","Flabébé",17,-1,1,1,1,1,0,0,0],["670","Floette",17,-1,0,0,1,1,0,0,0],["671","Florges",17,-1,0,0,1,1,0,0,0],["672","Skiddo",4,-1,1,1,1,1,0,0,0],["673","Gogoat",4,-1,0,0,1,1,0,0,0],["674","Pancham",6,-1,1,1,1,1,0,1,0],["675","Pangoro",6,15,0,0,1,1,0,0,0],["676","Furfrou",0,-1,1,1,1,1,1,0,0],["677","Espurr",10,-1,1,1,1,1,0,0,0],["678","Meowstic",10,-1,0,0,1,1,1,0,0],["679","Honedge",16,13,1,1,1,1,0,1,0],["680","Doublade",16,13,0,0,1,1,0,0,0],["681","Aegislash",16,13,0,0,2,2,0,2,0],["682","Spritzee",17,-1,1,1,1,1,0,0,0],["683","Aromatisse",17,-1,0,0,1,1,0,0,0],["684","Swirlix",17,-1,1,1,1,1,0,0,0],["685","Slurpuff",17,-1,0,0,1,1,0,0,0],["686","Inkay",15,10,1,1,1,1,0,0,0],["687","Malamar",15,10,0,0,1,1,0,0,0],["688","Binacle",12,2,1,1,1,1,0,0,0],["689","Barbaracle",12,2,0,0,1,1,0,0,0],["690","Skrelp",7,2,1,1,1,1,0,0,0],["691","Dragalge",7,14,0,0,1,1,1,0,0],["692","Clauncher",2,-1,1,1,1,1,1,0,0],["693","Clawitzer",2,-1,0,0,1,1,0,0,0],["694","Helioptile",3,0,1,1,1,1,0,0,0],["695","Heliolisk",3,0,0,0,1,1,0,0,0],["696","Tyrunt",12,14,1,1,1,1,0,0,0],["697","Tyrantrum",12,14,0,0,1,1,0,0,0],["698","Amaura",12,5,1,1,1,1,1,0,0],["699","Aurorus",12,5,0,0,1,1,0,0,0],["700","Hawlucha",6,9,1,1,1,1,1,0,0],["701","Dedenne",3,17,1,1,1,1,0,0,0],["702","Carbink",12,17,1,1,1,1,0,0,0],["703","Goomy",14,-1,1,1,1,1,1,1,0],["704","Sliggoo",14,-1,0,0,1,1,1,1,0],["705","Goodra",14,-1,0,0,1,1,1,1,0],["706","Klefki",16,17,1,1,1,1,1,0,0],["707","Phantump",13,4,1,1,1,1,0,0,0],["708","Trevenant",13,4,0,0,1,1,1,0,0],["709","Pumpkaboo",13,4,1,1,4,4,3,0,0],["710","Gourgeist",13,4,0,0,4,4,1,0,0],["711","Bergmite",5,-1,1,1,1,1,0,0,0],["712","Avalugg",5,-1,0,0,1,1,0,0,0],["713","Noibat",9,14,1,1,1,1,1,1,0],["714","Noivern",9,14,0,0,1,1,1,0,0],["715","Xerneas",17,-1,1,1,1,1,0,0,0],["716","Yveltal",15,9,1,1,1,1,0,0,0],["717","Zygarde",14,8,1,1,4,4,0,0,0],["718","Diancie",12,17,1,1,2,2,0,0,0],["719","Hoopa",10,13,1,1,2,2,0,0,0],["720","Volcanion",1,2,1,1,1,1,0,0,0]],"7":[["721","Rowlet",4,9,1,1,1,1,0,0,0],["722","Dartrix",4,9,0,0,1,1,0,0,0],["723","Decidueye",4,13,0,0,2,2,2,0,0],["724","Litten",1,-1,1,1,1,1,1,0,0],["725","Torracat",1,-1,0,0,1,1,0,0,0],["726","Incineroar",1,15,0,0,1,1,0,0,0],["727","Popplio",2,-1,1,1,1,1,0,0,0],["728","Brionne",2,-1,0,0,1,1,0,0,0],["729","Primarina",2,17,0,0,1,1,0,0,0],["730","Pikipek",0,9,1,1,1,1,0,0,0],["731","Trumbeak",0,9,0,0,1,1,0,0,0],["732","Toucannon",0,9,0,0,1,1,0,0,0],["733","Yungoos",0,-1,1,1,1,1,0,0,0],["734","Gumshoos",0,-1,0,0,2,2,0,0,0],["735","Grubbin",11,-1,1,1,1,1,0,0,0],["736","Charjabug",11,3,0,0,1,1,0,0,0],["737","Vikavolt",11,3,0,0,2,2,1,0,0],["738","Crabrawler",6,-1,1,1,1,1,0,0,0],["739","Crabominable",6,5,0,0,1,1,0,0,0],["740","Oricorio",1,9,1,1,4,4,3,0,0],["741","Cutiefly",11,17,1,1,1,1,1,0,0],["742","Ribombee",11,17,0,0,2,2,2,0,0],["743","Rockruff",12,-1,1,1,1,1,1,1,0],["744","Lycanroc",12,-1,0,0,3,3,3,1,0],["745","Wishiwashi",2,-1,1,1,3,3,1,0,0],["746","Mareanie",7,2,1,1,1,1,0,0,0],["747","Toxapex",7,2,0,0,1,1,0,0,0],["748","Mudbray",8,-1,1,1,1,1,0,0,0],["749","Mudsdale",8,-1,0,0,1,1,0,0,0],["750","Dewpider",2,11,1,1,1,1,0,0,0],["751","Araquanid",2,11,0,0,2,2,2,0,0],["752","Fomantis",4,-1,1,1,1,1,0,0,0],["753t","Lurantis",4,-1,0,0,2,2,2,0,0],["754","Morelull",4,17,1,1,1,1,0,0,0],["755","Shiinotic",4,17,0,0,1,1,0,0,0],["756","Salandit",7,1,1,1,1,1,1,0,0],["757","Salazzle",7,1,0,0,2,2,2,0,0],["758","Stufful",0,6,1,1,1,1,1,0,0],["759","Bewear",0,6,0,0,1,1,0,0,0],["760","Bounsweet",4,-1,1,1,1,1,0,0,0],["761","Steenee",4,-1,0,0,1,1,0,0,0],["762","Tsareena",4,-1,0,0,1,1,0,0,0],["763","Comfey",17,-1,1,1,1,1,1,0,0],["764","Oranguru",0,10,1,1,1,1,0,0,0],["765","Passimian",6,-1,1,1,1,1,0,0,0],["766","Wimpod",11,2,1,1,1,1,0,0,0],["767","Golisopod",11,2,0,0,1,1,0,0,0],["768","Sandygast",13,8,1,1,1,1,1,1,0],["769","Palossand",13,8,0,0,1,1,1,0,0],["770","Pyukumuku",2,-1,1,1,1,1,0,0,0],["771","Type: Null",0,-1,1,1,1,1,0,0,0],["772","Silvally",0,-1,0,0,18,18,0,0,0],["773","Minior",12,9,1,1,2,2,0,0,0],["774","Komala",0,-1,1,1,1,1,1,0,0],["775","Turtonator",1,14,1,1,1,1,0,0,0],["776","Togedemaru",3,16,1,1,2,2,1,1,0],["777","Mimikyu",13,17,1,1,2,2,2,0,0],["778","Bruxish",2,10,1,1,1,1,0,0,0],["779","Drampa",0,14,1,1,1,1,1,0,0],["780","Dhelmise",13,4,1,1,1,1,0,0,0],["781","Jangmo-o",14,-1,1,1,1,1,1,1,0],["782","Hakamo-o",14,6,0,0,1,1,0,0,0],["783","Kommo-o",14,6,0,0,2,2,1,0,0],["784","Tapu Koko",3,17,1,1,1,1,0,0,0],["785","Tapu Lele",10,17,1,1,1,1,0,0,0],["786","Tapu Bulu",4,17,1,1,1,1,0,0,0],["787","Tapu Fini",2,17,1,1,1,1,0,0,0],["788","Cosmog",10,-1,1,1,1,1,0,0,0],["789","Cosmoem",10,-1,0,0,1,1,0,0,0],["790","Solgaleo",10,16,0,0,1,1,0,0,0],["791","Lunala",10,13,0,0,1,1,0,0,0],["792","Nihilego",12,7,1,1,1,1,0,0,0],["793","Buzzwole",11,6,1,1,1,1,0,0,0],["794","Pheromosa",11,6,1,1,1,1,0,0,0],["795","Xurkitree",3,-1,1,1,1,1,0,0,0],["796","Celesteela",16,9,1,1,1,1,0,0,0],["797","Kartana",4,16,1,1,1,1,0,0,0],["798","Guzzlord",15,14,1,1,1,1,0,0,0],["799","Poipole",7,-1,1,1,1,1,0,0,0],["800","Naganadel",7,14,0,0,1,1,0,0,0],["801","Stakataka",12,16,1,1,1,1,0,0,0],["802","Blacephalon",1,13,1,1,1,1,0,0,0],["803","Necrozma",10,-1,1,1,4,4,0,0,0],["804","Magearna",16,17,1,1,1,1,0,0,0],["805","Marshadow",6,13,1,1,1,1,0,0,0],["806","Zeraora",3,-1,1,1,1,1,0,0,0],["807","Meltan",16,-1,1,1,1,1,0,0,0],["808","Melmetal",16,-1,0,0,1,1,0,0,0]],"8":[["809","Grookey",4,-1,1,1,1,1,0,0,0],["810","Thwackey",4,-1,0,0,1,1,0,0,0],["811","Rillaboom",4,-1,0,0,1,1,0,0,0],["812","Scorbunny",1,-1,1,1,1,1,0,0,0],["813","Raboot",1,-1,0,0,1,1,0,0,0],["814","Cinderace",1,-1,0,0,1,1,0,0,0],["815","Sobble",2,-1,1,1,1,1,0,0,0],["816","Drizzile",2,-1,0,0,1,1,0,0,0],["817","Inteleon",2,-1,0,0,1,1,0,0,0],["818","Skwovet",0,-1,1,1,1,1,0,0,0],["819","Greedent",0,-1,0,0,1,1,0,0,0],["820","Rookidee",9,-1,1,1,1,1,1,1,0],["821","Corvisquire",9,-1,0,0,1,1,1,1,0],["822","Corviknight",9,16,0,0,1,1,1,1,0],["823","Blipbug",11,-1,1,1,1,1,0,0,0],["824","Dottler",11,10,0,0,1,1,0,0,0],["825","Orbeetle",11,10,0,0,1,1,0,0,0],["826","Nickit",15,-1,1,1,1,1,1,1,0],["827","Thievul",15,-1,0,0,1,1,0,0,0],["828","Gossifleur",4,-1,1,1,1,1,0,0,0],["829","Eldegoss",4,-1,0,0,1,1,0,0,0],["830","Wooloo",0,-1,1,1,1,1,0,0,0],["831","Dubwool",0,-1,0,0,1,1,0,0,0],["832","Chewtle",2,-1,1,1,1,1,0,0,0],["833","Drednaw",2,12,0,0,1,1,0,0,0],["834","Yamper",3,-1,1,1,1,1,0,0,0],["835","Boltund",3,-1,0,0,1,1,0,0,0],["836","Rolycoly",12,-1,1,1,1,1,0,0,0],["837","Carkol",12,1,0,0,1,1,0,0,0],["838","Coalossal",12,1,0,0,1,1,0,0,0],["839","Applin",4,14,1,1,1,1,1,0,0],["840","Flapple",4,14,0,0,1,1,1,0,0],["841","Appletun",4,14,0,0,1,1,0,0,0],["842","Silicobra",8,-1,1,1,1,1,0,0,0],["843","Sandaconda",8,-1,0,0,1,1,0,0,0],["844","Cramorant",9,2,1,1,3,3,0,0,0],["845","Arrokuda",2,-1,1,1,1,1,0,0,0],["846","Barraskewda",2,-1,0,0,1,1,0,0,0],["847","Toxel",3,7,1,1,1,1,1,0,0],["848","Toxtricity",3,7,0,0,2,2,2,0,0],["849","Sizzlipede",1,11,1,1,1,1,0,0,0],["850","Centiskorch",1,11,0,0,1,1,0,0,0],["851","Clobbopus",6,-1,1,1,1,1,0,0,0],["852","Grapploct",6,-1,0,0,1,1,0,0,0],["853","Sinistea",13,-1,1,1,1,1,1,1,0],["854","Polteageist",13,-1,0,0,1,1,0,0,0],["855","Hatenna",10,-1,1,1,1,1,0,0,0],["856","Hattrem",10,-1,0,0,1,1,0,0,0],["857","Hatterene",10,17,0,0,1,1,0,0,0],["858","Impidimp",15,17,1,1,1,1,0,0,0],["859","Morgrem",15,17,0,0,1,1,0,0,0],["860","Grimmsnarl",15,17,0,0,1,1,0,0,0],["861","Obstagoon",15,0,0,0,1,1,0,0,0],["862","Perrserker",16,-1,0,0,1,1,0,0,0],["863","Cursola",13,-1,0,0,1,1,1,0,0],["864","Sirfetch'd",6,-1,0,0,1,1,0,0,0],["865","Mr. Rime",5,10,0,0,1,1,0,0,0],["866","Runerigus",8,13,0,0,1,1,0,0,0],["867","Milcery",17,-1,1,1,1,1,1,0,0],["868","Alcremie",17,-1,0,0,1,1,0,0,0],["869","Falinks",6,-1,1,1,1,1,0,0,0],["870","Pincurchin",3,-1,1,1,1,1,0,0,0],["871","Snom",5,11,1,1,1,1,1,1,0],["872","Frosmoth",5,11,0,0,1,1,0,0,0],["873","Stonjourner",12,-1,1,1,1,1,0,0,0],["874","Eiscue",5,-1,1,1,2,2,0,0,0],["875","Indeedee",10,0,1,1,2,2,1,0,0],["876","Morpeko",3,15,1,1,2,2,0,0,0],["877","Cufant",16,-1,1,1,1,1,0,0,0],["878","Copperajah",16,-1,0,0,1,1,0,0,0],["879","Dracozolt",3,14,1,1,1,1,0,0,0],["880","Arctozolt",3,5,1,1,1,1,0,0,0],["881","Dracovish",2,14,1,1,1,1,0,0,0],["882","Arctovish",2,5,1,1,1,1,0,0,0],["883","Duraludon",16,14,1,1,1,1,0,0,0],["884","Dreepy",14,13,1,1,1,1,0,0,0],["885","Drakloak",14,13,0,0,1,1,0,0,0],["886","Dragapult",14,13,0,0,1,1,0,0,0],["887","Zacian",17,-1,1,1,2,2,0,0,0],["888","Zamazenta",6,-1,1,1,2,2,0,0,0],["889","Eternatus",7,14,1,1,1,1,0,0,0],["890","Kubfu",6,-1,1,1,1,1,0,0,0],["891","Urshifu",6,15,0,0,2,2,0,0,0],["892","Zarude",15,4,1,1,1,1,0,0,0],["893","Regieleki",3,-1,1,1,1,1,0,0,0],["894","Regidrago",14,-1,1,1,1,1,0,0,0],["895","Glastrier",5,-1,1,1,1,1,0,0,0],["896","Spectrier",13,-1,1,1,1,1,0,0,0],["897","Calyrex",10,4,1,1,3,3,0,0,0]],"97":[["000a1","Lunupine",15,-1,1,1,1,1,0,0,0],["000-L","Lunupine/Mega Forme Q",15,17,0,0,1,1,0,0,0],["000a2","Blophin",2,-1,1,1,1,1,0,0,0],["000a3","Inflale",2,-1,0,0,1,1,0,0,0],["000a4","Orkit",2,-1,1,1,1,1,0,0,0],["000a6","Orcalot",2,16,0,0,1,1,0,0,0],["000a7","Faemueño",17,9,1,1,1,1,0,0,0],["000a8","Faemilarín",17,9,0,0,1,1,0,0,0],["000a9","Faemísimo",17,9,0,0,1,1,0,0,0],["000aa","Wagell",7,17,1,1,1,1,0,0,0],["000ab","Wanamangora",7,17,0,0,1,1,0,0,0],["000-W","Wanamangora/Mega Forme Q",7,17,0,0,1,1,0,0,0],["000ac","Gosold",0,9,1,1,1,1,0,0,0],["000ad","Goldesem",10,9,0,0,1,1,0,0,0],["000ae","Impyre",15,-1,1,1,1,1,1,0,0],["000af","Baflammet",15,1,0,0,1,1,1,0,0],["000ag","Searene",14,2,1,1,1,1,0,0,0],["000ah","Solynx",1,-1,1,1,1,1,0,0,0],["000-S","Solynx/Mega Forme Q",1,3,0,0,1,1,0,0,0],["000ai","Ardik",5,-1,1,1,1,1,0,0,0],["000aj","Sibex",5,-1,0,0,1,1,0,0,0],["000ak","Boxaby",12,6,1,1,1,1,0,0,0],["000al","Kangspar",12,6,0,0,1,1,0,0,0],["000-X","Kangspar/Mega Forme Q",12,6,0,0,1,1,0,1,0],["000am","Bunbori",5,17,1,1,1,1,1,0,0],["000-B","Bunbori/Mega Forme Q",5,17,0,0,1,1,1,0,0],["000an","Taiveret",4,-1,1,1,1,1,0,0,0],["000ao","Taipaeus",4,-1,0,0,1,1,0,0,0],["000ap","Taimorpha",4,6,0,0,1,1,1,0,0],["000aq","Flarbat",1,9,1,1,1,1,0,0,0],["000ar","Flarotis",1,17,0,0,1,1,0,0,0],["000as","Flaroptera",1,17,0,0,1,1,0,0,0],["000at","Hydrark",2,-1,1,1,1,1,0,0,0],["000au","Hydrinus",2,-1,0,0,1,1,0,0,0],["000av","Hydrinifor",2,16,0,0,1,1,0,0,0],["000aw","Gragon",13,14,1,1,1,1,0,0,0],["000ay","Greegon",13,14,0,0,1,1,0,0,0],["000az","Avaragon",13,14,0,0,1,1,0,0,0],["000b0","Kinaster",15,1,1,1,1,1,0,0,0],["000b1","Luckoo",4,9,1,1,1,1,0,0,0],["000b2","Peckoo",4,9,0,0,1,1,0,0,0],["000b3","Peekoo",4,10,0,0,1,1,0,0,0],["000b4","Arasprit",8,-1,1,1,1,1,0,0,0],["000b5","Arthreux",8,11,0,0,1,1,0,0,0],["000b6","Quetzephyr",3,9,1,1,1,1,0,0,0],["000b7","Quetzaptyl",3,9,0,0,1,1,0,0,0],["000b8","Pixrine",12,17,1,1,1,1,0,0,0],["000b9","Kitsunari",10,-1,1,1,1,1,0,0,0],["000ba","Kitsubuki",10,13,0,0,1,1,0,0,0],["000bb","Kryptik",12,13,1,1,1,1,0,0,0],["000bc","Bandicoon",0,15,1,1,1,1,0,0,0],["000bd","Phastix",11,-1,1,1,1,1,0,0,0],["000be","Phasmaleef/Forest Forme",11,-1,0,0,1,1,0,0,0],["000bf","Phasmaleef/Desert Forme",11,-1,0,0,1,1,0,0,0],["000bg","Pasovan",0,-1,1,1,1,1,0,0,0],["000bh","Glaquine",5,-1,1,1,1,1,1,0,0],["000bi","Cavallost",5,-1,0,0,1,1,0,0,0],["000bk","Minibbit",16,-1,1,1,1,1,1,0,0],["000bl","Metabbit",16,-1,0,0,1,1,0,0,0],["000bm","Terabbit",16,-1,0,0,1,1,0,0,0],["000-T","Terabbit/Mega Forme Q",16,-1,0,0,1,1,0,0,0],["000bn","Tillink",8,-1,1,1,1,1,0,0,0],["000bo","Terrink",8,-1,0,0,1,1,0,0,0],["000bp","Bezerell",2,15,1,1,1,1,0,0,0],["000bq","Bezermuur",2,15,0,0,1,1,0,0,0],["000br","Bezermuut",2,15,0,0,1,1,0,0,0],["000bt","Ayeren",0,10,1,1,1,1,0,0,0],["000bu","Aytheraye",0,13,0,0,1,1,0,0,0],["000bv","Skeleco",2,13,1,1,1,1,0,0,0],["000bw","Phantiidae",2,13,0,0,1,1,0,0,0],["000bx","Klaatupillar",11,-1,1,1,1,1,0,0,0],["000by","Charaxalis",11,-1,0,0,1,1,0,0,0],["000bz","Incantasius",11,10,0,0,1,1,0,0,0],["000c0","Maravol",11,7,1,1,1,1,0,0,0],["000cm","Kyutopi",10,17,1,1,1,1,0,0,0],["000cn","Konatus",10,17,0,0,1,1,0,0,0],["000co","Kenyip",8,-1,1,1,1,1,0,0,0],["000cp","Arfrica",8,6,0,0,1,1,0,0,0],["000cq","Kalahowli",8,6,0,0,1,1,0,0,0],["000cr","Petripeep",12,-1,1,1,1,1,0,0,0],["000cs","Chirock",12,14,0,0,1,1,0,0,0],["000ct","Toxitrice",12,14,0,0,1,1,0,0,0],["000cu","Serpetone",12,7,0,0,1,1,0,0,0],["000cv","Toxilisk",12,7,0,0,1,1,0,0,0],["000cw","Gumairy",4,17,1,1,1,1,0,0,0],["000cx","Eucylph",4,17,0,0,1,1,0,0,0],["000cy","Puppod",7,0,1,1,1,1,1,0,0],["000cz","Slugdog",7,0,0,0,1,1,1,0,0],["000d0","Rokiwi",4,-1,1,1,1,1,0,0,0],["000d1","Brushiwi",4,15,0,0,1,1,0,0,0],["000d2","Alicalf",5,12,1,1,1,1,0,0,0],["000d3","Cetacorn",5,12,0,0,1,1,0,0,0],["000d4","Valkind",17,6,1,1,1,1,0,0,0],["000d5","Frayja",17,6,0,0,1,1,0,0,0],["000d6","Croaket",15,-1,1,1,1,1,0,0,0],["000d7","Quibbit/Toxic Forme",15,7,0,0,1,1,0,0,0],["000d8","Quibbit/Charged Forme",15,3,0,0,1,1,0,0,0],["000d9","Quibbit/Herbal Forme",15,4,0,0,1,1,0,0,0],["000da","Quibbit/Magma Forme",15,1,0,0,1,1,0,0,0],["000db","Quibbit/Fae Forme",15,17,0,0,1,1,0,0,0],["000de","Slypin",10,15,1,1,1,1,0,0,0],["000df","Haredini",10,15,0,0,1,1,0,0,0],["000dg","Selkrub",11,7,1,1,1,1,0,0,0],["000dh","Aqrabion",11,7,0,0,1,1,0,0,0],["000di","Skargas",11,7,0,0,1,1,0,0,0],["000dj","Kawotor",2,0,1,1,1,1,0,0,0],["000dk","Lutriva",2,6,0,0,1,1,0,0,0],["000dl","Selutian",2,5,0,0,1,1,0,0,0],["000dm","Kitwurm",11,-1,1,1,1,1,0,0,0],["000dn","Purrpa",11,-1,0,0,1,1,0,0,0],["000do","Moffkat",11,17,0,0,1,1,0,0,0],["000dp","Pepyre",4,1,1,1,1,1,0,0,0],["000dq","Skarasear",4,1,0,0,1,1,0,0,0],["000dr","Aphreyd",11,-1,1,1,1,1,0,0,0],["000ds","Scavady",11,-1,0,0,1,1,0,0,0],["000dt","Mantidra",11,14,0,0,1,1,0,0,0],["000du","Caimaw",16,-1,1,1,1,1,0,0,0],["000dv","Caimangle",16,-1,0,0,1,1,0,0,0],["000dw","Valimp",17,15,1,1,1,1,0,0,0],["000dx","Valladox",17,15,0,0,1,1,0,0,0],["000dy","Valenoir",17,15,0,0,1,1,0,0,0],["000dz","Frusky",5,-1,1,1,1,1,0,0,0],["000f0","Glacifur",5,-1,0,0,1,1,0,0,0],["000f1","Skyrie",9,-1,1,1,1,1,0,0,0],["000f2","Grymphony",9,-1,0,0,1,1,0,0,0],["000f3","Shinorin",14,6,1,1,1,1,0,0,0],["000f4","Shinorin/Incandescent",14,1,0,0,1,1,0,0,0],["000f5","Sikannos",0,1,1,1,1,1,0,0,0],["000f6","Sikannos/Unfettered",13,1,0,0,1,1,0,0,0],["000f7","Goschief",17,-1,1,1,1,1,0,0,0],["000f8","Havonk",17,15,0,0,1,1,0,0,0],["000f9","Mocknock",13,16,1,1,1,1,0,0,0],["000fa","Portalgeist",13,16,0,0,1,1,0,0,0],["000fb","Flurrawr/Boreal",5,-1,1,1,1,1,0,0,0],["000fc","Flurrawr/Austral",5,-1,0,0,1,1,0,0,0],["000fd","Tundrasail/Boreal",5,8,0,0,1,1,0,0,0],["000fe","Tundrasail/Austral",5,8,0,0,1,1,0,0,0],["000ff","Parapod",4,-1,1,1,1,1,0,0,0],["000fg","Craysprout",4,-1,0,0,1,1,0,0,0],["000fh","Strelitzgon",4,14,0,0,1,1,0,0,0],["000fi","Caprikid",6,-1,1,1,1,1,0,0,0],["000fj","Saytaries",6,16,0,0,1,1,0,0,0],["000fk","Taurminos",6,15,0,0,1,1,0,0,0],["000fl","Sagidamas",6,17,0,0,1,1,0,1,0],["000fm","Tenrekki",3,8,1,1,1,1,0,0,0],["000fn","Possmol",0,-1,1,1,1,1,0,0,0],["000fo","Opposham",0,7,0,0,1,1,0,0,0],["000fp","Opposkull",13,7,0,0,1,1,0,0,0],["000fq","Lunamor",17,-1,1,1,1,1,0,0,0],["000fr","Astrolochi",17,12,0,0,1,1,0,0,0],["000fs","Exilant",16,13,1,1,1,1,0,0,0],["000ft","Scorupt",16,13,0,0,1,1,0,0,0],["000fu","Lyruse",16,17,1,1,1,1,0,0,0],["000fv","Musharp",16,17,0,0,1,1,0,0,0],["000fw","Smokackle",1,0,1,1,1,1,0,0,0],["000fx","Hycano",1,12,0,0,1,1,0,0,0],["000fy","Inferial",14,-1,1,1,1,1,0,0,0],["000fz","Gargodyle",14,9,0,0,1,1,0,0,0],["000g0","Mirrasma",13,14,1,1,1,1,0,0,0],["000g1","Mirrarch",13,14,0,0,1,1,0,0,0],["000g2","Slithugi",13,8,1,1,1,1,0,0,0],["000g3","Sugikobra",13,8,0,0,1,1,0,0,0]],"98":[["012-Q","Butterfree/Mega Forme Q",11,10,0,0,1,1,1,0,0],["024-Q","Arbok/Mega Forme Q",7,15,0,0,1,1,0,0,0],["027-Q","Raichu/Mega Forme Q",3,6,0,0,1,1,1,0,0],["039-Q","Ninetales/Mega Forme Q",1,10,0,0,1,1,1,0,0],["057-Q","Persian/Mega Forme Q",0,13,0,0,1,1,0,0,0],["063-Q","Arcanine/Mega Forme Q",1,14,0,0,1,1,1,0,0],["083-Q","Rapidash/Mega Forme Q",1,9,0,0,1,1,1,0,0],["090-Q","Farfetch'd/Mega Forme Q",0,9,0,0,1,1,1,0,0],["094-Q","Dewgong/Mega Forme Q",2,5,0,0,1,1,1,0,0],["113-Q","Marowak/Alolan Mega Forme Q",1,13,0,0,1,1,0,0,0],["136-Q","Jynx/Mega Forme Q",5,10,0,0,1,1,0,0,0],["141-Q","Lapras/Mega Forme Q",2,5,0,0,1,1,0,0,0],["144-Q","Vaporeon/Mega Forme Q",2,-1,0,0,1,1,0,0,0],["145-Q","Jolteon/Mega Forme Q",3,-1,0,0,1,1,0,0,0],["146-Q","Flareon/Mega Forme Q",1,-1,0,0,1,1,1,0,0],["147-Q","Espeon/Mega Forme Q",10,-1,0,0,1,1,0,0,0],["148-Q","Umbreon/Mega Forme Q",15,-1,0,0,1,1,0,0,0],["149-Q","Leafeon/Mega Forme Q",4,-1,0,0,1,1,0,0,0],["150-Q","Glaceon/Mega Forme Q",5,-1,0,0,1,1,1,0,0],["151-Q","Sylveon/Mega Forme Q",17,-1,0,0,1,1,0,0,0],["164-Q","Dragonite/Mega Forme Q",14,9,0,0,1,1,0,0,0],["166-Q","Mew/Mega Forme Q",10,-1,0,0,1,1,1,0,0],["177-Q","Furret/Mega Forme Q",0,14,0,0,1,1,0,0,0],["201-Q","Jumpluff/Mega Forme Q",4,17,0,0,1,1,1,0,0],["215-Q","Girafarig/Mega Forme Q",0,10,0,0,1,1,0,0,0],["218-Q","Dunsparce/Mega Forme Q",0,14,0,0,1,1,1,0,0],["227-Q","Weavile/Mega Forme Q",15,5,0,0,1,1,1,0,0],["239-Q","Skarmory/Mega Forme Q",16,14,0,0,1,1,0,0,0],["263-Q","Lugia/Mega Forme Q",10,9,0,0,1,1,0,0,0],["264-Q","Ho-oh/Mega Forme Q",1,9,0,0,1,1,0,0,0],["265-Q","Celebi/Mega Forme Q",10,4,0,0,1,1,0,1,0],["276-Q","Mightyena/Mega Forme Q",15,-1,0,0,1,1,1,0,0],["301-Q","Breloom/Mega Forme Q",4,6,0,0,1,1,0,0,0],["325-Q","Manectric/Mega Forme Q",3,1,0,0,1,1,0,1,0],["335-Q","Wailord/Mega Forme Q",2,9,0,0,1,1,0,0,0],["344-Q","Flygon/Mega Forme Q",8,14,0,0,1,1,0,0,0],["349-Q","Zangoose/Mega Forme Q",0,15,0,0,1,1,0,1,0],["350-Q","Seviper/Mega Forme Q",7,2,0,0,1,1,0,0,0],["364-Q","Milotic/Mega Forme Q",2,17,0,0,1,1,1,0,0],["380-Q","Froslass/Mega Forme Q",5,13,0,0,1,1,1,0,0],["403-Q","Jirachi/Mega Forme Q",16,10,0,0,1,1,0,0,0],["423-Q","Luxray/Mega Forme Q",3,15,0,0,1,1,0,0,0],["438-Q","Floatzel/Mega Forme Q",2,-1,0,0,1,1,0,0,0],["471-Q","Lumineon/Mega Forme Q",2,17,0,0,1,1,0,0,0],["487-Q","Giratina/Mega Forme Q",13,14,0,0,1,1,0,0,0],["490-Q","Manaphy/Mega Forme Q",2,17,0,0,1,1,0,0,0],["494-Q","Victini/Mega Forme Q",10,1,0,0,1,1,0,0,0],["510-Q","Liepard/Mega Forme Q",15,-1,0,0,1,1,1,0,0],["545-Q","Scolipede/Mega Forme Q",11,7,0,0,1,1,0,0,0],["560-Q","Scrafty/Mega Forme Q",15,6,0,0,1,1,0,1,0],["571-Q","Zoroark/Mega Forme Q",15,-1,0,0,1,1,0,0,0],["586-Q","Sawsbuck/Mega Forme Q",17,4,0,0,1,1,0,0,0],["609-Q","Chandelure/Mega Forme Q",13,1,0,0,1,1,0,1,0],["612-Q","Haxorus/Mega Forme Q",14,16,0,0,1,1,1,0,0],["614-Q","Beartic/Mega Forme Q",5,-1,0,0,1,1,1,0,0],["621-Q","Druddigon/Mega Forme Q",14,12,0,0,1,1,0,0,0],["668-Q","Pyroar/Mega Forme Q",1,0,0,0,1,1,1,0,0],["673-Q","Gogoat/Mega Forme Q",4,-1,0,0,1,1,1,0,0],["695-Q","Heliolisk/Mega Forme Q",3,1,0,0,1,1,0,0,0],["700-Q","Hawlucha/Mega Forme Q",6,9,0,0,1,1,0,0,0],["705-Q","Goodra/Mega Forme Q",14,7,0,0,1,1,0,1,0],["714-Q","Noivern/Mega Forme Q",9,14,0,0,1,1,0,1,0],["762-Q","Tsareena/Mega Forme Q",4,6,0,0,1,1,1,0,0]],"99":[["019s1","Saiyan Rattata",0,6,1,1,1,1,1,1,0],["019s2","Super-Saiyan Rattata",0,6,0,0,1,1,1,1,0],["020s1","Super-Saiyan Raticate",0,6,0,0,1,1,0,0,0],["020s2","Super-Saiyan 2 Raticate",0,6,0,0,1,1,0,0,0],["020-S","Super-Saiyan 3 Raticate",0,6,0,0,1,1,1,0,0],["020-T","Super-Saiyan 4 Raticate",0,6,0,0,1,1,1,0,0],["025f","Flying Pichu",3,-1,1,1,1,1,0,0,0],["025s","Surfing Pichu",3,-1,1,1,1,1,0,0,0],["026f","Flying Pikachu",3,-1,0,0,1,1,0,0,0],["026s","Surfing Pikachu",3,-1,0,0,1,1,0,0,0],["026w","Snowboarding Pikachu",3,-1,0,0,1,1,0,0,0],["027f","Flying Raichu",3,9,0,0,1,1,0,0,0],["027s","Surfing Raichu",3,2,0,0,1,1,0,0,0],["027w","Snowboarding Raichu",3,5,0,0,1,1,0,0,0],["029t","Sandslash/Totem Forme Q",8,-1,0,0,1,1,0,0,0],["035s","Shooting Star Cleffa",17,-1,1,1,1,1,1,0,0],["036s","Shooting Star Clefairy",17,-1,0,0,1,1,1,0,0],["037s","Shooting Star Clefable",17,-1,0,0,1,1,0,0,0],["038a","Koroku",1,5,1,1,1,1,0,0,0],["039-A","Kyukori",1,5,0,0,1,1,0,0,0],["040g","Guild Igglybuff",0,17,1,1,1,1,0,0,0],["041g","Guild Jigglypuff",0,17,0,0,1,1,0,0,0],["042g","Guild Wigglytuff",0,17,0,0,1,1,0,0,0],["062x","Apocalyptic Growlithe",1,-1,1,1,1,1,0,0,0],["063x","Apocalyptic Arcanine",1,1,0,0,1,1,0,0,0],["084s","Snowpoke",5,10,1,1,1,1,0,0,0],["085s","Snowbro",5,10,0,0,1,1,0,0,0],["086s","Snowking",5,10,0,0,1,1,0,0,0],["108ds","Death Star Voltorb",3,-1,1,1,1,1,0,0,0],["109ds","Death Star Electrode",3,-1,0,0,1,1,0,0,0],["189e","Early Bird Natu",10,9,1,1,1,1,0,0,0],["190e","Early Bird Xatu",10,9,0,0,1,1,0,0,0],["198t","Sudowoodo/Totem Forme Q",12,-1,0,0,1,1,0,0,0],["208e","Wooper/Galvanic",3,-1,1,1,1,1,0,0,0],["209e","Quagsire/Galvanic",3,-1,0,0,1,1,0,0,0],["219v","Gligar/Vampire",8,9,1,1,1,1,0,0,0],["220v","Gliscor/Vampire",8,9,0,0,1,1,0,0,0],["225s","Scaracross",11,13,1,1,1,1,0,0,0],["226p","Snichu",15,3,1,1,1,1,0,0,0],["227p","Vilechu",15,3,0,0,1,1,0,0,0],["230bm","Blue Moon Slugma",2,-1,1,1,1,1,0,0,0],["231bm","Blue Moon Magcargo",2,12,0,0,1,1,0,0,0],["240c","Houndour/Orthrus",1,14,1,1,1,1,1,0,0],["240i","Frosdour",15,5,1,1,1,1,0,0,0],["241c","Houndoom/Cerberus",1,14,0,0,1,1,0,0,0],["241i","Chilldoom",15,5,0,0,1,1,1,0,0],["243t","Donphan/Totem Forme Q",8,-1,0,0,1,1,0,0,0],["263xd","XD001",10,9,1,1,1,1,1,0,0],["275x","Apocalyptic Poochyena",15,13,1,1,1,1,1,0,0],["276x","Apocalyptic Mightyena",15,13,0,0,1,1,0,0,0],["294b","Snoralts",5,17,1,1,1,1,0,0,0],["295b","Snolia",5,17,0,0,1,1,0,0,0],["296b","Frosvoir",5,13,0,0,1,1,0,1,0],["297b","Glaillade",5,6,0,0,1,1,0,0,0],["300x","Apocalyptic Shroomish",4,7,1,1,1,1,0,0,0],["301x","Apocalyptic Breloom",4,7,0,0,1,1,0,0,0],["336i","Numel/Arctic",5,8,1,1,1,1,0,0,0],["337i","Camerupt/Arctic",5,8,0,0,1,1,0,0,0],["354t","Whiscash/Totem Forme Q",2,8,0,0,1,1,0,0,0],["383t","Walrein/Totem Forme Q",5,2,0,0,1,1,0,0,0],["402f","Ryukuza",14,9,1,1,1,1,0,0,0],["402m","Magquaza",14,13,1,1,1,1,0,0,0],["405s","Seasonal Turtwig",4,-1,1,1,1,1,1,0,0],["406s","Seasonal Grotle",4,-1,0,0,1,1,0,0,0],["407s","Seasonal Torterra",4,-1,0,0,1,1,0,0,0],["417b","Bidoof/Igneous",1,-1,1,1,1,1,0,0,0],["418b","Bibarel/Igneous",1,12,0,0,1,1,0,0,0],["421f","Shinxel",3,2,1,1,1,1,0,0,0],["422f","Fluxio",3,2,0,0,1,1,0,0,0],["423f","Fluxray",3,2,0,0,1,1,0,0,0],["423-F","Fluxray/Mega Forme Q",3,2,0,0,1,1,0,0,0],["434s","Snow Combee",11,5,1,1,1,1,0,0,0],["435s","Snow Vespiquen",11,5,0,0,1,1,0,0,0],["435t","Snow Vespiquen/Totem Forme Q",11,5,0,0,1,1,0,0,0],["447i","Glameow/Siberian",0,5,1,1,1,1,0,0,0],["448i","Purugly/Siberian",0,5,0,0,1,1,0,0,0],["450t","Skuntank/Totem Forme Q",7,15,0,0,1,1,1,1,0],["457t","Spiritomb/Totem Forme Q",13,15,0,0,1,1,1,0,0],["458a","Gibolu",14,6,1,1,1,1,0,0,0],["459a","Gabolu",14,6,0,0,1,1,0,0,0],["460a","Garcario",14,6,0,0,1,1,0,0,0],["478t","Porygon-Z/Totem Forme Q",0,-1,0,0,1,1,0,1,0],["483p","Dialga/Primal Forme Q",16,14,0,0,1,1,0,0,0],["484p","Palkia/Primal Forme Q",2,14,0,0,1,1,0,0,0],["509h","Purrloin/Hallowe'en Witch",15,-1,1,1,1,1,0,0,0],["510h","Liepard/Hallowe'en Witch",15,-1,0,0,1,1,1,0,0],["542t","Leavanny/Totem Forme Q",11,4,0,0,1,1,0,0,0],["556t","Maractus/Totem Forme Q",4,-1,0,0,1,1,0,0,0],["622x","Apocalyptic Golett",12,16,1,1,1,1,0,0,0],["623x","Apocalyptic Golurk",12,16,0,0,1,1,0,0,0],["628t","Braviary/Totem Forme Q",0,9,0,0,1,1,1,0,0],["630t","Mandibuzz/Totem Forme Q",15,9,0,0,1,1,1,0,0],["667g","Glileo",1,7,1,1,1,1,0,0,0],["668g","Pyriscor",1,7,0,0,1,1,0,0,0],["682p","Spritzkrow",17,15,1,1,1,1,0,0,0],["683p","Aromakrow",17,15,0,0,1,1,0,0,0],["708t","Trevenant/Totem Forme Q",13,4,0,0,1,1,0,1,0],["713b","Noismog",10,14,1,1,1,1,0,0,0],["713c","Noismoem",10,14,0,0,1,1,0,0,0],["714b","Solgavern",16,14,0,0,1,1,0,0,0],["714c","Lunavern",13,14,0,0,1,1,0,0,0],["726b","Incineroar/Feral",1,3,0,0,1,1,0,0,0],["740q","Oricorio/Pointe Style",4,9,0,0,1,1,1,0,0]]}}`).split(',');
-        }
-        else {
-            this.DEX_UPDATE_DATE = dateAndDex[0];
-            const dex = dateAndDex.slice(1);
-            this.DEX_DATA = dex;
-        }
-    }
-    updateDexFromPage(dexText) {
-        console.log('Updating dex from site');
-        let dateString = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
-        this.DEX_DATA = dexText.split(',');
-        LocalStorageManager.updateLocalStorageDex(this.DEX_DATA, dateString);
-        $('.qolDate').val(dateString);
-    }
-    resetDex() {
-        this.DEX_UPDATE_DATE = undefined;
-        this.DEX_DATA = undefined;
-        LocalStorageManager.removeItem(Globals.POKEDEX_DATA_KEY);
-    }
-}
+class DaycareMatches {
+    static SETTING_ENABLE = 'enableDaycare';
 
-class PagesManager {
     constructor() {
-        this.USER_SETTINGS = UserSettingsHandle.getSettings();
-        this.pages = {
-            'Daycare': {
-                class: DaycarePage,
-                object: undefined,
-                setting: 'enableDaycare'
-            },
-            'Farm': {
-                class: FarmPage,
-                object: undefined,
-                setting: 'easyEvolve'
-            },
-            'Fishing': {
-                class: FishingPage,
-                object: undefined,
-                setting: 'fishingEnable'
-            },
-            'Lab': {
-                class: LabPage,
-                object: undefined,
-                setting: 'labNotifier'
-            },
-            'Multiuser': {
-                class: MultiuserPage,
-                object: undefined,
-                setting: 'partyMod'
-            },
-            'PrivateFields': {
-                class: PrivateFieldsPage,
-                object: undefined,
-                setting: 'privateFieldEnable'
-            },
-            'PublicFields': {
-                class: PublicFieldsPage,
-                object: undefined,
-                setting: 'publicFieldEnable'
-            },
-            'Shelter': {
-                class: ShelterPage,
-                object: undefined,
-                setting: 'shelterEnable'
-            },
-            'Dex': {
-                class: DexPage,
-                object: undefined,
-                setting: 'dexFilterEnable'
-            },
-            'Wishforge': {
-                class: WishforgePage,
-                object: undefined,
-                setting: 'condenseWishforge'
-            },
-            'Interactions': {
-                class: InteractionsPage,
-                object: undefined,
-                setting: 'interactionsEnable'
-            },
-            'Summary': {
-                class: SummaryPage,
-                object: undefined,
-                setting: 'summaryEnable'
-            },
-            'Dojo': {
-                class: DojoPage,
-                object: undefined,
-                setting: 'dojoEnable'
-            }
-        };
-    }
-    instantiatePages() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true) {
-                pg.object = new pg.class(this.USER_SETTINGS);
-            }
+        if(UserDataHandle.getSettings().QoLSettings[DaycareMatches.SETTING_ENABLE]) {
+            this.setupObservers();
         }
     }
-    loadSettings() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.loadSettings();
-            }
-        }
-    }
-    saveSettings() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.saveSettings();
-            }
-        }
-    }
-    populateSettings() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.populateSettings();
-            }
-        }
-    }
-    clearPageSettings(pageName) {
-        if (!(pageName in this.pages)) {
-            console.error(`Could not proceed with clearing page settings. Page ${pageName} not found in list of pages`);
-        } else if (this.pages[pageName].object) {
-            this.pages[pageName].object.resetSettings();
-        }
-    }
-    clearAllPageSettings() {
-        for(let pageName in this.pages) {
-            this.clearPageSettings(pageName);
-        }
-    }
-    setupHTML() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHTML();
-            }
-        }
-    }
-    setupCSS() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupCSS();
-            }
-        }
-    }
+
     setupObservers() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupObserver();
-            }
-        }
-    }
-    setupHandlers() {
-        for (const key of Object.keys(this.pages)) {
-            const pg = this.pages[key];
-            if (this.USER_SETTINGS[pg.setting] === true && pg.object.onPage(window)) {
-                pg.object.setupHandlers();
-            }
-        }
-    }
-}
-
-/*
- * This class handles creating, removing, and handling the DOM object actions
- * for the QoL Hub.
- */
-class QoLHub {
-    constructor(PAGES) {
-        this.PAGES = PAGES;
-        this.SETTINGS_SAVE_KEY = Globals.SETTINGS_SAVE_KEY;
-        this.USER_SETTINGS = UserSettingsHandle.getSettings();
-        this.LINKED_SETTINGS = this.USER_SETTINGS.LINKED_SETTINGS;
-    }
-    setupCSS() {
-        //custom user css
-        $('head').append('<style type="text/css">' + this.USER_SETTINGS.customCss + '</style>');
-    }
-    setupHandlers() {
-        const obj = this;
-        $('#qolcustomcss', document).on('keydown', function (e) {
-            if (e.keyCode == 9 || e.which == 9) {
-                e.preventDefault();
-                const s = this.selectionStart;
-                $(this).val(function (i, v) {
-                    return v.substring(0, s) + '\t' + v.substring(this.selectionEnd);
-                });
-                this.selectionEnd = s + 1;
-            }
-        });
-
-        $(document).on('input', '.qolhubsetting', (function () { //Changes QoL settings
-            const dataKey = this.getAttribute('data-key');
-            obj.settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'),
-                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.handleLinkedSetting(dataKey);
-        }));
-
-        $(document).on('click', '.closeHub', (function () { //close QoL hub
-            obj.close(document);
-        }));
-
-        $(document).on('click', '#resetPageSettings', (function () {
-            const page = $(this).parent().find('select').val();
-            obj.clearPageSettings(page);
-        }));
-
-        $(document).on('click', '#resetAllSettings', (function () {
-            if(window.confirm('Are you sure? All settings, including your custom CSS, will be reset.')) {
-                obj.clearAllSettings();
-            }
-        }))
-
-        $(document).on('click', 'h3.slidermenu', (function () { //show hidden li in change log
-            $(this).next().slideToggle();
-        }));
-
-        // Issue #61 - Item 6 - Remove the 'Cleared!' message so the user knows they can click it again
-        $(document).on('mouseover', '#clearCachedDex', (function () {
-            $('#clearCachedDex').next().remove();
-        }));
-
-        // Issue #61 - Item 6 - Add a 'Cleared!' message so the user knows that the clearing works
-        $(document).on('click', '#clearCachedDex', (function () {
-            obj.resetDex();
-        }));
-
-        $(document).on('click', '#qolErrorConsole', (function() {
-            let consoleContent = $('#qolConsoleHolder').html();
-            if(consoleContent.trim() == '') {
-                consoleContent = '[ No errors to display ]';
-            }
-            $('#qolConsoleContent').html(consoleContent);
-        }));
-
-        $(document).on('click', '#qolStorageLog', (function() {
-            let storedSettings = LocalStorageManager.getAllQoLSettings();
-            console.log(storedSettings);
-            // get relevant browser/screen size data, add to object
-            // convert to JSON, then base 64 encode
-            let output = JSON.stringify(storedSettings);
-            output = btoa(output);
-            // output to somewhere user can copy/paste it
-            $('#qolStorageOutput').text(output);
-            $('#qolStorageOutput').css('display','block');
-        }));
-    }
-    loadSettings() {
-        try {
-            if (LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY) === null) {
-                this.saveSettings();
-            } else {
-                if(this.USER_SETTINGS.load(JSON.parse(LocalStorageManager.getItem(this.SETTINGS_SAVE_KEY)))) {
-                    this.saveSettings();
-                }
-            }
-        } catch(err) {
-            Helpers.writeCustomError('Error while loading user settings: '+err,'error',err);
-        }
-    }
-    clearAllSettings() {
-        LocalStorageManager.clearAllQoLKeys();
-        location.reload(); 
-    }
-    saveSettings() {
-        LocalStorageManager.setItem(this.SETTINGS_SAVE_KEY, JSON.stringify(this.USER_SETTINGS));
-    }
-    populateSettings() {
-        function populateSetting(object, key, self, oldKeys) {
-            oldKeys = oldKeys || [];
-            const _object = object[key];
-            const newKeys = [...oldKeys, key];
-            if (typeof _object === 'boolean') {
-                const _key = newKeys.join('.');
-                Helpers.toggleSetting(_key, _object, 'qolhubsetting');
-            }
-            else if (typeof _object === 'string') {
-                const _key = newKeys.join('.');
-                Helpers.toggleSetting(_key, _object, 'qolhubsetting');
-            } else if (typeof _object === 'object') {
-                for (const _key in _object) {
-                    populateSetting(_object, _key, self, newKeys);
-                }
-            }
-        }
-        for (const key in this.USER_SETTINGS) {
-            if (Object.hasOwnProperty.call(this.USER_SETTINGS, key)) {
-                populateSetting(this.USER_SETTINGS, key, this);
-            }
-            this.handleLinkedSetting(key);
-        }
-    }
-    settingsChange(element, textElement) {
-        function getProperty( propertyName, object ) {
-            const parts = propertyName.split( '.' );
-            const length = parts.length;
-            let property = object || this;
-
-            for (let i = 0; i < length; i++ ) {
-                if ( ! Object.hasOwnProperty.call(property, parts[i])) {
-                    return null;
-                }
-                property = property[parts[i]];
-            }
-            return property;
-        }
-
-        function setProperty( propertyName, object, newValue) {
-            const parts = propertyName.split('.');
-            const first = parts[0];
-            const rest = parts.slice(1);
-
-            if ( !Object.hasOwnProperty.call(object, first)) {
-                return false;
-            }
-            else if (rest.length == 0) {
-                object[first] = newValue;
-                return true;
-            } else {
-                return setProperty(rest.join('.'), object[first], newValue);
-            }
-        }
-
-        const oldValue = getProperty(element, this.USER_SETTINGS);
-        let newValue;
-        if (oldValue !== undefined) { // userscript settings
-            if (oldValue === false) {
-                newValue = true;
-            } else if (oldValue === true) {
-                newValue = false;
-            } else if (typeof oldValue === 'string') {
-                newValue = textElement;
-            }
-            if(!setProperty(element, this.USER_SETTINGS, newValue)) {
-                return false;
-            } else {
-                this.saveSettings();
-                return true;
-            }
-        }
-        return false;
-    }
-    clearPageSettings(pageName) {
-        if (pageName !== 'None') { // "None" matches option in HTML
-            this.PAGES.clearPageSettings(pageName);
-        }
-    }
-    handleLinkedSetting(possibleManager) {
-        const linkedSettingIndex = this.LINKED_SETTINGS.findIndex(ls => ls.manager === possibleManager);
-        if(linkedSettingIndex > -1) {
-            const managed = this.LINKED_SETTINGS[linkedSettingIndex].managed;
-            const USER_SETTINGS = this.USER_SETTINGS[managed];
-            if($(`[data-key=${possibleManager}]`).prop('checked') === false) {
-                for(const setting in USER_SETTINGS) {
-                    $(`[data-key="${managed}.${setting}"]`).prop('disabled', true);
-                }
-            } else {
-                for(const setting in USER_SETTINGS) {
-                    $(`[data-key="${managed}.${setting}"]`).prop('disabled', false);
-                }
-            }
-        }
-    }
-    build(document) {
-        $('body', document).append(Resources.qolHubHTML());
-        $('#core', document).addClass('scrolllock');
-        const qolHubCssBackgroundHead = $('.qolHubHead.qolHubSuperHead').css('background-color');
-        const qolHubCssTextColorHead = $('.qolHubHead.qolHubSuperHead').css('color');
-        const qolHubCssBackground = $('.qolHubTable').css('background-color');
-        const qolHubCssTextColor = $('.qolHubTable').css('color');
-        const qolHubDialogBorder = $('.dialog>div>div>div').css('border');
-        $('.qolHubHead').css('background-color', qolHubCssBackgroundHead);
-        $('.qolHubHead').css('color', qolHubCssTextColorHead);
-        $('.qolChangeLogHead').css('background-color', qolHubCssBackgroundHead);
-        $('.qolChangeLogHead').css('color', qolHubCssTextColorHead);
-        $('.qolChangeLogHead').css('border', qolHubDialogBorder);
-        $('.qolopencloselist.qolChangeLogContent').css('background-color', qolHubCssBackground);
-        $('.qolopencloselist.qolChangeLogContent').css('color', qolHubCssTextColor);
-
-        $('.qolAllSettings').css('border', qolHubDialogBorder);
-
-        const customCss = this.USER_SETTINGS.customCss;
-
-        if (customCss === '') {
-            $('.textareahub textarea', document).val('#thisisanexample {\n    color: yellow;\n}\n\n.thisisalsoanexample {\n    background-color: blue!important;\n}\n\nhappycssing {\n    display: absolute;\n}');
-        } else {
-            $('.textareahub textarea', document).val(customCss);
-        }
-
-        let dexUpdateDate = UserSettingsHandle.getDex().DEX_UPDATE_DATE;
-        if(!dexUpdateDate) {
-            dexUpdateDate = 'Not updated since installation';
-        }
-        $('.qolDate', document).text(dexUpdateDate);
-    }
-    close(document) {
-        $('.dialog', document).remove();
-        $('#core', document).removeClass('scrolllock');
-    }
-    resetDex() {
-        $('#clearCachedDex').next().remove();
-        UserSettingsHandle.getDex().resetDex();
-        $('#clearCachedDex').after('<span> Cleared!</span>');
-    }
-} // QoLHub
-
-// eslint-disable-next-line no-unused-vars
-class PFQoL {
-  constructor() {
-      // :contains to case insensitive
-      $.extend($.expr[':'], {
-          // eslint-disable-next-line no-unused-vars
-          'containsIN': function (elem, i, match, array) {
-              return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || '').toLowerCase()) >= 0;
-          }
-      });
-
-      LocalStorageManager.migrateSettings();
-
-      this.PAGES = new PagesManager();
-      this.QOLHUB = new QoLHub(this.PAGES);
-
-      this.init();
-  }
-  instantiatePages(obj) {
-    try {
-        obj.PAGES.instantiatePages();
-    } catch(err) {
-        Helpers.writeCustomError('Error while instantiating pages: '+err,'error',err);
-    }
-  }
-  loadSettings(obj) { // initial settings on first run and setting the variable settings key
-    try {
-        obj.QOLHUB.loadSettings();
-        obj.PAGES.loadSettings();
-    } catch(err) {
-        Helpers.writeCustomError('Error while loading settings during startup: '+err,'error',err);
-    }
-  } // loadSettings
-  saveSettings(obj) { // Save changed settings
-      obj.QOLHUB.saveSettings();
-      obj.PAGES.saveSettings();
-  } // saveSettings
-  populateSettingsPage(obj) { // checks all settings checkboxes that are true in the settings
-    try {
-        obj.QOLHUB.populateSettings();
-        obj.PAGES.populateSettings();
-    } catch(err) {
-        Helpers.writeCustomError('Error while populating settings page: '+err,'error',err);
-    }
-  }
-  addIcon() { // inject the QoL icon into the icon bar
-    // this is done separately from the main HTML to ensure it's always added first,
-    // as there's a custom error handler that relies on it existing
-    
-    if(document.getElementById('announcements')) {
-        document.querySelector('#announcements li.spacer')
-              .insertAdjacentHTML('beforebegin', Resources.qolHubLinkHTML());
-    }
-    else {
-        console.warn('Did not load QoL - could not find icon ribbon. Are you logged in? Is this a core page?');
-        throw '#announcements missing';
-    }
-  }
-  setupHTML(obj) { // injects the HTML changes into the site
-    try {
-        obj.PAGES.setupHTML();
-    } catch(err) {
-        Helpers.writeCustomError('Error while setting up HTML: '+err,'error',err);
-    }
-  }
-  setupCSS(obj) { // All the CSS changes are added here
-    try {
-        Helpers.addGlobalStyle(Resources.css());
-        obj.PAGES.setupCSS();
-        obj.QOLHUB.setupCSS();
-    } catch(err) {
-        Helpers.writeCustomError('Error while applying global styling: '+err,'error',err);
-    }
-  }
-  setupObservers(obj) { // all the Observers that needs to run
-    try {
-        obj.PAGES.setupObservers();
-    } catch(err) {
-        Helpers.writeCustomError('Error while setting up observers: '+err,'error',err);
-    }
-  }
-  setupHandlers(obj) { // all the event handlers
-    try {
-        $(document).on('click', 'li[data-name="QoL"]', (function () { //open QoL hub
-            obj.QOLHUB.build(document);
-            obj.populateSettingsPage(obj);
-        }));
-        obj.QOLHUB.setupHandlers();
-        obj.PAGES.setupHandlers();
-    } catch(err) {
-        Helpers.writeCustomError('Error while setting up handlers: '+err,'error',err);
-    }
-  }
-  startup() { // All the functions that are run to start the script on Pokéfarm
-      return {
-          'adding QoL icon': this.addIcon,
-          'creating Page handlers': this.instantiatePages,
-          'loading Settings': this.loadSettings,
-          'setting up HTML': this.setupHTML,
-          'populating Settings': this.populateSettingsPage,
-          'setting up CSS': this.setupCSS,
-          'setting up Observers': this.setupObservers,
-          'setting up Handlers': this.setupHandlers,
-      };
-  }
-  init() { // Starts all the functions.
-      console.log('Starting up ..');
-      const startup = this.startup();
-      for (const message in startup) {
-          if (Object.hasOwnProperty.call(startup, message)) {
-              console.log(message);
-              startup[message](this);
-          }
-      }
-      console.log('Finished startup');
-  }
-}
-
-class Page {
-    /* ssk should be a value from Globals indicating the storage key name
-        this is only set when the page has page-specific settings
-        if the page does not have settings, pass undefined instead */
-    constructor(ssk, ds, url) {
-        this.settingsSaveKey = ssk;
-        this.defaultSettings = ds;
-        this.url = url;
-        this.settings = this.defaultSettings;
-        this.USER_SETTINGS = UserSettingsHandle.getSettings();;
-        this.POKEDEX = UserSettingsHandle.getDex();
-    }
-
-    onPage(w) {
-        return w.location.href.indexOf(`pokefarm.com/${this.url}`) != -1;
-    }
-
-    loadSettings() {
-        this.settings = LocalStorageManager.loadSettings(
-            this.settingsSaveKey,
-            this.defaultSettings,
-            this.settings);
-    }
-
-    saveSettings() {
-        LocalStorageManager.saveSettings(this.settingsSaveKey, this.settings);
-    }
-
-    populateSettings(obj) {
-        if(obj === undefined) {
-            obj = this.settings;
-        }
-        for (const key in obj) {
-            if (!Object.prototype.hasOwnProperty.call(obj, key)) {
-                continue;
-            }
-            const value = obj[key];
-            if (typeof value === 'object') {
-                this.populateSettings(obj[key]);
-            }
-            else if (typeof value === 'boolean') {
-                Helpers.toggleSetting(key, value);//, false);
-            }
-            else if (typeof value === 'string') {
-                console.log('TODO - split and populate');
-            }
-        }
-    }
-
-    resetSettings() {
-        this.settings = JSON.parse(JSON.stringify(this.defaultSettings));
-        this.saveSettings();
-    }
-
-    settingsChange(element, textElement, customClass, typeClass, arrayName) {
-        if (JSON.stringify(this.settings).indexOf(element) >= 0) {
-            if (typeof this.settings[element] === 'boolean') {
-                this.settings[element] = !this.settings[element];
-            }
-            else if (typeof this.settings[element] === 'string') {
-                if (arrayName !== undefined && arrayName !== '') {
-                    if (textElement === 'none') {
-                        const tempIndex = typeClass - 1;
-                        this[arrayName].splice(tempIndex, tempIndex);
-                        this.settings[element] = this[arrayName].toString();
-                    } else {
-                        let tempIndex = -1;
-                        if(typeClass !== undefined) {
-                            tempIndex = typeClass - 1; // select array
-                        } else if(customClass !== undefined) {
-                            tempIndex = customClass - 1; // textfield array
-                        }
-                        this[arrayName][tempIndex] = textElement;
-                        this.settings[element] = this[arrayName].toString();
-                    }
-                }
-                else {
-                    this.settings[element] = textElement;
-                }
-            }
-            return true;
-        }
-        else { return false; }
-    }
-
-    setupHTML() { /* empty */ }
-    setupCSS() { /* empty */ }
-    setupObserver() { /* empty */ }
-    setupHandlers() { /* empty */ }
-} // Page
-
-class DaycarePage extends Page {
-    constructor() {
-        super(undefined, {}, 'daycare');
-        const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
+        const self = this;
+        Helpers.addObserver(document.querySelector('body'), {
+            childList: true,
+            subtree: true
+        }, function(mutations) {
             mutations.forEach(function (mutation) {
-                // const fsPokemon = document.querySelector('#fs_pokemon');
+                /*
+                 * const fsPokemon = document.querySelector('#fs_pokemon');
+                 * TODO: detect if this mutation is actually a field loading
+                 * (same in dojo)
+                 */
                 const fsPokemon = $('#fs_pokemon');
-                if (fsPokemon.length > 0 &&
-                    $.contains(fsPokemon[0], mutation.target)) {
-                    obj.customSearch();
+                if (fsPokemon.length > 0 && $.contains(fsPokemon[0], mutation.target)) {
+                    self.customSearch();
                 }
             });
         });
-    } // constructor
-
-    setupObserver() {
-        this.observer.observe(document.querySelector('body'), {
-            childList: true,
-            subtree: true
-        });
     }
+
     customSearch() {
         const button = document.querySelector('#pkmnadd');
 
@@ -1349,7 +427,7 @@ class DaycarePage extends Page {
             }
         }
 
-        const EGG_ID_TO_NAME = Globals.EGG_GROUP_LIST;
+        const EGG_ID_TO_NAME = Resources.EGG_GROUP_LIST;
         if (eggGroup1 !== null) { eggGroup1 = EGG_ID_TO_NAME[eggGroup1]; }
         if (eggGroup2 !== null) { eggGroup2 = EGG_ID_TO_NAME[eggGroup2]; }
 
@@ -1401,36 +479,36 @@ class DaycarePage extends Page {
                         }
                     }
 
-                } // for
+                }
             }
-        } // if
-    } // customSearch
-}
-
-class DexPage extends Page {
-    constructor() {
-        super(undefined, {}, 'dex');
-        const obj = this;
-        this.observer = new MutationObserver(function () {
-            obj.applyTypeFilters();
-        });
-        this.typeArray = [];
-
-        /*
-         * when entering the dex page, update the local storage QoLPokedex
-         * so the user can update their information
-         */
-        if ($('script#dexdata') && $('script#dexdata').text()) {
-            const text = $('script#dexdata').text();
-            this.POKEDEX.updateDexFromPage(text);
         }
     }
-    setupObserver() {
-        this.observer.observe(document.querySelector('#regionslist'), {
+}
+
+class DexPageFilters {
+    static SETTING_ENABLE = 'dexFilterEnable';
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[DexPageFilters.SETTING_ENABLE]) {
+            this.setupHTML();
+            this.setupObservers();
+            this.setupHandlers();
+        }
+        else {
+            console.log('DexPageFilters features disabled');
+        }
+    }
+
+    setupObservers() {
+        const self = this;
+        Helpers.addObserver(document.querySelector('#regionslist'), {
             childList: true,
             subtree: true,
+        }, function() {
+            self.applyTypeFilters();
         });
     }
+
     setupHTML() {
         const elem = document.querySelector('.filter-type');
         const clone = elem.cloneNode(true);
@@ -1443,7 +521,7 @@ class DexPage extends Page {
     }
 
     setupHandlers() {
-        const obj = this;
+        const self = this;
         let h = $.parseJSON($('#dexdata').html());
         const type2 = $('.filter-type-2');
         const l = $('.filter-type-2 .types');
@@ -1463,16 +541,16 @@ class DexPage extends Page {
                 xLocation = c.eq(xLocation);
                 if (xLocation.data('type') == h) {
                     h = null;
-                    obj.toggleSelectedTypes();
-                    obj.applyTypeFilters();
+                    self.toggleSelectedTypes();
+                    self.applyTypeFilters();
                 } else {
                     h = xLocation.data('type');
-                    obj.toggleSelectedTypes(xLocation);
-                    obj.applyTypeFilters();
+                    self.toggleSelectedTypes(xLocation);
+                    self.applyTypeFilters();
                 }
             } else {
-                obj.toggleSelectedTypes();
-                obj.applyTypeFilters();
+                self.toggleSelectedTypes();
+                self.applyTypeFilters();
             }
         });
     }
@@ -1521,1059 +599,556 @@ class DexPage extends Page {
     }
 }
 
-class DojoPage extends Page {
-  constructor() {
-      super(undefined, {}, 'dojo');
-      const obj = this;
-      this.observer = new MutationObserver(function (mutations) {
-          mutations.forEach(function (mutation) {
-              // const fsPokemon = document.querySelector('#fs_pokemon');
-              const fsPokemon = $('#fs_pokemon');
-              if (fsPokemon.length > 0 &&
-                  $.contains(fsPokemon[0], mutation.target)) {
-                  obj.customSearch();
-              }
-          });
-      });
-  } // constructor
+class Dojo {
+    static SETTING_ENABLE = 'dojoEnable';
 
-  setupObserver() {
-      this.observer.observe(document.querySelector('body'), {
-          childList: true,
-          subtree: true
-      });
-  }
-  customSearch() {
-    // highlight pkmn with perfect stats
-    $(".fieldmontip .item+div:contains('= 186')").parent().parent().prev().addClass('dojofoundme');
 
-    // highlight individual perfect stats
-    $(".fieldmontip .item+div .small>span:contains('31')").addClass('dojoperfectstat');
-  }
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[Dojo.SETTING_ENABLE]) {
+            Dojo.setupObservers();
+        }
+        else {
+            console.log('Dojo features disabled');
+        }
+    }
+
+
+    static setupObservers() {
+        Helpers.addObserver(document.querySelector('body'), {
+            childList: true,
+            subtree: true
+        }, function(mutations) {
+            mutations.forEach(function (mutation) {
+                /*
+                 * const fsPokemon = document.querySelector('#fs_pokemon');
+                 * TODO: detect if this mutation is actually a field loading
+                 * (same in daycare)
+                 */
+                const fsPokemon = $('#fs_pokemon');
+                if (fsPokemon.length > 0 && $.contains(fsPokemon[0], mutation.target)) {
+                    Dojo.dojoSearch();
+                }
+            });
+        });
+    }
+
+    static dojoSearch() {
+        // highlight pkmn with perfect stats
+        $(".fieldmontip .item+div:contains('= 186')").parent().parent().prev().addClass('dojofoundme');
+
+        // highlight individual perfect stats
+        $(".fieldmontip .item+div .small>span:contains('31')").addClass('dojoperfectstat');
+    }
+
 }
 
-class FarmPage extends Page {
-    DEFAULT_SETTINGS() {
-        const d = {
-            TYPE_APPEND: {}
-        };
-        // .TYPE_APPEND needs to be fully defined before it can be used in kNOWN_EXCEPTIONS
-        for (let i = 0; i < Globals.TYPE_LIST.length; i++) {
-            const type = Globals.TYPE_LIST[i];
-            d.TYPE_APPEND[type.toUpperCase()] = '' + i;
-        }
-        d.TYPE_APPEND['NONE'] = '.' + Globals.TYPE_LIST.length;
-        d.KNOWN_EXCEPTIONS = {"Gastrodon [Occident]":["2","8"],"Gastrodon [Orient]":["2","8"],"Wormadam [Plant Cloak]":["11","4"],"Wormadam [Trash Cloak]":["11","16"],"Wormadam [Sandy Cloak]":["11","8"],"Raticate [Alolan Forme]":["15","0"],"Ninetales [Alolan Forme]":["5","17"],"Exeggutor [Alolan Forme]":["4","14"],"Marowak [Alolan Forme]":["1","13"],"Dugtrio [Alolan Forme]":["8","16"],"Graveler [Alolan Forme]":["12","3"],"Golem [Alolan Forme]":["12","3"],"Muk [Alolan Forme]":["7","15"],"Raichu [Alolan Forme]":["3","10"],"Linoone [Galarian Forme]":["15","0"],"Gourgeist [Small Size]":["13","4"],"Gourgeist [Average Size]":["13","4"],"Gourgeist [Large Size]":["13","4"],"Gourgeist [Super Size]":["13","4"],"Persian [Alolan Forme]":["15"]};
-        return d;
-    }
+class EasyEvolve {
+    static SETTING_ENABLE = 'easyEvolve';
+
     constructor() {
-        super(undefined, {}, 'farm#tab=1');
-        this.defaultSettings = this.DEFAULT_SETTINGS(Globals);
-        this.settings = this.defaultSettings;
-        this.evolveListCache = '';
-        const obj = this;
-        this.observer = new MutationObserver(function() {
-            obj.easyQuickEvolve();
-            $('#farmnews-evolutions>.scrollable>ul').addClass('evolvepkmnlist');
-        });
-    }
-    setupHTML() {
-        $(document).ready(function () {
-            $('#farm-evolve>h3').after(`<label id="qolevolvenormal"><input type="button" class="qolsortnormal" value="Normal list"></label> <label id="qolchangesletype"><input type="button" class="qolsorttype" value="Sort on types"></label> <label id="qolsortevolvename"><input type="button" class="qolsortname" value="Sort on name"></label> <label id="qolevolvenew"><input type="button" class="qolsortnew" value="New dex entry"></label>`);
-        });
-    }
-    setupObserver() {
-        this.observer.observe(document.querySelector('#farmnews-evolutions'), {
-            childList: true,
-            characterdata: true,
-            subtree: true,
-            characterDataOldValue: true,
-        });
-    }
-    setupHandlers() {
-        const obj = this;
-        $(document).on('click', '#qolevolvenormal', (function () {
-            obj.easyEvolveNormalList();
-        }));
-
-        $(document).on('click', '#qolchangesletype', (function () {
-            obj.easyEvolveTypeList();
-        }));
-
-        $(document).on('click', '#qolsortevolvename', (function () {
-            obj.easyEvolveNameList();
-        }));
-
-        $(document).on('click', '#qolevolvenew', (function () {
-            obj.easyEvolveNewList();
-        }));
-    }
-    clearSortedEvolveLists() {
-        // first remove the sorted pokemon type list to avoid duplicates
-        $('.evolvepkmnlist').show();
-        if (document.querySelector('.qolEvolveTypeList')) {
-            document.querySelector('.qolEvolveTypeList').remove();
+        if(UserDataHandle.getSettings().QoLSettings[EasyEvolve.SETTING_ENABLE]) {
+            console.log('TODO: EasyEvolve features');
         }
-        if (document.querySelector('.qolEvolveNameList')) {
-            document.querySelector('.qolEvolveNameList').remove();
-        }
-        if (document.querySelector('.qolEvolveNewList')) {
-            document.querySelector('.qolEvolveNewList').remove();
+        else {
+            console.log('EasyEvolve features disabled');
         }
     }
-    easyEvolveNormalList() {
-        this.clearSortedEvolveLists();
-    }
-    easyEvolveNameList() {
-        this.clearSortedEvolveLists();
-        $('.evolvepkmnlist').hide();
+}
 
-        document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNameList">');
-
-        let errorOccurred = false;
-        $('.evolvepkmnlist>li').each(function (index) {
-            // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = $(this).html();
-            if (getEvolveString === undefined || getEvolveString === '') {
-                console.error(`Unable to parse html from <li> at index ${index}`);
-                errorOccurred = true;
-            } else {
-                let beforeEvolvePokemon = $(this).children().children().text().slice(0, -6);
-                if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
-                    console.error(`Unable to parse pokemon-evolving-from from <li> at index ${index}`);
-                    errorOccurred = true;
-                } else {
-                    // remove extraneous whitespace
-                    beforeEvolvePokemon = beforeEvolvePokemon.trim();
-                    // use a regex to find extra whitespace between words
-                    let whitespace = beforeEvolvePokemon.match(/\s{2,}/g);
-                    while (whitespace) {
-                        for (let i = whitespace.length - 1; i >= 0; i--) {
-                            const match = whitespace[i];
-                            beforeEvolvePokemon = beforeEvolvePokemon.replace(match, ' ');
-                        }
-                        whitespace = beforeEvolvePokemon.match(/\s{2,}/g);
-                    }
-                    let evolvePokemon = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 12);
-                    if (evolvePokemon === undefined || evolvePokemon === '') {
-                        console.error(`Unable to parse pokemon-evolving-to from <li> at index ${index}`);
-                        errorOccurred = true;
-                    } else {
-                        // remove extraneous whitespace
-                        evolvePokemon = evolvePokemon.trim();
-                        // use a regex to find extra whitespace between words
-                        whitespace = evolvePokemon.match(/\s{2,}/g);
-                        while (whitespace) {
-                            for (let i = whitespace.length - 1; i >= 0; i--) {
-                                const match = whitespace[i];
-                                evolvePokemon = evolvePokemon.replace(match, ' ');
-                            }
-                            whitespace = evolvePokemon.match(/\s{2,}/g);
-                        }
-                        // Replace all spaces with a character that is not part of any Pokemon's name, but is valid in a CSS selector
-                        const evolvePokemonClass = evolvePokemon.replace(/ /g, '_').replace('[', '').replace(']', '').replace(/\./g, '');
-                        if (evolvePokemonClass === undefined || evolvePokemonClass === '') {
-                            console.error(`Unable to create valid CSS class for pokemon-evolving-to from <li> at index ${index}`);
-                            errorOccurred = true;
-                        } else {
-                            if ($('.qolEvolveNameList>li>ul').hasClass(evolvePokemonClass) === false) {
-                                document.querySelector('.qolEvolveNameList').insertAdjacentHTML('beforeend', '<li class="expandlist"><h3 class="slidermenu">' +
-                                    beforeEvolvePokemon + ' > ' + evolvePokemon +
-                                    '</h3><ul class="' + evolvePokemonClass +
-                                    ' qolChangeLogContent"></ul></li><br>');
-                            } // class
-                            $(this).clone().appendTo('.' + evolvePokemonClass + '');
-                        } // evolvePokemonClass
-                    } // evolvePokemon
-                } // beforeEvolvePokemon
-            } // getEvolveString
-        });
-
-        if (errorOccurred) {
-            window.alert('Error occurred while sorting pokemon by name');
+class Fields {
+    constructor(page) {
+        const settings = UserDataHandle.getSettings();
+        // determine if this is public vs private so the correct settings can be used
+        if(page.name=='privateFields') {
+            this.SETTING_ENABLE = PrivateFields.SETTING_ENABLE;
+            this.SETTING_KEY = PrivateFields.SETTING_KEY;
+            this.SUB_SETTINGS = PrivateFields.SUB_SETTINGS;
+            $('#content').addClass('qolPrivateField');
+        }
+        else if(page.name=='publicFields') {
+            this.SETTING_ENABLE = PublicFields.SETTING_ENABLE;
+            this.SETTING_KEY = PublicFields.SETTING_KEY;
+            this.SUB_SETTINGS = PublicFields.SUB_SETTINGS;
+            $('#content').addClass('qolPublicField');
+        }
+        else {
+            console.error('Unknown field page');
+            ErrorHandler.error('Unknown field page: '+page.name);
             return;
         }
-
-        $('#.qolEvolveNameList>li').each(function (index) {
-            const amountOfEvolves = $(this).children().children().length;
-            if (amountOfEvolves === 0) {
-                console.error(`Found 0 evolutions for <li> at ${index} of evolve name list`);
-                errorOccurred = true;
-            } else {
-                const getEvolveString = $(this).children().children().html();
-                if (getEvolveString === undefined || getEvolveString === '') {
-                    console.error(`Unable to parse evolve string from <li> at ${index} from evolve name list`);
-                    errorOccurred = true;
-                } else {
-                    const beforeEvolvePokemon = $(this).children().children().children().children().first().text(); // .split(' ').join('');
-
-                    if (beforeEvolvePokemon === undefined || beforeEvolvePokemon === '') {
-                        console.error(`Unable to parse pokemon-evolving-from from <li> at ${index} from evolve name list`);
-                        errorOccurred = true;
-                    } else {
-                        const evolvePokemon = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 'into</span> '.length);
-                        if (evolvePokemon === undefined || evolvePokemon === '') {
-                            console.error(`Unable to parse pokemon-evolving-to from <li> at ${index} from evolve name list`);
-                            errorOccurred = true;
-                        } else {
-                            $(this).children('.slidermenu').html(beforeEvolvePokemon + ' > ' + evolvePokemon + ' (' + amountOfEvolves + ')');
-                        }
-                    }
-                } // getEvolveString
-            } // amountOfEvolves
-        });
-
-        if (errorOccurred) {
-            window.alert('Error occurred while sorting pokemon by name');
-            return;
+        // check if the master setting is enabled
+        if(settings.QoLSettings[this.SETTING_ENABLE]) {
+            Helpers.addGlobalStyle(Resources.FIELDS_CSS);
+            Helpers.addGlobalStyle(Resources.SEARCH_CSS);
+            // if specific features are enabled, run them
+            if(settings[this.SUB_SETTINGS].pkmnlinks) {
+                this.pkmnLinks();
+            }
+            if(settings[this.SUB_SETTINGS].tooltip) {
+                this.setupTooltips(settings);
+            }
+            if(settings[this.SUB_SETTINGS].search) {
+                this.setupSearch(settings);
+                this.runSearch();
+                const self = this;
+                Helpers.addObserver(document.querySelector('#field_field'), {
+                    childList: true,
+                    subtree: true,
+                }, function(mutations) {
+                    /*
+                     * TODO: does this need to detect what's in mutations?
+                     * if so, consider also PublicFields.setupObservers
+                     */
+                    console.warn(mutations);
+                    self.runSearch();
+                });
+            }
+            Helpers.activateCollapses();
+            // set data-group based on public vs private
+            $('input.qolfieldsetting').attr('data-group',this.SETTING_KEY);
+            settings.addSettingsListeners();
         }
-
-        //layout of the created html
-        const typeBackground = $('.panel>h3').css('background-color');
-        const typeBorder = $('.panel>h3').css('border');
-        const typeColor = $('.panel>h3').css('color');
-        $('.expandlist').css('background-color', '' + typeBackground + '');
-        $('.expandlist').css('border', '' + typeBorder + '');
-        $('.expandlist').css('color', '' + typeColor + '');
-
-        const typeListBackground = $('.tabbed_interface>div').css('background-color');
-        const typeListColor = $('.tabbed_interface>div').css('color');
-        $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        $('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        // don't log when disabled here, leave that to the unique classes
     }
-    easyEvolveNewList() {
-        const dexData = this.POKEDEX.DEX_DATA;
 
-        this.clearSortedEvolveLists();
-        $('.evolvepkmnlist').hide();
+    pkmnLinks() {
+        // add modal button next to farm name
+        const header = document.getElementsByTagName('h1')[0];
+        const newBtn = document.createElement('button');
+        header.appendChild(newBtn);
+        newBtn.innerText = 'View links';
+        newBtn.style= 'vertical-align:middle;margin-left: 10px;';
 
-        document.querySelector('#farmnews-evolutions>.scrollable').insertAdjacentHTML('afterbegin', '<ul class="qolEvolveNewList">');
-
-        const getNewCheckData = (name) => {
-            const nameIndex = dexData.indexOf('"' + name + '"');
-            const checkData = (nameIndex > -1 && dexData.length > nameIndex + 9) ?
-                dexData.slice(nameIndex + 5, nameIndex + 10) :
-                [undefined, undefined, undefined, undefined, undefined];
-            if (checkData[4] !== undefined) {
-                checkData[4] = checkData[4].replace(']', '');
+        const self = this;
+        newBtn.onclick = function(){
+            let content = '<table style="border-collapse:collapse;">';
+            const fieldmon = document.getElementsByClassName('fieldmon');
+            for(let i=0; i<fieldmon.length; i++){
+                if(i%4==0) {
+                    content += '<tr>';
+                }
+                const pkmnID = fieldmon[i].getAttribute('data-id');
+                const small = fieldmon[i].children[1];
+                const imgSRC = small.getAttribute('src');
+                const pkmnName = small.getAttribute('alt');
+                content += '<td style="padding:5px;border:1px solid;">' +
+                          '<img style="vertical-align:middle;" src="'+imgSRC+'"> ' +
+                          '<a href="/summary/'+pkmnID+'">'+pkmnName+'</a></td>';
+                if(i%4==3) {
+                    content += '</tr>';
+                }
             }
-            return checkData;
+            content += '</table>';
+            self.pkmnLinksModal = new Modal('Pokemon links', content);
+            self.pkmnLinksModal.open();
         };
+    }
 
-        const createListElements = (cls, header, name, elem) => {
-            if ($('.qolEvolveNewList>li>ul').hasClass(cls) === false) {
-                const html = '<li class="expandlist">' +
-                    `<h3 class="slidermenu">${header}</h3>` +
-                    `<ul class="${cls} qolChangeLogContent"></ul></li><br>`;
-                document.querySelector('.qolEvolveNewList').insertAdjacentHTML('beforeend', html);
+    // enable the tooltip collapse, and enable the input/setting listeners
+    setupTooltips(settings) {
+        $('#content').append(Resources.FIELD_TOOLTIP_HTML);
+        const self = this;
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingName == 'fieldHideHoverTooltips') {
+                self.hideTooltips(settings);
             }
+        });
+        this.hideTooltips(settings);
+    }
+    // add & remove the class that hides hover tooltips based on the current setting
+    hideTooltips(settings) {
+        if(settings[this.SETTING_KEY].fieldHideHoverTooltips) {
+            $('#field_field').addClass('qolHideTooltips');
+        }
+        else {
+            $('#field_field').removeClass('qolHideTooltips');
+        }
+    }
 
-            if ($(`.qolEvolveNewList>li>.${cls}>li:contains(${name})`).length == 0) {
-                $(elem).clone().appendTo(`.${cls}`);
-            }
-        };
-
-        $('.evolvepkmnlist>li').each(function () { //the actual search
-            // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = $(this).html();
-
-            // every pokemon is a normal unless shiny, albino or melanistic pokemon is found
-            let pokemonIsNormal = true;
-            let pokemonIsShiny = false;
-            let pokemonIsAlbino = false;
-            let pokemonIsMelanistic = false;
-
-            if (getEvolveString.includes('title="[SHINY]')) {
-                pokemonIsShiny = true;
-                pokemonIsNormal = false;
-            }
-            if (getEvolveString.includes('title="[ALBINO]')) {
-                pokemonIsAlbino = true;
-                pokemonIsNormal = false;
-            }
-            if (getEvolveString.includes('title="[MELANISTIC]')) {
-                pokemonIsMelanistic = true;
-                pokemonIsNormal = false;
-            }
-
-            let evolvePokemonName = getEvolveString.substr(getEvolveString.indexOf('into</span> ') + 'into</span>'.length).trim();
-            // use a regex to find extra whitespace between words
-            let whitespace = evolvePokemonName.match(/\s{2,}/g);
-            while (whitespace) {
-                for (let i = whitespace.length - 1; i >= 0; i--) {
-                    const match = whitespace[i];
-                    evolvePokemonName = evolvePokemonName.replace(match, ' ');
-                }
-                whitespace = evolvePokemonName.match(/\s{2,}/g);
-            }
-            const evolvePokemonNameIndex = dexData.indexOf('"' + evolvePokemonName + '"');
-            const evolvePokemonNameInDex = evolvePokemonNameIndex != -1;
-
-            const [evolveNewTotal, evolveNewCheck,
-                evolveNewShinyCheck, evolveNewAlbinoCheck,
-                evolveNewMelaCheck] = getNewCheckData(evolvePokemonName);
-
-            const [evolvePokemonNameOne, pokemonDexKeepSecondName,
-                pokemonDexKeepThirdName, pokemonDexKeepFourthName,
-                pokemonDexKeepFifthName, pokemonDexKeepSixthName] = evolvePokemonName.split(' ');
-            const [evolveNewTotalOne, evolveNewCheckOne, /* ignore */, /* ignore */, /* ignore */] = getNewCheckData(evolvePokemonNameOne);
-            /*
-             * if a pokemon has a name like gligar [Vampire] it won't be found. This tries to change the name as it's recorded in the pokedex data array
-             * The remaining checks are a (not great) way of checking for names with '/' in them.
-             * PFQ uses '/' in the names of PFQ variants and in PFQ exclusives with multiple forms
-             * Example of evolvePokemonNameTwoBefore: 'Gliscor/Vampire'
-             * Regex: \w+/\w+
-             */
-            const evolvePokemonNameTwo = (evolvePokemonNameOne + '/' + pokemonDexKeepSecondName).replace('[', '').replace(']', '');
-            const [evolveNewTotalTwo, evolveNewCheckTwo,
-                evolveNewShinyCheckTwo, evolveNewAlbinoCheckTwo,
-                evolveNewMelaCheckTwo] = getNewCheckData(evolvePokemonNameTwo);
-
-            /*
-             * Example of evolvePokemonNameThreeBefore: 'Phasmaleef/Forest Forme\'
-             * Regex: \w+/\w+ \w+
-             */
-            const evolvePokemonNameThree = (evolvePokemonNameOne + '/' +
-                pokemonDexKeepSecondName + ' ' +
-                pokemonDexKeepThirdName).replace('[', '').replace(']', '');
-            const [evolveNewTotalThree, evolveNewCheckThree,
-                evolveNewShinyCheckThree, evolveNewAlbinoCheckThree,
-                evolveNewMelaCheckThree] = getNewCheckData(evolvePokemonNameThree);
-
-            /*
-             * Example of evolvePokemonNameFourBefore: 'Butterfree/Mega Forme Q'
-             * Regex: \w+/\w+ \w+ \w+
-             */
-            const evolvePokemonNameFour = (evolvePokemonNameOne + '/' +
-                pokemonDexKeepSecondName + ' ' +
-                pokemonDexKeepThirdName + ' ' +
-                pokemonDexKeepFourthName).replace('[', '').replace(']', '');
-            const [evolveNewTotalFour, evolveNewCheckFour,
-                evolveNewShinyCheckFour, evolveNewAlbinoCheckFour,
-                evolveNewMelaCheckFour] = getNewCheckData(evolvePokemonNameFour);
-
-            /*
-             * Example of evolvePokemonNameFiveBefore: 'Marowak/Alolan Mega Forme Q'
-             * Regex: \w+/\w+ \w+ \w+ \w+
-             */
-            const evolvePokemonNameFive = (evolvePokemonNameOne + '/' +
-                pokemonDexKeepSecondName + ' ' +
-                pokemonDexKeepThirdName + ' ' +
-                pokemonDexKeepFourthName + ' ' +
-                pokemonDexKeepFifthName).replace('[', '').replace(']', '');
-            const [evolveNewTotalFive, evolveNewCheckFive,
-                evolveNewShinyCheckFive, evolveNewAlbinoCheckFive,
-                evolveNewMelaCheckFive] = getNewCheckData(evolvePokemonNameFive);
-
-            /*
-             * Couldn't find any examples of pokemon that match evolvePokemonNameSixBefore
-             * Regex: \w+/\w+ \w+ \w+ \w+ \w+
-             */
-            const evolvePokemonNameSix = (evolvePokemonNameOne + '/' +
-                pokemonDexKeepSecondName + ' ' +
-                pokemonDexKeepThirdName + ' ' +
-                pokemonDexKeepFourthName + ' ' +
-                pokemonDexKeepFifthName + ' ' +
-                pokemonDexKeepSixthName).replace('[', '').replace(']', '');
-            const [evolveNewTotalSix, evolveNewCheckSix,
-                evolveNewShinyCheckSix, evolveNewAlbinoCheckSix,
-                evolveNewMelaCheckSix] = getNewCheckData(evolvePokemonNameSix);
-
-            //prep done now the search
-            if (evolvePokemonNameInDex) { //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
-                if (pokemonIsNormal == true) { //normal Pokémon search
-                    if (evolveNewCheckOne == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
-                    } else if (evolveNewTotal > evolveNewCheck && evolveNewCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements('newpossiblepokedexentry', 'Possible Mega/Totem forme', evolvePokemonName, this);
-                    }
-                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
-                } else if (pokemonIsShiny == true) { //shiny Pokemon search
-                    if (evolveNewShinyCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
-                    } else if (evolveNewTotal > evolveNewShinyCheck && evolveNewShinyCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements('newpossibleshinypokedexentry', 'Possible Shiny Mega/Totem forme', evolvePokemonName, this);
-                    }
-                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
-                } else if (pokemonIsAlbino == true) { //albino pokemon search
-                    if (evolveNewAlbinoCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
-                    } else if (evolveNewTotal > evolveNewAlbinoCheck && evolveNewAlbinoCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements('newpossiblealbinopokedexentry', 'Possible Albino Mega/Totem forme', evolvePokemonName, this);
-                    }
-                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
-                } else if (pokemonIsMelanistic == true) { //melanistic pokemon search
-                    if (evolveNewMelaCheck == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
-                    } else if (evolveNewTotal > evolveNewMelaCheck && evolveNewMelaCheck > 0) { //looks for Pokémon that you have at least 1 from, but there are more possible (mega/Totem only because alolan won't be found due to the name)
-                        createListElements('newpossiblemelanisticpokedexentry', 'Possible Melanistic Mega/Totem forme', evolvePokemonName, this);
-                    }
-                    // the rest of the pokemon that could be found by name are pokemon that you already have in the dex
-                }
-
-                //Looks for the Pokémon name in which it evolves to check if it's in your Pokédex
-            } else {
-                if (pokemonIsNormal == true) {
-                    if (evolveNewCheckTwo == 0 || evolveNewCheckThree == 0 || evolveNewCheckFour == 0 || evolveNewCheckFive == 0 || evolveNewCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
-                    } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
-                        if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements('possiblealolan', 'Possible new Alolan entry', evolvePokemonName, this);
-                        }
-                    } else if (evolvePokemonName.indexOf('[') >= 0) {
-                        if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements('possibledifferent', 'Possible new forme/cloak entry', evolvePokemonName, this);
-                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
-                        }
-
-                    } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements('newpokedexentry', 'New Pokédex entry', evolvePokemonName, this);
-                    } else {
-                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
-                    }
-                } else if (pokemonIsShiny == true) {
-                    if (evolveNewShinyCheckTwo == 0 || evolveNewShinyCheckThree == 0 || evolveNewShinyCheckFour == 0 || evolveNewShinyCheckFive == 0 || evolveNewShinyCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
-                    } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
-                        if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements('possibleshinyalolan', 'Possible new Shiny Alolan entry', evolvePokemonName, this);
-                        }
-                    } else if (evolvePokemonName.indexOf('[') >= 0) {
-                        if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements('possibleshinydifferent', 'Possible new Shiny forme/cloak entry', evolvePokemonName, this);
-                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
-                        }
-                    } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements('newshinypokedexentry', 'New Shiny Pokédex entry', evolvePokemonName, this);
-                    } else {
-                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
-                    }
-                } else if (pokemonIsAlbino == true) {
-                    if (evolveNewAlbinoCheckTwo == 0 || evolveNewAlbinoCheckThree == 0 || evolveNewAlbinoCheckFour == 0 || evolveNewAlbinoCheckFive == 0 || evolveNewAlbinoCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
-                    } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
-                        if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements('possiblealbinoalolan', 'Possible new Albino Alolan entry', evolvePokemonName, this);
-                        }
-                    } else if (evolvePokemonName.indexOf('[') >= 0) {
-                        if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements('possiblealbinodifferent', 'Possible new Albino forme/cloak entry', evolvePokemonName, this);
-                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
-                        }
-                    } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements('newalbinopokedexentry', 'New Albino Pokédex entry', evolvePokemonName, this);
-                    } else {
-                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
-                    }
-
-                } else if (pokemonIsMelanistic == true) {
-                    if (evolveNewMelaCheckTwo == 0 || evolveNewMelaCheckThree == 0 || evolveNewMelaCheckFour == 0 || evolveNewMelaCheckFive == 0 || evolveNewMelaCheckSix == 0) { //looks for Pokémon that you have 0 from. Those are always new.
-                        createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
-                    } else if (evolvePokemonName.includes('[Alolan Forme]')) { // for alolans
-                        if ((evolveNewTotalOne > evolveNewCheckOne && evolveNewCheckOne > 0) || (evolveNewTotalTwo > evolveNewCheckTwo && evolveNewCheckTwo > 0) || (evolveNewTotalThree > evolveNewCheckThree && evolveNewCheckThree > 0) || (evolveNewTotalFour > evolveNewCheckFour && evolveNewCheckFour > 0) || (evolveNewTotalFive > evolveNewCheckFive && evolveNewCheckFive > 0) || (evolveNewTotalSix > evolveNewCheckSix && evolveNewCheckSix > 0)) {
-                            createListElements('possiblemelanalolan', 'Possible new Melanistic Alolan entry', evolvePokemonName, this);
-                        }
-                    } else if (evolvePokemonName.indexOf('[') >= 0) {
-                        if (evolvePokemonName.indexOf('[Alolan Forme]') == -1 && dexData.indexOf('"' + evolvePokemonNameOne + '"') >= 0 && evolveNewTotalOne > evolveNewCheckOne) {
-                            createListElements('possiblemelandifferent', 'Possible new Melanistic forme/cloak entry', evolvePokemonName, this);
-                        } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                            createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
-                        }
-                    } else if (dexData.indexOf('"' + evolvePokemonNameOne + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameTwo + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameThree + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFour + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameFive + '"') == -1 && dexData.indexOf('"' + evolvePokemonNameSix + '"') == -1) {
-                        createListElements('newmelanisticpokedexentry', 'New Melanistic Pokédex entry', evolvePokemonName, this);
-                    } else {
-                        createListElements('errornotfound', 'Error: not found', evolvePokemonName, this);
-                    }
-                }
+    setupSearch(settings) {
+        const self = this;
+        $('#content').append(Resources.FIELD_SEARCH_HTML);
+        // if any related settings change, re-run the search
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingGroup==self.SETTING_KEY) {
+                self.runSearch();
             }
         });
 
-        //layout
-        const typeBackground = $('.panel>h3').css('background-color');
-        const typeBorder = $('.panel>h3').css('border');
-        const typeColor = $('.panel>h3').css('color');
-        $('.expandlist').css('background-color', '' + typeBackground + '');
-        $('.expandlist').css('border', '' + typeBorder + '');
-        $('.expandlist').css('color', '' + typeColor + '');
+        /*
+         * TODO: display existing search values
+         * TODO: search term buttons & resulting box listeners
+         */
 
-        const typeListBackground = $('.tabbed_interface>div').css('background-color');
-        const typeListColor = $('.tabbed_interface>div').css('color');
-        $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        $('.qolChangeLogContent').css('color', '' + typeListColor + '');
+        // handlers to add/remove search options
+        $(document).on('click', '#addFieldTypeSearch', (function() {
+            console.log('add type');
+            console.log(this);
+        }));
+        $(document).on('click', '#removeFieldTypeSearch', (function() {
+            console.log('remove type');
+            console.log(this);
+        }));
+        $(document).on('click', '#addFieldNatureSearch', (function() {
+            console.log('add nature');
+            console.log(this);
+        }));
+        $(document).on('click', '#removeFieldNature', (function() {
+            console.log('remove nature');
+            console.log(this);
+        }));
+        $(document).on('click', '#addFieldEggGroupSearch', (function() {
+            console.log('add egg group');
+            console.log(this);
+        }));
+        $(document).on('click', '#removeFieldEggGroup', (function() {
+            console.log('remove egg group');
+            console.log(this);
+        }));
+        $(document).on('click', '#addTextField', (function() {
+            console.log('add text field');
+            console.log(this);
+        }));
+        $(document).on('click', '#removeTextField', (function() {
+            console.log('remove text field');
+            console.log(this);
+        }));
     }
-    easyQuickEvolve() {
-        const parent = $('.canevolve:contains("evolved into")').parent();
-        if (parent.length != 0) {
-            parent.remove();
+
+    runSearch() {
+        console.warn('TODO: field search');
+        // something like... read current settings, iterate over pkmn, call tooltip parser, decide if highlight?
+    }
+
+    static parseFieldPokemonTooltip(tooltip) {
+        const dataElements = $(tooltip).children(0).children();
+        let index = 1;
+        // nickname
+        const nickname = dataElements[index].textContent;
+        if (!nickname) {
+            console.error(`Helpers.parseFieldPokemonTooltip - nickname '${nickname}' (is not a valid name)`);
         }
-    }
-    easyEvolveTypeList() {
-        const obj = this;
-        const dexData = this.POKEDEX.DEX_DATA;
+        index++;
 
-        this.clearSortedEvolveLists();
-        $('.evolvepkmnlist').hide();
+        /*
+         * Issue #59 - Pokefarm added a new h3 element after the nickname
+         * that contains no data
+         */
+        index++;
 
-        const typeBackground = $('.panel>h3').css('background-color');
-        $('.evolvepkmnlist').before(Resources.evolveFastHTML());
-
-        const typeBorder = $('.panel>h3').css('border');
-        const typeColor = $('.panel>h3').css('color');
-        $('.expandlist').css('background-color', '' + typeBackground + '');
-        $('.expandlist').css('border', '' + typeBorder + '');
-        $('.expandlist').css('color', '' + typeColor + '');
-
-        const typeListBackground = $('.tabbed_interface>div').css('background-color');
-        const typeListColor = $('.tabbed_interface>div').css('color');
-        $('.qolChangeLogContent').css('background-color', '' + typeListBackground + '');
-        $('.qolChangeLogContent').css('color', '' + typeListColor + '');
-
-        /* Nested helper function */
-        const getEvolutionOrigin = function (evoString) {
-            const summary = '/summary/';
-            const originStart = evoString.indexOf(summary) + summary.length + 7;
-            const originEnd = evoString.indexOf('</a>');
-            return evoString.substring(originStart, originEnd);
-        };
-
-        const getEvolutionDestination = function (evoString) {
-            const destStart = evoString.indexOf('into</span>') + 'into</span>'.length;
-            return evoString.substr(destStart).trim();
-        };
-
-        const appendDeltaTypeIfDelta = function (evoString, elemToAppendTo) {
-            if (evoString.includes('title="[DELTA')) {
-                const deltaType = evoString.match('DELTA-(.*)]">');
-                $(elemToAppendTo).clone().appendTo(obj.settings.TYPE_APPEND[deltaType[1]]);
-            }
-        };
-
-        $('.evolvepkmnlist>li').each(function () {
-            // getting the <li> element from the pokemon & the pokemon evolved name
-            const getEvolveString = $(this).html();
-            let previousPokemon = getEvolutionOrigin(getEvolveString);
-            const evolvePokemon = getEvolutionDestination(getEvolveString);
-
-            // Handle unicode characters
-            previousPokemon = previousPokemon
-                .replace(/é/g, '\\u00e9')
-                .replace(/í/g, '\\u00ed')
-                .replace(/ñ/g, '\\u00f1');
-
-            // Handle evolvePokemon name formatting
-            let evolveFormatted = evolvePokemon.replace(' [', '/');
-            evolveFormatted = evolveFormatted.replace(']', '');
-
-            const previousIndex = dexData.indexOf('"' + previousPokemon + '"');
-            const evolveIndex = dexData.indexOf('"' + evolveFormatted + '"');
-
-            const previousInDex = previousIndex != -1;
-            const evolveInDex = evolveIndex != -1;
-            const evolveInExceptions = evolvePokemon in obj.settings.KNOWN_EXCEPTIONS;
-            let evolveTypesPrevious = [];
-            let evolveTypes = [];
-
-            /*
-             * Procedure
-             * 1. If the evolution destination is in the known exceptions list
-             *    a. Load the types from KNOWN_EXCEPTIONS
-             * 2. Else:
-             *    a. If the evolution origin is in the dex, load the types from the dex
-             *    b. If the evolution origin is not in the dex, mark the type as '18' (not a valid type)
-             *    c. If the destination pokemon is in the dex, load the types from the dex
-             *    d. Else, mark the type as '18' (not a valid type)
-             * 3. Use types to apply HTML classes to the list item that contains the current evolution
-             *    a. Use the evolution origin's and destination's types as HTML classes
-             *    b. If the origin pokemon is a Delta mon, use the delta type as an HTML class as well
-             */
-
-            if(evolveInExceptions) {
-                evolveTypes = obj.settings.KNOWN_EXCEPTIONS[evolvePokemon].map((t) => '' + t);
-                // short circuit the previous pokemon's types, since the KNOWN_EXCEPTIONS table will have everything
-                evolveTypesPrevious = evolveTypes;
+        // species
+        let species = '';
+        if (dataElements[index].textContent) {
+            const tc = dataElements[index].textContent;
+            const tcSplit = tc.trim().split(':  ');
+            if (tcSplit.length == 1) {
+                console.error('Helpers.parseFieldPokemonTooltip - species text does not contain \':  \'');
             }
             else {
-                if (previousInDex) {
-                    evolveTypesPrevious = [1, 2].map((i) => dexData[previousIndex + i]);
-                }
-                else {
-                    evolveTypesPrevious = ['18', '-1'];
-                }
-
-                if (evolveInDex) {
-                    evolveTypes = [1, 2].map((i) => dexData[evolveIndex + i]);
-                }
-                else {
-                    evolveTypes = ['18', '-1'];
-                }
+                species = tcSplit[1];
             }
+        }
+        index++;
 
-            /*
-             * the evolveTypes and evolveTypesPrevious entries can begin with a '.'
-             * in some cases. Just strip it off
-             */
-            evolveTypesPrevious = evolveTypesPrevious.map((t) => t.replace('.', ''));
-            evolveTypes = evolveTypes.map((t) => t.replace('.', ''));
+        // dataElements[3] will be a forme if the pokemon has a forme
+        let forme = '';
+        if (dataElements[index].textContent &&
+            dataElements[index].textContent.startsWith('Forme')) {
+            forme = dataElements[index].textContent.substr('Forme: '.length);
+            index++;
+        }
 
-            // filter out invalid 2nd types (will be -1)
-            evolveTypesPrevious = evolveTypesPrevious.filter((t) => t !== '-1');
-            evolveTypes = evolveTypes.filter((t) => t !== '-1');
+        // types
+        const typeElements = $(dataElements[index]).children().slice(1);
+        const typeUrls = typeElements.map(idx => typeElements[idx]['src']);
+        let types = typeUrls.map(idx =>
+            typeUrls[idx].substring(typeUrls[idx].indexOf('types/') + 'types/'.length,
+                typeUrls[idx].indexOf('.png')));
+        types = types.map(idx => types[idx].charAt(0).toUpperCase() + types[idx].substring(1));
+        //types = types.map(idx => Globals.TYPE_LIST.indexOf(types[idx]));
+        types = types.map(idx => Object.values(Resources.TYPE_LIST).indexOf(types[idx]));
+        // TODO: this is very hacky, consider cleaning up this whole builder
+        index++;
 
-            // append types to DOM
-            const elem = this;
-            // add unknown source types
-            if(evolveTypesPrevious   .includes('18')) {
-                $(elem).clone().appendTo('.18source');
+        // level
+        let level = -1;
+        if (dataElements[index].textContent) {
+            const tcSplit = dataElements[index].textContent.split(' ');
+            if (tcSplit.length > 1) {
+                level = parseInt(tcSplit[1]);
             }
-            // add unknown target types
-            if(evolveTypes.includes('18')) {
-                $(elem).clone().appendTo('.18target');
+        } else {
+            console.error('Helpers.parseFieldPokemonToolTip - could not load level because text was empty');
+        }
+        index++;
+
+        // if the pokemon's happiness is less than max, skip the next index, since it will be a progress bar
+        if (!dataElements[index].textContent ||
+            !dataElements[index].textContent.startsWith('Happiness')) {
+            index++;
+        }
+
+        // happiness
+        let happiness = -1;
+        if (dataElements[index].textContent) {
+            const tcSplit = dataElements[index].textContent.split(' ');
+            if (tcSplit.length > 1) {
+                happiness = tcSplit[1].trim();
+                happiness = (happiness == 'MAX') ? 100 : parseInt(happiness.substring(0, happiness.length - 1));
             }
-            const combinedValidTypes = [...evolveTypesPrevious, ...evolveTypes]
-                .filter((t, i, self) => t != '18' && self.indexOf(t) === i);
-            combinedValidTypes.map((t) => {
-                $(elem).clone().appendTo(`.${t}`);
-            });
+        } else {
+            console.error('Helpers.parseFieldPokemonToolTip - could not load happiness because text was empty');
+        }
+        index++;
 
-            appendDeltaTypeIfDelta(getEvolveString, this);
-        }); // each
-
-        $('.qolEvolveTypeList>li').each(function () {
-            const amountOfEvolves = $(this).children().children().length;
-            const evolveTypeName = $(this).children('.slidermenu').html();
-
-            // hide the types with no evolutions
-            if (amountOfEvolves === 0) {
-                this.nextSibling.hidden = true;
-                this.hidden = true;
-            } else {
-                $(this).children('.slidermenu').html(evolveTypeName + ' (' + amountOfEvolves + ')');
+        // nature
+        let nature = -1;
+        if (dataElements[index].textContent) {
+            const tcSplit = dataElements[index].textContent.split(' ');
+            if (tcSplit.length > 1) {
+                nature = tcSplit[1].replace('(', '').trim();
+                //nature = Resources.NATURE_LIST.indexOf(nature); // .substring(0, nature.length-1))
             }
-        });
+        } else {
+            console.error('Helpers.parseFieldPokemonToolTip - could not load nature because text was empty');
+        }
+        index++;
+
+        // held item
+        let item = '';
+        if (dataElements[index].textContent !== 'Item: None') {
+            item = dataElements[index].textContent.substring(dataElements[8].textContent.indexOf(' ') + 1);
+        } else {
+            item = 'None';
+        }
+        index++;
+
+        // egg groups
+        let eggGroups = [];
+        if (dataElements[index].textContent) {
+            eggGroups = dataElements[index].textContent.substring('Egg Group: '.length).split('/');
+        }
+        else {
+            console.error('Helpers.parseFieldPokemonToolTip - could not load egg groups because text was empty');
+        }
+        index++;
+
+        const tooltipData = {
+            'nickname': nickname,
+            'species': species,
+            'types': types,
+            'level': level,
+            'happiness_percent': happiness,
+            'nature': nature,
+            'item': item,
+            'eggGroups': eggGroups,
+        };
+        if (forme !== '') {
+            tooltipData.forme = forme;
+        }
+        return tooltipData;
     }
 }
 
-class FishingPage extends Page {
+class Fishing {
+    static SETTING_ENABLE = 'fishingEnable';
+
     constructor() {
-        super(undefined, {}, 'fishing');
-        // no observer
-    }
-    setupHTML() {
-        const caughtFishLabel = document.querySelector('#caughtfishcontainer label');
-        if(caughtFishLabel) {
-            caughtFishLabel.insertAdjacentHTML('afterend', Resources.massReleaseSelectHTML());
+        if(UserDataHandle.getSettings().QoLSettings[Fishing.SETTING_ENABLE]) {
+            // add CSS always
+            Helpers.addGlobalStyle(Resources.FISHING_CSS);
+            if(document.getElementById('caughtfishcontainer')) {
+                this.multiSelectControls();
+            }
+        }
+        else {
+            console.log('Fishing features disabled');
         }
     }
-    setupHandlers() {
-        $('#selectallfishcheckbox').on('click', function () {
+
+    multiSelectControls() {
+        const caughtFishLabel = document.querySelector('#caughtfishcontainer label');
+        if(caughtFishLabel) {
+            caughtFishLabel.insertAdjacentHTML('afterend', Resources.MASS_SELECT_HTML);
+        }
+
+        $('#selectallcheckbox').on('click', function () {
             $('li[data-flavour]>label>input').prop('checked', this.checked);
         });
 
-        $('#movefishselectanycheckbox').on('click', function () {
+        $('#selectallanycheckbox').on('click', function () {
             $('li[data-flavour=Any]>label>input').prop('checked', this.checked);
         });
 
-        $('#movefishselectsourcheckbox').on('click', function () {
+        $('#selectallsourcheckbox').on('click', function () {
             $('li[data-flavour=Sour]>label>input').prop('checked', this.checked);
         });
 
-        $('#movefishselectspicycheckbox').on('click', function () {
+        $('#selectallspicycheckbox').on('click', function () {
             $('li[data-flavour=Spicy]>label>input').prop('checked', this.checked);
         });
 
-        $('#movefishselectdrycheckbox').on('click', function () {
+        $('#selectalldrycheckbox').on('click', function () {
             $('li[data-flavour=Dry]>label>input').prop('checked', this.checked);
         });
 
-        $('#movefishselectsweetcheckbox').on('click', function () {
+        $('#selectallsweetcheckbox').on('click', function () {
             $('li[data-flavour=Sweet]>label>input').prop('checked', this.checked);
         });
 
-        $('#movefishselectbittercheckbox').on('click', function () {
+        $('#selectallbittercheckbox').on('click', function () {
             $('li[data-flavour=Bitter]>label>input').prop('checked', this.checked);
         });
     }
+
 }
 
-class InteractionsPage extends Page {
-  constructor() {
-      super(undefined, {}, 'interactions');
-  } // constructor
+class InteractionsLinks {
+    static SETTING_ENABLE = 'interactionsEnable';
 
-  setupHTML() {
-    // add 50 clickback link to sent interactions section
-    let names = "";
-    let lists = document.getElementsByClassName('userlist');
-    let lastList = lists[lists.length-1];
-    if(lastList.parentElement.previousElementSibling.innerText == "Sent"){
-      let nameElements = lastList.childNodes;
-      let overFifty = false;
-      for(let i=0; i<nameElements.length; i++){
-        if(i>=50){
-          overFifty = true;
-          break;
-        }
-        if(i!=0){
-          names+=",";
-        }
-        let userUrl = nameElements[i].lastChild.href;
-        let name = userUrl.split("/user/")[1];
-        names+=name;
-      }
-      let url = "https://pokefarm.com/users/"+names;
-      let newP = document.createElement("p");
-      let newLink = document.createElement("a");
-      newLink.href = url;
-      if(overFifty){
-        newLink.innerText = "Open top 50 users";
-      }
-      else{
-        newLink.innerText = "Open all users";
-      }
-      newP.appendChild(newLink);
-      lastList.parentNode.insertBefore(newP,lastList);
-    }
-  }
-}
-
-
-class LabPage extends Page {
     constructor() {
-        const defaultPageSettings = {
-            findLabEgg: '', // same as findCustom in shelter
-            customEgg: true,
-            findLabType: '', // same as findType in shelter
-            findTypeEgg: true,
-        };
-        super(Globals.LAB_PAGE_SETTINGS_KEY, defaultPageSettings, 'lab');
-        this.searchArray = [];
-        this.typeArray = [];
-        const obj = this;
-        this.observer = new MutationObserver(function () {
-            obj.customSearch();
-        });
+        if(UserDataHandle.getSettings().QoLSettings[InteractionsLinks.SETTING_ENABLE]) {
+            this.setupHTML();
+        }
+        else {
+            console.log('Interactions links features disabled');
+        }
     }
 
     setupHTML() {
-        document.querySelector('#eggsbox360>p.center').insertAdjacentHTML('afterend', Resources.labOptionsHTML());
-        document.querySelector('#egglist').insertAdjacentHTML('afterend', '<div id="labsuccess"></div>');
-
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', Globals.TYPE_OPTIONS,
-            'removeLabTypeList', 'labTypes', 'typeArray');
-
-        this.searchArray = this.settings.findLabEgg.split(',');
-        this.typeArray = this.settings.findLabType.split(',');
-
-        Helpers.setupFieldArrayHTML(this.searchArray, 'searchkeys', theField, 'numberDiv');
-        Helpers.setupFieldArrayHTML(this.typeArray, 'labTypes', theType, 'typeNumber');
-    }
-    setupCSS() {
-        //lab css
-        const labSuccessCss = $('#labpage>div').css('background-color');
-        $('#labsuccess').css('background-color', labSuccessCss);
-    }
-    setupObserver() {
-        this.observer.observe(document.querySelector('#labpage>div>div>div'), {
-            childList: true,
-            characterdata: true,
-            subtree: true,
-            characterDataOldValue: true,
-        });
-    }
-    setupHandlers() {
-        const obj = this;
-        $(document).on('click', '#addLabSearch', (function () { //add lab text field
-            obj.addTextField();
-        }));
-
-        $(document).on('click', '#removeLabSearch', (function () { //remove lab text field
-            obj.removeTextField(this, $(this).parent().find('input').val());
-            obj.saveSettings();
-        }));
-
-        $(document).on('click', '#addLabTypeList', (function () { //add lab type list
-            obj.addTypeList();
-        }));
-
-        $(document).on('click', '#removeLabTypeList', (function () { //remove lab type list
-            obj.removeTypeList(this, $(this).parent().find('select').val());
-            obj.saveSettings();
-        }));
-
-        $(document).on('change', '#labCustomSearch input', (function () { //lab search
-            obj.customSearch();
-        }));
-
-        $(document).on('click', '#labpage', (function () { //shelter search
-            obj.customSearch();
-        }));
-
-        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
-            obj.settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'),
-                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.customSearch();
-            obj.saveSettings();
-        }));
-
-        $(window).on('load', (function () {
-            obj.loadSettings();
-            obj.customSearch();
-        }));
-    }
-    addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'findLabEgg', 'removeLabSearch', 'searchArray');
-        const numberDiv = $('#searchkeys>div').length;
-        $('#searchkeys').append(theField);
-        $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
-    }
-    removeTextField(byebye, key) {
-        // when textfield is removed, the value will be deleted from the localstorage
-        this.searchArray = $.grep(this.searchArray, function (value) {
-            return value != key;
-        });
-        this.settings.findCustom = this.searchArray.toString();
-
-        $(byebye).parent().remove();
-
-        for (let i = 0; i < $('#searchkeys>div').length; i++) {
-            const rightDiv = i + 1;
-            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
-        }
-    }
-    addTypeList() {
-        const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findLabType', Globals.TYPE_OPTIONS,
-            'removeLabTypeList', 'labTypes', 'typeArray');
-        const numberTypes = $('#labTypes>div').length;
-        $('#labTypes').append(theType);
-        $('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
-    }
-    removeTypeList(byebye, key) {
-        this.typeArray = $.grep(this.typeArray, function (value) {
-            return value != key;
-        });
-        this.settings.findType = this.typeArray.toString();
-
-        $(byebye).parent().remove();
-
-        for (let i = 0; i < $('#labTypes>div').length; i++) {
-            const rightDiv = i + 1;
-            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
-        }
-    }
-    getTypesForEgg(searchPokemon) {
-        const dexData = this.POKEDEX.DEX_DATA;
-        const searchPokemonIndex = dexData.indexOf('"' + searchPokemon + '"');
-        return [dexData[searchPokemonIndex + 1], dexData[searchPokemonIndex + 2]];
-    }
-    searchForEggsMatchingTypes() {
-        const obj = this;
-        const enabled = ((this.settings.findTypeEgg === true) &&
-            (!(this.typeArray.length == 1 && this.typeArray[0] == '')));
-        if (enabled) {
-            const typesArrayNoEmptySpace = this.typeArray.filter(v => v != '');
-            for (let i = 0; i < typesArrayNoEmptySpace.length; i++) {
-                const value = typesArrayNoEmptySpace[i];
-                const amountOfTypesFound = [];
-                const typePokemonNames = [];
-
-                $('#egglist>div>h3').each(function () {
-                    const searchPokemon = $(this).text().split(' ')[0];
-                    const [searchTypeOne, searchTypeTwo] = obj.getTypesForEgg(searchPokemon);
-                    if (searchTypeOne === value) {
-                        amountOfTypesFound.push('found');
-                        typePokemonNames.push(searchPokemon);
-                    }
-
-                    if (searchTypeTwo === value) {
-                        amountOfTypesFound.push('found');
-                        typePokemonNames.push(searchPokemon);
-                    }
-                }); // each
-
-                const foundType = Globals.TYPE_LIST[value];
-
-                const typeImgStandOutLength = typePokemonNames.length;
-                for (let o = 0; o < typeImgStandOutLength; o++) {
-                    const value = typePokemonNames[o];
-                    const shelterImgSearch = $('#egglist>div>h3:containsIN(' + value + ')');
-                    const shelterBigImg = shelterImgSearch.next();
-                    $(shelterBigImg).addClass('labfoundme');
+    // add 50 clickback link to sent interactions section
+        let names = "";
+        const lists = document.getElementsByClassName('userlist');
+        const lastList = lists[lists.length-1];
+        if(lastList.parentElement.previousElementSibling.innerText == "Sent"){
+            const nameElements = lastList.childNodes;
+            let overFifty = false;
+            for(let i=0; i<nameElements.length; i++){
+                if(i>=50){
+                    overFifty = true;
+                    break;
                 }
-
-                if (amountOfTypesFound.length > 1) {
-                    document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + amountOfTypesFound.length + ' ' + foundType + ' egg types found! (' + typePokemonNames.toString() + ')</div>');
-                } else if (amountOfTypesFound.length == 1) {
-                    document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + amountOfTypesFound.length + ' ' + foundType + ' egg type found! (' + typePokemonNames.toString() + ')</div>');
+                if(i!=0){
+                    names+=",";
                 }
-            } // for
-        } // if
-    }
-    searchForEggsMatchingCustom() {
-        if (!(this.searchArray.length == 1 && this.searchArray[0] == '')) {
-            if (this.settings.customEgg === true) {
-                const searchArrayNoEmptySpace = this.searchArray.filter(v => v != '');
-                for (let i = 0; i < searchArrayNoEmptySpace.length; i++) {
-                    const value = searchArrayNoEmptySpace[i];
-                    if ($('#egglist>div>h3:containsIN(' + value + ')').length) {
-                        const searchResult = value;
-
-                        const shelterImgSearch = $('#egglist>div>h3:containsIN(' + value + ')');
-                        const shelterBigImg = shelterImgSearch.next();
-                        $(shelterBigImg).addClass('labfoundme');
-
-                        if ($('#egglist>div>h3:containsIN(' + value + ')').length > 1) {
-                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                        } else {
-                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                        }
-                    } // if
-
-                    if ($('#egglist>div img[src*="' + value + '"]').length) {
-                        const searchResult = $('#egglist>div img[src*="' + value + '"]').prev().text();
-
-                        const shelterImgSearch = $('#egglist>div img[src*="' + value + '"]');
-                        $(shelterImgSearch).addClass('labfoundme');
-
-                        if ($('#egglist>div img[src*="' + value + '"]').length > 1) {
-                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                        } else {
-                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
-                        }
-                    } // if
-                } // for
-            } // if
-        } // else
-    }
-    customSearch() {
-        document.querySelector('#labsuccess').innerHTML = '';
-        $('#egglist>div>img').removeClass('labfoundme');
-
-        this.searchForEggsMatchingTypes();
-        this.searchForEggsMatchingCustom();
+                const userUrl = nameElements[i].lastChild.href;
+                const name = userUrl.split("/user/")[1];
+                names+=name;
+            }
+            const url = "https://pokefarm.com/users/"+names;
+            const newP = document.createElement("p");
+            const newLink = document.createElement("a");
+            newLink.href = url;
+            if(overFifty){
+                newLink.innerText = "Open top 50 users";
+            }
+            else{
+                newLink.innerText = "Open all users";
+            }
+            newP.appendChild(newLink);
+            lastList.parentNode.insertBefore(newP,lastList);
+        }
     }
 }
 
-class MultiuserPage extends Page {
+
+class Lab {
+    static SETTING_KEY = 'QoLLab';
+    static SETTING_ENABLE = 'labNotifier';
+
     constructor() {
-        super(Globals.MULTIUSER_PAGE_SETTINGS_KEY, {
-            hideDislike: false,
-            hideAll: false,
-            niceTable: false,
-            customParty: false,
-            stackNextButton: true,
-            stackMoreButton: true,
-            showPokemon: true,
-            compactPokemon: true,
-            clickablePokemon: false,
-            showTrainerCard: true,
-            showFieldButton: false,
-            showModeChecks: false,
-            showUserName: true,
-            includeShowcase: true
-        }, 'users/');
-        const obj = this;
-        this.observer = new MutationObserver(function (mutations) {
+        if(UserDataHandle.getSettings().QoLSettings[Lab.SETTING_ENABLE]) {
+            console.log('TODO: Lab features');
+        }
+        else {
+            console.log('Lab features disabled');
+        }
+    }
+}
+
+class MultiUser {
+    static SETTING_KEY = 'QoLMultiuser';
+    static SETTING_ENABLE = 'partyMod';
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[MultiUser.SETTING_ENABLE]) {
+            this.setupHTML();
+            this.setupObservers();
+            this.setupHandlers();
+        }
+        else {
+            console.log('MultiUser features disabled');
+        }
+    }
+
+    setupHTML() {
+        Helpers.addGlobalStyle(Resources.PARTY_CSS);
+        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.PARTY_MOD_HTML);
+        const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
+        const menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
+        $('#qolpartymod').css('background-color', '' + menuBackground + '');
+        $('#qolpartymod').css('color', '' + menuColor + '');
+    }
+
+    setupObservers() {
+        const self = this;
+        // don't observe the whole party area as it may cause excess firing
+        Helpers.addObserver(document.querySelector('#multiuser'), {
+            childList: true,
+            subtree: true,
+        }, function(mutations) {
             let doMod = false;
             mutations.forEach(function (mutation) {
                 if($(mutation.target).attr('id') == 'partybox'){
-                    // many mutations fire, so limit calls to party mod to prevent excess and looping calls
-                    // #partybox is when the next button is added, making it a convenient time to run the mods
+                    /*
+                     * many mutations fire, so limit calls to party mod to prevent excess and looping calls
+                     * #partybox is when the next button is added, making it a convenient time to run the mods
+                     */
                     doMod = true;
                 }
             });
             if(doMod) {
-                obj.partyModification();
+                /*
+                 * TODO: when going very fast, the get more class may not get added properly
+                 * figure out a time to re-detect, and fix the classes accordingly
+                 */
+                self.partyModification();
             }
         });
-    }
-
-    settingsChange(element, textElement, customClass, typeClass, arrayName) {
-        if (super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
-            return false;
-        }
-
-        const mutuallyExclusive = ['hideAll', 'hideDislike', 'niceTable', 'customParty'];
-        const idx = mutuallyExclusive.indexOf(element);
-        if (idx > -1) {
-            for (let i = 0; i < mutuallyExclusive.length; i++) {
-                if (i !== idx) {
-                    this.settings[mutuallyExclusive[i]] = false;
-                }
-            }
-            return true;
-        }
-        else { return false; }
-    }
-    setupHTML() {
-        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.partyModHTML());
-        document.querySelector('#multiuser').insertAdjacentHTML('beforebegin', Resources.partyModCustomHTML());
-    }
-    setupCSS() {
-        const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
-        $('#qolpartymod').css('background-color', '' + menuBackground + '');
-        const menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
-        $('#qolpartymod').css('color', '' + menuColor + '');
-    }
-    setupObserver() {
-        // don't observe the whole party area as it may cause excess firing
-        this.observer.observe(document.querySelector('#multiuser'), {
-            childList: true,
-            subtree: true,
-        });
-    }
-    setupHandlers() {
-        const obj = this;
-
         $(window).resize(function() {
-            obj.loadSettings();
             setTimeout(() => {
                 // the hide all alignment works better with the timeout
-                obj.partyModification();
+                self.partyModification();
             }, 100);
         });
-
-        $(document).on('change', '.qolsetting', (function () {
-            obj.loadSettings();
-            obj.settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'));
-            obj.saveSettings();
-            obj.partyModification();
-        }));
-
-        $('input.qolalone').on('change', function () { //only 1 checkbox may be true
-            $('input.qolalone').not(this).prop('checked', false);
-        });
-
-        $('#qolpartymodcustom h3 a').on('click', function() {
-            if($('#qolpartymodcustom h3').hasClass('active')) {
-                $('#qolpartymodcustom h3').removeClass('active');
-                $('#qolpartymodcustom > div').css('display','none');
-            }
-            else {
-                $('#qolpartymodcustom h3').addClass('active');
-                $('#qolpartymodcustom > div').css('display','block');
-            }
-        });
-
     }
+
+    setupHandlers() {
+        const self = this;
+        // activate the custom options collapse
+        Helpers.activateCollapses();
+        const settings = UserDataHandle.getSettings();
+        settings.addSettingsListeners();
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingGroup==MultiUser.SETTING_KEY) {
+                self.partyModification();
+            }
+        });
+    }
+
     // changes that all available mods make
     sharedPartyMods() {
         $('#multiuser').addClass('qolPartyModded');
         // change any berry to sour so it gets a bg color
-        $('.berrybuttons[data-up="any"]').attr('data-up','sour'); 
+        $('.berrybuttons[data-up="any"]').attr('data-up','sour');
     }
+
     partyModification() {
+        // get page-specific settings
+        const partySettings = UserDataHandle.getSettings()[MultiUser.SETTING_KEY];
+
         // first, remove any existing selection (all qol classes)
-        let classList = document.getElementById('multiuser').className.split(/\s+/);
+        const classList = document.getElementById('multiuser').className.split(/\s+/);
         for (let i = 0; i < classList.length; i++) {
             if (classList[i].match(/^qol/)) {
                 $('#multiuser').removeClass(classList[i]);
@@ -2582,18 +1157,24 @@ class MultiuserPage extends Page {
         $('#qolpartymodcustom').css('display','none');
         $('.party .pkmn a.qolCompactLink').remove();
 
-        if (this.settings.hideDislike === true) {
+        const btns = $('#multiuser .party>div .action a');
+        if(btns) {
+            btns.css({
+                "top":0,"left":0
+            });
+        }
+
+        if (partySettings.partyModType == 'hideDislike') {
             $('#multiuser').addClass('qolPartyHideDislike');
             this.sharedPartyMods();
         }
 
-        if (this.settings.niceTable === true) {
+        else if (partySettings.partyModType == 'niceTable') {
             $('#multiuser').addClass('qolPartyNiceTable');
             this.sharedPartyMods();
         }
 
-        const btns = $('#multiuser .action a');
-        if (this.settings.hideAll === true) {
+        else if (partySettings.partyModType == 'hideAll') {
             $('#multiuser').addClass('qolPartyHideAll');
             this.sharedPartyMods();
             const nextLink = $('.mu_navlink.next');
@@ -2602,17 +1183,14 @@ class MultiuserPage extends Page {
                 btns.css(nextLink.position());
             }
         }
-        else if(btns) {
-            btns.css({"top":0,"left":0});
-        }
 
-        if (this.settings.customParty === true) {
+        else if (partySettings.partyModType == 'customParty') {
             $('#multiuser').addClass('qolPartyCustomParty');
             this.sharedPartyMods();
             $('#qolpartymodcustom').css('display','block');
 
             // differentiate next and more buttons
-            let next = $('.mu_navlink.next');
+            const next = $('.mu_navlink.next');
             if(next.text() == 'Get more +') {
                 next.addClass('qolGetMore');
             }
@@ -2621,20 +1199,19 @@ class MultiuserPage extends Page {
             }
 
             // hide classes are inverted
-            this.partymodHelper('qolStackNext',this.settings.stackNextButton === true);
-            this.partymodHelper('qolStackMore',this.settings.stackMoreButton === true);
-            this.partymodHelper('qolHideParty',this.settings.showPokemon === false);
-            this.partymodHelper('qolCompactParty',this.settings.compactPokemon === true);
-            this.partymodHelper('qolHideTrainerCard',this.settings.showTrainerCard === false);
-            this.partymodHelper('qolHideFieldButton',this.settings.showFieldButton === false);
-            this.partymodHelper('qolHideModeChecks',this.settings.showModeChecks === false);
-            this.partymodHelper('qolHideUserName',this.settings.showUserName === false);
-            this.partymodHelper('qolHideShowcase',this.settings.includeShowcase === false);
+            this.partymodHelper('qolStackNext',partySettings.stackNextButton === true);
+            this.partymodHelper('qolStackMore',partySettings.stackMoreButton === true);
+            this.partymodHelper('qolHideParty',partySettings.showPokemon === false);
+            this.partymodHelper('qolCompactParty',partySettings.compactPokemon === true);
+            this.partymodHelper('qolHideTrainerCard',partySettings.showTrainerCard === false);
+            this.partymodHelper('qolHideFieldButton',partySettings.showFieldButton === false);
+            this.partymodHelper('qolHideModeChecks',partySettings.showModeChecks === false);
+            this.partymodHelper('qolHideUserName',partySettings.showUserName === false);
 
             // clickable compact pokemon
-            if(this.settings.showPokemon === true 
-                && this.settings.compactPokemon === true  
-                && this.settings.clickablePokemon === true ) 
+            if(partySettings.showPokemon === true
+              && partySettings.compactPokemon === true
+              && partySettings.clickablePokemon === true )
             {
                 $('.party .pkmn').each(function() {
                     const pkmnID = $(this.parentElement).attr('data-pid');
@@ -2644,7 +1221,12 @@ class MultiuserPage extends Page {
                 });
             }
         }
+
+        else if (partySettings.partyModType !== 'none') {
+            ErrorHandler.warn('Invalid party mod type: '+partySettings.partyModType);
+        }
     }
+
     // toggle setting should be true to add the class, false to remove it
     partymodHelper(toggleClass, toggleSetting) {
         if(toggleSetting) {
@@ -2657,481 +1239,56 @@ class MultiuserPage extends Page {
 }
 
 
-class PrivateFieldsPage extends Page {
+class PrivateFields {
+    static SETTING_KEY = 'QoLPrivateField';
+    static SETTING_ENABLE = 'privateFieldEnable';
+    static SUB_SETTINGS = 'QoLPrivateFieldFeatures';
+
     constructor() {
-        const defaultPageSettings = {
-            fieldCustom: '',
-            fieldType: '',
-            fieldNature: '',
-            fieldEggGroup: '',
-            fieldNewPokemon: true,
-            fieldShiny: true,
-            fieldAlbino: true,
-            fieldMelanistic: true,
-            fieldPrehistoric: true,
-            fieldDelta: true,
-            fieldMega: true,
-            fieldStarter: true,
-            fieldCustomSprite: true,
-            fieldMale: true,
-            fieldFemale: true,
-            fieldNoGender: true,
-            fieldItem: true,
-            customItem: true, // unused
-            customEgg: true,
-            customPokemon: true,
-            customPng: false,
-            /* tooltip settings */
-            tooltipEnableMods: false,
-            tooltipNoBerry: false,
-            tooltipBerry: false,
-        };
-        super(Globals.PRIVATE_FIELDS_PAGE_SETTINGS_KEY, defaultPageSettings, 'fields');
-        this.customArray = [];
-        this.typeArray = [];
-        this.natureArray = [];
-        this.eggGroupArray = [];
-        const obj = this;
-        this.observer = new MutationObserver(() => {
-            obj.customSearch();
-            if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
-                obj.handleTooltipSettings();
-            }
-        });
-    }
-
-    onPage(w) {
-        return w.location.href.indexOf('fields') != -1 &&
-            w.location.href.indexOf('fields/') == -1;
-    }
-
-    setupHTML() {
-        if(this.USER_SETTINGS.privateFieldFeatureEnables.search) {
-            document.querySelector('#field_field').insertAdjacentHTML('afterend', Resources.privateFieldSearchHTML());
-            const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS,
-                'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
-            const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', Globals.NATURE_OPTIONS,
-                'removePrivateFieldNature', 'natureTypes', 'natureArray');
-            const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', Globals.EGG_GROUP_OPTIONS,
-                'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
-            this.customArray = this.settings.fieldCustom.split(',');
-            this.typeArray = this.settings.fieldType.split(',');
-            this.natureArray = this.settings.fieldNature.split(',');
-            this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-            Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
-            Helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
-            Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
-            Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
-        }
-
-        if(this.USER_SETTINGS.privateFieldFeatureEnables.release) {
-            /* nothing here */
-        }
-
-        if(this.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
-            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.privateFieldTooltipModHTML());
-            this.handleTooltipSettings();
-        }
-
-        if(this.USER_SETTINGS.privateFieldFeatureEnables.pkmnlinks) {
-            Helpers.addPkmnLinksPopup();
-        }
-    }
-    setupCSS() {
-        // same as public fields
-        const fieldOrderCssColor = $('#field_field').css('background-color');
-        const fieldOrderCssBorder = $('#field_field').css('border');
-        $('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
-        $('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
-        $('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-        $('#tooltipenable').css('max-width', '600px');
-        $('#tooltipenable').css('position', 'relative');
-        $('#tooltipenable').css('margin', '16px auto');
-        $('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
-        $('.collapsible').css('border', '' + fieldOrderCssBorder + '');
-        $('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
-
-        $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
-        $('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
-
-        /*
-         * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-         * settings as most of the text on the site, manually set the text color for
-         * '.collapsible' to match the text around it
-         */
-        $('.collapsible').css('color', $('#content').find('h1').eq(0).css('color'));
-    }
-    setupObserver() {
-        this.observer.observe(document.querySelector('#field_field'), {
-            childList: true,
-            characterdata: true,
-            subtree: true,
-            characterDataOldValue: true,
-        });
-    }
-    setupHandlers() {
-        const obj = this;
-        $(window).on('load', (() => {
-            obj.loadSettings();
-            obj.customSearch();
-            if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
-                obj.handleTooltipSettings();
-            }
-            obj.saveSettings();
-        }));
-
-        $(document).on('load', '.field', (function () {
-            obj.customSearch();
-        }));
-
-        if(obj.USER_SETTINGS.privateFieldFeatureEnables.release) {
-            $(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
-                e.stopPropagation();
-                obj.enableMoveReleaseControls();
-            }));
-            $(document).on('click', '*[data-menu="bulkmove"]', (function () { // select all feature
-                obj.enableMoveReleaseControls();
-            }));
-        }
-
-        if(obj.USER_SETTINGS.privateFieldFeatureEnables.search) {
-            $(document).on('click', '#addPrivateFieldTypeSearch', (function (e) { //add field type list
-                e.stopPropagation();
-                obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removePrivateFieldTypeSearch', 'fieldTypes', 'typeArray');
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#removePrivateFieldTypeSearch', (function (e) { //remove field type list
-                e.stopPropagation();
-                obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
-                obj.saveSettings();
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#addPrivateFieldNatureSearch', (function (e) { //add field nature search
-                e.stopPropagation();
-                obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', Globals.NATURE_OPTIONS, 'removePrivateFieldNature', 'natureTypes', 'natureArray');
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#removePrivateFieldNature', (function (e) { //remove field nature search
-                e.stopPropagation();
-                obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
-                obj.saveSettings();
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#addPrivateFieldEggGroupSearch', (function (e) { //add egg group nature search
-                e.stopPropagation();
-                obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', Globals.EGG_GROUP_OPTIONS, 'removePrivateFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#removePrivateFieldEggGroup', (function (e) { //remove egg group nature search
-                e.stopPropagation();
-                obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
-                obj.saveSettings();
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#addTextField', (function (e) {
-                e.stopPropagation();
-                obj.addTextField();
-                obj.saveSettings();
-            }));
-
-            $(document).on('click', '#removeTextField', (function (e) {
-                e.stopPropagation();
-                obj.removeTextField(this, $(this).parent().find('input').val());
-                obj.saveSettings();
-                obj.customSearch();
-            }));
-        }
-
-        if(obj.USER_SETTINGS.privateFieldFeatureEnables.tooltip) {
-            $('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function () {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
-
-            $('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function () {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
-        }
-
-        $(document).on('change', '.qolsetting', (function () {
-            obj.loadSettings();
-            obj.customSearch();
-            obj.saveSettings();
-        }));
-
-        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
-            obj.settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'),
-                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.customSearch();
-            obj.saveSettings();
-        }));
-
-        $('.collapsible').on('click', function () {
-            this.classList.toggle('active');
-            const content = this.nextElementSibling;
-            if (content.style.display === 'block') {
-                content.style.display = 'none';
-            } else {
-                content.style.display = 'block';
-            }
-        });
-    }
-    handleTooltipSettings() {
-        const obj = this;
-        if ($('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
-            // make sure checkboxes are enabled
-            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false);
-
-            // use the correct setting to turn on the tooltips based on the berries
-            if ($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
-            else { obj.enableTooltips(); }
-        } else {
-            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true);
-            // if tooltipNoBerry was checked before the mods were disabled, reenable the tooltips
-            if ($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) {
-                obj.enableTooltips();
+        const settings = UserDataHandle.getSettings();
+        if(settings.QoLSettings[PrivateFields.SETTING_ENABLE]) {
+            // if specific features are enabled, run them
+            if(settings[PrivateFields.SUB_SETTINGS].release) {
+                $(document).on('click', '*[data-menu="release"]', (function (e) { //select all feature
+                    e.stopPropagation();
+                    PrivateFields.enableMoveReleaseControls();
+                }));
+                $(document).on('click', '*[data-menu="bulkmove"]', (function () { // select all feature
+                    PrivateFields.enableMoveReleaseControls();
+                }));
             }
         }
-    }
-    disableTooltips() {
-        $('#field_field>div.field>.fieldmon').removeAttr('data-tooltip').removeClass('tooltip_trigger');
-    }
-    enableTooltips() {
-        $('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
-    }
-    searchForImgTitle(key) {
-        const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
-        const keyIndex = SEARCH_DATA.indexOf(key);
-        const value = SEARCH_DATA[keyIndex + 1];
-        const selected = $('img[title*="' + value + '"]');
-        if (selected.length) {
-            // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children('img');
-            $(bigImg).addClass('privatefoundme');
-        }
-    }
-    searchForCustomPokemon(value, male, female, nogender) {
-        const genderMatches = [];
-        if (male) { genderMatches.push('[M]'); }
-        if (female) { genderMatches.push('[F]'); }
-        if (nogender) { genderMatches.push('[N]'); }
-
-        if (genderMatches.length > 0) {
-            for (let i = 0; i < genderMatches.length; i++) {
-                const genderMatch = genderMatches[i];
-                const selected = $('#field_field .tooltip_content:containsIN(' + value + ') img[title*=\'' + genderMatch + '\']');
-                if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
-                    $(shelterBigImg).addClass('privatefoundme');
-                }
-            }
-        }
-
-        //No genders
         else {
-            const selected = $('#field_field .tooltip_content:containsIN(' + value + ')');
-            if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
-                $(shelterBigImg).addClass('privatefoundme');
-            }
-        }
-
-    }
-    searchForCustomEgg(value) {
-        const selected = $('#field_field .tooltip_content:containsIN(' + value + '):contains("Egg")');
-        if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
-            $(shelterBigImg).addClass('privatefoundme');
+            console.log('PrivateFields features disabled');
         }
     }
-    searchForCustomPng(value) {
-        const selected = $('#field_field img[src*="' + value + '"]');
-        if (selected.length) {
-            const shelterImgSearch = selected;
-            $(shelterImgSearch).addClass('privatefoundme');
-        }
-    }
-    customSearch() {
-        if(this.USER_SETTINGS.privateFieldFeatureEnables.search) {
-            const bigImgs = document.querySelectorAll('.privatefoundme');
-            if (bigImgs !== null) {
-                bigImgs.forEach((b) => { $(b).removeClass('privatefoundme'); });
-            }
 
-            if (this.settings.fieldShiny === true) {
-                this.searchForImgTitle('findShiny');
-            }
-            if (this.settings.fieldAlbino === true) {
-                this.searchForImgTitle('findAlbino');
-            }
-            if (this.settings.fieldMelanistic === true) {
-                this.searchForImgTitle('findMelanistic');
-            }
-            if (this.settings.fieldPrehistoric === true) {
-                this.searchForImgTitle('findPrehistoric');
-            }
-            if (this.settings.fieldDelta === true) {
-                this.searchForImgTitle('findDelta');
-            }
-            if (this.settings.fieldMega === true) {
-                this.searchForImgTitle('findMega');
-            }
-            if (this.settings.fieldStarter === true) {
-                this.searchForImgTitle('findStarter');
-            }
-            if (this.settings.fieldCustomSprite === true) {
-                this.searchForImgTitle('findCustomSprite');
-            }
-            if (this.settings.fieldItem === true) {
-            // pokemon that hold items will have HTML that matches the following selector
-                const items = $('.tooltip_content .item>div>.tooltip_item');
-                if (items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children('img');
-                    $(itemBigImgs).addClass('privatefoundme');
-                }
-            }
-            const filteredTypeArray = this.typeArray.filter(v => v != '');
-            const filteredNatureArray = this.natureArray.filter(v => v != '');
-            const filteredEggGroupArray = this.eggGroupArray.filter(v => v != '');
-
-            //loop to find all the types
-            if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
-                $('.fieldmon').each(function () {
-                    const searchPokemonBigImg = $(this)[0].childNodes[0];
-                    const tooltipData = Helpers.parseFieldPokemonTooltip($(searchPokemonBigImg).parent().next()[0]);
-
-                    const searchTypeOne = tooltipData.types[0] + '';
-                    const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '' : '';
-
-                    const searchNature = Globals.NATURE_LIST[tooltipData.nature];
-
-                    const searchEggGroup = $(this).next().find('.fieldmontip').
-                        children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
-
-                    for (let i = 0; i < filteredTypeArray.length; i++) {
-                        if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
-                        }
-                    }
-
-                    for (let i = 0; i < filteredNatureArray.length; i++) {
-                        if (searchNature === Globals.NATURE_LIST[filteredNatureArray[i]]) {
-                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
-                        }
-                    }
-
-                    for (let i = 0; i < filteredEggGroupArray.length; i++) {
-                        const value = Globals.EGG_GROUP_LIST[filteredEggGroupArray[i]];
-                        if (searchEggGroup === value ||
-                        searchEggGroup.indexOf(value + '/') > -1 ||
-                        searchEggGroup.indexOf('/' + value) > -1) {
-                            $(searchPokemonBigImg).parent().children().addClass('privatefoundme');
-                        }
-                    }
-                }); // each
-            } // end
-
-            // custom search
-            for (let i = 0; i < this.customArray.length; i++) {
-                const value = this.customArray[i];
-                if (value != '') {
-                //custom pokemon search
-                    if (this.settings.customPokemon === true) {
-                        this.searchForCustomPokemon(value, this.settings.fieldMale,
-                            this.settings.fieldFemale,
-                            this.settings.fieldNoGender);
-                    }
-
-                    //custom egg
-                    if (this.settings.customEgg === true) {
-                        this.searchForCustomEgg(value);
-                    }
-
-                    //imgSearch with Pokémon
-                    if (this.settings.customPng === true) {
-                        this.searchForCustomPng(value);
-                    }
-                }
-            }
-        }
-    }
-    addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
-        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
-        const number = $(`#${divParent}>div`).length;
-        $(`#${divParent}`).append(theList);
-        $(`.${cls}`).removeClass(cls).addClass('' + number + '');
-    }
-    removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
-        arr = $.grep(arr, function (value) { return value != key; });
-        this.settings[settingsKey] = arr.toString();
-
-        $(byebye).parent().remove();
-
-        for (let i = 0; i < $(`#${divParent}>div`).length; i++) {
-            const rightDiv = i + 1;
-            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
-        }
-
-        return arr;
-    }
-    addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-        const numberDiv = $('#searchkeys>div').length;
-        $('#searchkeys').append(theField);
-        $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
-    }
-    removeTextField(byebye, key) {
-        this.customArray = $.grep(this.customArray, function (value) {
-            return value != key;
-        });
-        this.settings.fieldCustom = this.customArray.toString();
-
-        $(byebye).parent().remove();
-
-        let i;
-        for (i = 0; i < $('#searchkeys>div').length; i++) {
-            const rightDiv = i + 1;
-            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
-        }
-    }
-    showBulkNatures(enable) {
-        let pkmn = $('input[name="masspkmn"]');
+    static showBulkNatures(enable) {
+        console.log('show bulk natures');
+        const pkmn = $('input[name="masspkmn"]');
         for(let i=0; i<pkmn.length; i++) {
-            let pkmnDetails = $(pkmn[i]).next().next().html();
+            const pkmnDetails = $(pkmn[i]).next().next().html();
             if(enable) {
-                let natureRegex = /<b>Nature:<\/b> ([a-zA-Zï]+)/;
-                let results = pkmnDetails.match(natureRegex);
+                const natureRegex = /<b>Nature:<\/b> ([a-zA-Zï]+)/;
+                const results = pkmnDetails.match(natureRegex);
                 if(results.length>1) { // this should always be true, but just in case
                     $(pkmn[i]).next().next().next().html(results[1]);
                 }
             }
             else {
-                let genderRegex = /<span class="icons">(<img src=".+">)<\/span>/;
-                let results = pkmnDetails.match(genderRegex);
+                const genderRegex = /<span class="icons">(<img src=".+">)<\/span>/;
+                const results = pkmnDetails.match(genderRegex);
                 if(results.length>1) { // this should always be true, but just in case
                     $(pkmn[i]).next().next().next().html(results[1]);
                 }
             }
         }
     }
-    enableMoveReleaseControls() {
+    static enableMoveReleaseControls() {
         // find flavour checkbox, add show nature checkbox
-        let flavourCheckbox =  $('.bulkpokemonlist>label:first-child>input');
-        let natureCheckbox = $('<input type="checkbox"> Show Pokemon natures');
-        let natureLabel = $('<label></label>').append(natureCheckbox).append(' Show Pokemon natures');
+        const flavourCheckbox =  $('.bulkpokemonlist>label:first-child>input');
+        const natureCheckbox = $('<input type="checkbox"> Show Pokemon natures');
+        const natureLabel = $('<label></label>').append(natureCheckbox).append(' Show Pokemon natures');
         flavourCheckbox.parent().after('<br>');
         flavourCheckbox.parent().after(natureLabel);
         flavourCheckbox.parent().after('<br>');
@@ -3149,7 +1306,6 @@ class PrivateFieldsPage extends Page {
                 $('.bulkpokemonlist').removeClass('qolFlavourShown');
             }
         });
-        let obj = this;
         natureCheckbox.on('change',function() {
             // disable show flavours
             $('.bulkpokemonlist').removeClass('qolFlavourShown');
@@ -3157,1269 +1313,364 @@ class PrivateFieldsPage extends Page {
 
             if($(this).prop('checked')) {
                 $('.bulkpokemonlist').addClass('qolNatureShown');
-                obj.showBulkNatures(true);
+                PrivateFields.showBulkNatures(true);
             }
             else {
                 $('.bulkpokemonlist').removeClass('qolNatureShown');
-                obj.showBulkNatures(false);
+                PrivateFields.showBulkNatures(false);
             }
         });
 
         // add selection checkboxes
-        const checkboxes = `<label id="selectallfield"><input id="selectallfieldcheckbox" type="checkbox">Select all</label> <label id="selectallfieldmale" class="qolSelectGender"><input id="selectallfieldmalecheckbox" type="checkbox">Select Male</label> <label id="selectallfieldfemale" class="qolSelectGender"><input id="selectallfieldfemalecheckbox" type="checkbox">Select Female</label> <label id="selectallfieldgenderless" class="qolSelectGender"><input id="selectallfieldgenderlesscheckbox" type="checkbox">Select Genderless</label> <label id="selectallfieldany" class="qolSelectFlavour"><input id="selectallfieldanycheckbox" type="checkbox">Select Any</label> <label id="selectallfieldsour" class="qolSelectFlavour"><input id="selectallfieldsourcheckbox" type="checkbox">Select Sour</label> <label id="selectallfieldspicy" class="qolSelectFlavour"><input id="selectallfieldspicycheckbox" type="checkbox">Select Spicy</label> <label id="selectallfielddry" class="qolSelectFlavour"><input id="selectallfielddrycheckbox" type="checkbox">Select Dry</label> <label id="selectallfieldsweet" class="qolSelectFlavour"><input id="selectallfieldsweetcheckbox" type="checkbox">Select Sweet</label> <label id="selectallfieldbitter" class="qolSelectFlavour"><input id="selectallfieldbittercheckbox" type="checkbox">Select Bitter</label>`;
-        $('.dialog>div>div>div>div>button').eq(0).after(checkboxes);
+        $('.bulkpokemonlist').after(Resources.MASS_SELECT_HTML);
 
         // checkbox listeners
-        $('#selectallfieldcheckbox').click(function () {
+        $('#selectallcheckbox').click(function () {
             $('.bulkpokemonlist>ul>li>label>input').not(this).prop('checked', this.checked);
         });
-        $('#selectallfieldmalecheckbox').click(function () {
+        $('#selectallmalecheckbox').click(function () {
             const selectAny = $('.icons img[title="[M]"]').parent().prev().prev().prev('input');
             $(selectAny).not(this).prop('checked', this.checked);
         });
-        $('#selectallfieldfemalecheckbox').click(function () {
+        $('#selectallfemalecheckbox').click(function () {
             const selectAny = $('.icons img[title="[F]"]').parent().prev().prev().prev('input');
             $(selectAny).not(this).prop('checked', this.checked);
         });
-        $('#selectallfieldgenderlesscheckbox').click(function () {
+        $('#selectallgenderlesscheckbox').click(function () {
             const selectAny = $('.icons img[title="[N]"]').parent().prev().prev().prev('input');
             $(selectAny).not(this).prop('checked', this.checked);
         });
-        $('#selectallfieldanycheckbox').click(function () {
+        $('#selectallanycheckbox').click(function () {
             const selectAny = $('.icons:contains("Any")').prev().prev().prev('input');
             $(selectAny).not(this).prop('checked', this.checked);
         });
-        $('#selectallfieldsourcheckbox').click(function () {
+        $('#selectallsourcheckbox').click(function () {
             const selectSour = $('.icons:contains("Sour")').prev().prev().prev('input');
             $(selectSour).not(this).prop('checked', this.checked);
         });
-        $('#selectallfieldspicycheckbox').click(function () {
+        $('#selectallspicycheckbox').click(function () {
             const selectSpicy = $('.icons:contains("Spicy")').prev().prev().prev('input');
             $(selectSpicy).not(this).prop('checked', this.checked);
         });
-        $('#selectallfielddrycheckbox').click(function () {
+        $('#selectalldrycheckbox').click(function () {
             const selectDry = $('.icons:contains("Dry")').prev().prev().prev('input');
             $(selectDry).not(this).prop('checked', this.checked);
         });
-        $('#selectallfieldsweetcheckbox').click(function () {
+        $('#selectallsweetcheckbox').click(function () {
             const selectSweet = $('.icons:contains("Sweet")').prev().prev().prev('input');
             $(selectSweet).not(this).prop('checked', this.checked);
         });
-        $('#selectallfieldbittercheckbox').click(function () {
+        $('#selectallbittercheckbox').click(function () {
             const selectBitter = $('.icons:contains("Bitter")').prev().prev().prev('input');
             $(selectBitter).not(this).prop('checked', this.checked);
         });
     }
 }
 
-class PublicFieldsPage extends Page {
+class PublicFields {
+    static SETTING_KEY = 'QoLPublicField';
+    static SETTING_ENABLE = 'publicFieldEnable';
+    static SUB_SETTINGS = 'QoLPublicFieldFeatures';
+
     constructor() {
-        const defaultPageSettings = {
-            fieldByBerry: false,
-            fieldByMiddle: false,
-            fieldByGrid: false,
-            fieldClickCount: true,
-            fieldCustom: '',
-            fieldType: '',
-            fieldNature: '',
-            fieldEggGroup: '',
-            fieldNewPokemon: true,
-            fieldShiny: true,
-            fieldAlbino: true,
-            fieldMelanistic: true,
-            fieldPrehistoric: true,
-            fieldDelta: true,
-            fieldMega: true,
-            fieldStarter: true,
-            fieldCustomSprite: true,
-            fieldMale: true,
-            fieldFemale: true,
-            fieldNoGender: true,
-            fieldCustomItem: true, // unused
-            fieldCustomPokemon: true,
-            fieldCustomEgg: true,
-            fieldCustomPng: false,
-            fieldItem: true,
-            /* tooltip settings */
-            tooltipEnableMods: false,
-            tooltipNoBerry: false,
-            tooltipBerry: false,
-        };
-        super(Globals.PUBLIC_FIELDS_PAGE_SETTINGS_KEY, defaultPageSettings, 'fields/');
-        this.customArray = [];
-        this.typeArray = [];
-        this.natureArray = [];
-        this.eggGroupArray = [];
-        const obj = this;
-        this.observer = new MutationObserver(function() {
-            obj.customSearch();
-            if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-                obj.handleTooltipSettings();
+        const settings = UserDataHandle.getSettings();
+        if(settings.QoLSettings[PublicFields.SETTING_ENABLE]) {
+            // if specific features are enabled, run them
+            if(settings[PublicFields.SUB_SETTINGS].sort) {
+                PublicFields.setupFieldSort(settings);
             }
-        });
-    }
-
-    settingsChange(element, textElement, customClass, typeClass, arrayName) {
-        if(super.settingsChange(element, textElement, customClass, typeClass, arrayName) === false) {
-            return false;
+            this.setupObservers(settings);
         }
-
-        const mutuallyExclusive = ['fieldByBerry', 'fieldByMiddle', 'fieldByGrid'];
-        const idx = mutuallyExclusive.indexOf(element);
-        if(idx > -1) {
-            for(let i = 0; i < mutuallyExclusive.length; i++) {
-                if(i !== idx) {
-                    this.settings[mutuallyExclusive[i]] = false;
-                }
-            }
-            return true;
-        }
-        else { return false; }
-    }
-
-    setupHTML() {
-        if(this.USER_SETTINGS.publicFieldFeatureEnables.search) {
-            document.querySelector('#field_field').insertAdjacentHTML('afterend', Resources.fieldSearchHTML());
-            const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS,
-                'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-            const theNature = Helpers.selectSearchDiv('natureNumber', 'natures', 'fieldNature', Globals.NATURE_OPTIONS,
-                'removeFieldNature', 'natureTypes', 'natureArray');
-            const theEggGroup = Helpers.selectSearchDiv('eggGroupNumber', 'eggGroups', 'fieldEggGroup', Globals.EGG_GROUP_OPTIONS,
-                'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
-            this.customArray = this.settings.fieldCustom.split(',');
-            this.typeArray = this.settings.fieldType.split(',');
-            this.natureArray = this.settings.fieldNature.split(',');
-            this.eggGroupArray = this.settings.fieldEggGroup.split(',');
-            Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
-            Helpers.setupFieldArrayHTML(this.typeArray, 'fieldTypes', theType, 'typeNumber');
-            Helpers.setupFieldArrayHTML(this.natureArray, 'natureTypes', theNature, 'natureNumber');
-            Helpers.setupFieldArrayHTML(this.eggGroupArray, 'eggGroupTypes', theEggGroup, 'eggGroupNumber');
-        }
-        if(this.USER_SETTINGS.publicFieldFeatureEnables.sort) {
-            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.fieldSortHTML());
-        }
-        if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-            document.querySelector('#field_field').insertAdjacentHTML('beforebegin', Resources.publicFieldTooltipModHTML());
-            this.handleTooltipSettings();
-        }
-
-        if(this.USER_SETTINGS.publicFieldFeatureEnables.pkmnlinks) {
-            Helpers.addPkmnLinksPopup();
-        }
-    }
-    setupCSS() {
-        const fieldOrderCssColor = $('#field_field').css('background-color');
-        const fieldOrderCssBorder = $('#field_field').css('border');
-        $('#fieldorder').css('background-color', '' + fieldOrderCssColor + '');
-        $('#fieldorder').css('border', '' + fieldOrderCssBorder + '');
-        $('#fieldsearch').css('background-color', '' + fieldOrderCssColor + '');
-        $('#tooltipenable').css('max-width', '600px');
-        $('#tooltipenable').css('position', 'relative');
-        $('#tooltipenable').css('margin', '16px auto');
-        $('.collapsible').css('background-color', '' + fieldOrderCssColor + '');
-        $('.collapsible').css('border', '' + fieldOrderCssBorder + '');
-        $('.collapsible_content').css('background-color', '' + fieldOrderCssColor + '');
-
-        $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
-        $('.tooltiptext').css('border', '' + fieldOrderCssBorder + '');
-
-        /*
-         * Issue #47 - Since the default Pokefarm CSS for buttons does not use the same color
-         * settings as most of the text on the site, manually set the text color for
-         * '.collapsible' to match the text around it
-         */
-        $('.collapsible').css('color', $('#content').find('h1').eq(0).css('color'));
-    }
-    setupObserver() {
-        this.observer.observe(document.querySelector('#field_field'), {
-            childList: true,
-            characterdata: true,
-            subtree: true,
-            characterDataOldValue: true,
-        });
-    }
-    setupHandlers() {
-        const obj = this;
-        $(window).on('load', (function() {
-            obj.loadSettings();
-            obj.customSearch();
-            if(obj.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-                obj.handleTooltipSettings();
-            }
-            obj.saveSettings();
-        }));
-
-        $(document).on('click input', '#fieldorder, #field_field, #field_berries, #field_nav', (function() { //field sort
-            obj.customSearch();
-        }));
-
-        document.addEventListener('keydown', function() {
-            obj.customSearch();
-        });
-
-        $(document).on('change', '.qolsetting', (function() {
-            obj.loadSettings();
-            obj.customSearch();
-            obj.saveSettings();
-        }));
-
-        $(document).on('input', '.qolsetting', (function() { //Changes QoL settings
-            obj.settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'),
-                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.customSearch();
-            obj.saveSettings();
-        }));
-
-        // enable all collapses
-        $('.collapsible').on('click', function() {
-            this.classList.toggle('active');
-            const content = this.nextElementSibling;
-            if(content.style.display === 'block') {
-                content.style.display = 'none';
-            } else {
-                content.style.display = 'block';
-            }
-        });
-
-        if(this.USER_SETTINGS.publicFieldFeatureEnables.search) {
-            $(document).on('click', '#addFieldTypeSearch', (function() { //add field type list
-                obj.addSelectSearch('typeNumber', 'types', 'fieldType', Globals.TYPE_OPTIONS, 'removeFieldTypeSearch', 'fieldTypes', 'typeArray');
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#removeFieldTypeSearch', (function() { //remove field type list
-                obj.typeArray = obj.removeSelectSearch(obj.typeArray, this, $(this).parent().find('select').val(), 'fieldType', 'fieldTypes');
-                obj.saveSettings();
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#addFieldNatureSearch', (function() { //add field nature search
-                obj.addSelectSearch('natureNumber', 'natures', 'fieldNature', Globals.NATURE_OPTIONS, 'removeFieldNature', 'natureTypes', 'natureArray');
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#removeFieldNature', (function() { //remove field nature search
-                obj.natureArray = obj.removeSelectSearch(obj.natureArray, this, $(this).parent().find('select').val(), 'fieldNature', 'natureTypes');
-                obj.saveSettings();
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#addFieldEggGroupSearch', (function() { //add egg group nature search
-                obj.addSelectSearch('eggGroupNumber', 'eggGroups', 'fieldEggGroup', Globals.EGG_GROUP_OPTIONS, 'removeFieldEggGroup', 'eggGroupTypes', 'eggGroupArray');
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#removeFieldEggGroup', (function() { //remove egg group nature search
-                obj.eggGroupArray = obj.removeSelectSearch(obj.eggGroupArray, this, $(this).parent().find('select').val(), 'fieldEggGroup', 'eggGroupTypes');
-                obj.saveSettings();
-                obj.customSearch();
-            }));
-
-            $(document).on('click', '#addTextField', (function() {
-                obj.addTextField();
-                obj.saveSettings();
-            }));
-
-            $(document).on('click', '#removeTextField', (function() {
-                obj.removeTextField(this, $(this).parent().find('input').val());
-                obj.saveSettings();
-                obj.customSearch();
-            }));
-        }
-
-        if(this.USER_SETTINGS.publicFieldFeatureEnables.sort) {
-            $('input.qolalone').on('change', function() { //only 1 textbox may be true
-                $('input.qolalone').not(this).prop('checked', false);
-            });
-        }
-
-        if(this.USER_SETTINGS.publicFieldFeatureEnables.tooltip) {
-
-            $('#field_berries').on('click', function() {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-            });
-
-            $('.tooltipsetting[data-key=tooltipEnableMods]').on('click', function() {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
-
-            $('.tooltipsetting[data-key=tooltipNoBerry]').on('click', function() {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
-
-            $('.tooltipsetting[data-key=tooltipBerry]').on('click', function() {
-                obj.loadSettings();
-                obj.handleTooltipSettings();
-                obj.saveSettings();
-            });
-        }
-
-        // based on PFQ's code in fields_public.min.js
-        $(window).on('keyup.field_shortcuts', function (a) {
-            const k = $('#field_berries');
-            if (0 == $(a.target).closest('input, textarea').length) {
-                switch (a.keyCode) {
-                case 49: // 1
-                case 97: // Num-1
-                    k.find('a').eq(0).trigger('click');
-                    break;
-                case 50: // 2
-                case 98: // Num-2
-                    k.find('a').eq(1).trigger('click');
-                    break;
-                case 51: // 3
-                case 99: // Num-3
-                    k.find('a').eq(2).trigger('click');
-                    break;
-                case 52: // 4
-                case 100: // Num-4
-                    k.find('a').eq(3).trigger('click');
-                    break;
-                case 53: // 5
-                case 101: // Num-5
-                    k.find('a').eq(4).trigger('click');
-                }
-            }
-        });
-    }
-    // specific
-    handleTooltipSettings() {
-        const obj = this;
-        if($('.tooltipsetting[data-key=tooltipEnableMods]').prop('checked')) {
-            // make sure checkboxes are enabled
-            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', false);
-            $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', false);
-
-            // use the correct setting to turn on the tooltips based on the berries
-            if($('#field_berries').hasClass('selected')) {
-                if($('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) { obj.disableTooltips(); }
-                else { obj.enableTooltips(); }
-            } else {
-                if($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) { obj.disableTooltips(); }
-                else { obj.enableTooltips(); }
-            }
-        } else {
-            $('.tooltipsetting[data-key=tooltipNoBerry]').prop('disabled', true);
-            $('.tooltipsetting[data-key=tooltipBerry]').prop('disabled', true);
-            // if tooltipNoBerry was checked before the mods were disabled, reenable the tooltips
-            if($('.tooltipsetting[data-key=tooltipNoBerry]').prop('checked')) {
-                obj.enableTooltips();
-            }
-            // same for tooltipBerry
-            if($('.tooltipsetting[data-key=tooltipBerry]').prop('checked')) {
-                obj.enableTooltips();
-            }
-        }
-    }
-    disableTooltips() {
-        $('#field_field>div.field>.fieldmon').removeAttr('data-tooltip').removeClass('tooltip_trigger');
-    }
-    enableTooltips() {
-        $('#field_field>div.field>.fieldmon').attr('data-tooltip', '');
-    }
-    searchForImgTitle(key) {
-        const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
-        const keyIndex = SEARCH_DATA.indexOf(key);
-        const value = SEARCH_DATA[keyIndex + 1];
-        const selected = $('img[title*="'+value+'"]');
-        if (selected.length) {
-            // next line different from shelter
-            const bigImg = selected.parent().parent().parent().parent().prev().children('img');
-            $(bigImg).addClass('publicfoundme');
-        }
-    }
-    searchForCustomPokemon(value, male, female, nogender) {
-        const genderMatches = [];
-        if (male) { genderMatches.push('[M]'); }
-        if(female) { genderMatches.push('[F]'); }
-        if(nogender) { genderMatches.push('[N]'); }
-
-        if(genderMatches.length > 0) {
-            for(let i = 0; i < genderMatches.length; i++) {
-                const genderMatch = genderMatches[i];
-                const selected = $('#field_field .tooltip_content:containsIN('+value+') img[title*=\'' + genderMatch + '\']');
-                if (selected.length) {
-                    const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
-                    $(shelterBigImg).addClass('publicfoundme');
-                }
-            }
-        }
-
-        //No genders
         else {
-            const selected = $('#field_field .tooltip_content:containsIN('+value+'):not(:containsIN("Egg"))');
-            if (selected.length) {
-                const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
-                $(shelterBigImg).addClass('publicfoundme');
-            }
-        }
-
-    }
-    searchForCustomEgg(value) {
-        const selected = $('#field_field .tooltip_content:containsIN('+value+'):contains("Egg")');
-        if (selected.length) {
-            const shelterBigImg = selected.parent().parent().parent().parent().prev().children('img');
-            $(shelterBigImg).addClass('publicfoundme');
+            console.log('PublicFields features disabled');
         }
     }
-    searchForCustomPng(value) {
-        const selected = $('#field_field img[src*="'+value+'"]');
-        if (selected.length) {
-            const shelterImgSearch = selected;
-            $(shelterImgSearch).addClass('publicfoundme');
-        }
-    }
-    customSearch() {
-        const obj = this;
 
-        $('.fieldmon').removeClass('qolSortBerry');
-        $('.fieldmon').removeClass('qolSortMiddle');
-        $('.field').removeClass('qolGridField');
-        $('.fieldmon').removeClass('qolGridPokeSize');
-        $('.fieldmon>img').removeClass('qolGridPokeImg');
-
-        if(obj.USER_SETTINGS.publicFieldFeatureEnables.sort) {
-
-            //////////////////// sorting ////////////////////
-            if (this.settings.fieldByBerry === true) { //sort field by berries
-                $('.fieldmon').removeClass('qolSortMiddle');
-                $('.field').removeClass('qolGridField');
-                $('.fieldmon').removeClass('qolGridPokeSize');
-                $('.fieldmon>img').removeClass('qolGridPokeImg');
-
-                $('.fieldmon').addClass('qolSortBerry');
-                if($('#field_field [data-flavour*="any-"]').length) {
-                    $('#field_field [data-flavour*="any-"]').addClass('qolAnyBerry');
-                }
-                if($('#field_field [data-flavour*="sour-"]').length) {
-                    $('#field_field [data-flavour*="sour-"]').addClass('qolSourBerry');
-                }
-                if($('#field_field [data-flavour*="spicy-"]').length) {
-                    $('#field_field [data-flavour*="spicy-"]').addClass('qolSpicyBerry');
-                }
-                if($('#field_field [data-flavour*="dry-"]').length) {
-                    $('#field_field [data-flavour*="dry-"]').addClass('qolDryBerry');
-                }
-                if($('#field_field [data-flavour*="sweet-"]').length) {
-                    $('#field_field [data-flavour*="sweet-"]').addClass('qolSweetBerry');
-                }
-                if($('#field_field [data-flavour*="bitter-"]').length) {
-                    $('#field_field [data-flavour*="bitter-"]').addClass('qolBitterBerry');
-                }
-            }
-            else if (this.settings.fieldByMiddle === true) { //sort field in the middle
-                $('.fieldmon').addClass('qolSortMiddle');
-            }
-            else if (this.settings.fieldByGrid === true) { //sort field in a grid
-                $('.field').addClass('qolGridField');
-                $('.fieldmon').addClass('qolGridPokeSize');
-                $('.fieldmon>img').addClass('qolGridPokeImg');
-            }
-
-            //Pokémon click counter
-            if (this.settings.fieldClickCount === false) {
-                $('#pokemonclickcount').remove();
-            } else if (this.settings.fieldClickCount === true) {
-                const pokemonFed = $('.fieldmon').map(function() { return $(this).attr('data-fed'); }).get();
-
-                let pokemonClicked = 0;
-                for (let i = 0; i < pokemonFed.length; i++) {
-                    pokemonClicked += pokemonFed[i] << 0;
-                }
-
-                const pokemonInField = $('.fieldpkmncount').text();
-
-                if ($('#pokemonclickcount').length === 0) {
-                    document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
-                } else if($('#pokemonclickcount').text() !== (pokemonClicked+' / '+pokemonInField+' Clicked')) {
-                    $('#pokemonclickcount').text(pokemonClicked+' / '+pokemonInField+' Clicked');
-                }
-
-                if(pokemonInField !== '') {
-                    if (JSON.stringify(pokemonClicked) === pokemonInField) {
-                        $('#pokemonclickcount').css({
-                            'color' : '#059121'
-                        });
-                    }
-                    if (pokemonClicked !== JSON.parse(pokemonInField)) {
-                        $('#pokemonclickcount').css({
-                            'color' : '#a30323'
-                        });
-                    }
-                }
-            }
-        }
-
-        if(obj.USER_SETTINGS.publicFieldFeatureEnables.search) {
-        /////////////////// searching ///////////////////
-            const bigImgs = document.querySelectorAll('.publicfoundme');
-            if(bigImgs !== null) {
-                bigImgs.forEach((b) => {$(b).removeClass('publicfoundme');});
-            }
-
-            if(this.settings.fieldShiny === true) {
-                this.searchForImgTitle('findShiny');
-            }
-            if(this.settings.fieldAlbino === true) {
-                this.searchForImgTitle('findAlbino');
-            }
-            if(this.settings.fieldMelanistic === true) {
-                this.searchForImgTitle('findMelanistic');
-            }
-            if(this.settings.fieldPrehistoric === true) {
-                this.searchForImgTitle('findPrehistoric');
-            }
-            if(this.settings.fieldDelta === true) {
-                this.searchForImgTitle('findDelta');
-            }
-            if(this.settings.fieldMega === true) {
-                this.searchForImgTitle('findMega');
-            }
-            if(this.settings.fieldStarter === true) {
-                this.searchForImgTitle('findStarter');
-            }
-            if(this.settings.fieldCustomSprite === true) {
-                this.searchForImgTitle('findCustomSprite');
-            }
-            if(this.settings.fieldItem === true) {
-            // pokemon that hold items will have HTML that matches the following selector
-                const items = $('.tooltip_content .item>div>.tooltip_item');
-                if(items.length) {
-                    const itemBigImgs = items.parent().parent().parent().parent().prev().children('img');
-                    $(itemBigImgs).addClass('publicfoundme');
-                }
-            }
-
-            const filteredTypeArray = this.typeArray.filter(v=>v!='');
-            const filteredNatureArray = this.natureArray.filter(v=>v!='');
-            const filteredEggGroupArray = this.eggGroupArray.filter(v=>v!='');
-
-            //loop to find all the types
-            if (filteredTypeArray.length > 0 || filteredNatureArray.length > 0 || filteredEggGroupArray.length > 0) {
-                $('.fieldmon').each(function() {
-                    const searchPokemonBigImg = $(this)[0].childNodes[0];
-                    const tooltipData = Helpers.parseFieldPokemonTooltip($(searchPokemonBigImg).parent().next()[0]);
-
-                    const searchTypeOne = tooltipData.types[0] + '';
-                    const searchTypeTwo = (tooltipData.types.length > 1) ? tooltipData.types[1] + '': '';
-
-                    const searchNature = Globals.NATURE_LIST[tooltipData.nature];
-
-                    const searchEggGroup = $(this).next().find('.fieldmontip').
-                        children(':contains(Egg Group)').eq(0).text().slice('Egg Group: '.length);
-
-                    for (let i = 0; i < filteredTypeArray.length; i++) {
-                        if ((searchTypeOne === filteredTypeArray[i]) || (searchTypeTwo === filteredTypeArray[i])) {
-                            // .parent().children() hack to make both big & small images highlighted
-                            // privateFieldsPage has the same issue: TODO: combine some of these search features, 
-                            // and remove this hack (put combined functions in a library of some sort)
-                            // could put the class on the parent element instead, and make the css .found>img?
-                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
-                        }
-                    }
-
-                    for (let i = 0; i < filteredNatureArray.length; i++) {
-                        if(searchNature === Globals.NATURE_LIST[filteredNatureArray[i]]) {
-                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
-                        }
-                    }
-
-                    for (let i = 0; i < filteredEggGroupArray.length; i++) {
-                        const value = Globals.EGG_GROUP_LIST[filteredEggGroupArray[i]];
-                        if(searchEggGroup === value ||
-                       searchEggGroup.indexOf(value + '/') > -1 ||
-                       searchEggGroup.indexOf('/' + value) > -1) {
-                            $(searchPokemonBigImg).parent().children().addClass('publicfoundme');
-                        }
-                    }
-                }); // each
-            } // end
-
-            // custom search
-            for (let i = 0; i < this.customArray.length; i++) {
-                const value = this.customArray[i];
-                if (value != '') {
-                //custom pokemon search
-                    if (this.settings.fieldCustomPokemon === true) {
-                        this.searchForCustomPokemon(value, this.settings.fieldMale,
-                            this.settings.fieldFemale,
-                            this.settings.fieldNoGender);
-                    }
-
-                    //custom egg
-                    if (this.settings.fieldCustomEgg === true) {
-                        this.searchForCustomEgg(value);
-                    }
-
-                    //imgSearch with Pokémon
-                    if (this.settings.fieldCustomPng === true) {
-                        this.searchForCustomPng(value);
-                    }
-                }
-            }
-        }
-    } // customSearch
-    addSelectSearch(cls, name, dataKey, options, id, divParent, arrayName) {
-        const theList = Helpers.selectSearchDiv(cls, name, dataKey, options, id, divParent, arrayName);
-        const number = $(`#${divParent}>div`).length;
-        $(`#${divParent}`).append(theList);
-        $(`.${cls}`).removeClass(cls).addClass(''+number+'');
-    }
-    removeSelectSearch(arr, byebye, key, settingsKey, divParent) {
-        arr = $.grep(arr, function(value) { return value != key; });
-        this.settings[settingsKey] = arr.toString();
-
-        $(byebye).parent().remove();
-
-        for(let i = 0; i < $(`#${divParent}>div`).length; i++) {
-            const rightDiv = i + 1;
-            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-        }
-
-        return arr;
-    }
-    addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'fieldCustom', 'removeTextField', 'customArray');
-        const numberDiv = $('#searchkeys>div').length;
-        $('#searchkeys').append(theField);
-        $('.numberDiv').removeClass('numberDiv').addClass(''+numberDiv+'');
-    }
-    removeTextField(byebye, key) {
-        this.customArray = $.grep(this.customArray, function(value) {
-            return value != key;
-        });
-        this.settings.fieldCustom = this.customArray.toString();
-
-        $(byebye).parent().remove();
-
-        let i;
-        for(i = 0; i < $('#searchkeys>div').length; i++) {
-            const rightDiv = i + 1;
-            $('.'+i+'').next().removeClass().addClass(''+rightDiv+'');
-        }
-    }
-}
-
-class ShelterPage extends Page {
-    constructor() {
-        const defaultPageSettings = {
-            findCustom: '',
-            findType: '',
-            findTypeEgg: true,
-            findTypePokemon: false,
-            findNewEgg: true,
-            findNewPokemon: true,
-            findShiny: true,
-            findAlbino: true,
-            findMelanistic: true,
-            findPrehistoric: true,
-            findDelta: true,
-            findMega: true,
-            findStarter: true,
-            findCustomSprite: true,
-            findLegendary: false,
-            findMale: true,
-            findFemale: true,
-            findNoGender: true,
-            customEgg: true,
-            customPokemon: true,
-            customPng: false,
-            shelterGrid: true,
-            shelterSpriteSize: 'auto'
-        };
-        super(Globals.SHELTER_PAGE_SETTINGS_KEY, defaultPageSettings, 'shelter');
-        this.customArray = [];
-        this.typeArray = [];
-        const obj = this;
-        this.observer = new MutationObserver(function () {
-            obj.customSearch();
-        });
-
-        /*
-         * used to keep track of the currently selected match
-         * matches can be selected via a shortcut key, specified via this.selectNextMatchKey
-         */
-        this.selectNextMatchKey = 78; // 'n'
-        this.currentlySelectedMatch = undefined;
-    }
-
-    setupHTML() {
-        if(this.USER_SETTINGS.shelterFeatureEnables.search) {
-            $('.tabbed_interface.horizontal>div').removeClass('tab-active');
-            $('.tabbed_interface.horizontal>ul>li').removeClass('tab-active');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterOptionsHTML());
-            $('#shelteroptionsqol').addClass('tab-active');
-
-            document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
-
-            const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-            const theType = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', Globals.TYPE_OPTIONS,
-                'removeShelterTypeList', 'fieldTypes', 'typeArray');
-
-            this.customArray = this.settings.findCustom.split(',');
-            this.typeArray = this.settings.findType.split(',');
-
-            Helpers.setupFieldArrayHTML(this.customArray, 'searchkeys', theField, 'numberDiv');
-            Helpers.setupFieldArrayHTML(this.typeArray, 'shelterTypes', theType, 'typeNumber');
-
-            $('[data-shelter=reload]').addClass('customSearchOnClick');
-            $('[data-shelter=whiteflute]').addClass('customSearchOnClick');
-            $('[data-shelter=blackflute]').addClass('customSearchOnClick');
-        }
-        if(this.USER_SETTINGS.shelterFeatureEnables.sort) {
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterbegin', '<li class=""><label>Sort</label></li>');
-            document.querySelector('.tabbed_interface.horizontal>ul').insertAdjacentHTML('afterend', Resources.shelterSortHTML());
-        }
-    }
-    setupCSS() {
-        if(this.USER_SETTINGS.shelterFeatureEnables.search ||
-            this.USER_SETTINGS.shelterFeatureEnables.sort) {
-            const shelterSuccessCss = $('#sheltercommands').css('background-color');
-            $('#sheltersuccess').css('background-color', shelterSuccessCss);
-            $('.tooltiptext').css('background-color', $('.tooltip_content').eq(0).css('background-color'));
-            const background = $('#shelterpage>.panel').eq(0).css('border');
-            $('.tooltiptext').css('border', '' + background + '');
-        }
-    }
-    setupObserver() {
-        this.observer.observe(document.querySelector('#shelterarea'), {
+    setupObservers(settings) {
+        Helpers.addObserver(document.querySelector('#field_field'), {
             childList: true,
+            subtree: true,
+        }, function() {
+            PublicFields.addClickCounter(settings);
         });
     }
-    setupHandlers() {
-        const obj = this;
-        $(document).on('change', '#shelteroptionsqol input', (function () { //shelter search
-            obj.loadSettings();
-            obj.customSearch();
-            obj.saveSettings();
-        }));
 
-        $(document).on('change', '.qolsetting', (function () {
-            obj.loadSettings();
-            obj.customSearch();
-            obj.saveSettings();
-        }));
+    static addClickCounter(settings) {
+        //Pokémon click counter
+        if (settings[PublicFields.SETTING_KEY].fieldClickCount === true) {
+            const pokemonFed = $('.fieldmon').map(function() { return $(this).attr('data-fed'); }).get();
 
-        $(document).on('input', '.qolsetting', (function () { //Changes QoL settings
-            obj.settingsChange(this.getAttribute('data-key'),
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'),
-                (this.hasAttribute('array-name') ? this.getAttribute('array-name') : ''));
-            obj.customSearch();
-            obj.saveSettings();
-        }));
+            let pokemonClicked = 0;
+            for (let i = 0; i < pokemonFed.length; i++) {
+                pokemonClicked += pokemonFed[i] << 0;
+            }
 
-        $('.customSearchOnClick').on('click', (function () {
-            obj.loadSettings();
-            obj.customSearch();
-            obj.saveSettings();
-        }));
+            const pokemonInField = $('.fieldpkmncount').text();
 
-        $(document).on('click', '#addShelterTextfield', (function () { //add shelter text field
-            obj.addTextField();
-            obj.saveSettings();
-        }));
+            if ($('#pokemonclickcount').length === 0) {
+                document.querySelector('.fielddata').insertAdjacentHTML('beforeend','<div id="pokemonclickcount">'+pokemonClicked+' / '+pokemonInField+' Clicked</div>');
+            } else if($('#pokemonclickcount').text() !== (pokemonClicked+' / '+pokemonInField+' Clicked')) {
+                $('#pokemonclickcount').text(pokemonClicked+' / '+pokemonInField+' Clicked');
+            }
 
-        $(document).on('click', '#removeShelterTextfield', (function () { //remove shelter text field
-            obj.removeTextField(this, $(this).parent().find('input').val());
-            obj.saveSettings();
-            obj.customSearch();
-        }));
-
-        $(document).on('click', '#addShelterTypeList', (function () { //add shelter type list
-            obj.addTypeList();
-            obj.customSearch();
-        }));
-
-        $(document).on('click', '#removeShelterTypeList', (function () { //remove shelter type list
-            obj.removeTypeList(this, $(this).parent().find('select').val());
-            obj.saveSettings();
-            obj.customSearch();
-        }));
-
-        $('input.qolalone').on('change', function () { //only 1 checkbox may be true
-            $('input.qolalone').not(this).prop('checked', false);
-        });
-
-        $('input[name="shelterSpriteSize"]').on('change', function() {
-            obj.settingsChange('shelterSpriteSize',
-                $(this).val(),
-                $(this).parent().parent().attr('class'),
-                $(this).parent().attr('class'),
-                '');
-            obj.customSearch();
-            obj.saveSettings();
-        });
-
-        $(window).on('keyup.qol_shelter_shortcuts', function (a) {
-            if (0 == $(a.target).closest('input, textarea').length) {
-                switch (a.keyCode) {
-                case obj.selectNextMatchKey: {
-                    const numMatches = $('#shelterarea').find('.pokemon').find('.shelterfoundme').length;
-
-                    // remove all existing locks
-                    $('#shelterarea').find('.pokemon').removeClass('lock').removeClass('dismiss');
-
-                    // default is undefined, so set the value to either 0 or 1+current
-                    obj.currentlySelectedMatch = (obj.currentlySelectedMatch + 1) || 0;
-
-                    if (numMatches) {
-                        const modIndex = (numMatches == 1) ? 0 : (obj.currentlySelectedMatch + 1) % numMatches - 1;
-                        const selected = $('#shelterarea').find('.pokemon').find('.shelterfoundme').parent().eq(modIndex);
-                        // these steps mimic clicking on the pokemon/egg
-                        selected.parent().addClass('selected');
-                        selected.addClass('tooltip_trigger').addClass('lock').removeClass('dismiss');
-                        selected.next().find('[data-shelter=adopt]').focus();
-                    } else {
-                        obj.currentlySelectedMatch = undefined;
-                    }
+            if(pokemonInField !== '') {
+                if (JSON.stringify(pokemonClicked) === pokemonInField) {
+                    $('#pokemonclickcount').removeClass('unclicked');
+                    $('#pokemonclickcount').addClass('clicked');
                 }
+                if (pokemonClicked !== JSON.parse(pokemonInField)) {
+                    $('#pokemonclickcount').removeClass('clicked');
+                    $('#pokemonclickcount').addClass('unclicked');
                 }
             }
+        }
+        else {
+            $('#pokemonclickcount').remove();
+        }
+    }
+    static setupFieldSort(settings) {
+        // add sort menu items
+        document.querySelector('#field_nav').insertAdjacentHTML('beforebegin', Resources.FIELD_SORT_HTML);
+        const menuBackground = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('background-color');
+        const menuColor = $('#navigation>#navbtns>li>a, #navigation #navbookmark>li>a').css('color');
+        $('#fieldorder').css('background-color', '' + menuBackground + '');
+        $('#fieldorder').css('color', '' + menuColor + '');
+        // enable setting listeners
+        settings.addSettingsListeners();
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingGroup==PublicFields.SETTING_KEY) {
+                PublicFields.applyFieldSort(settings);
+            }
         });
+        // run at page load too
+        PublicFields.applyFieldSort(settings);
+        PublicFields.addClickCounter(settings);
     }
-    addTextField() {
-        const theField = Helpers.textSearchDiv('numberDiv', 'findCustom', 'removeShelterTextfield', 'customArray');
-        const numberDiv = $('#searchkeys>div').length;
-        $('#searchkeys').append(theField);
-        $('.numberDiv').removeClass('numberDiv').addClass('' + numberDiv + '');
-    }
-    removeTextField(byebye, key) {
-        this.customArray = $.grep(this.customArray, function (value) { //when textfield is removed, the value will be deleted from the localstorage
-            return value != key;
-        });
-        this.settings.findCustom = this.customArray.toString();
-
-        $(byebye).parent().remove();
-
-        let i;
-        for (i = 0; i < $('#searchkeys>div').length; i++) {
-            const rightDiv = i + 1;
-            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
-        }
-    }
-    addTypeList() {
-        const theList = Helpers.selectSearchDiv('typeNumber', 'types', 'findType', Globals.TYPE_OPTIONS,
-            'removeShelterTypeList', 'fieldTypes', 'typeArray');
-        const numberTypes = $('#shelterTypes>div').length;
-        $('#shelterTypes').append(theList);
-        $('.typeNumber').removeClass('typeNumber').addClass('' + numberTypes + '');
-    }
-    removeTypeList(byebye, key) {
-        this.typeArray = $.grep(this.typeArray, function (value) {
-            return value != key;
-        });
-        this.settings.findType = this.typeArray.toString();
-
-        $(byebye).parent().remove();
-
-        let i;
-        for (i = 0; i < $('#shelterTypes>div').length; i++) {
-            const rightDiv = i + 1;
-            $('.' + i + '').next().removeClass().addClass('' + rightDiv + '');
-        }
-    }
-    insertShelterFoundDiv(name, img) {
-        document.querySelector('#sheltersuccess').
-            insertAdjacentHTML('beforeend',
-                '<div id="shelterfound">' + name + ' found ' + img + '</div>');
-    }
-    insertShelterTypeFoundDiv(number, type, stage, names) {
-        let stageNoun = '';
-        if (stage === 'egg') {
-            stageNoun = stage + (number !== 1 ? 's' : '');
-        } else { // i.e. stage === 'Pokemon'
-            stageNoun = stage;
-        }
-        document.querySelector('#sheltersuccess').
-            insertAdjacentHTML('beforeend',
-                '<div id="shelterfound">' + number + ' ' + type + ' type ' +
-                stageNoun + ' found! ' + (names.length > 0 ? '(' + names.join(', ') + ')' : '') + '</div>');
-    }
-
-    searchForImgTitle(key) {
-        const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
-        const keyIndex = SEARCH_DATA.indexOf(key);
-        const value = SEARCH_DATA[keyIndex + 1];
-        const selected = $('img[title*="' + value + '"]');
-        if (selected.length) {
-            const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
-            const imgResult = selected.length + ' ' + searchResult; //amount + type found
-            const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-            const shelterBigImg = selected.parent().prev().children('img');
-            $(shelterBigImg).addClass('shelterfoundme');
-
-            this.insertShelterFoundDiv(imgResult, imgFitResult);
-        }
-    }
-
-    searchForTooltipText(key) {
-        const LIST = Globals.SHELTER_SEARCH_LISTS[key];
-        const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
-        const keyIndex = SEARCH_DATA.indexOf(key);
-        for (let i = 0; i < LIST.length; i++) {
-            const entry = LIST[i];
-            const selected = $(`div.pokemon+div.tooltip_content:contains('${entry}')`);
-            if (selected.length) {
-                const searchResult = SEARCH_DATA[keyIndex + 2]; //type of Pokémon found
-                const imgResult = selected.length + ' ' + searchResult; //amount + type found
-                const imgFitResult = SEARCH_DATA[keyIndex + 3]; //image for type of Pokémon
-                const shelterBigImg = selected.prev().children('img.big');
-                shelterBigImg.addClass('shelterfoundme');
-
-                this.insertShelterFoundDiv(imgResult, imgFitResult);
+    static applyFieldSort(settings) {
+        const fieldSettings = settings[PublicFields.SETTING_KEY];
+        /*
+         *Sort-related settings, and their default values
+         *fieldSettings.fieldSort = 'none';
+         *fieldSettings.fieldClickCount = true;
+         *fieldSettings.maxStack = false;
+         */
+        // first, remove any existing selection (all qol classes)
+        const classList = document.getElementById('field_field').className.split(/\s+/);
+        for (let i = 0; i < classList.length; i++) {
+            if (classList[i].match(/^qol/)) {
+                $('#field_field').removeClass(classList[i]);
             }
         }
-    }
-
-    searchForTypes(types) {
-        const dexData = this.POKEDEX.DEX_DATA;
-        for (let i = 0; i < types.length; i++) {
-            const value = types[i];
-            const foundType = Globals.SHELTER_TYPE_TABLE[Globals.SHELTER_TYPE_TABLE.indexOf(value) + 2];
-
-            let typePokemonNames = [];
-            let selected = undefined;
-            if (this.settings.findTypeEgg === true) {
-                const pokemonElems = [];
-                typePokemonNames = [];
-                selected = $('#shelterarea>.tooltip_content:contains("Egg")');
-                selected.each((i, e) => {
-                    const allText = $(e).text();
-                    const justParentText = allText.replace($(e).children().text(), '').trim();
-                    const searchPokemon = justParentText.replace('Egg', '').trim();
-                    const dexifiedPokemon = searchPokemon
-                        .replace(/é/g, '\\u00e9')
-                        .replace(/í/g, '\\u00ed')
-                        .replace(/ñ/g, '\\u00f1');
-                    let searchTypeOne = '';
-                    let searchTypeTwo = '';
-
-                    const searchPokemonIndex = dexData.indexOf('"' + dexifiedPokemon + '"');
-                    searchTypeOne = dexData[searchPokemonIndex + 1];
-                    searchTypeTwo = dexData[searchPokemonIndex + 2];
-
-                    if ((searchTypeOne === value) || (searchTypeTwo === value)) {
-                        typePokemonNames.push(searchPokemon);
-                        pokemonElems.push(e);
-                    }
-                });
-
-                for (let o = 0; o < pokemonElems.length; o++) {
-                    const shelterImgSearch = $(pokemonElems[o]);
-                    const shelterBigImg = shelterImgSearch.prev().children('img');
-                    $(shelterBigImg).addClass('shelterfoundme');
-                }
-
-                this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'egg', typePokemonNames);
-            }
-
-            if (this.settings.findTypePokemon === true) {
-                typePokemonNames = [];
-                selected = $('#shelterarea>.tooltip_content').not(':contains("Egg")');
-                selected.each((i, e) => {
-                    const allText = $(e).text();
-                    const justParentText = allText.replace($(e).children().text(), '').trim()
-                        .replace(/\n/g, '');
-                    const searchPokemon = justParentText.replace(/\(Lv\..*/g, '').trim();
-                    const dexifiedPokemon = searchPokemon
-                        .replace(/é/g, '\\u00e9')
-                        .replace(/í/g, '\\u00ed')
-                        .replace(/ñ/g, '\\u00f1');
-                    const searchPokemonIndex = dexData.indexOf('"' + dexifiedPokemon + '"');
-                    const searchTypeOne = dexData[searchPokemonIndex + 1];
-                    const searchTypeTwo = dexData[searchPokemonIndex + 2];
-                    if ((searchTypeOne === value) || (searchTypeTwo === value)) {
-                        typePokemonNames.push(searchPokemon);
-                    }
-                });
-
-                for (let o = 0; o < typePokemonNames.length; o++) {
-                    const name = typePokemonNames[o];
-                    const shelterImgSearch = $(
-                        `#shelterarea .tooltip_content:containsIN("${name} (")`
-                    );
-                    const shelterBigImg = shelterImgSearch.prev().children('img');
-                    $(shelterBigImg).addClass('shelterfoundme');
-                }
-
-                this.insertShelterTypeFoundDiv(typePokemonNames.length, foundType, 'Pokemon', typePokemonNames);
-            }
-        }
-
-    }
-
-    customSearch() {
-        const obj = this;
-        const SEARCH_DATA = Globals.SHELTER_SEARCH_DATA;
-
-        // search whatever you want to find in the shelter & grid
-
-        if(this.USER_SETTINGS.shelterFeatureEnables.sort) {
-            //sort in grid
-            $('#shelterarea').removeClass('qolshelterareagrid');
-            $('.mq2 #shelterarea').removeClass('qolshelterareagridmq2');
-            $('#shelterarea .tooltip_content').removeClass('qoltooltipgrid');
-            $('#shelterpage #shelter #shelterarea > .pokemon').removeClass('qolpokemongrid');
-            $('#sheltergridthingy').remove();
-
-            if (this.settings.shelterGrid === true) { //shelter grid
-                $('#shelterarea').addClass('qolshelterareagrid');
-                $('.mq2 #shelterarea').addClass('qolshelterareagridmq2');
-                $('#shelterarea .tooltip_content').addClass('qoltooltipgrid');
-                $('#shelterpage #shelter #shelterarea > .pokemon').addClass('qolpokemongrid');
-                $('head').append('<style id="sheltergridthingy">#shelterarea:before{display:none !important;}</style>');
-            }
-
-            // sprite size mode
-            $('#shelterarea').removeClass('qolshelterarealarge');
-            $('#shelterarea').removeClass('qolshelterareasmall');
-            $('input[name="shelterSpriteSize"]').prop('checked',false);
-            if(this.settings.shelterSpriteSize == 'large') {
-                $('#shelterarea').addClass('qolshelterarealarge');
-                $('#spriteSizeLarge').prop('checked',true);
-            }
-            else if(this.settings.shelterSpriteSize == 'small') {
-                $('#shelterarea').addClass('qolshelterareasmall');
-                $('#spriteSizeSmall').prop('checked',true);
+        // add the desired sort class
+        switch(fieldSettings.fieldSort) {
+        case 'grid':
+            $('#field_field').addClass('qolFieldGrid');
+            break;
+        case 'berry':
+            $('#field_field').addClass('qolFieldBerrySort');
+            break;
+        case 'stack':
+            if(fieldSettings.maxStack===true) {
+                $('#field_field').addClass('qolFieldStackMax');
             }
             else {
-                $('#spriteSizeAuto').prop('checked',true);
+                $('#field_field').addClass('qolFieldStack');
             }
+            break;
+        case 'none':
+        default:
+            break;
         }
-
-        if(this.USER_SETTINGS.shelterFeatureEnables.search) {
-        /*
-         * search values depending on settings
-         * emptying the sheltersuccess div to avoid duplicates
-         */
-            document.querySelector('#sheltersuccess').innerHTML = '';
-            $('#shelterarea>div>img').removeClass('shelterfoundme');
-
-            if (this.settings.findShiny === true) {
-                this.searchForImgTitle('findShiny');
-            }
-            if (this.settings.findAlbino === true) {
-                this.searchForImgTitle('findAlbino');
-            }
-            if (this.settings.findMelanistic === true) {
-                this.searchForImgTitle('findMelanistic');
-            }
-            if (this.settings.findPrehistoric === true) {
-                this.searchForImgTitle('findPrehistoric');
-            }
-            if (this.settings.findDelta === true) {
-                this.searchForImgTitle('findDelta');
-            }
-            if (this.settings.findMega === true) {
-                this.searchForImgTitle('findMega');
-            }
-            if (this.settings.findStarter === true) {
-                this.searchForImgTitle('findStarter');
-            }
-            if (this.settings.findCustomSprite === true) {
-                this.searchForImgTitle('findCustomSprite');
-            }
-            if (this.settings.findLegendary === true) {
-                this.searchForTooltipText('findLegendary');
-            }
-
-            if (this.settings.findNewPokemon === true) {
-                const key = 'findNewPokemon';
-                const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
-                const selected = $('#shelterarea .tooltip_content:contains(' + value + ')');
-                if (selected.length) {
-                    const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
-                    const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
-                    const tooltipResult = selected.length + ' ' + searchResult;
-                    const shelterImgSearch = selected;
-                    const shelterBigImg = shelterImgSearch.prev().children('img');
-                    $(shelterBigImg).addClass('shelterfoundme');
-
-                    this.insertShelterFoundDiv(tooltipResult, imgFitResult);
-                }
-            }
-
-            if (this.settings.findNewEgg === true) {
-                const key = 'findNewEgg';
-                const value = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 1];
-                const selected = $('#shelterarea .tooltip_content:contains(' + value + ')').filter(function () {
-                // .text() will include the text in the View/Adopt and Hide buttons, so there will be a space
-                    return $(this).text().startsWith(value + ' ');
-                });
-
-                if (selected.length) {
-                    const searchResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 2];
-                    const imgFitResult = SEARCH_DATA[SEARCH_DATA.indexOf(key) + 3];
-                    if (selected.length >= 1) {
-                        const shelterImgSearch = selected;
-                        const shelterBigImg = shelterImgSearch.prev().children('img');
-                        $(shelterBigImg).addClass('shelterfoundme');
-                    }
-                    this.insertShelterFoundDiv(searchResult, imgFitResult);
-                }
-            }
-
-            //loop to find all search genders for the custom
-            const shelterValueArrayCustom = [];
-            for (const key in this.settings) {
-                const value = this.settings[key];
-                if (value === true) {
-                    if (key === 'findMale' || key === 'findFemale' || key === 'findNoGender') {
-                        const searchKey = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(key) + 1];
-                        shelterValueArrayCustom.push(searchKey);
-                    }
-                }
-            }
-
-            //loop to find all the custom search parameters
-            const customSearchAmount = this.customArray.length;
-            const heartPng = '<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952">';
-            const eggPng = '<img src="//pfq-static.com/img/pkmn/egg.png/t=1451852195">';
-            for (let i = 0; i < customSearchAmount; i++) {
-                const customValue = this.customArray[i];
-                if (customValue != '') {
-                //custom pokemon search
-                    if (this.settings.customPokemon === true) {
-                        const genderMatches = [];
-                        if (shelterValueArrayCustom.indexOf('[M]') > -1) {
-                            genderMatches.push('[M]');
-                        }
-                        if (shelterValueArrayCustom.indexOf('[F]') > -1) {
-                            genderMatches.push('[F]');
-                        }
-                        if (shelterValueArrayCustom.indexOf('[N]') > -1) {
-                            genderMatches.push('[N]');
-                        }
-
-                        if (genderMatches.length > 0) {
-                            for (let i = 0; i < genderMatches.length; i++) {
-                                const genderMatch = genderMatches[i];
-                                const selected = $('#shelterarea .tooltip_content:containsIN(' + customValue + ') img[title*=\'' + genderMatch + '\']');
-                                if (selected.length) {
-                                    const searchResult = customValue;
-                                    const genderName = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 1];
-                                    const imgGender = Globals.SHELTER_SEARCH_DATA[Globals.SHELTER_SEARCH_DATA.indexOf(genderMatch) + 2];
-                                    const tooltipResult = selected.length + ' ' + genderName + imgGender + ' ' + searchResult;
-                                    const shelterImgSearch = selected;
-                                    const shelterBigImg = shelterImgSearch.parent().prev().children('img');
-                                    $(shelterBigImg).addClass('shelterfoundme');
-
-                                    this.insertShelterFoundDiv(tooltipResult, heartPng);
-                                }
-                            }
-                        }
-
-                        //No genders
-                        else if (shelterValueArrayCustom.length === 0) {
-                            const selected = $('#shelterarea .tooltip_content:containsIN(' + customValue + '):not(:containsIN("Egg"))');
-                            if (selected.length) {
-                                const searchResult = customValue;
-                                const tooltipResult = selected.length + ' ' + searchResult;
-                                const shelterImgSearch = selected;
-                                const shelterBigImg = shelterImgSearch.parent().prev().children('img');
-                                $(shelterBigImg).addClass('shelterfoundme');
-                                this.insertShelterFoundDiv(tooltipResult, heartPng);
-                            }
-                        }
-                    }
-
-                    //custom egg
-                    if (this.settings.customEgg === true) {
-                        const selected = $('#shelterarea .tooltip_content:containsIN(' + customValue + '):contains("Egg")');
-                        if (selected.length) {
-                            const searchResult = customValue;
-                            const tooltipResult = selected.length + ' ' + searchResult;
-                            const shelterImgSearch = selected;
-                            const shelterBigImg = shelterImgSearch.prev().children('img');
-                            $(shelterBigImg).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(tooltipResult, eggPng);
-                        }
-                    }
-
-                    //imgSearch with Pokémon
-                    if (this.settings.customPng === true) {
-                        const selected = $(`#shelterarea img[src*="${customValue}"]`);
-                        if (selected.length) {
-                            let searchResult = $(selected[0]).parent().next().text().split('(')[0];
-                            let searchCount = selected.length;
-                            if(selected.parent().attr('data-stage')=='egg') {
-                                // eggs will match twice, since their small/big sprites are the same
-                                searchCount = searchCount/2;
-                                // eggs do not have ( ) since they do not have a level/gender
-                                searchResult = searchResult.split(' View')[0];
-                                // add s for eggs
-                                if(searchCount > 1) {
-                                    searchResult += 's';
-                                }
-                            }
-                            const tooltipResult = searchCount + ' ' + searchResult + ' (img search)';
-                            const shelterImgSearch = selected;
-                            $(shelterImgSearch).addClass('shelterfoundme');
-                            this.insertShelterFoundDiv(tooltipResult, heartPng);
-                        }
-                    }
-                }
-            }
-
-            //loop to find all the types
-
-            const filteredTypeArray = this.typeArray.filter(v => v != '');
-
-            if (filteredTypeArray.length > 0) {
-                obj.searchForTypes(filteredTypeArray);
-            }
-        }
-    } // customSearch
+    }
 }
 
+class Shelter {
+    static SETTING_KEY = 'QoLShelter';
+    static SETTING_ENABLE = 'shelterEnable';
+    static SUB_SETTINGS = 'QoLShelterFeatures';
+    static NEXT_MATCH_KEY = 78; // 'n'
 
-class SummaryPage extends Page {
-  constructor() {
-      super(undefined, {}, 'summary');
-  } // constructor
+    constructor() {
+        const settings = UserDataHandle.getSettings();
+        if(settings.QoLSettings[Shelter.SETTING_ENABLE]) {
+            Helpers.addGlobalStyle(Resources.SHELTER_CSS);
+            Helpers.addGlobalStyle(Resources.SEARCH_CSS);
+            // if specific features are enabled, run them
+            if(settings[Shelter.SUB_SETTINGS].search) {
+                this.setupSearch(settings);
+            }
+            // putting this second will actually make its tab first
+            if(settings[Shelter.SUB_SETTINGS].sort) {
+                this.setupSort(settings);
+            }
+            settings.addSettingsListeners();
+        }
+        else {
+            console.log('Shelter features disabled');
+        }
+    }
 
-  setupHTML() {
-    const pkmnID = $('.party div')[0].getAttribute('data-pid');
-    const displayAccordion = $('#displaycodelist').parent();
-    const newHTML = 
+    setupSort(settings) {
+        // add sort tab
+        document.querySelector('#shelterupgrades .tabbed_interface>ul').insertAdjacentHTML('afterbegin', '<li><label>Sort</label></li>');
+        document.querySelector('#shelterupgrades .tabbed_interface>ul').insertAdjacentHTML('afterend', '<div>'+Resources.SHELTER_SORT_HTML+'</div>');
+
+        // listen for sort settings changes
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingName == 'shelterGrid' || changeDetails.settingName == 'shelterSpriteSize') {
+                Shelter.handleSortSettings();
+            }
+        });
+
+        // run initially
+        Shelter.handleSortSettings();
+    }
+    static handleSortSettings() {
+        const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
+
+        // sort in grid
+        $('#shelterarea').removeClass('qolshelterareagrid');
+        if (shelterSettings.shelterGrid === true) { //shelter grid
+            $('#shelterarea').addClass('qolshelterareagrid');
+        }
+
+        // sprite size mode
+        $('#shelterarea').removeClass('qolshelterarealarge');
+        $('#shelterarea').removeClass('qolshelterareasmall');
+        if(shelterSettings.shelterSpriteSize == 'large') {
+            $('#shelterarea').addClass('qolshelterarealarge');
+        }
+        else if(shelterSettings.shelterSpriteSize == 'small') {
+            $('#shelterarea').addClass('qolshelterareasmall');
+        }
+    }
+
+    setupSearch(settings) {
+        // add search tab & results box
+        $('#shelterupgrades .tabbed_interface>div').removeClass('tab-active');
+        $('#shelterupgrades .tabbed_interface>ul>li').removeClass('tab-active');
+        document.querySelector('#shelterupgrades .tabbed_interface>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
+        document.querySelector('#shelterupgrades .tabbed_interface>ul').insertAdjacentHTML('afterend', '<div class="tab-active">'+Resources.SHELTER_SEARCH_HTML+'</div>');
+        document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
+
+        // Generate quick text searches
+        let fullSearch = '<div class="qolQuickSearchBlock">';
+        fullSearch += '<div class="qolQuickTextSearch"><input type="text" /><button type="button">X</button></div>';
+        fullSearch += Resources.QUICK_SEARCH_ICONS;
+        fullSearch += '</div>';
+        $('#qolQuickTextBtn').on('click', function() {
+            $('#qolQuickTextContainer').append(fullSearch);
+            /*
+             *  TODO: activate checks & X btn
+             *  make something similar to addSettingsListeners for Xs?
+             * settings.addSettingsListeners('#qolQuickTextContainer');
+             */
+        });
+
+        // Generate quick type searches
+        let fullSelect = '<div class="qolQuickSearchBlock"><div class="qolQuickTypeSearch">';
+        fullSelect += '<select>'+Helpers.generateSelectOptions(Resources.TYPE_LIST,{
+            'select': 'Select'
+        })+'</select>';
+        fullSelect += '<select>'+Helpers.generateSelectOptions(Resources.TYPE_LIST,{
+            'any': 'Any', 'none': 'None'
+        })+'</select>';
+        fullSelect += '<button type="button">X</button>';
+        fullSelect += '</div>';
+        fullSelect += Resources.QUICK_SEARCH_ICONS;
+        fullSelect += '</div>';
+        $('#qolQuickTypeBtn').on('click', function() {
+            $('#qolQuickTypeContainer').append(fullSelect);
+        });
+
+        // listen for next match hotkey
+        $(window).on('keyup', function (e) {
+            if (0 == $(e.target).closest('input, textarea').length) {
+                if(e.keyCode == Shelter.NEXT_MATCH_KEY) {
+                    console.log('TODO: next key pressed');
+                }
+            }
+        });
+
+        // watch for shelter page refreshes (and initial load)
+        Helpers.addObserver(document.querySelector('#shelterarea'), {
+            childList: true
+        }, function(mutations) {
+            console.log('mutation observed');
+            console.log(mutations);
+            Shelter.runSearch();
+        });
+
+        // listen for seach settings changes
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingGroup == Shelter.SETTING_KEY) {
+                Shelter.runSearch();
+            }
+        });
+        console.log('TODO: search enabled');
+    }
+    static runSearch() {
+        console.warn('TODO: field search');
+    }
+}
+
+class SummaryDisplayCodes {
+    static SETTING_ENABLE = 'summaryEnable';
+
+    constructor() {
+        if(UserDataHandle.getSettings().QoLSettings[SummaryDisplayCodes.SETTING_ENABLE]) {
+            this.setupHTML();
+        }
+        else {
+            console.log('Summary display codes features disabled');
+        }
+    }
+
+    setupHTML() {
+        const pkmnID = $('.party div')[0].getAttribute('data-pid');
+        const displayAccordion = $('#displaycodelist').parent();
+        const newHTML =
       "<p>Display an interactive panel in Pokefarm's forums!</p>"+
       '<p class="displaycode" style="user-select:all";>[pkmnpanel='+pkmnID+']</p>'+
       '<div style="border-bottom: 1px solid;margin-top: 1rem;"></div>';
-    displayAccordion.prepend(newHTML);
-  }
+        displayAccordion.prepend(newHTML);
+    }
 }
 
 
-class WishforgePage extends Page {
+class Wishforge {
+    static SETTING_ENABLE = 'condenseWishforge';
+
     constructor() {
-        super(undefined, {}, 'forge');
-        const obj = this;
-        this.observer = new MutationObserver(function(mutations) {
+        if(UserDataHandle.getSettings().QoLSettings[Wishforge.SETTING_ENABLE]) {
+            this.setupHTML();
+            this.setupObservers();
+        }
+        else {
+            console.log('Wishforge features disabled');
+        }
+    }
+
+    setupObservers() {
+        const self = this;
+        const target = $('#badges').next('div')[0];
+        Helpers.addObserver(target, {
+            childList: true
+        }, function(mutations) {
             mutations.forEach(function(mutation) {
                 if(mutation.type === 'childList' && mutation.addedNodes.length) {
-                    obj.setupHTML();
+                    self.setupHTML();
                 }
             });
         });
-    } // constructor
+    }
 
     setupHTML() {
+        Helpers.addGlobalStyle(Resources.FORGE_CSS);
         const isMobile = Helpers.detectPageSize('mq2');
         // setup table format
         let header = '<th>Type</th> <th>Level</th> <th>Gem Progress</th> <th>Item</th> <th>Upgrade</th> <th>Notify</th>';
-        let columns = 
+        let columns =
             '<col style="width: 10%;">' +
             '<col style="width: 20%;">' +
             '<col style="width: 20%;">' +
@@ -4428,17 +1679,25 @@ class WishforgePage extends Page {
             '<col style="width: 10%;">';
         if(isMobile) {
             header = '<th>Type</th> <th>Gem Progress</th> <th>Item</th>';
-            columns = 
+            columns =
                 '<col style="width: 34%;">' +
                 '<col style="width: 33%;">' +
                 '<col style="width: 33%;">';
         }
 
-        // use Globals.TYPE_LIST to get list of types
-        const types = Globals.TYPE_LIST;
+        /*
+         *  use Globals.TYPE_LIST to get list of types
+         * const types = Globals.TYPE_LIST;
+         */
+        const types = Object.values(Resources.TYPE_LIST);
+        /*
+         * TODO: this is very hacky, consider cleaning up this whole builder
+         * I'd really like to shrink the item progress bar to a yes/no kind of thing too
+         * Need to get some HTML samples from badges in various stages of construction
+         */
 
         // build HTML table
-        let rows = {};
+        const rows = {};
         for (let i = 0; i < types.length; i++) {
             if(!isMobile) {
                 rows[types[i]] = `<tr id=${types[i]}> <td>${types[i]}</td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>`;
@@ -4530,32 +1789,925 @@ class WishforgePage extends Page {
             $(children[i]).remove();
         }
     }
+}
 
-    setupObserver() {
-        const target = $('#badges').next('div')[0];
-        this.observer.observe(target, {
-            childList: true
+class PagesManager {
+    /*
+     * Lists the pages the QoL should activate on, and which features should be loaded
+     * Each key should be a regex that can match everything after .com/ but before ? (window.location.pathname)
+     * It should have an array of feature classes that load on that page
+     * (many pages will only have a single feature)
+     * The hub is not affected by these settings, and appears on all pages with the ribbon while logged in
+     * Name is a friendly name that can be read by classes that may be called from multiple locations
+     */
+    static PAGES = [
+        {
+            url: /^\/users\/.+$/,
+            name: 'users',
+            features: [
+                MultiUser
+            ]
+        },
+        {
+            url: /^\/dex\/?$/,
+            name: 'dex',
+            features: [
+                DexPageFilters
+            ]
+        },
+        {
+            url: /^\/dojo\/?$/,
+            name: 'dojo',
+            features: [
+                Dojo
+            ]
+        },
+        {
+            url: /^\/forge\/?$/,
+            name: 'forge',
+            features: [
+                Wishforge
+            ]
+        },
+        {
+            url: /^\/interactions\/?$/,
+            name: 'interactions',
+            features: [
+                InteractionsLinks
+            ]
+        },
+        {
+            url: /^\/summary\/[a-zA-Z0-9_-]+\/?$/,
+            name: 'summary',
+            features: [
+                SummaryDisplayCodes
+            ]
+        },
+        {
+            url: /^\/fishing\/?$/,
+            name: 'fishing',
+            features: [
+                Fishing
+            ]
+        },
+        {
+            url: /^\/daycare\/?$/,
+            name: 'daycare',
+            features: [
+                DaycareMatches
+            ]
+        },
+        {
+            url: /^\/lab\/?$/,
+            name: 'lab',
+            features: [
+                Lab
+            ]
+        },
+        {
+            url: /^\/fields\/?$/,
+            name: 'privateFields',
+            features: [
+                Fields,
+                PrivateFields
+            ]
+        },
+        {
+            url: /^\/fields\/.+$/,
+            name: 'publicFields',
+            features: [
+                Fields,
+                PublicFields
+            ]
+        },
+        {
+            url: /^\/farm\/?$/,
+            name: 'farm',
+            features: [
+                EasyEvolve
+            ]
+        },
+        {
+            url: /^\/shelter\/?$/,
+            name: 'shelter',
+            features: [
+                Shelter
+            ]
+        },
+    ];
+
+    static instantiatePage() {
+        const path = window.location.pathname;
+        let onPage = false;
+        for(let i=0; i<PagesManager.PAGES.length; i++) {
+            const page = PagesManager.PAGES[i];
+            if(page.url.test(path)) {
+                console.log('On QoL feature page');
+                onPage = true;
+                for(let j=0; j<page.features.length; j++) {
+                    new page.features[j](page);
+                }
+            }
+        }
+        if(!onPage) {
+            console.log('Not on QoL feature page');
+        }
+    }
+}
+
+/*
+ *Create a popup module with the given content
+ *By default, all modules will have a button in the top right corner that closes the window
+ *
+ *This will return a class with the constructed, but unopened modal.
+ *Call the new object's open function to add it to the DOM and open it.
+ *Modals can be destroyed and removed from the DOM with their destroy method.
+ *
+ *All modal-closing buttons should have the modalClose class
+ *When the modal is added to the DOM, it will also add close listeners to those
+ *
+ */
+class Modal {
+    // exposed DOM elements
+    modalElement;
+    dialogHead;
+    dialogBody;
+
+    openCallbacks = [];
+
+    /*
+     * content can be anything that can be appended with jQuery's append function
+     * classList will add additional classes to the dialog content element
+     */
+    constructor(title, content, maxWidth=null, classList=[]) {
+    // dialog wrapper
+        this.modalElement = document.createElement('div');
+        this.modalElement.classList.add('dialog');
+        // dialog sub-wrappers
+        const dialogDiv1 = document.createElement('div');
+        this.modalElement.appendChild(dialogDiv1);
+        const dialogDiv2 = document.createElement('div');
+        dialogDiv1.appendChild(dialogDiv2);
+        // dialog content
+        const dialog = document.createElement('div');
+        dialogDiv2.appendChild(dialog);
+        dialog.classList.add('qolModal');
+        for(let i=0; i<classList.length; i++) {
+            dialog.classList.add(classList[i]);
+        }
+        if(maxWidth!==null) {
+            /*
+             * the default max width is set in PFQ's stylesheet, at 640px
+             * the default min width is 300px
+             * the actual width may vary, based on content size
+             */
+            dialog.style = 'max-width: '+maxWidth+'px';
+        }
+        // header
+        this.dialogHead = document.createElement('h3');
+        dialog.appendChild(this.dialogHead);
+        this.dialogHead.innerText = title;
+        const closeBtn = document.createElement('a');
+        this.dialogHead.appendChild(closeBtn);
+        closeBtn.setAttribute('href','#');
+        closeBtn.innerText = 'X';
+        closeBtn.classList.add('modalClose');
+        // body
+        this.dialogBody = document.createElement('div');
+        dialog.appendChild(this.dialogBody);
+        $(this.dialogBody).append(content);
+    }
+
+    // adds the modal to the DOM
+    open() {
+    // remove any already open modals
+        Modal.close();
+        // add modal to dom
+        $('body').append(this.modalElement);
+        // prevent non-modal scrolling
+        $('#core').addClass('scrolllock');
+        // add close listeners
+        $('.modalClose').on('click', function() {
+            Modal.close();
+        });
+        // run callbacks
+        for(let i=0; i<this.openCallbacks.length; i++) {
+            if(typeof this.openCallbacks[i] == 'function') {
+                this.openCallbacks[i]();
+            }
+        }
+    }
+
+    /*
+     * add a function to be run after the modal opens
+     * use this to add DOM-based event listeners, etc
+     */
+    addOpenCallback(callback) {
+        this.openCallbacks.push(callback);
+    }
+
+    // closes any open modal, even PFQ's
+    static close() {
+        $('#core').removeClass('scrolllock');
+        $('.dialog').remove();
+    }
+}
+
+/*
+ *This is a singleton wrapper on the settings/dex classes
+ *It makes it easier to get the master settings instance,
+ *without needing to explicitly pass it around between functions
+ */
+
+const UserDataHandle = (function () {
+    let settings;
+    let dex;
+
+    return {
+        getSettings: function () {
+            if (!settings) {
+                settings = new UserSettings();
+            }
+            return settings;
+        },
+        getDex: function() {
+            if (!dex) {
+                dex = new UserPokedex();
+            }
+            return dex;
+        }
+    };
+})();
+
+
+/*
+ * Do not call this constructor directly to get or create a dex object
+ * Always call UserDataHandle.getDex();
+ * Note on DEX_LOADING: undefined if fetchUploadedDex is not called, or if resetDex is called
+ *                      true if loading is in progress, false if loading has completed
+ *                      use === to evaluate the value, to ensure false vs undefined
+ */
+class UserPokedex {
+    static DEX_DATA_KEY = 'QoLPokedex';
+
+    constructor() {
+        console.log('Initializing dex');
+        this.loadDex();
+    }
+    loadDex() {
+        // Attempt to load dex from local storage
+        console.log('Requesting dex from storage');
+        const dateAndDex = LocalStorageManager.getDexFromStorage();
+        // If the load fails, or if the data is too old, try getting from uploaded version
+        if(!dateAndDex || this.daysSinceUpdate()>7) {
+            this.fetchUploadedDex();
+        }
+        else if(dateAndDex) {
+            this.DEX_UPDATE_DATE = dateAndDex[0];
+            this.DEX_DATA = dateAndDex[1];
+        }
+        else {
+            this.resetDex();
+        }
+    }
+    // Get the dex data from the updatable, uploaded version, and store it to local storage
+    fetchUploadedDex() {
+        console.log('Updating dex from from uploaded file');
+        try {
+            this.DEX_LOADING = true;
+            const self = this;
+            $.get("https://pokefarm.com/upload/:b7q/QoL/dex-data.jpg", function(data){
+                self.DEX_DATA = JSON.parse(data);
+                const dateString = new Date().toLocaleString('en-GB', {
+                    timeZone: 'UTC'
+                });
+                self.DEX_UPDATE_DATE = dateString;
+                LocalStorageManager.updateLocalStorageDex(self.DEX_DATA, dateString);
+                self.DEX_LOADING = false;
+                console.log('Dex load complete');
+            });
+        } catch(e) {
+            ErrorHandler.error('Failed to load dex data from uploaded file', e);
+            this.resetDex();
+        }
+    }
+    // Clears any locally stored dex data, and loads the static dex data instead.
+    resetDex() {
+        ErrorHandler.warn('Cleared dex data');
+        LocalStorageManager.removeItem(UserPokedex.DEX_DATA_KEY);
+        this.DEX_UPDATE_DATE = undefined;
+        this.DEX_LOADING = undefined;
+        this.DEX_DATA = undefined;
+    }
+    // Return the number of days since this.DEX_UPDATE_DATE
+    daysSinceUpdate() {
+        if(!this.DEX_UPDATE_DATE) {
+            return -1;
+        }
+        try {
+            return (new Date() - new Date(this.DEX_UPDATE_DATE)) / (1000 * 3600 * 24);
+        } catch(e) {
+            ErrorHandler.error('Failed to determine number of days since dex update',e);
+            return -1;
+        }
+    }
+    /*
+     * type 1 and 2 should be the object key of the relevant type
+     * ex: '4' for grass, not the actual string 'grass'
+     * set type2 to 'none' to find single-typed
+     */
+    getByType(type1,type2=null) {
+        if(!type2) {
+            return this.DEX_DATA.filter(pkmn => {
+                return (pkmn.type1==type1 || pkmn.type2==type1);
+            });
+        }
+        else if(type2=='none') {
+            return this.DEX_DATA.filter(pkmn => {
+                return (pkmn.type1==type1 && pkmn.type2===null);
+            });
+        }
+        return this.DEX_DATA.filter(pkmn => {
+            return ((pkmn.type1==type1 && pkmn.type2==type2) || (pkmn.type1==type2 && pkmn.type2==type1));
+        });
+    }
+    getBySpecies(name) {
+        // if name contains a slash (/), we are doing an exact forme match, which will return a single
+        if(name.includes('/')) {
+            const splitSpecies = name.split('/');
+            return this.DEX_DATA.filter(pkmn => {
+                return (pkmn.species==splitSpecies[0] && pkmn.forme==splitSpecies[1]);
+            });
+        }
+        else {
+            return this.DEX_DATA.filter(pkmn => {
+                return pkmn.species.includes(name);
+            });
+        }
+    }
+}
+
+/*
+ * Do not call this constructor directly to get or create a settings object
+ * Always call UserDataHandle.getSettings();
+ * Most setting keys are located in the feature class they go with
+ */
+class UserSettings {
+    // Default values for global settins
+    static GLOBAL_DEFAULTS = {
+        customCss: '',
+        searchGlowColour: '#d5e265'
+    };
+    // All main setting enablers, and their default values
+    static SETTING_ENABLERS = [
+        {
+            'name': DaycareMatches.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': DexPageFilters.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': EasyEvolve.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': Fishing.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': InteractionsLinks.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': Lab.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': MultiUser.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': PrivateFields.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': PublicFields.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': Shelter.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': SummaryDisplayCodes.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': Wishforge.SETTING_ENABLE,
+            'default': true
+        },
+        {
+            'name': Dojo.SETTING_ENABLE,
+            'default': true
+        }
+    ];
+    static SUB_ENABLERS = [
+        {
+            'name': Shelter.SUB_SETTINGS,
+            'default': {
+                search: true,
+                sort: true,
+            }
+        },
+        {
+            'name': PrivateFields.SUB_SETTINGS,
+            'default': UserSettings.fieldDefaults('private').sub
+        },
+        {
+            'name': PublicFields.SUB_SETTINGS,
+            'default': UserSettings.fieldDefaults('public').sub
+        }
+    ];
+    /*
+     * list of features with their own settings group
+     * (typically ones that appear on the specific feature page, vs in the hub)
+     * Display value is shown on the hub's page reset feature
+     */
+    static FEATURE_SPECIFIC_SETTINGS = [
+        {
+            'name': Lab.SETTING_KEY,
+            'display': 'Lab',
+            'default': {
+                findLabEgg: '',
+                customEgg: true,
+                findLabType: '',
+                findTypeEgg: true,
+            }
+        },
+        {
+            'name': MultiUser.SETTING_KEY,
+            'display': 'Multi-user clickback',
+            'default': {
+                partyModType: 'none',
+                hideDislike: false,
+                hideAll: false,
+                niceTable: false,
+                customParty: false,
+                stackNextButton: true,
+                stackMoreButton: true,
+                showPokemon: true,
+                compactPokemon: true,
+                clickablePokemon: false,
+                showTrainerCard: true,
+                showFieldButton: false,
+                showModeChecks: false,
+                showUserName: true
+            }
+        },
+        {
+            'name': PrivateFields.SETTING_KEY,
+            'display': 'Private fields',
+            'default': UserSettings.fieldDefaults('private').main
+        },
+        {
+            'name': PublicFields.SETTING_KEY,
+            'display': 'Public fields',
+            'default': UserSettings.fieldDefaults('public').main
+        },
+        {
+            'name': Shelter.SETTING_KEY,
+            'display': 'Shelter',
+            'default': {
+                findNewEgg: true,
+                findNewPokemon: true,
+                findShiny: true,
+                findAlbino: true,
+                findMelanistic: true,
+                findPrehistoric: true,
+                findDelta: true,
+                findMega: true,
+                findStarter: true,
+                findCustomSprite: true,
+                findTotem: false,
+                findLegendary: false,
+                shelterGrid: true,
+                shelterSpriteSize: 'auto',
+                quickTypeSearch: [],
+                fullOptionSearch: {},
+                quickPkmnSearch: [],
+                fullPkmnSearch: {}
+            }
+        }
+    ];
+    // Most field settings are shared, build defaults here
+    static fieldDefaults(mode) {
+        const mainSettings = {
+            fieldNewPokemon: true,
+            fieldShiny: false,
+            fieldAlbino: false,
+            fieldMelanistic: false,
+            fieldPrehistoric: false,
+            fieldDelta: false,
+            fieldMega: false,
+            fieldLegend: false,
+            fieldStarter: false,
+            fieldCustomSprite: false,
+            fieldItem: true,
+            fieldMale: true,
+            fieldFemale: true,
+            fieldNoGender: true,
+            fieldName: true,
+            fieldSpecies: true,
+            fieldSearchItem: false,
+            fieldHideHoverTooltips: false,
+            fieldCustom: '',
+            fieldType: '',
+            fieldNature: '',
+            fieldEggGroup: ''
+        };
+        const subSettings = {
+            search: true,
+            tooltip: true,
+            pkmnlinks: true
+        };
+        // Additional page-specific settings
+        if(mode=='public') {
+            mainSettings.fieldSort = 'none';
+            mainSettings.fieldClickCount = true;
+            mainSettings.maxStack = false;
+            subSettings.sort = true;
+        }
+        else if(mode=='private') {
+            subSettings.release = true;
+        }
+        else {
+            ErrorHandler.error('Unknown field page specifier: '+mode);
+            return null;
+        }
+
+        return {
+            main: mainSettings, sub: subSettings
+        };
+    }
+
+    constructor() {
+        console.log('Initializing QoL settings');
+        this.setDefaults();
+        this.loadSettings();
+        this.changeListeners = [];
+    }
+    /*
+     * Set the default settings values (does not save to storage)
+     * These are used when someone first enables the script, when settings are reset,
+     * or when a new setting is added that the user doesn't have already in storage
+     */
+    setDefaults() {
+        this.QoLSettings = UserSettings.GLOBAL_DEFAULTS;
+        // main feature enablers
+        for(let i=0; i<UserSettings.SETTING_ENABLERS.length; i++) {
+            this.QoLSettings[UserSettings.SETTING_ENABLERS[i].name] = UserSettings.SETTING_ENABLERS[i].default;
+        }
+        // sub feature enablers
+        for(let i=0; i<UserSettings.SUB_ENABLERS.length; i++) {
+            this[UserSettings.SUB_ENABLERS[i].name] = UserSettings.SUB_ENABLERS[i].default;
+        }
+        // feature/page-specific settings
+        for(let i=0; i<UserSettings.FEATURE_SPECIFIC_SETTINGS.length; i++) {
+            this[UserSettings.FEATURE_SPECIFIC_SETTINGS[i].name] = UserSettings.FEATURE_SPECIFIC_SETTINGS[i].default;
+        }
+    }
+    /*
+     * Resets the feature-specific settings, and saves the defaults to local storage
+     * Feature should be one of the names in FEATURE_SPECIFIC_SETTINGS
+     */
+    resetFeatureDefaults(feature) {
+        let foundSetting = false;
+        // there aren't many items in this list, so let's just brute force it
+        for(let i=0; i<UserSettings.FEATURE_SPECIFIC_SETTINGS.length; i++) {
+            const featureSettings = UserSettings.FEATURE_SPECIFIC_SETTINGS[i];
+            if(featureSettings.name == feature) {
+                foundSetting = true;
+                this[featureSettings.name] = featureSettings.default;
+                LocalStorageManager.setItem(featureSettings.name, this[featureSettings.default]);
+            }
+        }
+        if(!foundSetting) {
+            ErrorHandler.error('Unknown feature setting group: '+feature);
+        }
+    }
+    /*
+     * Change a single setting, and save it in local storage
+     * Note: this effectively re-stores the whole group, due to how settings are stored
+     * But it does NOT re-store all settings in all groups
+     * When done, calls any registered listeners, and provides them the change details
+     */
+    changeSetting(settingGroup, settingName, newValue) {
+        console.log('Changing QoL setting: '+settingGroup+'.'+settingName+' = '+newValue);
+        if(this[settingGroup]) {
+            this[settingGroup][settingName] = newValue;
+            LocalStorageManager.setItem(settingGroup, this[settingGroup]);
+            const changeDetails = {
+                settingGroup: settingGroup,
+                settingName: settingName,
+                newValue: newValue
+            };
+            for(let i=0; i<this.changeListeners.length; i++) {
+                if(typeof this.changeListeners[i] == 'function') {
+                    this.changeListeners[i](changeDetails);
+                }
+            }
+        }
+        else {
+            ErrorHandler.error('Cannot change setting in unknown group: '+settingGroup+'.'+settingName);
+        }
+    }
+    // Loads all settings in storage into the UserSettings object
+    loadSettings() {
+        console.log('Loading QoL settings from storage');
+        const storedSettings = LocalStorageManager.getAllQoLSettings();
+        for(const settingKey in storedSettings) {
+            // remove user ID from setting
+            let settingGroup = settingKey.split('.');
+            if(settingGroup.length == 2) {
+                // Try to read the JSON recieved from storage (use full key with user id, not just name)
+                let loadedSettings = {};
+                try {
+                    loadedSettings = JSON.parse(storedSettings[settingKey]);
+                } catch(e) {
+                    ErrorHandler.error('Could not parse stored settings for '+settingGroup+': '+storedSettings[settingKey],e);
+                }
+                // For convenience, replace with the setting name string
+                settingGroup = settingGroup[1];
+                if(this[settingGroup] != undefined) {
+                    for(const settingName in loadedSettings) {
+                        this[settingGroup][settingName] = loadedSettings[settingName];
+                    }
+                }
+                else {
+                    ErrorHandler.warn('Loaded unknown setting group: '+settingGroup);
+                }
+            }
+            else {
+                ErrorHandler.warn('Invalid setting key: '+settingKey);
+            }
+        }
+    }
+
+    /*
+     * Allows pages to take actions when settings change, without watching inputs directly
+     * (inputs should not be watched directly, since those events may get cleared in addSettingsListeners())
+     * callbacks may include change details as their parameter - see changeSetting
+     */
+    registerChangeListener(callback) {
+        this.changeListeners.push(callback);
+    }
+
+    // ** Everything below here is for interfacing with the DOM (show current values, handle changes, etc) ** //
+
+    /*
+     * Get details about a setting from a DOM setting input
+     * All settings inputs should have the qolsetting class, as well as the following attributes:
+     * data-group: indicator of which set of settings (ex: "QoLSettings" for main settings)
+     * name: the actual setting name/key
+     * For example, "hide disliked" party setting should be data-group="QoLMultiuser" name="hideDislike"
+     */
+    getSettingDetailsFromTarget(target) {
+        const settingGroup = target.getAttribute('data-group');
+        const settingName = target.getAttribute('name');
+        if(settingGroup && settingName) {
+            // try to read the setting from the active settings object
+            let settingValue;
+            if(this[settingGroup] && settingName in this[settingGroup]) {
+                settingValue = this[settingGroup][settingName];
+            }
+            else {
+                ErrorHandler.warn('Unrecognized setting input: '+settingGroup+'.'+settingName);
+                console.warn(target);
+            }
+            // try to read the value of the DOM input
+            let inputValue;
+            if(target.type=='radio') {
+                const element = document.querySelector('input[name="'+target.getAttribute('name')+'"]:checked');
+                // there may not be a checked radio yet, especially when this is being used in displaySettingsValues
+                if(element) {
+                    inputValue = element.value;
+                }
+            }
+            else if(target.type=='checkbox') {
+                inputValue = target.checked;
+            }
+            else { // textbox dropdown etc
+                inputValue = target.value;
+            }
+            return {
+                settingGroup: settingGroup,
+                settingName: settingName,
+                settingValue: settingValue,
+                inputValue: inputValue
+            };
+        }
+        else {
+            ErrorHandler.error('QoL setting could not be identified.');
+            console.error(target);
+            console.error(settingGroup);
+            console.error(settingName);
+            return null;
+        }
+    }
+    /*
+     * Listens for changes to settings inputs
+     * Should be called after input elements are added (ex: after html builder, or after modal open, etc)
+     * the parent lets you start at a given element, to avoid resetting all listeners on the page
+     */
+    addSettingsListeners(parent='') {
+        const self = this;
+        this.displaySettingsValues();
+        // add a space after the parent selector
+        if(parent) {
+            parent = parent.trim()+' ';
+        }
+        // remove any existing listeners
+        $(parent+'.qolsetting').off('change');
+        $(parent+'.qolsetting').on('change', (function (event) {
+            const settingDetails = self.getSettingDetailsFromTarget(event.target);
+            if(settingDetails) {
+                self.changeSetting(settingDetails.settingGroup, settingDetails.settingName, settingDetails.inputValue);
+            }
+        }));
+    }
+    // helper for addSettingsListeners, this ensures that inputs have the existing value shown
+    displaySettingsValues() {
+        const self = this;
+        $('.qolsetting').each(function(){
+            const settingDetails = self.getSettingDetailsFromTarget(this);
+            if(settingDetails) {
+                if(this.type=='radio') {
+                    // if the value matches, this is the currently selected radio
+                    this.checked = this.value==settingDetails.settingValue;
+                }
+                else if(this.type=='checkbox') {
+                    this.checked = settingDetails.settingValue;
+                }
+                else {
+                    this.value = settingDetails.settingValue;
+                }
+            }
+            // special case for custom css textbox demo value
+            if(this.id=='qolcustomcss' && this.value.trim()=='') {
+                this.value = Resources.DEMO_CSS;
+            }
         });
     }
 }
 
-$(function () {
-  ('use strict');
-  // script entry point
-  if (typeof(module) !== 'undefined') {
-    module.exports.pfqol = PFQoL;
-  } else {
-    try {
-      new PFQoL();
-    } catch(err) {
-      // prevent showing the fatal error output while logged out, and on non-core pages like direct image links
-      if(err!='#announcements missing') {
-        let message = 'Fatal error initializing QoL'
-        console.error(message);
-        console.error(err);
-        let errorMsg = Helpers.errorToString(message, 'error', err);
-        $('body').append('<div class="panel" style="padding:0.5rem;word-wrap:break-word;user-select:all;">'+errorMsg+'</div>');
-      }
+/*
+ * This class handles creating, removing, and handling the DOM object actions
+ * for the QoL Hub.
+ */
+class QoLHub {
+    constructor() {
+        Helpers.addGlobalStyle(Resources.HUB_CSS);
+        this.addQoLIcon();
+        this.hubModal = new Modal('Quality of Life Script Hub', Resources.QOL_HUB_HTML, null, ['qolHubModal']);
+        this.hubModal.addOpenCallback(QoLHub.setupHandlers);
+        this.hubModal.addOpenCallback(QoLHub.afterOpen);
     }
-  }
+
+    addQoLIcon() {
+        if(document.getElementById('announcements')) {
+            // this cannot go with the other handlers, as those only trigger after modal open
+            const self = this;
+            $('#qolHubIcon').on('click', (function () {
+                console.log('Opening QoL hub');
+                self.hubModal.open();
+            }));
+        }
+        else {
+            console.warn('Did not load QoL - could not find icon ribbon. Are you logged in? Is this a core page?');
+            throw '#announcements missing';
+        }
+    }
+
+    static setupHandlers() {
+        // add menu items to reset dropdown
+        for(let i=0; i<UserSettings.FEATURE_SPECIFIC_SETTINGS.length; i++) {
+            const featureSettings = UserSettings.FEATURE_SPECIFIC_SETTINGS[i];
+            $('#qolHubResetSettingsSelect').append('<option value="'+featureSettings.name+'">'+featureSettings.display+'</option>');
+        }
+        // reset settings handlers
+        $('#resetPageSettings').on('click', (function (event) {
+            UserDataHandle.getSettings().resetFeatureDefaults(event.target.value);
+        }));
+        $('#resetAllSettings').on('click', (function () {
+            if(window.confirm('Are you sure? All settings, including your custom CSS, will be reset.')) {
+                LocalStorageManager.clearAllQoLKeys();
+                location.reload();
+            }
+        }));
+
+        // clear cached dex
+        $('#clearCachedDex').on('click', (function () {
+            UserDataHandle.getDex().resetDex();
+            $('#clearCachedDex').after('<p>Dex cleared!</p>');
+            $('#qolDexDate').text('Never updated');
+        }));
+
+        // fetch errors from the hidden console, and show them in the hub
+        $('#qolErrorConsole').on('click', (function() {
+            let consoleContent = $('#qolConsoleHolder').html();
+            if(consoleContent.trim() == '') {
+                consoleContent = '[ No errors to display ]';
+            }
+            $('#qolConsoleContent').html(consoleContent);
+        }));
+
+        /*
+         * storage/settings loggers
+         * also logs the user settings object to the console
+         */
+        $('#qolExportSettings').on('click', (function() {
+            console.log('Stored settings:');
+            const storedSettings = LocalStorageManager.getAllQoLSettings();
+            console.log(storedSettings);
+            console.log('User settings:');
+            const userSettings = UserDataHandle.getSettings();
+            console.log(userSettings);
+            /*
+             * TODO: get relevant browser/screen size data, add to object?
+             * convert to JSON, then base 64 encode
+             */
+            let output = JSON.stringify(storedSettings);
+            output = btoa(output);
+            // output to hub to user can copy/paste it
+            $('#qolStorageOutput').text(output);
+            $('#qolStorageOutput').css('display','block');
+        }));
+    }
+
+    // additional after open tasks that aren't handlers
+    static afterOpen() {
+        const settings = UserDataHandle.getSettings();
+        settings.addSettingsListeners();
+        // set dex updated date display
+        let dexUpdateDate = UserDataHandle.getDex().DEX_UPDATE_DATE;
+        if(!dexUpdateDate) {
+            dexUpdateDate = 'Never updated';
+        }
+        $('#qolDexDate').text(dexUpdateDate);
+        // glow colour changes
+        $('#glowColourPreview').css('background-color',settings.QoLSettings.searchGlowColour);
+        settings.registerChangeListener(function(changeDetails) {
+            if(changeDetails.settingName=='searchGlowColour') {
+                // prevent an empty value
+                if(changeDetails.newValue.trim()=='') {
+                    settings.changeSetting('QoLSettings', 'searchGlowColour', '#d5e265');
+                }
+                else {
+                    $('#glowColourPreview').css('background-color',changeDetails.newValue);
+                }
+            }
+        });
+    }
+
+} // QoLHub
+
+
+$(function () {
+    ('use strict');
+    // script entry point
+    let settings;
+    try {
+        // add this first, so custom errors have a place to go
+        console.log('Adding QoL icon');
+        document.querySelector('#announcements li.spacer').insertAdjacentHTML('beforebegin', Resources.QOL_HUB_ICON_HTML);
+
+        console.log('Loading QoL settings & dex');
+        settings = UserDataHandle.getSettings();
+        UserDataHandle.getDex(); //pre-load dex
+        console.log('Initializing QoL hub');
+        new QoLHub();
+    } catch(err) {
+        ErrorHandler.fatalErrorHandler(err);
+        return;
+    }
+
+    console.log('Adding QoL CSS');
+    Helpers.addGlobalStyle(Resources.CORE_CSS);
+    try {
+        Helpers.addGlobalStyle(settings.QoLSettings.customCss);
+        Helpers.addGlowColourCSS(settings.QoLSettings.searchGlowColour);
+    } catch(e) {
+        ErrorHandler.error("Could not add user's custom QoL CSS",e);
+    }
+
+    try {
+        console.log('Initializing QoL page features');
+        PagesManager.instantiatePage();
+    } catch(e) {
+        ErrorHandler.error("Could not init page-specific QoL features",e);
+    }
+
+    console.log('QoL Running');
 });

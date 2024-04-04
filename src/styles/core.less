@@ -1,0 +1,78 @@
+/* Announcement bar */
+#announcements li[data-name="QoL"] {
+  cursor: pointer;
+}
+/* Shared styles */
+input[type="radio"].qolsetting:enabled,
+input[type="checkbox"].qolsetting:enabled {
+  cursor: pointer;
+}
+.qolB64Output {
+  user-select: all; 
+  word-break:break-all; 
+  border: 1px solid; 
+  padding: 3px;
+  max-height: 100px;
+  overflow-y: auto;
+  margin-bottom: 0.5em;
+}
+/* this colour should match the defaultin userSettings 
+this block has the colour in case the user enters an invalid value */
+.publicfoundme, .privatefoundme, .shelterfoundme, .daycarefoundme, .labfoundme {
+  box-shadow: 0px 0px 25px 15px #d5e265;
+  background-color: #d5e265;
+  border-radius: 100%;
+}
+#qolMassSelect {
+  margin: 1rem 0;
+}
+/* Modals */
+.qolModal {
+  >h3:first-child a {
+    float:right;
+    color: inherit; /* match header color */
+  }
+}
+/* Collapses */
+.qolCollapse h3 {
+  padding: 2px;
+  font-size: 100%;
+}
+/* QoL Tooltips */
+/* tooltip */
+.qoltooltip_trigger {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted;
+ /* If you want dots under the hoverable text */
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 500px;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: 0px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.customsearchtooltip {
+  width: 400px;
+}
