@@ -16,6 +16,7 @@ class Resources {
     static CORE_CSS = `<% src/styles/core.less %>`;
     static FIELDS_CSS = `<% src/styles/fields.less %>`;
     static SEARCH_CSS = `<% src/styles/search.less %>`;
+    static DOJO_CSS = `<% src/styles/dojo.less %>`;
     static FISHING_CSS = `<% src/styles/fishing.less %>`;
     static FORGE_CSS = `<% src/styles/forge.less %>`;
     static HUB_CSS = `<% src/styles/hub.less %>`;

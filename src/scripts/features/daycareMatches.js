@@ -16,6 +16,7 @@ class DaycareMatches {
             mutations.forEach(function (mutation) {
                 // const fsPokemon = document.querySelector('#fs_pokemon');
                 // TODO: detect if this mutation is actually a field loading
+                // (same in dojo)
                 const fsPokemon = $('#fs_pokemon');
                 if (fsPokemon.length > 0 && $.contains(fsPokemon[0], mutation.target)) {
                     self.customSearch();
