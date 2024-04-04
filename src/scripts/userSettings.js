@@ -110,7 +110,9 @@ class UserSettings {
                 showTrainerCard: true,
                 showFieldButton: false,
                 showModeChecks: false,
-                showUserName: true
+                showUserName: true,
+                includeShowcase: true,
+                hideShowcase: true
             }
         },
         {
