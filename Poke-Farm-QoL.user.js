@@ -347,7 +347,7 @@ class Resources {
     // CSS files
     static CORE_CSS = `#announcements li[data-name=QoL],input[type=checkbox].qolsetting:enabled,input[type=radio].qolsetting:enabled{cursor:pointer}.qolB64Output{border:1px solid;margin-bottom:.5em;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all}.daycarefoundme,.dojofoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}#qolMassSelect{margin:1rem 0}.qolModal>h3:first-child a{color:inherit;float:right}.qolCollapse h3{font-size:100%;padding:2px}.qoltooltip_trigger{border-bottom:1px dotted;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}`;
     static FIELDS_CSS = `#fieldorder{border-radius:4px;line-height:18pt;margin:16px auto;max-width:600px;padding:4px;position:relative;text-align:center}#fieldorder label{white-space:nowrap}#fieldsearch{margin:16px auto;max-width:600px;position:relative}#pokemonclickcount.unclicked{color:#a30323}#pokemonclickcount.clicked{color:#059121}.qolFieldBerrySort .fieldmon{margin:-10px!important;top:45%!important;transition:none!important}.qolFieldBerrySort .fieldmon>img.big{animation:none!important;padding:25px!important}.qolFieldBerrySort .fieldmon[data-flavour^=any],.qolFieldBerrySort .fieldmon[data-flavour^=sour]{left:0!important}.qolFieldBerrySort .fieldmon[data-flavour^=spicy]{left:20%!important}.qolFieldBerrySort .fieldmon[data-flavour^=dry]{left:40%!important}.qolFieldBerrySort .fieldmon[data-flavour^=sweet]{left:60%!important}.qolFieldBerrySort .fieldmon[data-flavour^=bitter]{left:80%!important}.mq2 .qolFieldBerrySort .fieldmon{margin:-10px 2%!important;overflow:hidden;width:16%}.mq2 .qolFieldBerrySort .fieldmon>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolFieldStack .fieldmon{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolFieldStack .fieldmon>img{animation:none!important;padding:40px!important}.qolFieldStackMax>div.field>.fieldmon{height:100%!important;left:0!important;margin:0!important;padding-left:40%!important;top:0!important;transition:none!important;width:60%!important}.qolFieldStackMax>div.field>.fieldmon .small{display:none!important}.qolFieldStackMax>div.field>.fieldmon .big{animation:none!important;display:block!important}.qolFieldGrid .field{background-size:cover!important;display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.qolFieldGrid .field .fieldmon{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolFieldGrid .field .fieldmon>img{animation:none!important;max-height:70px;max-width:75px}.mq25 .qolFieldGrid .field{grid-template-rows:repeat(5,36px);min-height:180px}.qolSelectFlavour{display:none}.qolFlavourShown~#qolMassSelect .qolSelectFlavour{display:inline}.qolFlavourShown~#qolMassSelect .qolSelectGender,.qolNatureShown~#qolMassSelect .qolSelectGender{display:none}#tooltipenable{margin:16px auto;max-width:600px;position:relative}.qolPrivateField .qolHideTooltips .fieldmon.tooltip_trigger:not(.selected)+.tooltip_content,.qolPublicField .qolHideTooltips .fieldmon.tooltip_trigger:not(.lock)+.tooltip_content{display:none!important}`;
-    static SEARCH_CSS = `.searchChecks>div{box-sizing:border-box;display:inline-block;padding:3px;width:33%}.searchChecks>div label{white-space:nowrap}#shelterupgrades .searchChecks>div,.mq2 .searchChecks>div{width:50%}.qolQuickSearchBlock{margin:.5rem 0}.qolQuickSearchInputs{column-gap:6px;display:flex}.qolQuickSearchInputs input,.qolQuickSearchInputs select{flex-grow:1}.qolQuickSearchNature .pkmnState{display:none}.qolQuickSearchIcons{column-gap:6px;display:flex;margin-top:.5rem}.qolQuickSearchIcons label{border-radius:3px;display:inline-block;padding:3px}.qolQuickSearchIcons label input[type=checkbox]{cursor:pointer}.qolQuickSearchIcons label.hatched div{display:inline-block;height:16px;width:18px}.qolQuickSearchIcons label.hatched div img{left:-2px;position:relative;top:-8px;vertical-align:text-top}`;
+    static SEARCH_CSS = `.searchChecks>div{box-sizing:border-box;display:inline-block;padding:3px;width:33%}.searchChecks>div label{white-space:nowrap}#shelterupgrades .searchChecks>div,.mq2 .searchChecks>div{width:50%}.qolQuickSearchBlock{margin:.5rem 0}.qolQuickSearchBlock[data-type=quickNatureSearch] .pkmnState{display:none}.qolQuickSearchInputs{column-gap:6px;display:flex}.qolQuickSearchInputs input,.qolQuickSearchInputs select{flex-grow:1}.qolQuickSearchIcons{column-gap:6px;display:flex;margin-top:.5rem}.qolQuickSearchIcons label{border-radius:3px;display:inline-block;padding:3px}.qolQuickSearchIcons label input[type=checkbox]{cursor:pointer}.qolQuickSearchIcons label.hatched div{display:inline-block;height:16px;width:18px}.qolQuickSearchIcons label.hatched div img{left:-2px;position:relative;top:-8px;vertical-align:text-top}`;
     static DOJO_CSS = `.dojoperfectstat{font-weight:700;text-decoration:underline}`;
     static FISHING_CSS = `#fishing button[data-reel].shake{padding:20px}.qolSelectGender{display:none}`;
     static FORGE_CSS = `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle}`;
@@ -1636,6 +1636,12 @@ class Shelter {
     }
 
     static createQuickSearchKey(baseObject) {
+        // increment the unique search ID counter
+        const settings = UserDataHandle.getSettings();
+        const lastSearchID = settings[Shelter.SETTING_KEY]['lastSearchID'];
+        settings.changeSetting(Shelter.SETTING_KEY, 'lastSearchID', lastSearchID+1);
+        baseObject.searchID = lastSearchID+1;
+        // set the common defaults (checkboxes) - unique attribute defaults are passed in the baseObject
         baseObject.egg = true;
         baseObject.pkmn = true;
         baseObject.male = true;
@@ -1644,11 +1650,67 @@ class Shelter {
         return baseObject;
     }
 
+    removeQuickSearch(event) {
+        // detect type of quick search
+        const element = $(event.target).closest('.qolQuickSearchBlock');
+        const searchType = element.attr('data-type');
+        const settings = UserDataHandle.getSettings();
+        const searchSettings = settings[Shelter.SETTING_KEY][searchType];
+        // find and remove matching search key
+        const searchID = element.attr('data-id');
+        const searchIndex = searchSettings.findIndex(({ id }) => id === searchID);
+        searchSettings.splice(searchIndex, 1);
+        // commit changes and remove inputs from DOM
+        element.remove();
+        settings.changeSetting(Shelter.SETTING_KEY, searchType, searchSettings);
+    }
+
+    saveQuickSearch(event) {
+        // detect type of quick search
+        const element = $(event.target).closest('.qolQuickSearchBlock');
+        const searchType = element.attr('data-type');
+        const settings = UserDataHandle.getSettings();
+        const searchSettings = settings[Shelter.SETTING_KEY][searchType];
+
+        // find the stored data for this search, if it exists
+        const searchID = element.attr('data-id');
+        let searchKey = searchSettings.find(({ id }) => id === searchID);
+        if(!searchKey) {
+            /*
+             * if this is a new block, create it instead -
+             * the ID was generated and incremented during DOM creation (createQuickSearchKey)
+             */
+            searchKey = {
+                id: searchID
+            };
+            searchSettings.push(searchKey);
+        }
+
+        // set the new value(s)
+        if(searchType == 'quickPkmnSearch') {
+            searchKey.name = element.find('input[name="qolQsName"]').val();
+        }
+        else if(searchType == 'quickTypeSearch') {
+            searchKey.type1 = element.find('select[name="qolQsType1"]').val();
+            searchKey.type2 = element.find('select[name="qolQsType2"]').val();
+        }
+        else if(searchType == 'quickNatureSearch') {
+            searchKey.nature = element.find('select[name="qolQsNature"]').val();
+        }
+        searchKey.egg = element.find('input[name="qolQsEgg"]').prop('checked');
+        searchKey.pkmn = element.find('input[name="qolQsPkmn"]').prop('checked');
+        searchKey.male = element.find('input[name="qolQsMale"]').prop('checked');
+        searchKey.female = element.find('input[name="qolQsFemale"]').prop('checked');
+        searchKey.genderless = element.find('input[name="qolQsGenderless"]').prop('checked');
+        // commit the changed settings
+        settings.changeSetting(Shelter.SETTING_KEY, searchType, searchSettings);
+    }
+
     drawQuickSearch(searchKey) {
         const self = this;
         let element;
         if(searchKey && 'name' in searchKey) {
-            let output = '<div class="qolQuickSearchBlock qolQuickSearchName"><div class="qolQuickSearchInputs">';
+            let output = '<div class="qolQuickSearchBlock" data-type="quickPkmnSearch" data-id="'+searchKey.searchID+'"><div class="qolQuickSearchInputs">';
             output += '<input type="text" name="qolQsName" /><button type="button" class="qolQuickSearchRemove">X</button></div>';
             output += Resources.QUICK_SEARCH_ICONS;
             output += '</div>';
@@ -1656,7 +1718,7 @@ class Shelter {
             element.find('input[name="qolQsName"]').val(searchKey.name);
         }
         else if(searchKey && 'type1' in searchKey) {
-            let output = '<div class="qolQuickSearchBlock qolQuickSearchType"><div class="qolQuickSearchInputs">';
+            let output = '<div class="qolQuickSearchBlock" data-type="quickTypeSearch" data-id="'+searchKey.searchID+'"><div class="qolQuickSearchInputs">';
             output += '<select name="qolQsType1">'+Helpers.generateSelectOptions(Resources.TYPE_LIST,{
                 'select': 'Select'
             })+'</select>';
@@ -1672,7 +1734,7 @@ class Shelter {
             element.find('select[name="qolQsType2"]').val(searchKey.type2);
         }
         else if(searchKey && 'nature' in searchKey) {
-            let output = '<div class="qolQuickSearchBlock qolQuickSearchNature"><div class="qolQuickSearchInputs">';
+            let output = '<div class="qolQuickSearchBlock" data-type="quickNatureSearch" data-id="'+searchKey.searchID+'"><div class="qolQuickSearchInputs">';
             output += '<select name="qolQsNature">'+Helpers.generateSelectOptions(Resources.NATURE_LIST,{
                 'select': 'Select'
             })+'</select>';
@@ -1688,21 +1750,16 @@ class Shelter {
             console.log(searchKey);
             return;
         }
-        console.log(element.find('input, select'));
-        element.find('button.qolQuickSearchRemove').on('click', function() {
-            // TODO: remove search
-            console.log('remove search');
-            self.runSearch();
+        element.find('button.qolQuickSearchRemove').on('click', function(event) {
+            self.removeQuickSearch(event);
         });
-        element.find('input.qolQsEgg').prop('checked', searchKey.egg);
-        element.find('input.qolQsPkmn').prop('checked', searchKey.pkmn);
-        element.find('input.qolQsMale').prop('checked', searchKey.male);
-        element.find('input.qolQsFemale').prop('checked', searchKey.female);
-        element.find('input.qolQsGenderless').prop('checked', searchKey.genderless);
-        element.find('input, select').on('change', function() {
-            // TODO: save changes
-            console.log('save search change');
-            self.runSearch();
+        element.find('input[name="qolQsEgg"]').prop('checked', searchKey.egg);
+        element.find('input[name="qolQsPkmn"]').prop('checked', searchKey.pkmn);
+        element.find('input[name="qolQsMale"]').prop('checked', searchKey.male);
+        element.find('input[name="qolQsFemale"]').prop('checked', searchKey.female);
+        element.find('input[name="qolQsGenderless"]').prop('checked', searchKey.genderless);
+        element.find('input, select').on('change', function(event) {
+            self.saveQuickSearch(event);
         });
     }
 
@@ -1718,14 +1775,14 @@ class Shelter {
 
         const self = this;
 
-        for(const searchKey in shelterSettings.quickPkmnSearch) {
-            this.drawQuickSearch(searchKey);
+        for(const i in shelterSettings.quickPkmnSearch) {
+            this.drawQuickSearch(shelterSettings.quickPkmnSearch[i]);
         }
-        for(const searchKey in shelterSettings.quickTypeSearch) {
-            this.drawQuickSearch(searchKey);
+        for(const i in shelterSettings.quickTypeSearch) {
+            this.drawQuickSearch(shelterSettings.quickTypeSearch[i]);
         }
-        for(const searchKey in shelterSettings.quickNatureSearch) {
-            this.drawQuickSearch(searchKey);
+        for(const i in shelterSettings.quickNatureSearch) {
+            this.drawQuickSearch(shelterSettings.quickNatureSearch[i]);
         }
 
         // listeners to add new search terms
@@ -1769,7 +1826,6 @@ class Shelter {
                 self.runSearch();
             }
         });
-        console.log('TODO: search enabled');
     }
 
     runSearch() {
@@ -2461,6 +2517,7 @@ class UserSettings {
                 findLegendary: false,
                 shelterGrid: true,
                 shelterSpriteSize: 'auto',
+                lastSearchID: 0,
                 quickPkmnSearch: [],
                 quickTypeSearch: [],
                 quickNatureSearch: []
@@ -2842,7 +2899,6 @@ class QoLHub {
 
 } // QoLHub
 
-
 $(function () {
     ('use strict');
     // script entry point
@@ -2880,3 +2936,4 @@ $(function () {
 
     console.log('QoL Running');
 });
+

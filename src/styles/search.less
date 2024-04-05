@@ -17,6 +17,9 @@
 
 .qolQuickSearchBlock {
   margin: 0.5rem 0;
+  &[data-type="quickNatureSearch"] .pkmnState {
+    display: none;
+  }
 }
 
 .qolQuickSearchInputs {
@@ -25,10 +28,6 @@
   input, select {
     flex-grow: 1;
   }
-}
-
-.qolQuickSearchNature .pkmnState {
-  display: none;
 }
 
 .qolQuickSearchIcons {

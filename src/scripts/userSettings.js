@@ -143,6 +143,7 @@ class UserSettings {
                 findLegendary: false,
                 shelterGrid: true,
                 shelterSpriteSize: 'auto',
+                lastSearchID: 0,
                 quickPkmnSearch: [],
                 quickTypeSearch: [],
                 quickNatureSearch: []
