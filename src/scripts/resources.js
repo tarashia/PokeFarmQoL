@@ -40,4 +40,7 @@ class Resources {
     static SHELTER_SORT_HTML = `<% src/html/shelter-sort.html %>`;
     static QUICK_SEARCH_ICONS = `<% src/html/quick-search-icons.html %>`;
 
+    // Static dex data
+    static DEFAULT_DEX = "<% src/resources/dex-data.json %>";
+
 }

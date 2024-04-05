@@ -143,10 +143,9 @@ class UserSettings {
                 findLegendary: false,
                 shelterGrid: true,
                 shelterSpriteSize: 'auto',
-                quickTypeSearch: [],
-                fullOptionSearch: {},
                 quickPkmnSearch: [],
-                fullPkmnSearch: {}
+                quickTypeSearch: [],
+                quickNatureSearch: []
             }
         }
     ];

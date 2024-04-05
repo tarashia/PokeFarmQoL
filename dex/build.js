@@ -10,7 +10,6 @@ import { exit } from 'node:process';
 
 const csvDir = 'dex/csvs';
 const resourceDir = 'src/resources';
-const imgDir = 'images';
 const resources = {
     'regions.jsonc': undefined,
     'types.jsonc': undefined,
@@ -46,7 +45,7 @@ async function run() {
         output = output.concat(procData);
     }
     // use "jpg" file extension for on-site upload
-    fs.writeFileSync(imgDir+'/dex-data.jpg',JSON.stringify(output),{encoding:'utf8',flag:'w'});
+    fs.writeFileSync(resourceDir+'/dex-data.json',JSON.stringify(output),{encoding:'utf8',flag:'w'});
     console.log('Done.');
 }
 
@@ -63,7 +62,6 @@ async function run() {
     9 Body style
     10 Evolves at
     11 Region
-    12 Img codes
 ]*/
 function process(data) {
     var output = [];
@@ -140,21 +138,6 @@ function process(data) {
                         throwError('Region not set');
                     }
                     procRow['region'] = index;
-                    break;
-                case 12:
-                    var imgCodes = parse(value, {})[0];
-                    if(imgCodes) {
-                        for(var k=0; k<imgCodes.length; k++) {
-                            imgCodes[k] = imgCodes[k].trim();
-                            if(!imgCodes[k].match(/^[a-z0-9](\/[a-z0-9])+$/)) {
-                                throwError('Invalid img code: '+imgCodes[k]);
-                            }
-                        }
-                    }
-                    else {
-                        imgCodes = null;
-                    }
-                    procRow['imgCodes'] = imgCodes;
                     break;
                 default:    
                     throwError('Out of bounds');

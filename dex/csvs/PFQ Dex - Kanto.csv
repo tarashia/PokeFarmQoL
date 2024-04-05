@@ -1,43 +1,43 @@
-Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Colour,Body style,Evolves at,Region,Img codes (comma separated)
-001,Bulbasaur,,Grass,Poison,Grass,Monster,No,Green,Four Legs,16,Kanto,"c/0/7, 1/g/g"
-002,Ivysaur,,Grass,Poison,Grass,Monster,No,Green,Four Legs,32,Kanto,9/6/r
-003,Venusaur,,Grass,Poison,Grass,Monster,No,Green,Four Legs,,Kanto,"c/1/5, 2/u/a"
-003-M,Venusaur,Mega Forme,Grass,Poison,Grass,Monster,No,Green,Four Legs,,Kanto,7/5/z
-004,Charmander,,Fire,,Dragon,Monster,No,Red,Dino,16,Kanto,"f/d/w, 5/l/t"
-005,Charmeleon,,Fire,,Dragon,Monster,No,Red,Dino,36,Kanto,o/i/v
-006,Charizard,,Fire,Flying,Dragon,Monster,No,Red,Dino,,Kanto,j/j/t
-006-X,Charizard,Mega Forme X,Fire,Dragon,Dragon,Monster,No,Black,Dino,,Kanto,g/i/k
-006-Y,Charizard,Mega Forme Y,Fire,Flying,Dragon,Monster,No,Red,Dino,,Kanto,l/a
-007,Squirtle,,Water,,Water 1,Monster,No,Blue,Dino,16,Kanto,"l/w/s, h/h/e"
-008,Wartortle,,Water,,Water 1,Monster,No,Blue,Dino,36,Kanto,j/n
-009,Blastoise,,Water,,Water 1,Monster,No,Blue,Dino,,Kanto,2/4/p
-009-M,Blastoise,Mega Forme,Water,,Water 1,Monster,No,Blue,Dino,,Kanto,9/b/z/l
-010,Caterpie,,Bug,,Bug,,No,Green,Crawling Bug,7,Kanto,"j/n/z, 8/i/9"
-011,Metapod,,Bug,,Bug,,No,Green,Snake,10,Kanto,o/o/m
-012,Butterfree,,Bug,Flying,Bug,,No,White,Flying Bug,,Kanto,"e/k/d, 5/2/p"
-013,Weedle,,Bug,Poison,Bug,,No,Brown,Crawling Bug,7,Kanto,9/6/y
-014,Kakuna,,Bug,Poison,Bug,,No,Yellow,Snake,10,Kanto,f/1/q
-015,Beedrill,,Bug,Poison,Bug,,No,Yellow,Flying Bug,,Kanto,f/c/4
-015-M,Beedrill,Mega Forme,Bug,Poison,Bug,,No,Yellow,Flying Bug,,Kanto,d/1/6/d
-016,Pidgey,,Normal,Flying,Flying,,No,Brown,Bird,18,Kanto,b/y
-017,Pidgeotto,,Normal,Flying,Flying,,No,Brown,Bird,36,Kanto,c/c/o
-018,Pidgeot,,Normal,Flying,Flying,,No,Brown,Bird,,Kanto,c/9/9
-018-M,Pidgeot,Mega Forme,Normal,Flying,Flying,,No,Brown,Bird,,Kanto,m/r/4
-019,Rattata,,Normal,,Field,,No,Purple,Four Legs,20,Kanto,i/b/h/e
-019r7,Rattata,Alolan Forme,Dark,Normal,Field,,No,Black,Four Legs,20,Kanto,"5/j/w, l/y/p, o/1/x"
-020,Raticate,,Normal,,Field,,No,Brown,Four Legs,,Kanto,"s/y/w/b, 3/6/m/d"
-020r7,Raticate,Alolan Forme,Dark,Normal,Field,,No,Black,Four Legs,,Kanto,"3/j/v, c/p/z"
-020t7,Raticate,Alolan Totem Forme,Dark,Normal,Field,,No,Black,Four Legs,,Kanto,o/e/g/u
-021,Spearow,,Normal,Flying,Flying,,No,Brown,Bird,20,Kanto,3/4/y/0
-022,Fearow,,Normal,Flying,Flying,,No,Brown,Bird,,Kanto,"i/m/r, k/5"
-023,Ekans,,Poison,,Field,Dragon,No,Purple,Snake,22,Kanto,"6/v/6, d/b/d"
-024,Arbok,,Poison,,Field,Dragon,No,Purple,Snake,,Kanto,4/p/w
-025,Pichu,,Electric,,Undiscovered,,No,Yellow,Four Legs,,Kanto,"g/s/8, g/j/m"
-026,Pikachu,,Electric,,Fairy,Field,No,Yellow,Four Legs,,Kanto,"e/a/r, 2/v/f"
-027,Raichu,,Electric,,Fairy,Field,No,Yellow,Dino,,Kanto,"2/d/p, 3/z/5"
-027r7,Raichu,Alolan Forme,Electric,Psychic,Fairy,Field,No,Brown,Dino,,Kanto,e/k/u/7
-028,Sandshrew,,Ground,,Field,,No,Yellow,Dino,22,Kanto,"1/i/1, o/u/0"
-028r7,Sandshrew,Alolan Forme,Ice,Steel,Field,,No,White,Dino,,Kanto,"r/2/t/g, 4/v/a/h"
-029,Sandslash,,Ground,,Field,,No,Yellow,Dino,,Kanto,5/n/0
-029t,Sandslash,Totem Forme Q,Ground,,Field,,No,Yellow,Dino,,Kanto,b/8/r
-029r7,Sandslash,Alolan Forme,Ice,Steel,Field,,No,Blue,Dino,,Kanto,h/z/z/a
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Colour,Body style,Evolves at,Region
+001,Bulbasaur,,Grass,Poison,Grass,Monster,No,Green,Four Legs,16,Kanto
+002,Ivysaur,,Grass,Poison,Grass,Monster,No,Green,Four Legs,32,Kanto
+003,Venusaur,,Grass,Poison,Grass,Monster,No,Green,Four Legs,,Kanto
+003-M,Venusaur,Mega Forme,Grass,Poison,Grass,Monster,No,Green,Four Legs,,Kanto
+004,Charmander,,Fire,,Dragon,Monster,No,Red,Dino,16,Kanto
+005,Charmeleon,,Fire,,Dragon,Monster,No,Red,Dino,36,Kanto
+006,Charizard,,Fire,Flying,Dragon,Monster,No,Red,Dino,,Kanto
+006-X,Charizard,Mega Forme X,Fire,Dragon,Dragon,Monster,No,Black,Dino,,Kanto
+006-Y,Charizard,Mega Forme Y,Fire,Flying,Dragon,Monster,No,Red,Dino,,Kanto
+007,Squirtle,,Water,,Water 1,Monster,No,Blue,Dino,16,Kanto
+008,Wartortle,,Water,,Water 1,Monster,No,Blue,Dino,36,Kanto
+009,Blastoise,,Water,,Water 1,Monster,No,Blue,Dino,,Kanto
+009-M,Blastoise,Mega Forme,Water,,Water 1,Monster,No,Blue,Dino,,Kanto
+010,Caterpie,,Bug,,Bug,,No,Green,Crawling Bug,7,Kanto
+011,Metapod,,Bug,,Bug,,No,Green,Snake,10,Kanto
+012,Butterfree,,Bug,Flying,Bug,,No,White,Flying Bug,,Kanto
+013,Weedle,,Bug,Poison,Bug,,No,Brown,Crawling Bug,7,Kanto
+014,Kakuna,,Bug,Poison,Bug,,No,Yellow,Snake,10,Kanto
+015,Beedrill,,Bug,Poison,Bug,,No,Yellow,Flying Bug,,Kanto
+015-M,Beedrill,Mega Forme,Bug,Poison,Bug,,No,Yellow,Flying Bug,,Kanto
+016,Pidgey,,Normal,Flying,Flying,,No,Brown,Bird,18,Kanto
+017,Pidgeotto,,Normal,Flying,Flying,,No,Brown,Bird,36,Kanto
+018,Pidgeot,,Normal,Flying,Flying,,No,Brown,Bird,,Kanto
+018-M,Pidgeot,Mega Forme,Normal,Flying,Flying,,No,Brown,Bird,,Kanto
+019,Rattata,,Normal,,Field,,No,Purple,Four Legs,20,Kanto
+019r7,Rattata,Alolan Forme,Dark,Normal,Field,,No,Black,Four Legs,20,Kanto
+020,Raticate,,Normal,,Field,,No,Brown,Four Legs,,Kanto
+020r7,Raticate,Alolan Forme,Dark,Normal,Field,,No,Black,Four Legs,,Kanto
+020t7,Raticate,Alolan Totem Forme,Dark,Normal,Field,,No,Black,Four Legs,,Kanto
+021,Spearow,,Normal,Flying,Flying,,No,Brown,Bird,20,Kanto
+022,Fearow,,Normal,Flying,Flying,,No,Brown,Bird,,Kanto
+023,Ekans,,Poison,,Field,Dragon,No,Purple,Snake,22,Kanto
+024,Arbok,,Poison,,Field,Dragon,No,Purple,Snake,,Kanto
+025,Pichu,,Electric,,Undiscovered,,No,Yellow,Four Legs,,Kanto
+026,Pikachu,,Electric,,Fairy,Field,No,Yellow,Four Legs,,Kanto
+027,Raichu,,Electric,,Fairy,Field,No,Yellow,Dino,,Kanto
+027r7,Raichu,Alolan Forme,Electric,Psychic,Fairy,Field,No,Brown,Dino,,Kanto
+028,Sandshrew,,Ground,,Field,,No,Yellow,Dino,22,Kanto
+028r7,Sandshrew,Alolan Forme,Ice,Steel,Field,,No,White,Dino,,Kanto
+029,Sandslash,,Ground,,Field,,No,Yellow,Dino,,Kanto
+029t,Sandslash,Totem Forme Q,Ground,,Field,,No,Yellow,Dino,,Kanto
+029r7,Sandslash,Alolan Forme,Ice,Steel,Field,,No,Blue,Dino,,Kanto

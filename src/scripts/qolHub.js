@@ -68,6 +68,9 @@ class QoLHub {
             console.log('User settings:');
             let userSettings = UserDataHandle.getSettings();
             console.log(userSettings);
+            console.log('Dex data:');
+            let dexData = UserDataHandle.getDex();
+            console.log(dexData);
             // TODO: get relevant browser/screen size data, add to object?
             // convert to JSON, then base 64 encode
             let output = JSON.stringify(storedSettings);
