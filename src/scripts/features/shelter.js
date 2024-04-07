@@ -12,6 +12,7 @@ class Shelter {
             // if specific features are enabled, run them
             if(settings[Shelter.SUB_SETTINGS].search) {
                 this.matches = [];
+                this.currentMatch = -1;
                 this.setupSearch();
             }
             // putting this second will actually make its tab first
@@ -40,6 +41,7 @@ class Shelter {
         // run initially
         Shelter.handleSortSettings();
     }
+
     static handleSortSettings() {
         const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
 
@@ -65,7 +67,7 @@ class Shelter {
         const settings = UserDataHandle.getSettings();
         let lastSearchID = settings[Shelter.SETTING_KEY]['lastSearchID'];
         settings.changeSetting(Shelter.SETTING_KEY, 'lastSearchID', lastSearchID+1);
-        baseObject.searchID = lastSearchID+1;
+        baseObject.id = lastSearchID+1;
         // set the common defaults (checkboxes) - unique attribute defaults are passed in the baseObject
         baseObject.egg = true;
         baseObject.pkmn = true;
@@ -133,7 +135,7 @@ class Shelter {
         let self = this;
         let element;
         if(searchKey && 'name' in searchKey) {
-            let output = '<div class="qolQuickSearchBlock" data-type="quickPkmnSearch" data-id="'+searchKey.searchID+'"><div class="qolQuickSearchInputs">';
+            let output = '<div class="qolQuickSearchBlock" data-type="quickPkmnSearch" data-id="'+searchKey.id+'"><div class="qolQuickSearchInputs">';
             output += '<input type="text" name="qolQsName" /><button type="button" class="qolQuickSearchRemove">X</button></div>';
             output += Resources.QUICK_SEARCH_ICONS
             output += '</div>';
@@ -141,7 +143,7 @@ class Shelter {
             element.find('input[name="qolQsName"]').val(searchKey.name);
         }
         else if(searchKey && 'type1' in searchKey) {
-            let output = '<div class="qolQuickSearchBlock" data-type="quickTypeSearch" data-id="'+searchKey.searchID+'"><div class="qolQuickSearchInputs">';
+            let output = '<div class="qolQuickSearchBlock" data-type="quickTypeSearch" data-id="'+searchKey.id+'"><div class="qolQuickSearchInputs">';
             output += '<select name="qolQsType1">'+Helpers.generateSelectOptions(Resources.TYPE_LIST,{'select': 'Select'})+'</select>';
             output += '<select name="qolQsType2">'+Helpers.generateSelectOptions(Resources.TYPE_LIST,{'any': 'Any', 'none': 'None'})+'</select>';
             output += '<button type="button" class="qolQuickSearchRemove">X</button>';
@@ -153,7 +155,7 @@ class Shelter {
             element.find('select[name="qolQsType2"]').val(searchKey.type2);
         }
         else if(searchKey && 'nature' in searchKey) {
-            let output = '<div class="qolQuickSearchBlock" data-type="quickNatureSearch" data-id="'+searchKey.searchID+'"><div class="qolQuickSearchInputs">';
+            let output = '<div class="qolQuickSearchBlock" data-type="quickNatureSearch" data-id="'+searchKey.id+'"><div class="qolQuickSearchInputs">';
             output += '<select name="qolQsNature">'+Helpers.generateSelectOptions(Resources.NATURE_LIST,{'select': 'Select'})+'</select>';
             output += '<button type="button" class="qolQuickSearchRemove">X</button>';
             output += '</div>';
@@ -189,6 +191,7 @@ class Shelter {
         document.querySelector('#shelterupgrades .tabbed_interface>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
         document.querySelector('#shelterupgrades .tabbed_interface>ul').insertAdjacentHTML('afterend', '<div class="tab-active">'+Resources.SHELTER_SEARCH_HTML+'</div>');
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
+        Helpers.activateTooltips();
         
         let self = this;
 
@@ -217,7 +220,7 @@ class Shelter {
         $(window).on('keyup', function (e) {
             if (0 == $(e.target).closest('input, textarea').length) {
                 if(e.keyCode == Shelter.NEXT_MATCH_KEY) {
-                    console.log('TODO: next key pressed');
+                    self.findNextMatch();
                 }
             }
         });
@@ -226,7 +229,7 @@ class Shelter {
         Helpers.addObserver(document.querySelector('#shelterarea'), {
             childList: true
         }, function(mutations) {
-            console.log('mutation observed');
+            console.log('TODO: mutation observed');
             console.log(mutations);
             self.runSearch();
         });
@@ -239,7 +242,74 @@ class Shelter {
         });
     }
 
+    findNextMatch() {
+        console.log('TODO: next key pressed');
+    }
+
     runSearch() {
-        console.warn('TODO: shelter search');
+        // remove old highlights
+        $('#shelterarea .shelterfoundme').removeClass('shelterfoundme');
+        // run new search
+        const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
+        $('#shelterarea .pokemon').each(function() {
+            // TODO: special checks
+            //for(const i in shelterSettings.quickPkmnSearch) {
+                // TODO: handle accents (flabebe, faemueno)
+                /*
+                pkmn: does search contain pkmn/? if so, search .pokemon img[src]
+                does search contain a /? if not, search by tooltip_content text
+                if it does have a slash, check the dex for the forme id and search .pokemon[data-fid]
+                */
+            //}
+            //for(const i in shelterSettings.quickTypeSearch) {
+                // for each .pokemon[data-fid] on page, check dex for type(s)
+            //}
+            for(const i in shelterSettings.quickNatureSearch) {
+                if(this.getAttribute('data-nature') == shelterSettings.quickNatureSearch[i]['nature']) {
+                    Shelter.searchCheckboxes(shelterSettings.quickNatureSearch[i], this, false);
+                }
+            }
+        });
+    }
+
+    static applyHighlight(pkmn) {
+        pkmn.addClass('shelterfoundme');
+    }
+
+    // call this after confirming the primary match
+    // it will apply the highlight if the secondary checkboxes also match
+    // set checkStage to false for searches like nature that don't care about egg vs pkmn
+    static searchCheckboxes(searchKey, pkmn, checkStage) {
+        pkmn = $(pkmn); // jquery
+        if(checkStage) {
+            // if egg, don't check gender
+            if(pkmn.attr('data-stage')=='egg') {
+                if(searchKey['egg']===true) {
+                    Shelter.applyHighlight(pkmn);
+                }
+                return;
+            }
+            // if pkmn, check stage then continue to gender
+            else if(pkmn.attr('data-stage')=='pkmn') {
+                if(searchKey['pkmn']===false) {
+                    return;
+                }
+            }
+            else {
+                ErrorHandler.warn('Unknown pkmn data-stage');
+                console.log(pkmn);
+                return;
+            }
+        }
+        // ensure that the gender matches
+        if(searchKey['male'] && pkmn.next().find('img[title="[M]"]').length>0) {
+            Shelter.applyHighlight(pkmn);
+        }
+        else if(searchKey['female'] && pkmn.next().find('img[title="[F]"]').length>0) {
+            Shelter.applyHighlight(pkmn);
+        }
+        else if(searchKey['genderless'] && pkmn.next().find('img[title="[N]"]').length>0) {
+            Shelter.applyHighlight(pkmn);
+        }
     }
 }

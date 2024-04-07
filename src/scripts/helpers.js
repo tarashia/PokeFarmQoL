@@ -10,9 +10,9 @@ class Helpers {
 
     static addGlowColourCSS(glowColour) {
         if(glowColour) {
-            let css = '.publicfoundme, .privatefoundme, .shelterfoundme, .daycarefoundme, .labfoundme {';
-            css += 'box-shadow: 0px 0px 25px 15px '+glowColour+';';
-            css += 'background-color: '+glowColour+';}';
+            let css = '.publicfoundme, .privatefoundme, .shelterfoundme img, .daycarefoundme, .labfoundme {';
+            css += 'box-shadow: 0px 0px 25px 15px '+glowColour+' !important;';
+            css += 'background-color: '+glowColour+' !important;}';
             Helpers.addGlobalStyle(css);
         }
     }
@@ -88,6 +88,18 @@ class Helpers {
                 console.log(collapses[i]);
             }
         }
+    }
+
+    /* activate the click and hold feature for qol tooltips
+    Example tooltip:
+    <span class="tooltip_trigger qolTooltip"><img src="https://pfq-static.com/img/pkmn/q/g/k.png" /></span>
+    <div class="tooltip_content">Test tooltip contentx</div>
+    */
+    static activateTooltips() {
+        $('.qolTooltip').on('click',function(event) {
+            $(event.target.closest('.qolTooltip')).toggleClass('lock');
+            event.stopPropagation();
+        });
     }
 
     // Options should be on be one of the json objects from resources, or formatted similarly

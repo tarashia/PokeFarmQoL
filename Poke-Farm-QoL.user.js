@@ -101,9 +101,9 @@ class Helpers {
 
     static addGlowColourCSS(glowColour) {
         if(glowColour) {
-            let css = '.publicfoundme, .privatefoundme, .shelterfoundme, .daycarefoundme, .labfoundme {';
-            css += 'box-shadow: 0px 0px 25px 15px '+glowColour+';';
-            css += 'background-color: '+glowColour+';}';
+            let css = '.publicfoundme, .privatefoundme, .shelterfoundme img, .daycarefoundme, .labfoundme {';
+            css += 'box-shadow: 0px 0px 25px 15px '+glowColour+' !important;';
+            css += 'background-color: '+glowColour+' !important;}';
             Helpers.addGlobalStyle(css);
         }
     }
@@ -183,6 +183,19 @@ class Helpers {
                 console.log(collapses[i]);
             }
         }
+    }
+
+    /*
+     * activate the click and hold feature for qol tooltips
+     * Example tooltip:
+     * <span class="tooltip_trigger qolTooltip"><img src="https://pfq-static.com/img/pkmn/q/g/k.png" /></span>
+     * <div class="tooltip_content">Test tooltip contentx</div>
+     */
+    static activateTooltips() {
+        $('.qolTooltip').on('click',function(event) {
+            $(event.target.closest('.qolTooltip')).toggleClass('lock');
+            event.stopPropagation();
+        });
     }
 
     /*
@@ -345,9 +358,9 @@ class Resources {
     };
 
     // CSS files
-    static CORE_CSS = `#announcements li[data-name=QoL],input[type=checkbox].qolsetting:enabled,input[type=radio].qolsetting:enabled{cursor:pointer}.qolB64Output{border:1px solid;margin-bottom:.5em;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all}.daycarefoundme,.dojofoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}#qolMassSelect{margin:1rem 0}.qolModal>h3:first-child a{color:inherit;float:right}.qolCollapse h3{font-size:100%;padding:2px}.qoltooltip_trigger{border-bottom:1px dotted;display:inline-block;position:relative}.tooltip .tooltiptext{border-radius:6px;bottom:125%;left:50%;margin-left:0;opacity:0;padding:5px 0;position:absolute;text-align:center;transition:opacity .3s;visibility:hidden;width:500px;z-index:1}.tooltip .tooltiptext:after{border-style:solid;border-width:5px;content:"";left:50%;margin-left:-5px;position:absolute;top:100%}.tooltip:hover .tooltiptext{opacity:1;visibility:visible}.customsearchtooltip{width:400px}`;
+    static CORE_CSS = `#announcements li[data-name=QoL],input[type=checkbox].qolsetting:enabled,input[type=radio].qolsetting:enabled{cursor:pointer}.qolB64Output{border:1px solid;margin-bottom:.5em;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all}.daycarefoundme,.dojofoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme img{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}#qolMassSelect{margin:1rem 0}.qolModal>h3:first-child a{color:inherit;float:right}.qolCollapse h3{font-size:100%;padding:2px}.qolTooltip{border-bottom:1px dotted}`;
     static FIELDS_CSS = `#fieldorder{border-radius:4px;line-height:18pt;margin:16px auto;max-width:600px;padding:4px;position:relative;text-align:center}#fieldorder label{white-space:nowrap}#fieldsearch{margin:16px auto;max-width:600px;position:relative}#pokemonclickcount.unclicked{color:#a30323}#pokemonclickcount.clicked{color:#059121}.qolFieldBerrySort .fieldmon{margin:-10px!important;top:45%!important;transition:none!important}.qolFieldBerrySort .fieldmon>img.big{animation:none!important;padding:25px!important}.qolFieldBerrySort .fieldmon[data-flavour^=any],.qolFieldBerrySort .fieldmon[data-flavour^=sour]{left:0!important}.qolFieldBerrySort .fieldmon[data-flavour^=spicy]{left:20%!important}.qolFieldBerrySort .fieldmon[data-flavour^=dry]{left:40%!important}.qolFieldBerrySort .fieldmon[data-flavour^=sweet]{left:60%!important}.qolFieldBerrySort .fieldmon[data-flavour^=bitter]{left:80%!important}.mq2 .qolFieldBerrySort .fieldmon{margin:-10px 2%!important;overflow:hidden;width:16%}.mq2 .qolFieldBerrySort .fieldmon>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolFieldStack .fieldmon{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolFieldStack .fieldmon>img{animation:none!important;padding:40px!important}.qolFieldStackMax>div.field>.fieldmon{height:100%!important;left:0!important;margin:0!important;padding-left:40%!important;top:0!important;transition:none!important;width:60%!important}.qolFieldStackMax>div.field>.fieldmon .small{display:none!important}.qolFieldStackMax>div.field>.fieldmon .big{animation:none!important;display:block!important}.qolFieldGrid .field{background-size:cover!important;display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.qolFieldGrid .field .fieldmon{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolFieldGrid .field .fieldmon>img{animation:none!important;max-height:70px;max-width:75px}.mq25 .qolFieldGrid .field{grid-template-rows:repeat(5,36px);min-height:180px}.qolSelectFlavour{display:none}.qolFlavourShown~#qolMassSelect .qolSelectFlavour{display:inline}.qolFlavourShown~#qolMassSelect .qolSelectGender,.qolNatureShown~#qolMassSelect .qolSelectGender{display:none}#tooltipenable{margin:16px auto;max-width:600px;position:relative}.qolPrivateField .qolHideTooltips .fieldmon.tooltip_trigger:not(.selected)+.tooltip_content,.qolPublicField .qolHideTooltips .fieldmon.tooltip_trigger:not(.lock)+.tooltip_content{display:none!important}`;
-    static SEARCH_CSS = `.searchChecks>div{box-sizing:border-box;display:inline-block;padding:3px;width:33%}.searchChecks>div label{white-space:nowrap}#shelterupgrades .searchChecks>div,.mq2 .searchChecks>div{width:50%}.qolQuickSearchBlock{margin:.5rem 0}.qolQuickSearchBlock[data-type=quickNatureSearch] .pkmnState{display:none}.qolQuickSearchInputs{column-gap:6px;display:flex}.qolQuickSearchInputs input,.qolQuickSearchInputs select{flex-grow:1}.qolQuickSearchIcons{column-gap:6px;display:flex;margin-top:.5rem}.qolQuickSearchIcons label{border-radius:3px;display:inline-block;padding:3px}.qolQuickSearchIcons label input[type=checkbox]{cursor:pointer}.qolQuickSearchIcons label.hatched div{display:inline-block;height:16px;width:18px}.qolQuickSearchIcons label.hatched div img{left:-2px;position:relative;top:-8px;vertical-align:text-top}`;
+    static SEARCH_CSS = `.searchChecks>div{box-sizing:border-box;display:inline-block;padding:3px;width:33%}.searchChecks>div label{white-space:nowrap}#shelterupgrades .searchChecks>div,.mq2 .searchChecks>div{width:50%}.qolQuickSearchBlock{margin:.5rem 0}.qolQuickSearchBlock[data-type=quickNatureSearch] .pkmnState{display:none}.qolQuickSearchBlock .qolTooltip{display:inline-block;margin-left:5px}.qolQuickSearchBlock .qolTooltip img{vertical-align:middle}.qolQuickSearchInputs{column-gap:6px;display:flex}.qolQuickSearchInputs input,.qolQuickSearchInputs select{flex-grow:1}.qolQuickSearchIcons{column-gap:6px;display:flex;margin-top:.5rem}.qolQuickSearchIcons label{border-radius:3px;display:inline-block;padding:3px}.qolQuickSearchIcons label input[type=checkbox]{cursor:pointer}.qolQuickSearchIcons label.hatched div{display:inline-block;height:16px;width:18px}.qolQuickSearchIcons label.hatched div img{left:-2px;position:relative;top:-8px;vertical-align:text-top}`;
     static DOJO_CSS = `.dojoperfectstat{font-weight:700;text-decoration:underline}`;
     static FISHING_CSS = `#fishing button[data-reel].shake{padding:20px}.qolSelectGender{display:none}`;
     static FORGE_CSS = `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle}`;
@@ -368,7 +381,7 @@ class Resources {
     static PARTY_MOD_HTML = `<div id="qolpartymod"><label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="none"> None</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="hideDislike"> Hide disliked</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="niceTable"> Table view</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="hideAll"> Hide all</label> <label><input type="radio" class="qolsetting" data-group="QoLMultiuser" name="partyModType" value="customParty"> Customize</label></div><div id="qolpartymodcustom" class="panel accordion qolCollapse" style="display:none;"><h3><a href="#">Custom options <svg viewBox="-6 -6 12 12" width="16" height="16" class="acctoggle"><polygon fill="currentColor" points="-2,-4 4,0 -2,4"></polygon></svg></a></h3><div style="display:none;"><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="stackNextButton">Stack next button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="stackMoreButton">Stack get more button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showPokemon">Show pokemon</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="compactPokemon">Compact pokemon (if shown)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="clickablePokemon">Clickable pokemon (if compact)</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showTrainerCard">Show trainer card</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showFieldButton">Show field button</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showModeChecks">Show view mode checks</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="showUserName">Show user name</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="includeShowcase">Include showcase</label></div><div class="customopt"><label><input type="checkbox" class="qolsetting" data-group="QoLMultiuser" name="hideShowcase">Hide showcase on desktop</label></div></div></div>`;
     static QOL_HUB_ICON_HTML = `<li data-name="QoL"><a title="QoL Settings" id="qolHubIcon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAA3NCSVQICAjb4U/gAAABy1BMVEX///9AQEArKytAQEA5OTkuLkY7OzswMEAuOjo1NTw0QUEzODg6Pz9LS0tSUj08QEBpaT04QDxRVE0zNjxsbjxRRjRYSi9ATj5YTDI9WkNXWVFHRjc6TT9zczxDVT8/Z0VdUTJiY090dDo+VkFKYkBcXlViZFl1dmVEOS49XkRsbVdwcWJbhEY9aEdbgUZHOCxVdkVHOCxGXUF4dzaOj3NHOS0+bEhzsk5QQi+JiDmpqYdGOi5xrU52dTI9gE5tpUuKZSKIhSo2k1Y6V0KPjCeblyS5tR4zNjo0oFw0q180u2Q0vGQ0vmU0wWY1pl03OTw3nVo7fE48PUA9ek1EbkdIckdOTjZRUDdRVFdSPSlVV1pZWDRZi0pcUkVgmEtiYTFlTClmZk5zQxZ0QxZ2TCF2dUx3VyV7WSJ8cSmAzFKNcSeP5laQaB+Q6VeR6VeR6leflCKodRmveRexgR+1gx61rR22sBq3fxfBvRLFwRDFwRHFw0nFw4LLwxjLxRHe1RDf1RPj2BHj3Qjm2xLn4Qfn4iPn5bDo3RHq3xHq5Abr5Qbr6bLw5gz07QP79AH99x3+9wD/+AD/+R7/+UL/+lv/+nT/+nX/+5H//MC4cZZXAAAAR3RSTlMABAYICQsNEBYiJzI5Ojs8P0BPVWFifH+AhY2PkZWZqa2xtLW2tr3U2NnZ293g4eLi4+To6ers7/Dz8/b29vf7/P3+/v7+/oG7ISUAAAGDSURBVCiRY2CAAh4pNXV1NSkeBlTArmrVNgMI2qxU2ZHFhbS7p0+dMnnylKnTu7WFEOK8JtMmTYSCSdNMeGHirFr9E5FAvxYrVEKxdSIKaFWEiDNZTkQDlkxgCX43ILsTJtgFxG78YAml+om9ie7xYOEJqe5hfRPrlcASsrU9FVH+7i0giaaIIPeqnlpZsASna0djeGz0BLCO6Njwxg5XTojttu0dDWV1ldU1NdWVdWUNHe22UOcKOHZ0lGaVFANBSVZpR4ejAMyHIi7NBeXpkUCQXl7Q7CKCCBM+44yihOSkpOSEogxjPpTgVShKSwGCtCIFFGEWNlGHwhwgKHQQZWOBCysb6emoSItJWFhIiEmr6OgZKUMl5ANjsnNt5Jj19ZnlbHKzYwLloRKCTn4hmfnm4vr64ub5mSF+ToJQCUZdL+/guDwDQ0ODvLhgby9dRpglHGY+vgGh9qam9qEBvj5mHAhXcWnaeXo4W1s7e3jaaXKhOJhbUkZYQ0NYRpIbKgAAWVaJegCEZTUAAAAASUVORK5CYII=" alt="QoL Settings">QoL </a><!-- The QoL hub doesn't exist until opened; store custom errors here initially instead --><ul style="display: none;" id="qolConsoleHolder"></ul></li>`;
     static QOL_HUB_HTML = `<p>Welcome to the user hub of the QoL userscript! Here you can adjust the script settings. If you need help or have suggestions, please visit the <a href="https://pokefarm.com/forum/thread/193472/Quality-of-Life-changes-UserScript">QoL's main thread</a>.</p><div class="panel"><h3>Main Settings</h3><div id="qolHubSettings"><p><b>Note</b>: Please refresh the page to see any changes made to these settings take effect.</p><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="partyMod"> <span>Party click mod</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="shelterEnable"> <span>Enable All Shelter QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLShelterFeatures" name="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLShelterFeatures" name="sort"> <span>Advanced Sorting</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="publicFieldEnable"> <span>Enable All Public Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="sort"> <span>Advanced Sorting</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="tooltip"> <span>Tooltips</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPublicFieldFeatures" name="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="privateFieldEnable"> <span>Enable All Private Fields QoL Features</span></label><ul><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="search"> <span>Advanced Searching</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="release"> <span>Multi-Select Controls (Move & Release)</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="tooltip"> <span>Tooltips</span></label></li><li><label><input type="checkbox" class="qolsetting" data-group="QoLPrivateFieldFeatures" name="pkmnlinks"> <span>Pokemon Link List</span></label></li></ul></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="enableDaycare"> <span>Highlight Breeding Matches</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="fishingEnable"> <span>Fishing Multi-Select Controls</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="easyEvolve"> <span>Easy evolving</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="labNotifier"> <span>Lab Notifier</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="dexFilterEnable"> <span>Multiple Types Filtering</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="condenseWishforge"> <span>Smaller Crafted Badges List</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="interactionsEnable"> <span>Interactions page (sent multi-link)</span></label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLSettings" name="summaryEnable"> <span>Summary page (pkmnpanel code)</span></label></div><div><label><input type="checkbox" class="qolhubsetting" data-group="QoLSettings" name="dojoEnable"> <span>Dojo page (perfect stat highlight)</span></label></div><div><div>Search Pokemon glow colour<div id="glowColourPreview"></div></div><label><input type="text" class="qolsetting" data-group="QoLSettings" name="searchGlowColour"></label></div></div></div><div class="panel"><h3>Pokédex Settings</h3><div><p>If newly added Pokémon are not matching properly, your dex may be out of date. You can try clearing your cached dex to get the new data. If that doesn't help, the new Pokémon may not have been added yet - please report it in the QoL thread.</p><p>Date last updated: <span id="qolDexDate">[unknown]</span> <button type="button" id="clearCachedDex">Clear Cached Dex</button></p></div></div><div class="panel"><h3>Custom CSS</h3><div><p>Add your custom CSS! If you have an error in your CSS you won't get notified, so read your code carefully. Still doesn't work? Try: '!important'. The custom CSS is being loaded after the page loads, so it's possible that there will be a short delay before your CSS changes apply. Note: LESS formatting and skin color vars are not supported; if you're copying LESS-formatted code from a guide, you should <a href="https://lesscss.org/less-preview/" target="_blank">convert it to plain CSS first.</a></p><textarea id="qolcustomcss" rows="15" class="qolsetting" data-group="QoLSettings" name="customCss"></textarea></div></div><div class="panel"><h3>Setting Management</h3><div><p>You can reset some or all of the script settings here. If this script misbehaving after an update, this could help. Caution: You cannot undo this action.</p><p>Reset page settings:<br><!-- Option values correspond to the setting group keys --> <select id="qolHubResetSettingsSelect"><option value="None">None</option></select> <button type="button" id="resetPageSettings">Reset</button></p><p><button type="button" id="resetAllSettings">Reset ALL Settings</button></p><p></p><div>The QoL settings are stored in a cookie on your browser. You may be asked to post them when reporting bugs. <button type="button" id="qolExportSettings">Get settings</button><p></p><div id="qolStorageOutput" class="qolB64Output" style="display: none;"></div><p></p></div></div></div><div class="panel"><h3>Debugging</h3><div><div>Some QoL features may log problems or errors here. You may be asked about this when reporting bugs. <button type="button" id="qolErrorConsole">View errors</button></div><ul id="qolConsoleContent"></ul></div></div><p style="text-align: right"><button type="button" class="modalClose">Close</button></p>`;
-    static SHELTER_SEARCH_HTML = `<p>Enter search criteria below to highlight specific Pokemon. Use the letter 'n' key to select and cycle through the Pokemon matched by the script.</p><div class="searchChecks"><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findNewEgg">New Egg</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findNewPokemon">New Pokemon</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findShiny">Shiny</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findAlbino">Albino</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findMelanistic">Melanistic</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findPrehistoric">Prehistoric</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findDelta">Delta</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findMega">Mega</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findStarter">Starter</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findCustomSprite">Custom Sprite</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findTotem">Totem</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findLegendary">Legendary</label></div></div><h4 style="margin-block-end:0.5em;">Quick search</h4><div class="qolQuickSearchBlock"><button type="button" id="qolQuickNameBtn">Add name search</button></div><div id="qolQuickNameContainer"></div><hr><div class="qolQuickSearchBlock"><button type="button" id="qolQuickTypeBtn">Add type search</button></div><div id="qolQuickTypeContainer"></div><hr><div class="qolQuickSearchBlock"><button type="button" id="qolQuickNatureBtn">Add nature search</button></div><div id="qolQuickNatureContainer"></div><h4 style="margin-block-end:0.5em;">Advanced search</h4><p>(coming soon!)</p><!--<button type="button" id="qolNewAdvancedSearchBtn">New search</button> 
+    static SHELTER_SEARCH_HTML = `<p>Enter search criteria below to highlight specific Pokemon. Use the letter 'n' key to select and cycle through the Pokemon matched by the script.</p><div class="searchChecks"><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findNewEgg">New Egg</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findNewPokemon">New Pokemon</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findShiny">Shiny</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findAlbino">Albino</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findMelanistic">Melanistic</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findPrehistoric">Prehistoric</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findDelta">Delta</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findMega">Mega</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findStarter">Starter</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findCustomSprite">Custom Sprite</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findTotem">Totem</label></div><div><label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="findLegendary">Legendary</label></div></div><h4 style="margin-block-end:0.5em;">Quick search</h4><div class="qolQuickSearchBlock"><button type="button" id="qolQuickNameBtn">Add name search</button> <span class="tooltip_trigger qolTooltip"><img src="https://pfq-static.com/img/pkmn/q/g/k.png"></span><div class="tooltip_content">Search for all or part of a Pokemon's species name.<p>To seach for a specific forme, use the forme specifier as in the [pkmn] icon BBCode<br>Example: <b>Vulpix/Alolan Forme</b></p><p>To search for the base form while excluding the alternate formes, add a / at the end<br>Example: <b>Vulpix/</b> (Kanto only)</p><p>To search for an img code, your search term must include "pkmn/"<br>Example: <b>img/pkmn/s/o/y/s.png</b> (dark purple Flabébé)</p></div></div><div id="qolQuickNameContainer"></div><hr><div class="qolQuickSearchBlock"><button type="button" id="qolQuickTypeBtn">Add type search</button></div><div id="qolQuickTypeContainer"></div><hr><div class="qolQuickSearchBlock"><button type="button" id="qolQuickNatureBtn">Add nature search</button></div><div id="qolQuickNatureContainer"></div><h4 style="margin-block-end:0.5em;">Advanced search</h4><p>(coming soon!)</p><!--<button type="button" id="qolNewAdvancedSearchBtn">New search</button> 
   <div id="qolAdvancedShelterSearches"></div>--></div>`;
     static SHELTER_SORT_HTML = `<label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="shelterGrid"><span>Sort by Grid</span></label><div style="padding: 5px">Sprite size mode:<p style="margin: 5px 0"><label><input type="radio" class="qolsetting" data-group="QoLShelter" name="shelterSpriteSize" value="auto"> Automatic</label></p><p style="margin: 5px 0"><label><input type="radio" class="qolsetting" data-group="QoLShelter" name="shelterSpriteSize" value="large"> Large</label></p><p style="margin: 5px 0"><label><input type="radio" class="qolsetting" data-group="QoLShelter" name="shelterSpriteSize" value="small"> Small</label></p></div>`;
     static QUICK_SEARCH_ICONS = `<div class="qolQuickSearchIcons"><label class="pkmnState"><input type="checkbox" name="qolQsEgg"> <img src="img/pkmn/egg.png" alt="Egg"></label> <label class="hatched pkmnState"><input type="checkbox" name="qolQsPkmn"><div><img src="img/pkmn/m/m/h.png" alt="Hatched Pokemon"></div></label> <label><input type="checkbox" name="qolQsMale"> <img src="img/pkmn/gender_m.png" alt="Male"></label> <label><input type="checkbox" name="qolQsFemale"> <img src="img/pkmn/gender_f.png" alt="Female"></label> <label><input type="checkbox" name="qolQsGenderless"> <img src="img/pkmn/gender_n.png" alt="Genderless"></label></div>`;
@@ -1587,6 +1600,7 @@ class Shelter {
             // if specific features are enabled, run them
             if(settings[Shelter.SUB_SETTINGS].search) {
                 this.matches = [];
+                this.currentMatch = -1;
                 this.setupSearch();
             }
             // putting this second will actually make its tab first
@@ -1615,6 +1629,7 @@ class Shelter {
         // run initially
         Shelter.handleSortSettings();
     }
+
     static handleSortSettings() {
         const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
 
@@ -1640,7 +1655,7 @@ class Shelter {
         const settings = UserDataHandle.getSettings();
         const lastSearchID = settings[Shelter.SETTING_KEY]['lastSearchID'];
         settings.changeSetting(Shelter.SETTING_KEY, 'lastSearchID', lastSearchID+1);
-        baseObject.searchID = lastSearchID+1;
+        baseObject.id = lastSearchID+1;
         // set the common defaults (checkboxes) - unique attribute defaults are passed in the baseObject
         baseObject.egg = true;
         baseObject.pkmn = true;
@@ -1710,7 +1725,7 @@ class Shelter {
         const self = this;
         let element;
         if(searchKey && 'name' in searchKey) {
-            let output = '<div class="qolQuickSearchBlock" data-type="quickPkmnSearch" data-id="'+searchKey.searchID+'"><div class="qolQuickSearchInputs">';
+            let output = '<div class="qolQuickSearchBlock" data-type="quickPkmnSearch" data-id="'+searchKey.id+'"><div class="qolQuickSearchInputs">';
             output += '<input type="text" name="qolQsName" /><button type="button" class="qolQuickSearchRemove">X</button></div>';
             output += Resources.QUICK_SEARCH_ICONS;
             output += '</div>';
@@ -1718,7 +1733,7 @@ class Shelter {
             element.find('input[name="qolQsName"]').val(searchKey.name);
         }
         else if(searchKey && 'type1' in searchKey) {
-            let output = '<div class="qolQuickSearchBlock" data-type="quickTypeSearch" data-id="'+searchKey.searchID+'"><div class="qolQuickSearchInputs">';
+            let output = '<div class="qolQuickSearchBlock" data-type="quickTypeSearch" data-id="'+searchKey.id+'"><div class="qolQuickSearchInputs">';
             output += '<select name="qolQsType1">'+Helpers.generateSelectOptions(Resources.TYPE_LIST,{
                 'select': 'Select'
             })+'</select>';
@@ -1734,7 +1749,7 @@ class Shelter {
             element.find('select[name="qolQsType2"]').val(searchKey.type2);
         }
         else if(searchKey && 'nature' in searchKey) {
-            let output = '<div class="qolQuickSearchBlock" data-type="quickNatureSearch" data-id="'+searchKey.searchID+'"><div class="qolQuickSearchInputs">';
+            let output = '<div class="qolQuickSearchBlock" data-type="quickNatureSearch" data-id="'+searchKey.id+'"><div class="qolQuickSearchInputs">';
             output += '<select name="qolQsNature">'+Helpers.generateSelectOptions(Resources.NATURE_LIST,{
                 'select': 'Select'
             })+'</select>';
@@ -1772,6 +1787,7 @@ class Shelter {
         document.querySelector('#shelterupgrades .tabbed_interface>ul').insertAdjacentHTML('afterbegin', '<li class="tab-active"><label>Search</label></li>');
         document.querySelector('#shelterupgrades .tabbed_interface>ul').insertAdjacentHTML('afterend', '<div class="tab-active">'+Resources.SHELTER_SEARCH_HTML+'</div>');
         document.querySelector('#sheltercommands').insertAdjacentHTML('beforebegin', '<div id="sheltersuccess"></div>');
+        Helpers.activateTooltips();
 
         const self = this;
 
@@ -1806,7 +1822,7 @@ class Shelter {
         $(window).on('keyup', function (e) {
             if (0 == $(e.target).closest('input, textarea').length) {
                 if(e.keyCode == Shelter.NEXT_MATCH_KEY) {
-                    console.log('TODO: next key pressed');
+                    self.findNextMatch();
                 }
             }
         });
@@ -1815,7 +1831,7 @@ class Shelter {
         Helpers.addObserver(document.querySelector('#shelterarea'), {
             childList: true
         }, function(mutations) {
-            console.log('mutation observed');
+            console.log('TODO: mutation observed');
             console.log(mutations);
             self.runSearch();
         });
@@ -1828,8 +1844,81 @@ class Shelter {
         });
     }
 
+    findNextMatch() {
+        console.log('TODO: next key pressed');
+    }
+
     runSearch() {
-        console.warn('TODO: shelter search');
+        // remove old highlights
+        $('#shelterarea .shelterfoundme').removeClass('shelterfoundme');
+        // run new search
+        const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
+        $('#shelterarea .pokemon').each(function() {
+            /*
+             *  TODO: special checks
+             * for(const i in shelterSettings.quickPkmnSearch) {
+             *  TODO: handle accents (flabebe, faemueno)
+             */
+            /*
+             *pkmn: does search contain pkmn/? if so, search .pokemon img[src]
+             *does search contain a /? if not, search by tooltip_content text
+             *if it does have a slash, check the dex for the forme id and search .pokemon[data-fid]
+             */
+            /*
+             * }
+             * for(const i in shelterSettings.quickTypeSearch) {
+             *  for each .pokemon[data-fid] on page, check dex for type(s)
+             * }
+             */
+            for(const i in shelterSettings.quickNatureSearch) {
+                if(this.getAttribute('data-nature') == shelterSettings.quickNatureSearch[i]['nature']) {
+                    Shelter.searchCheckboxes(shelterSettings.quickNatureSearch[i], this, false);
+                }
+            }
+        });
+    }
+
+    static applyHighlight(pkmn) {
+        pkmn.addClass('shelterfoundme');
+    }
+
+    /*
+     * call this after confirming the primary match
+     * it will apply the highlight if the secondary checkboxes also match
+     * set checkStage to false for searches like nature that don't care about egg vs pkmn
+     */
+    static searchCheckboxes(searchKey, pkmn, checkStage) {
+        pkmn = $(pkmn); // jquery
+        if(checkStage) {
+            // if egg, don't check gender
+            if(pkmn.attr('data-stage')=='egg') {
+                if(searchKey['egg']===true) {
+                    Shelter.applyHighlight(pkmn);
+                }
+                return;
+            }
+            // if pkmn, check stage then continue to gender
+            else if(pkmn.attr('data-stage')=='pkmn') {
+                if(searchKey['pkmn']===false) {
+                    return;
+                }
+            }
+            else {
+                ErrorHandler.warn('Unknown pkmn data-stage');
+                console.log(pkmn);
+                return;
+            }
+        }
+        // ensure that the gender matches
+        if(searchKey['male'] && pkmn.next().find('img[title="[M]"]').length>0) {
+            Shelter.applyHighlight(pkmn);
+        }
+        else if(searchKey['female'] && pkmn.next().find('img[title="[F]"]').length>0) {
+            Shelter.applyHighlight(pkmn);
+        }
+        else if(searchKey['genderless'] && pkmn.next().find('img[title="[N]"]').length>0) {
+            Shelter.applyHighlight(pkmn);
+        }
     }
 }
 
