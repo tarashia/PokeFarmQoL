@@ -69,22 +69,11 @@ class UserPokedex {
             return -1;
         }
     }
-    // type 1 and 2 should be the object key of the relevant type
-    // ex: '4' for grass, not the actual string 'grass'
-    // set type2 to 'none' to find single-typed
-    getByType(type1,type2=null) {
-        if(!type2) {
-            return this.DEX_DATA.filter(pkmn => { 
-                return (pkmn.type1==type1 || pkmn.type2==type1)
-            });
-        }
-        else if(type2=='none') {
-            return this.DEX_DATA.filter(pkmn => { 
-                return (pkmn.type1==type1 && pkmn.type2===null)
-            });
-        }
-        return this.DEX_DATA.filter(pkmn => { 
-            return ((pkmn.type1==type1 && pkmn.type2==type2) || (pkmn.type1==type2 && pkmn.type2==type1)) 
+    // Get the data for a specific Pokemon by ID/forme specifier
+    // Ex: 038r7 for Alolan Vulpix
+    getByDexID(dexID) {
+        return this.DEX_DATA.filter(pkmn => {
+            return pkmn.dexID==dexID;
         });
     }
     getBySpecies(name) {
@@ -100,5 +89,22 @@ class UserPokedex {
                 return pkmn.species.includes(name);
             });
         }
+    }
+    // returns true if the given dex entry matches the given type values
+    // type2 can be any number, or special values "any" or "none"
+    static isTypeMatch(dexData, type1, type2) {
+        // if either pkmn type matches the search type 1
+        if(dexData['type1']==type1 || dexData['type2']==type1) {
+            // search type 2 is any, always true
+            // search type 2 is none, and pkmn type 2 is null
+            // search type 2 is anything else, and pkmn type 1 or 2 matches
+            if(type2=='any' || 
+                (type2=='none' && dexData['type2']===null) ||
+                (dexData['type1']==type2 || dexData['type2']==type2)
+            ) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -251,7 +251,9 @@ class Shelter {
         $('#shelterarea .shelterfoundme').removeClass('shelterfoundme');
         // run new search
         const shelterSettings = UserDataHandle.getSettings()[Shelter.SETTING_KEY];
+        const pokedex = UserDataHandle.getDex();
         $('#shelterarea .pokemon').each(function() {
+            const dexData = pokedex.getByDexID(this.getAttribute('data-fid'));
             // TODO: special checks
             //for(const i in shelterSettings.quickPkmnSearch) {
                 // TODO: handle accents (flabebe, faemueno)
@@ -261,9 +263,11 @@ class Shelter {
                 if it does have a slash, check the dex for the forme id and search .pokemon[data-fid]
                 */
             //}
-            //for(const i in shelterSettings.quickTypeSearch) {
-                // for each .pokemon[data-fid] on page, check dex for type(s)
-            //}
+            for(const i in shelterSettings.quickTypeSearch) {
+                if(dexData.length>0 && UserPokedex.isTypeMatch(dexData[0],shelterSettings.quickTypeSearch[i]['type1'],shelterSettings.quickTypeSearch[i]['type2'])) {
+                    Shelter.searchCheckboxes(shelterSettings.quickTypeSearch[i], this);
+                }
+            }
             for(const i in shelterSettings.quickNatureSearch) {
                 if(this.getAttribute('data-nature') == shelterSettings.quickNatureSearch[i]['nature']) {
                     Shelter.searchCheckboxes(shelterSettings.quickNatureSearch[i], this, false);
@@ -274,12 +278,13 @@ class Shelter {
 
     static applyHighlight(pkmn) {
         pkmn.addClass('shelterfoundme');
+        // TODO: add to found list? indicate source?
     }
 
     // call this after confirming the primary match
     // it will apply the highlight if the secondary checkboxes also match
     // set checkStage to false for searches like nature that don't care about egg vs pkmn
-    static searchCheckboxes(searchKey, pkmn, checkStage) {
+    static searchCheckboxes(searchKey, pkmn, checkStage=true) {
         pkmn = $(pkmn); // jquery
         if(checkStage) {
             // if egg, don't check gender
@@ -290,7 +295,7 @@ class Shelter {
                 return;
             }
             // if pkmn, check stage then continue to gender
-            else if(pkmn.attr('data-stage')=='pkmn') {
+            else if(pkmn.attr('data-stage')=='pokemon') {
                 if(searchKey['pkmn']===false) {
                     return;
                 }
