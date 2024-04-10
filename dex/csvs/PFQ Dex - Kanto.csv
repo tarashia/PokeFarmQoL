@@ -41,3 +41,5 @@ Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Colour,
 029,Sandslash,,Ground,,Field,,No,Yellow,Dino,,Kanto
 029t,Sandslash,Totem Forme Q,Ground,,Field,,No,Yellow,Dino,,Kanto
 029r7,Sandslash,Alolan Forme,Ice,Steel,Field,,No,Blue,Dino,,Kanto
+038,Vulpix,,Fire,,Field,,No,Brown,Four Legs,30,Kanto
+038r7,Vulpix,Alolan Forme,Ice,,Field,,No,White,Four Legs,30,Kanto

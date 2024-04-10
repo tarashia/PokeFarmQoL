@@ -79,9 +79,9 @@ class UserPokedex {
     getBySpecies(name) {
         // if name contains a slash (/), we are doing an exact forme match, which will return a single
         if(name.includes('/')) {
-            const splitSpecies = name.split('/');
+            const splitForme = name.split('/');
             return this.DEX_DATA.filter(pkmn => { 
-                return (pkmn.species==splitSpecies[0] && pkmn.forme==splitSpecies[1]);
+                return (pkmn.species==splitForme[0] && pkmn.forme==splitForme[1]);
             });
         }
         else {

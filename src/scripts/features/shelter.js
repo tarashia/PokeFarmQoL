@@ -255,14 +255,34 @@ class Shelter {
         $('#shelterarea .pokemon').each(function() {
             const dexData = pokedex.getByDexID(this.getAttribute('data-fid'));
             // TODO: special checks
-            //for(const i in shelterSettings.quickPkmnSearch) {
+            for(const i in shelterSettings.quickPkmnSearch) {
                 // TODO: handle accents (flabebe, faemueno)
                 /*
                 pkmn: does search contain pkmn/? if so, search .pokemon img[src]
                 does search contain a /? if not, search by tooltip_content text
                 if it does have a slash, check the dex for the forme id and search .pokemon[data-fid]
                 */
-            //}
+                // search by img code
+                const searchTerm = shelterSettings.quickPkmnSearch[i]['name'];
+                if(searchTerm.includes('pkmn/')) {
+                    if(this.html().includes(searchTerm)) {
+                        Shelter.searchCheckboxes(shelterSettings.quickPkmnSearch[i], this);
+                    }
+                }
+                // search by exact forme: species first, then forme specifier
+                else if(searchTerm.includes('/')) {
+                    const splitForme = searchTerm.split('/');
+                    if(dexData.length>0 && Helpers.normalizeCompare(dexData[0].species,splitForme[0]) && Helpers.normalizeCompare(dexData[0].forme,splitForme[1])) {
+                        Shelter.searchCheckboxes(shelterSettings.quickPkmnSearch[i], this);
+                    }
+                }
+                // compare to tooltip name, like the old script versions
+                else {
+                    if(Helpers.normalizeInclude($(this).next().text(),searchTerm)) {
+                        Shelter.searchCheckboxes(shelterSettings.quickPkmnSearch[i], this);
+                    }
+                }
+            }
             for(const i in shelterSettings.quickTypeSearch) {
                 if(dexData.length>0 && UserPokedex.isTypeMatch(dexData[0],shelterSettings.quickTypeSearch[i]['type1'],shelterSettings.quickTypeSearch[i]['type2'])) {
                     Shelter.searchCheckboxes(shelterSettings.quickTypeSearch[i], this);

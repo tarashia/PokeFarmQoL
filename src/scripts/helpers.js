@@ -40,6 +40,30 @@ class Helpers {
         return $('html').hasClass(size);
     }
 
+    // remove accents/diacritics from a string, to make comparisons more flexible
+    // Ex: Convert Flabébé to Flabebe
+    // https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
+    static normalizeString(string) {
+        return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    // compares normalized strings, and considers null and empty string equivalent
+    static normalizeCompare(string1, string2) {
+        if(!string1 && !string2) {
+            return true;
+        }
+        string1 = Helpers.normalizeString(string1.toLowerCase());
+        string2 = Helpers.normalizeString(string2.toLowerCase());
+        return string1 == string2;
+    }
+
+    // finds a normalized value within another string
+    static normalizeInclude(haystack, needle) {
+        haystack = Helpers.normalizeString(haystack.toLowerCase());
+        needle = Helpers.normalizeString(needle.toLowerCase());
+        return haystack.includes(needle);
+    }
+
     // sets up a basic mutation observer with the given options for the specified element
     // when the mutation is observed, calls the provided callback with the detected mutation
     // watchElement is a DOM element object

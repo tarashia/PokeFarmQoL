@@ -134,6 +134,32 @@ class Helpers {
     }
 
     /*
+     * remove accents/diacritics from a string, to make comparisons more flexible
+     * Ex: Convert Flabébé to Flabebe
+     * https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
+     */
+    static normalizeString(string) {
+        return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    // compares normalized strings, and considers null and empty string equivalent
+    static normalizeCompare(string1, string2) {
+        if(!string1 && !string2) {
+            return true;
+        }
+        string1 = Helpers.normalizeString(string1.toLowerCase());
+        string2 = Helpers.normalizeString(string2.toLowerCase());
+        return string1 == string2;
+    }
+
+    // finds a normalized value within another string
+    static normalizeInclude(haystack, needle) {
+        haystack = Helpers.normalizeString(haystack.toLowerCase());
+        needle = Helpers.normalizeString(needle.toLowerCase());
+        return haystack.includes(needle);
+    }
+
+    /*
      * sets up a basic mutation observer with the given options for the specified element
      * when the mutation is observed, calls the provided callback with the detected mutation
      * watchElement is a DOM element object
@@ -471,6 +497,10 @@ class Resources {
         "dexID":"029t","species":"Sandslash","forme":"Totem Forme Q","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"5","evolvesAt":"","region":"1"
     },{
         "dexID":"029r7","species":"Sandslash","forme":"Alolan Forme","type1":"5","type2":"16","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"1","bodyStyle":"5","evolvesAt":"","region":"1"
+    },{
+        "dexID":"038","species":"Vulpix","forme":"","type1":"1","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"7","evolvesAt":30,"region":"1"
+    },{
+        "dexID":"038r7","species":"Vulpix","forme":"Alolan Forme","type1":"5","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"7","evolvesAt":30,"region":"1"
     }];
 
 }
@@ -1856,17 +1886,35 @@ class Shelter {
         const pokedex = UserDataHandle.getDex();
         $('#shelterarea .pokemon').each(function() {
             const dexData = pokedex.getByDexID(this.getAttribute('data-fid'));
-            /*
-             *  TODO: special checks
-             * for(const i in shelterSettings.quickPkmnSearch) {
-             *  TODO: handle accents (flabebe, faemueno)
-             */
-            /*
-             *pkmn: does search contain pkmn/? if so, search .pokemon img[src]
-             *does search contain a /? if not, search by tooltip_content text
-             *if it does have a slash, check the dex for the forme id and search .pokemon[data-fid]
-             */
-            //}
+            // TODO: special checks
+            for(const i in shelterSettings.quickPkmnSearch) {
+                // TODO: handle accents (flabebe, faemueno)
+                /*
+                 *pkmn: does search contain pkmn/? if so, search .pokemon img[src]
+                 *does search contain a /? if not, search by tooltip_content text
+                 *if it does have a slash, check the dex for the forme id and search .pokemon[data-fid]
+                 */
+                // search by img code
+                const searchTerm = shelterSettings.quickPkmnSearch[i]['name'];
+                if(searchTerm.includes('pkmn/')) {
+                    if(this.html().includes(searchTerm)) {
+                        Shelter.searchCheckboxes(shelterSettings.quickPkmnSearch[i], this);
+                    }
+                }
+                // search by exact forme: species first, then forme specifier
+                else if(searchTerm.includes('/')) {
+                    const splitForme = searchTerm.split('/');
+                    if(dexData.length>0 && Helpers.normalizeCompare(dexData[0].species,splitForme[0]) && Helpers.normalizeCompare(dexData[0].forme,splitForme[1])) {
+                        Shelter.searchCheckboxes(shelterSettings.quickPkmnSearch[i], this);
+                    }
+                }
+                // compare to tooltip name, like the old script versions
+                else {
+                    if(Helpers.normalizeInclude($(this).next().text(),searchTerm)) {
+                        Shelter.searchCheckboxes(shelterSettings.quickPkmnSearch[i], this);
+                    }
+                }
+            }
             for(const i in shelterSettings.quickTypeSearch) {
                 if(dexData.length>0 && UserPokedex.isTypeMatch(dexData[0],shelterSettings.quickTypeSearch[i]['type1'],shelterSettings.quickTypeSearch[i]['type2'])) {
                     Shelter.searchCheckboxes(shelterSettings.quickTypeSearch[i], this);
@@ -2436,9 +2484,9 @@ class UserPokedex {
     getBySpecies(name) {
         // if name contains a slash (/), we are doing an exact forme match, which will return a single
         if(name.includes('/')) {
-            const splitSpecies = name.split('/');
+            const splitForme = name.split('/');
             return this.DEX_DATA.filter(pkmn => {
-                return (pkmn.species==splitSpecies[0] && pkmn.forme==splitSpecies[1]);
+                return (pkmn.species==splitForme[0] && pkmn.forme==splitForme[1]);
             });
         }
         else {
