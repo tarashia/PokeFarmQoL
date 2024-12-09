@@ -11,8 +11,7 @@ class Helpers {
     static addGlowColourCSS(glowColour) {
         if(glowColour) {
             let css = '.publicfoundme, .privatefoundme, .shelterfoundme img, .daycarefoundme, .labfoundme {';
-            css += 'box-shadow: 0px 0px 25px 15px '+glowColour+' !important;';
-            css += 'background-color: '+glowColour+' !important;}';
+            css += 'filter: drop-shadow(0px 0px 6px '+glowColour+') drop-shadow(0px 0px 6px '+glowColour+') drop-shadow(0px 0px 6px '+glowColour+') !important; }';
             Helpers.addGlobalStyle(css);
         }
     }

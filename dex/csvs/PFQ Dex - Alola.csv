@@ -1,0 +1,125 @@
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Is egg?,In lab?,Colour,Body style,Region
+721,Rowlet,,Grass,Flying,Flying,,No,Yes,Yes,Brown,Bird,Alola
+722,Dartrix,,Grass,Flying,Flying,,No,No,,Brown,Bird,Alola
+723,Decidueye,,Grass,Ghost,Flying,,No,No,,Brown,Bird,Alola
+723r4,Decidueye,Hisuian Forme,Grass,Fighting,Flying,,No,No,,Brown,Bird,Alola
+724,Litten,,Fire,,Field,,No,Yes,Yes,Red,Four Legs,Alola
+725,Torracat,,Fire,,Field,,No,No,,Red,Four Legs,Alola
+726,Incineroar,,Fire,Dark,Field,,No,No,,Red,Dino,Alola
+727,Popplio,,Water,,Water 1,Field,No,Yes,Yes,Blue,Fish,Alola
+728,Brionne,,Water,,Water 1,Field,No,No,,Blue,Fish,Alola
+729,Primarina,,Water,Fairy,Water 1,Field,No,No,,Blue,Fish,Alola
+730,Pikipek,,Normal,Flying,Flying,,No,Yes,Yes,Black,Bird,Alola
+731,Trumbeak,,Normal,Flying,Flying,,No,No,,Black,Bird,Alola
+732,Toucannon,,Normal,Flying,Flying,,No,No,,Black,Bird,Alola
+733,Yungoos,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Alola
+734,Gumshoos,,Normal,,Field,,No,No,,Brown,Four Legs,Alola
+735,Grubbin,,Bug,,Bug,,No,Yes,Yes,Grey,Crawling Bug,Alola
+736,Charjabug,,Bug,Electric,Bug,,No,No,,Green,Snake,Alola
+737,Vikavolt,,Bug,Electric,Bug,,No,No,,Blue,Crawling Bug,Alola
+737t,Vikavolt,Totem Forme,Bug,Electric,Bug,,No,No,,Blue,Crawling Bug,Alola
+738,Crabrawler,,Fighting,,Water 3,,No,Yes,Yes,Purple,Crawling Bug,Alola
+739,Crabominable,,Fighting,Ice,Water 3,,No,No,,White,Crawling Bug,Alola
+740,Oricorio,,Fire,Flying,Flying,,No,Yes,Yes,Red,Bird,Alola
+740b,Oricorio,Pom-Pom Style,Electric,Flying,Flying,,No,No,,Yellow,Bird,Alola
+740c,Oricorio,Pa'u Style,Psychic,Flying,Flying,,No,No,,Pink,Bird,Alola
+740d,Oricorio,Sensu Style,Ghost,Flying,Flying,,No,No,,Purple,Bird,Alola
+741,Cutiefly,,Bug,Fairy,Bug,Fairy,No,Yes,Yes,Yellow,Crawling Bug,Alola
+742,Ribombee,,Bug,Fairy,Bug,Fairy,No,No,,Yellow,Flying Bug,Alola
+743,Rockruff,,Rock,,Field,,No,Yes,Yes,Brown,Four Legs,Alola
+744,Lycanroc,Midday Forme,Rock,,Field,,No,No,,Brown,Four Legs,Alola
+744b,Lycanroc,Midnight Forme,Rock,,Field,,No,No,,Red,Dino,Alola
+744c,Lycanroc,Dusk Forme,Rock,,Field,,No,No,,Brown,Four Legs,Alola
+745,Wishiwashi,,Water,,Water 2,,No,Yes,No,Blue,Fish,Alola
+745b,Wishiwashi,School Forme,Water,,Water 2,,No,No,,Blue,Multi,Alola
+745t,Wishiwashi,Totem Forme,Water,,Water 2,,No,No,,Blue,Multi,Alola
+746,Mareanie,,Poison,Water,Water 1,,No,Yes,No,Blue,Tall Blob,Alola
+747,Toxapex,,Poison,Water,Water 1,,No,No,,Blue,Jelly,Alola
+748,Mudbray,,Ground,,Field,,No,Yes,Yes,Brown,Four Legs,Alola
+749,Mudsdale,,Ground,,Field,,No,No,,Brown,Four Legs,Alola
+750,Dewpider,,Water,Bug,Water 1,Bug,No,Yes,Yes,Green,Two Legs,Alola
+751,Araquanid,,Water,Bug,Water 2,Bug,No,No,,Green,Crawling Bug,Alola
+751t,Araquanid,Totem Forme,Water,Bug,Water 3,Bug,No,No,,Green,Crawling Bug,Alola
+752,Fomantis,,Grass,,Grass,,No,Yes,Yes,Pink,Dino,Alola
+753,Lurantis,,Grass,,Grass,,No,No,,Pink,Human,Alola
+753t,Lurantis,Totem Forme,Grass,,Grass,,No,No,,Pink,Human,Alola
+754,Morelull,,Grass,Fairy,Grass,,No,Yes,Yes,Purple,Tall Blob,Alola
+755,Shiinotic,,Grass,Fairy,Grass,,No,No,,Purple,Human,Alola
+756,Salandit,,Poison,Fire,Monster,Dragon,No,Yes,Yes,Black,Four Legs,Alola
+757,Salazzle,,Poison,Fire,Monster,Dragon,No,No,,Black,Four Legs,Alola
+757t,Salazzle,Totem Forme,Poison,Fire,Monster,Dragon,No,No,,Black,Four Legs,Alola
+758,Stufful,,Normal,Fighting,Field,,No,Yes,Yes,Pink,Four Legs,Alola
+759,Bewear,,Normal,Fighting,Field,,No,No,,Pink,Dino,Alola
+760,Bounsweet,,Grass,,Grass,,No,Yes,Yes,Purple,Two Legs,Alola
+761,Steenee,,Grass,,Grass,,No,No,,Purple,Human,Alola
+762,Tsareena,,Grass,,Grass,,No,No,,Purple,Human,Alola
+763,Comfey,,Fairy,,Grass,,No,Yes,Yes,Green,Short Blob,Alola
+764,Oranguru,,Normal,Psychic,Field,,No,Yes,Yes,White,Human,Alola
+765,Passimian,,Fighting,,Field,,No,Yes,Yes,White,Dino,Alola
+766,Wimpod,,Bug,Water,Bug,Water 3,No,Yes,Yes,Grey,Jelly,Alola
+767,Golisopod,,Bug,Water,Bug,Water 3,No,No,,Grey,Human,Alola
+768,Sandygast,,Ghost,Ground,Amorphous,,No,Yes,Yes,Brown,Snake,Alola
+769,Palossand,,Ghost,Ground,Amorphous,,No,No,,Brown,Snake,Alola
+770,Pyukumuku,,Water,,Water 1,,No,Yes,Yes,Black,Snake,Alola
+771,Type: Null,,Normal,,Undiscovered,,Yes,Yes,No,Grey,Four Legs,Alola
+772,Silvally,,Normal,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772f,Silvally,Type: Fire,Fire,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772p,Silvally,Type: Water,Water,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772d,Silvally,Type: Electric,Electric,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772i,Silvally,Type: Grass,Grass,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772k,Silvally,Type: Ice,Ice,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772e,Silvally,Type: Fighting,Fighting,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772l,Silvally,Type: Poison,Poison,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772j,Silvally,Type: Ground,Ground,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772g,Silvally,Type: Flying,Flying,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772m,Silvally,Type: Psychic,Psychic,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772a,Silvally,Type: Bug,Bug,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772n,Silvally,Type: Rock,Rock,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772h,Silvally,Type: Ghost,Ghost,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772c,Silvally,Type: Dragon,Dragon,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772b,Silvally,Type: Dark,Dark,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772o,Silvally,Type: Steel,Steel,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+772q,Silvally,Type: Fairy,Fairy,,Undiscovered,,Yes,No,,Grey,Four Legs,Alola
+773,Minior,,Rock,Flying,Mineral,,No,Yes,Yes,Brown,Short Blob,Alola
+773a,Minior,Exposed,Rock,Flying,Mineral,,No,No,,White,Short Blob,Alola
+774,Komala,,Normal,,Field,,No,Yes,Yes,Blue,Human,Alola
+775,Turtonator,,Fire,Dragon,Monster,Dragon,No,Yes,Yes,Red,Dino,Alola
+776,Togedemaru,,Electric,Steel,Field,Fairy,No,Yes,Yes,Grey,Dino,Alola
+776t,Togedemaru,Totem Forme,Electric,Steel,Field,Fairy,No,No,,Grey,Dino,Alola
+777,Mimikyu,,Ghost,Fairy,Amorphous,,No,Yes,Yes,Yellow,Snake,Alola
+777t,Mimikyu,Totem Forme,Ghost,Fairy,Amorphous,,No,No,,Yellow,Snake,Alola
+778,Bruxish,,Water,Psychic,Water 2,,No,Yes,No,Pink,Fish,Alola
+779,Drampa,,Normal,Dragon,Monster,Dragon,No,Yes,Yes,White,Snake,Alola
+780,Dhelmise,,Ghost,Grass,Mineral,,No,Yes,No,Green,Tall Blob,Alola
+781,Jangmo-o,,Dragon,,Dragon,,No,Yes,Yes,Grey,Four Legs,Alola
+782,Hakamo-o,,Dragon,Fighting,Dragon,,No,No,,Grey,Dino,Alola
+783,Kommo-o,,Dragon,Fighting,Dragon,,No,No,,Grey,Dino,Alola
+783t,Kommo-o,Totem Forme,Dragon,Fighting,Dragon,,No,No,,Grey,Dino,Alola
+784,Tapu Koko,,Electric,Fairy,Undiscovered,,Yes,Yes,No,Yellow,Two Arms,Alola
+785,Tapu Lele,,Psychic,Fairy,Undiscovered,,Yes,Yes,No,Pink,Two Arms,Alola
+786,Tapu Bulu,,Grass,Fairy,Undiscovered,,Yes,Yes,No,Red,Two Arms,Alola
+787,Tapu Fini,,Water,Fairy,Undiscovered,,Yes,Yes,No,Purple,Two Arms,Alola
+788,Cosmog,,Psychic,,Undiscovered,,Yes,Yes,No,Blue,Short Blob,Alola
+789,Cosmoem,,Psychic,,Undiscovered,,Yes,No,,Blue,Short Blob,Alola
+790,Solgaleo,,Psychic,Steel,Undiscovered,,Yes,No,,White,Four Legs,Alola
+791,Lunala,,Psychic,Ghost,Undiscovered,,Yes,No,,Purple,Bird,Alola
+792,Nihilego,,Rock,Poison,Undiscovered,,Yes,Yes,No,White,Jelly,Alola
+793,Buzzwole,,Bug,Fighting,Undiscovered,,Yes,Yes,No,Red,Jelly,Alola
+794,Pheromosa,,Bug,Fighting,Undiscovered,,Yes,Yes,No,White,Human,Alola
+795,Xurkitree,,Electric,,Undiscovered,,Yes,Yes,No,Black,Dino,Alola
+796,Celesteela,,Steel,Flying,Undiscovered,,Yes,Yes,No,Green,Human,Alola
+797,Kartana,,Grass,Steel,Undiscovered,,Yes,Yes,No,White,Human,Alola
+798,Guzzlord,,Dark,Dragon,Undiscovered,,Yes,Yes,No,Black,Dino,Alola
+799,Poipole,,Poison,,Undiscovered,,Yes,Yes,No,Purple,Dino,Alola
+800,Naganadel,,Poison,Dragon,Undiscovered,,Yes,No,,Purple,Bird,Alola
+801,Stakataka,,Rock,Steel,Undiscovered,,Yes,Yes,No,Grey,Four Legs,Alola
+802,Blacephalon,,Fire,Ghost,Undiscovered,,Yes,Yes,No,White,Human,Alola
+803,Necrozma,,Psychic,,Undiscovered,,Yes,Yes,No,Black,Two Arms,Alola
+803l,Necrozma,Dawn Wings,Psychic,Ghost,Undiscovered,,Yes,No,,Blue,Bird,Alola
+803s,Necrozma,Dusk Mane,Psychic,Steel,Undiscovered,,Yes,No,,Yellow,Four Legs,Alola
+803u,Necrozma,Ultra Forme,Psychic,Dragon,Undiscovered,,Yes,No,,Yellow,Four Legs,Alola
+804,Magearna,,Steel,Fairy,Undiscovered,,Yes,Yes,No,Red,Human,Alola
+805,Marshadow,,Fighting,Ghost,Undiscovered,,Yes,Yes,No,Black,Human,Alola
+806,Zeraora,,Electric,,Undiscovered,,Yes,Yes,No,Yellow,Human,Alola
+807,Meltan,,Steel,,Mineral,Amorphous,No,Yes,No,Grey,Short Blob,Alola
+808,Melmetal,,Steel,,Mineral,Amorphous,No,No,,Grey,Dino,Alola

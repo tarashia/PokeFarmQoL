@@ -1,0 +1,174 @@
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Is egg?,In lab?,Colour,Body style,Region
+266,Treecko,,Grass,,Dragon,Monster,No,Yes,Yes,Green,Dino,Hoenn
+267,Grovyle,,Grass,,Dragon,Monster,No,No,,Green,Dino,Hoenn
+268,Sceptile,,Grass,,Dragon,Monster,No,No,,Green,Dino,Hoenn
+268-M,Sceptile,Mega Forme,Grass,Dragon,Dragon,Monster,No,No,,Green,Dino,Hoenn
+269,Torchic,,Fire,,Field,,No,Yes,Yes,Red,Two Legs,Hoenn
+270,Combusken,,Fire,Fighting,Field,,No,No,,Red,Dino,Hoenn
+271,Blaziken,,Fire,Fighting,Field,,No,No,,Red,Dino,Hoenn
+271-M,Blaziken,Mega Forme,Fire,Fighting,Field,,No,No,,Red,Dino,Hoenn
+272,Mudkip,,Water,,Water 1,Monster,No,Yes,Yes,Blue,Four Legs,Hoenn
+273,Marshtomp,,Water,Ground,Water 1,Monster,No,No,,Blue,Dino,Hoenn
+274,Swampert,,Water,Ground,Water 1,Monster,No,No,,Blue,Dino,Hoenn
+274-M,Swampert,Mega Forme,Water,Ground,Water 1,Monster,No,No,,Blue,Dino,Hoenn
+275,Poochyena,,Dark,,Field,,No,Yes,Yes,Grey,Four Legs,Hoenn
+276,Mightyena,,Dark,,Field,,No,No,,Grey,Four Legs,Hoenn
+277,Zigzagoon,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Hoenn
+277r8,Zigzagoon,Galarian Forme,Dark,Normal,Field,,No,Yes,No,White,Four Legs,Hoenn
+278,Linoone,,Normal,,Field,,No,No,,White,Four Legs,Hoenn
+278r8,Linoone,Galarian Forme,Dark,Normal,Field,,No,No,,White,Four Legs,Hoenn
+279,Wurmple,,Bug,,Bug,,No,Yes,Yes,Red,Crawling Bug,Hoenn
+280,Silcoon,,Bug,,Bug,,No,No,,White,Short Blob,Hoenn
+281,Beautifly,,Bug,Flying,Bug,,No,No,,Yellow,Flying Bug,Hoenn
+282,Cascoon,,Bug,,Bug,,No,No,,Purple,Short Blob,Hoenn
+283,Dustox,,Bug,Poison,Bug,,No,No,,Green,Flying Bug,Hoenn
+284,Lotad,,Water,Grass,Water 1,Grass,No,Yes,Yes,Green,Crawling Bug,Hoenn
+285,Lombre,,Water,Grass,Water 1,Grass,No,No,,Green,Human,Hoenn
+286,Ludicolo,,Water,Grass,Water 1,Grass,No,No,,Green,Human,Hoenn
+287,Seedot,,Grass,,Grass,Field,No,Yes,Yes,Brown,Two Legs,Hoenn
+288,Nuzleaf,,Grass,Dark,Grass,Field,No,No,,Brown,Human,Hoenn
+289,Shiftry,,Grass,Dark,Grass,Field,No,No,,Brown,Human,Hoenn
+290,Taillow,,Normal,Flying,Flying,,No,Yes,Yes,Blue,Bird,Hoenn
+291,Swellow,,Normal,Flying,Flying,,No,No,,Blue,Bird,Hoenn
+292,Wingull,,Water,Flying,Flying,Water 1,No,Yes,Yes,White,Bird,Hoenn
+293,Pelipper,,Water,Flying,Flying,Water 1,No,No,,Yellow,Bird,Hoenn
+294,Ralts,,Psychic,Fairy,Amorphous,Human-Like,No,Yes,Yes,White,Human,Hoenn
+295,Kirlia,,Psychic,Fairy,Amorphous,Human-Like,No,No,,White,Human,Hoenn
+295f,Iron Valiant,,Fairy,Fighting,Amorphous,Human-Like,No,No,,White,Human,Hoenn
+296,Gardevoir,,Psychic,Fairy,Amorphous,Human-Like,No,No,,White,Human,Hoenn
+296-M,Gardevoir,Mega Forme,Psychic,Fairy,Amorphous,Human-Like,No,No,,White,Human,Hoenn
+297,Gallade,,Psychic,Fighting,Amorphous,Human-Like,No,No,,White,Human,Hoenn
+297-M,Gallade,Mega Forme,Psychic,Fighting,Amorphous,Human-Like,No,No,,White,Human,Hoenn
+298,Surskit,,Bug,Water,Water 1,Bug,No,Yes,Yes,Blue,Crawling Bug,Hoenn
+299,Masquerain,,Bug,Flying,Water 1,Bug,No,No,,Blue,Flying Bug,Hoenn
+300,Shroomish,,Grass,,Fairy,Grass,No,Yes,Yes,Brown,Two Legs,Hoenn
+301,Breloom,,Grass,Fighting,Fairy,Grass,No,No,,Green,Dino,Hoenn
+302,Slakoth,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Hoenn
+303,Vigoroth,,Normal,,Field,,No,No,,White,Dino,Hoenn
+304,Slaking,,Normal,,Field,,No,No,,Brown,Human,Hoenn
+305,Nincada,,Bug,Ground,Bug,,No,Yes,Yes,Grey,Crawling Bug,Hoenn
+306,Ninjask,,Bug,Flying,Bug,,No,No,,Yellow,Flying Bug,Hoenn
+307,Shedinja,,Bug,Ghost,Mineral,,No,No,,Brown,Tall Blob,Hoenn
+308,Whismur,,Normal,,Field,Monster,No,Yes,Yes,Pink,Dino,Hoenn
+309,Loudred,,Normal,,Field,Monster,No,No,,Blue,Dino,Hoenn
+310,Exploud,,Normal,,Field,Monster,No,No,,Blue,Dino,Hoenn
+311,Makuhita,,Fighting,,Human-Like,,No,Yes,Yes,Yellow,Human,Hoenn
+312,Hariyama,,Fighting,,Human-Like,,No,No,,Brown,Human,Hoenn
+312f,Iron Hands,,Fighting,Electric,Human-Like,,No,No,,Grey,Human,Hoenn
+313,Nosepass,,Rock,,Mineral,,No,Yes,Yes,Grey,Human,Hoenn
+314,Probopass,,Rock,Steel,Mineral,,No,No,,Grey,Multi,Hoenn
+315,Skitty,,Normal,,Fairy,Field,No,Yes,Yes,Pink,Four Legs,Hoenn
+316,Delcatty,,Normal,,Fairy,Field,No,No,,Purple,Four Legs,Hoenn
+317,Sableye,,Dark,Ghost,Human-Like,,No,Yes,Yes,Purple,Human,Hoenn
+317-M,Sableye,Mega Forme,Dark,Ghost,Human-Like,,No,No,,Purple,Human,Hoenn
+318,Mawile,,Steel,Fairy,Fairy,Field,No,Yes,Yes,Black,Human,Hoenn
+318-M,Mawile,Mega Forme,Steel,Fairy,Fairy,Field,No,No,,Black,Human,Hoenn
+319,Aron,,Steel,Rock,Monster,,No,Yes,Yes,Grey,Four Legs,Hoenn
+320,Lairon,,Steel,Rock,Monster,,No,No,,Grey,Four Legs,Hoenn
+321,Aggron,,Steel,Rock,Monster,,No,No,,Grey,Dino,Hoenn
+321-M,Aggron,Mega Forme,Steel,,Monster,,No,No,,Grey,Dino,Hoenn
+322,Meditite,,Fighting,Psychic,Human-Like,,No,Yes,Yes,Blue,Human,Hoenn
+323,Medicham,,Fighting,Psychic,Human-Like,,No,No,,Red,Human,Hoenn
+323-M,Medicham,Mega Forme,Fighting,Psychic,Human-Like,,No,No,,Red,Human,Hoenn
+324,Electrike,,Electric,,Field,,No,Yes,Yes,Green,Four Legs,Hoenn
+325,Manectric,,Electric,,Field,,No,No,,Yellow,Four Legs,Hoenn
+325-M,Manectric,Mega Forme,Electric,,Field,,No,No,,Yellow,Four Legs,Hoenn
+326,Plusle,,Electric,,Fairy,,No,Yes,Yes,Yellow,Dino,Hoenn
+327,Minun,,Electric,,Fairy,,No,Yes,Yes,Yellow,Dino,Hoenn
+328,Volbeat,,Bug,,Human-Like,Bug,No,Yes,Yes,Grey,Dino,Hoenn
+329,Illumise,,Bug,,Human-Like,Bug,No,Yes,Yes,Purple,Human,Hoenn
+330,Gulpin,,Poison,,Amorphous,,No,Yes,Yes,Green,Two Arms,Hoenn
+331,Swalot,,Poison,,Amorphous,,No,No,,Purple,Two Arms,Hoenn
+332,Carvanha,,Water,Dark,Water 2,,No,Yes,No,Red,Fish,Hoenn
+333,Sharpedo,,Water,Dark,Water 2,,No,No,,Blue,Fish,Hoenn
+333-M,Sharpedo,Mega Forme,Water,Dark,Water 2,,No,No,,Blue,Fish,Hoenn
+334,Wailmer,,Water,,Water 2,Field,No,Yes,No,Blue,Fish,Hoenn
+335,Wailord,,Water,,Water 2,Field,No,No,,Blue,Fish,Hoenn
+336,Numel,,Fire,Ground,Field,,No,Yes,Yes,Yellow,Four Legs,Hoenn
+337,Camerupt,,Fire,Ground,Field,,No,No,,Red,Four Legs,Hoenn
+337-M,Camerupt,Mega Forme,Fire,Ground,Field,,No,No,,Red,Four Legs,Hoenn
+338,Torkoal,,Fire,,Field,,No,Yes,Yes,Brown,Four Legs,Hoenn
+339,Spoink,,Psychic,,Field,,No,Yes,Yes,Black,Two Arms,Hoenn
+340,Grumpig,,Psychic,,Field,,No,No,,Purple,Dino,Hoenn
+341,Spinda,,Normal,,Human-Like,Field,No,Yes,Yes,Brown,Dino,Hoenn
+342,Trapinch,,Ground,,Bug,Dragon,No,Yes,Yes,Brown,Crawling Bug,Hoenn
+343,Vibrava,,Ground,Dragon,Bug,Dragon,No,No,,Green,Flying Bug,Hoenn
+344,Flygon,,Ground,Dragon,Bug,Dragon,No,No,,Green,Bird,Hoenn
+345,Cacnea,,Grass,,Human-Like,Grass,No,Yes,Yes,Green,Human,Hoenn
+346,Cacturne,,Grass,Dark,Human-Like,Grass,No,No,,Green,Human,Hoenn
+347,Swablu,,Normal,Flying,Flying,Dragon,No,Yes,Yes,Blue,Bird,Hoenn
+348,Altaria,,Dragon,Flying,Flying,Dragon,No,No,,Blue,Bird,Hoenn
+348-M,Altaria,Mega Forme,Dragon,Fairy,Flying,Dragon,No,No,,Blue,Bird,Hoenn
+349,Zangoose,,Normal,,Field,,No,Yes,Yes,White,Dino,Hoenn
+350,Seviper,,Poison,,Field,Dragon,No,Yes,Yes,Black,Snake,Hoenn
+351,Lunatone,,Rock,Psychic,Mineral,,No,Yes,Yes,Yellow,Short Blob,Hoenn
+352,Solrock,,Rock,Psychic,Mineral,,No,Yes,Yes,Red,Short Blob,Hoenn
+353,Barboach,,Water,Ground,Water 2,,No,Yes,No,Grey,Fish,Hoenn
+354,Whiscash,,Water,Ground,Water 2,,No,No,,Blue,Fish,Hoenn
+355,Corphish,,Water,,Water 3,Water 1,No,Yes,No,Red,Crawling Bug,Hoenn
+356,Crawdaunt,,Water,Dark,Water 3,Water 1,No,No,,Red,Crawling Bug,Hoenn
+357,Baltoy,,Ground,Psychic,Mineral,,No,Yes,No,Brown,Two Arms,Hoenn
+358,Claydol,,Ground,Psychic,Mineral,,No,No,,Black,Two Arms,Hoenn
+359,Lileep,,Rock,Grass,Water 3,,No,Yes,No,Purple,Tall Blob,Hoenn
+360,Cradily,,Rock,Grass,Water 3,,No,No,,Green,Tall Blob,Hoenn
+361,Anorith,,Rock,Bug,Water 3,,No,Yes,No,Grey,Crawling Bug,Hoenn
+362,Armaldo,,Rock,Bug,Water 3,,No,No,,Grey,Dino,Hoenn
+363,Feebas,,Water,,Water 1,Dragon,No,Yes,No,Brown,Fish,Hoenn
+364,Milotic,,Water,,Water 1,Dragon,No,No,,Pink,Snake,Hoenn
+365,Castform,,Normal,,Fairy,Amorphous,No,Yes,Yes,Grey,Short Blob,Hoenn
+365i,Castform,Snow Forme,Ice,,Fairy,Amorphous,No,No,,White,Short Blob,Hoenn
+365r,Castform,Rain Forme,Water,,Fairy,Amorphous,No,No,,Blue,Short Blob,Hoenn
+365s,Castform,Sun Forme,Fire,,Fairy,Amorphous,No,No,,Red,Short Blob,Hoenn
+366,Kecleon,,Normal,,Field,,No,Yes,Yes,Green,Dino,Hoenn
+367,Shuppet,,Ghost,,Amorphous,,No,Yes,Yes,Black,Short Blob,Hoenn
+368,Banette,,Ghost,,Amorphous,,No,No,,Black,Dino,Hoenn
+368-M,Banette,Mega Forme,Ghost,,Amorphous,,No,No,,Black,Dino,Hoenn
+369,Duskull,,Ghost,,Amorphous,,No,Yes,Yes,Black,Two Arms,Hoenn
+370,Dusclops,,Ghost,,Amorphous,,No,No,,Black,Human,Hoenn
+371,Dusknoir,,Ghost,,Amorphous,,No,No,,Black,Two Arms,Hoenn
+372,Tropius,,Grass,Flying,Grass,Monster,No,Yes,Yes,Green,Four Legs,Hoenn
+373,Chingling,,Psychic,,Undiscovered,,No,Yes,No,Yellow,Human,Hoenn
+374,Chimecho,,Psychic,,Amorphous,,No,Yes,Yes,Blue,Two Arms,Hoenn
+375,Absol,,Dark,,Field,,No,Yes,Yes,White,Four Legs,Hoenn
+375-M,Absol,Mega Forme,Dark,,Field,,No,No,,White,Four Legs,Hoenn
+376,Wynaut,,Psychic,,Undiscovered,,No,Yes,No,Blue,Dino,Hoenn
+377,Wobbuffet,,Psychic,,Amorphous,,No,Yes,Yes,Blue,Tall Blob,Hoenn
+378,Snorunt,,Ice,,Mineral,Fairy,No,Yes,Yes,Grey,Human,Hoenn
+379,Glalie,,Ice,,Mineral,Fairy,No,No,,Grey,Short Blob,Hoenn
+379-M,Glalie,Mega Forme,Ice,,Mineral,Fairy,No,No,,Grey,Short Blob,Hoenn
+380,Froslass,,Ice,Ghost,Mineral,Fairy,No,No,,White,Two Arms,Hoenn
+381,Spheal,,Ice,Water,Water 1,Field,No,Yes,Yes,Blue,Fish,Hoenn
+382,Sealeo,,Ice,Water,Water 1,Field,No,No,,Blue,Fish,Hoenn
+383,Walrein,,Ice,Water,Water 1,Field,No,No,,Blue,Four Legs,Hoenn
+384,Clamperl,,Water,,Water 1,,No,Yes,No,Blue,Short Blob,Hoenn
+385,Huntail,,Water,,Water 1,,No,No,,Blue,Snake,Hoenn
+386,Gorebyss,,Water,,Water 1,,No,No,,Pink,Snake,Hoenn
+387,Relicanth,,Water,Rock,Water 2,Water 1,No,Yes,No,Grey,Fish,Hoenn
+388,Luvdisc,,Water,,Water 2,,No,Yes,No,Pink,Fish,Hoenn
+389,Bagon,,Dragon,,Dragon,,No,Yes,Yes,Blue,Human,Hoenn
+390,Shelgon,,Dragon,,Dragon,,No,No,,White,Four Legs,Hoenn
+391,Salamence,,Dragon,Flying,Dragon,,No,No,,Blue,Four Legs,Hoenn
+391-M,Salamence,Mega Forme,Dragon,Flying,Dragon,,No,No,,Blue,Four Legs,Hoenn
+391p,Roaring Moon,,Dragon,Dark,Dragon,,No,No,,Blue,Four Legs,Hoenn
+392,Beldum,,Steel,Psychic,Mineral,,No,Yes,Yes,Blue,Tall Blob,Hoenn
+393,Metang,,Steel,Psychic,Mineral,,No,No,,Blue,Two Arms,Hoenn
+394,Metagross,,Steel,Psychic,Mineral,,No,No,,Blue,Multi,Hoenn
+394-M,Metagross,Mega Forme,Steel,Psychic,Mineral,,No,No,,Blue,Multi,Hoenn
+395,Regirock,,Rock,,Undiscovered,,Yes,Yes,No,Brown,Human,Hoenn
+396,Regice,,Ice,,Undiscovered,,Yes,Yes,No,Blue,Human,Hoenn
+397,Registeel,,Steel,,Undiscovered,,Yes,Yes,No,Grey,Human,Hoenn
+398,Latias,,Dragon,Psychic,Undiscovered,,Yes,Yes,No,Red,Bird,Hoenn
+398-M,Latias,Mega Forme,Dragon,Psychic,Undiscovered,,Yes,No,,Purple,Bird,Hoenn
+399,Latios,,Dragon,Psychic,Undiscovered,,Yes,Yes,No,Blue,Bird,Hoenn
+399-M,Latios,Mega Forme,Dragon,Psychic,Undiscovered,,Yes,No,,Purple,Bird,Hoenn
+400,Kyogre,,Water,,Undiscovered,,Yes,Yes,No,Blue,Fish,Hoenn
+400p,Kyogre,Primal Forme,Water,,Undiscovered,,Yes,No,,Blue,Fish,Hoenn
+401,Groudon,,Ground,,Undiscovered,,Yes,Yes,No,Red,Dino,Hoenn
+401p,Groudon,Primal Forme,Ground,Fire,Undiscovered,,Yes,No,,Red,Dino,Hoenn
+402,Rayquaza,,Dragon,Flying,Undiscovered,,Yes,Yes,No,Green,Snake,Hoenn
+402-M,Rayquaza,Mega Forme,Dragon,Flying,Undiscovered,,Yes,No,,Green,Snake,Hoenn
+403,Jirachi,,Steel,Psychic,Undiscovered,,Yes,Yes,No,Yellow,Human,Hoenn
+404,Deoxys,,Psychic,,Undiscovered,,Yes,Yes,No,Red,Human,Hoenn
+404a,Deoxys,Attack Forme,Psychic,,Undiscovered,,Yes,No,,Red,Human,Hoenn
+404d,Deoxys,Defence Forme,Psychic,,Undiscovered,,Yes,No,,Red,Human,Hoenn
+404s,Deoxys,Speed Forme,Psychic,,Undiscovered,,Yes,No,,Red,Human,Hoenn

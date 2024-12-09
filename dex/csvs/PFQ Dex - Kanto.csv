@@ -1,45 +1,225 @@
-Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Colour,Body style,Evolves at,Region
-001,Bulbasaur,,Grass,Poison,Grass,Monster,No,Green,Four Legs,16,Kanto
-002,Ivysaur,,Grass,Poison,Grass,Monster,No,Green,Four Legs,32,Kanto
-003,Venusaur,,Grass,Poison,Grass,Monster,No,Green,Four Legs,,Kanto
-003-M,Venusaur,Mega Forme,Grass,Poison,Grass,Monster,No,Green,Four Legs,,Kanto
-004,Charmander,,Fire,,Dragon,Monster,No,Red,Dino,16,Kanto
-005,Charmeleon,,Fire,,Dragon,Monster,No,Red,Dino,36,Kanto
-006,Charizard,,Fire,Flying,Dragon,Monster,No,Red,Dino,,Kanto
-006-X,Charizard,Mega Forme X,Fire,Dragon,Dragon,Monster,No,Black,Dino,,Kanto
-006-Y,Charizard,Mega Forme Y,Fire,Flying,Dragon,Monster,No,Red,Dino,,Kanto
-007,Squirtle,,Water,,Water 1,Monster,No,Blue,Dino,16,Kanto
-008,Wartortle,,Water,,Water 1,Monster,No,Blue,Dino,36,Kanto
-009,Blastoise,,Water,,Water 1,Monster,No,Blue,Dino,,Kanto
-009-M,Blastoise,Mega Forme,Water,,Water 1,Monster,No,Blue,Dino,,Kanto
-010,Caterpie,,Bug,,Bug,,No,Green,Crawling Bug,7,Kanto
-011,Metapod,,Bug,,Bug,,No,Green,Snake,10,Kanto
-012,Butterfree,,Bug,Flying,Bug,,No,White,Flying Bug,,Kanto
-013,Weedle,,Bug,Poison,Bug,,No,Brown,Crawling Bug,7,Kanto
-014,Kakuna,,Bug,Poison,Bug,,No,Yellow,Snake,10,Kanto
-015,Beedrill,,Bug,Poison,Bug,,No,Yellow,Flying Bug,,Kanto
-015-M,Beedrill,Mega Forme,Bug,Poison,Bug,,No,Yellow,Flying Bug,,Kanto
-016,Pidgey,,Normal,Flying,Flying,,No,Brown,Bird,18,Kanto
-017,Pidgeotto,,Normal,Flying,Flying,,No,Brown,Bird,36,Kanto
-018,Pidgeot,,Normal,Flying,Flying,,No,Brown,Bird,,Kanto
-018-M,Pidgeot,Mega Forme,Normal,Flying,Flying,,No,Brown,Bird,,Kanto
-019,Rattata,,Normal,,Field,,No,Purple,Four Legs,20,Kanto
-019r7,Rattata,Alolan Forme,Dark,Normal,Field,,No,Black,Four Legs,20,Kanto
-020,Raticate,,Normal,,Field,,No,Brown,Four Legs,,Kanto
-020r7,Raticate,Alolan Forme,Dark,Normal,Field,,No,Black,Four Legs,,Kanto
-020t7,Raticate,Alolan Totem Forme,Dark,Normal,Field,,No,Black,Four Legs,,Kanto
-021,Spearow,,Normal,Flying,Flying,,No,Brown,Bird,20,Kanto
-022,Fearow,,Normal,Flying,Flying,,No,Brown,Bird,,Kanto
-023,Ekans,,Poison,,Field,Dragon,No,Purple,Snake,22,Kanto
-024,Arbok,,Poison,,Field,Dragon,No,Purple,Snake,,Kanto
-025,Pichu,,Electric,,Undiscovered,,No,Yellow,Four Legs,,Kanto
-026,Pikachu,,Electric,,Fairy,Field,No,Yellow,Four Legs,,Kanto
-027,Raichu,,Electric,,Fairy,Field,No,Yellow,Dino,,Kanto
-027r7,Raichu,Alolan Forme,Electric,Psychic,Fairy,Field,No,Brown,Dino,,Kanto
-028,Sandshrew,,Ground,,Field,,No,Yellow,Dino,22,Kanto
-028r7,Sandshrew,Alolan Forme,Ice,Steel,Field,,No,White,Dino,,Kanto
-029,Sandslash,,Ground,,Field,,No,Yellow,Dino,,Kanto
-029t,Sandslash,Totem Forme Q,Ground,,Field,,No,Yellow,Dino,,Kanto
-029r7,Sandslash,Alolan Forme,Ice,Steel,Field,,No,Blue,Dino,,Kanto
-038,Vulpix,,Fire,,Field,,No,Brown,Four Legs,30,Kanto
-038r7,Vulpix,Alolan Forme,Ice,,Field,,No,White,Four Legs,30,Kanto
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Is egg?,In lab?,Colour,Body style,Region
+001,Bulbasaur,,Grass,Poison,Grass,Monster,No,Yes,Yes,Green,Four Legs,Kanto
+002,Ivysaur,,Grass,Poison,Grass,Monster,No,No,,Green,Four Legs,Kanto
+003,Venusaur,,Grass,Poison,Grass,Monster,No,No,,Green,Four Legs,Kanto
+003-M,Venusaur,Mega Forme,Grass,Poison,Grass,Monster,No,No,,Green,Four Legs,Kanto
+004,Charmander,,Fire,,Dragon,Monster,No,Yes,Yes,Red,Dino,Kanto
+005,Charmeleon,,Fire,,Dragon,Monster,No,No,,Red,Dino,Kanto
+006,Charizard,,Fire,Flying,Dragon,Monster,No,No,,Red,Dino,Kanto
+006-X,Charizard,Mega Forme X,Fire,Dragon,Dragon,Monster,No,No,,Black,Dino,Kanto
+006-Y,Charizard,Mega Forme Y,Fire,Flying,Dragon,Monster,No,No,,Red,Dino,Kanto
+007,Squirtle,,Water,,Water 1,Monster,No,Yes,Yes,Blue,Dino,Kanto
+008,Wartortle,,Water,,Water 1,Monster,No,No,,Blue,Dino,Kanto
+009,Blastoise,,Water,,Water 1,Monster,No,No,,Blue,Dino,Kanto
+009-M,Blastoise,Mega Forme,Water,,Water 1,Monster,No,No,,Blue,Dino,Kanto
+010,Caterpie,,Bug,,Bug,,No,Yes,Yes,Green,Crawling Bug,Kanto
+011,Metapod,,Bug,,Bug,,No,No,,Green,Snake,Kanto
+012,Butterfree,,Bug,Flying,Bug,,No,No,,White,Flying Bug,Kanto
+013,Weedle,,Bug,Poison,Bug,,No,Yes,Yes,Brown,Crawling Bug,Kanto
+014,Kakuna,,Bug,Poison,Bug,,No,No,,Yellow,Snake,Kanto
+015,Beedrill,,Bug,Poison,Bug,,No,No,,Yellow,Flying Bug,Kanto
+015-M,Beedrill,Mega Forme,Bug,Poison,Bug,,No,No,,Yellow,Flying Bug,Kanto
+016,Pidgey,,Normal,Flying,Flying,,No,Yes,Yes,Brown,Bird,Kanto
+017,Pidgeotto,,Normal,Flying,Flying,,No,No,,Brown,Bird,Kanto
+018,Pidgeot,,Normal,Flying,Flying,,No,No,,Brown,Bird,Kanto
+018-M,Pidgeot,Mega Forme,Normal,Flying,Flying,,No,No,,Brown,Bird,Kanto
+019,Rattata,,Normal,,Field,,No,Yes,Yes,Purple,Four Legs,Kanto
+019r7,Rattata,Alolan Forme,Dark,Normal,Field,,No,Yes,No,Black,Four Legs,Kanto
+020,Raticate,,Normal,,Field,,No,No,,Brown,Four Legs,Kanto
+020r7,Raticate,Alolan Forme,Dark,Normal,Field,,No,No,,Black,Four Legs,Kanto
+020t7,Raticate,Alolan Totem Forme,Dark,Normal,Field,,No,No,,Black,Four Legs,Kanto
+021,Spearow,,Normal,Flying,Flying,,No,Yes,Yes,Brown,Bird,Kanto
+022,Fearow,,Normal,Flying,Flying,,No,No,,Brown,Bird,Kanto
+023,Ekans,,Poison,,Field,Dragon,No,Yes,Yes,Purple,Snake,Kanto
+024,Arbok,,Poison,,Field,Dragon,No,No,,Purple,Snake,Kanto
+025,Pichu,,Electric,,Undiscovered,,No,Yes,Yes,Yellow,Four Legs,Kanto
+026,Pikachu,,Electric,,Fairy,Field,No,No,,Yellow,Four Legs,Kanto
+027,Raichu,,Electric,,Fairy,Field,No,No,,Yellow,Dino,Kanto
+027r7,Raichu,Alolan Forme,Electric,Psychic,Fairy,Field,No,No,,Brown,Dino,Kanto
+028,Sandshrew,,Ground,,Field,,No,Yes,Yes,Yellow,Dino,Kanto
+028r7,Sandshrew,Alolan Forme,Ice,Steel,Field,,No,Yes,No,White,Dino,Kanto
+029,Sandslash,,Ground,,Field,,No,No,,Yellow,Dino,Kanto
+029r7,Sandslash,Alolan Forme,Ice,Steel,Field,,No,No,,Blue,Dino,Kanto
+030,Nidoran,,Poison,,Field,Monster,No,Yes,Yes,Purple,Four Legs,Kanto
+031,Nidorina,,Poison,,Field,Monster,No,No,,Blue,Four Legs,Kanto
+032,Nidoqueen,,Poison,Ground,Field,Monster,No,No,,Blue,Dino,Kanto
+033,Nidorino,,Poison,,Field,Monster,No,No,,Purple,Four Legs,Kanto
+034,Nidoking,,Poison,Ground,Field,Monster,No,No,,Purple,Dino,Kanto
+035,Cleffa,,Fairy,,Undiscovered,,No,Yes,Yes,Pink,Dino,Kanto
+036,Clefairy,,Fairy,,Fairy,,No,No,,Pink,Dino,Kanto
+037,Clefable,,Fairy,,Fairy,,No,No,,Pink,Dino,Kanto
+038,Vulpix,,Fire,,Field,,No,Yes,Yes,Brown,Four Legs,Kanto
+038r7,Vulpix,Alolan Forme,Ice,,Field,,No,Yes,No,White,Four Legs,Kanto
+039,Ninetales,,Fire,,Field,,No,No,,Yellow,Four Legs,Kanto
+039r7,Ninetales,Alolan Forme,Ice,Fairy,Field,,No,No,,Blue,Four Legs,Kanto
+040,Igglybuff,,Fairy,,Undiscovered,,No,Yes,Yes,Pink,Human,Kanto
+041,Jigglypuff,,Fairy,,Fairy,,No,No,,Pink,Human,Kanto
+041p,Scream Tail,,Fairy,Psychic,Fairy,,No,No,,Pink,Human,Kanto
+042,Wigglytuff,,Fairy,,Fairy,,No,No,,Pink,Human,Kanto
+043,Zubat,,Poison,Flying,Flying,,No,Yes,Yes,Purple,Bird,Kanto
+044,Golbat,,Poison,Flying,Flying,,No,No,,Purple,Bird,Kanto
+045,Crobat,,Poison,Flying,Flying,,No,No,,Purple,Flying Bug,Kanto
+046,Oddish,,Grass,Poison,Grass,,No,Yes,Yes,Blue,Two Legs,Kanto
+047,Gloom,,Grass,Poison,Grass,,No,No,,Blue,Human,Kanto
+048,Vileplume,,Grass,Poison,Grass,,No,No,,Red,Human,Kanto
+049,Bellossom,,Grass,,Grass,,No,No,,Green,Human,Kanto
+050,Paras,,Bug,Grass,Grass,Bug,No,Yes,Yes,Red,Crawling Bug,Kanto
+051,Parasect,,Bug,Grass,Grass,Bug,No,No,,Red,Crawling Bug,Kanto
+052,Venonat,,Bug,Poison,Bug,,No,Yes,Yes,Purple,Human,Kanto
+053,Venomoth,,Bug,Poison,Bug,,No,No,,Purple,Flying Bug,Kanto
+054,Diglett,,Ground,,Field,,No,Yes,Yes,Brown,Tall Blob,Kanto
+054r7,Diglett,Alolan Forme,Ground,Steel,Field,,No,Yes,No,Brown,Tall Blob,Kanto
+055,Dugtrio,,Ground,,Field,,No,No,,Brown,Multi,Kanto
+055r7,Dugtrio,Alolan Forme,Ground,Steel,Field,,No,No,,Brown,Multi,Kanto
+056,Meowth,,Normal,,Field,,No,Yes,Yes,Yellow,Four Legs,Kanto
+056r7,Meowth,Alolan Forme,Dark,,Field,,No,Yes,No,Blue,Four Legs,Kanto
+056r8,Meowth,Galarian Forme,Steel,,Field,,No,Yes,No,Brown,Four Legs,Kanto
+057,Persian,,Normal,,Field,,No,No,,Yellow,Four Legs,Kanto
+057r7,Persian,Alolan Forme,Dark,,Field,,No,No,,Blue,Four Legs,Kanto
+058,Psyduck,,Water,,Water 1,Field,No,Yes,Yes,Yellow,Dino,Kanto
+059,Golduck,,Water,,Water 1,Field,No,No,,Blue,Dino,Kanto
+060,Mankey,,Fighting,,Field,,No,Yes,Yes,Brown,Dino,Kanto
+061,Primeape,,Fighting,,Field,,No,No,,Brown,Dino,Kanto
+062,Growlithe,,Fire,,Field,,No,Yes,Yes,Brown,Four Legs,Kanto
+062r4,Growlithe,Hisuian Forme,Fire,Rock,Field,,No,Yes,No,Brown,Four Legs,Kanto
+063,Arcanine,,Fire,,Field,,No,No,,Brown,Four Legs,Kanto
+063r4,Arcanine,Hisuian Forme,Fire,Rock,Field,,No,No,,Brown,Four Legs,Kanto
+064,Poliwag,,Water,,Water 1,,No,Yes,No,Blue,Two Legs,Kanto
+065,Poliwhirl,,Water,,Water 1,,No,No,,Blue,Human,Kanto
+066,Poliwrath,,Water,Fighting,Water 1,,No,No,,Blue,Human,Kanto
+067,Politoed,,Water,,Water 1,,No,No,,Green,Human,Kanto
+068,Abra,,Psychic,,Human-Like,,No,Yes,Yes,Brown,Dino,Kanto
+069,Kadabra,,Psychic,,Human-Like,,No,No,,Brown,Dino,Kanto
+070,Alakazam,,Psychic,,Human-Like,,No,No,,Brown,Human,Kanto
+070-M,Alakazam,Mega Forme,Psychic,,Human-Like,,No,No,,Brown,Human,Kanto
+071,Machop,,Fighting,,Human-Like,,No,Yes,Yes,Grey,Dino,Kanto
+072,Machoke,,Fighting,,Human-Like,,No,No,,Grey,Human,Kanto
+073,Machamp,,Fighting,,Human-Like,,No,No,,Grey,Human,Kanto
+074,Bellsprout,,Grass,Poison,Grass,,No,Yes,Yes,Green,Human,Kanto
+075,Weepinbell,,Grass,Poison,Grass,,No,No,,Green,Tall Blob,Kanto
+076,Victreebell,,Grass,Poison,Grass,,No,No,,Green,Tall Blob,Kanto
+077,Tentacool,,Water,Poison,Water 3,,No,Yes,No,Blue,Jelly,Kanto
+078,Tentacruel,,Water,Poison,Water 3,,No,No,,Blue,Jelly,Kanto
+079,Geodude,,Rock,Ground,Mineral,,No,Yes,Yes,Brown,Two Arms,Kanto
+079r7,Geodude,Alolan Forme,Rock,Electric,Mineral,,No,Yes,No,Grey,Two Arms,Kanto
+080,Graveler,,Rock,Ground,Mineral,,No,No,,Brown,Human,Kanto
+080r7,Graveler,Alolan Forme,Rock,Electric,Mineral,,No,No,,Grey,Human,Kanto
+081,Golem,,Rock,Ground,Mineral,,No,No,,Brown,Human,Kanto
+081r7,Golem,Alolan Forme,Rock,Electric,Mineral,,No,No,,Grey,Human,Kanto
+082,Ponyta,,Fire,,Field,,No,Yes,Yes,Yellow,Four Legs,Kanto
+082r8,Ponyta,Galarian Forme,Psychic,,Field,,No,Yes,No,White,Four Legs,Kanto
+083,Rapidash,,Fire,,Field,,No,No,,Yellow,Four Legs,Kanto
+083r8,Rapidash,Galarian Forme,Psychic,Fairy,Field,,No,No,,White,Four Legs,Kanto
+084,Slowpoke,,Water,Psychic,Water 1,Monster,No,Yes,No,Pink,Four Legs,Kanto
+084r8,Slowpoke,Galarian Forme,Psychic,,Water 1,Monster,No,Yes,No,Pink,Four Legs,Kanto
+085,Slowbro,,Water,Psychic,Water 1,Monster,No,No,,Pink,Dino,Kanto
+085-M,Slowbro,Mega Forme,Water,Psychic,Water 1,Monster,No,No,,Pink,Dino,Kanto
+085r8,Slowbro,Galarian Forme,Poison,Psychic,Water 1,Monster,No,No,,Pink,Dino,Kanto
+086,Slowking,,Water,Psychic,Water 1,Monster,No,No,,Pink,Dino,Kanto
+086r8,Slowking,Galarian Forme,Poison,Psychic,Water 1,Monster,No,No,,Pink,Dino,Kanto
+087,Magnemite,,Electric,Steel,Mineral,,No,Yes,Yes,Grey,Two Arms,Kanto
+088,Magneton,,Electric,Steel,Mineral,,No,No,,Grey,Multi,Kanto
+088p,Sandy Shocks,,Electric,Ground,Mineral,,No,No,,Grey,Multi,Kanto
+089,Magnezone,,Electric,Steel,Mineral,,No,No,,Grey,Two Arms,Kanto
+090,Farfetch'd,,Normal,Flying,Flying,Field,No,Yes,Yes,Brown,Bird,Kanto
+090r8,Farfetch'd,Galarian Forme,Fighting,,Flying,Field,No,Yes,No,Brown,Bird,Kanto
+091,Doduo,,Normal,Flying,Flying,,No,Yes,Yes,Brown,Two Legs,Kanto
+092,Dodrio,,Normal,Flying,Flying,,No,No,,Brown,Two Legs,Kanto
+093,Seel,,Water,,Water 1,Field,No,Yes,No,White,Fish,Kanto
+094,Dewgong,,Water,Ice,Water 1,Field,No,No,,White,Fish,Kanto
+095,Grimer,,Poison,,Amorphous,,No,Yes,Yes,Purple,Two Arms,Kanto
+095r7,Grimer,Alolan Forme,Poison,Dark,Amorphous,,No,Yes,No,Green,Two Arms,Kanto
+096,Muk,,Poison,,Amorphous,,No,No,,Purple,Two Arms,Kanto
+096r7,Muk,Alolan Forme,Poison,Dark,Amorphous,,No,No,,Green,Two Arms,Kanto
+097,Shellder,,Water,,Water 3,,No,Yes,No,Purple,Short Blob,Kanto
+098,Cloyster,,Water,Ice,Water 3,,No,No,,Purple,Short Blob,Kanto
+099,Gastly,,Ghost,Poison,Amorphous,,No,Yes,Yes,Purple,Short Blob,Kanto
+100,Haunter,,Ghost,Poison,Amorphous,,No,No,,Purple,Two Arms,Kanto
+101,Gengar,,Ghost,Poison,Amorphous,,No,No,,Purple,Dino,Kanto
+101-M,Gengar,Mega Forme,Ghost,Poison,Amorphous,,No,No,,Purple,Dino,Kanto
+102,Onix,,Rock,Ground,Mineral,,No,Yes,Yes,Grey,Snake,Kanto
+103,Steelix,,Steel,Ground,Mineral,,No,No,,Grey,Snake,Kanto
+103-M,Steelix,Mega Forme,Steel,Ground,Mineral,,No,No,,Grey,Snake,Kanto
+104,Drowzee,,Psychic,,Human-Like,,No,Yes,Yes,Yellow,Human,Kanto
+105,Hypno,,Psychic,,Human-Like,,No,No,,Yellow,Human,Kanto
+106,Krabby,,Water,,Water 3,,No,Yes,No,Red,Crawling Bug,Kanto
+107,Kingler,,Water,,Water 3,,No,No,,Red,Crawling Bug,Kanto
+108,Voltorb,,Electric,,Mineral,,No,Yes,Yes,Red,Short Blob,Kanto
+108r4,Voltorb,Hisuian Forme,Electric,Grass,Mineral,,No,Yes,No,Red,Short Blob,Kanto
+109,Electrode,,Electric,,Mineral,,No,No,,Red,Short Blob,Kanto
+109r4,Electrode,Hisuian Forme,Electric,Grass,Mineral,,No,No,,Red,Short Blob,Kanto
+110,Exeggcute,,Grass,Psychic,Grass,,No,Yes,Yes,Pink,Multi,Kanto
+111,Exeggutor,,Grass,Psychic,Grass,,No,No,,Yellow,Two Legs,Kanto
+111r7,Exeggutor,Alolan Forme,Grass,Dragon,Grass,,No,No,,Yellow,Two Legs,Kanto
+112,Cubone,,Ground,,Monster,,No,Yes,Yes,Brown,Dino,Kanto
+113,Marowak,,Ground,,Monster,,No,No,,Brown,Dino,Kanto
+113r7,Marowak,Alolan Forme,Fire,Ghost,Monster,,No,No,,Purple,Dino,Kanto
+113t7,Marowak,Alolan Totem Forme,Fire,Ghost,Monster,,No,No,,Purple,Dino,Kanto
+114,Lickitung,,Normal,,Monster,,No,Yes,Yes,Pink,Dino,Kanto
+115,Lickilicky,,Normal,,Monster,,No,No,,Pink,Human,Kanto
+116,Koffing,,Poison,,Amorphous,,No,Yes,Yes,Purple,Short Blob,Kanto
+117,Weezing,,Poison,,Amorphous,,No,No,,Purple,Multi,Kanto
+117r8,Weezing,,Poison,Fairy,Amorphous,,No,No,,Purple,Multi,Kanto
+118,Rhyhorn,,Ground,Rock,Field,Monster,No,Yes,Yes,Grey,Four Legs,Kanto
+119,Rhydon,,Ground,Rock,Field,Monster,No,No,,Grey,Dino,Kanto
+120,Rhyperior,,Ground,Rock,Field,Monster,No,No,,Grey,Dino,Kanto
+121,Tangela,,Grass,,Grass,,No,Yes,Yes,Blue,Two Legs,Kanto
+122,Tangrowth,,Grass,,Grass,,No,No,,Blue,Human,Kanto
+123,Kangaskhan,,Normal,,Monster,,No,Yes,Yes,Brown,Dino,Kanto
+123-M,Kangaskhan,Mega Forme,Normal,,Monster,,No,No,,Brown,Dino,Kanto
+124,Horsea,,Water,,Water 1,Dragon,No,Yes,No,Blue,Tall Blob,Kanto
+125,Seadra,,Water,,Water 1,Dragon,No,No,,Blue,Tall Blob,Kanto
+126,Kingdra,,Water,Dragon,Water 1,Dragon,No,No,,Blue,Tall Blob,Kanto
+127,Goldeen,,Water,,Water 2,,No,Yes,No,Red,Fish,Kanto
+128,Seaking,,Water,,Water 2,,No,No,,Red,Fish,Kanto
+129,Staryu,,Water,,Water 3,,No,Yes,No,Brown,Tall Blob,Kanto
+130,Starmie,,Water,Psychic,Water 3,,No,No,,Purple,Tall Blob,Kanto
+131,Mime Jr.,,Psychic,Fairy,Undiscovered,,No,Yes,No,Pink,Human,Kanto
+132,Mr. Mime,,Psychic,Fairy,Human-Like,,No,Yes,Yes,Pink,Human,Kanto
+132r8,Mr. Mime,Galarian Forme,Ice,Psychic,Human-Like,,No,Yes,No,Blue,Human,Kanto
+133,Scyther,,Bug,Flying,Bug,,No,Yes,Yes,Green,Flying Bug,Kanto
+134,Scizor,,Bug,Steel,Bug,,No,No,,Red,Flying Bug,Kanto
+134-M,Scizor,Mega Forme,Bug,Steel,Bug,,No,No,,Red,Flying Bug,Kanto
+135,Smoochum,,Ice,Psychic,Undiscovered,,No,Yes,Yes,Pink,Human,Kanto
+136,Jynx,,Ice,Psychic,Human-Like,,No,No,,Red,Human,Kanto
+137,Pinsir,,Bug,,Bug,,No,Yes,Yes,Brown,Human,Kanto
+137-M,Pinsir,Mega Forme,Bug,Flying,Bug,,No,No,,Brown,Human,Kanto
+138,Tauros,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Kanto
+138a9,Tauros,Aqua Breed,Fighting,Water,Field,,No,Yes,No,Black,Four Legs,Kanto
+138b9,Tauros,Blaze Breed,Fighting,Fire,Field,,No,Yes,No,Black,Four Legs,Kanto
+138r9,Tauros,Combat Breed,Fighting,,Field,,No,Yes,No,Black,Four Legs,Kanto
+139,Magikarp,,Water,,Water 2,Dragon,No,Yes,No,Red,Fish,Kanto
+140,Gyarados,,Water,Flying,Water 2,Dragon,No,No,,Blue,Snake,Kanto
+140-M,Gyarados,Mega Forme,Water,Dark,Water 2,Dragon,No,No,,Blue,Snake,Kanto
+141,Lapras,,Water,Ice,Water 1,Monster,No,Yes,Yes,Blue,Fish,Kanto
+142,Ditto,,Normal,,Ditto,,No,Yes,Yes,Purple,Short Blob,Kanto
+143,Eevee,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Kanto
+144,Vaporeon,,Water,,Field,,No,No,,Blue,Four Legs,Kanto
+145,Jolteon,,Electric,,Field,,No,No,,Yellow,Four Legs,Kanto
+146,Flareon,,Fire,,Field,,No,No,,Red,Four Legs,Kanto
+147,Espeon,,Psychic,,Field,,No,No,,Purple,Four Legs,Kanto
+148,Umbreon,,Dark,,Field,,No,No,,Black,Four Legs,Kanto
+149,Leafeon,,Grass,,Field,,No,No,,Green,Four Legs,Kanto
+150,Glaceon,,Ice,,Field,,No,No,,Blue,Four Legs,Kanto
+151,Sylveon,,Fairy,,Field,,No,No,,Pink,Four Legs,Kanto
+152,Omanyte,,Rock,Water,Water 3,Water 1,No,Yes,No,Blue,Jelly,Kanto
+153,Omastar,,Rock,Water,Water 3,Water 1,No,No,,Blue,Jelly,Kanto
+154,Kabuto,,Rock,Water,Water 3,Water 1,No,Yes,No,Brown,Crawling Bug,Kanto
+155,Kabutops,,Rock,Water,Water 3,Water 1,No,No,,Brown,Dino,Kanto
+156,Aerodactyl,,Rock,Flying,Flying,,No,Yes,No,Purple,Bird,Kanto
+156-M,Aerodactyl,,Rock,Flying,Flying,,No,No,,Purple,Bird,Kanto
+157,Munchlax,,Normal,,Undiscovered,,No,Yes,No,Black,Human,Kanto
+158,Snorlax,,Normal,,Monster,,No,Yes,Yes,Black,Human,Kanto
+159,Articuno,,Ice,Flying,Undiscovered,,Yes,Yes,No,Blue,Bird,Kanto
+159r8,Articuno,Galarian Forme,Psychic,Flying,Undiscovered,,Yes,Yes,No,Purple,Bird,Kanto
+160,Zapdos,,Electric,Flying,Undiscovered,,Yes,Yes,No,Yellow,Bird,Kanto
+160r8,Zapdos,Galarian Forme,Fighting,Flying,Undiscovered,,Yes,Yes,No,Red,Bird,Kanto
+161,Moltres,,Fire,Flying,Undiscovered,,Yes,Yes,No,Yellow,Bird,Kanto
+161r8,Moltres,Galarian Forme,Dark,Flying,Undiscovered,,Yes,Yes,No,Black,Bird,Kanto
+162,Dratini,,Dragon,,Water 1,Dragon,No,Yes,Yes,Blue,Snake,Kanto
+163,Dragonair,,Dragon,,Water 1,Dragon,No,No,,Blue,Snake,Kanto
+164,Dragonite,,Dragon,Flying,Water 1,Dragon,No,No,,Brown,Dino,Kanto
+165,Mewtwo,,Psychic,,Undiscovered,,Yes,Yes,No,Purple,Dino,Kanto
+165-X,Mewtwo,Mega Forme X,Psychic,Fighting,Undiscovered,,Yes,No,,Purple,Dino,Kanto
+165-Y,Mewtwo,Mega Forme Y,Psychic,,Undiscovered,,Yes,No,,Purple,Dino,Kanto
+166,Mew,,Psychic,,Undiscovered,,Yes,Yes,No,Pink,Dino,Kanto

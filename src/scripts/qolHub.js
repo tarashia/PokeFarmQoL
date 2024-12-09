@@ -97,7 +97,7 @@ class QoLHub {
             if(changeDetails.settingName=='searchGlowColour') {
                 // prevent an empty value
                 if(changeDetails.newValue.trim()=='') {
-                    settings.changeSetting('QoLSettings', 'searchGlowColour', '#d5e265');
+                    settings.changeSetting('QoLSettings', 'searchGlowColour', '#ffff77');
                 }
                 else {
                     $('#glowColourPreview').css('background-color',changeDetails.newValue);

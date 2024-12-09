@@ -1,0 +1,136 @@
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Is egg?,In lab?,Colour,Body style,Region
+405,Turtwig,,Grass,,Grass,Monster,No,Yes,Yes,Green,Four Legs,Sinnoh
+406,Grotle,,Grass,,Grass,Monster,No,No,,Green,Four Legs,Sinnoh
+407,Torterra,,Grass,Ground,Grass,Monster,No,No,,Green,Four Legs,Sinnoh
+408,Chimchar,,Fire,,Human-Like,Field,No,Yes,Yes,Brown,Dino,Sinnoh
+409,Monferno,,Fire,Fighting,Human-Like,Field,No,No,,Brown,Dino,Sinnoh
+410,Infernape,,Fire,Fighting,Human-Like,Field,No,No,,Brown,Dino,Sinnoh
+411,Piplup,,Water,,Water 1,Field,No,Yes,Yes,Blue,Human,Sinnoh
+412,Prinplup,,Water,,Water 1,Field,No,No,,Blue,Dino,Sinnoh
+413,Empoleon,,Water,Steel,Water 1,Field,No,No,,Blue,Dino,Sinnoh
+414,Starly,,Normal,Flying,Flying,,No,Yes,Yes,Brown,Bird,Sinnoh
+415,Staravia,,Normal,Flying,Flying,,No,No,,Brown,Bird,Sinnoh
+416,Staraptor,,Normal,Flying,Flying,,No,No,,Brown,Bird,Sinnoh
+417,Bidoof,,Normal,,Water 1,Field,No,Yes,Yes,Brown,Four Legs,Sinnoh
+418,Bibarel,,Normal,Water,Water 1,Field,No,No,,Brown,Dino,Sinnoh
+419,Kricketot,,Bug,,Bug,,No,Yes,Yes,Red,Human,Sinnoh
+420,Kricketune,,Bug,,Bug,,No,No,,Red,Flying Bug,Sinnoh
+421,Shinx,,Electric,,Field,,No,Yes,Yes,Blue,Four Legs,Sinnoh
+422,Luxio,,Electric,,Field,,No,No,,Blue,Four Legs,Sinnoh
+423,Luxray,,Electric,,Field,,No,No,,Blue,Four Legs,Sinnoh
+424,Budew,,Grass,Poison,Undiscovered,,No,Yes,No,Green,Human,Sinnoh
+425,Roselia,,Grass,Poison,Fairy,Grass,No,Yes,Yes,Green,Human,Sinnoh
+426,Roserade,,Grass,Poison,Fairy,Grass,No,No,,Green,Human,Sinnoh
+427,Cranidos,,Rock,,Monster,,No,Yes,No,Blue,Dino,Sinnoh
+428,Rampardos,,Rock,,Monster,,No,No,,Blue,Dino,Sinnoh
+429,Shieldon,,Rock,Steel,Monster,,No,Yes,No,Grey,Four Legs,Sinnoh
+430,Bastiodon,,Rock,Steel,Monster,,No,No,,Grey,Four Legs,Sinnoh
+430,Burmy,Plant Cloak,Bug,,Bug,,No,Yes,Yes,Green,Tall Blob,Sinnoh
+431b,Burmy,Trash Cloak,Bug,,Bug,,No,No,,Red,Tall Blob,Sinnoh
+431c,Burmy,Sandy Cloak,Bug,,Bug,,No,No,,Brown,Tall Blob,Sinnoh
+432,Wormadam,Plant Cloak,Bug,Grass,Bug,,No,No,,Green,Tall Blob,Sinnoh
+432b,Wormadam,Trash Cloak,Bug,Steel,Bug,,No,No,,Red,Tall Blob,Sinnoh
+432c,Wormadam,Sandy Cloak,Bug,Ground,Bug,,No,No,,Brown,Tall Blob,Sinnoh
+433,Mothim,,Bug,Flying,Bug,,No,No,,Yellow,Flying Bug,Sinnoh
+434,Combee,,Bug,Flying,Bug,,No,Yes,Yes,Yellow,Multi,Sinnoh
+435,Vespiquen,,Bug,Flying,Bug,,No,No,,Yellow,Flying Bug,Sinnoh
+436,Pachirisu,,Electric,,Fairy,Field,No,Yes,Yes,White,Four Legs,Sinnoh
+437,Buizel,,Water,,Water 1,Field,No,Yes,Yes,Brown,Four Legs,Sinnoh
+438,Floatzel,,Water,,Water 1,Field,No,No,,Brown,Four Legs,Sinnoh
+439,Cherubi,,Grass,,Fairy,Grass,No,Yes,Yes,Pink,Multi,Sinnoh
+440,Cherrim,,,,Fairy,Grass,No,No,,Purple,Two Legs,Sinnoh
+440s,Cherrim,Sunny Forme,,,Fairy,Grass,No,No,,Pink,Two Legs,Sinnoh
+441,Shellos,Occident,Water,,Amorphous,Water 1,No,Yes,Yes,Pink,Snake,Sinnoh
+441b,Shellos,Orient,Water,,Amorphous,Water 1,No,No,,Blue,Snake,Sinnoh
+442,Gastrodon,Occident,Water,Ground,Amorphous,Water 1,No,No,,Pink,Snake,Sinnoh
+442b,Gastrodon,Orient,Water,Ground,Amorphous,Water 1,No,No,,Blue,Snake,Sinnoh
+443,Drifloon,,Ghost,Flying,Amorphous,,No,Yes,Yes,Purple,Two Arms,Sinnoh
+444,Drifblim,,Ghost,Flying,Amorphous,,No,No,,Purple,Two Arms,Sinnoh
+445,Buneary,,Normal,,Human-Like,Field,No,Yes,Yes,Brown,Dino,Sinnoh
+446,Lopunny,,Normal,,Human-Like,Field,No,No,,Brown,Dino,Sinnoh
+446-M,Lopunny,Mega Forme,Normal,Fighting,Human-Like,Field,No,No,,Brown,Dino,Sinnoh
+447,Glameow,,Normal,,Field,,No,Yes,Yes,Grey,Four Legs,Sinnoh
+448,Purugly,,Normal,,Field,,No,No,,Grey,Four Legs,Sinnoh
+449,Stunky,,Poison,Dark,Field,,No,Yes,Yes,Purple,Four Legs,Sinnoh
+450,Skuntank,,Poison,Dark,Field,,No,No,,Purple,Four Legs,Sinnoh
+451,Bronzor,,Steel,Psychic,Mineral,,No,Yes,Yes,Green,Short Blob,Sinnoh
+452,Bronzong,,Steel,Psychic,Mineral,,No,No,,Green,Two Arms,Sinnoh
+453,Happiny,,Normal,,Undiscovered,,No,Yes,No,Pink,Human,Sinnoh
+454,Chansey,,Normal,,Fairy,,No,Yes,Yes,Pink,Dino,Sinnoh
+455,Blissey,,Normal,,Fairy,,No,No,,Pink,Human,Sinnoh
+456,Chatot,,Normal,Flying,Flying,,No,Yes,Yes,Black,Bird,Sinnoh
+457,Spiritomb,,Ghost,Dark,Amorphous,,No,Yes,Yes,Purple,Tall Blob,Sinnoh
+458,Gible,,Dragon,Ground,Dragon,Monster,No,Yes,Yes,Blue,Dino,Sinnoh
+459,Gabite,,Dragon,Ground,Dragon,Monster,No,No,,Blue,Dino,Sinnoh
+460,Garchomp,,Dragon,Ground,Dragon,Monster,No,No,,Blue,Dino,Sinnoh
+460-M,Garchomp,Mega Forme,Dragon,Ground,Dragon,Monster,No,No,,Blue,Dino,Sinnoh
+461,Riolu,,Fighting,,Undiscovered,,No,Yes,Yes,Blue,Dino,Sinnoh
+462,Lucario,,Fighting,Steel,Human-Like,Field,No,No,,Blue,Dino,Sinnoh
+462-M,Lucario,Mega Forme,Fighting,Steel,Human-Like,Field,No,No,,Blue,Dino,Sinnoh
+463,Hippopotas,,Ground,,Field,,No,Yes,Yes,Brown,Four Legs,Sinnoh
+464,Hippowdon,,Ground,,Field,,No,No,,Brown,Four Legs,Sinnoh
+465,Skorupi,,Poison,Bug,Water 3,Bug,No,Yes,Yes,Purple,Crawling Bug,Sinnoh
+466,Drapion,,Poison,Bug,Water 3,Bug,No,No,,Purple,Crawling Bug,Sinnoh
+467,Croagunk,,Poison,Fighting,Human-Like,,No,Yes,Yes,Blue,Human,Sinnoh
+468,Toxicroak,,Poison,Fighting,Human-Like,,No,No,,Blue,Human,Sinnoh
+469,Carnivine,,Grass,,Grass,,No,Yes,Yes,Green,Jelly,Sinnoh
+470,Finneon,,Water,,Water 2,,No,Yes,No,Blue,Fish,Sinnoh
+471,Lumineon,,Water,,Water 2,,No,No,,Blue,Fish,Sinnoh
+472,Mantyke,,Water,Flying,Undiscovered,,No,Yes,No,Blue,Bird,Sinnoh
+473,Mantine,,Water,Flying,Water 1,,No,Yes,No,Purple,Bird,Sinnoh
+474,Snover,,Ice,Grass,Grass,Monster,No,Yes,Yes,White,Dino,Sinnoh
+475,Abomasnow,,Ice,Grass,Grass,Monster,No,No,,White,Dino,Sinnoh
+475-M,Abomasnow,Mega Forme,Ice,Grass,Grass,Monster,No,No,,White,Dino,Sinnoh
+476,Porygon,,Normal,,Mineral,,No,Yes,Yes,Pink,Two Legs,Sinnoh
+477,Porygon2,,Normal,,Mineral,,No,No,,Red,Two Legs,Sinnoh
+478,Porygon-Z,,Normal,,Mineral,,No,No,,Red,Two Arms,Sinnoh
+479,Rotom,,Electric,Ghost,Amorphous,,No,Yes,Yes,Red,Short Blob,Sinnoh
+479a,Rotom,Fan Forme,Electric,Flying,Amorphous,,No,No,,Red,Short Blob,Sinnoh
+479b,Rotom,Freeze Forme,Electric,Ice,Amorphous,,No,No,,Red,Short Blob,Sinnoh
+479c,Rotom,Heat Forme,Electric,Fire,Amorphous,,No,No,,Red,Short Blob,Sinnoh
+479d,Rotom,Mow Forme,Electric,Grass,Amorphous,,No,No,,Red,Short Blob,Sinnoh
+479e,Rotom,Wash Forme,Electric,Water,Amorphous,,No,No,,Red,Short Blob,Sinnoh
+480,Uxie,,Psychic,,Undiscovered,,Yes,Yes,No,Yellow,Dino,Sinnoh
+481,Mesprit,,Psychic,,Undiscovered,,Yes,Yes,No,Pink,Dino,Sinnoh
+482,Azelf,,Psychic,,Undiscovered,,Yes,Yes,No,Blue,Dino,Sinnoh
+483,Dialga,,Steel,Dragon,Undiscovered,,Yes,Yes,No,White,Four Legs,Sinnoh
+483b,Dialga,Origin Forme,Steel,Dragon,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+484,Palkia,,Water,Dragon,Undiscovered,,Yes,Yes,No,Purple,Dino,Sinnoh
+484b,Palkia,Origin Forme,Water,Dragon,Undiscovered,,Yes,No,,Purple,Four Legs,Sinnoh
+485,Heatran,,Fire,Steel,Undiscovered,,Yes,Yes,No,Brown,Four Legs,Sinnoh
+486,Regigigas,,Fire,,Undiscovered,,Yes,Yes,No,White,Human,Sinnoh
+487,Giratina,,Ghost,Dragon,Undiscovered,,Yes,Yes,No,Black,Jelly,Sinnoh
+487b,Giratina,Origin Forme,Ghost,Dragon,Undiscovered,,Yes,No,,Black,Snake,Sinnoh
+488,Cresselia,,Psychic,,Undiscovered,,Yes,Yes,No,Yellow,Snake,Sinnoh
+489,Phione,,Water,,Fairy,Water 1,No,Yes,No,Blue,Two Arms,Sinnoh
+490,Manaphy,,Water,,Fairy,Water 1,Yes,Yes,No,Blue,Human,Sinnoh
+491,Darkrai,,Dark,,Undiscovered,,Yes,Yes,No,Black,Human,Sinnoh
+492,Shaymin,,Grass,,Undiscovered,,Yes,Yes,No,Green,Four Legs,Sinnoh
+492s,Shaymin,Sky Forme,Grass,Flying,Undiscovered,,Yes,No,,Green,Four Legs,Sinnoh
+493,Arceus,,Normal,,Undiscovered,,Yes,Yes,No,White,Four Legs,Sinnoh
+493a,Arceus,Fire Forme,Fire,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493b,Arceus,Water Forme,Water,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493c,Arceus,Electric Forme,Electric,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493d,Arceus,Grass Forme,Grass,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493e,Arceus,Ice Forme,Ice,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493f,Arceus,Fighting Forme,Fighting,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493g,Arceus,Poison Forme,Poison,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493h,Arceus,Ground Forme,Ground,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493i,Arceus,Flying Forme,Flying,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493j,Arceus,Psychic Forme,Psychic,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493k,Arceus,Bug Forme,Bug,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493l,Arceus,Rock Forme,Rock,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493m,Arceus,Ghost Forme,Ghost,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493n,Arceus,Dragon Forme,Dragon,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493o,Arceus,Dark Forme,Dark,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493p,Arceus,Steel Forme,Steel,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+493q,Arceus,Fairy Forme,Fairy,,Undiscovered,,Yes,No,,White,Four Legs,Sinnoh
+898,Wyrdeer,,Normal,Psychic,Field,,No,No,,Brown,Four Legs,Sinnoh
+899,Kleavor,,Bug,Rock,Bug,,No,No,,Brown,Flying Bug,Sinnoh
+900,Ursaluna,,Ground,Normal,Field,,No,No,,Brown,Four Legs,Sinnoh
+900r9,Ursaluna,Blood Moon,Normal,Ground,Field,,No,No,,Brown,Four Legs,Sinnoh
+901,Basculegion,,Water,Ghost,Water 2,,No,No,,Green,Fish,Sinnoh
+902,Sneasler,,Fighting,Poison,Field,,No,No,,Grey,Dino,Sinnoh
+903,Overqwil,,Dark,Poison,Water 2,,No,No,,Black,Fish,Sinnoh
+904,Enamorus,,Fairy,Flying,Undiscovered,,Yes,Yes,No,Pink,Two Arms,Sinnoh
+904b,Enamorus,Therian Forme,Fairy,Flying,Undiscovered,,Yes,No,,Pink,Four Legs,Sinnoh

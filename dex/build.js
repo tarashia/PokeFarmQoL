@@ -45,7 +45,8 @@ async function run() {
         output = output.concat(procData);
     }
     // use "jpg" file extension for on-site upload
-    fs.writeFileSync(resourceDir+'/dex-data.json',JSON.stringify(output),{encoding:'utf8',flag:'w'});
+    fs.writeFileSync('dex/dex-data.json',JSON.stringify(output),{encoding:'utf8',flag:'w'});
+    fs.writeFileSync('dex/dex-data.jpg',JSON.stringify(output),{encoding:'utf8',flag:'w'});
     console.log('Done.');
 }
 
@@ -58,10 +59,11 @@ async function run() {
     5 Egg group 1
     6 Egg group 2
     7 Is legendary?
-    8 Colour
-    9 Body style
-    10 Evolves at
-    11 Region
+    8 Is egg?
+    9 In lab?
+    10 Colour
+    11 Body style
+    12 Region
 ]*/
 function process(data) {
     var output = [];
@@ -78,7 +80,7 @@ function process(data) {
                     if(value=='') {
                         throwError('Dex ID not set');
                     }
-                    if(!value.match(/^\d{3}[a-zA-Z0-9_-]*$/)) {
+                    if(!value.match(/^\d{3}[a-zA-Z0-9_|~-]*$/)) {
                         throwError('Invalid dex ID: '+value);
                     }
                     procRow['dexID'] = value;
@@ -113,30 +115,29 @@ function process(data) {
                     }
                     break;
                 case 8:
-                    procRow['colour'] = validate('colours.jsonc', value);
-                    break;
-                case 9:
-                    procRow['bodyStyle'] = validate('body-styles.jsonc', value);
-                    break;
-                case 10:
-                    if(value=='') {
-                        procRow['evolvesAt'] = '';
-                        break;
-                    }
-                    // empty is allowed, but invalid values are not
-                    const level = parseInt(value);
-                    if(level === NaN || level <=0 || level >100) {
-                        throwError('Invalid evolve level: '+value);
+                    if(value.toUpperCase()=='YES') {
+                        procRow['egg'] = true;
                     }
                     else {
-                        procRow['evolvesAt'] = level;
+                        procRow['egg'] = false;
                     }
                     break;
-                case 11: 
-                    index = validate('regions.jsonc', value);
-                    if(index === null) {
-                        throwError('Region not set');
+                case 9:
+                    if(value.toUpperCase()=='YES') {
+                        procRow['inLab'] = true;
                     }
+                    else {
+                        procRow['inLab'] = false;
+                    }
+                    break;
+                case 10:
+                    procRow['colour'] = validate('colours.jsonc', value);
+                    break;
+                case 11:
+                    procRow['bodyStyle'] = validate('body-styles.jsonc', value);
+                    break;
+                case 12: 
+                    index = validate('regions.jsonc', value);
                     procRow['region'] = index;
                     break;
                 default:    

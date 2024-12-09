@@ -102,8 +102,7 @@ class Helpers {
     static addGlowColourCSS(glowColour) {
         if(glowColour) {
             let css = '.publicfoundme, .privatefoundme, .shelterfoundme img, .daycarefoundme, .labfoundme {';
-            css += 'box-shadow: 0px 0px 25px 15px '+glowColour+' !important;';
-            css += 'background-color: '+glowColour+' !important;}';
+            css += 'filter: drop-shadow(0px 0px 6px '+glowColour+') drop-shadow(0px 0px 6px '+glowColour+') drop-shadow(0px 0px 6px '+glowColour+') !important; }';
             Helpers.addGlobalStyle(css);
         }
     }
@@ -338,7 +337,7 @@ class Resources {
         "0":"Black","1":"Blue","2":"Brown","3":"Green","4":"Grey","5":"Pink","6":"Purple","7":"Red","8":"White","9":"Yellow"
     };
     static EGG_GROUP_LIST = {
-        "0":"Undiscovered","1":"Monster","2":"Dragon","3":"Field","4":"Bug","5":"Grass","6":"Water 1","7":"Water 2","8":"Water 3","9":"Amorphous","10":"Fairy","11":"Human-Like","12":"Mineral","13":"Flying","15":"Ditto"
+        "0":"Undiscovered","1":"Monster","2":"Dragon","3":"Field","4":"Bug","5":"Grass","6":"Water 1","7":"Water 2","8":"Water 3","9":"Amorphous","10":"Fairy","11":"Human-Like","12":"Mineral","13":"Flying","14":"Unown","15":"Ditto"
     };
     static NATURE_LIST = {
         "1":"Serious","2":"Lonely","3":"Adamant","4":"Naughty","5":"Brave","6":"Bold","7":"Hardy","8":"Impish","9":"Lax","10":"Relaxed","11":"Modest","12":"Mild","13":"Bashful","14":"Rash","15":"Quiet","16":"Calm","17":"Gentle","18":"Careful","19":"Docile","20":"Sassy","21":"Timid","22":"Hasty","23":"Jolly","24":"Naïve","25":"Quirky"
@@ -384,13 +383,13 @@ class Resources {
     };
 
     // CSS files
-    static CORE_CSS = `#announcements li[data-name=QoL],input[type=checkbox].qolsetting:enabled,input[type=radio].qolsetting:enabled{cursor:pointer}.qolB64Output{border:1px solid;margin-bottom:.5em;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all}.daycarefoundme,.dojofoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme img{background-color:#d5e265;border-radius:100%;box-shadow:0 0 25px 15px #d5e265}#qolMassSelect{margin:1rem 0}.qolModal>h3:first-child a{color:inherit;float:right}.qolCollapse h3{font-size:100%;padding:2px}.qolTooltip{border-bottom:1px dotted}`;
+    static CORE_CSS = `#announcements li[data-name=QoL],input[type=checkbox].qolsetting:enabled,input[type=radio].qolsetting:enabled{cursor:pointer}.qolB64Output{border:1px solid;margin-bottom:.5em;max-height:100px;overflow-y:auto;padding:3px;user-select:all;word-break:break-all}.daycarefoundme,.dojofoundme,.labfoundme,.privatefoundme,.publicfoundme,.shelterfoundme img{filter:drop-shadow(0 0 6px #ffff77) drop-shadow(0 0 6px #ffff77) drop-shadow(0 0 6px #ffff77)}#qolMassSelect{margin:1rem 0}.qolModal>h3:first-child a{color:inherit;float:right}.qolCollapse h3{font-size:100%;padding:2px}.qolTooltip{border-bottom:1px dotted}`;
     static FIELDS_CSS = `#fieldorder{border-radius:4px;line-height:18pt;margin:16px auto;max-width:600px;padding:4px;position:relative;text-align:center}#fieldorder label{white-space:nowrap}#fieldsearch{margin:16px auto;max-width:600px;position:relative}#pokemonclickcount.unclicked{color:#a30323}#pokemonclickcount.clicked{color:#059121}.qolFieldBerrySort .fieldmon{margin:-10px!important;top:45%!important;transition:none!important}.qolFieldBerrySort .fieldmon>img.big{animation:none!important;padding:25px!important}.qolFieldBerrySort .fieldmon[data-flavour^=any],.qolFieldBerrySort .fieldmon[data-flavour^=sour]{left:0!important}.qolFieldBerrySort .fieldmon[data-flavour^=spicy]{left:20%!important}.qolFieldBerrySort .fieldmon[data-flavour^=dry]{left:40%!important}.qolFieldBerrySort .fieldmon[data-flavour^=sweet]{left:60%!important}.qolFieldBerrySort .fieldmon[data-flavour^=bitter]{left:80%!important}.mq2 .qolFieldBerrySort .fieldmon{margin:-10px 2%!important;overflow:hidden;width:16%}.mq2 .qolFieldBerrySort .fieldmon>img.small{animation:none!important;margin-left:-13px!important;padding:50%!important}.qolFieldStack .fieldmon{left:40%!important;margin:-10px!important;top:35%!important;transition:none!important}.qolFieldStack .fieldmon>img{animation:none!important;padding:40px!important}.qolFieldStackMax>div.field>.fieldmon{height:100%!important;left:0!important;margin:0!important;padding-left:40%!important;top:0!important;transition:none!important;width:60%!important}.qolFieldStackMax>div.field>.fieldmon .small{display:none!important}.qolFieldStackMax>div.field>.fieldmon .big{animation:none!important;display:block!important}.qolFieldGrid .field{background-size:cover!important;display:flex!important;display:grid;flex-flow:row wrap;grid-template-columns:repeat(8,12.5%);grid-template-rows:repeat(5,69px);min-height:345px;padding-top:0!important}.qolFieldGrid .field .fieldmon{align-items:center;display:inline-flex;flex:1 1 12.5%;justify-content:center;margin:0!important;position:static!important}.qolFieldGrid .field .fieldmon>img{animation:none!important;max-height:70px;max-width:75px}.mq25 .qolFieldGrid .field{grid-template-rows:repeat(5,36px);min-height:180px}.qolSelectFlavour{display:none}.qolFlavourShown~#qolMassSelect .qolSelectFlavour{display:inline}.qolFlavourShown~#qolMassSelect .qolSelectGender,.qolNatureShown~#qolMassSelect .qolSelectGender{display:none}#tooltipenable{margin:16px auto;max-width:600px;position:relative}.qolPrivateField .qolHideTooltips .fieldmon.tooltip_trigger:not(.selected)+.tooltip_content,.qolPublicField .qolHideTooltips .fieldmon.tooltip_trigger:not(.lock)+.tooltip_content{display:none!important}`;
     static SEARCH_CSS = `.searchChecks>div{box-sizing:border-box;display:inline-block;padding:3px;width:33%}.searchChecks>div label{white-space:nowrap}#shelterupgrades .searchChecks>div,.mq2 .searchChecks>div{width:50%}.qolQuickSearchBlock{margin:.5rem 0}.qolQuickSearchBlock[data-type=quickNatureSearch] .pkmnState{display:none}.qolQuickSearchBlock .qolTooltip{display:inline-block;margin-left:5px}.qolQuickSearchBlock .qolTooltip img{vertical-align:middle}.qolQuickSearchInputs{column-gap:6px;display:flex}.qolQuickSearchInputs input,.qolQuickSearchInputs select{flex-grow:1}.qolQuickSearchIcons{column-gap:6px;display:flex;margin-top:.5rem}.qolQuickSearchIcons label{border-radius:3px;display:inline-block;padding:3px}.qolQuickSearchIcons label input[type=checkbox]{cursor:pointer}.qolQuickSearchIcons label.hatched div{display:inline-block;height:16px;width:18px}.qolQuickSearchIcons label.hatched div img{left:-2px;position:relative;top:-8px;vertical-align:text-top}`;
     static DOJO_CSS = `.dojoperfectstat{font-weight:700;text-decoration:underline}`;
     static FISHING_CSS = `#fishing button[data-reel].shake{padding:20px}.qolSelectGender{display:none}`;
     static FORGE_CSS = `.badgelist>table>tbody>tr>td>.itemtooltip{margin-top:-28px;position:relative}.badgelist>table>tbody>tr>td>p{margin-block-end:0;margin-block-start:0}.qolBadges{border-collapse:collapse}.qolBadgesTop td{border-top:1px solid}.qolBadgesBot td:first-of-type img{margin-right:5px;vertical-align:middle}`;
-    static HUB_CSS = `.qolHubModal>div>.panel{margin-bottom:1em}.qolHubModal>div>.panel>div>p:first-child{margin-top:.25em}.qolHubModal textarea{box-sizing:border-box;width:100%}#qolConsoleContent{word-break:break-all}#qolHubSettings ul{margin:0}#qolHubSettings label{display:inline-block;margin-bottom:.25em}#glowColourPreview{background-color:#d5e265;border:1px solid;display:inline-block;height:1rem;margin-left:.5rem;vertical-align:middle;width:3rem}`;
+    static HUB_CSS = `.qolHubModal>div>.panel{margin-bottom:1em}.qolHubModal>div>.panel>div>p:first-child{margin-top:.25em}.qolHubModal textarea{box-sizing:border-box;width:100%}#qolConsoleContent{word-break:break-all}#qolHubSettings ul{margin:0}#qolHubSettings label{display:inline-block;margin-bottom:.25em}#glowColourPreview{background-color:#ff7;border:1px solid;display:inline-block;height:1rem;margin-left:.5rem;vertical-align:middle;width:3rem}`;
     static LAB_CSS = `#labsuccess{text-align:center}#labfound{padding-top:20px}.boldp{font-weight:700}`;
     static PARTY_CSS = `#qolpartymod{text-align:center}#qolpartymod label{white-space:nowrap}.qolPartyCustomParty{--multiuser-button-height:60pt;--multiuser-border-radius:8px}.qolPartyCustomParty h1{align-items:center;display:flex;justify-content:center}.qolPartyCustomParty #partybox{padding-top:calc(var(--multiuser-button-height) + 1em);position:relative}.qolPartyCustomParty #partybox .party{box-shadow:none}.qolPartyCustomParty #partybox .party>div{position:static}.qolPartyCustomParty #partybox .action{height:auto!important;left:0;min-height:0;position:absolute;top:0;width:100%}.qolPartyCustomParty #partybox .action>a,.qolPartyCustomParty #partybox .action>div{line-height:var(--multiuser-button-height);margin:0;min-height:var(--multiuser-button-height);padding:0}.qolPartyCustomParty #partybox .action .berrybuttons>a{box-sizing:border-box;height:100%!important;line-height:var(--multiuser-button-height)!important;width:100%}.qolPartyCustomParty #partybox .action>a{align-items:center;box-sizing:border-box;display:flex!important;justify-content:center}.qolPartyCustomParty #partybox .action.working,.qolPartyCustomParty #partybox .action:empty,.qolPartyCustomParty #partybox .action>table,.qolPartyCustomParty #partybox .berrybuttons>.tooltip_content{display:none}.qolPartyCustomParty #partybox .party>div:hover>.action a[data-berry]:after{border-color:transparent}.qolPartyCustomParty #partybox .showcase .berrybuttons>a{display:inline-block;position:absolute;text-align:center;width:100%}.qolPartyCustomParty #partybox .showcase .berrybuttons>a img{display:inline-block!important;vertical-align:middle}.qolPartyCustomParty.qolStackMore .qolGetMore,.qolPartyCustomParty.qolStackNext .qolGoNext{height:var(--multiuser-button-height);left:0;line-height:var(--multiuser-button-height);margin:0;padding:0;position:absolute;top:0;width:100%;z-index:1}.qolPartyCustomParty.qolHideParty .party,.qolPartyCustomParty.qolHideParty .showcase{border:none;height:0;overflow:hidden;padding:0}.qolPartyCustomParty.qolHideParty .mu_navlink.toggle{display:none!important}.qolPartyCustomParty.qolCompactParty #partybox .party>div{background:transparent;border:none;margin-bottom:20px;padding:0;width:unset}.qolPartyCustomParty.qolCompactParty #partybox .party .expbar,.qolPartyCustomParty.qolCompactParty #partybox .party .name{display:none}.qolPartyCustomParty.qolCompactParty #partybox .party .pkmn a.qolCompactLink{display:block;height:100%;left:0;position:absolute;top:0;width:100%;z-index:1}.qolPartyCustomParty.qolHideFieldButton .fieldslink,.qolPartyCustomParty.qolHideModeChecks #partybox>label,.qolPartyCustomParty.qolHideTrainerCard #profilebox,.qolPartyCustomParty.qolHideUserName h1{display:none}.qolPartyCustomParty.qolHideShowcase .showcase,.qolPartyCustomParty.qolHideShowcase .showcase+.toggle{display:none!important}.qolPartyCustomParty:not(.qolHideShowcase) .showcase:not(:empty)+.mu_navlink.toggle{display:block!important}.mq2 .qolPartyCustomParty #partybox .party>div,.multi-compact .qolPartyCustomParty #partybox .party>div{display:inline-block}.mq2 .qolPartyCustomParty #partybox .party>div .pkmn,.multi-compact .qolPartyCustomParty #partybox .party>div .pkmn{margin-right:0}.qolPartyCustomParty #partybox .party .action a,.qolPartyHideAll #partybox .party .action a,.qolPartyHideDislike #partybox .party .action a,.qolPartyNiceTable #partybox .party .action a{display:none;position:absolute;width:100%}.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyCustomParty #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyCustomParty #partybox .party .action>a,.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideAll #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideAll #partybox .party .action>a,.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyHideDislike #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyHideDislike #partybox .party .action>a,.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=any] a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=bitter]>a[data-berry=rawst],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=dry]>a[data-berry=chesto],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sour]>a[data-berry=aspear],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=spicy]>a[data-berry=cheri],.qolPartyNiceTable #partybox .party .action .berrybuttons[data-up=sweet]>a[data-berry=pecha],.qolPartyNiceTable #partybox .party .action>a{display:inline-block}.qolPartyCustomParty #partybox .party .working .berrybuttons,.qolPartyHideAll #partybox .party .working .berrybuttons,.qolPartyHideDislike #partybox .party .working .berrybuttons,.qolPartyNiceTable #partybox .party .working .berrybuttons{opacity:.3}.qolPartyCustomParty .loading,.qolPartyHideAll .loading,.qolPartyHideDislike .loading,.qolPartyNiceTable .loading{user-select:none}.qolPartyHideAll #partybox .party>div>:not(.action),.qolPartyHideAll .tooltip_content,.qolPartyNiceTable #partybox .party>div>:not(.action),.qolPartyNiceTable .tooltip_content{display:none}.qolPartyNiceTable #profilepage #partybox .party{box-shadow:none;width:250px}.qolPartyNiceTable #profilepage #partybox .party>div{border-radius:0;border-width:1px 1px 0;width:210px}.qolPartyNiceTable #profilepage #partybox .party>div:first-child{border-radius:6px 6px 0 0}.qolPartyNiceTable #profilepage #partybox .party>div:nth-child(6){border-bottom-width:1px;border-radius:0 0 6px 6px}.qolPartyCustomParty:not(.qolHideShowcase) #partybox:not(.swap-panels) .showcase,.qolPartyHideAll:not(.qolHideShowcase) #partybox:not(.swap-panels) .showcase{border:none;display:flex!important;height:0;margin:0;overflow:hidden;padding:0}.qolPartyCustomParty #partybox.swap-panels>.party,.qolPartyHideAll #partybox.swap-panels>.party{height:0;margin:0;overflow:hidden}.qolPartyCustomParty .party .action a,.qolPartyHideAll .party .action a{z-index:3}.qolPartyCustomParty .showcase .action a,.qolPartyHideAll .showcase .action a{z-index:2}.qolPartyHideAll #profilepage #partybox .party{box-shadow:none}.qolPartyHideAll #profilepage #partybox .party>div{background:transparent;border:none;height:0;overflow:hidden;padding:0;position:unset;width:0}.qolPartyHideAll .party .action,.qolPartyHideAll .party .action .berrybuttons,.qolPartyHideAll .showcase .action,.qolPartyHideAll .showcase .action .berrybuttons{height:0;position:unset!important}.qolPartyHideAll .party .action a,.qolPartyHideAll .showcase .action a{margin-left:10px;overflow:hidden;padding:3px;position:absolute;width:112px!important}.qolPartyHideAll .party .action .berrybuttons a,.qolPartyHideAll .showcase .action .berrybuttons a{border-radius:8px;padding:5px}.qolPartyHideAll .party .action table,.qolPartyHideAll .showcase .action table{display:none}.qolPartyHideAll .compact-view-toggle+label{display:inline-block;margin:0 4px 8px}.qolPartyHideAll #profilebox,.qolPartyHideAll #trainerimage,.qolPartyHideAll .fieldslink,.qolPartyHideAll .showcase+.mu_navlink.toggle,.qolPartyHideAll .working{display:none!important}`;
     static SHELTER_CSS = `#sheltersuccess{text-align:center}#shelterfound{padding-top:20px}.qolshelterareagrid{display:flex!important;display:grid!important;flex-direction:row;flex-flow:row wrap;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,70px);min-height:350px}.qolshelterareagrid .pokemon{align-items:center;display:inline-block!important;display:inline-flex!important;flex:1 1 16%;justify-content:center;position:static!important}.qolshelterareagrid .pokemon img{max-height:100%;max-width:100%}.qolshelterareagrid .tooltip_content{bottom:0;position:absolute!important;transform:translateY(100%)}.qolshelterareagrid:before{display:none!important}.mq2 .qolshelterareagrid:not(.qolshelterarealarge),.qolshelterareasmall{grid-template-rows:repeat(5,35px);min-height:175px}.qolshelterarealarge .pokemon .big{display:block!important}.qolshelterarealarge .pokemon .small,.qolshelterareasmall .pokemon .big{display:none!important}.qolshelterareasmall .pokemon .small{display:block!important}`;
@@ -411,97 +410,6 @@ class Resources {
   <div id="qolAdvancedShelterSearches"></div>--></div>`;
     static SHELTER_SORT_HTML = `<label><input type="checkbox" class="qolsetting" data-group="QoLShelter" name="shelterGrid"><span>Sort by Grid</span></label><div style="padding: 5px">Sprite size mode:<p style="margin: 5px 0"><label><input type="radio" class="qolsetting" data-group="QoLShelter" name="shelterSpriteSize" value="auto"> Automatic</label></p><p style="margin: 5px 0"><label><input type="radio" class="qolsetting" data-group="QoLShelter" name="shelterSpriteSize" value="large"> Large</label></p><p style="margin: 5px 0"><label><input type="radio" class="qolsetting" data-group="QoLShelter" name="shelterSpriteSize" value="small"> Small</label></p></div>`;
     static QUICK_SEARCH_ICONS = `<div class="qolQuickSearchIcons"><label class="pkmnState"><input type="checkbox" name="qolQsEgg"> <img src="img/pkmn/egg.png" alt="Egg"></label> <label class="hatched pkmnState"><input type="checkbox" name="qolQsPkmn"><div><img src="img/pkmn/m/m/h.png" alt="Hatched Pokemon"></div></label> <label><input type="checkbox" name="qolQsMale"> <img src="img/pkmn/gender_m.png" alt="Male"></label> <label><input type="checkbox" name="qolQsFemale"> <img src="img/pkmn/gender_f.png" alt="Female"></label> <label><input type="checkbox" name="qolQsGenderless"> <img src="img/pkmn/gender_n.png" alt="Genderless"></label></div>`;
-
-    // Static dex data
-    static DEFAULT_DEX = [{
-        "dexID":"001","species":"Bulbasaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"7","evolvesAt":16,"region":"1"
-    },{
-        "dexID":"002","species":"Ivysaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"7","evolvesAt":32,"region":"1"
-    },{
-        "dexID":"003","species":"Venusaur","forme":"","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"7","evolvesAt":"","region":"1"
-    },{
-        "dexID":"003-M","species":"Venusaur","forme":"Mega Forme","type1":"4","type2":"7","eggGroup1":"5","eggGroup2":"1","legendary":false,"colour":"3","bodyStyle":"7","evolvesAt":"","region":"1"
-    },{
-        "dexID":"004","species":"Charmander","forme":"","type1":"1","type2":null,"eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"5","evolvesAt":16,"region":"1"
-    },{
-        "dexID":"005","species":"Charmeleon","forme":"","type1":"1","type2":null,"eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"5","evolvesAt":36,"region":"1"
-    },{
-        "dexID":"006","species":"Charizard","forme":"","type1":"1","type2":"9","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"006-X","species":"Charizard","forme":"Mega Forme X","type1":"1","type2":"14","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"0","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"006-Y","species":"Charizard","forme":"Mega Forme Y","type1":"1","type2":"9","eggGroup1":"2","eggGroup2":"1","legendary":false,"colour":"7","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"007","species":"Squirtle","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"5","evolvesAt":16,"region":"1"
-    },{
-        "dexID":"008","species":"Wartortle","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"5","evolvesAt":36,"region":"1"
-    },{
-        "dexID":"009","species":"Blastoise","forme":"","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"009-M","species":"Blastoise","forme":"Mega Forme","type1":"2","type2":null,"eggGroup1":"6","eggGroup2":"1","legendary":false,"colour":"1","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"010","species":"Caterpie","forme":"","type1":"11","type2":null,"eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"3","bodyStyle":"13","evolvesAt":7,"region":"1"
-    },{
-        "dexID":"011","species":"Metapod","forme":"","type1":"11","type2":null,"eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"3","bodyStyle":"1","evolvesAt":10,"region":"1"
-    },{
-        "dexID":"012","species":"Butterfree","forme":"","type1":"11","type2":"9","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"12","evolvesAt":"","region":"1"
-    },{
-        "dexID":"013","species":"Weedle","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"13","evolvesAt":7,"region":"1"
-    },{
-        "dexID":"014","species":"Kakuna","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"1","evolvesAt":10,"region":"1"
-    },{
-        "dexID":"015","species":"Beedrill","forme":"","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"12","evolvesAt":"","region":"1"
-    },{
-        "dexID":"015-M","species":"Beedrill","forme":"Mega Forme","type1":"11","type2":"7","eggGroup1":"4","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"12","evolvesAt":"","region":"1"
-    },{
-        "dexID":"016","species":"Pidgey","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"8","evolvesAt":18,"region":"1"
-    },{
-        "dexID":"017","species":"Pidgeotto","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"8","evolvesAt":36,"region":"1"
-    },{
-        "dexID":"018","species":"Pidgeot","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"8","evolvesAt":"","region":"1"
-    },{
-        "dexID":"018-M","species":"Pidgeot","forme":"Mega Forme","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"8","evolvesAt":"","region":"1"
-    },{
-        "dexID":"019","species":"Rattata","forme":"","type1":"0","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"6","bodyStyle":"7","evolvesAt":20,"region":"1"
-    },{
-        "dexID":"019r7","species":"Rattata","forme":"Alolan Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"7","evolvesAt":20,"region":"1"
-    },{
-        "dexID":"020","species":"Raticate","forme":"","type1":"0","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"7","evolvesAt":"","region":"1"
-    },{
-        "dexID":"020r7","species":"Raticate","forme":"Alolan Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"7","evolvesAt":"","region":"1"
-    },{
-        "dexID":"020t7","species":"Raticate","forme":"Alolan Totem Forme","type1":"15","type2":"0","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"0","bodyStyle":"7","evolvesAt":"","region":"1"
-    },{
-        "dexID":"021","species":"Spearow","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"8","evolvesAt":20,"region":"1"
-    },{
-        "dexID":"022","species":"Fearow","forme":"","type1":"0","type2":"9","eggGroup1":"13","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"8","evolvesAt":"","region":"1"
-    },{
-        "dexID":"023","species":"Ekans","forme":"","type1":"7","type2":null,"eggGroup1":"3","eggGroup2":"2","legendary":false,"colour":"6","bodyStyle":"1","evolvesAt":22,"region":"1"
-    },{
-        "dexID":"024","species":"Arbok","forme":"","type1":"7","type2":null,"eggGroup1":"3","eggGroup2":"2","legendary":false,"colour":"6","bodyStyle":"1","evolvesAt":"","region":"1"
-    },{
-        "dexID":"025","species":"Pichu","forme":"","type1":"3","type2":null,"eggGroup1":"0","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"7","evolvesAt":"","region":"1"
-    },{
-        "dexID":"026","species":"Pikachu","forme":"","type1":"3","type2":null,"eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"9","bodyStyle":"7","evolvesAt":"","region":"1"
-    },{
-        "dexID":"027","species":"Raichu","forme":"","type1":"3","type2":null,"eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"9","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"027r7","species":"Raichu","forme":"Alolan Forme","type1":"3","type2":"10","eggGroup1":"10","eggGroup2":"3","legendary":false,"colour":"2","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"028","species":"Sandshrew","forme":"","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"5","evolvesAt":22,"region":"1"
-    },{
-        "dexID":"028r7","species":"Sandshrew","forme":"Alolan Forme","type1":"5","type2":"16","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"029","species":"Sandslash","forme":"","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"029t","species":"Sandslash","forme":"Totem Forme Q","type1":"8","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"9","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"029r7","species":"Sandslash","forme":"Alolan Forme","type1":"5","type2":"16","eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"1","bodyStyle":"5","evolvesAt":"","region":"1"
-    },{
-        "dexID":"038","species":"Vulpix","forme":"","type1":"1","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"2","bodyStyle":"7","evolvesAt":30,"region":"1"
-    },{
-        "dexID":"038r7","species":"Vulpix","forme":"Alolan Forme","type1":"5","type2":null,"eggGroup1":"3","eggGroup2":null,"legendary":false,"colour":"8","bodyStyle":"7","evolvesAt":30,"region":"1"
-    }];
 
 }
 
@@ -2431,34 +2339,32 @@ class UserPokedex {
     }
     // Get the dex data from the updatable, uploaded version, and store it to local storage
     fetchUploadedDex() {
-        console.log('Uploaded dex currently disabled');
-        this.resetDex();
-        /*
-         *console.log('Updating dex from from uploaded file');
-         *try {
-         *    this.DEX_LOADING = true;
-         *    const self = this;
-         *    $.get("https://pokefarm.com/upload/:b7q/QoL/dex-data.jpg", function(data){
-         *        self.DEX_DATA = JSON.parse(data);
-         *        let dateString = new Date().toLocaleString('en-GB', { timeZone: 'UTC' });
-         *        self.DEX_UPDATE_DATE = dateString;
-         *        LocalStorageManager.updateLocalStorageDex(self.DEX_DATA, dateString);
-         *        self.DEX_LOADING = false;
-         *        console.log('Dex load complete');
-         *    });
-         *} catch(e) {
-         *    ErrorHandler.error('Failed to load dex data from uploaded file', e);
-         *    this.resetDex();
-         *}
-         */
+        console.log('Updating dex from from uploaded file');
+        try {
+            this.DEX_LOADING = true;
+            const self = this;
+            $.get("https://pokefarm.com/upload/:b7q/QoL/dex-data.jpg", function(data){
+                self.DEX_DATA = JSON.parse(data);
+                const dateString = new Date().toLocaleString('en-GB', {
+                    timeZone: 'UTC'
+                });
+                self.DEX_UPDATE_DATE = dateString;
+                LocalStorageManager.updateLocalStorageDex(self.DEX_DATA, dateString);
+                self.DEX_LOADING = false;
+                console.log('Dex load complete');
+            });
+        } catch(e) {
+            ErrorHandler.error('Failed to load dex data from uploaded file', e);
+            this.resetDex();
+        }
     }
-    // Clears any locally stored dex data, and loads the static dex data instead.
+    // Clears any locally stored dex data
     resetDex() {
         ErrorHandler.warn('Cleared dex data');
         LocalStorageManager.removeItem(UserPokedex.DEX_DATA_KEY);
         this.DEX_UPDATE_DATE = undefined;
         this.DEX_LOADING = undefined;
-        this.DEX_DATA = Resources.DEFAULT_DEX;
+        this.DEX_DATA = undefined;
     }
     // Return the number of days since this.DEX_UPDATE_DATE
     daysSinceUpdate() {
@@ -2527,7 +2433,7 @@ class UserSettings {
     // Default values for global settins
     static GLOBAL_DEFAULTS = {
         customCss: '',
-        searchGlowColour: '#d5e265'
+        searchGlowColour: '#ffff77'
     };
     // All main setting enablers, and their default values
     static SETTING_ENABLERS = [
@@ -3038,7 +2944,7 @@ class QoLHub {
             if(changeDetails.settingName=='searchGlowColour') {
                 // prevent an empty value
                 if(changeDetails.newValue.trim()=='') {
-                    settings.changeSetting('QoLSettings', 'searchGlowColour', '#d5e265');
+                    settings.changeSetting('QoLSettings', 'searchGlowColour', '#ffff77');
                 }
                 else {
                     $('#glowColourPreview').css('background-color',changeDetails.newValue);

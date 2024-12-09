@@ -1,0 +1,144 @@
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Is egg?,In lab?,Colour,Body style,Region
+167,Chikorita,,Grass,,Grass,Monster,No,Yes,Yes,Green,Four Legs,Johto
+168,Bayleef,,Grass,,Grass,Monster,No,No,,Green,Four Legs,Johto
+169,Meganium,,Grass,,Grass,Monster,No,No,,Green,Four Legs,Johto
+170,Cyndaquil,,Fire,,Field,,No,Yes,Yes,Yellow,Human,Johto
+171,Quilava,,Fire,,Field,,No,No,,Yellow,Four Legs,Johto
+172,Typhlosion,,Fire,,Field,,No,No,,Yellow,Four Legs,Johto
+172r4,Typhlosion,Hisuian Forme,Fire,Ghost,Field,,No,No,,Yellow,Four Legs,Johto
+173,Totodile,,Water,,Water 1,Monster,No,Yes,Yes,Blue,Dino,Johto
+174,Croconaw,,Water,,Water 1,Monster,No,No,,Blue,Dino,Johto
+175,Feraligator,,Water,,Water 1,Monster,No,No,,Blue,Dino,Johto
+176,Sentret,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Johto
+177,Furret,,Normal,,Field,,No,No,,Brown,Four Legs,Johto
+178,Hoothoot,,Normal,Flying,Flying,,No,Yes,Yes,Brown,Bird,Johto
+179,Noctowl,,Normal,Flying,Flying,,No,No,,Brown,Bird,Johto
+180,Ledyba,,Bug,Flying,Bug,,No,Yes,Yes,Red,Bird,Johto
+181,Ledian,,Bug,Flying,Bug,,No,No,,Red,Bird,Johto
+182,Spinarak,,Bug,Poison,Bug,,No,Yes,Yes,Green,Crawling Bug,Johto
+183,Ariados,,Bug,Poison,Bug,,No,No,,Red,Crawling Bug,Johto
+184,Chinchou,,Water,Electric,Water 2,,No,Yes,No,Blue,Fish,Johto
+185,Lanturn,,Water,Electric,Water 2,,No,No,,Blue,Fish,Johto
+186,Togepi,,Fairy,,Undiscovered,,No,Yes,Yes,White,Human,Johto
+187,Togetic,,Fairy,Flying,Flying,Fairy,No,No,,White,Human,Johto
+188,Togekiss,,Fairy,Flying,Flying,Fairy,No,No,,White,Bird,Johto
+189,Natu,,Psychic,Flying,Flying,,No,Yes,Yes,Green,Bird,Johto
+190,Xatu,,Psychic,Flying,Flying,,No,No,,Green,Bird,Johto
+191,Mareep,,Electric,,Field,Monster,No,Yes,Yes,White,Four Legs,Johto
+192,Flaaffy,,Electric,,Field,Monster,No,No,,Pink,Dino,Johto
+193,Ampharos,,Electric,,Field,Monster,No,No,,Yellow,Dino,Johto
+193-M,Ampharos,Mega Forme,Electric,Dragon,Field,Monster,No,No,,Yellow,Dino,Johto
+194,Azurill,,Normal,Fairy,Undiscovered,,No,Yes,No,Blue,Two Legs,Johto
+195,Marill,,Water,Fairy,Fairy,Water 1,No,Yes,Yes,Blue,Dino,Johto
+196,Azumarill,,Water,Fairy,Fairy,Water 1,No,No,,Blue,Dino,Johto
+197,Bonsly,,Rock,,Undiscovered,,No,Yes,No,Brown,Two Legs,Johto
+198,Sudowoodo,,Rock,,Mineral,,No,Yes,Yes,Brown,Human,Johto
+199,Hoppip,,Grass,Flying,Fairy,Grass,No,Yes,Yes,Pink,Dino,Johto
+200,Skiploom,,Grass,Flying,Fairy,Grass,No,No,,Green,Dino,Johto
+201,Jumpluff,,Grass,Flying,Fairy,Grass,No,No,,Blue,Dino,Johto
+202,Aipom,,Normal,,Field,,No,Yes,Yes,Purple,Dino,Johto
+203,Ambipom,,Normal,,Field,,No,No,,Purple,Dino,Johto
+204,Sunkern,,Grass,,Grass,,No,Yes,Yes,Yellow,Short Blob,Johto
+205,Sunflora,,Grass,,Grass,,No,No,,Yellow,Human,Johto
+206,Yanma,,Bug,Flying,Bug,,No,Yes,Yes,Red,Flying Bug,Johto
+207,Yanmega,,Bug,Flying,Bug,,No,No,,Green,Flying Bug,Johto
+208,Wooper,,Water,Ground,Water 1,Field,No,Yes,Yes,Blue,Two Legs,Johto
+208r9,Wooper,,Poison,Ground,Water 1,Field,No,Yes,No,Brown,Two Legs,Johto
+209,Quagsire,,Water,Ground,Water 1,Field,No,No,,Blue,Dino,Johto
+210,Murkrow,,Dark,Flying,Flying,,No,Yes,Yes,Black,Bird,Johto
+211,Honchkrow,,Dark,Flying,Flying,,No,No,,Black,Bird,Johto
+212,Misdreavus,,Ghost,,Amorphous,,No,Yes,Yes,Purple,Short Blob,Johto
+212p,Flutter Mane,,Ghost,Fairy,Amorphous,,No,No,,Grey,Short Blob,Johto
+213,Mismagius,,Ghost,,Amorphous,,No,No,,Purple,Short Blob,Johto
+214|,Unown,! Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214~,Unown,? Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214a,Unown,A Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214b,Unown,B Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214c,Unown,C Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214d,Unown,D Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214e,Unown,E Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214f,Unown,F Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214g,Unown,G Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214h,Unown,H Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214i,Unown,I Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214j,Unown,J Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214k,Unown,K Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214l,Unown,L Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214m,Unown,M Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214n,Unown,N Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214o,Unown,O Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214p,Unown,P Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214q,Unown,Q Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214r,Unown,R Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214s,Unown,S Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214t,Unown,T Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214u,Unown,U Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214v,Unown,V Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214w,Unown,W Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214x,Unown,X Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214y,Unown,Y Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+214z,Unown,Z Forme,Psychic,,Unown,,No,Yes,Yes,Black,Short Blob,Johto
+215,Girafarig,,Normal,Psychic,Field,,No,Yes,Yes,Yellow,Four Legs,Johto
+216,Pineco,,Bug,,Bug,,No,Yes,Yes,Grey,Short Blob,Johto
+217,Forretress,,Bug,Steel,Bug,,No,No,,Purple,Short Blob,Johto
+218,Dunsparce,,Normal,,Field,,No,Yes,Yes,Yellow,Snake,Johto
+219,Gligar,,Ground,Flying,Bug,,No,Yes,Yes,Purple,Bird,Johto
+220,Gliscor,,Ground,Flying,Bug,,No,No,,Purple,Bird,Johto
+221,Snubbull,,Fairy,,Fairy,Field,No,Yes,Yes,Pink,Human,Johto
+222,Granbull,,Fairy,,Fairy,Field,No,No,,Purple,Dino,Johto
+223,Qwilfish,,Water,Poison,Water 2,,No,Yes,No,Grey,Fish,Johto
+223r4,Qwilfish,Hisuian Forme,Dark,Poison,Water 2,,No,Yes,No,Black,Fish,Johto
+224,Shuckle,,Bug,Rock,Bug,,No,Yes,Yes,Yellow,Crawling Bug,Johto
+225,Heracross,,Bug,Fighting,Bug,,No,Yes,Yes,Blue,Human,Johto
+225-M,Heracross,Mega Forme,Bug,Fighting,Bug,,No,No,,Blue,Human,Johto
+226,Sneasel,,Dark,Ice,Field,,No,Yes,Yes,Black,Dino,Johto
+226r4,Sneasel,Hisuian Forme,Fighting,Poison,Field,,No,Yes,No,White,Dino,Johto
+227,Weavile,,Dark,Ice,Field,,No,No,,Black,Dino,Johto
+228,Teddiursa,,Normal,,Field,,No,Yes,Yes,Brown,Dino,Johto
+229,Ursaring,,Normal,,Field,,No,No,,Brown,Dino,Johto
+230,Slugma,,Fire,,Amorphous,,No,Yes,Yes,Red,Snake,Johto
+231,Magcargo,,Fire,Rock,Amorphous,,No,No,,Red,Snake,Johto
+232,Swinub,,Ice,Ground,Field,,No,Yes,Yes,Brown,Four Legs,Johto
+233,Piloswine,,Ice,Ground,Field,,No,No,,Brown,Four Legs,Johto
+234,Mamoswine,,Ice,Ground,Field,,No,No,,Brown,Four Legs,Johto
+235,Corsola,,Water,Rock,Water 1,Water 3,No,Yes,No,Pink,Crawling Bug,Johto
+235r8,Corsola,Galarian Forme,Ghost,,Water 1,Water 3,No,Yes,No,White,Crawling Bug,Johto
+236,Remoraid,,Water,,Water 2,Water 1,No,Yes,No,Grey,Fish,Johto
+237,Octillery,,Water,,Water 2,Water 1,No,No,,Red,Jelly,Johto
+238,Delibird,,Ice,Flying,Water 1,Field,No,Yes,Yes,Red,Bird,Johto
+238f,Iron Bundle,,Ice,Water,Water 1,Field,No,No,,Red,Bird,Johto
+239,Skarmory,,Steel,Flying,Flying,,No,Yes,Yes,Grey,Bird,Johto
+240,Houndour,,Dark,Fire,Field,,No,Yes,Yes,Black,Four Legs,Johto
+241,Houndoom,,Dark,Fire,Field,,No,No,,Black,Four Legs,Johto
+241-M,Houndoom,Mega Forme,Dark,Fire,Field,,No,No,,Black,Four Legs,Johto
+242,Phanpy,,Ground,,Field,,No,Yes,Yes,Blue,Four Legs,Johto
+243,Donphan,,Ground,,Field,,No,No,,Grey,Four Legs,Johto
+243f,Iron Treads,,Ground,Steel,Field,,No,No,,Grey,Four Legs,Johto
+243p,Great Tusk,,Ground,Fighting,Field,,No,No,,Purple,Four Legs,Johto
+244,Stantler,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Johto
+245,Smeargle,,Normal,,Field,,No,Yes,Yes,White,Dino,Johto
+246,Tyrogue,,Fighting,,Undiscovered,,No,Yes,Yes,Purple,Human,Johto
+247,Hitmonlee,,Fighting,,Human-Like,,No,No,,Brown,Human,Johto
+248,Hitmonchan,,Fighting,,Human-Like,,No,No,,Brown,Human,Johto
+249,Hitmontop,,Fighting,,Human-Like,,No,No,,Brown,Dino,Johto
+250,Elekid,,Electric,,Undiscovered,,No,Yes,Yes,Yellow,Human,Johto
+251,Electabuzz,,Electric,,Human-Like,,No,No,,Yellow,Dino,Johto
+252,Electivire,,Electric,,Human-Like,,No,No,,Yellow,Dino,Johto
+253,Magby,,Fire,,Undiscovered,,No,Yes,Yes,Red,Dino,Johto
+254,Magmar,,Fire,,Human-Like,,No,No,,Red,Dino,Johto
+255,Magmortar,,Fire,,Human-Like,,No,No,,Red,Dino,Johto
+256,Miltank,,Normal,,Field,,No,Yes,Yes,Pink,Dino,Johto
+257,Raikou,,Electric,,Undiscovered,,Yes,Yes,No,Yellow,Four Legs,Johto
+257p,Raging Bolt,,Electric,Dragon,Undiscovered,,Yes,No,,Red,Four Legs,Johto
+258,Entei,,Fire,,Undiscovered,,Yes,Yes,No,Brown,Four Legs,Johto
+258p,Gouging Fire,,Fire,Dragon,Undiscovered,,Yes,No,,Brown,Four Legs,Johto
+259,Suicune,,Water,,Undiscovered,,Yes,Yes,No,Blue,Four Legs,Johto
+259p,Walking Wake,,Water,Dragon,Undiscovered,,Yes,No,,Blue,Dino,Johto
+260,Larvitar,,Rock,Ground,Monster,,No,Yes,Yes,Green,Dino,Johto
+261,Pupitar,,Rock,Ground,Monster,,No,No,,Grey,Snake,Johto
+262,Tyranitar,,Rock,Dark,Monster,,No,No,,Green,Dino,Johto
+262-M,Tyranitar,Mega Forme,Rock,Dark,Monster,,No,No,,Green,Dino,Johto
+262f,Iron Thorns,,Rock,Electric,Monster,,No,No,,Green,Dino,Johto
+263,Lugia,,Psychic,Flying,Undiscovered,,Yes,Yes,No,White,Bird,Johto
+264,Ho-oh,,Fire,Flying,Undiscovered,,Yes,Yes,No,Red,Bird,Johto
+265,Celebi,,Psychic,Grass,Undiscovered,,Yes,Yes,No,Green,Human,Johto

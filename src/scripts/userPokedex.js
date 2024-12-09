@@ -28,9 +28,6 @@ class UserPokedex {
     }
     // Get the dex data from the updatable, uploaded version, and store it to local storage
     fetchUploadedDex() {
-        console.log('Uploaded dex currently disabled');
-        this.resetDex();
-        /*
         console.log('Updating dex from from uploaded file');
         try {
             this.DEX_LOADING = true;
@@ -47,15 +44,14 @@ class UserPokedex {
             ErrorHandler.error('Failed to load dex data from uploaded file', e);
             this.resetDex();
         }
-        */
     }
-    // Clears any locally stored dex data, and loads the static dex data instead.
+    // Clears any locally stored dex data
     resetDex() {
         ErrorHandler.warn('Cleared dex data');
         LocalStorageManager.removeItem(UserPokedex.DEX_DATA_KEY);
         this.DEX_UPDATE_DATE = undefined;
         this.DEX_LOADING = undefined;
-        this.DEX_DATA = Resources.DEFAULT_DEX;
+        this.DEX_DATA = undefined;
     }
     // Return the number of days since this.DEX_UPDATE_DATE
     daysSinceUpdate() {

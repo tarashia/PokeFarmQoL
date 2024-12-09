@@ -1,0 +1,114 @@
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Is egg?,In lab?,Colour,Body style,Region
+905,Sprigatito,,Grass,,Field,Grass,No,Yes,Yes,Green,Four Legs,Paldea
+906,Floragato,,Grass,,Field,Grass,No,No,,Green,Dino,Paldea
+907,Meowscarada,,Grass,Dark,Field,Grass,No,No,,Green,Dino,Paldea
+908,Fuecoco,,Fire,,Field,,No,Yes,Yes,Red,Dino,Paldea
+909,Crocalor,,Fire,,Field,,No,No,,Red,Dino,Paldea
+910,Skeledirge,,Fire,Ghost,Field,,No,No,,Red,Four Legs,Paldea
+911,Quaxly,,Water,,Flying,Water 1,No,Yes,Yes,Blue,Dino,Paldea
+912,Quaxwell,,Water,,Flying,Water 1,No,No,,Blue,Dino,Paldea
+913,Quaquaval,,Water,Fighting,Flying,Water 1,No,No,,Blue,Dino,Paldea
+914,Lechonk,,Normal,,Field,,No,Yes,Yes,Grey,Four Legs,Paldea
+915,Oinkologne,,Normal,,Field,,No,No,,Grey,Four Legs,Paldea
+916,Tarountula,,Bug,,Bug,,No,Yes,Yes,White,Crawling Bug,Paldea
+917,Spidops,,Bug,,Bug,,No,No,,Green,Human,Paldea
+918,Nymble,,Bug,,Bug,,No,Yes,Yes,Grey,Crawling Bug,Paldea
+919,Lokix,,Bug,Dark,Bug,,No,No,,Grey,Crawling Bug,Paldea
+920,Pawmi,,Electric,,Field,,No,Yes,Yes,Yellow,Dino,Paldea
+921,Pawmo,,Electric,Fighting,Field,,No,No,,Yellow,Dino,Paldea
+922,Pawmot,,Electric,Fighting,Field,,No,No,,Yellow,Dino,Paldea
+923,Tandemaus,,Normal,,Field,Fairy,No,Yes,Yes,White,Multi,Paldea
+924,Maushold,,Normal,,Field,Fairy,No,No,,White,Multi,Paldea
+925,Fidough,,Fairy,,Field,Mineral,No,Yes,Yes,Yellow,Four Legs,Paldea
+926,Dachsbun,,Fairy,,Field,Mineral,No,No,,Brown,Four Legs,Paldea
+927,Smoliv,,Grass,Normal,Grass,,No,Yes,Yes,Green,Two Legs,Paldea
+928,Dolliv,,Grass,Normal,Grass,,No,No,,Green,Human,Paldea
+929,Arboliva,,Grass,Normal,Grass,,No,No,,Green,Human,Paldea
+930,Squawkabilly,Green Plumage,Normal,Flying,Flying,,No,Yes,Yes,Green,Bird,Paldea
+930b,Squawkabilly,Blue Plumage,Normal,Flying,Flying,,No,No,,Blue,Bird,Paldea
+930c,Squawkabilly,Yellow Plumage,Normal,Flying,Flying,,No,No,,Yellow,Bird,Paldea
+930d,Squawkabilly,White Plumage,Normal,Flying,Flying,,No,No,,White,Bird,Paldea
+931,Nacli,,Rock,,Mineral,,No,Yes,Yes,Brown,Short Blob,Paldea
+932,Naclstack,,Rock,,Mineral,,No,No,,Brown,Four Legs,Paldea
+933,Garganacl,,Rock,,Mineral,,No,No,,Brown,Human,Paldea
+934,Charcadet,,Fire,,Human-Like,,No,Yes,Yes,Red,Human,Paldea
+935,Armarogue,,Fire,Psychic,Human-Like,,No,No,,Red,Human,Paldea
+936,Ceruledge,,Fire,Ghost,Human-Like,,No,No,,Blue,Human,Paldea
+937,Tadbulb,,Electric,,Water 1,,No,Yes,Yes,Yellow,Fish,Paldea
+938,Bellibolt,,Electric,,Water 1,,No,No,,Green,Human,Paldea
+939,Wattrel,,Electric,Flying,Water 1,Flying,No,Yes,Yes,Black,Bird,Paldea
+940,Kilowattrel,,Electric,Flying,Water 1,Flying,No,No,,Yellow,Bird,Paldea
+941,Maschiff,,Dark,,Field,,No,Yes,Yes,Brown,Four Legs,Paldea
+942,Mabosstiff,,Dark,,Field,,No,No,,Grey,Four Legs,Paldea
+943,Shroodle,,Poison,Normal,Field,,No,Yes,Yes,Grey,Four Legs,Paldea
+944,Grafaiai,,Poison,Normal,Field,,No,No,,Grey,Dino,Paldea
+945,Bramblin,,Grass,Ghost,Grass,,No,Yes,Yes,Brown,Short Blob,Paldea
+946,Brambleghast,,Grass,Ghost,Grass,,No,No,,Brown,Short Blob,Paldea
+947,Toedscool,,Ground,Grass,Grass,,No,Yes,Yes,Yellow,Jelly,Paldea
+948,Toedscruel,,Ground,Grass,Grass,,No,No,,Black,Jelly,Paldea
+949,Klawf,,Rock,,Water 3,,No,Yes,,Red,Crawling Bug,Paldea
+950,Capsakid,,Grass,,Grass,,No,Yes,Yes,Green,Dino,Paldea
+951,Scovillain,,Grass,Fire,Grass,,No,No,,Green,Dino,Paldea
+952,Rellor,,Bug,,Bug,,No,Yes,Yes,Brown,Crawling Bug,Paldea
+953,Rabsca,,Bug,Psychic,Bug,,No,No,,Blue,Crawling Bug,Paldea
+954,Flittle,,Psychic,,Flying,,No,Yes,Yes,Yellow,Two Legs,Paldea
+955,Espathra,,Psychic,,Flying,,No,No,,Yellow,Two Legs,Paldea
+956,Tinkatink,,Fairy,Steel,Fairy,,No,Yes,Yes,Pink,Human,Paldea
+957,Tinkatuff,,Fairy,Steel,Fairy,,No,No,,Pink,Human,Paldea
+958,Tinkaton,,Fairy,Steel,Fairy,,No,No,,Pink,Human,Paldea
+959,Wiglett,,Water,,Water 3,,No,Yes,Yes,White,Tall Blob,Paldea
+960,Wugtrio,,Water,,Water 3,,No,No,,Red,Tall Blob,Paldea
+961,Bombirdier,,Flying,Dark,Flying,,No,Yes,Yes,White,Bird,Paldea
+962,Finizen,,Water,,Field,Water 2,No,Yes,No,Blue,Fish,Paldea
+963,Palafin,Zero Forme,Water,,Field,Water 2,No,No,,Blue,Fish,Paldea
+963a,Palafin,Hero Forme,Water,,Field,Water 2,No,No,,Blue,Fish,Paldea
+964,Varoom,,Steel,Poison,Mineral,,No,Yes,Yes,Grey,Short Blob,Paldea
+965,Revavroom,,Steel,Poison,Mineral,,No,No,,Grey,Short Blob,Paldea
+966,Cyclizar,,Dragon,Normal,Field,,No,Yes,Yes,Green,Dino,Paldea
+966f,Miraidon,Low-Power Mode,Electric,Dragon,Field,,No,No,,Purple,Four Legs,Paldea
+966f2,Miraidon,Ultimate Mode,Electric,Dragon,Field,,No,No,,Purple,Four Legs,Paldea
+966p,Koraidon,Limited Build,Fighting,Dragon,Field,,No,No,,Red,Four Legs,Paldea
+966p2,Koraidon,Apex Build,Fighting,Dragon,Field,,No,No,,Red,Four Legs,Paldea
+967,Orthworm,,Steel,,Field,,No,Yes,Yes,Red,Snake,Paldea
+968,Glimmet,,Rock,Poison,Mineral,,No,Yes,Yes,Blue,Short Blob,Paldea
+969,Glimmora,,Rock,Poison,Mineral,,No,No,,Blue,Short Blob,Paldea
+970,Greavard,,Ghost,,Field,,No,Yes,Yes,White,Four Legs,Paldea
+971,Houndstone,,Ghost,,Field,,No,No,,White,Four Legs,Paldea
+972,Flamigo,,Flying,Fighting,Flying,,No,Yes,Yes,Pink,Bird,Paldea
+973,Getoddle,,Ice,,Field,,No,Yes,Yes,White,Dino,Paldea
+974,Cetitan,,Ice,,Field,,No,No,,White,Dino,Paldea
+975,Veluza,,Water,Psychic,Water 2,,No,Yes,Yes,Grey,Fish,Paldea
+976,Dondozo,,Water,,Water 2,,No,Yes,Yes,Blue,Fish,Paldea
+977,Tatsugiri,Curly Forme,Dragon,Water,Water 2,,No,Yes,No,Red,Snake,Paldea
+977a,Tatsugiri,Droopy Forme,Dragon,Water,Water 2,,No,No,,Pink,Snake,Paldea
+977b,Tatsugiri,Stretchy Forme,Dragon,Water,Water 2,,No,No,,Yellow,Snake,Paldea
+978,Annihilape,,Fighting,Ghost,Field,,No,No,,Grey,Dino,Paldea
+979,Clodsire,,Poison,Ground,Water 1,Field,No,No,,Brown,Four Legs,Paldea
+980,Farigiraf,,Normal,Psychic,Field,,No,No,,Brown,Four Legs,Paldea
+981,Dudunsparce,,Normal,,Field,,No,No,,Yellow,Snake,Paldea
+982,Kingambit,,Dark,Steel,Human-Like,,No,No,,Red,Human,Paldea
+983,Frigibax,,Dragon,Ice,Dragon,Mineral,No,Yes,Yes,Grey,Dino,Paldea
+984,Arctibax,,Dragon,Ice,Dragon,Mineral,No,No,,Grey,Dino,Paldea
+985,Baxcalibur,,Dragon,Ice,Dragon,Mineral,No,No,,Grey,Dino,Paldea
+986,Gimmighoul,,Ghost,,Mineral,,No,Yes,No,Grey,Human,Paldea
+987,Gholdengo,,Ghost,Steel,Mineral,,No,No,,Yellow,Human,Paldea
+988,Wo-Chien,,Dark,Grass,Undiscovered,,Yes,Yes,No,Brown,Snake,Paldea
+989,Chien-Pao,,Dark,Ice,Undiscovered,,Yes,Yes,No,White,Four Legs,Paldea
+990,Ting-Lu,,Dark,Ground,Undiscovered,,Yes,Yes,No,Brown,Four Legs,Paldea
+991,Chi-Yu,,Dark,Fire,Undiscovered,,Yes,Yes,No,Red,Fish,Paldea
+992,Dipplin,,Grass,Dragon,Grass,Dragon,No,No,,Red,Multi,Paldea
+993,Hydrapple,,Grass,Dragon,Grass,Dragon,No,No,,Red,Multi,Paldea
+994,Poltchageist,,Grass,Ghost,Mineral,Amorphous,No,Yes,Yes,Green,Short Blob,Paldea
+995,Sinistcha,,Grass,Ghost,Mineral,Amorphous,No,No,,Green,Short Blob,Paldea
+996,Okidogi,,Poison,Fighting,Undiscovered,,Yes,Yes,No,Black,Dino,Paldea
+997,Munkidori,,Poison,Psychic,Undiscovered,,Yes,Yes,No,Black,Human,Paldea
+998,Fezandipiti,,Poison,Fairy,Undiscovered,,Yes,Yes,No,Black,Bird,Paldea
+999,Ogerpon,,Grass,,Undiscovered,,Yes,Yes,No,Green,Human,Paldea
+999a,Ogerpon,Wellspring Mask,Grass,Water,Undiscovered,,Yes,No,,Blue,Human,Paldea
+999b,Ogerpon,Hearthflame Mask,Grass,Fire,Undiscovered,,Yes,No,,Red,Human,Paldea
+999c,Ogerpon,Cornerstone Mask,Grass,Rock,Undiscovered,,Yes,No,,Grey,Human,Paldea
+999d,Ogerpon,Teal Mask,Grass,,Undiscovered,,Yes,No,,Green,Human,Paldea
+1000,Archaludon,,Steel,Dragon,Mineral,Dragon,No,Yes,Yes,White,Dino,Paldea
+1001,Terapagos,,Normal,,Undiscovered,,Yes,Yes,No,Blue,Four Legs,Paldea
+1001a,Terapagos,Terastal Forme,Normal,,Undiscovered,,Yes,No,,Blue,Short Blob,Paldea
+1002,Pecharunt,,Poison,Ghost,Undiscovered,,Yes,Yes,No,Purple,Short Blob,Paldea

@@ -1,0 +1,101 @@
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Is egg?,In lab?,Colour,Body style,Region
+809,Grookey,,Grass,,Field,Grass,No,Yes,Yes,Green,Dino,Galar
+810,Thwackey,,Grass,,Field,Grass,No,No,,Green,Dino,Galar
+811,Rillaboom,,Grass,,Field,Grass,No,No,,Black,Human,Galar
+812,Scorbunny,,Fire,,Field,Human-Like,No,Yes,Yes,White,Human,Galar
+813,Raboot,,Fire,,Field,Human-Like,No,No,,White,Human,Galar
+814,Cinderace,,Fire,,Field,Human-Like,No,No,,White,Human,Galar
+815,Sobble,,Water,,Water 1,Field,No,Yes,Yes,Blue,Dino,Galar
+816,Drizzile,,Water,,Water 2,Field,No,No,,Blue,Dino,Galar
+817,Inteleon,,Water,,Water 3,Field,No,No,,Blue,Dino,Galar
+818,Skwovet,,Normal,,Field,,No,Yes,Yes,Brown,Dino,Galar
+819,Greedent,,Normal,,Field,,No,No,,Brown,Dino,Galar
+820,Rookidee,,Flying,,Flying,,No,Yes,Yes,Blue,Bird,Galar
+821,Corvisquire,,Flying,,Flying,,No,No,,Blue,Bird,Galar
+822,Corviknight,,Flying,Steel,Flying,,No,No,,Blue,Bird,Galar
+823,Blipbug,,Bug,,Bug,,No,Yes,Yes,Blue,Crawling Bug,Galar
+824,Dottler,,Bug,Psychic,Bug,,No,No,,Yellow,Crawling Bug,Galar
+825,Orbeetle,,Bug,Psychic,Bug,,No,No,,Red,Crawling Bug,Galar
+826,Nickit,,Dark,,Field,,No,Yes,Yes,Brown,Four Legs,Galar
+827,Thievul,,Dark,,Field,,No,No,,Brown,Four Legs,Galar
+828,Gossifleur,,Grass,,Grass,,No,Yes,Yes,Green,Tall Blob,Galar
+829,Eldegoss,,Grass,,Grass,,No,No,,Green,Tall Blob,Galar
+830,Wooloo,,Normal,,Field,,No,Yes,Yes,White,Four Legs,Galar
+831,Dubwool,,Normal,,Field,,No,No,,White,Four Legs,Galar
+832,Chewtle,,Water,,Monster,Water 1,No,Yes,Yes,Blue,Four Legs,Galar
+833,Drednaw,,Water,Rock,Monster,Water 1,No,No,,Blue,Four Legs,Galar
+834,Yamper,,Electric,,Field,,No,Yes,Yes,Yellow,Four Legs,Galar
+835,Boltund,,Electric,,Field,,No,No,,Yellow,Four Legs,Galar
+836,Rolycoly,,Rock,,Mineral,,No,Yes,Yes,Black,Short Blob,Galar
+837,Carkol,,Rock,Fire,Mineral,,No,No,,Black,Two Legs,Galar
+838,Coalossal,,Rock,Fire,Mineral,,No,No,,Black,Human,Galar
+839,Applin,,Grass,Dragon,Grass,Dragon,No,Yes,Yes,Red,Snake,Galar
+840,Flapple,,Grass,Dragon,Grass,Dragon,No,No,,Red,Bird,Galar
+841,Appletun,,Grass,Dragon,Grass,Dragon,No,No,,Green,Four Legs,Galar
+842,Silicobra,,Ground,,Field,Dragon,No,Yes,Yes,Green,Snake,Galar
+843,Sandaconda,,Ground,,Field,Dragon,No,No,,Green,Snake,Galar
+844,Cramorant,,Flying,Water,Water 1,Flying,No,Yes,Yes,Blue,Bird,Galar
+844b,Cramorant,Gulping,Flying,Water,Water 1,Flying,No,No,,Blue,Bird,Galar
+844c,Cramorant,Gorging,Flying,Water,Water 1,Flying,No,No,,Blue,Bird,Galar
+845,Arrokuda,,Water,,Water 2,,No,Yes,No,Brown,Fish,Galar
+846,Barraskewda,,Electric,,Water 2,,No,No,,Brown,Fish,Galar
+847,Toxel,,Electric,Poison,Undiscovered,,No,Yes,Yes,Purple,Dino,Galar
+848,Toxtricity,Amped,Electric,Poison,Human-Like,,No,No,,Purple,Dino,Galar
+848b,Toxtricity,Low Key,Electric,Poison,Human-Like,,No,No,,Purple,Dino,Galar
+849,Sizzlipede,,Fire,Bug,Bug,,No,Yes,Yes,Red,Jelly,Galar
+850,Centiskorch,,Fire,Bug,Bug,,No,No,,Red,Jelly,Galar
+851,Clobbopus,,Fighting,,Water 1,Human-Like,No,Yes,Yes,Brown,Jelly,Galar
+852,Grapploct,,Fighting,,Water 1,Human-Like,No,No,,Blue,Jelly,Galar
+853,Sinistea,,Ghost,,Mineral,Amorphous,No,Yes,Yes,Purple,Short Blob,Galar
+854,Polteageist,,Ghost,,Mineral,Amorphous,No,No,,Purple,Short Blob,Galar
+855,Hatenna,,Psychic,,Fairy,,No,Yes,Yes,Pink,Two Legs,Galar
+856,Hattrem,,Psychic,,Fairy,,No,No,,Pink,Human,Galar
+857,Hatterene,,Psychic,Fairy,Fairy,,No,No,,Pink,Tall Blob,Galar
+858,Impidimp,,Dark,Fairy,Fairy,Human-Like,No,Yes,Yes,Pink,Human,Galar
+859,Morgrem,,Dark,Fairy,Fairy,Human-Like,No,No,,Pink,Human,Galar
+860,Grimmsnarl,,Dark,Fairy,Fairy,Human-Like,No,No,,Purple,Human,Galar
+861,Obstagoon,,Dark,Normal,Field,,No,No,,Grey,Dino,Galar
+862,Perrserker,,Steel,,Field,,No,No,,Brown,Dino,Galar
+863,Cursola,,Ghost,,Water 1,Water 3,No,No,,White,Two Arms,Galar
+864,Sirfetch'd,,Fighting,,Flying,Field,No,No,,White,Bird,Galar
+865,Mr. Rime,,Ice,Psychic,Human-Like,,No,No,,Purple,Human,Galar
+866,Runerigus,,Ground,Ghost,Mineral,Amorphous,No,No,,Grey,Tall Blob,Galar
+867,Milcery,,Fairy,,Fairy,Amorphous,No,Yes,Yes,White,Short Blob,Galar
+868,Alcremie,,Fairy,,Fairy,Amorphous,No,No,,White,Tall Blob,Galar
+869,Falinks,,Fighting,,Fairy,Mineral,No,Yes,Yes,Yellow,Multi,Galar
+870,Pincurchin,,Electric,,Water 1,Amorphous,No,Yes,Yes,Purple,Jelly,Galar
+871,Snom,,Ice,Bug,Bug,,No,Yes,Yes,White,Snake,Galar
+872,Frosmoth,,Ice,Bug,Bug,,No,No,,White,Flying Bug,Galar
+873,Stonjourner,,Rock,,Mineral,,No,Yes,Yes,Grey,Two Legs,Galar
+874,Eiscue,Noice Face,Ice,,Water 1,Field,No,Yes,Yes,Blue,Dino,Galar
+874b,Eiscue,Ice Face,Ice,,Water 1,Field,No,No,,Blue,Dino,Galar
+875,Indeedee,Female,Psychic,Normal,Fairy,,No,Yes,Yes,Purple,Dino,Galar
+875b,Indeedee,Male,Psychic,Normal,Fairy,,No,No,,Purple,Dino,Galar
+876,Morpeko,Hangry Mode,Electric,Dark,Field,Fairy,No,Yes,Yes,Purple,Human,Galar
+876b,Morpeko,Full Belly Mode,Electric,Dark,Field,Fairy,No,No,,Yellow,Human,Galar
+877,Cufant,,Steel,,Field,Mineral,No,Yes,Yes,Yellow,Four Legs,Galar
+878,Copperajah,,Steel,,Field,Mineral,No,No,,Green,Four Legs,Galar
+879,Dracozolt,,Electric,Dragon,Flying,Dragon,No,Yes,No,Green,Dino,Galar
+880,Arctozolt,,Electric,Ice,Water 2,Flying,No,Yes,No,Blue,Dino,Galar
+881,Dracovish,,Water,Dragon,Water 2,Dragon,No,Yes,No,Green,Two Legs,Galar
+882,Arctovish,,Water,Ice,Water 2,,No,Yes,No,Blue,Fish,Galar
+883,Duraludon,,Steel,Dragon,Mineral,Dragon,No,Yes,Yes,White,Dino,Galar
+884,Dreepy,,Dragon,Ghost,Amorphous,Dragon,No,Yes,Yes,Green,Snake,Galar
+885,Drakloak,,Dragon,Ghost,Amorphous,Dragon,No,No,,Green,Two Arms,Galar
+886,Dragapult,,Dragon,Ghost,Amorphous,Dragon,No,No,,Green,Dino,Galar
+887,Zacian,,Fairy,,Undiscovered,,Yes,Yes,No,Blue,Four Legs,Galar
+887b,Zacian,Crowned,Fairy,Steel,Undiscovered,,Yes,No,,Blue,Four Legs,Galar
+888,Zamazenta,,Fighting,,Undiscovered,,Yes,Yes,No,Red,Four Legs,Galar
+888b,Zamazenta,Crowned,Fighting,Steel,Undiscovered,,Yes,No,,Red,Four Legs,Galar
+889,Eternatus,,Poison,Dragon,Undiscovered,,Yes,Yes,No,Blue,Bird,Galar
+890,Kubfu,,Fighting,,Undiscovered,,Yes,Yes,No,Grey,Dino,Galar
+891,Urshifu,Single Strike,Fighting,Dark,Undiscovered,,Yes,No,,Grey,Human,Galar
+891a,Urshifu,Rapid Strike,Fighting,Water,Undiscovered,,Yes,No,,Grey,Human,Galar
+892,Zarude,,Dark,Grass,Undiscovered,,Yes,Yes,No,Black,Dino,Galar
+893,Regieleki,,Electric,,Undiscovered,,Yes,Yes,No,Yellow,Human,Galar
+894,Regidrago,,Dragon,,Undiscovered,,Yes,Yes,No,Green,Human,Galar
+895,Glastrier,,Ice,,Undiscovered,,Yes,Yes,No,White,Four Legs,Galar
+896,Spectrier,,Ghost,,Undiscovered,,Yes,Yes,No,Black,Four Legs,Galar
+897,Calyrex,,Psychic,Grass,Undiscovered,,Yes,Yes,No,Green,Human,Galar
+897i,Calyrex,Ice Rider,Psychic,Ice,Undiscovered,,Yes,No,,Green,Multi,Galar
+897s,Calyrex,Shadow Rider,Psychic,Ghost,Undiscovered,,Yes,No,,Green,Multi,Galar

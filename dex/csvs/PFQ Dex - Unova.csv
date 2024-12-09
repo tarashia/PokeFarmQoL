@@ -1,0 +1,189 @@
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Is egg?,In lab?,Colour,Body style,Region
+494,Victini,,Psychic,Fire,Undiscovered,,Yes,Yes,No,Yellow,Human,Unova
+495,Snivy,,Grass,,Grass,Field,No,Yes,Yes,Green,Dino,Unova
+496,Servine,,Grass,,Grass,Field,No,No,,Green,Dino,Unova
+497,Serperior,,Grass,,Grass,Field,No,No,,Green,Snake,Unova
+498,Tepig,,Fire,,Field,,No,Yes,Yes,Red,Four Legs,Unova
+499,Pignite,,Fire,Fighting,Field,,No,No,,Red,Dino,Unova
+500,Emboar,,Fire,Fighting,Field,,No,No,,Red,Dino,Unova
+501,Oshawott,,Water,,Field,,No,Yes,Yes,Blue,Dino,Unova
+502,Dewott,,Water,,Field,,No,No,,Blue,Dino,Unova
+503,Samurott,,Water,,Field,,No,No,,Blue,Four Legs,Unova
+503r4,Samurott,Hisuian Forme,Water,Dark,Field,,No,No,,Blue,Four Legs,Unova
+504,Patrat,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Unova
+505,Watchog,,Normal,,Field,,No,No,,Brown,Dino,Unova
+506,Lillipup,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Unova
+507,Herdier,,Normal,,Field,,No,No,,Grey,Four Legs,Unova
+508,Stoutland,,Normal,,Field,,No,No,,Grey,Four Legs,Unova
+509,Purrloin,,Dark,,Field,,No,Yes,Yes,Purple,Four Legs,Unova
+510,Liepard,,Dark,,Field,,No,No,,Purple,Four Legs,Unova
+511,Pansage,,Grass,,Field,,No,Yes,Yes,Green,Dino,Unova
+512,Simisage,,Grass,,Field,,No,No,,Green,Dino,Unova
+513,Pansear,,Fire,,Field,,No,Yes,Yes,Red,Dino,Unova
+514,Simisear,,Fire,,Field,,No,No,,Red,Dino,Unova
+515,Panpour,,Water,,Field,,No,Yes,Yes,Blue,Dino,Unova
+516,Simipour,,Water,,Field,,No,No,,Blue,Dino,Unova
+517,Munna,,Psychic,,Field,,No,Yes,Yes,Pink,Four Legs,Unova
+518,Musharna,,Psychic,,Field,,No,No,,Pink,Human,Unova
+519,Pidove,,Normal,Flying,Flying,,No,Yes,Yes,Grey,Bird,Unova
+520,Tranquill,,Normal,Flying,Flying,,No,No,,Grey,Bird,Unova
+521,Unfezant,,Normal,Flying,Flying,,No,No,,Grey,Bird,Unova
+522,Blitzle,,Electric,,Field,,No,Yes,Yes,Black,Four Legs,Unova
+523,Zebstrika,,Electric,,Field,,No,No,,Black,Four Legs,Unova
+524,Roggenrola,,Rock,,Mineral,,No,Yes,Yes,Blue,Two Legs,Unova
+525,Boldore,,Rock,,Mineral,,No,No,,Blue,Jelly,Unova
+526,Gigalith,,Rock,,Mineral,,No,No,,Blue,Jelly,Unova
+527,Woobat,,Psychic,Flying,Flying,Field,No,Yes,Yes,Blue,Bird,Unova
+528,Swoobat,,Psychic,Flying,Flying,Field,No,No,,Blue,Bird,Unova
+529,Drilbur,,Ground,,Field,,No,Yes,Yes,Grey,Dino,Unova
+530,Excadrill,,Ground,Steel,Field,,No,No,,Grey,Human,Unova
+531,Audino,,Normal,,Fairy,,No,Yes,Yes,Pink,Dino,Unova
+531-M,Audino,Mega Forme,Normal,Fairy,Fairy,,No,No,,White,Dino,Unova
+532,Timburr,,Fighting,,Human-Like,,No,Yes,Yes,Grey,Human,Unova
+533,Gurdurr,,Fighting,,Human-Like,,No,No,,Grey,Human,Unova
+534,Conkeldurr,,Fighting,,Human-Like,,No,No,,Brown,Human,Unova
+535,Tympole,,Water,,Water 1,,No,Yes,No,Blue,Fish,Unova
+536,Palpitoad,,Water,Ground,Water 1,,No,No,,Blue,Dino,Unova
+537,Seismitoad,,Water,Ground,Water 1,,No,No,,Blue,Human,Unova
+538,Throh,,Fighting,,Human-Like,,No,Yes,Yes,Red,Human,Unova
+539,Sawk,,Fighting,,Human-Like,,No,Yes,Yes,Blue,Human,Unova
+540,Sewaddle,,Bug,Grass,Bug,,No,Yes,Yes,Yellow,Crawling Bug,Unova
+541,Swadloon,,Bug,Grass,Bug,,No,No,,Green,Two Arms,Unova
+542,Leavanny,,Bug,Grass,Bug,,No,No,,Yellow,Human,Unova
+543,Venipede,,Bug,Poison,Bug,,No,Yes,Yes,Red,Crawling Bug,Unova
+544,Whirlipede,,Bug,Poison,Bug,,No,No,,Grey,Short Blob,Unova
+545,Scolipede,,Bug,Poison,Bug,,No,No,,Red,Crawling Bug,Unova
+546,Cottonee,,Grass,Fairy,Fairy,Grass,No,Yes,Yes,Green,Short Blob,Unova
+547,Whimsicott,,Grass,Fairy,Fairy,Grass,No,No,,Green,Human,Unova
+548,Petilil,,Grass,,Grass,,No,Yes,Yes,Green,Tall Blob,Unova
+549,Lilligant,,Grass,,Grass,,No,No,,Green,Tall Blob,Unova
+549r4,Lilligant,,Grass,Fighting,Grass,,No,No,,Green,Human,Unova
+550,Basculin,Red Stripe,Water,,Water 2,,No,Yes,Yes,Green,Fish,Unova
+550b,Basculin,Blue Stripe,Water,,Water 2,,No,No,,Green,Fish,Unova
+550r4,Basculin,White Stripe,Water,,Water 2,,No,Yes,No,Green,Fish,Unova
+551,Sandile,,Ground,Dark,Field,,No,Yes,Yes,Brown,Four Legs,Unova
+552,Krokorok,,Ground,Dark,Field,,No,No,,Brown,Four Legs,Unova
+553,Krookodile,,Ground,Dark,Field,,No,No,,Red,Dino,Unova
+554,Darumaka,,Fire,,Field,,No,Yes,Yes,Red,Human,Unova
+554r8,Darumaka,Galarian Forme,Ice,,Field,,No,Yes,No,White,Human,Unova
+555,Darmanitan,,Fire,,Field,,No,No,,Red,Four Legs,Unova
+555b,Darmanitan,Zen Mode,Fire,Psychic,Field,,No,No,,Blue,Four Legs,Unova
+555r8,Darmanitan,Galarian Forme,Ice,,Field,,No,No,,White,Four Legs,Unova
+555c,Darmanitan,Galarian Zen Mode,Ice,Fire,Field,,No,No,,White,Two Arms,Unova
+556,Maractus,,Grass,,Grass,,No,Yes,Yes,Green,Tall Blob,Unova
+557,Dwebble,,Bug,Rock,Mineral,Bug,No,Yes,Yes,Red,Crawling Bug,Unova
+558,Crustle,,Bug,Rock,Mineral,Bug,No,No,,Red,Crawling Bug,Unova
+559,Scraggy,,Dark,Fighting,Field,Dragon,No,Yes,Yes,Yellow,Dino,Unova
+560,Scrafty,,Dark,Fighting,Field,Dragon,No,No,,Red,Dino,Unova
+561,Sigilyph,,Psychic,Flying,Flying,,No,Yes,Yes,Black,Bird,Unova
+562,Yamask,,Ghost,,Mineral,Amorphous,No,Yes,Yes,Black,Two Arms,Unova
+562r8,Yamask,Galarian Forme,Ground,Ghost,Mineral,Amorphous,No,Yes,No,Black,Two Arms,Unova
+563,Cofagrigus,,Ghost,,Mineral,Amorphous,No,No,,Yellow,Tall Blob,Unova
+564,Tirtouga,,Water,Rock,Water 3,Water 1,No,Yes,No,Blue,Four Legs,Unova
+565,Carracosta,,Water,Rock,Water 3,Water 1,No,No,,Blue,Dino,Unova
+566,Archen,,Rock,Flying,Flying,Water 3,No,Yes,No,Yellow,Bird,Unova
+567,Archeops,,Rock,Flying,Flying,Water 3,No,No,,Yellow,Bird,Unova
+568,Trubbish,,Poison,,Mineral,,No,Yes,Yes,Green,Human,Unova
+569,Garbodor,,Poison,,Mineral,,No,No,,Green,Human,Unova
+570,Zorua,,Dark,,Field,,No,Yes,Yes,Grey,Four Legs,Unova
+570r4,Zorua,Hisuian Forme,Normal,Ghost,Field,,No,Yes,No,White,Four Legs,Unova
+571,Zoroark,,Dark,,Field,,No,No,,Grey,Dino,Unova
+571r4,Zoroark,Hisuian Forme,Normal,Ghost,Field,,No,No,,White,Dino,Unova
+572,Minccino,,Normal,,Field,,No,Yes,Yes,Grey,Four Legs,Unova
+573,Cinccino,,Normal,,Field,,No,No,,Grey,Four Legs,Unova
+574,Gothita,,Psychic,,Human-Like,,No,Yes,Yes,Purple,Human,Unova
+575,Gothorita,,Psychic,,Human-Like,,No,No,,Purple,Human,Unova
+576,Gothitelle,,Psychic,,Human-Like,,No,No,,Purple,Human,Unova
+577,Solosis,,Psychic,,Amorphous,,No,Yes,Yes,Green,Short Blob,Unova
+578,Duosion,,Psychic,,Amorphous,,No,No,,Green,Short Blob,Unova
+579,Reuniclus,,Psychic,,Amorphous,,No,No,,Green,Two Arms,Unova
+580,Ducklett,,Water,Flying,Flying,Water 1,No,Yes,Yes,Blue,Bird,Unova
+581,Swanna,,Water,Flying,Flying,Water 1,No,No,,White,Bird,Unova
+582,Vanillite,,Ice,,Mineral,,No,Yes,Yes,White,Tall Blob,Unova
+583,Vanillish,,Ice,,Mineral,,No,No,,White,Tall Blob,Unova
+584,Vanilluxe,,Ice,,,,No,No,,White,Multi,Unova
+585,Deerling,,Normal,Grass,Field,,No,Yes,Yes,Yellow,Four Legs,Unova
+586,Sawsbuck,,Normal,Grass,Field,,No,No,,Brown,Four Legs,Unova
+587,Emolga,,Electric,Flying,Field,,No,Yes,Yes,White,Four Legs,Unova
+588,Karrablast,,Bug,,Bug,,No,Yes,Yes,Blue,Human,Unova
+589,Escavalier,,Bug,Steel,Bug,,No,No,,Grey,Two Arms,Unova
+590,Foongus,,Grass,Poison,Grass,,No,Yes,Yes,White,Two Arms,Unova
+591,Amoonguss,,Grass,Poison,Grass,,No,No,,White,Two Arms,Unova
+591p,Brute Bonnet,,Grass,Dark,Grass,,No,No,,Grey,Two Arms,Unova
+592,Frillish,,Water,Ghost,Amorphous,,No,Yes,No,White,Jelly,Unova
+593,Jellicent,,Water,Ghost,Amorphous,,No,No,,White,Jelly,Unova
+594,Alomomola,,Water,,Water 2,Water 1,No,Yes,No,Pink,Fish,Unova
+595,Joltik,,Bug,Electric,Bug,,No,Yes,Yes,Yellow,Crawling Bug,Unova
+596,Galvantula,,Bug,Electric,Bug,,No,No,,Yellow,Crawling Bug,Unova
+597,Ferroseed,,Grass,Steel,Mineral,Grass,No,Yes,Yes,Grey,Short Blob,Unova
+598,Ferrothorn,,Grass,Steel,Mineral,Grass,No,No,,Grey,Jelly,Unova
+599,Klink,,Steel,,Mineral,,No,Yes,Yes,Grey,Multi,Unova
+600,Klang,,Steel,,Mineral,,No,No,,Grey,Multi,Unova
+601,Klinklang,,Steel,,Mineral,,No,No,,Grey,Multi,Unova
+602,Tynamo,,Electric,,Amorphous,,No,Yes,Yes,White,Fish,Unova
+603,Eelektrik,,Electric,,Amorphous,,No,No,,Blue,Fish,Unova
+604,Eelektross,,Electric,,Amorphous,,No,No,,Blue,Fish,Unova
+605,Elgyem,,Psychic,,Human-Like,,No,Yes,Yes,Blue,Dino,Unova
+606,Beheeyem,,Psychic,,Human-Like,,No,No,,Brown,Human,Unova
+607,Litwick,,Ghost,Fire,Amorphous,,No,Yes,Yes,White,Tall Blob,Unova
+608,Lampent,,Ghost,Fire,Amorphous,,No,No,,White,Two Arms,Unova
+609,Chandelure,,Ghost,Fire,Amorphous,,No,No,,Black,Two Arms,Unova
+610,Axew,,Dragon,,Dragon,Monster,No,Yes,Yes,Green,Dino,Unova
+611,Fraxure,,Dragon,,Dragon,Monster,No,No,,Green,Dino,Unova
+612,Haxorus,,Dragon,,Dragon,Monster,No,No,,Yellow,Dino,Unova
+613,Cubchoo,,Ice,,Field,,No,Yes,Yes,White,Dino,Unova
+614,Beartic,,Ice,,Field,,No,No,,White,Four Legs,Unova
+615,Cryogonal,,Ice,,Mineral,,No,Yes,Yes,Blue,Short Blob,Unova
+616,Shelmet,,Bug,,Bug,,No,Yes,Yes,Red,Short Blob,Unova
+617,Accelgor,,Bug,,Bug,,No,No,,Red,Two Arms,Unova
+618,Stunfisk,,Ground,Electric,Amorphous,Water 1,No,Yes,No,Brown,Fish,Unova
+618r8,Stunfisk,Galarian Forme,Ground,Steel,Amorphous,Water 1,No,Yes,No,Brown,Fish,Unova
+619,Mienfoo,,Fighting,,Human-Like,Field,No,Yes,Yes,Yellow,Dino,Unova
+620,Mienshao,,Fighting,,Human-Like,Field,No,No,,Purple,Dino,Unova
+621,Druddigon,,Dragon,,Dragon,Monster,No,Yes,Yes,Red,Dino,Unova
+622,Golett,,Ground,Ghost,Mineral,,No,Yes,Yes,Green,Human,Unova
+623,Golurk,,Ground,Ghost,Mineral,,No,No,,Green,Human,Unova
+624,Pawniard,,Dark,Steel,Human-Like,,No,Yes,Yes,Red,Human,Unova
+625,Bisharp,,Dark,Steel,Human-Like,,No,No,,Red,Human,Unova
+626,Bouffalant,,Normal,,Field,,No,Yes,Yes,Brown,Four Legs,Unova
+627,Rufflet,,Normal,Flying,Flying,,No,Yes,Yes,White,Bird,Unova
+628,Braviary,,Normal,Flying,Flying,,No,No,,Red,Bird,Unova
+628r4,Braviary,Hisuian Forme,Psychic,Flying,Flying,,No,No,,White,Bird,Unova
+629,Vullaby,,Dark,Flying,Flying,,No,Yes,Yes,Brown,Bird,Unova
+630,Mandibuzz,,Dark,Flying,Flying,,No,No,,Brown,Bird,Unova
+631,Heatmor,,Fire,,Field,,No,Yes,Yes,Red,Dino,Unova
+632,Durant,,Bug,Steel,Bug,,No,Yes,Yes,Grey,Crawling Bug,Unova
+633,Deino,,Dark,Dragon,Dragon,,No,Yes,Yes,Blue,Four Legs,Unova
+634,Zweilous,,Dark,Dragon,Dragon,,No,No,,Blue,Four Legs,Unova
+635,Hydreigon,,Dark,Dragon,Dragon,,No,No,,Blue,Dino,Unova
+635f,Iron Jugulis,,Dark,Flying,Dragon,,No,No,,Blue,Dino,Unova
+636,Larvesta,,Bug,Fire,Bug,,No,Yes,Yes,White,Crawling Bug,Unova
+637,Volcarona,,Bug,Fire,Bug,,No,No,,White,Flying Bug,Unova
+637f,Iron Moth,,Fire,Poison,Bug,,No,No,,Yellow,Flying Bug,Unova
+637p,Slither Wing,,Bug,Fighting,Bug,,No,No,,Red,Flying Bug,Unova
+638,Cobalion,,Steel,Fighting,Undiscovered,,Yes,Yes,No,Blue,Four Legs,Unova
+638f,Iron Crown,,Steel,Psychic,Undiscovered,,Yes,No,,Blue,Four Legs,Unova
+639,Terrakion,,Rock,Fighting,Undiscovered,,Yes,Yes,No,Grey,Four Legs,Unova
+639f,Iron Boulder,,Rock,Psychic,Undiscovered,,Yes,No,,Grey,Four Legs,Unova
+640,Virizion,,Grass,Fighting,Undiscovered,,Yes,Yes,No,Green,Four Legs,Unova
+640f,Iron Leaves,,Grass,Psychic,Undiscovered,,Yes,No,,Green,Four Legs,Unova
+641,Tornadus,,Flying,,Undiscovered,,Yes,Yes,No,Green,Two Arms,Unova
+641b,Tornadus,Therian Forme,Flying,,Undiscovered,,Yes,No,,Green,Bird,Unova
+642,Thundurus,,Electric,Flying,Undiscovered,,Yes,Yes,No,Blue,Two Arms,Unova
+642b,Thundurus,Therian Forme,Electric,Flying,Undiscovered,,Yes,No,,Blue,Dino,Unova
+643,Reshiram,,Dragon,Fire,Undiscovered,,Yes,Yes,No,White,Bird,Unova
+644,Zekrom,,Dragon,Electric,Undiscovered,,Yes,Yes,No,Black,Dino,Unova
+645,Landorus,,Ground,Flying,Undiscovered,,Yes,Yes,No,Brown,Two Arms,Unova
+645b,Landorus,Therian Forme,Ground,Flying,Undiscovered,,Yes,No,,Brown,Four Legs,Unova
+646,Kyurem,,Dragon,Ice,Undiscovered,,Yes,Yes,No,Grey,Dino,Unova
+646r,Kyurem,Reshiram Forme,Dragon,Ice,Undiscovered,,Yes,No,,White,Dino,Unova
+646z,Kyurem,Zekrom Forme,Dragon,Ice,Undiscovered,,Yes,No,,Black,Dino,Unova
+647,Keldeo,,Water,Fighting,Undiscovered,,Yes,Yes,No,Yellow,Four Legs,Unova
+647b,Keldeo,Resolute Forme,Water,Fighting,Undiscovered,,Yes,No,,Yellow,Four Legs,Unova
+648,Meloetta,,Normal,Psychic,Undiscovered,,Yes,Yes,No,White,Human,Unova
+648b,Meloetta,Pirouette Forme,Normal,Fighting,Undiscovered,,Yes,No,,Red,Human,Unova
+649,Genesect,,Bug,Steel,Undiscovered,,Yes,Yes,No,Purple,Human,Unova
+649a,Genesect,Douse Drive,Bug,Steel,Undiscovered,,Yes,No,,Purple,Human,Unova
+649b,Genesect,Burn Drive,Bug,Steel,Undiscovered,,Yes,No,,Purple,Human,Unova
+649c,Genesect,Chill Drive,Bug,Steel,Undiscovered,,Yes,No,,Purple,Human,Unova
+649d,Genesect,Shock Drive,Bug,Steel,Undiscovered,,Yes,No,,Purple,Human,Unova

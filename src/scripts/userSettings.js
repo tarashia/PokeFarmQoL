@@ -5,7 +5,7 @@ class UserSettings {
     // Default values for global settins
     static GLOBAL_DEFAULTS = {
         customCss: '',
-        searchGlowColour: '#d5e265'
+        searchGlowColour: '#ffff77'
     }
     // All main setting enablers, and their default values
     static SETTING_ENABLERS = [

@@ -1,0 +1,87 @@
+Dex ID,Species,Forme,Type 1,Type 2,Egg group 1,Egg group 2,Is legendary?,Is egg?,In lab?,Colour,Body style,Region
+650,Chespin,,Grass,,Field,,No,Yes,Yes,Green,Dino,Kalos
+651,Quilladin,,Grass,,Field,,No,No,,Green,Dino,Kalos
+652,Chesnaught,,Grass,Fighting,Field,,No,No,,Green,Dino,Kalos
+653,Fennekin,,Fire,,Field,,No,Yes,Yes,Red,Four Legs,Kalos
+654,Braixen,,Fire,,Field,,No,No,,Red,Dino,Kalos
+655,Delphox,,Fire,Psychic,Field,,No,No,,Red,Dino,Kalos
+656,Froakie,,Water,,Water 1,,No,Yes,Yes,Blue,Four Legs,Kalos
+657,Frogadier,,Water,,Water 1,,No,No,,Blue,Human,Kalos
+658,Greninja,,Water,Dark,Water 1,,No,No,,Blue,Human,Kalos
+659,Bunnelby,,Normal,,Field,,No,Yes,Yes,Brown,Dino,Kalos
+660,Diggersby,,Normal,Ground,Field,,No,No,,Brown,Dino,Kalos
+661,Fletchling,,Normal,Flying,Flying,,No,Yes,Yes,Red,Bird,Kalos
+662,Fletchinder,,Fire,Flying,Flying,,No,No,,Red,Bird,Kalos
+663,Talonflame,,Fire,Flying,Flying,,No,No,,Red,Bird,Kalos
+664,Scatterbug,,Bug,,Bug,,No,Yes,Yes,Black,Crawling Bug,Kalos
+665,Spewpa,,Bug,,Bug,,No,No,,Black,Tall Blob,Kalos
+666,Vivillon,,Bug,,Bug,,No,No,,Black,Flying Bug,Kalos
+667,Litleo,,Fire,Normal,Field,,No,Yes,Yes,Brown,Four Legs,Kalos
+668,Pyroar,,Fire,Normal,Field,,No,No,,Brown,Four Legs,Kalos
+669,Flabébé,,Fairy,,Fairy,,No,Yes,Yes,White,Two Arms,Kalos
+670,Floette,,Fairy,,Fairy,,No,No,,White,Two Arms,Kalos
+671,Florges,,Fairy,,Fairy,,No,No,,White,Two Arms,Kalos
+672,Skiddo,,Grass,,Field,,No,Yes,Yes,Brown,Four Legs,Kalos
+673,Gogoat,,Grass,,Field,,No,No,,Brown,Four Legs,Kalos
+674,Pancham,,Fighting,,Human-Like,Field,No,Yes,Yes,White,Dino,Kalos
+675,Pangoro,,Fighting,Dark,Human-Like,Field,No,No,,White,Human,Kalos
+676,Furfrou,,Normal,,Field,,No,Yes,Yes,White,Four Legs,Kalos
+677,Espurr,,Psychic,,Field,,No,Yes,Yes,Grey,Dino,Kalos
+678,Meowstic,,Psychic,,Field,,No,No,,White,Dino,Kalos
+679,Honedge,,Steel,Ghost,Mineral,,No,Yes,Yes,Brown,Tall Blob,Kalos
+680,Doublade,,Steel,Ghost,Mineral,,No,No,,Brown,Tall Blob,Kalos
+681,Aegislash,Blade Forme,Steel,Ghost,Mineral,,No,No,,Brown,Tall Blob,Kalos
+681b,Aegislash,Shield Forme,Steel,Ghost,Mineral,,No,No,,Brown,Tall Blob,Kalos
+682,Spritzee,,Fairy,,Fairy,,No,Yes,Yes,Pink,Two Arms,Kalos
+683,Aromatisse,,Fairy,,Fairy,,No,No,,Pink,Human,Kalos
+684,Swirlix,,Fairy,,Fairy,,No,Yes,Yes,White,Two Legs,Kalos
+685,Slurpuff,,Fairy,,Fairy,,No,No,,White,Human,Kalos
+686,Inkay,,Dark,Psychic,Water 2,Water 1,No,Yes,Yes,Blue,Jelly,Kalos
+687,Malamar,,Dark,Psychic,Water 2,Water 1,No,No,,Blue,Tall Blob,Kalos
+688,Binacle,,Rock,Water,Water 3,,No,Yes,Yes,Brown,Multi,Kalos
+689,Barbaracle,,Rock,Water,Water 3,,No,No,,Brown,Multi,Kalos
+690,Skrelp,,Poison,Water,Water 1,Dragon,No,Yes,Yes,Brown,Tall Blob,Kalos
+691,Dragalge,,Poison,Water,Water 1,Dragon,No,No,,Brown,Tall Blob,Kalos
+692,Clauncher,,Water,,Water 3,Water 1,No,Yes,No,Blue,Crawling Bug,Kalos
+693,Clawitzer,,Water,,Water 3,Water 1,No,No,,Blue,Snake,Kalos
+694,Helioptile,,Electric,Normal,Dragon,Monster,No,Yes,Yes,Yellow,Dino,Kalos
+695,Heliolisk,,Electric,Normal,Dragon,Monster,No,No,,Yellow,Dino,Kalos
+696,Tyrunt,,Rock,Dragon,Dragon,Monster,No,Yes,No,Brown,Dino,Kalos
+697,Tyrantrum,,Rock,Dragon,Dragon,Monster,No,No,,Brown,Dino,Kalos
+698,Amaura,,Rock,Ice,Monster,,No,Yes,No,Blue,Four Legs,Kalos
+699,Aurorus,,Rock,Ice,Monster,,No,No,,Blue,Four Legs,Kalos
+700,Hawlucha,,Fighting,Flying,Human-Like,Flying,No,Yes,Yes,Green,Human,Kalos
+701,Dedenne,,Electric,Fairy,Fairy,Field,No,Yes,Yes,Yellow,Dino,Kalos
+702,Carbink,,Rock,Fairy,Mineral,Fairy,No,Yes,Yes,Grey,Short Blob,Kalos
+703,Goomy,,Dragon,,Dragon,,No,Yes,Yes,Purple,Snake,Kalos
+704,Sliggoo,,Dragon,,Dragon,,No,No,,Purple,Snake,Kalos
+704r4,Sliggoo,Hisuian Forme,Steel,Dragon,Dragon,,No,No,,Purple,Snake,Kalos
+705,Goodra,,Dragon,,Dragon,,No,No,,Purple,Dino,Kalos
+705r4,Goodra,Hisuian Forme,Steel,Dragon,Dragon,,No,No,,Purple,Dino,Kalos
+706,Klefki,,Steel,Fairy,Mineral,,No,Yes,Yes,Grey,Short Blob,Kalos
+707,Phantump,,Ghost,Grass,Amorphous,Grass,No,Yes,Yes,Brown,Two Arms,Kalos
+708,Trevenant,,Ghost,Grass,Amorphous,Grass,No,No,,Brown,Jelly,Kalos
+709,Pumpkaboo,Small Size,Ghost,Grass,Amorphous,,No,Yes,Yes,Brown,Short Blob,Kalos
+709s2,Pumpkaboo,Average Size,Ghost,Grass,Amorphous,,No,No,,Brown,Short Blob,Kalos
+709s3,Pumpkaboo,Large Size,Ghost,Grass,Amorphous,,No,No,,Brown,Short Blob,Kalos
+709s4,Pumpkaboo,Super Size,Ghost,Grass,Amorphous,,No,No,,Brown,Short Blob,Kalos
+710,Gourgeist,Small Size,Ghost,Grass,Amorphous,,No,No,,Brown,Tall Blob,Kalos
+710s2,Gourgeist,Average Size,Ghost,Grass,Amorphous,,No,No,,Brown,Tall Blob,Kalos
+710s3,Gourgeist,Large Size,Ghost,Grass,Amorphous,,No,No,,Brown,Tall Blob,Kalos
+710s4,Gourgeist,Super Size,Ghost,Grass,Amorphous,,No,No,,Brown,Tall Blob,Kalos
+711,Bergmite,,Ice,,Monster,Mineral,No,Yes,Yes,Blue,Four Legs,Kalos
+712,Avalugg,,Ice,,Monster,Mineral,No,No,,Blue,Four Legs,Kalos
+712r4,Avalugg,Hisuian Forme,Ice,Rock,Monster,Mineral,No,No,,Blue,Four Legs,Kalos
+713,Noibat,,Flying,Dragon,Flying,Dragon,No,Yes,Yes,Purple,Bird,Kalos
+714,Noivern,,Flying,Dragon,Flying,Dragon,No,No,,Purple,Bird,Kalos
+715,Xerneas,,Fairy,,Undiscovered,,Yes,Yes,No,Blue,Four Legs,Kalos
+716,Yveltal,,Dark,Flying,Undiscovered,,Yes,Yes,No,Red,Bird,Kalos
+717,Zygarde,Core Forme,Dragon,Ground,Undiscovered,,Yes,Yes,No,Green,Short Blob,Kalos
+717b,Zygarde,10% Forme,Dragon,Ground,Undiscovered,,Yes,No,,Black,Four Legs,Kalos
+717c,Zygarde,50% Forme,Dragon,Ground,Undiscovered,,Yes,No,,Green,Snake,Kalos
+717d,Zygarde,Complete Forme,Dragon,Ground,Undiscovered,,Yes,No,,Black,Dino,Kalos
+718,Diancie,,Rock,Fairy,Undiscovered,,Yes,Yes,No,Pink,Two Arms,Kalos
+718-M,Diancie,Mega Forme,Rock,Fairy,Undiscovered,,Yes,No,,Pink,Two Arms,Kalos
+719,Hoopa,,Psychic,Ghost,Undiscovered,,Yes,Yes,No,Purple,Two Arms,Kalos
+719u,Hoopa,Unbound Forme,Psychic,Dark,Undiscovered,,Yes,No,,Purple,Dino,Kalos
+720,Volcanion,,Fire,Water,Undiscovered,,Yes,Yes,No,Brown,Four Legs,Kalos
