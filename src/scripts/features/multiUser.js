@@ -133,7 +133,7 @@ class MultiUser {
           this.partymodHelper('qolHideFieldButton',partySettings.showFieldButton === false);
           this.partymodHelper('qolHideModeChecks',partySettings.showModeChecks === false);
           this.partymodHelper('qolHideUserName',partySettings.showUserName === false);
-          this.partymodHelper('qolHideShowcase',partySettings.includeShowcase === false);
+          this.partymodHelper('qolHideShowcase',partySettings.hideShowcase === true);
 
           // clickable compact pokemon
           if(partySettings.showPokemon === true 

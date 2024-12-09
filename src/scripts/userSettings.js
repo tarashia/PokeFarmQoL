@@ -111,7 +111,6 @@ class UserSettings {
                 showFieldButton: false,
                 showModeChecks: false,
                 showUserName: true,
-                includeShowcase: true,
                 hideShowcase: true
             }
         },

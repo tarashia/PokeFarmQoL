@@ -4,6 +4,7 @@
   label {
     white-space: nowrap;
   }
+  padding: 3px 3px 5px 3px;
 }
 
 .qolPartyCustomParty  {
@@ -101,7 +102,7 @@
     padding: 0;
   }
   &.qolHideParty {
-    .party, .showcase {
+    .party {
       height: 0;
       overflow: hidden;
       padding: 0;
@@ -132,28 +133,22 @@
       z-index: 1;
     }
   }
-  &.qolHideTrainerCard #profilebox {
-    display: none;
-  }
-  &.qolHideFieldButton .fieldslink {
-    display: none;
-  }
-  &.qolHideModeChecks #partybox > label {
-    display: none;
-  }
+  &.qolHideTrainerCard #trainercard,
+  &.qolHideFieldButton .fieldslink,
+  &.qolHideModeChecks #partybox > label,
   &.qolHideUserName h1 {
     display: none;
   }
-  &.qolHideShowcase {
-    .showcase, .showcase+.toggle {
-      display: none !important;
-    }
+  /* for supported browsers, use :has to hide the whole profilebox for non-accessibility users for alignment reasons */
+  &.qolHideTrainerCard #profilebox:not(:has(#accint-button)){
+    display: none;
   }
-  &:not(.qolHideShowcase) {
-    // force show showcase toggle
-    .showcase:not(:empty)+.mu_navlink.toggle {
-      display: block !important;
-    }
+  // z-indexing: make regular party be on top
+  .party .action a {
+    z-index: 3; 
+  }
+  .showcase .action a {
+    z-index: 2;
   }
 }
 .mq2, .multi-compact {
@@ -240,8 +235,8 @@
 }
 
 // force showcase buttons to be available even on mobile
-.qolPartyHideAll, .qolPartyCustomParty {
-  &:not(.qolHideShowcase) #partybox:not(.swap-panels) .showcase {
+.mq2 .qolPartyHideAll, .mq2 .qolPartyCustomParty, .qolHideShowcase {
+  #partybox:not(.swap-panels) .showcase {
     display: flex !important;
     height: 0;
     overflow: hidden;
@@ -249,17 +244,14 @@
     padding: 0;
     border: none;
   }
+  // force show showcase toggle
+  .showcase:not(:empty)+.mu_navlink.toggle {
+    display: block !important;
+  }
   #partybox.swap-panels > .party {
     height: 0;
     overflow: hidden;
     margin: 0;
-  }
-  // z-indexing: make regular party be on top
-  .party .action a {
-    z-index: 3; 
-  }
-  .showcase .action a {
-    z-index: 2;
   }
 }
 
