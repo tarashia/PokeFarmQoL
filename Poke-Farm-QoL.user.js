@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Poké Farm QoL
 // @namespace    https://github.com/tarashia/
-// @author       Bentomon, ECEInTheHole, Tarashia (Mirzam)
+// @author       Bentomon, ECEInTheHole, Tarashia (Mirzam), Neonyan
 // @homepageURL  https://github.com/tarashia/PokeFarmQoL
 // @downloadURL  https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @updateURL    https://github.com/tarashia/PokeFarmQoL/raw/master/Poke-Farm-QoL.user.js
 // @description  Quality of Life changes to Pokéfarm!
-// @version      1.7.9
+// @version      1.7.10
 // @match        https://pokefarm.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
 // ==/UserScript==
@@ -309,8 +309,13 @@ class Globals {
     static NATURE_LIST = ["Lonely","Mild","Hasty","Gentle","Bold","Modest","Timid","Calm","Impish","Adamant","Jolly","Careful","Relaxed","Brave","Quiet","Sassy","Lax","Naughty","Rash","Naïve","Hardy","Docile","Serious","Bashful","Quirky"];
     static EGG_GROUP_LIST = {"0":"Undiscovered","1":"Monster","2":"Dragon","3":"Field","4":"Bug","5":"Grass","6":"Water 1","7":"Water 2","8":"Water 3","9":"Amorphous","10":"Fairy","11":"Human-Like","12":"Mineral","13":"Flying","15":"Ditto"};
     static SHELTER_TYPE_TABLE = ["0","Normal","<img src='//pfq-static.com/img/types/normal.png/t=1262702646'>","1","Fire","<img src='//pfq-static.com/img/types/fire.png/t=1262702645'>","2","Water","<img src='//pfq-static.com/img/types/water.png/t=1262702646'>","3","Electric","<img src='//pfq-static.com/img/types/electric.png/t=1262702645'>","4","Grass","<img src='//pfq-static.com/img/types/grass.png/t=1262702645'>","5","Ice","<img src='//pfq-static.com/img/types/ice.png/t=1262702646'>","6","fighting","<img src='//pfq-static.com/img/types/fighting.png/t=1262702645'>","7","Poison","<img src='//pfq-static.com/img/types/poison.png/t=1262702646'>","8","Ground","<img src='//pfq-static.com/img/types/ground.png/t=1262702646'>","9","Flying","<img src='//pfq-static.com/img/types/flying.png/t=1262702645'>","10","Psychic","<img src='//pfq-static.com/img/types/psychic.png/t=1262702646'>","11","Bug","<img src='//pfq-static.com/img/types/bug.png/t=1262702645'>","12","Rock","<img src='//pfq-static.com/img/types/rock.png/t=1262702646'>","13","Ghost","<img src='//pfq-static.com/img/types/ghost.png/t=1262702645'>","14","Dragon","<img src='//pfq-static.com/img/types/dragon.png/t=1263605747'>","15","Dark","<img src='//pfq-static.com/img/types/dark.png/t=1262702645'>","16","Steel","<img src='//pfq-static.com/img/types/steel.png/t=1262702646'>","17","Fairy","<img src='//pfq-static.com/img/types/fairy.png/t=1374419124'>"];
-    static SHELTER_SEARCH_DATA = ["findNewEgg","Egg","new egg","<img src='//pfq-static.com/img/pkmn/egg.png/t=1451852195'>","findNewPokemon","Pokémon","new Pokémon","<img src='//pfq-static.com/img/pkmn/pkmn.png/t=1451852507'>","findShiny","SHINY","Shiny","<img src='//pfq-static.com/img/pkmn/shiny.png/t=1400179603'>","findAlbino","ALBINO","Albino","<img src='//pfq-static.com/img/pkmn/albino.png/t=1414662094'>","findMelanistic","MELANISTIC","Melanistic","<img src='//pfq-static.com/img/pkmn/melanistic.png/t=1435353274'>","findPrehistoric","PREHISTORIC","Prehistoric","<img src='//pfq-static.com/img/pkmn/prehistoric.png/t=1465558964'>","findDelta","DELTA","Delta","<img src='//pfq-static.com/img/pkmn/_delta/dark.png/t=1501325214'>","findMega","MEGA","Mega","<img src='//pfq-static.com/img/pkmn/mega.png/t=1400179603'>","findStarter","STARTER","Starter","<img src='//pfq-static.com/img/pkmn/starter.png/t=1484919510'>","findCustomSprite","CUSTOM SPRITE","Custom Sprite","<img src='//pfq-static.com/img/pkmn/cs.png/t=1405806997'>","findMale","[M]","Male","<img src='//pfq-static.com/img/pkmn/gender_m.png/t=1401213006'>","findFemale","[F]","Female","<img src='//pfq-static.com/img/pkmn/gender_f.png/t=1401213007'>","findNoGender","[N]","Genderless","<img src='//pfq-static.com/img/pkmn/gender_n.png/t=1401213004'>","findLegendary","","Legendary","<img src='//pfq-static.com/img/pkmn/pkmn.png/t=1451852507'>"];
-    static SHELTER_SEARCH_LISTS = {"findLegendary":["Articuno","Zapdos","Moltres","Mewtwo","Mew","Raikou","Entei","Suicune","Lugia","Ho-oh","Celebi","Regirock","Regice","Registeel","Latias","Latios","Kyogre","Groudon","Rayquaza","Deoxys","Jirachi","Uxie","Mesprit","Azelf","Dialga","Palkia","Heatran","Regigigas","Giratina","Cresselia","Manaphy","Darkrai","Shaymin","Arceus","Enamorus","Victini","Cobalion","Terrakion","Virizion","Tornadus","Thundurus","Reshiram","Zekrom","Landorus","Kyurem","Keldeo","Meloetta","Genesect","Xerneas","Yveltal","Zygarde","Diancie","Hoopa","Volcanion","Type: Null","Silvally","Tapu Koko","Tapu Lele","Tapu Bulu","Tapu Fini","Cosmog","Cosmoem","Solgaleo","Lunala","Necrozma","Magearna","Marshadow","Zeraora","Nihilego","Buzzwole","Pheromosa","Xurkitree","Celesteela","Kartana","Guzzlord","Poipole","Naganadel","Stakataka","Blacephalon","Zacian","Zamazenta","Eternatus","Kubfu","Urshifu","Zarude","Regieleki","Regidrago","Glastrier","Spectrier","Calyrex","Wo-Chien","Chien-Pao","Ting-Lu","Chi-Yu","Koraidon","Miraidon","Walking Wake","Gouging Fire","Raging Bolt","Iron Leaves","Iron Boulder","Iron Crown","Okidogi","Munkidori","Fezandipiti","Ogerpon","Terapagos","Pecharunt"]};
+    static SHELTER_SEARCH_DATA = ["findNewEgg","Egg","new egg","<img src='//pfq-static.com/img/pkmn/egg.png/t=1451852195'>","findNewPokemon","Pokémon","new Pokémon","<img src='//pfq-static.com/img/pkmn/pkmn.png'>","findShiny","SHINY","Shiny","<img src='//pfq-static.com/img/pkmn/shiny.png/t=1400179603'>","findAlbino","ALBINO","Albino","<img src='//pfq-static.com/img/pkmn/albino.png/t=1414662094'>","findMelanistic","MELANISTIC","Melanistic","<img src='//pfq-static.com/img/pkmn/melanistic.png/t=1435353274'>","findPrehistoric","PREHISTORIC","Prehistoric","<img src='//pfq-static.com/img/pkmn/prehistoric.png/t=1465558964'>","findDelta","DELTA","Delta","<img src='//pfq-static.com/img/pkmn/_delta/dark.png/t=1501325214'>","findMega","MEGA","Mega","<img src='//pfq-static.com/img/pkmn/mega.png/t=1400179603'>","findStarter","STARTER","Starter","<img src='//pfq-static.com/img/pkmn/starter.png/t=1484919510'>","findCustomSprite","CUSTOM SPRITE","Custom Sprite","<img src='//pfq-static.com/img/pkmn/cs.png/t=1405806997'>","findMale","[M]","Male","<img src='//pfq-static.com/img/pkmn/gender_m.png/t=1401213006'>","findFemale","[F]","Female","<img src='//pfq-static.com/img/pkmn/gender_f.png/t=1401213007'>","findNoGender","[N]","Genderless","<img src='//pfq-static.com/img/pkmn/gender_n.png/t=1401213004'>","findLegendary","","Legendary","<img src='//pfq-static.com/img/pkmn/pkmn.png'>","findSubLegendary","","Sub-Legendary","<img src='//pfq-static.com/img/pkmn/pkmn.png'>","findMythical","","Mythical","<img src='//pfq-static.com/img/pkmn/pkmn.png'>"];
+    static SHELTER_SEARCH_LISTS = {
+    "findLegendary":["Mewtwo","Mega Mewtwo X","Mega Mewtwo Y","Lugia","Mega Lugia Q","Ho-oh","Mega Ho-oh Q","Kyogre","Primal Kyogre","Groudon","Primal Groudon","Rayquaza","Mega Rayquaza","Dialga","Origin Dialga","Primal Dialga Q","Palkia","Origin Palkia","Primal Palkia Q","Giratina","Origin Giratina","Mega Giratina Q","Reshiram","Zekrom","Kyurem","Reshiram Kyurem","Zekrom Kyurem","Xerneas","Active Mode Xerneas","Yveltal","Zygarde Core","Cosmog","Cosmoem","Solgaleo","Lunala","Necrozma","Dusk Mane Necrozma","Dawn Wings Necrozma","Ultra Necrozma","Zacian","Crowned Sword Zacian","Zamazenta","Crowned Shield Zamazenta","Eternatus","Calyrex","Ice Rider Calyrex","Shadow Rider Calyrex","Koraidon","Koraidon Apex Build","Miraidon","Miraidon Ultimade Mode","Terapagos","Terastal Terapagos","Shinorin","Incandescent Forme Shinorin","Sikannos","Unfettered Forme Sikannos","XD001","Magquaza"],
+
+    "findSubLegendary":["Articuno","Galarian Articuno","Zapdos","Galarian Zapdos","Moltres","Galarian Moltres","Raikou","Raging Bolt","Entei","Gouging Fire","Suicune","Walking Wake","Regirock","Regice","Registeel","Latias","Mega Latias","Latios","Mega Latios","Uxie","Mesprit","Azelf","Heatran","Regigigas","Cresselia","Enamorus","Therian Enamorus","Cobalion","Iron Crown","Terrakion","Iron Boulder","Virizion","Iron Leaves","Tornadus","Therian Tornadus","Thundurus","Therian Thundurus","Landorus","Therian Landorus","Type: Null","Tapu Koko","Tapu Lele","Tapu Bulu","Tapu Fini","Normal Silvally","Fire Silvally","Water Silvally","Electric Silvally","Grass Silvally","Ice Silvally","Fighting Silvally","Poison Silvally","Ground Silvally","Flying Silvally","Psychic Silvally","Bug Silvally","Rock Silvally","Ghost Silvally","Dragon Silvally","Dark Silvally","Steel Silvally","Fairy Silvally","Kubfu","Single Strike Urshifu","Rapid Strike Urshifu","Regieleki","Regidrago","Glastrier","Spectrier","Wo-Chien","Chien-Pao","Ting-Lu","Chi-Yu","Okidogi","Munkidori","Fezandipiti","Ogerpon","Teal Mask Ogerpon","Wellspring Mask Ogerpon","Cornerstone Mask Ogerpon","Hearthflame Mask Ogerpon"],
+    
+    "findMythical":["Mew","Mega Mew Q","Celebi","Mega Celebi Q","Jirachi","Mega Jirachi Q","Deoxys","Attack Deoxys","Defence Deoxys","Speed Deoxys","Phione","Manaphy","Mega Manaphy Q","Darkrai","Shaymin","Sky Shaymin","Mega Shaymin Q","Arceus Normal Forme","Arceus Fire Forme","Arceus Water Forme","Arceus Electric Forme","Arceus Grass Forme","Arceus Ice Forme","Arceus Fighting Forme","Arceus Poison Forme","Arceus Ground Forme","Arceus Flying Forme","Arceus Psychic Forme","Arceus Bug Forme","Arceus Rock Forme","Arceus Ghost Forme","Arceus Dragon Forme","Arceus Steel Forme","Arceus Dark Forme","Arceus Fairy Forme","Victini","Mega Victini Q","Keldeo","Resolute Keldeo","Meloetta","Pirouette Meloetta","Genesect","Douse Drive Genesect","Burn Drive Genesect","Chill Drive Genesect","Shock Drive Genesect","Diancie","Mega Diancie","Hoopa","Unbound Hoopa","Volcanion","Magearna","Marshadow","Mega Marshadow Q","Zeraora","Meltan","Melmetal","Zarude","Pecharunt","Bunbori","Mega Bunbori","Lunamor"]};
 
     static TYPE_OPTIONS = Helpers.buildOptionsString(this.TYPE_LIST);
     static NATURE_OPTIONS = Helpers.buildOptionsString(this.NATURE_LIST);
@@ -502,7 +507,100 @@ class Resources {
     }
 
     static shelterOptionsHTML() {
-        return `<div id="shelteroptionsqol"><p>Check the boxes of Pokemon you wish to find in the shelter! You can select multiple checkboxes at once and it will notify you whenever it will find the types of Pokemon you selected! Use the letter 'n' key to select and cycle through the Pokemon matched by the script.</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="findNewEgg">New Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findNewPokemon">New Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findShiny">Shiny</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findAlbino">Albino</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findMelanistic">Melanistic</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findPrehistoric">Prehistoric</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findDelta">Delta</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findMega">Mega</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findStarter">Starter</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findCustomSprite">Custom Sprite</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findLegendary">Legendary</label></td></tr></tbody></table><h4>Search on type</h4><p>Select which types of Pokemon and/or eggs you wish to find</p><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="findTypeEgg">Egg types</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findTypePokemon">Pokemon types</label></td></tr></tbody></table><input type="button" value="Add typesearch" id="addShelterTypeList"><div id="shelterTypes"><div class="0"></div></div><h4>Custom Search</h4><p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p><div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div><div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a Bulbasaur. You paste it's Img code in the search bar:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>and now it will show you when a Bulbasaur is found! Copy paste the complete link (starting from //) or you won't find anything.<br><br><a href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications - Make Shelter Pokemon Stand Out"</a></span></div><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg</label></td><td><label><input type="checkbox" class="qolsetting" data-key="customPokemon">Custom Pokemon</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="customPng">By img code</label></td></tr></tbody></table><h4>Search on Gender</h4><table><tbody><tr><td><label><input type="checkbox" class="qolsetting" data-key="findMale">Male</label></td><td><label><input type="checkbox" class="qolsetting" data-key="findFemale">Female</label></td></tr><tr><td><label><input type="checkbox" class="qolsetting" data-key="findNoGender">Genderless</label></td></tr></tbody></table><h4>Search Keys</h4><input type="button" value="Add searchfield" id="addShelterTextfield"><div id="searchkeys"><div class="0"></div></div></div>`;
+        return `<div id="shelteroptionsqol">
+    <p>Check the boxes of Pokemon you wish to find in the shelter! You can select multiple checkboxes at once and it
+        will notify you whenever it will find the types of Pokemon you selected! Use the letter 'n' key to select and
+        cycle through the Pokemon matched by the script.</p>
+    <table>
+        <tbody>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findNewEgg">New Egg</label></td>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findNewPokemon">New Pokemon</label></td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findShiny">Shiny</label></td>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findAlbino">Albino</label></td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findMelanistic">Melanistic</label></td>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findPrehistoric">Prehistoric</label></td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findDelta">Delta</label></td>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findMega">Mega</label></td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findStarter">Starter</label></td>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findCustomSprite">Custom Sprite</label>
+                </td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findLegendary">Legendary</label></td>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findSubLegendary">Sub-Legendary</label></td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findMythical">Mythical</label></td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>Search on type</h4>
+    <p>Select which types of Pokemon and/or eggs you wish to find</p>
+    <table>
+        <tbody>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findTypeEgg">Egg types</label></td>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findTypePokemon">Pokemon types</label>
+                </td>
+            </tr>
+        </tbody>
+    </table><input type="button" value="Add typesearch" id="addShelterTypeList">
+    <div id="shelterTypes">
+        <div class="0"></div>
+    </div>
+    <h4>Custom Search</h4>
+    <p>Here you can custom find any Pokemon you want! Hover over "Custom Search Help" for more info.</p>
+    <div class="tooltip_trigger qoltooltip_trigger">Custom Search Help</div>
+    <div class="tooltip_content customsearchtooltip"><span class="tooltiptext">Custom search by Pokemon
+            name<br><br>Select Custom Egg and/or Custom Pokemon and type the name of the Pokemon you wish to find to
+            find that Pokemon or the egg of that Pokemon. If you want to find a Pokemon with a specific gender, select
+            the gender you wish to find.<br><br>Custom search by image code<br><br>Select By img code (and de-select
+            Custom Egg & Custom Pokemon checkboxes) to find a Pokemon or egg by img code. For example you wish to find a
+            Bulbasaur. You paste it's Img code in the search
+            bar:<br>//pfq-static.com/img/pkmn/1/g/g.png/t=1474027727<br>and now it will show you when a Bulbasaur is
+            found! Copy paste the complete link (starting from //) or you won't find anything.<br><br><a
+                href="https://docs.google.com/spreadsheets/d/1rD1VZNTQRYXMOVKvGasjmMdMJu-iheE-ajsFkfs4QXA/edit?usp=sharing">List
+                of Eggs Image Codes</a><br><br>More info on finding Pokemon with their img code:<br><br><a
+                href="https://pokefarm.com/forum/thread/127552/Site-Skins-How-To-and-Helpful-CSS">"Pokemon Modifications
+                - Make Shelter Pokemon Stand Out"</a></span></div>
+    <table>
+        <tbody>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="customEgg">Custom Egg</label></td>
+                <td><label><input type="checkbox" class="qolsetting" data-key="customPokemon">Custom Pokemon</label>
+                </td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="customPng">By img code</label></td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>Search on Gender</h4>
+    <table>
+        <tbody>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findMale">Male</label></td>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findFemale">Female</label></td>
+            </tr>
+            <tr>
+                <td><label><input type="checkbox" class="qolsetting" data-key="findNoGender">Genderless</label></td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>Search Keys</h4><input type="button" value="Add searchfield" id="addShelterTextfield">
+    <div id="searchkeys">
+        <div class="0"></div>
+    </div>
+</div>`;
     }
 
     static shelterSortHTML() {
@@ -3827,6 +3925,8 @@ class ShelterPage extends Page {
             findStarter: true,
             findCustomSprite: true,
             findLegendary: false,
+            findSubLegendary: false,
+            findMythical: false,
             findMale: true,
             findFemale: true,
             findNoGender: true,
@@ -4233,6 +4333,12 @@ class ShelterPage extends Page {
             }
             if (this.settings.findLegendary === true) {
                 this.searchForTooltipText('findLegendary');
+            }
+            if (this.settings.findSubLegendary === true) {
+                this.searchForTooltipText('findSubLegendary');
+            }
+            if (this.settings.findMythical === true) {
+                this.searchForTooltipText('findMythical');
             }
 
             if (this.settings.findNewPokemon === true) {
