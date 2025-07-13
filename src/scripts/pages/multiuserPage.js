@@ -14,7 +14,8 @@ class MultiuserPage extends Page {
             showFieldButton: false,
             showModeChecks: false,
             showUserName: true,
-            includeShowcase: true
+            includeShowcase: true,
+            showShowcaseDesktop: true
         }, 'users/');
         const obj = this;
         this.observer = new MutationObserver(function (mutations) {
@@ -107,7 +108,7 @@ class MultiuserPage extends Page {
     sharedPartyMods() {
         $('#multiuser').addClass('qolPartyModded');
         // change any berry to sour so it gets a bg color
-        $('.berrybuttons[data-up="any"]').attr('data-up','sour'); 
+        $('.party .berrybuttons[data-up="any"]').attr('data-up','sour'); 
     }
     partyModification() {
         // first, remove any existing selection (all qol classes)
@@ -168,6 +169,7 @@ class MultiuserPage extends Page {
             this.partymodHelper('qolHideModeChecks',this.settings.showModeChecks === false);
             this.partymodHelper('qolHideUserName',this.settings.showUserName === false);
             this.partymodHelper('qolHideShowcase',this.settings.includeShowcase === false);
+            this.partymodHelper('qolShowShowcaseDesktop',this.settings.showShowcaseDesktop === true);
 
             // clickable compact pokemon
             if(this.settings.showPokemon === true 

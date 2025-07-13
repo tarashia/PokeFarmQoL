@@ -96,7 +96,7 @@ class LabPage extends Page {
         this.searchArray = $.grep(this.searchArray, function (value) {
             return value != key;
         });
-        this.settings.findCustom = this.searchArray.toString();
+        this.settings.findLabEgg = this.searchArray.toString();
 
         $(byebye).parent().remove();
 
@@ -116,7 +116,7 @@ class LabPage extends Page {
         this.typeArray = $.grep(this.typeArray, function (value) {
             return value != key;
         });
-        this.settings.findType = this.typeArray.toString();
+        this.settings.findLabType = this.typeArray.toString();
 
         $(byebye).parent().remove();
 
@@ -187,9 +187,9 @@ class LabPage extends Page {
                         $(shelterBigImg).addClass('labfoundme');
 
                         if ($('#egglist>div>h3:containsIN(' + value + ')').length > 1) {
-                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="https://static.pokefarm.com/img/pkmn/heart_1.png"></div>');
                         } else {
-                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="https://static.pokefarm.com/img/pkmn/heart_1.png"></div>');
                         }
                     } // if
 
@@ -200,9 +200,9 @@ class LabPage extends Page {
                         $(shelterImgSearch).addClass('labfoundme');
 
                         if ($('#egglist>div img[src*="' + value + '"]').length > 1) {
-                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="https://static.pokefarm.com/img/pkmn/heart_1.png"></div>');
                         } else {
-                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="//pfq-static.com/img/pkmn/heart_1.png/t=1427152952"></div>');
+                            document.querySelector('#labsuccess').insertAdjacentHTML('beforeend', '<div id="labfound">' + searchResult + ' found!<img src="https://static.pokefarm.com/img/pkmn/heart_1.png"></div>');
                         }
                     } // if
                 } // for

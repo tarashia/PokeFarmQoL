@@ -8,6 +8,21 @@
   font-size: 100%;
 }
 
+/* quick & dirty showcase on desktop */
+body:not(.mq2) .qolPartyCustomParty.qolShowShowcaseDesktop:not(.qolHideShowcase) 
+#partybox:not(.swap-panels) .showcase:not(:empty) {
+  border: 1px solid !important;
+  height: unset !important;
+  margin: 10px auto !important;
+  padding: 4px !important;
+  overflow: visible !important;
+}
+
+body:not(.mq2) #content .qolPartyCustomParty.qolShowShowcaseDesktop:not(.qolHideShowcase) 
+.showcase:not(:empty) + .mu_navlink.toggle {
+  display: none !important;
+}
+
 .qolPartyCustomParty  {
   // based on Dr. Who's party click adjustments
   --multiuser-button-height: 60pt;
