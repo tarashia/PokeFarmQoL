@@ -3,7 +3,7 @@
   which can't have a dropdown with image cells.
   This file should mainly be used for parsing the dex CSVs.
 
-  Image code: https://pfq-static.com/img/dex/bodystyle/1.png
+  Image code: https:https://static.pokefarm.com/img/dex/bodystyle/1.png
 */
 {
   "0": "Short Blob",

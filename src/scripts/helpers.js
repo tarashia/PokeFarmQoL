@@ -115,7 +115,7 @@ class Helpers {
 
     /* activate the click and hold feature for qol tooltips
     Example tooltip:
-    <span class="tooltip_trigger qolTooltip"><img src="https://pfq-static.com/img/pkmn/q/g/k.png" /></span>
+    <span class="tooltip_trigger qolTooltip"><img src="https:https://static.pokefarm.com/img/pkmn/q/g/k.png" /></span>
     <div class="tooltip_content">Test tooltip contentx</div>
     */
     static activateTooltips() {

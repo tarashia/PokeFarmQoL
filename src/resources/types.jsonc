@@ -3,7 +3,7 @@
    It looks like PFQ uses an array in this order in its code
    Don't change the order without looking for where this array is used
    
-   Type image code: https://pfq-static.com/img/types/normal.png
+   Type image code: https:https://static.pokefarm.com/img/types/normal.png
 */
 {
   "0": "Normal", 

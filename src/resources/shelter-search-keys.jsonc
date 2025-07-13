@@ -2,76 +2,76 @@
   "findNewEgg": {
     "searchKey": "Egg", 
     "display": "new egg", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/egg.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/egg.png'>"
   },
   "findNewPokemon": {
     "searchKey": "Pokémon", 
     "display": "new Pokémon", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/pkmn.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/pkmn.png'>"
   },
   "findShiny": {
     "searchKey": "SHINY", 
     "display": "Shiny", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/shiny.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/shiny.png'>"
   },
   "findAlbino": {
     "searchKey": "ALBINO", 
     "display": "Albino", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/albino.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/albino.png'>"
   },
   "findMelanistic": {
     "searchKey": "MELANISTIC", 
     "display": "Melanistic", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/melanistic.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/melanistic.png'>"
   },
   "findPrehistoric": {
     "searchKey": "PREHISTORIC", 
     "display": "Prehistoric", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/prehistoric.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/prehistoric.png'>"
   },
   "findDelta": {
     "searchKey": "DELTA", 
     "display": "Delta", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/_delta/dark.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/_delta/dark.png'>"
   },
   "findMega": {
     "searchKey": "MEGA", 
     "display": "Mega", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/mega.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/mega.png'>"
   },
   "findStarter": {
     "searchKey": "STARTER", 
     "display": "Starter", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/starter.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/starter.png'>"
   },
   "findCustomSprite": {
     "searchKey": "CUSTOM SPRITE", 
     "display": "Custom Sprite", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/cs.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/cs.png'>"
   },
   "findMale": {
     "searchKey": "[M]", 
     "display": "Male", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/gender_m.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/gender_m.png'>"
   },
   "findFemale": {
     "searchKey": "[F]", 
     "display": "Female", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/gender_f.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/gender_f.png'>"
   },
   "findNoGender": {
     "searchKey": "[N]", 
     "display": "Genderless", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/gender_n.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/gender_n.png'>"
   },
   "findTotem": {
     "searchKey": "[TOTEM]",
     "display": "Totem",
-    "icon": "<img src='//pfq-static.com/img/pkmn/totem.png/'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/totem.png/'>"
   },
   "findLegendary": {
     "searchKey": "", 
     "display": "Legendary", 
-    "icon": "<img src='//pfq-static.com/img/pkmn/pkmn.png'>"
+    "icon": "<img src='https://static.pokefarm.com/img/pkmn/pkmn.png'>"
   }
 }

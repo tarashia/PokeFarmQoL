@@ -69,7 +69,7 @@ class Fields {
                   content += '<tr>';
               }
               let pkmnID = fieldmon[i].getAttribute('data-id');
-              let small = fieldmon[i].children[1];
+              let small = fieldmon[i].getElementsByClassName('small')[0];
               let imgSRC = small.getAttribute('src');
               let pkmnName = small.getAttribute('alt');
               content += '<td style="padding:5px;border:1px solid;">' +

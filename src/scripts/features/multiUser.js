@@ -68,7 +68,7 @@ class MultiUser {
   sharedPartyMods() {
       $('#multiuser').addClass('qolPartyModded');
       // change any berry to sour so it gets a bg color
-      $('.berrybuttons[data-up="any"]').attr('data-up','sour'); 
+      $('.party .berrybuttons[data-up="any"]').attr('data-up','sour'); 
   }
 
   partyModification() {
