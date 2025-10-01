@@ -474,8 +474,8 @@ class ShelterPage extends Page {
 
             //loop to find all the custom search parameters
             const customSearchAmount = this.customArray.length;
-            const heartPng = '<img src="https://static.pokefarm.com/img/pkmn/heart_1.png">';
-            const eggPng = '<img src="https://static.pokefarm.com/img/pkmn/egg.png">';
+            const heartPng = '<img src="https://static.pokefarm.com/img/pkmn/heart_1.png?t=1427152952">';
+            const eggPng = '<img src="https://static.pokefarm.com/img/pkmn/egg.png?t=1451852195">';
             for (let i = 0; i < customSearchAmount; i++) {
                 const customValue = this.customArray[i];
                 if (customValue != '') {
